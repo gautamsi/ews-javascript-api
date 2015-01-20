@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{2ED46AD9-99FB-4711-B2E9-F5882C0A8BCF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app.css" />
+    <Content Include="index.html" />
+    <Content Include="string.js" />
+    <Content Include="testXML.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="Autodiscover.d.ts" />
+    <TypeScriptCompile Include="Autodiscover\Autodiscover.Objects.ts" />
+    <TypeScriptCompile Include="Autodiscover\AutodiscoverService.ts" />
+    <TypeScriptCompile Include="Autodiscover\Requests\Autodiscover.ts" />
+    <TypeScriptCompile Include="Autodiscover\Requests\GetDomainSettings.ts" />
+    <TypeScriptCompile Include="Autodiscover\Requests\GetUserSettings.ts" />
+    <TypeScriptCompile Include="BaseExchangeService.ts" />
+    <TypeScriptCompile Include="Constants.ts" />
+    <TypeScriptCompile Include="Core\ComplexProperty-more_types.ts" />
+    <TypeScriptCompile Include="Core\ComplexPropertyTypes.ts" />
+    <TypeScriptCompile Include="Core\ComplexPropertyCollectionTypes.ts" />
+    <TypeScriptCompile Include="Core\CustomObjects.ts" />
+    <TypeScriptCompile Include="Core\Delegate_Types_Interfaces.ts" />
+    <TypeScriptCompile Include="Core\PropertyDefinitionTypes.ts" />
+    <TypeScriptCompile Include="Core\Requests\FolderRequests\FolderRequests.ts" />
+    <TypeScriptCompile Include="Core\Requests\FolderRequests\ItemRequests.ts" />
+    <TypeScriptCompile Include="Core\Responses\ServiceResponses.ts" />
+    <TypeScriptCompile Include="Core\ServiceObject.Folder-types.ts" />
+    <TypeScriptCompile Include="Core\Data.Objects.ts" />
+    <TypeScriptCompile Include="Core\EwsServiceXmlReader.ts" />
+    <TypeScriptCompile Include="Core\EwsServiceXmlWriter.ts" />
+    <TypeScriptCompile Include="Core\EwsUtilities.ts" />
+    <TypeScriptCompile Include="Core\Exceptions.ts" />
+    <TypeScriptCompile Include="Core\ExchangeService.ts" />
+    <TypeScriptCompile Include="Core\ServiceObject.Item-types.ts" />
+    <TypeScriptCompile Include="Core\ServiceObject.ResponseObject-Types.ts" />
+    <TypeScriptCompile Include="Core\ServiceObjectSchemaTypes.ts" />
+    <TypeScriptCompile Include="Core\Requests\ServiceObjectTypes.ts" />
+    <TypeScriptCompile Include="Core\Requests\ServiceRequestBase.ts" />
+    <TypeScriptCompile Include="Core\XmlElement_AttributeNames.ts" />
+    <TypeScriptCompile Include="Enums.ts" />
+    <TypeScriptCompile Include="EwsHttpWebRequestResponse.ts" />
+    <TypeScriptCompile Include="ExtensionMethods.ts" />
+    <TypeScriptCompile Include="IAutoDiscoverOperation.ts" />
+    <TypeScriptCompile Include="IEWSOperation.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-1.0.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.0.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.1.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs.d.ts" />
+    <TypeScriptCompile Include="System.Constants.d.ts" />
+    <TypeScriptCompile Include="System.d.ts" />
+    <TypeScriptCompile Include="System.Enums.d.ts" />
+    <TypeScriptCompile Include="_XMLWriter.ts" />
+    <TypeScriptCompile Include="_temp.ts" />
+    <TypeScriptCompile Include="WebService.Extra.ts" />
+    <TypeScriptCompile Include="WebServices.Data.Extra.d.ts" />
+    <TypeScriptCompile Include="_WebServices.Data.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="SchemaXML\messages.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SchemaXML\types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <Content Include="WinJS\css\ui-dark.css" />
+    <Content Include="WinJS\css\ui-dark.min.css" />
+    <Content Include="WinJS\css\ui-light.css" />
+    <Content Include="WinJS\css\ui-light.min.css" />
+    <Content Include="WinJS\js\base.js" />
+    <Content Include="WinJS\js\base.min.js" />
+    <Content Include="WinJS\js\en-US\ui.strings.js" />
+    <Content Include="WinJS\js\ui.js" />
+    <Content Include="WinJS\js\ui.min.js" />
+    <Content Include="WinJS\js\WinJS.js" />
+    <Content Include="WinJS\js\WinJS.min.js" />
+    <Content Include="WinJS\License.txt" />
+    <Content Include="WinJS\README.md" />
+    <Content Include="WinJS\js\WinJS.min.js.map" />
+    <Content Include="WinJS\js\ui.min.js.map" />
+    <Content Include="WinJS\js\base.min.js.map" />
+    <Content Include="WinJS\fonts\Symbols.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Autodiscover\Responses\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>ews_typescript_api</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>42987</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:42987/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
