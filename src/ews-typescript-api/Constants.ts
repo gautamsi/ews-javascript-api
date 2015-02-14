@@ -104,12 +104,6 @@ module Microsoft.Exchange.WebServices.Data {
         export var static SuccessfulReqstatus: string = "0x0";
         export var static XmlSignatureReference: string = "_EWSTKREF";
     }
-    export module WSSecurityBasedCredentials {
-        export var static WsAddressingHeadersFormat: string = "<wsa:Action soap:mustUnderstand='1'>http://schemas.microsoft.com/exchange/services/2006/messages/{0}</wsa:Action><wsa:ReplyTo><wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address></wsa:ReplyTo><wsa:To soap:mustUnderstand='1'>{1}</wsa:To>";
-        export var static WsSecurityHeaderFormat: string = "<wsse:Security soap:mustUnderstand='1'>  {0}</wsse:Security>";
-        export var static WsuTimeStampFormat: string = "<wsu:Timestamp><wsu:Created>{0:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Created><wsu:Expires>{1:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Expires></wsu:Timestamp>";
-        export var static WsSecurityPathSuffix: string = "/wssecurity";
-    }
     export module X509CertificateCredentials {
         export var private static BinarySecurityTokenFormat: string = "<wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="{0}">{1}</wsse:BinarySecurityToken>";
 		export var private static KeyInfoClauseFormat: string = "<wsse:SecurityTokenReference xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" ><wsse:Reference URI="#{0}" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" /></wsse:SecurityTokenReference>";

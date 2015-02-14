@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -39,6 +39,7 @@
     <TypeScriptCompile Include="Core\ComplexProperty-more_types.ts" />
     <TypeScriptCompile Include="Core\ComplexPropertyTypes.ts" />
     <TypeScriptCompile Include="Core\ComplexPropertyCollectionTypes.ts" />
+    <TypeScriptCompile Include="Core\LazyMemberImplementations.ts" />
     <TypeScriptCompile Include="Core\CustomObjects.ts" />
     <TypeScriptCompile Include="Core\Delegate_Types_Interfaces.ts" />
     <TypeScriptCompile Include="Core\PropertyDefinitionTypes.ts" />

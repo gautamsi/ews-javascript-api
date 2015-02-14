@@ -22,14 +22,14 @@ class Greeter<T extends { new () }> {
 
 
     start() {
-
+        //return;
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
 
         //var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://autodiscover-s.coutlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);
         var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://pod51045.outlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
-        autod.Credentials = new data.ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "EwsP@ssw0rd");
+        autod.Credentials = new data.ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "testP@ssw0rd");
         var s: Microsoft.Exchange.WebServices.Autodiscover.UserSettingName[] = [];
 
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.UserDisplayName);
@@ -41,6 +41,7 @@ class Greeter<T extends { new () }> {
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.CasVersion);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.ExternalWebClientUrls);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.ExternalEwsUrl);
+        s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.PublicFolderServer);
         autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", s).then((sr) => {
             this.div.innerHTML = JSON.stringify(sr);
         }, (e: any) => {
@@ -51,15 +52,15 @@ class Greeter<T extends { new () }> {
 
         d.push(Microsoft.Exchange.WebServices.Autodiscover.DomainSettingName.ExternalEwsUrl);
         d.push(Microsoft.Exchange.WebServices.Autodiscover.DomainSettingName.ExternalEwsVersion);
-        autod.GetDomainSettings("singhspro.onmicrosoft.com", d).then((dr) => {
-            this.span.innerHTML = JSON.stringify(dr);
-        }, (e: any) => {
-                this.span.innerHTML = JSON.stringify(e);
-            });
+        //autod.GetDomainSettings("singhspro.onmicrosoft.com", d).then((dr) => {
+        //    this.span.innerHTML = JSON.stringify(dr);
+        //}, (e: any) => {
+        //        this.span.innerHTML = JSON.stringify(e);
+        //    });
 
 
-        this.span.innerHTML = "";
-        this.div.innerHTML = "";
+        //this.span.innerHTML = "";
+        //this.div.innerHTML = "";
         //this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString() + " " + colorName + " " + cname, 500);
     }
 

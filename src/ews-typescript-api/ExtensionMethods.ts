@@ -93,7 +93,7 @@ class TypeSystem {
     }
 
     static GetObjectStaticPropertiesByClassName(className: string): string[] {
-        
+
         var obj = this.GetObjectByClassName(className);
 
         //if (prototype)
@@ -117,7 +117,7 @@ class TypeSystem {
         return this.GetMethods(obj);
     }
 
-    static GetObjectByClassName(className: string):any {
+    static GetObjectByClassName(className: string): any {
         var obj;
         if (className.indexOf(".") > 0) {
             var objs = className.split(".");
@@ -137,6 +137,78 @@ class TypeSystem {
     }
 }
 
+module Parsers {
+    export class xml2js {
+
+        static parseXMLNode(xmlNode: Node, parent: any = undefined, xmlnsRoot: any = undefined): any {
+            var obj = {};
+            if (!xmlnsRoot) xmlnsRoot = obj;
+            if (typeof (xmlNode) === 'undefined') return obj;
+
+            switch (xmlNode.nodeType) {
+                case Node.ELEMENT_NODE:
+                    if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
+                    for (var i = 0; i < xmlNode.attributes.length; i++) {
+                        var attr: Attr = xmlNode.attributes.item(i);
+                        if (attr.prefix)
+                            if (attr.prefix === 'xmlns') this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
+                            else if(this.containsXMLNS(xmlnsRoot,attr.prefix))
+                                obj[attr.localName] = attr.value;
+                            else
+                                obj[attr.name] = attr.value;
+                        else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value)
+                            obj["__type"] = attr.value;
+                        else
+                            obj[attr.localName] = attr.value;
+                    }
+                    if (xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
+                        return xmlNode.firstChild.nodeValue;
+                        //obj["__text"] = xmlNode.firstChild.nodeValue;
+                    break;
+                case Node.ATTRIBUTE_NODE:
+
+                    break;
+                case Node.TEXT_NODE:
+                    return xmlNode.nodeValue;
+                    break;
+                default:
+                    return obj;
+            }
+
+            if (xmlNode.childNodes.length >0) {
+                if (xmlNode.firstChild.nodeType !== Node.TEXT_NODE) {
+                    for (var i = 0; i < xmlNode.childNodes.length; i++) {
+                        var node: Node = xmlNode.childNodes.item(i);
+                        var nodeObj = this.parseXMLNode(node, undefined,xmlnsRoot);
+                        if (obj[node.localName])
+                            if (Object.prototype.toString.call(obj[node.localName]) === "[object Array]")
+                                obj[node.localName].push(nodeObj);
+                            else {
+                                var old = obj[node.localName];
+                                obj[node.localName] = [];
+                                obj[node.localName].push(old);
+                                obj[node.localName].push(nodeObj);
+                            }
+                        else
+                            obj[node.localName] = nodeObj;
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        private static addXMLNS(obj: any, xmlnsName: string, value: string, attributeName: string = "__xmlns"): void {
+            if (!obj[attributeName]) obj[attributeName] = {};
+            (obj[attributeName])[xmlnsName] = value;
+        }
+        private static containsXMLNS(obj: any, xmlnsName: string, attributeName: string = "__xmlns"): boolean {
+            if (obj[attributeName]) return typeof ((obj[attributeName])[xmlnsName]) !== 'undefined';
+            return false;
+        }
+    }
+}
+
 interface IOutParam<T> {
     value?: T;
     exception?: any;
@@ -144,7 +216,7 @@ interface IOutParam<T> {
 
 }
 interface IRefParam<T> {
-    value?: T;    
+    value?: T;
 }
 
 

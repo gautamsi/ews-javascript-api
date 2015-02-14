@@ -73,11 +73,12 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             var writer = new Data.EwsServiceXmlWriter();
             this.WriteSoapRequest(this.url, writer);
 
-            if (!this.service && !this.Service.Credentials && (!this.Service.Credentials.userName || this.service.Credentials.password))
+            if (!this.service && !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
                 throw new Error("missing credential");
 
-            var cred = "Basic " + btoa(this.Service.Credentials.userName + ":" + this.Service.Credentials.password);
+            var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
             var cc = writer.GetXML();
+            debugger;
             var xhrOptions: WinJS.IXHROptions = {
                 type: "POST",
                 data: cc,
@@ -95,10 +96,10 @@ module Microsoft.Exchange.WebServices.Autodiscover {
                         if (xhrResponse.status == 200) {
                             var ewsXmlReader = new Data.EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                             ewsXmlReader.Read();
-                            if (ewsXmlReader.NodeType == System.Xml.XmlNodeType.Document) {
+                            if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
                                 ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
                             }
-                            else if ((ewsXmlReader.NodeType != System.Xml.XmlNodeType.Element) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
+                            else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
                                 throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
                             }
 
@@ -237,9 +238,9 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             try {
                 // WCF may not generate an XML declaration.
                 reader.Read();
-                if (reader.NodeType == System.Xml.XmlNodeType.XmlDeclaration) {
-                    reader.Read();
-                }
+                //if (reader.NodeType == Node.  System.Xml.XmlNodeType.XmlDeclaration) {
+                //    reader.Read();
+                //}
 
                 if (reader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) {
                     return soapFaultDetails;
@@ -426,7 +427,7 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             if (!reader.IsEmptyElement) {
                 do {
                     reader.Read();
-                    if ((reader.NodeType == System.Xml.XmlNodeType.Element) && (reader.LocalName == this.GetResponseInstanceXmlElementName())) {
+                    if ((reader.NodeType == Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) && (reader.LocalName == this.GetResponseInstanceXmlElementName())) {
                         var response: TResponse = this.CreateResponseInstance();
                         response.LoadFromXml(reader, this.GetResponseInstanceXmlElementName());
                         this.Responses.push(response);

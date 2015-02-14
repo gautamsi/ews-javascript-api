@@ -13,6 +13,8 @@
         private service: ExchangeService;
         //#endregion
 
+        SoapFaultDetails: SoapFaultDetails;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceRequestBase"/> class.
         /// </summary>
@@ -33,13 +35,69 @@
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
         //#endregion
 
-        BuildEwsHttpWebRequest(): IEwsHttpWebRequest { throw new Error("Could not implemented."); }
+        //BuildEwsHttpWebRequest(): IEwsHttpWebRequest { throw new Error("Could not implemented."); }
+        BuildXHR(): WinJS.IXHROptions {
+
+            var request = this.Service.PrepareHttpWebRequest(this.GetXmlElementName());
+            //try
+            //{
+            //    IEwsHttpWebRequest request = this.Service.PrepareHttpWebRequest(this.GetXmlElementName());
+
+            //    this.Service.TraceHttpRequestHeaders(TraceFlags.EwsRequestHttpHeaders, request);
+
+            //    bool needSignature = this.Service.Credentials != null && this.Service.Credentials.NeedSignature;
+            //    bool needTrace = this.Service.IsTraceEnabledFor(TraceFlags.EwsRequest);
+
+            //    // If tracing is enabled, we generate the request in-memory so that we
+            //    // can pass it along to the ITraceListener. Then we copy the stream to
+            //    // the request stream.
+            //    if (needSignature || needTrace) {
+            //        this.TraceAndEmitRequest(request, needSignature, needTrace);
+            //    }
+            //    else {
+            this.EmitRequest(request);
+            //    }
+
+            return request;
+            //}
+            //catch (WebException ex)
+            //{
+            //    if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null) {
+            //        this.ProcessWebException(ex);
+            //    }
+
+            //    // Wrap exception if the above code block didn't throw
+            //    throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, ex.Message), ex);
+            //}
+            //catch (IOException e)
+            //{
+            //    // Wrap exception.
+            //    throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, e.Message), e);
+            //}
+        }
         //BuildResponseObjectFromJson(jsonResponse: JsonObject): any { throw new Error("Could not implemented."); }
         //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
         //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
-        EmitRequest(request: IEwsHttpWebRequest): void { throw new Error("Could not implemented."); }
-        EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-        GetEwsHttpWebResponse(request: IEwsHttpWebRequest): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
+        EmitRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+            if (this.Service.RenderingMethod == Microsoft.Exchange.WebServices.Data.ExchangeService.RenderingMode.Xml) {
+
+                var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter();//writer.Service
+                this.WriteToXml(writer);
+                request.data = writer.GetXML();
+
+            }
+            else if (this.Service.RenderingMethod == Microsoft.Exchange.WebServices.Data.ExchangeService.RenderingMode.JSON) {
+                //JsonObject requestObject = this.CreateJsonRequest();
+
+                //using(Stream serviceRequestStream = this.GetWebRequestStream(request))
+                //{
+                //    requestObject.SerializeToJson(serviceRequestStream);
+                //}
+                debugger;
+            }
+        }
+        //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
+        GetEwsHttpWebResponse(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): WinJS.Promise<XMLHttpRequest> { return WinJS.xhr(request); }
         GetRequestedServiceVersionString(): string {
             if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
                 return "Exchange2007";
@@ -48,10 +106,10 @@
                 return ExchangeVersion[this.Service.RequestedServerVersion];
             }
         }
-        GetResponseStream(response: IEwsHttpWebResponse): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
+        //GetResponseStream(response: IEwsHttpWebResponse): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
         //GetResponseStream(response: IEwsHttpWebResponse, readTimeout: number):any /*System.IO.Stream*/{ throw new Error("Not implemented.");}
-        GetWebRequestStream(request: IEwsHttpWebRequest): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
-        private ProcessWebException(webException: XMLHttpRequest): void { 
+        //GetWebRequestStream(request: IEwsHttpWebRequest): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
+        protected ProcessWebException(webException: XMLHttpRequest): void {
             if (webException.response) {
                 //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
                 var soapFaultDetails: SoapFaultDetails = null;
@@ -116,44 +174,45 @@
                     //    }
                     //}
                     //todo: fix tracing and other operations here
-                    var reader = new EwsServiceXmlReader(webException.responseText,this.Service);
+                    var reader = new EwsServiceXmlReader(webException.responseText, this.Service);
                     soapFaultDetails = this.ReadSoapFault(reader);
 
                     if (soapFaultDetails != null) {
                         //todo: implement soap fault error throw
+                        this.SoapFaultDetails = soapFaultDetails;
 
-                    //    switch (soapFaultDetails.ResponseCode) {
-                    //        case ServiceError.ErrorInvalidServerVersion:
-                    //            throw new ServiceVersionException(Strings.ServerVersionNotSupported);
+                        //    switch (soapFaultDetails.ResponseCode) {
+                        //        case ServiceError.ErrorInvalidServerVersion:
+                        //            throw new ServiceVersionException(Strings.ServerVersionNotSupported);
 
-                    //        case ServiceError.ErrorSchemaValidation:
-                    //            // If we're talking to an E12 server (8.00.xxxx.xxx), a schema validation error is the same as a version mismatch error.
-                    //            // (Which only will happen if we send a request that's not valid for E12).
-                    //            if ((this.Service.ServerInfo != null) &&
-                    //                (this.Service.ServerInfo.MajorVersion == 8) && (this.Service.ServerInfo.MinorVersion == 0)) {
-                    //                throw new ServiceVersionException(Strings.ServerVersionNotSupported);
-                    //            }
+                        //        case ServiceError.ErrorSchemaValidation:
+                        //            // If we're talking to an E12 server (8.00.xxxx.xxx), a schema validation error is the same as a version mismatch error.
+                        //            // (Which only will happen if we send a request that's not valid for E12).
+                        //            if ((this.Service.ServerInfo != null) &&
+                        //                (this.Service.ServerInfo.MajorVersion == 8) && (this.Service.ServerInfo.MinorVersion == 0)) {
+                        //                throw new ServiceVersionException(Strings.ServerVersionNotSupported);
+                        //            }
 
-                    //            break;
+                        //            break;
 
-                    //        case ServiceError.ErrorIncorrectSchemaVersion:
-                    //            // This shouldn't happen. It indicates that a request wasn't valid for the version that was specified.
-                    //            EwsUtilities.Assert(
-                    //                false,
-                    //                "ServiceRequestBase.ProcessWebException",
-                    //                "Exchange server supports requested version but request was invalid for that version");
-                    //            break;
+                        //        case ServiceError.ErrorIncorrectSchemaVersion:
+                        //            // This shouldn't happen. It indicates that a request wasn't valid for the version that was specified.
+                        //            EwsUtilities.Assert(
+                        //                false,
+                        //                "ServiceRequestBase.ProcessWebException",
+                        //                "Exchange server supports requested version but request was invalid for that version");
+                        //            break;
 
-                    //        case ServiceError.ErrorServerBusy:
-                    //            throw new ServerBusyException(new ServiceResponse(soapFaultDetails));
+                        //        case ServiceError.ErrorServerBusy:
+                        //            throw new ServerBusyException(new ServiceResponse(soapFaultDetails));
 
-                    //        default:
-                    //            // Other error codes will be reported as remote error
-                    //            break;
-                    //    }
+                        //        default:
+                        //            // Other error codes will be reported as remote error
+                        //            break;
+                        //    }
 
-                    //    // General fall-through case: throw a ServiceResponseException
-                    //    throw new ServiceResponseException(new ServiceResponse(soapFaultDetails));
+                        //    // General fall-through case: throw a ServiceResponseException
+                        //    throw new ServiceResponseException(new ServiceResponse(soapFaultDetails));
                     }
                 }
                 else {
@@ -164,7 +223,7 @@
             }
         }
         ReadPreamble(ewsXmlReader: EwsServiceXmlReader): void {
-            this.ReadXmlDeclaration(ewsXmlReader);            
+            this.ReadXmlDeclaration(ewsXmlReader);
         }
         ReadResponse(ewsXmlReader: EwsServiceXmlReader): any /*object return*/ {
             var serviceResponse;
@@ -287,14 +346,83 @@
                         ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
             }
         }
-        TraceAndEmitRequest(request: IEwsHttpWebRequest, needSignature: boolean, needTrace: boolean): any { throw new Error("Could not implemented."); }
-        TraceJsonRequest(requestObject: JsonObject): any { throw new Error("Could not implemented."); }
-        TraceResponseJson(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
-        TraceResponseXml(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
-        TraceXmlRequest(memoryStream: any): any { throw new Error("Could not implemented."); }
+        //TraceAndEmitRequest(request: IEwsHttpWebRequest, needSignature: boolean, needTrace: boolean): any { throw new Error("Could not implemented."); }
+        //TraceJsonRequest(requestObject: JsonObject): any { throw new Error("Could not implemented."); }
+        //TraceResponseJson(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
+        //TraceResponseXml(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
+        //TraceXmlRequest(memoryStream: any): any { throw new Error("Could not implemented."); }
         Validate(): void { this.Service.Validate(); }
-        ValidateAndEmitRequest(request: any): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-        WrapStream(responseStream: any /*System.IO.Stream*/, contentEncoding: string): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
+        ValidateAndEmitRequest(request: WinJS.IXHROptions): WinJS.Promise<XMLHttpRequest> {
+            this.Validate();
+
+            var request = this.BuildXHR();
+
+            if (this.service.SendClientLatencies) {
+                var clientStatisticsToAdd: string = '';
+
+                //lock(clientStatisticsCache)
+                //{
+                if (ServiceRequestBase.clientStatisticsCache.length > 0) {
+                    clientStatisticsToAdd = ServiceRequestBase.clientStatisticsCache[0];
+                    ServiceRequestBase.clientStatisticsCache.splice(0, 1);
+                }
+                //}
+
+                if (!string.IsNullOrEmpty(clientStatisticsToAdd)) {
+                    if (request.headers[ServiceRequestBase.ClientStatisticsRequestHeader]) {
+                        request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] =
+                        request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;
+                    }
+                    else {
+                        request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] = clientStatisticsToAdd;
+                    }
+                }
+            }
+
+            //var startTime = Date.now();// DateTime.UtcNow;
+            //var response = WinJS.xhr(request);
+            return WinJS.xhr(request);
+
+            //try
+            //{
+            //    var response = this.GetEwsHttpWebResponse(request);
+            //}
+            //finally {
+            //    if (this.service.SendClientLatencies) {
+            //        int clientSideLatency = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+            //        string requestId = string.Empty;
+            //        string soapAction = this.GetType().Name.Replace("Request", string.Empty);
+
+            //        if (response != null && response.Headers != null) {
+            //            foreach(string requestIdHeader in ServiceRequestBase.RequestIdResponseHeaders)
+            //            {
+            //                string requestIdValue = response.Headers.Get(requestIdHeader);
+            //                if (!string.IsNullOrEmpty(requestIdValue)) {
+            //                    requestId = requestIdValue;
+            //                    break;
+            //                }
+            //            }
+            //        }
+
+            //        StringBuilder sb = new StringBuilder();
+            //        sb.Append("MessageId=");
+            //        sb.Append(requestId);
+            //        sb.Append(",ResponseTime=");
+            //        sb.Append(clientSideLatency);
+            //        sb.Append(",SoapAction=");
+            //        sb.Append(soapAction);
+            //        sb.Append(";");
+
+            //        lock(clientStatisticsCache)
+            //        {
+            //            clientStatisticsCache.Add(sb.ToString());
+            //        }
+            //    }
+            //}
+
+            //return response;
+        }
+        //WrapStream(responseStream: any /*System.IO.Stream*/, contentEncoding: string): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
         /// <summary>
         /// Writes XML attributes.
         /// </summary>
@@ -412,44 +540,187 @@
         //#endregion
     }
     export class SimpleServiceRequestBase extends ServiceRequestBase {
-        BeginExecute(callback: System.AsyncCallback, state: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInternalExecute(asyncResult: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        InternalExecute(): any; //{ throw new Error("Not implemented.");}
-        ReadResponse(response: IEwsHttpWebResponse): any; //{ throw new Error("Not implemented.");}
-        ReadResponseJson(responseStream: System.IO.Stream): any; //{ throw new Error("Not implemented.");}
-        ReadResponseXml(responseStream: System.IO.Stream): any; //{ throw new Error("Not implemented.");}
-        WebRequestAsyncCallback(webAsyncResult: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
+        //BeginExecute(callback: System.AsyncCallback, state: any): System.IAsyncResult { throw new Error("Not implemented.");}
+        //EndInternalExecute(asyncResult: System.IAsyncResult): any { throw new Error("Not implemented.");}
+        InternalExecute(): WinJS.Promise<any> {
+
+
+            //var writer = new Data.EwsServiceXmlWriter();
+            //this.WriteSoapRequest(this.url, writer);
+
+            //if (!this.Service && !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
+            //    throw new Error("missing credential");
+
+            //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
+            //var cc = writer.GetXML();
+            //var xhrOptions: WinJS.IXHROptions = {
+            //    type: "POST",
+            //    data: cc,
+            //    url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
+            //    headers: { "Content-Type": "text/xml", "Authorization": cred },
+            //    //customRequestInitializer: function (x) {
+            //    //    var m = x;
+            //    //}
+            //};
+
+            return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
+                var request = this.BuildXHR();
+
+                
+                //this.ReadResponsePrivate(response);
+
+               
+                this.ValidateAndEmitRequest(request).then((xhrResponse: XMLHttpRequest) => {
+
+                    if (xhrResponse.status == 200) {
+                        var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
+
+                        var serviceResponse = this.ReadResponse(ewsXmlReader);
+                        
+                        ////////ewsXmlReader.Read();
+                        ////////if (ewsXmlReader.NodeType == System.Xml.XmlNodeType.Document) {
+                        ////////    ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
+                        ////////}
+                        ////////else if ((ewsXmlReader.NodeType != System.Xml.XmlNodeType.Element) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
+                        ////////    throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
+                        ////////}
+
+                        ////////this.ReadSoapHeaders(ewsXmlReader);
+
+                        ////////var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
+
+                        //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+
+                        //if (serviceResponse.ErrorCode == AutodiscoverErrorCode.NoError) {
+                        //    //todo: passon to successDelegate
+                        //    //return response;
+                        //}
+                        //else {
+                        //    throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
+                        //}
+
+                    }
+
+                    if (successDelegate)
+                        successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
+                    else {
+                        if (errorDelegate)
+                            errorDelegate(xhrResponse.response);
+                    }
+                },(resperr: XMLHttpRequest) => {
+                        this.ProcessWebException(resperr);
+                        if (errorDelegate) errorDelegate(this.SoapFaultDetails || resperr.responseText || resperr.response);
+                    });
+            });
+
+        }
+        private ReadResponsePrivate(response: IEwsHttpWebResponse): any {
+            var serviceResponse;
+
+            try
+            {
+                this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, response);
+
+                // If tracing is enabled, we read the entire response into a MemoryStream so that we
+                // can pass it along to the ITraceListener. Then we parse the response from the 
+                // MemoryStream.
+                if (this.Service.IsTraceEnabledFor(TraceFlags.EwsResponse)) {
+                    using(MemoryStream memoryStream = new MemoryStream())
+                    {
+                        using(Stream serviceResponseStream = ServiceRequestBase.GetResponseStream(response))
+                        {
+                            // Copy response to in-memory stream and reset position to start.
+                            EwsUtilities.CopyStream(serviceResponseStream, memoryStream);
+                            memoryStream.Position = 0;
+                        }
+
+                        if (this.Service.RenderingMethod == ExchangeService.RenderingMode.Xml) {
+                            this.TraceResponseXml(response, memoryStream);
+
+                            serviceResponse = this.ReadResponseXml(memoryStream);
+                        }
+                        else if (this.Service.RenderingMethod == ExchangeService.RenderingMode.JSON) {
+                            this.TraceResponseJson(response, memoryStream);
+
+                            serviceResponse = this.ReadResponseJson(memoryStream);
+                        }
+                        else {
+                            throw new InvalidOperationException("Unknown RenderingMethod.");
+                        }
+                    }
+                }
+                else {
+                    using(Stream responseStream = ServiceRequestBase.GetResponseStream(response))
+                    {
+                        if (this.Service.RenderingMethod == ExchangeService.RenderingMode.Xml) {
+                            serviceResponse = this.ReadResponseXml(responseStream);
+                        }
+                        else if (this.Service.RenderingMethod == ExchangeService.RenderingMode.JSON) {
+                            serviceResponse = this.ReadResponseJson(responseStream);
+                        }
+                        else {
+                            throw new InvalidOperationException("Unknown RenderingMethod.");
+                        }
+                    }
+                }
+            }
+            catch (WebException e)
+            {
+                if (e.Response != null) {
+                    IEwsHttpWebResponse exceptionResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(e);
+                    this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, exceptionResponse);
+                }
+
+                throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, e.Message), e);
+            }
+            catch (IOException e)
+            {
+                // Wrap exception.
+                throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, e.Message), e);
+            }
+            finally
+            {
+                if (response != null) {
+                    response.Close();
+                }
+            }
+
+            return serviceResponse;
+        }
+        ReadResponseJson(responseStream: System.IO.Stream): any { throw new Error("could Not implemented."); }
+        ReadResponseXml(responseStream: System.IO.Stream): any { throw new Error("Not implemented."); }
+        WebRequestAsyncCallback(webAsyncResult: System.IAsyncResult): any { throw new Error("Not implemented."); }
     }
 
 
     export class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
         Mailbox: Mailbox;
         private mailbox: Mailbox;
-        CreateResponse(): TResponse; //{ throw new Error("Not implemented.");}
-        Execute(): TResponse; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateResponse(): TResponse { throw new Error("Not implemented."); }
+        Execute(): TResponse { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DisableAppRequest extends SimpleServiceRequestBase {
         private Id: string;
         private DisableReason: DisableReasonType;
-        Execute(): DisableAppResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): DisableAppResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
         Id: PhoneCallId;
         private id: PhoneCallId;
-        Execute(): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class FindConversationRequest extends SimpleServiceRequestBase {
         View: ViewBase;
@@ -462,37 +733,37 @@
         private queryString: string;
         private returnHighlightTerms: boolean;
         private mailboxScope: MailboxSearchLocation;
-        Execute(): FindConversationResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        ParseResponse(jsonBody: JsonObject): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): FindConversationResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetAppManifestsRequest extends SimpleServiceRequestBase {
         ApiVersionSupported: string;
         SchemaVersionSupported: string;
-        Execute(): GetAppManifestsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetAppManifestsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
         ApiVersionSupported: string;
         SchemaVersionSupported: string;
-        Execute(): GetAppMarketplaceUrlResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetAppMarketplaceUrlResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetClientExtensionRequest extends SimpleServiceRequestBase {
         private requestedExtensionIds: StringList;
@@ -502,51 +773,51 @@
         private userEnabledExtensionIds: StringList;
         private userDisabledExtensionIds: StringList;
         private isDebug: boolean;
-        Execute(): GetClientExtensionResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetClientExtensionResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
         SearchId: string;
         ExpandGroupMembership: boolean;
         InPlaceHoldConfigurationOnly: boolean;
-        Execute(): GetDiscoverySearchConfigurationResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetDiscoverySearchConfigurationResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
-        Execute(): GetEncryptionConfigurationResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetEncryptionConfigurationResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
         HoldId: string;
-        Execute(): GetHoldOnMailboxesResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetHoldOnMailboxesResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetInboxRulesRequest extends SimpleServiceRequestBase {
         MailboxSmtpAddress: string;
         private mailboxSmtpAddress: string;
-        Execute(): GetInboxRulesResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetInboxRulesResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetNonIndexableItemDetailsRequest extends SimpleServiceRequestBase {
         Mailboxes: System.String[];
@@ -554,73 +825,73 @@
         PageItemReference: string;
         PageDirection: SearchPageDirection;
         SearchArchiveOnly: boolean;
-        Execute(): GetNonIndexableItemDetailsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetNonIndexableItemDetailsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
         Mailboxes: System.String[];
         SearchArchiveOnly: boolean;
-        Execute(): GetNonIndexableItemStatisticsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetNonIndexableItemStatisticsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {
         MailboxSmtpAddress: string;
         private mailboxSmtpAddress: string;
-        Execute(): GetPasswordExpirationDateResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        ParseResponse(jsonBody: JsonObject): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetPasswordExpirationDateResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetPhoneCallRequest extends SimpleServiceRequestBase {
         Id: PhoneCallId;
         private id: PhoneCallId;
-        Execute(): GetPhoneCallResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetPhoneCallResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetRoomListsRequest extends SimpleServiceRequestBase {
-        Execute(): GetRoomListsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetRoomListsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetRoomsRequest extends SimpleServiceRequestBase {
         RoomList: EmailAddress;
         private roomList: EmailAddress;
-        Execute(): GetRoomsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetRoomsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
         SearchFilter: string;
         ExpandGroupMembership: boolean;
-        Execute(): GetSearchableMailboxesResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetSearchableMailboxesResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
         EmitTimeZoneHeader: boolean;
@@ -634,65 +905,143 @@
         private timeWindow: TimeWindow;
         private requestedData: AvailabilityData;
         private options: AvailabilityOptions;
-        Execute(): GetUserAvailabilityResults; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetUserAvailabilityResults { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
         SmtpAddress: string;
         private smtpAddress: string;
-        Execute(): GetUserOofSettingsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetUserOofSettingsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase {
-        Execute(): GetUserRetentionPolicyTagsResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): GetUserRetentionPolicyTagsResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class InstallAppRequest extends SimpleServiceRequestBase {
         private manifestStream: System.IO.Stream;
-        Execute(): InstallAppResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): InstallAppResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    export class MultiResponseServiceRequest<TResponse> extends SimpleServiceRequestBase {
-        ErrorHandlingMode: ServiceErrorHandling;
+    export class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends SimpleServiceRequestBase {
+        get ErrorHandlingMode(): ServiceErrorHandling { return this.errorHandlingMode; }
         private errorHandlingMode: ServiceErrorHandling;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): TResponse; //{ throw new Error("Not implemented.");}
-        EndExecute(asyncResult: System.IAsyncResult): ServiceResponseCollection<TResponse>; //{ throw new Error("Not implemented.");}
-        Execute(): ServiceResponseCollection<TResponse>; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        ParseResponse(jsonBody: JsonObject): any; //{ throw new Error("Not implemented.");}
+
+        constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+            super(service);
+            this.errorHandlingMode = errorHandlingMode;
+        }
+
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): TResponse { throw new Error("abstract; must implemented."); }
+        //EndExecute(asyncResult: System.IAsyncResult): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
+        Execute(): WinJS.Promise<ServiceResponseCollection<TResponse>> {
+
+            return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
+                this.InternalExecute().then((value: any) => {
+                    var serviceResponses = <ServiceResponseCollection<TResponse>>value;
+
+                    if (this.ErrorHandlingMode == ServiceErrorHandling.ThrowOnError) {
+                        EwsUtilities.Assert(
+                            serviceResponses.Count == 1,
+                            "MultiResponseServiceRequest.Execute",
+                            "ServiceErrorHandling.ThrowOnError error handling is only valid for singleton request");
+
+                        serviceResponses._propget(0).ThrowIfNecessary();
+                    }
+
+                    //return serviceResponses;
+                    
+                    
+                    if (successDelegate)
+                        successDelegate(serviceResponses);
+                    else {
+                        if (errorDelegate)
+                            errorDelegate(value);
+                    }
+                },(resperr: any) => {
+                        debugger;
+                        if (errorDelegate) errorDelegate(resperr);
+                    });
+            });
+        }
+        GetExpectedResponseMessageCount(): number { throw new Error("Abstract; must implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Abstract; must implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any {
+            var serviceResponses = new ServiceResponseCollection<TResponse>();
+
+            reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
+
+            for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
+                // Read ahead to see if we've reached the end of the response messages early.
+                reader.Read(); debugger;
+                if (reader.HasRecursiveParent(XmlElementNames.ResponseMessages)) {
+                    break;
+                }
+
+                var response = this.CreateServiceResponse(reader.Service, i);
+
+                response.LoadFromXml(reader, this.GetResponseMessageXmlElementName());
+
+                // Add the response to the list after it has been deserialized because the response
+                // list updates an overall result as individual responses are added to it.
+                serviceResponses.Add(response);
+            }
+
+            // If there's a general error in batch processing,
+            // the server will return a single response message containing the error
+            // (for example, if the SavedItemFolderId is bogus in a batch CreateItem
+            // call). In this case, throw a ServiceResponsException. Otherwise this 
+            // is an unexpected server error.
+            if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
+                if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
+                    throw new ServiceResponseException(serviceResponses[0]);
+                }
+                else {
+                    throw new ServiceXmlDeserializationException(
+                        string.Format(
+                            "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
+                            this.GetResponseMessageXmlElementName(),
+                            this.GetExpectedResponseMessageCount(),
+                            serviceResponses.Count));
+                }
+            }
+
+            reader.ReadEndElementIfNecessary(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
+
+            return serviceResponses;
+        }
+        //ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
     }
     export class PlayOnPhoneRequest extends SimpleServiceRequestBase {
         ItemId: ItemId;
         DialString: string;
         private itemId: ItemId;
         private dialString: string;
-        Execute(): PlayOnPhoneResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        ParseResponse(jsonBody: JsonObject): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): PlayOnPhoneResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
         ImageBase64: string;
@@ -703,12 +1052,12 @@
         private emailText: string;
         private portalText: string;
         private disclaimerText: string;
-        Execute(): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
         ActionType: HoldAction;
@@ -718,55 +1067,55 @@
         Language: string;
         InPlaceHoldIdentity: string;
         ItemHoldPeriod: string;
-        Execute(): SetHoldOnMailboxesResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): SetHoldOnMailboxesResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SetTeamMailboxRequest extends SimpleServiceRequestBase {
         private emailAddress: EmailAddress;
         private sharePointSiteUrl: System.Uri;
         private state: TeamMailboxLifecycleState;
-        Execute(): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
         SmtpAddress: string;
         OofSettings: OofSettings;
         private smtpAddress: string;
         private oofSettings: OofSettings;
-        Execute(): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UninstallAppRequest extends SimpleServiceRequestBase {
         private ID: string;
-        Execute(): UninstallAppResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): UninstallAppResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
         private emailAddress: EmailAddress;
-        Execute(): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
         MailboxSmtpAddress: string;
@@ -775,57 +1124,57 @@
         private mailboxSmtpAddress: string;
         private removeOutlookRuleBlob: boolean;
         private inboxRuleOperations: System.Collections.Generic.IEnumerable<RuleOperation>;
-        Execute(): UpdateInboxRulesResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        Execute(): UpdateInboxRulesResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    
+
 
     export class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {
         ConversationActions: System.Collections.Generic.List<ConversationAction>;
         private conversationActions: System.Collections.Generic.List<ConversationAction>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse> {
         SourceFolderId: FolderId;
         Ids: ItemIdWrapperList;
         private sourceFolderId: FolderId;
         private ids: ItemIdWrapperList;
-        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ArchiveItemResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteIdsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ArchiveItemResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {
         DestinationFormat: IdFormat;
         Ids: System.Collections.Generic.List<AlternateIdBase>;
         private destinationFormat: IdFormat;
         private ids: System.Collections.Generic.List<AlternateIdBase>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ConvertIdResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ConvertIdResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {
         EmitTimeZoneHeader: boolean;
@@ -833,93 +1182,93 @@
         ParentItemId: string;
         private parentItemId: string;
         private attachments: System.Collections.Generic.List<Attachment>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): CreateAttachmentResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): CreateAttachmentResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class CreateRequest<TServiceObject, TResponse> extends MultiResponseServiceRequest<TResponse> {
         Objects: System.Collections.Generic.IEnumerable<TServiceObject>;
         ParentFolderId: FolderId;
         private parentFolderId: FolderId;
         private objects: System.Collections.Generic.IEnumerable<TServiceObject>;
-        AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetObjectCollectionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetParentFolderXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetObjectCollectionXmlElementName(): string { throw new Error("Not implemented."); }
+        GetParentFolderXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class CreateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> {
         UserConfiguration: UserConfiguration;
         userConfiguration: UserConfiguration;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {
         Attachments: System.Collections.Generic.List<Attachment>;
         private attachments: System.Collections.Generic.List<Attachment>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): DeleteAttachmentResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): DeleteAttachmentResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DeleteRequest<TResponse> extends MultiResponseServiceRequest<TResponse> {
         DeleteMode: DeleteMode;
         private deleteMode: DeleteMode;
-        InternalToJson(body: JsonObject): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> {
         Name: string;
         ParentFolderId: FolderId;
         private name: string;
         private parentFolderId: FolderId;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<ExecuteDiagnosticMethodResponse> {
         Verb: string;
         Parameter: System.Xml.XmlNode;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ExecuteDiagnosticMethodResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ExecuteDiagnosticMethodResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupResponse> {
         EmailAddress: EmailAddress;
         private emailAddress: EmailAddress;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ExpandGroupResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ExpandGroupResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class FindRequest<TResponse> extends MultiResponseServiceRequest<TResponse> {
         ParentFolderIds: FolderIdWrapperList;
@@ -932,11 +1281,11 @@
         private queryString: string;
         private returnHighlightTerms: boolean;
         private view: ViewBase;
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetGroupBy(): Grouping; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetGroupBy(): Grouping { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResponse> {
         Attachments: System.Collections.Generic.List<Attachment>;
@@ -948,27 +1297,27 @@
         private attachmentIds: System.Collections.Generic.List<string>;
         private additionalProperties: System.Collections.Generic.List<PropertyDefinitionBase>;
         private bodyType: BodyType;
-        AddJsonAttachmentIdToList(attachmentIds: System.Collections.Generic.List<T>, attachmentId: string): any; //{ throw new Error("Not implemented.");}
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetAttachmentResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        AddJsonAttachmentIdToList(attachmentIds: System.Collections.Generic.List<T>, attachmentId: string): any { throw new Error("Not implemented."); }
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetAttachmentResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
         TokenRequests: ClientAccessTokenRequest[];
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetClientAccessTokenResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetClientAccessTokenResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {
         Conversations: System.Collections.Generic.List<ConversationRequest>;
@@ -977,49 +1326,65 @@
         MaxItemsToReturn: number;
         SortOrder: ConversationSortOrder;
         MailboxScope: MailboxSearchLocation;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetConversationItemsResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetConversationItemsResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetEventsRequest extends MultiResponseServiceRequest<GetEventsResponse> {
         SubscriptionId: string;
         Watermark: string;
         private subscriptionId: string;
         private watermark: string;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetEventsResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetEventsResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    export class GetRequest<TServiceObject, TResponse> extends MultiResponseServiceRequest<TResponse> {
+    export class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
         PropertySet: PropertySet;
-        private propertySet: PropertySet;
-        AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetServiceObjectType(): ServiceObjectType; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        //private propertySet: PropertySet;
+        constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling) {
+            super(service, errorHandlingModeServiceErrorHandling);
+        }
+        //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        //IJsonSerializable.ToJson(ExchangeService service): any {
+        //    JsonObject jsonRequest = new JsonObject();
+
+        //    this.propertySet.WriteGetShapeToJson(jsonRequest, service, this.GetServiceObjectType());
+        //    this.AddIdsToRequest(jsonRequest, service);
+
+        //    return jsonRequest;
+        //}
+        GetServiceObjectType(): ServiceObjectType { throw new Error("Abstract; must implemented."); }
+        Validate(): void {
+            super.Validate();
+            debugger;//todo: implement propertyset
+            //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
+            //this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
+        }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertySet.WriteToXml(writer, this.GetServiceObjectType()); }
     }
     export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetServerTimeZonesResponse> {
         Ids: System.Collections.Generic.IEnumerable<string>;
         private ids: System.Collections.Generic.IEnumerable<string>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetServerTimeZonesResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetServerTimeZonesResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> {
         Name: string;
@@ -1030,51 +1395,51 @@
         private parentFolderId: FolderId;
         private properties: UserConfigurationProperties;
         private userConfiguration: UserConfiguration;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetUserConfigurationResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): GetUserConfigurationResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceResponse> {
         FolderIds: FolderIdWrapperList;
         ReadFlag: boolean;
         SuppressReadReceipts: boolean;
         private folderIds: FolderIdWrapperList;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> {
         ItemIds: ItemIdWrapperList;
         IsJunk: boolean;
         MoveItem: boolean;
         private itemIds: ItemIdWrapperList;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): MarkAsJunkResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): MarkAsJunkResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class MoveCopyRequest<TServiceObject, TResponse> extends MultiResponseServiceRequest<TResponse> {
         DestinationFolderId: FolderId;
         private destinationFolderId: FolderId;
-        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteIdsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveNamesResponse> {
         NameToResolve: string;
@@ -1088,15 +1453,15 @@
         private contactDataPropertySet: PropertySet;
         private parentFolderIds: FolderIdWrapperList;
         private static searchScopeMap: LazyMember<T>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ResolveNamesResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ResolveNamesResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxesResponse> {
         SearchQueries: System.Collections.Generic.List<MailboxQuery>;
@@ -1119,56 +1484,56 @@
         private pageItemReference: string;
         private pageDirection: SearchPageDirection;
         private previewItemResponseShape: PreviewItemResponseShape;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SearchMailboxesResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        ParseResponse(jsonBody: JsonObject): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): SearchMailboxesResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {
         Items: System.Collections.Generic.IEnumerable<Item>;
         SavedCopyDestinationFolderId: FolderId;
         private items: System.Collections.Generic.IEnumerable<Item>;
         private savedCopyDestinationFolderId: FolderId;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
         private actions: System.Collections.Generic.List<T>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SubscribeRequest<TSubscription> extends MultiResponseServiceRequest<TResponse> {
         FolderIds: FolderIdWrapperList;
         EventTypes: System.Collections.Generic.List<EventType>;
         Watermark: string;
-        AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetSubscriptionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalWriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetSubscriptionXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        InternalWriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
         PropertySet: PropertySet;
@@ -1177,14 +1542,14 @@
         private propertySet: PropertySet;
         private syncFolderId: FolderId;
         private syncState: string;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderHierarchyResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderHierarchyResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFolderItemsResponse> {
         PropertySet: PropertySet;
@@ -1199,37 +1564,37 @@
         private syncState: string;
         private ignoredItemIds: ItemIdWrapperList;
         private maxChangesReturned: number;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderItemsResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderItemsResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UnsubscribeRequest extends MultiResponseServiceRequest<ServiceResponse> {
         SubscriptionId: string;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UpdateFolderRequest extends MultiResponseServiceRequest<ServiceResponse> {
         Folders: System.Collections.Generic.List<Folder>;
         private folders: System.Collections.Generic.List<Folder>;
-        CreateServiceResponse(session: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(session: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> {
         EmitTimeZoneHeader: boolean;
@@ -1244,45 +1609,45 @@
         private conflictResolutionMode: ConflictResolutionMode;
         private messageDisposition: MessageDisposition;
         private sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): UpdateItemResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): UpdateItemResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class UpdateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> {
         UserConfiguration: UserConfiguration;
         userConfiguration: UserConfiguration;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    
+
 
     class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
         Folders: System.Collections.Generic.IEnumerable<Folder>;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetObjectCollectionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetParentFolderXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetObjectCollectionXmlElementName(): string { throw new Error("Not implemented."); }
+        GetParentFolderXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
     }
     class CreateItemRequest extends CreateItemRequestBase<Item, ServiceResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
     }
     class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
         ItemIds: ItemIdWrapperList;
@@ -1292,44 +1657,44 @@
         private itemIds: ItemIdWrapperList;
         private affectedTaskOccurrences: AffectedTaskOccurrence;
         private sendCancellationsMode: SendCancellationsMode;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(body: JsonObject): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
         FolderIds: FolderIdWrapperList;
         private folderIds: FolderIdWrapperList;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(body: JsonObject): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
         FolderIds: FolderIdWrapperList;
         DeleteSubFolders: boolean;
         private folderIds: FolderIdWrapperList;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(body: JsonObject): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
+        CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+        GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+        GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
+        GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+        InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
+        Validate(): any { throw new Error("Not implemented."); }
+        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
 
 

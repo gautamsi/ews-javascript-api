@@ -82,7 +82,7 @@
                 return (this.Mailbox == null) || this.Mailbox.IsValid;
             }
             else {
-                return super.IsValid;
+                return super.IsValidProxy();
             }
         }
 

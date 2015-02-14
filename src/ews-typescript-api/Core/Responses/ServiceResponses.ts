@@ -326,32 +326,6 @@
         ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
     }
 
-    export class GetFolderResponse extends ServiceResponse {
-        get Folder(): Folder { return this.folder;}
-        private folder: Folder;
-        private propertySet: PropertySet;
-        GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder {
-            if (this.Folder != null) {
-                return this.Folder;
-            }
-            else {
-                return EwsUtilities.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
-            }
-        }
-        //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ReadElementsFromXml(reader: EwsServiceXmlReader): void {
-            super.ReadElementsFromXml(reader);
-
-            var folders: Folder = reader.ReadServiceObjectsCollectionFromXml<Folder>(
-                XmlElementNames.Folders,
-                this.GetObjectInstance,
-                true,               /* clearPropertyBag */
-                this.propertySet,   /* requestedPropertySet */
-                false);             /* summaryPropertiesOnly */
-
-            this.folder = folders[0];
-        }
-    }
 
     export class GetHoldOnMailboxesResponse extends ServiceResponse {
         HoldResult: MailboxHoldResult;
@@ -423,6 +397,14 @@
         LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean { throw new Error("Not implemented."); }
         ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
     }
+
+    module Microsoft.Exchange.WebServices.Data.GetStreamingEventsResponse {
+        export enum ConnectionStatus {
+            OK = 0,
+            Closed = 1
+        }
+    }
+
     export class GetUserConfigurationResponse extends ServiceResponse {
         UserConfiguration: UserConfiguration;
         private userConfiguration: UserConfiguration;
@@ -536,24 +518,43 @@
         ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
     }
 
-    class ServiceResponseCollection<TResponse> {
-        Count: number;
-        Item: TResponse;
-        OverallResult: ServiceResult;
-        private responses: System.Collections.Generic.List<T>;
-        private overallResult: ServiceResult;
-        Add(response: TResponse): any { throw new Error("Not implemented."); }
+    export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
+        get Count(): number { return this.responses.length; }
+        //Item: TResponse;
+        get OverallResult(): ServiceResult { return this.overallResult;}
+        private responses: TResponse[] = [];// System.Collections.Generic.List<T>;
+        private overallResult: ServiceResult = ServiceResult.Success;
+        Add(response: TResponse): void {
+            EwsUtilities.Assert(
+                response != null,
+                "EwsResponseList.Add",
+                "response is null");
+
+            if (response.Result > this.overallResult) {
+                this.overallResult = response.Result;
+            }
+
+            this.responses.push(response);
+        }
         GetEnumerator(): any { throw new Error("Not implemented."); }
+        _propget(index: number) {
+            if (index < 0 || index >= this.Count) {
+                throw new Error("index out of range: " + index);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+            }
+
+            return this.responses[index];
+        }
+        
     }
 
-    class SyncFolderHierarchyResponse extends SyncResponse<Folder, FolderChange> {
+    export class SyncFolderHierarchyResponse extends SyncResponse<Folder, FolderChange> {
         SummaryPropertiesOnly: boolean;
         CreateChangeInstance(): FolderChange { throw new Error("Not implemented."); }
         GetChangeElementName(): string { throw new Error("Not implemented."); }
         GetChangeIdElementName(): string { throw new Error("Not implemented."); }
         GetIncludesLastInRangeXmlElementName(): string { throw new Error("Not implemented."); }
     }
-    class SyncFolderItemsResponse extends SyncResponse<Item, ItemChange> {
+    export class SyncFolderItemsResponse extends SyncResponse<Item, ItemChange> {
         SummaryPropertiesOnly: boolean;
         CreateChangeInstance(): ItemChange { throw new Error("Not implemented."); }
         GetChangeElementName(): string { throw new Error("Not implemented."); }
@@ -561,12 +562,12 @@
         GetIncludesLastInRangeXmlElementName(): string { throw new Error("Not implemented."); }
     }
 
-    class CreateItemResponse extends CreateItemResponseBase {
+    export class CreateItemResponse extends CreateItemResponseBase {
         private item: Item;
         GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
         Loaded(): any { throw new Error("Not implemented."); }
     }
-    class CreateResponseObjectResponse extends CreateItemResponseBase {
+    export class CreateResponseObjectResponse extends CreateItemResponseBase {
         GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
     }
 

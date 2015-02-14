@@ -20,6 +20,15 @@
     interface StringPropertyDefinitionArray<TKey, TValue> {
         [index: string]: TValue;
     }
+    export interface IndexerWithStringKey<TValue> {
+        [index: string]: TValue;
+    }
+    export interface IndexerWithNumericKey<TValue> {
+        [index: number]: TValue;
+    }
+    export interface IndexerWithEnumKey<TKey,TValue> {
+        [index: number]: TValue;
+    }
     export class PropDictionary<TKey extends { Name?: string }, TValue>{
         private keys: string[] = [];
         private objects: StringArray<TKey, TValue> = {};// {[key:string]:TValue};

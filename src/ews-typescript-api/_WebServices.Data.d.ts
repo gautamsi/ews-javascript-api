@@ -1,10 +1,4 @@
 ﻿declare module Microsoft.Exchange.WebServices.Data {
-    class AbstractFolderIdWrapper {
-        GetFolder(): Folder; //{ throw new Error("Not implemented.");}
-        InternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        Validate(version: ExchangeVersion): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
     class AbstractItemIdWrapper {
         GetItem(): Item; //{ throw new Error("Not implemented.");}
         IternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
@@ -238,16 +232,6 @@
         CreateServiceResponse(service: ExchangeService, responseIndex: number): CreateResponseObjectResponse; //{ throw new Error("Not implemented.");}
         GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
     }
-    class CreateServiceObjectWithAttachmentParam extends System.MulticastDelegate {
-        BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(itemAttachment: ItemAttachment, isNew: boolean): any; //{ throw new Error("Not implemented.");}
-    }
-    class CreateServiceObjectWithServiceParam extends System.MulticastDelegate {
-        BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(srv: ExchangeService): any; //{ throw new Error("Not implemented.");}
-    }
     class CustomXmlSerializationDelegate extends System.MulticastDelegate {
         BeginInvoke(writer: System.Xml.XmlWriter, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
         EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
@@ -425,12 +409,7 @@
         InternalLoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
         LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
     }
-    class FolderIdWrapper extends AbstractFolderIdWrapper {
-        private folderId: FolderId;
-        InternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        Validate(version: ExchangeVersion): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
+    
     class FolderView extends PagedView {
         Traversal: FolderTraversal;
         private traversal: FolderTraversal;
@@ -440,12 +419,7 @@
         GetViewXmlElementName(): string; //{ throw new Error("Not implemented.");}
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
-    class FolderWrapper extends AbstractFolderIdWrapper {
-        private folder: Folder;
-        GetFolder(): Folder; //{ throw new Error("Not implemented.");}
-        InternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
+    
     class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
         UserIds: System.Collections.Generic.List<UserId>;
         IncludePermissions: boolean;
@@ -490,11 +464,7 @@
     }
     class GetNonIndexableItemStatisticsParameters extends NonIndexableItemParameters {
     }
-    class GetObjectInstanceDelegate<T> extends System.MulticastDelegate {
-        BeginInvoke(service: ExchangeService, xmlElementName: string, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): T; //{ throw new Error("Not implemented.");}
-        Invoke(service: ExchangeService, xmlElementName: string): T; //{ throw new Error("Not implemented.");}
-    }
+    
     class GetPropertyDefinitionCallback extends System.MulticastDelegate {
         BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
         EndInvoke(result: System.IAsyncResult): PropertyDefinition; //{ throw new Error("Not implemented.");}
@@ -612,11 +582,6 @@
     }
     interface ILocalizedString {
         LocalizedString: LocalizedString;
-    }
-    class InitializeLazyMember<T> extends System.MulticastDelegate {
-        BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): T; //{ throw new Error("Not implemented.");}
-        Invoke(): T; //{ throw new Error("Not implemented.");}
     }
     interface IOwnedProperty {
         Owner: ServiceObject;
@@ -790,13 +755,7 @@
         ItemHits: number;
         Size: number;
     }
-    class LazyMember<T> {
-        Member: T;
-        private lazyMember: T;
-        private initializationDelegate: InitializeLazyMember<T>;
-        private lockObject: any;
-        private initialized: boolean;
-    }
+    
     class LocalizedString {
         private ILocalizedString.LocalizedString: LocalizedString;
         IsEmpty: boolean;
@@ -1258,16 +1217,7 @@
         private xmlElementName: string;
         private returnedByServer: boolean;
     }
-    class ServiceObjectInfo {
-        XmlElementNameToServiceObjectClassMap: System.Collections.Generic.Dictionary<string, System.Type>;
-        ServiceObjectConstructorsWithServiceParam: System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
-        ServiceObjectConstructorsWithAttachmentParam: System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithAttachmentParam>;
-        private xmlElementNameToServiceObjectClassMap: System.Collections.Generic.Dictionary<string, System.Type>;
-        private serviceObjectConstructorsWithServiceParam: System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
-        private serviceObjectConstructorsWithAttachmentParam: System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithAttachmentParam>;
-        AddServiceObjectType(xmlElementName: string, type: System.Type, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam, createServiceObjectWithAttachmentParam: CreateServiceObjectWithAttachmentParam): any; //{ throw new Error("Not implemented.");}
-        InitializeServiceObjectClassMap(): any; //{ throw new Error("Not implemented.");}
-    }
+
     class SetHoldOnMailboxesParameters {
         ActionType: HoldAction;
         HoldId: string;
@@ -1515,21 +1465,7 @@
         TraceResponse(response: any, memoryStream: any): any; //{ throw new Error("Not implemented.");}
         TraceWebException(e: any): any; //{ throw new Error("Not implemented.");}
     }
-    class WSSecurityBasedCredentials extends ExchangeCredentials {
-        SecurityToken: string;
-        EwsUrl: System.Uri;
-        static NamespaceManager: System.Xml.XmlNamespaceManager;
-        private addTimestamp: boolean;
-        private securityToken: string;
-        private ewsUrl: System.Uri;
-        private static namespaceManager: System.Xml.XmlNamespaceManager;
-        AdjustUrl(url: System.Uri): System.Uri; //{ throw new Error("Not implemented.");}
-        EmitExtraSoapHeaderNamespaceAliases(writer: System.Xml.XmlWriter): any; //{ throw new Error("Not implemented.");}
-        PreAuthenticate(): any; //{ throw new Error("Not implemented.");}
-        SerializeExtraSoapHeaders(writer: System.Xml.XmlWriter, webMethodName: string): any; //{ throw new Error("Not implemented.");}
-        SerializeWSAddressingHeaders(xmlWriter: System.Xml.XmlWriter, webMethodName: string): any; //{ throw new Error("Not implemented.");}
-        SerializeWSSecurityHeaders(xmlWriter: System.Xml.XmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
+    
     class WSSecurityUtilityIdSignedXml extends System.Security.Cryptography.Xml.SignedXml {
         private document: System.Xml.XmlDocument;
         private ids: System.Collections.Generic.Dictionary<TKey, TValue>;

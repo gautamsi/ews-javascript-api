@@ -36,7 +36,10 @@
 
 
         static BuildVersion: string;
-        //private static serviceObjectInfo: LazyMember<T>;
+        private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
+            () => {
+                return new ServiceObjectInfo();
+            });
         //private static buildVersion: LazyMember<T>;
         //private static enumVersionDictionaries: LazyMember<T>;
         //private static schemaToEnumDictionaries: LazyMember<T>;
@@ -54,7 +57,35 @@
         //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("Not implemented.");}
         //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("Not implemented.");}
         static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("Not implemented."); }
-        static CreateEwsObjectFromXmlElementName(service: ExchangeService, xmlElementName: string): any { throw new Error("Not implemented."); }
+        static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
+            //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
+            debugger;
+
+            var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+
+            if (creationDelegate) {
+                return creationDelegate(service);
+            }
+            else return null;
+
+            //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
+            //if (itemClass) {
+            //    //return new itemClass(service);
+
+            //    creationDelegate: CreateServiceObjectWithServiceParam;
+
+
+            //    //if (EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam.TryGetValue(itemClass, out creationDelegate)) {
+            //    //    return (TServiceObject)creationDelegate(service);
+            //    //}
+            //    //else {
+            //    //    throw new ArgumentException(Strings.NoAppropriateConstructorForItemClass);
+            //    //}
+            //}
+            //else {
+            //    return null; //default(TServiceObject);
+            //}
+        }
         //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("Not implemented.");}
         static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("Not implemented."); }
         static DateTimeToXSDate(date: Date): string { throw new Error("Not implemented."); }
@@ -179,24 +210,25 @@
         static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("Not implemented."); }
         static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
             if (param != null) {
+                debugger; //todo: implement this somehow
                 // Non-empty string has at least one character which is *not* a whitespace character
-                if (param.Length == param.CountMatchingChars((c) => Char.IsWhiteSpace(c))) {
-                    throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);
-                }
+                //if (param.length == param.CountMatchingChars((c) => Char.IsWhiteSpace(c))) {
+                //    throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);
+                //}
             }
         }
-        static ValidateParam(param: any, paramName: string): void { 
+        static ValidateParam(param: any, paramName: string): void {
             var isValid = false;
 
-            if (typeof(param) == "string") {
+            if (typeof (param) == "string") {
                 isValid = !string.IsNullOrEmpty(param);
             }
             else {
-                isValid = param != null && typeof(param) !== 'undefined';
+                isValid = param != null && typeof (param) !== 'undefined';
             }
 
             if (!isValid) {
-                throw new Error("parameter null exception: " +  paramName);// ArgumentNullException(paramName);
+                throw new Error("parameter null exception: " + paramName);// ArgumentNullException(paramName);
             }
 
             EwsUtilities.ValidateParamAllowNull(param, paramName);
@@ -208,9 +240,8 @@
                 try {
                     selfValidate.Validate();
                 }
-                catch (e)
-                {
-                    throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify( e)); 
+                catch (e) {
+                    throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e)); 
                     //ArgumentException(
                     //    Strings.ValidationFailed,
                     //    paramName,
@@ -225,7 +256,7 @@
                     throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
                 }
             }
-         }
+        }
         static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("Not implemented."); }
         static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("Not implemented."); }
         static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("Not implemented."); }

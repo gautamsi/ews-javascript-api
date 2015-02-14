@@ -6,15 +6,55 @@
 
         }
 
-        //AdjustUrl(url: System.Uri): System.Uri{ throw new Error("Not implemented.");}
-        EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): void { /*implemented by derived classes*/}
-        //GetUriWithoutSuffix(url: System.Uri): string{ throw new Error("Not implemented.");}
+        AdjustUrl(url: string /*System.Uri*/): string /*System.Uri*/ { return ExchangeCredentials.GetUriWithoutSuffix(url); }
+        EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): void { /*implemented by derived classes*/ }
+        static GetUriWithoutSuffix(url: string/*System.Uri*/): string /*System.Uri*/ {
+            var index = url.toLowerCase().indexOf(WSSecurityBasedCredentials.WsSecurityPathSuffix.toLowerCase());//, StringComparison.OrdinalIgnoreCase);
+            if (index != -1) {
+                return url.substring(0, index);
+            }
+
+            return url;
+        }
         //PreAuthenticate(): any{ throw new Error("Not implemented.");}
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any{ throw new Error("Not implemented.");}
-        SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/}
+        PrepareWebRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+            request.headers["Authorization"] = "Basic" + btoa(this.UserName + ":" + this.Password);
+        }
+        SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/ }
         //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("Not implemented.");}
         //Sign(memoryStream: any): any{ throw new Error("Not implemented.");}
     }
+
+    export class WSSecurityBasedCredentials extends ExchangeCredentials {
+        static WsAddressingHeadersFormat: string = "<wsa:Action soap:mustUnderstand='1'>http://schemas.microsoft.com/exchange/services/2006/messages/{0}</wsa:Action><wsa:ReplyTo><wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address></wsa:ReplyTo><wsa:To soap:mustUnderstand='1'>{1}</wsa:To>";
+        static WsSecurityHeaderFormat: string = "<wsse:Security soap:mustUnderstand='1'>  {0}</wsse:Security>";
+        static WsuTimeStampFormat: string = "<wsu:Timestamp><wsu:Created>{0:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Created><wsu:Expires>{1:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Expires></wsu:Timestamp>";
+        static WsSecurityPathSuffix: string = "/wssecurity";
+
+        SecurityToken: string;
+        EwsUrl: string;// System.Uri;
+        static NamespaceManager: any;// System.Xml.XmlNamespaceManager;
+        private addTimestamp: boolean;
+        private securityToken: string;
+        private ewsUrl: string;//System.Uri;
+        private static namespaceManager: any;//System.Xml.XmlNamespaceManager;
+        AdjustUrl(url: string/*System.Uri*/): string/*System.Uri*/ { throw new Error("Not implemented."); }
+        EmitExtraSoapHeaderNamespaceAliases(writer: System.Xml.XmlWriter): any { throw new Error("Not implemented."); }
+        PreAuthenticate(): any { throw new Error("Not implemented."); }
+        SerializeExtraSoapHeaders(writer: System.Xml.XmlWriter, webMethodName: string): any { throw new Error("Not implemented."); }
+        SerializeWSAddressingHeaders(xmlWriter: System.Xml.XmlWriter, webMethodName: string): any { throw new Error("Not implemented."); }
+        SerializeWSSecurityHeaders(xmlWriter: System.Xml.XmlWriter): any { throw new Error("Not implemented."); }
+
+    }
+
+    //export module WSSecurityBasedCredentials {
+    //    export var static WsAddressingHeadersFormat: string = "<wsa:Action soap:mustUnderstand='1'>http://schemas.microsoft.com/exchange/services/2006/messages/{0}</wsa:Action><wsa:ReplyTo><wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address></wsa:ReplyTo><wsa:To soap:mustUnderstand='1'>{1}</wsa:To>";
+    //    export var static WsSecurityHeaderFormat: string = "<wsse:Security soap:mustUnderstand='1'>  {0}</wsse:Security>";
+    //    export var static WsuTimeStampFormat: string = "<wsu:Timestamp><wsu:Created>{0:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Created><wsu:Expires>{1:yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'}</wsu:Expires></wsu:Timestamp>";
+    //    export var static WsSecurityPathSuffix: string = "/wssecurity";
+    //}
+
+
     //todo: should be done
     export class ExchangeServerInfo {
         MajorVersion: number;
@@ -74,8 +114,8 @@
             // For 2007 SP1, use PrimarySmtpAddress for type SmtpAddress
             var connectingIdTypeLocalName =
                 (this.IdType == ConnectingIdType.SmtpAddress) && (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1)
-                ? XmlElementNames.PrimarySmtpAddress
-                : ConnectingIdType[this.IdType];
+                    ? XmlElementNames.PrimarySmtpAddress
+                    : ConnectingIdType[this.IdType];
 
             writer.WriteElementValue(
                 XmlNamespace.Types,
@@ -101,8 +141,8 @@
                 this.applicationRoles = applicationRoles;
             }
         }
-        ToJsonObject(): Microsoft.Exchange.WebServices.Data.JsonObject { throw new Error("Not implemented."); }
-        WriteRolesToXml(writer: Microsoft.Exchange.WebServices.Data.EwsServiceXmlWriter, roles: string[], elementName: string): void {
+        //ToJsonObject(): Microsoft.Exchange.WebServices.Data.JsonObject { throw new Error("Not implemented."); }
+        WriteRolesToXml(writer: EwsServiceXmlWriter, roles: string[], elementName: string): void {
             if (roles && roles.length > 0) {
                 writer.WriteStartElement(XmlNamespace.Types, elementName);
 
@@ -113,7 +153,7 @@
                 writer.WriteEndElement();
             }
         }
-        WriteToXml(writer: Microsoft.Exchange.WebServices.Data.EwsServiceXmlWriter): void {
+        WriteToXml(writer: EwsServiceXmlWriter): void {
             writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ManagementRole);
             this.WriteRolesToXml(writer, this.userRoles, XmlElementNames.UserRoles);
             this.WriteRolesToXml(writer, this.applicationRoles, XmlElementNames.ApplicationRoles);
@@ -156,7 +196,7 @@
     //todo: should be done
     export class PropertyBag {
         //Properties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
-        get Owner(): ServiceObject{ return this.owner;}
+        get Owner(): ServiceObject { return this.owner; }
         get IsDirty(): boolean {
             var changes = this.modifiedProperties.length + this.deletedProperties.length + this.addedProperties.length;
             return changes > 0 || this.isDirty;
@@ -664,22 +704,37 @@
             writer.WriteEndElement();
         }
     }
-    export class PropertySet {
-        BasePropertySet: BasePropertySet;
-        RequestedBodyType: BodyType;
-        RequestedUniqueBodyType: BodyType;
-        RequestedNormalizedBodyType: BodyType;
-        Count: number;
-        FilterHtmlContent: boolean;
-        ConvertHtmlCodePageToUTF8: boolean;
-        InlineImageUrlTemplate: string;
-        BlockExternalImages: boolean;
-        AddBlankTargetToLinks: boolean;
-        MaximumBodySize: number;
-        Item: PropertyDefinitionBase;
-        static DefaultPropertySetMap: LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
+    //todo: should be done except for debugger stops 
+    export class PropertySet implements ISelfValidate { //IEnumerable<PropertyDefinitionBase>
+        //using DefaultPropertySetDictionary = LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
+
+        get BasePropertySet(): BasePropertySet { return this.basePropertySet; }
+        set BasePropertySet(value) { this.ThrowIfReadonly(); this.BasePropertySet = value; }
+        get RequestedBodyType(): BodyType { return this.requestedBodyType; }
+        set RequestedBodyType(value) { this.ThrowIfReadonly(); this.requestedBodyType = value; }
+        get RequestedUniqueBodyType(): BodyType { return this.requestedUniqueBodyType; }
+        set RequestedUniqueBodyType(value) { this.ThrowIfReadonly(); this.requestedUniqueBodyType = value; }
+        get RequestedNormalizedBodyType(): BodyType { return this.RequestedNormalizedBodyType; }
+        set RequestedNormalizedBodyType(value) { this.ThrowIfReadonly(); this.RequestedNormalizedBodyType = value; }
+        get Count(): number { return this.additionalProperties.length; }
+        get FilterHtmlContent(): boolean { return this.filterHtml; } //todo - nullable properties implementations;
+        set FilterHtmlContent(value) { this.ThrowIfReadonly(); this.filterHtml = value; }
+        get ConvertHtmlCodePageToUTF8(): boolean { return this.convertHtmlCodePageToUTF8; }
+        set ConvertHtmlCodePageToUTF8(value) { this.ThrowIfReadonly(); this.convertHtmlCodePageToUTF8 = value; }
+        get InlineImageUrlTemplate(): string { return this.inlineImageUrlTemplate; }
+        set InlineImageUrlTemplate(value) { this.ThrowIfReadonly(); this.inlineImageUrlTemplate = value; }
+        get BlockExternalImages(): boolean { return this.blockExternalImages; }
+        set BlockExternalImages(value) { this.ThrowIfReadonly(); this.blockExternalImages = value; }
+        get AddBlankTargetToLinks(): boolean { return this.addTargetToLinks; }
+        set AddBlankTargetToLinks(value) { this.ThrowIfReadonly(); this.addTargetToLinks = value; }
+        get MaximumBodySize(): number { return this.maximumBodySize; }
+        set MaximumBodySize(value) { this.ThrowIfReadonly(); this.maximumBodySize = value; }
+
+        Item(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
+
+        static get DefaultPropertySetMap(): LazyMember<IndexerWithEnumKey<BasePropertySet, string>> { return this.defaultPropertySetMap; }
         private basePropertySet: BasePropertySet;
-        private additionalProperties: System.Collections.Generic.List<PropertyDefinitionBase>;
+        private additionalProperties: PropertyDefinitionBase[] = [];// System.Collections.Generic.List<PropertyDefinitionBase>;
         private requestedBodyType: BodyType;
         private requestedUniqueBodyType: BodyType;
         private requestedNormalizedBodyType: BodyType;
@@ -690,24 +745,274 @@
         private addTargetToLinks: boolean;
         private isReadOnly: boolean;
         private maximumBodySize: number;
-        static IdOnly: PropertySet;
-        static FirstClassProperties: PropertySet;
-        private static defaultPropertySetMap: LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
-        Add(property: PropertyDefinitionBase): any { throw new Error("Not implemented."); }
-        AddRange(properties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-        Clear(): any { throw new Error("Not implemented."); }
-        Contains(property: PropertyDefinitionBase): boolean { throw new Error("Not implemented."); }
-        CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet { throw new Error("Not implemented."); }
+        static IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
+        static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
+        private static defaultPropertySetMap: LazyMember<IndexerWithEnumKey<BasePropertySet, string>> = new LazyMember<IndexerWithEnumKey<BasePropertySet, string>>(() => {
+            var result: IndexerWithEnumKey<BasePropertySet, string> = {};// = new Dictionary<BasePropertySet, string>();
+            result[BasePropertySet.IdOnly] = "IdOnly";
+            result[BasePropertySet.FirstClassProperties] = "AllProperties";
+            return result;
+        });
+
+        //constructor();
+        //constructor(basePropertySet:BasePropertySet);
+        //constructor(additionalProperties: PropertyDefinitionBase[]);
+        constructor(basePropertySet: BasePropertySet = BasePropertySet.IdOnly, additionalProperties?: PropertyDefinitionBase[]) {
+            this.basePropertySet = basePropertySet;
+            if (additionalProperties) {
+                this.additionalProperties.push(additionalProperties); //todo: addrange for array
+            }
+        }
+        
+        Add(property: PropertyDefinitionBase): void {
+            this.ThrowIfReadonly();
+            EwsUtilities.ValidateParam(property, "property");
+
+            if (this.additionalProperties.indexOf(property) === -1) {
+                this.additionalProperties.push(property);
+            }
+        }
+        AddRange(properties: PropertyDefinitionBase /*System.Collections.Generic.IEnumerable<T>*/): void {
+            this.ThrowIfReadonly();
+            EwsUtilities.ValidateParamCollection(properties, "properties");
+
+            for (var property in properties) {
+                this.Add(<PropertyDefinitionBase>property);
+            }
+        }
+        Clear(): void {
+            this.ThrowIfReadonly();
+            this.additionalProperties.splice(0);
+        }
+        Contains(property: PropertyDefinitionBase): boolean { return this.additionalProperties.indexOf(property) !== -1; }
+        static CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet { throw new Error("Not implemented."); }
         GetEnumerator(): any { throw new Error("Not implemented."); }
-        GetShapeName(serviceObjectType: ServiceObjectType): string { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        Remove(property: PropertyDefinitionBase): boolean { throw new Error("Not implemented."); }
-        ThrowIfReadonly(): any { throw new Error("Not implemented."); }
-        ValidateForRequest(request: ServiceRequestBase, summaryPropertiesOnly: boolean): any { throw new Error("Not implemented."); }
-        WriteAdditionalPropertiesToJson(jsonItemShape: JsonObject, service: ExchangeService, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-        WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-        WriteGetShapeToJson(jsonRequest: JsonObject, service: ExchangeService, serviceObjectType: ServiceObjectType): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter, serviceObjectType: ServiceObjectType): any { throw new Error("Not implemented."); }
+        GetShapeName(serviceObjectType: ServiceObjectType): string {
+            switch (serviceObjectType) {
+                case ServiceObjectType.Item:
+                    return XmlElementNames.ItemShape;
+                case ServiceObjectType.Folder:
+                    return XmlElementNames.FolderShape;
+                case ServiceObjectType.Conversation:
+                    return XmlElementNames.ConversationShape;
+                default:
+                    EwsUtilities.Assert(
+                        false,
+                        "PropertySet.GetShapeName",
+                        string.Format("An unexpected object type {0} for property shape. This code path should never be reached.", serviceObjectType));
+                    return string.Empty;
+            }
+        }
+        InternalValidate(): void {
+            for (var i = 0; i < this.additionalProperties.length; i++) {
+                if (this.additionalProperties[i] == null) {
+                    throw new ServiceValidationException(string.Format("additional property  is null at {0}" /*Strings.AdditionalPropertyIsNull*/, i));
+                }
+            }
+        }
+        Remove(property: PropertyDefinitionBase): boolean {
+            this.ThrowIfReadonly();
+            var index = this.additionalProperties.indexOf(property);
+            return typeof (this.additionalProperties.splice(index)) !== undefined;// .Remove(property);
+        }
+        ThrowIfReadonly(): void {
+            if (this.isReadOnly) {
+                throw new Error(" PropertySet can not be modified");// System.NotSupportedException(Strings.PropertySetCannotBeModified);
+            }
+        }
+        Validate(): void { //void ISelfValidate.Validate()
+            this.InternalValidate();
+        }
+        ValidateForRequest(request: ServiceRequestBase, summaryPropertiesOnly: boolean): void {
+            for (var propItem in this.additionalProperties) {
+                var propDefBase: PropertyDefinitionBase = propItem;
+                var propertyDefinition = <PropertyDefinition>propDefBase;
+                if (propertyDefinition instanceof PropertyDefinition/* != null*/) {
+                    if (propertyDefinition.Version > request.Service.RequestedServerVersion) {
+                        throw new ServiceVersionException(
+                            string.Format(
+                                "Property: {0} is incompatible with version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                                propertyDefinition.Name,
+                                propertyDefinition.Version));
+                    }
+
+                    if (summaryPropertiesOnly && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanFind, request.Service.RequestedServerVersion)) {
+                        throw new ServiceValidationException(
+                            string.Format(
+                                "this is not a summary property; property: {0}, xmlelementaName: {1}",//Strings.NonSummaryPropertyCannotBeUsed,
+                                propertyDefinition.Name,
+                                request.GetXmlElementName()));
+                    }
+                }
+            }
+
+            if (this.FilterHtmlContent/*.HasValue*/) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "FilterHtmlContent",
+                            ExchangeVersion.Exchange2010));
+                }
+            }
+
+            if (this.ConvertHtmlCodePageToUTF8/*.HasValue*/) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010_SP1) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "ConvertHtmlCodePageToUTF8",
+                            ExchangeVersion.Exchange2010_SP1));
+                }
+            }
+
+            if (!string.IsNullOrEmpty(this.InlineImageUrlTemplate)) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "InlineImageUrlTemplate",
+                            ExchangeVersion.Exchange2013));
+                }
+            }
+
+            if (this.BlockExternalImages/*.HasValue*/) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "BlockExternalImages",
+                            ExchangeVersion.Exchange2013));
+                }
+            }
+
+            if (this.AddBlankTargetToLinks/*.HasValue*/) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "AddTargetToLinks",
+                            ExchangeVersion.Exchange2013));
+                }
+            }
+
+            if (this.MaximumBodySize/*.HasValue*/) {
+                if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+                    throw new ServiceVersionException(
+                        string.Format(
+                            "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            "MaximumBodySize",
+                            ExchangeVersion.Exchange2013));
+                }
+            }
+        }
+        //WriteAdditionalPropertiesToJson(jsonItemShape: JsonObject, service: ExchangeService, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
+        WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void {
+            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AdditionalProperties);
+
+            for (var propertyDefinition in propertyDefinitions) {
+                (<PropertyDefinitionBase>propertyDefinition).WriteToXml(writer);
+            }
+
+            writer.WriteEndElement();
+        }
+        //WriteGetShapeToJson(jsonRequest: JsonObject, service: ExchangeService, serviceObjectType: ServiceObjectType): any { throw new Error("Not implemented."); }
+        WriteToXml(writer: EwsServiceXmlWriter, serviceObjectType: ServiceObjectType): void {
+            var shapeElementName: string = this.GetShapeName(serviceObjectType);
+
+            writer.WriteStartElement(XmlNamespace.Messages, shapeElementName);
+
+            writer.WriteElementValue(
+                XmlNamespace.Types,
+                XmlElementNames.BaseShape,
+                XmlElementNames.BaseShape,
+                PropertySet.defaultPropertySetMap.Member[this.BasePropertySet]);
+
+            if (serviceObjectType == ServiceObjectType.Item) {
+                if (this.RequestedBodyType/*.HasValue*/) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.BodyType,
+                        XmlElementNames.BodyType,
+                        this.RequestedBodyType/*.Value*/);
+                }
+
+                if (this.RequestedUniqueBodyType/*.HasValue*/) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.UniqueBodyType,
+                        XmlElementNames.UniqueBodyType,
+                        this.RequestedUniqueBodyType/*.Value*/);
+                }
+
+                if (this.RequestedNormalizedBodyType/*.HasValue*/) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.NormalizedBodyType,
+                        XmlElementNames.NormalizedBodyType,
+                        this.RequestedNormalizedBodyType/*.Value*/);
+                }
+
+                if (this.FilterHtmlContent/*.HasValue*/) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.FilterHtmlContent,
+                        XmlElementNames.FilterHtmlContent,
+                        this.FilterHtmlContent/*.Value*/);
+                }
+
+                if (this.ConvertHtmlCodePageToUTF8/*.HasValue*/ &&
+                    writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP1) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.ConvertHtmlCodePageToUTF8,
+                        XmlElementNames.ConvertHtmlCodePageToUTF8,
+                        this.ConvertHtmlCodePageToUTF8/*.Value*/);
+                }
+
+                if (!string.IsNullOrEmpty(this.InlineImageUrlTemplate) &&
+                    writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.InlineImageUrlTemplate,
+                        XmlElementNames.InlineImageUrlTemplate,
+                        this.InlineImageUrlTemplate);
+                }
+
+                if (this.BlockExternalImages/*.HasValue*/ &&
+                    writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.BlockExternalImages,
+                        XmlElementNames.BlockExternalImages,
+                        this.BlockExternalImages/*.Value*/);
+                }
+
+                if (this.AddBlankTargetToLinks/*.HasValue*/ &&
+                    writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.AddBlankTargetToLinks,
+                        XmlElementNames.AddBlankTargetToLinks,
+                        this.AddBlankTargetToLinks/*.Value*/);
+                }
+
+                if (this.MaximumBodySize/*.HasValue*/ &&
+                    writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
+                    writer.WriteElementValue(
+                        XmlNamespace.Types,
+                        XmlElementNames.MaximumBodySize,
+                        XmlElementNames.MaximumBodySize,
+                        this.MaximumBodySize/*.Value*/);
+                }
+            }
+
+            if (this.additionalProperties.length > 0) {
+                this.WriteAdditionalPropertiesToXml(writer, this.additionalProperties);
+            }
+
+            writer.WriteEndElement(); // Item/FolderShape
+        }
     }
 
     export class SoapFaultDetails {
@@ -771,18 +1076,103 @@
 
 
     export class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
-        Count: number;
-        Item: AbstractFolderIdWrapper;
+        get Count(): number { return this.ids.length; }
+        //Item: AbstractFolderIdWrapper;
         private ids: AbstractFolderIdWrapper[] = [];// System.Collections.Generic.List<AbstractFolderIdWrapper>;
-        Add(folder: Folder): any{ throw new Error("Not implemented.");}
-        Add(folderId: FolderId): any{ throw new Error("Not implemented.");}
-        AddRange(folders: System.Collections.Generic.IEnumerable<Folder>): any{ throw new Error("Not implemented.");}
-        AddRange(folderIds: System.Collections.Generic.IEnumerable<T>): any{ throw new Error("Not implemented.");}
-        GetEnumerator(): any{ throw new Error("Not implemented.");}
-        InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-        Validate(version: ExchangeVersion): any{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): any{ throw new Error("Not implemented.");}
+        Add(folder: Folder): void;// { this.ids.push(new FolderWrapper(folder)) }
+        Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
+        Add(folderOrId: any): void {
+            if (folderOrId instanceof Folder)
+                this.ids.push(new FolderWrapper(folderOrId))
+            else if (folderOrId instanceof FolderId)
+                this.ids.push(new FolderIdWrapper(folderOrId));
+            else
+                throw new Error("should not be seeing this. inside FolderIDWrapperList.Add, trying to overload methods.");
+        }
+        AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("Not implemented."); }
+        AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("Not implemented."); }
+        AddRange(foldersOrIds: any[]): void {
+            if (foldersOrIds != null) {
+                for (var folderOrId in foldersOrIds) {
+                /*FolderId folderId*/this.Add(folderOrId);
+                }
+            }
+        }
+        //GetEnumerator(): any { throw new Error("Not implemented."); }
+        //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+        Validate(version: ExchangeVersion): void {
+            for (var item in this.ids) {
+                var folderIdWrapper: AbstractFolderIdWrapper = item;
+                folderIdWrapper.Validate(version);
+            }
+        }
+        WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): void {
+            if (this.Count > 0) {
+                writer.WriteStartElement(ewsNamesapce, xmlElementName);
+
+                for (var item in this.ids) {
+                    var folderIdWrapper: AbstractFolderIdWrapper = item;
+                    folderIdWrapper.WriteToXml(writer);
+                }
+
+                writer.WriteEndElement();
+            }
+        }
+
+        _propGet(index: number): AbstractFolderIdWrapper {
+            return this.ids[index];
+        }
     }
 
+    export class AbstractFolderIdWrapper { //IJsonSerializable
+        GetFolder(): Folder { return null; }
+        //InternalToJson(service: ExchangeService): void { throw new Error("Not implemented."); }
+        //object IJsonSerializable.ToJson(ExchangeService service)
+        //{
+        //      return this.InternalToJson(service);
+        //}
+        Validate(version: ExchangeVersion): void { /*throw new Error("Not implemented.");*/ }
+        WriteToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract; must implemented."); }
+    }
+
+    class FolderWrapper extends AbstractFolderIdWrapper {
+        private folder: Folder;
+        
+        constructor(folder: Folder) {
+            super();
+            EwsUtilities.Assert(
+                folder != null,
+                "FolderWrapper.ctor",
+                "folder is null");
+            EwsUtilities.Assert(
+                !folder.IsNew,
+                "FolderWrapper.ctor",
+                "folder does not have an Id");
+
+            this.folder = folder;
+        }
+        
+        GetFolder(): Folder { return this.folder;}
+        //InternalToJson(service: ExchangeService): void{ throw new Error("Not implemented.");}
+        WriteToXml(writer: EwsServiceXmlWriter): void { this.folder.Id.WriteToXml(writer);}
+    }
+
+    class FolderIdWrapper extends AbstractFolderIdWrapper {
+        private folderId: FolderId;
+
+        constructor(folderId: FolderId) {
+            super();
+            EwsUtilities.Assert(
+                folderId != null,
+                "FolderIdWrapper.ctor",
+                "folderId is null");
+
+            this.folderId = folderId;
+        }
+
+        //InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
+        Validate(version: ExchangeVersion): void { this.folderId.Validate(version);}
+        WriteToXml(writer: EwsServiceXmlWriter): void { this.folderId.WriteToXml(writer);}
+    }
 
 }

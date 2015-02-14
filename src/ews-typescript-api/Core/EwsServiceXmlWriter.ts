@@ -71,6 +71,8 @@
                         //todo check for datetime
                         //strValue = this.Service.ConvertDateTimeToUniversalDateTimeString((DateTime) value);
                         break;
+                    case "string":
+                        return value;
                     default:
                         try {
                             if (value.GetSearchString) // checking - ISearchStringProvider
@@ -91,7 +93,7 @@
         //WriteAttributeString(localName: string, stringValue: string): any { throw new Error("Not implemented."); }
 
         WriteAttributeString(namespacePrefix: string, localName: string, stringValue: string): void {
-            var namespaceprefix = namespaceprefix || "";
+            var namespaceprefix = namespacePrefix || "";
             if (namespaceprefix !== "") namespaceprefix += ":";
             this.soapData += " " + namespaceprefix + localName + "=\"" + stringValue + "\"";
             if (namespacePrefix == "xmlns") // push to rootUris cache

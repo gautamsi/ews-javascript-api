@@ -142,7 +142,7 @@
         private isInline: boolean;
         private service: ExchangeService;
         GetXmlElementName(): string { throw new Error("Not implemented."); }
-        InternalLoad(bodyType: BodyType, additionalProperties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
+        InternalLoad(bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         Load(): any { throw new Error("Not implemented."); }
         LoadAttachmentIdFromJson(jsonObject: JsonObject): any { throw new Error("Not implemented."); }
@@ -150,13 +150,13 @@
         SetFieldValue(field: any, value: any): any { throw new Error("Not implemented."); }
         ThrowIfThisIsNotNew(): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
+        //Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class ByteArrayArray extends ComplexProperty {
         private static ItemXmlElementName: string = "Base64Binary";
-        Content: System.Byte[][];
-        private content: System.Byte[][];//System.Collections.Generic.List<T>;
+        Content: any[];// System.Byte[][];
+        private content: any[];// System.Byte[][];//System.Collections.Generic.List<T>;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
@@ -218,7 +218,7 @@
         private scope: string;
     }
     export class ClientApp extends ComplexProperty {
-        Manifest: System.Xml.XmlDocument;
+        Manifest: XMLDocument;// System.Xml.XmlDocument;
         Metadata: ClientAppMetadata;
         ReadToXmlDocument(reader: EwsServiceXmlReader): SafeXmlDocument { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
@@ -232,7 +232,7 @@
     export class ClientExtension extends ComplexProperty {
         Type: ExtensionType;
         Scope: ExtensionInstallScope;
-        ManifestStream: System.IO.Stream;
+        ManifestStream: any;// System.IO.Stream;
         MarketplaceAssetID: string;
         MarketplaceContentMarket: string;
         AppStatus: string;
@@ -298,7 +298,7 @@
     export class ConversationNode extends ComplexProperty {
         InternetMessageId: string;
         ParentInternetMessageId: string;
-        Items: System.Collections.Generic.List<Item>;
+        Items: Item[];// System.Collections.Generic.List<Item>;
         private propertySet: PropertySet;
         GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
         GetXmlElementName(): string { throw new Error("Not implemented."); }
@@ -323,9 +323,9 @@
     export class DayOfTheWeekCollection extends ComplexProperty {
         Item: DayOfTheWeek;
         Count: number;
-        private items: System.Collections.Generic.List<T>;
+        private items: any[];// System.Collections.Generic.List<T>;
         Add(dayOfTheWeek: DayOfTheWeek): any { throw new Error("Not implemented."); }
-        AddRange(daysOfTheWeek: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
+        AddRange(daysOfTheWeek:any /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("Not implemented."); }
         Clear(): any { throw new Error("Not implemented."); }
         GetEnumerator(): any { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
@@ -334,8 +334,8 @@
         LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
         Remove(dayOfTheWeek: DayOfTheWeek): boolean { throw new Error("Not implemented."); }
         RemoveAt(index: number): any { throw new Error("Not implemented."); }
-        ToString(separator: string): string { throw new Error("Not implemented."); }
-        ToString(): string { throw new Error("Not implemented."); }
+        ToString(separator?: string): string { throw new Error("Not implemented."); }
+        //ToString(): string { throw new Error("Not implemented."); }
         WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("Not implemented."); }
     }
     export class DelegatePermissions extends ComplexProperty {
@@ -345,7 +345,7 @@
         ContactsFolderPermissionLevel: DelegateFolderPermissionLevel;
         NotesFolderPermissionLevel: DelegateFolderPermissionLevel;
         JournalFolderPermissionLevel: DelegateFolderPermissionLevel;
-        private delegateFolderPermissions: System.Collections.Generic.Dictionary<TKey, TValue>;
+        private delegateFolderPermissions: any;// System.Collections.Generic.Dictionary<TKey, TValue>;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         Reset(): any { throw new Error("Not implemented."); }
@@ -384,17 +384,17 @@
         private key: TKey;
         ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: System.Collections.Generic.List<T>): boolean { throw new Error("Not implemented."); }
+        WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates:any[] /*System.Collections.Generic.List<T>*/): boolean { throw new Error("Not implemented."); }
         WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("Not implemented."); }
-        WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: System.Collections.Generic.List<T>): boolean { throw new Error("Not implemented."); }
+        WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]/*System.Collections.Generic.List<T>*/): boolean { throw new Error("Not implemented."); }
         WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean { throw new Error("Not implemented."); }
     }
     export class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
-        Entries: System.Collections.Generic.Dictionary<TKey, TEntry>;
-        private entries: System.Collections.Generic.Dictionary<TKey, TEntry>;
-        private removedEntries: System.Collections.Generic.Dictionary<TKey, TEntry>;
-        private addedEntries: System.Collections.Generic.List<T>;
-        private modifiedEntries: System.Collections.Generic.List<T>;
+        Entries: any;// System.Collections.Generic.Dictionary<TKey, TEntry>;
+        private entries: any;//System.Collections.Generic.Dictionary<TKey, TEntry>;
+        private removedEntries: any;// System.Collections.Generic.Dictionary<TKey, TEntry>;
+        private addedEntries: any[];// System.Collections.Generic.List<T>;
+        private modifiedEntries: any[];// System.Collections.Generic.List<T>;
         ClearChangeLog(): any { throw new Error("Not implemented."); }
         Contains(key: TKey): boolean { throw new Error("Not implemented."); }
         CreateEntry(reader: EwsServiceXmlReader): TEntry { throw new Error("Not implemented."); }
@@ -406,12 +406,12 @@
         InternalAdd(entry: TEntry): any { throw new Error("Not implemented."); }
         InternalAddOrReplace(entry: TEntry): any { throw new Error("Not implemented."); }
         InternalRemove(key: TKey): any { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
-        WriteUriToJson(key: TKey): JsonObject { throw new Error("Not implemented."); }
-        WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): any { throw new Error("Not implemented."); }
+        //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+        //LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
+        //WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        //WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
+        //WriteUriToJson(key: TKey): JsonObject { throw new Error("Not implemented."); }
+        //WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): any { throw new Error("Not implemented."); }
     }
     export class EmailAddress extends ComplexProperty {
         static SmtpRoutingType: string = "SMTP";
@@ -514,20 +514,21 @@
         private deleteItems: PermissionScope;
         private readItems: FolderPermissionReadAccess;
         private permissionLevel: FolderPermissionLevel;
-        private static defaultPermissions: LazyMember<T>;
-        private static levelVariants: LazyMember<T>;
+        //private static defaultPermissions: LazyMember<T>;
+        //private static levelVariants: LazyMember<T>;
         AdjustPermissionLevel(): any { throw new Error("Not implemented."); }
         AssignIndividualPermissions(permission: FolderPermission): any { throw new Error("Not implemented."); }
         Clone(): FolderPermission { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
         IsEqualTo(permission: FolderPermission): boolean { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromXml(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
+        LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
         PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        Validate(isCalendarFolder: boolean, permissionIndex: number): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
+        //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("Not implemented."); }
+        Validate(): void { throw new Error("Not implemented."); }
+        //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
+        //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
     }
     export class GroupMember extends ComplexProperty {
         Key: string;
@@ -568,34 +569,34 @@
     export class ItemCollection<TItem> extends ComplexProperty {
         Count: number;
         Item: TItem;
-        private items: System.Collections.Generic.List<T>;
+        private items: any[];// System.Collections.Generic.List<T>;
         GetEnumerator(): any { throw new Error("Not implemented."); }
         LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
     }
     export class LegacyAvailabilityTimeZone extends ComplexProperty {
-        private bias: System.TimeSpan;
+        private bias: any /*System.TimeSpan*/;
         private standardTime: LegacyAvailabilityTimeZoneTime;
         private daylightTime: LegacyAvailabilityTimeZoneTime;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ToTimeZoneInfo(): System.TimeZoneInfo { throw new Error("Not implemented."); }
+        ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
         HasTransitionTime: boolean;
-        Delta: System.TimeSpan;
-        TimeOfDay: System.TimeSpan;
+        Delta: any /*System.TimeSpan*/;
+        TimeOfDay: any /*System.TimeSpan*/;
         DayOrder: number;
         Month: number;
         DayOfTheWeek: DayOfTheWeek;
         Year: number;
-        private delta: System.TimeSpan;
+        private delta: any /*System.TimeSpan*/;
         private year: number;
         private month: number;
         private dayOrder: number;
         private dayOfTheWeek: DayOfTheWeek;
-        private timeOfDay: System.TimeSpan;
+        private timeOfDay: any /*System.TimeSpan*/;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         ToTransitionTime(): any { throw new Error("Not implemented."); }
@@ -703,17 +704,17 @@
     }
     export class MeetingTimeZone extends ComplexProperty {
         Name: string;
-        BaseOffset: System.TimeSpan;
+        BaseOffset: any /*System.TimeSpan*/;
         Standard: TimeChange;
         Daylight: TimeChange;
         private name: string;
-        private baseOffset: System.TimeSpan;
+        private baseOffset: any /*System.TimeSpan*/;
         private standard: TimeChange;
         private daylight: TimeChange;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        ToTimeZoneInfo(): System.TimeZoneInfo { throw new Error("Not implemented."); }
+        ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
@@ -733,9 +734,9 @@
     }
     export class MimeContent extends ComplexProperty {
         CharacterSet: string;
-        Content: System.Byte[];
+        Content: any[];//System.Byte[];
         private characterSet: string;
-        private content: System.Byte[];
+        private content: any[];//System.Byte[];
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
@@ -902,10 +903,10 @@
     }
     export class RetentionTagBase extends ComplexProperty {
         IsExplicit: boolean;
-        RetentionId: System.Guid;
+        RetentionId: string /*System.Guid*/;
         private xmlElementName: string;
         private isExplicit: boolean;
-        private retentionId: System.Guid;
+        private retentionId: string /*System.Guid*/;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
@@ -951,7 +952,7 @@
         MoveToFolder: FolderId;
         PermanentDelete: boolean;
         RedirectToRecipients: EmailAddressCollection;
-        SendSMSAlertToRecipients: System.Collections.ObjectModel.Collection<MobilePhone>;
+        SendSMSAlertToRecipients: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/;
         ServerReplyWithMessage: ItemId;
         StopProcessingRules: boolean;
         private assignCategories: StringList;
@@ -964,11 +965,11 @@
         private moveToFolder: FolderId;
         private permanentDelete: boolean;
         private redirectToRecipients: EmailAddressCollection;
-        private sendSMSAlertToRecipients: System.Collections.ObjectModel.Collection<MobilePhone>;
+        private sendSMSAlertToRecipients: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/;
         private serverReplyWithMessage: ItemId;
         private stopProcessingRules: boolean;
-        ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection(emailCollection: EmailAddressCollection): System.Collections.ObjectModel.Collection<MobilePhone> { throw new Error("Not implemented."); }
-        ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection(recipientCollection: System.Collections.ObjectModel.Collection<MobilePhone>): EmailAddressCollection { throw new Error("Not implemented."); }
+        ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection(emailCollection: EmailAddressCollection): MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/ { throw new Error("Not implemented."); }
+        ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection(recipientCollection: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/): EmailAddressCollection { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         InternalValidate(): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
@@ -980,7 +981,7 @@
         Count: number;
         Item: Rule;
         private outlookRuleBlobExists: boolean;
-        private rules: System.Collections.Generic.List<T>;
+        private rules: any[];// System.Collections.Generic.List<T>;
         GetEnumerator(): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
@@ -1132,6 +1133,7 @@
     }
     export class ServiceId extends ComplexProperty {
         public get IsValid(): boolean { return !string.IsNullOrEmpty(this.UniqueId); }
+        IsValidProxy(): boolean { return this.IsValid; }
         UniqueId: string;
         ChangeKey: string;
         //private changeKey: string; not needed for proxy
@@ -1204,10 +1206,10 @@
     export class StringList extends ComplexProperty {
         Count: number;
         Item: string;
-        private items: System.Collections.Generic.List<string>;
+        private items: string[] /*System.Collections.Generic.List<string>*/;
         private itemXmlElementName: string;
         Add(s: string): any { throw new Error("Not implemented."); }
-        AddRange(strings: System.Collections.Generic.IEnumerable<string>): any { throw new Error("Not implemented."); }
+        AddRange(strings:string[] /*System.Collections.Generic.IEnumerable<string>*/): any { throw new Error("Not implemented."); }
         Clear(): any { throw new Error("Not implemented."); }
         Contains(s: string): boolean { throw new Error("Not implemented."); }
         Equals(obj: any): boolean { throw new Error("Not implemented."); }
@@ -1223,21 +1225,21 @@
     export class Suggestion extends ComplexProperty {
         Date: Date;
         Quality: SuggestionQuality;
-        TimeSuggestions: System.Collections.ObjectModel.Collection<TimeSuggestion>;
+        TimeSuggestions: TimeSuggestion[] /*System.Collections.ObjectModel.Collection<TimeSuggestion>*/;
         private date: Date;
         private quality: SuggestionQuality;
-        private timeSuggestions: System.Collections.ObjectModel.Collection<TimeSuggestion>;
+        private timeSuggestions: TimeSuggestion[]; /*System.Collections.ObjectModel.Collection<TimeSuggestion>;*/
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
     export class TimeChange extends ComplexProperty {
         TimeZoneName: string;
-        Offset: System.TimeSpan;
+        Offset: any /*System.TimeSpan*/;
         Time: Time;
         AbsoluteDate: Date;
         Recurrence: TimeChangeRecurrence;
         private timeZoneName: string;
-        private offset: System.TimeSpan;
+        private offset: any /*System.TimeSpan*/;
         private time: Time;
         private absoluteDate: Date;
         private recurrence: TimeChangeRecurrence;
@@ -1260,11 +1262,11 @@
         MeetingTime: Date;
         IsWorkTime: boolean;
         Quality: SuggestionQuality;
-        Conflicts: System.Collections.ObjectModel.Collection<Conflict>;
+        Conflicts: Conflict[];// System.Collections.ObjectModel.Collection<Conflict>;
         private meetingTime: Date;
         private isWorkTime: boolean;
         private quality: SuggestionQuality;
-        private conflicts: System.Collections.ObjectModel.Collection<Conflict>;
+        private conflicts: Conflict[];// System.Collections.ObjectModel.Collection<Conflict>;
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
@@ -1272,20 +1274,20 @@
         private static NoIdPrefix: string = "NoId_";
         Name: string;
         Id: string;
-        Periods: System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-        TransitionGroups: System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
+        Periods: IndexerWithStringKey<TimeZonePeriod>;// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
+        TransitionGroups: IndexerWithStringKey<TimeZoneTransitionGroup>;// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
         private name: string;
         private id: string;
-        private periods: System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-        private transitionGroups: System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
-        private transitions: System.Collections.Generic.List<TimeZoneTransition>;
+        private periods: IndexerWithStringKey<TimeZonePeriod>;// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
+        private transitionGroups: IndexerWithStringKey<TimeZoneTransitionGroup>;// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
+        private transitions: TimeZoneTransition[];//System.Collections.Generic.List<TimeZoneTransition>;
         CompareTransitions(x: TimeZoneTransition, y: TimeZoneTransition): number { throw new Error("Not implemented."); }
         CreateTransitionGroupToPeriod(timeZonePeriod: TimeZonePeriod): TimeZoneTransitionGroup { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
         ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        ToTimeZoneInfo(): System.TimeZoneInfo { throw new Error("Not implemented."); }
+        ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         Validate(): any { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
@@ -1300,10 +1302,10 @@
         static DaylightPeriodId: string = "Dlt";
         static DaylightPeriodName: string = "Daylight";
         IsStandardPeriod: boolean;
-        Bias: System.TimeSpan;
+        Bias: any /*System.TimeSpan*/;
         Name: string;
         Id: string;
-        private bias: System.TimeSpan;
+        private bias: any /*System.TimeSpan*/;
         private name: string;
         private id: string;
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
@@ -1339,15 +1341,15 @@
         private TransitionToDaylight: TimeZoneTransition;
         private TransitionToStandard: TimeZoneTransition;
         Id: string;
-        Transitions: System.Collections.Generic.List<TimeZoneTransition>;
+        Transitions: TimeZoneTransition[];//System.Collections.Generic.List<TimeZoneTransition>;
         private timeZoneDefinition: TimeZoneDefinition;
         private id: string;
-        private transitions: System.Collections.Generic.List<TimeZoneTransition>;
+        private transitions: TimeZoneTransition[];//System.Collections.Generic.List<TimeZoneTransition>;
         private transitionToStandard: TimeZoneTransition;
         private transitionToDaylight: TimeZoneTransition;
         CreateAdjustmentRule(startDate: Date, endDate: Date): any { throw new Error("Not implemented."); }
         GetCustomTimeZoneCreationParams(): TimeZoneTransitionGroup.CustomTimeZoneCreateParams { throw new Error("Not implemented."); }
-        GetDaylightDelta(): System.TimeSpan { throw new Error("Not implemented."); }
+        GetDaylightDelta(): any /*System.TimeSpan*/ { throw new Error("Not implemented."); }
         InitializeFromAdjustmentRule(adjustmentRule: any, standardPeriod: TimeZonePeriod): any { throw new Error("Not implemented."); }
         InitializeTransitions(): any { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
@@ -1379,34 +1381,34 @@
         Item: any;
         Count: number;
         IsDirty: boolean;
-        private dictionary: System.Collections.Generic.Dictionary<TKey, TValue>;
+        private dictionary: any;// System.Collections.Generic.Dictionary<TKey, TValue>;
         private isDirty: boolean;
         Add(key: any, value: any): any { throw new Error("Not implemented."); }
         Changed(): any { throw new Error("Not implemented."); }
         Clear(): any { throw new Error("Not implemented."); }
-        ConstructObject(type: UserConfigurationDictionaryObjectType, value: System.Collections.Generic.List<string>, service: ExchangeService): any { throw new Error("Not implemented."); }
+        ConstructObject(type: UserConfigurationDictionaryObjectType, value: string[] /*System.Collections.Generic.List<string>*/, service: ExchangeService): any { throw new Error("Not implemented."); }
         ContainsKey(key: any): boolean { throw new Error("Not implemented."); }
         CreateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("Not implemented."); }
-        GetDictionaryObject(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+        //GetDictionaryObject(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         GetDictionaryObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
         GetEnumerator(): any { throw new Error("Not implemented."); }
         GetJsonObject(dictionaryObject: any, service: ExchangeService): JsonObject { throw new Error("Not implemented."); }
         GetObjectType(reader: EwsServiceXmlReader): UserConfigurationDictionaryObjectType { throw new Error("Not implemented."); }
-        GetObjectType(type: string): UserConfigurationDictionaryObjectType { throw new Error("Not implemented."); }
-        GetObjectValue(valueArray: any): System.Collections.Generic.List<string> { throw new Error("Not implemented."); }
-        GetObjectValue(reader: EwsServiceXmlReader, type: UserConfigurationDictionaryObjectType): System.Collections.Generic.List<string> { throw new Error("Not implemented."); }
+        //GetObjectType(type: string): UserConfigurationDictionaryObjectType { throw new Error("Not implemented."); }
+        GetObjectValue(valueArray: any): string[] /*System.Collections.Generic.List<string>*/ { throw new Error("Not implemented."); }
+        //GetObjectValue(reader: EwsServiceXmlReader, type: UserConfigurationDictionaryObjectType): string[] /*System.Collections.Generic.List<string>*/ { throw new Error("Not implemented."); }
         GetTypeCode(service: ExchangeServiceBase, dictionaryObject: any, dictionaryObjectType: any, valueAsString: any): any { throw new Error("Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
         LoadEntry(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        LoadFromXml(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
+        LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
         Remove(key: any): boolean { throw new Error("Not implemented."); }
         TryGetValue(key: any, value: any): boolean { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         UpdateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ValidateArrayObject(dictionaryObjectAsArray: System.Array): any { throw new Error("Not implemented."); }
+        ValidateArrayObject(dictionaryObjectAsArray: Array<any> /*System.Array*/): any { throw new Error("Not implemented."); }
         ValidateEntry(key: any, value: any): any { throw new Error("Not implemented."); }
         ValidateObject(dictionaryObject: any): any { throw new Error("Not implemented."); }
-        ValidateObjectType(type: System.Type): any { throw new Error("Not implemented."); }
+        ValidateObjectType(type: any/*System.Type*/): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteEntryTypeToXml(writer: EwsServiceXmlWriter, dictionaryObjectType: UserConfigurationDictionaryObjectType): any { throw new Error("Not implemented."); }
         WriteEntryValueToXml(writer: EwsServiceXmlWriter, value: string): any { throw new Error("Not implemented."); }
@@ -1429,9 +1431,9 @@
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class VotingInformation extends ComplexProperty {
-        UserOptions: System.Collections.ObjectModel.Collection<VotingOptionData>;
+        UserOptions: VotingOptionData[];//System.Collections.ObjectModel.Collection<VotingOptionData>;
         VotingResponse: string;
-        private userOptions: System.Collections.ObjectModel.Collection<VotingOptionData>;
+        private userOptions: VotingOptionData[];//System.Collections.ObjectModel.Collection<VotingOptionData>;
         private votingResponse: string;
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
@@ -1445,24 +1447,24 @@
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
     export class WorkingHours extends ComplexProperty {
-        TimeZone: System.TimeZoneInfo;
-        DaysOfTheWeek: System.Collections.ObjectModel.Collection<DayOfTheWeek>;
-        StartTime: System.TimeSpan;
-        EndTime: System.TimeSpan;
-        private timeZone: System.TimeZoneInfo;
-        private daysOfTheWeek: System.Collections.ObjectModel.Collection<DayOfTheWeek>;
-        private startTime: System.TimeSpan;
-        private endTime: System.TimeSpan;
+        TimeZone: any;//System.TimeZoneInfo;
+        DaysOfTheWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+        StartTime: any /*System.TimeSpan*/;
+        EndTime: any /*System.TimeSpan*/;
+        private timeZone: any;//System.TimeZoneInfo;
+        private daysOfTheWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+        private startTime: any /*System.TimeSpan*/;
+        private endTime: any /*System.TimeSpan*/;
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
     export class WorkingPeriod extends ComplexProperty {
-        DaysOfWeek: System.Collections.ObjectModel.Collection<DayOfTheWeek>;
-        StartTime: System.TimeSpan;
-        EndTime: System.TimeSpan;
-        private daysOfWeek: System.Collections.ObjectModel.Collection<DayOfTheWeek>;
-        private startTime: System.TimeSpan;
-        private endTime: System.TimeSpan;
+        DaysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+        StartTime: any /*System.TimeSpan*/;
+        EndTime: any /*System.TimeSpan*/;
+        private daysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+        private startTime: any /*System.TimeSpan*/;
+        private endTime: any /*System.TimeSpan*/;
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }

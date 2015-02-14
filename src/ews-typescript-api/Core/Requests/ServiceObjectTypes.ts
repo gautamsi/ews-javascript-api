@@ -33,16 +33,16 @@
             var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;
             if (propDef != null) {
                 debugger;
-                return this.PropertyBag[propDef];
+                return this.PropertyBag._propGet[propDef.Name];
             }
             else {
                 var extendedPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;
                 if (extendedPropDef != null) {
-                    if (this.TryGetExtendedProperty(extendedPropDef, out propertyValue)) {
+                    if (this.TryGetExtendedProperty(extendedPropDef, propertyValue)) {
                         return propertyValue;
                     }
                     else {
-                        throw new ServiceObjectPropertyException(Strings.MustLoadOrAssignPropertyBeforeAccess, propertyDefinition);
+                        throw new ServiceObjectPropertyException("must load assigned property before load"/*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
                     }
                 }
                 else {
@@ -69,7 +69,7 @@
             var serviceId = null;
             debugger;
             if (idPropertyDefinition != null) {
-                this.PropertyBag.TryGetValue(idPropertyDefinition, out serviceId);
+                this.PropertyBag.TryGetValue(idPropertyDefinition, serviceId);
             }
 
             return <ServiceId> serviceId;
@@ -79,20 +79,21 @@
         GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { return false; }
         GetLoadedPropertyDefinitions(): PropertyDefinitionBase /*System.Collections.ObjectModel.Collection<PropertyDefinitionBase>*/
         {
-            var propDefs: PropertyDefinitionBase[] = [];
-            for(var propDef in this.PropertyBag.Properties.Keys)
-            {
-                propDefs.Add(propDef);
-            }
+            //var propDefs: PropertyDefinitionBase[] = [];
+            //for(var propDef in this.PropertyBag.Properties.Keys)
+            //{
+            //    propDefs.Add(propDef);
+            //}
 
-            if (this.GetExtendedProperties() != null) {
-                foreach(ExtendedProperty extProp in this.GetExtendedProperties())
-                {
-                    propDefs.Add(extProp.PropertyDefinition);
-                }
-            }
+            //if (this.GetExtendedProperties() != null) {
+            //    foreach(ExtendedProperty extProp in this.GetExtendedProperties())
+            //    {
+            //        propDefs.Add(extProp.PropertyDefinition);
+            //    }
+            //}
 
-            return propDefs;
+            //return propDefs;
+            return null;
         }
         GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must implement"); }
         GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
@@ -103,10 +104,10 @@
             if (string.IsNullOrEmpty(this.xmlElementName))
                 this.xmlElementName = this.GetXmlElementNameOverride();
 
-            EwsUtilities.Assert(
-                !string.IsNullOrEmpty(this.xmlElementName),
-                "EwsObject.GetXmlElementName",
-                string.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
+            //EwsUtilities.Assert(
+            //    !string.IsNullOrEmpty(this.xmlElementName),
+            //    "EwsObject.GetXmlElementName",
+            //    string.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
 
             return this.xmlElementName;
         }
@@ -191,7 +192,7 @@
         ItemIds: ItemIdCollection;
         GlobalItemIds: ItemIdCollection;
         LastModifiedTime: Date;
-        InstanceKey: System.Byte[];
+        InstanceKey: any[];// System.Byte[];
         Preview: string;
         IconIndex: IconIndex;
         GlobalIconIndex: IconIndex;
@@ -204,7 +205,7 @@
         DisableAlwaysCategorizeItems(processSynchronously: boolean): any { throw new Error("Not implemented."); }
         DisableAlwaysDeleteItems(processSynchronously: boolean): any { throw new Error("Not implemented."); }
         DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): any { throw new Error("Not implemented."); }
-        EnableAlwaysCategorizeItems(categories: System.Collections.Generic.IEnumerable<string>, processSynchronously: boolean): any { throw new Error("Not implemented."); }
+        EnableAlwaysCategorizeItems(categories: string[]/*System.Collections.Generic.IEnumerable<string>*/, processSynchronously: boolean): any { throw new Error("Not implemented."); }
         EnableAlwaysDeleteItems(processSynchronously: boolean): any { throw new Error("Not implemented."); }
         EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): any { throw new Error("Not implemented."); }
         FlagItems(contextFolderId: FolderId, startDate: Date, dueDate: Date): any { throw new Error("Not implemented."); }
@@ -224,9 +225,9 @@
         InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Not implemented."); }
         InternalLoad(propertySet: PropertySet): any { throw new Error("Not implemented."); }
         MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): any { throw new Error("Not implemented."); }
-        SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): any { throw new Error("Not implemented."); }
+        //SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): any { throw new Error("Not implemented."); }
         SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): any { throw new Error("Not implemented."); }
-        SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: System.Guid): any { throw new Error("Not implemented."); }
+        SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/): any { throw new Error("Not implemented."); }
     }
     export class PostReply extends ServiceObject {
         Subject: string;
@@ -238,15 +239,15 @@
         InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): PostItem { throw new Error("Not implemented."); }
         InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Not implemented."); }
         InternalLoad(propertySet: PropertySet): any { throw new Error("Not implemented."); }
-        Save(): PostItem { throw new Error("Not implemented."); }
-        Save(destinationFolderId: FolderId): PostItem { throw new Error("Not implemented."); }
+        //Save(): PostItem { throw new Error("Not implemented."); }
+        //Save(destinationFolderId: FolderId): PostItem { throw new Error("Not implemented."); }
         Save(destinationFolderName: WellKnownFolderName): PostItem { throw new Error("Not implemented."); }
     }
     export class RemoveFromCalendar extends ServiceObject {
         private referenceItem: Item;
         GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
         GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-        InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): System.Collections.Generic.List<Item> { throw new Error("Not implemented."); }
+        InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Item[]/*System.Collections.Generic.List<Item>*/ { throw new Error("Not implemented."); }
         InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Not implemented."); }
         InternalLoad(propertySet: PropertySet): any { throw new Error("Not implemented."); }
     }

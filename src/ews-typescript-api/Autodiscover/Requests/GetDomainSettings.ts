@@ -113,7 +113,7 @@
                     if (reader.Eof || !reader.HasRecursiveParentNode(parent, Data.XmlElementNames.DomainSettings))
                         break;
 
-                    if ((reader.NodeType == System.Xml.XmlNodeType.Element) && (reader.LocalName == Data.XmlElementNames.DomainSetting)) {
+                    if ((reader.NodeType == Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) && (reader.LocalName == Data.XmlElementNames.DomainSetting)) {
                         var settingClass: string = reader.ReadAttributeValue(Data.XmlNamespace.XmlSchemaInstance, Data.XmlAttributeNames.Type);
 
                         switch (settingClass) {
