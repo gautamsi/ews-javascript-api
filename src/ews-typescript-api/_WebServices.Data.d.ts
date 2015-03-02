@@ -1,59 +1,4 @@
 ﻿declare module Microsoft.Exchange.WebServices.Data {
-    class AbstractItemIdWrapper {
-        GetItem(): Item; //{ throw new Error("Not implemented.");}
-        IternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AddDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
-        MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        DelegateUsers: System.Collections.Generic.List<DelegateUser>;
-        private delegateUsers: System.Collections.Generic.List<DelegateUser>;
-        private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        CreateResponse(): DelegateManagementResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AlternateId extends AlternateIdBase {
-        UniqueId: string;
-        Mailbox: string;
-        IsArchive: boolean;
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(jsonObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        InternalValidate(): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromJson(responseObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AlternateIdBase {
-        Format: IdFormat;
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(jsonObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        InternalValidate(): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromJson(responseObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AlternatePublicFolderId extends AlternateIdBase {
-        FolderId: string;
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(jsonObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromJson(responseObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AlternatePublicFolderItemId extends AlternatePublicFolderId {
-        ItemId: string;
-        private itemId: string;
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalToJson(jsonObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromJson(responseObject: JsonObject): any; //{ throw new Error("Not implemented.");}
-        LoadAttributesFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
     class AsyncRequestResult {
         ServiceRequest: ServiceRequestBase;
         WebRequest: IEwsHttpWebRequest;
@@ -65,39 +10,6 @@
         ExtractServiceRequest(exchangeService: ExchangeService, asyncResult: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
     }
     class AttachableAttribute extends System.Attribute {
-    }
-    class AttendeeInfo {
-        SmtpAddress: string;
-        AttendeeType: MeetingAttendeeType;
-        ExcludeConflicts: boolean;
-        private smtpAddress: string;
-        private attendeeType: MeetingAttendeeType;
-        private excludeConflicts: boolean;
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class AvailabilityOptions {
-        MergedFreeBusyInterval: number;
-        RequestedFreeBusyView: FreeBusyViewType;
-        GoodSuggestionThreshold: number;
-        MaximumSuggestionsPerDay: number;
-        MaximumNonWorkHoursSuggestionsPerDay: number;
-        MeetingDuration: number;
-        MinimumSuggestionQuality: SuggestionQuality;
-        DetailedSuggestionsWindow: TimeWindow;
-        CurrentMeetingTime: Date;
-        GlobalObjectId: string;
-        private mergedFreeBusyInterval: number;
-        private requestedFreeBusyView: FreeBusyViewType;
-        private goodSuggestionThreshold: number;
-        private maximumSuggestionsPerDay: number;
-        private maximumNonWorkHoursSuggestionsPerDay: number;
-        private meetingDuration: number;
-        private minimumSuggestionQuality: SuggestionQuality;
-        private detailedSuggestionsWindow: TimeWindow;
-        private currentMeetingTime: Date;
-        private globalObjectId: string;
-        Validate(timeWindow: System.TimeSpan): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, request: GetUserAvailabilityRequest): any; //{ throw new Error("Not implemented.");}
     }
     class CalendarActionResults {
         Appointment: Appointment;
@@ -131,50 +43,10 @@
         WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
         WriteOrderByToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
-    class Change {
-        ChangeType: ChangeType;
-        ServiceObject: ServiceObject;
-        Id: ServiceId;
-        private changeType: ChangeType;
-        private serviceObject: ServiceObject;
-        private id: ServiceId;
-        CreateId(): ServiceId; //{ throw new Error("Not implemented.");}
-    }
-    class ChangeCollection<TChange> {
-        Count: number;
-        Item: TChange;
-        SyncState: string;
-        MoreChangesAvailable: boolean;
-        private changes: System.Collections.Generic.List<T>;
-        private syncState: string;
-        private moreChangesAvailable: boolean;
-        Add(change: TChange): any; //{ throw new Error("Not implemented.");}
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-    }
     class ClientCertificateCredentials extends ExchangeCredentials {
         ClientCertificates: System.Security.Cryptography.X509Certificates.X509CertificateCollection;
         private clientCertificates: System.Security.Cryptography.X509Certificates.X509CertificateCollection;
         PrepareWebRequest(request: IEwsHttpWebRequest): any; //{ throw new Error("Not implemented.");}
-    }
-    class ConversationAction {
-        Action: ConversationActionType;
-        ConversationId: ConversationId;
-        ProcessRightAway: boolean;
-        Categories: StringList;
-        EnableAlwaysDelete: boolean;
-        IsRead: boolean;
-        SuppressReadReceipts: boolean;
-        DeleteType: DeleteMode;
-        Flag: Flag;
-        ConversationLastSyncTime: Date;
-        ContextFolderId: FolderIdWrapper;
-        DestinationFolderId: FolderIdWrapper;
-        RetentionPolicyType: RetentionType;
-        RetentionPolicyTagId: System.Guid;
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
     class ConversationIndexedItemView extends PagedView {
         OrderBy: OrderByCollection;
@@ -193,50 +65,6 @@
         WriteOrderByToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
         WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
     }
-    class CopyFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class CopyItemRequest extends MoveCopyItemRequest<MoveCopyItemResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyItemResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class CreateComplexPropertyDelegate<TComplexProperty> extends System.MulticastDelegate {
-        BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): TComplexProperty; //{ throw new Error("Not implemented.");}
-        Invoke(): TComplexProperty; //{ throw new Error("Not implemented.");}
-    }
-    class CreateItemRequestBase<TServiceObject, TResponse> extends CreateRequest<TServiceObject, TResponse> {
-        EmitTimeZoneHeader: boolean;
-        MessageDisposition: MessageDisposition;
-        SendInvitationsMode: SendInvitationsMode;
-        Items: System.Collections.Generic.IEnumerable<TServiceObject>;
-        private messageDisposition: MessageDisposition;
-        private sendInvitationsMode: SendInvitationsMode;
-        AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetObjectCollectionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetParentFolderXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class CreateResponseObjectRequest extends CreateItemRequestBase<ServiceObject, CreateResponseObjectResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): CreateResponseObjectResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-    }
-    class CustomXmlSerializationDelegate extends System.MulticastDelegate {
-        BeginInvoke(writer: System.Xml.XmlWriter, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(writer: System.Xml.XmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
     class DelegateInformation {
         DelegateUserResponses: System.Collections.ObjectModel.Collection<DelegateUserResponse>;
         MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
@@ -246,16 +74,6 @@
     class DiscoverySchemaChanges {
         static SearchMailboxesExtendedData: DiscoverySchemaChanges.SchemaChange;
         static SearchMailboxesAdditionalSearchScopes: DiscoverySchemaChanges.SchemaChange;
-    }
-    class DiscoverySearchConfiguration {
-        SearchId: string;
-        SearchQuery: string;
-        SearchableMailboxes: SearchableMailbox[];
-        InPlaceHoldIdentity: string;
-        ManagedByOrganization: string;
-        Language: string;
-        LoadFromJson(jsonObject: JsonObject): DiscoverySearchConfiguration; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): DiscoverySearchConfiguration; //{ throw new Error("Not implemented.");}
     }
     class EwsEnumAttribute extends System.Attribute {
         SchemaName: string;
@@ -340,76 +158,13 @@
     }
     class ExtendedAttributes extends System.Collections.Generic.List<ExtendedAttribute> {
     }
-    class FailedSearchMailbox {
-        Mailbox: string;
-        ErrorCode: number;
-        ErrorMessage: string;
-        IsArchive: boolean;
-        LoadFailedMailboxesXml(rootXmlNamespace: XmlNamespace, reader: EwsServiceXmlReader): FailedSearchMailbox[]; //{ throw new Error("Not implemented.");}
-    }
     class FindConversationResults {
         Conversations: System.Collections.ObjectModel.Collection<Conversation>;
         HighlightTerms: System.Collections.ObjectModel.Collection<HighlightTerm>;
         TotalCount: number;
         IndexedOffset: number;
     }
-    class FindFolderRequest extends FindRequest<FindFolderResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class FindFoldersResults {
-        TotalCount: number;
-        NextPageOffset: number;
-        MoreAvailable: boolean;
-        Folders: System.Collections.ObjectModel.Collection<Folder>;
-        private totalCount: number;
-        private nextPageOffset: number;
-        private moreAvailable: boolean;
-        private folders: System.Collections.ObjectModel.Collection<Folder>;
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-    }
-    class FindItemRequest<TItem> extends FindRequest<TResponse> {
-        GroupBy: Grouping;
-        private groupBy: Grouping;
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): FindItemResponse<TItem>; //{ throw new Error("Not implemented.");}
-        GetGroupBy(): Grouping; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class FindItemsResults<TItem> {
-        TotalCount: number;
-        NextPageOffset: number;
-        MoreAvailable: boolean;
-        Items: System.Collections.ObjectModel.Collection<TItem>;
-        HighlightTerms: System.Collections.ObjectModel.Collection<HighlightTerm>;
-        private totalCount: number;
-        private nextPageOffset: number;
-        private moreAvailable: boolean;
-        private items: System.Collections.ObjectModel.Collection<TItem>;
-        private highlightTerms: System.Collections.ObjectModel.Collection<HighlightTerm>;
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-    }
-    class FolderChange extends Change {
-        Folder: Folder;
-        FolderId: FolderId;
-        CreateId(): ServiceId; //{ throw new Error("Not implemented.");}
-    }
-    class FolderEvent extends NotificationEvent {
-        FolderId: FolderId;
-        OldFolderId: FolderId;
-        UnreadCount: number;
-        private folderId: FolderId;
-        private oldFolderId: FolderId;
-        private unreadCount: number;
-        InternalLoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-    }
-    
+
     class FolderView extends PagedView {
         Traversal: FolderTraversal;
         private traversal: FolderTraversal;
@@ -419,44 +174,7 @@
         GetViewXmlElementName(): string; //{ throw new Error("Not implemented.");}
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
-    
-    class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
-        UserIds: System.Collections.Generic.List<UserId>;
-        IncludePermissions: boolean;
-        private userIds: System.Collections.Generic.List<UserId>;
-        private includePermissions: boolean;
-        CreateResponse(): GetDelegateResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class GetDelegateResponse extends DelegateManagementResponse {
-        MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        ReadElementsFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-    }
-    class GetEventsResults {
-        static XmlElementNameToEventTypeMap: System.Collections.Generic.Dictionary<string, EventType>;
-        SubscriptionId: string;
-        PreviousWatermark: string;
-        NewWatermark: string;
-        MoreEventsAvailable: boolean;
-        FolderEvents: System.Collections.Generic.IEnumerable<FolderEvent>;
-        ItemEvents: System.Collections.Generic.IEnumerable<ItemEvent>;
-        AllEvents: System.Collections.ObjectModel.Collection<NotificationEvent>;
-        private newWatermark: string;
-        private subscriptionId: string;
-        private previousWatermark: string;
-        private moreEventsAvailable: boolean;
-        private events: System.Collections.ObjectModel.Collection<NotificationEvent>;
-        private static xmlElementNameToEventTypeMap: LazyMember<T>;
-        LoadEventsFromJson(jsonEventsArray: any, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(eventsResponse: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        LoadNotificationEventFromXml(reader: EwsServiceXmlReader, eventElementName: string, eventType: EventType): any; //{ throw new Error("Not implemented.");}
-    }
+
     class GetNonIndexableItemDetailsParameters extends NonIndexableItemParameters {
         PageSize: number;
         PageItemReference: string;
@@ -464,80 +182,7 @@
     }
     class GetNonIndexableItemStatisticsParameters extends NonIndexableItemParameters {
     }
-    
-    class GetPropertyDefinitionCallback extends System.MulticastDelegate {
-        BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): PropertyDefinition; //{ throw new Error("Not implemented.");}
-        Invoke(version: ExchangeVersion): PropertyDefinition; //{ throw new Error("Not implemented.");}
-    }
-    class GetStreamingEventsRequest extends HangingServiceRequestBase {
-        HeartbeatFrequency: number;
-        private subscriptionIds: System.Collections.Generic.IEnumerable<string>;
-        private connectionTimeout: number;
-        private static heartbeatFrequency: number;
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        ParseResponse(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class GetStreamingEventsResults {
-        Notifications: System.Collections.ObjectModel.Collection<GetStreamingEventsResults.NotificationGroup>;
-        private events: System.Collections.ObjectModel.Collection<GetStreamingEventsResults.NotificationGroup>;
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        LoadNotificationEventFromXml(reader: EwsServiceXmlReader, eventElementName: string, eventType: EventType, notifications: GetStreamingEventsResults.NotificationGroup): any; //{ throw new Error("Not implemented.");}
-    }
-    class GetUserAvailabilityResults {
-        SuggestionsResponse: SuggestionsResponse;
-        AttendeesAvailability: ServiceResponseCollection<AttendeeAvailability>;
-        Suggestions: System.Collections.ObjectModel.Collection<Suggestion>;
-        private attendeesAvailability: ServiceResponseCollection<AttendeeAvailability>;
-        private suggestionsResponse: SuggestionsResponse;
-    }
-    class GroupedFindItemsResults<TItem> {
-        TotalCount: number;
-        NextPageOffset: number;
-        MoreAvailable: boolean;
-        ItemGroups: System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-        private totalCount: number;
-        private nextPageOffset: number;
-        private moreAvailable: boolean;
-        private itemGroups: System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-    }
-    class Grouping {
-        SortDirection: SortDirection;
-        GroupOn: PropertyDefinitionBase;
-        AggregateOn: PropertyDefinitionBase;
-        AggregateType: AggregateType;
-        private sortDirection: SortDirection;
-        private groupOn: PropertyDefinitionBase;
-        private aggregateOn: PropertyDefinitionBase;
-        private aggregateType: AggregateType;
-        InternalValidate(): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class HangingRequestDisconnectEventArgs extends System.EventArgs {
-        Reason: HangingRequestDisconnectReason;
-        Exception: System.Exception;
-    }
-    class HangingServiceRequestBase extends ServiceRequestBase {
-        IsConnected: boolean;
-        private responseHandler: HangingServiceRequestBase.HandleResponseObject;
-        private response: IEwsHttpWebResponse;
-        private request: IEwsHttpWebRequest;
-        heartbeatFrequencyMilliseconds: number;
-        private lockObject: any;
-        private OnDisconnect: HangingServiceRequestBase.HangingRequestDisconnectHandler;
-        static LogAllWireBytes: boolean;
-        Disconnect(): any; //{ throw new Error("Not implemented.");}
-        Disconnect(reason: HangingRequestDisconnectReason, exception: System.Exception): any; //{ throw new Error("Not implemented.");}
-        InternalExecute(): any; //{ throw new Error("Not implemented.");}
-        InternalOnConnect(): any; //{ throw new Error("Not implemented.");}
-        InternalOnDisconnect(reason: HangingRequestDisconnectReason, exception: System.Exception): any; //{ throw new Error("Not implemented.");}
-        ParseResponses(state: any): any; //{ throw new Error("Not implemented.");}
-        ReadPreamble(ewsXmlReader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-    }
+
     class HangingTraceStream extends System.IO.Stream {
         CanRead: boolean;
         CanSeek: boolean;
@@ -592,42 +237,6 @@
     interface ISelfValidate {
         Validate(): any;
     }
-    class ItemChange extends Change {
-        Item: Item;
-        IsRead: boolean;
-        ItemId: ItemId;
-        private isRead: boolean;
-        CreateId(): ServiceId; //{ throw new Error("Not implemented.");}
-    }
-    class ItemEvent extends NotificationEvent {
-        ItemId: ItemId;
-        OldItemId: ItemId;
-        private itemId: ItemId;
-        private oldItemId: ItemId;
-        InternalLoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-    }
-    class ItemGroup<TItem> {
-        GroupIndex: string;
-        Items: System.Collections.ObjectModel.Collection<TItem>;
-    }
-    class ItemIdWrapper extends AbstractItemIdWrapper {
-        private itemId: ItemId;
-        IternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class ItemIdWrapperList {
-        Count: number;
-        Item: Item;
-        private itemIds: System.Collections.Generic.List<T>;
-        Add(item: Item): any; //{ throw new Error("Not implemented.");}
-        Add(itemId: ItemId): any; //{ throw new Error("Not implemented.");}
-        AddRange(items: System.Collections.Generic.IEnumerable<Item>): any; //{ throw new Error("Not implemented.");}
-        AddRange(itemIds: System.Collections.Generic.IEnumerable<T>): any; //{ throw new Error("Not implemented.");}
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-        InternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-    }
     class ItemView extends PagedView {
         Traversal: ItemTraversal;
         OrderBy: OrderByCollection;
@@ -641,12 +250,6 @@
         InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
         WriteOrderByToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class ItemWrapper extends AbstractItemIdWrapper {
-        private item: Item;
-        GetItem(): Item; //{ throw new Error("Not implemented.");}
-        IternalToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
     interface ITraceListener {
         Trace(traceType: string, traceMessage: string): any;
@@ -750,14 +353,8 @@
         WriteValue(value: Date): any; //{ throw new Error("Not implemented.");}
         WriteValue(value: number): any; //{ throw new Error("Not implemented.");}
     }
-    class KeywordStatisticsSearchResult {
-        Keyword: string;
-        ItemHits: number;
-        Size: number;
-    }
-    
     class LocalizedString {
-        private ILocalizedString.LocalizedString: LocalizedString;
+        private /*ILocalizedString.*/LocalizedString: LocalizedString;
         IsEmpty: boolean;
         BaseId: number;
         private Id: string;
@@ -771,37 +368,6 @@
         ToString(): string; //{ throw new Error("Not implemented.");}
         ToString(formatProvider: System.IFormatProvider): string; //{ throw new Error("Not implemented.");}
         TranslateObject(badObject: any, formatProvider: System.IFormatProvider): any; //{ throw new Error("Not implemented.");}
-    }
-    class MailboxHoldResult {
-        HoldId: string;
-        Query: string;
-        Statuses: MailboxHoldStatus[];
-        LoadFromJson(jsonObject: JsonObject): MailboxHoldResult; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): MailboxHoldResult; //{ throw new Error("Not implemented.");}
-    }
-    class MailboxHoldStatus {
-        Mailbox: string;
-        Status: HoldStatus;
-        AdditionalInfo: string;
-    }
-    class MailboxQuery {
-        Query: string;
-        MailboxSearchScopes: MailboxSearchScope[];
-    }
-    class MailboxSearchScope {
-        Mailbox: string;
-        SearchScope: MailboxSearchLocation;
-        SearchScopeType: MailboxSearchScopeType;
-        ExtendedAttributes: ExtendedAttributes;
-        private searchScope: MailboxSearchLocation;
-        private scopeType: MailboxSearchScopeType;
-    }
-    class MailboxStatisticsItem {
-        MailboxId: string;
-        DisplayName: string;
-        ItemCount: number;
-        Size: number;
-        LoadFromXml(reader: EwsServiceXmlReader): MailboxStatisticsItem; //{ throw new Error("Not implemented.");}
     }
     class MapiTypeConverter {
         static MapiTypeConverterMap: System.Collections.Generic.Dictionary<MapiPropertyType, MapiTypeConverterMapEntry>;
@@ -825,105 +391,6 @@
         ConvertToValueOrDefault(stringValue: string): any; //{ throw new Error("Not implemented.");}
         ValidateValueAsArray(value: any): any; //{ throw new Error("Not implemented.");}
     }
-    class MobilePhone {
-        Name: string;
-        PhoneNumber: string;
-        private name: string;
-        private phoneNumber: string;
-    }
-    class MoveCopyFolderRequest<TResponse> extends MoveCopyRequest<TServiceObject, TResponse> {
-        FolderIds: FolderIdWrapperList;
-        private folderIds: FolderIdWrapperList;
-        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteIdsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class MoveCopyItemRequest<TResponse> extends MoveCopyRequest<TServiceObject, TResponse> {
-        ItemIds: ItemIdWrapperList;
-        ReturnNewItemIds: boolean;
-        private itemIds: ItemIdWrapperList;
-        AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetExpectedResponseMessageCount(): number; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteIdsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class MoveFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class MoveItemRequest extends MoveCopyItemRequest<MoveCopyItemResponse> {
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyItemResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseMessageXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-    }
-    class NameResolution {
-        Mailbox: EmailAddress;
-        Contact: Contact;
-        private owner: NameResolutionCollection;
-        private mailbox: EmailAddress;
-        private contact: Contact;
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-    }
-    class NameResolutionCollection {
-        Session: ExchangeService;
-        Count: number;
-        IncludesAllResolutions: boolean;
-        Item: NameResolution;
-        private service: ExchangeService;
-        private includesAllResolutions: boolean;
-        private items: System.Collections.Generic.List<T>;
-        GetEnumerator(): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-    }
-    class NonIndexableItem {
-        ItemId: ItemId;
-        ErrorCode: ItemIndexError;
-        ErrorDescription: string;
-        IsPartiallyIndexed: boolean;
-        IsPermanentFailure: boolean;
-        AttemptCount: number;
-        LastAttemptTime: Date;
-        AdditionalInfo: string;
-        SortValue: string;
-        LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItem; //{ throw new Error("Not implemented.");}
-    }
-    class NonIndexableItemDetailsResult {
-        Items: NonIndexableItem[];
-        FailedMailboxes: FailedSearchMailbox[];
-        LoadFromJson(jsonObject: JsonObject): NonIndexableItemDetailsResult; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItemDetailsResult; //{ throw new Error("Not implemented.");}
-    }
-    class NonIndexableItemParameters {
-        Mailboxes: System.String[];
-        SearchArchiveOnly: boolean;
-    }
-    class NonIndexableItemStatistic {
-        Mailbox: string;
-        ItemCount: number;
-        ErrorMessage: string;
-        LoadFromXml(reader: EwsServiceXmlReader): System.Collections.Generic.List<NonIndexableItemStatistic>; //{ throw new Error("Not implemented.");}
-    }
-    class NotificationEvent {
-        EventType: EventType;
-        TimeStamp: Date;
-        ParentFolderId: FolderId;
-        OldParentFolderId: FolderId;
-        private eventType: EventType;
-        private timestamp: Date;
-        private parentFolderId: FolderId;
-        private oldParentFolderId: FolderId;
-        InternalLoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-    }
     class NotificationEventArgs extends System.EventArgs {
         Subscription: StreamingSubscription;
         Events: System.Collections.Generic.IEnumerable<NotificationEvent>;
@@ -933,18 +400,6 @@
         private credentials: System.Net.ICredentials;
         private static validTokenPattern: any;
         PrepareWebRequest(request: IEwsHttpWebRequest): any; //{ throw new Error("Not implemented.");}
-    }
-    class OofReply {
-        Culture: string;
-        Message: string;
-        private culture: string;
-        private message: string;
-        InternalToJson(service: ExchangeService): JsonObject; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-        ToString(): string; //{ throw new Error("Not implemented.");}
-        WriteEmptyReplyToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
     }
     class OrderByCollection {
         Count: number;
@@ -981,31 +436,6 @@
         PrepareWebRequest(request: IEwsHttpWebRequest): any; //{ throw new Error("Not implemented.");}
         Sign(memoryStream: any): any; //{ throw new Error("Not implemented.");}
     }
-    class PreviewItemMailbox {
-        MailboxId: string;
-        PrimarySmtpAddress: string;
-    }
-    class PreviewItemResponseShape {
-        BaseShape: PreviewItemBaseShape;
-        AdditionalProperties: ExtendedPropertyDefinition[];
-    }
-    class PropertyBagChangedDelegate extends System.MulticastDelegate {
-        BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(): any; //{ throw new Error("Not implemented.");}
-    }
-    class PullSubscription extends SubscriptionBase {
-        MoreEventsAvailable: boolean;
-        private moreEventsAvailable: boolean;
-        BeginGetEvents(callback: System.AsyncCallback, state: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        BeginUnsubscribe(callback: System.AsyncCallback, state: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndGetEvents(asyncResult: System.IAsyncResult): GetEventsResults; //{ throw new Error("Not implemented.");}
-        EndUnsubscribe(asyncResult: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        GetEvents(): GetEventsResults; //{ throw new Error("Not implemented.");}
-        Unsubscribe(): any; //{ throw new Error("Not implemented.");}
-    }
-    class PushSubscription extends SubscriptionBase {
-    }
     class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
         DayOfTheWeek: DayOfTheWeek;
         WeekIndex: number;
@@ -1017,37 +447,9 @@
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean; //{ throw new Error("Not implemented.");}
         WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
     }
-    class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
-        UserIds: System.Collections.Generic.List<UserId>;
-        private userIds: System.Collections.Generic.List<UserId>;
-        CreateResponse(): DelegateManagementResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
     class RequiredServerVersionAttribute extends System.Attribute {
         Version: ExchangeVersion;
         private version: ExchangeVersion;
-    }
-    class ResponseHeadersCapturedHandler extends System.MulticastDelegate {
-        BeginInvoke(responseHeaders: System.Net.WebHeaderCollection, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(responseHeaders: System.Net.WebHeaderCollection): any; //{ throw new Error("Not implemented.");}
-    }
-    class RetentionPolicyTag {
-        DisplayName: string;
-        RetentionId: System.Guid;
-        RetentionPeriod: number;
-        Type: ElcFolderType;
-        RetentionAction: RetentionActionType;
-        Description: string;
-        IsVisible: boolean;
-        OptedInto: boolean;
-        IsArchive: boolean;
-        LoadFromJson(jsonObject: JsonObject): RetentionPolicyTag; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): RetentionPolicyTag; //{ throw new Error("Not implemented.");}
     }
     class SafeXmlDocument extends System.Xml.XmlDocument {
         private settings: System.Xml.XmlReaderSettings;
@@ -1085,78 +487,6 @@
         Read(reader: any, validationEventHandler: any): System.Xml.Schema.XmlSchema; //{ throw new Error("Not implemented.");}
     }
     class SchemaAttribute extends System.Attribute {
-    }
-    class SearchableMailbox {
-        Guid: System.Guid;
-        SmtpAddress: string;
-        IsExternalMailbox: boolean;
-        ExternalEmailAddress: string;
-        DisplayName: string;
-        IsMembershipGroup: boolean;
-        ReferenceId: string;
-        LoadFromJson(jsonObject: JsonObject): SearchableMailbox; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): SearchableMailbox; //{ throw new Error("Not implemented.");}
-    }
-    class SearchMailboxesParameters {
-        SearchQueries: MailboxQuery[];
-        ResultType: SearchResultType;
-        SortBy: string;
-        SortOrder: SortDirection;
-        PerformDeduplication: boolean;
-        PageSize: number;
-        PageDirection: SearchPageDirection;
-        PageItemReference: string;
-        PreviewItemResponseShape: PreviewItemResponseShape;
-        Language: string;
-    }
-    class SearchMailboxesResult {
-        SearchQueries: MailboxQuery[];
-        ResultType: SearchResultType;
-        ItemCount: number;
-        Size: number;
-        PageItemCount: number;
-        PageItemSize: number;
-        KeywordStats: KeywordStatisticsSearchResult[];
-        PreviewItems: SearchPreviewItem[];
-        FailedMailboxes: FailedSearchMailbox[];
-        Refiners: SearchRefinerItem[];
-        MailboxStats: MailboxStatisticsItem[];
-        GetRecipients(reader: EwsServiceXmlReader, elementName: string): System.String[]; //{ throw new Error("Not implemented.");}
-        LoadExtendedPropertiesXml(reader: EwsServiceXmlReader): ExtendedPropertyCollection; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonObject: JsonObject): SearchMailboxesResult; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): SearchMailboxesResult; //{ throw new Error("Not implemented.");}
-        LoadKeywordStatsXml(reader: EwsServiceXmlReader): KeywordStatisticsSearchResult[]; //{ throw new Error("Not implemented.");}
-        LoadPreviewItemsXml(reader: EwsServiceXmlReader): SearchPreviewItem[]; //{ throw new Error("Not implemented.");}
-    }
-    class SearchPreviewItem {
-        Id: ItemId;
-        Mailbox: PreviewItemMailbox;
-        ParentId: ItemId;
-        ItemClass: string;
-        UniqueHash: string;
-        SortValue: string;
-        OwaLink: string;
-        Sender: string;
-        ToRecipients: System.String[];
-        CcRecipients: System.String[];
-        BccRecipients: System.String[];
-        CreatedTime: Date;
-        ReceivedTime: Date;
-        SentTime: Date;
-        Subject: string;
-        Size: number;
-        Preview: string;
-        Importance: Importance;
-        Read: boolean;
-        HasAttachment: boolean;
-        ExtendedProperties: ExtendedPropertyCollection;
-    }
-    class SearchRefinerItem {
-        Name: string;
-        Value: string;
-        Count: number;
-        Token: string;
-        LoadFromXml(reader: EwsServiceXmlReader): SearchRefinerItem; //{ throw new Error("Not implemented.");}
     }
     class SecurityTimestamp {
         CreationTimeUtc: Date;
@@ -1206,11 +536,6 @@
         WriteOrderByToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
         WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
     }
-    class ServiceObjectChangedDelegate extends System.MulticastDelegate {
-        BeginInvoke(serviceObject: ServiceObject, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(serviceObject: ServiceObject): any; //{ throw new Error("Not implemented.");}
-    }
     class ServiceObjectDefinitionAttribute extends System.Attribute {
         XmlElementName: string;
         ReturnedByServer: boolean;
@@ -1244,88 +569,6 @@
         InternalRemoveItem(key: TKey): any; //{ throw new Error("Not implemented.");}
         TryGetValue(key: TKey, value: any): boolean; //{ throw new Error("Not implemented.");}
     }
-    class StreamingSubscription extends SubscriptionBase {
-        Service: ExchangeService;
-        UsesWatermark: boolean;
-        BeginUnsubscribe(callback: System.AsyncCallback, state: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndUnsubscribe(asyncResult: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Unsubscribe(): any; //{ throw new Error("Not implemented.");}
-    }
-    class StreamingSubscriptionConnection {
-        CurrentSubscriptions: System.Collections.Generic.IEnumerable<StreamingSubscription>;
-        IsOpen: boolean;
-        private subscriptions: System.Collections.Generic.Dictionary<TKey, TValue>;
-        private connectionTimeout: number;
-        private session: ExchangeService;
-        private isDisposed: boolean;
-        private currentHangingRequest: GetStreamingEventsRequest;
-        private lockObject: any;
-        private OnNotificationEvent: StreamingSubscriptionConnection.NotificationEventDelegate;
-        private OnSubscriptionError: StreamingSubscriptionConnection.SubscriptionErrorDelegate;
-        private OnDisconnect: StreamingSubscriptionConnection.SubscriptionErrorDelegate;
-        AddSubscription(subscription: StreamingSubscription): any; //{ throw new Error("Not implemented.");}
-        Close(): any; //{ throw new Error("Not implemented.");}
-        Dispose(): any; //{ throw new Error("Not implemented.");}
-        Dispose(suppressFinalizer: boolean): any; //{ throw new Error("Not implemented.");}
-        Finalize(): any; //{ throw new Error("Not implemented.");}
-        HandleServiceResponseObject(response: any): any; //{ throw new Error("Not implemented.");}
-        InternalOnDisconnect(ex: System.Exception): any; //{ throw new Error("Not implemented.");}
-        IssueGeneralFailure(gseResponse: GetStreamingEventsResponse): any; //{ throw new Error("Not implemented.");}
-        IssueNotificationEvents(gseResponse: GetStreamingEventsResponse): any; //{ throw new Error("Not implemented.");}
-        IssueSubscriptionFailures(gseResponse: GetStreamingEventsResponse): any; //{ throw new Error("Not implemented.");}
-        OnRequestDisconnect(sender: any, args: HangingRequestDisconnectEventArgs): any; //{ throw new Error("Not implemented.");}
-        Open(): any; //{ throw new Error("Not implemented.");}
-        RemoveSubscription(subscription: StreamingSubscription): any; //{ throw new Error("Not implemented.");}
-        ThrowIfDisposed(): any; //{ throw new Error("Not implemented.");}
-        ValidateConnectionState(isConnectedExpected: boolean, errorMessage: string): any; //{ throw new Error("Not implemented.");}
-    }
-    class SubscribeToPullNotificationsRequest extends SubscribeRequest<PullSubscription> {
-        Timeout: number;
-        private timeout: number;
-        AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<PullSubscription>; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetSubscriptionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalWriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-    }
-    class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSubscription> {
-        Frequency: number;
-        Url: System.Uri;
-        CallerData: string;
-        private frequency: number;
-        private url: System.Uri;
-        private callerData: string;
-        AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<PushSubscription>; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetSubscriptionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalWriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-    }
-    class SubscribeToStreamingNotificationsRequest extends SubscribeRequest<StreamingSubscription> {
-        AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<StreamingSubscription>; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetSubscriptionXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalWriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-    }
-    class SubscriptionBase {
-        Service: ExchangeService;
-        Id: string;
-        Watermark: string;
-        UsesWatermark: boolean;
-        private service: ExchangeService;
-        private id: string;
-        private watermark: string;
-        LoadFromJson(jsonResponse: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-    }
-    class SubscriptionErrorEventArgs extends System.EventArgs {
-        Subscription: StreamingSubscription;
-        Exception: System.Exception;
-    }
 
     class Time {
         Hours: number;
@@ -1337,100 +580,8 @@
         ConvertToMinutes(): number; //{ throw new Error("Not implemented.");}
         ToXSTime(): string; //{ throw new Error("Not implemented.");}
     }
-    class TimeWindow {
-        StartTime: Date;
-        EndTime: Date;
-        Duration: System.TimeSpan;
-        private startTime: Date;
-        private endTime: Date;
-        InternalToJson(service: ExchangeService): JsonObject; //{ throw new Error("Not implemented.");}
-        LoadFromJson(jsonObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, startTime: any, endTime: any): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-        WriteToXmlUnscopedDatesOnly(writer: EwsServiceXmlWriter, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-    }
     class TokenCredentials extends WSSecurityBasedCredentials {
         PrepareWebRequest(request: IEwsHttpWebRequest): any; //{ throw new Error("Not implemented.");}
-    }
-    class UnifiedMessaging {
-        private service: ExchangeService;
-        DisconnectPhoneCall(id: PhoneCallId): any; //{ throw new Error("Not implemented.");}
-        GetPhoneCallInformation(id: PhoneCallId): PhoneCall; //{ throw new Error("Not implemented.");}
-        PlayOnPhone(itemId: ItemId, dialString: string): PhoneCall; //{ throw new Error("Not implemented.");}
-    }
-    class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
-        MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        DelegateUsers: System.Collections.Generic.List<DelegateUser>;
-        private delegateUsers: System.Collections.Generic.List<DelegateUser>;
-        private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-        CreateResponse(): DelegateManagementResponse; //{ throw new Error("Not implemented.");}
-        GetMinimumRequiredServerVersion(): ExchangeVersion; //{ throw new Error("Not implemented.");}
-        GetResponseXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        GetXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        Validate(): any; //{ throw new Error("Not implemented.");}
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class UserConfiguration {
-        Name: string;
-        ParentFolderId: FolderId;
-        ItemId: ItemId;
-        Dictionary: UserConfigurationDictionary;
-        XmlData: System.Byte[];
-        BinaryData: System.Byte[];
-        IsDirty: boolean;
-        private service: ExchangeService;
-        private name: string;
-        private parentFolderId: FolderId;
-        private itemId: ItemId;
-        private dictionary: UserConfigurationDictionary;
-        private xmlData: System.Byte[];
-        private binaryData: System.Byte[];
-        private propertiesAvailableForAccess: UserConfigurationProperties;
-        private updatedProperties: UserConfigurationProperties;
-        private isNew: boolean;
-        Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): UserConfiguration; //{ throw new Error("Not implemented.");}
-        Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): UserConfiguration; //{ throw new Error("Not implemented.");}
-        Delete(): any; //{ throw new Error("Not implemented.");}
-        GetBase64PropertyValue(bytes: System.Byte[]): string; //{ throw new Error("Not implemented.");}
-        GetJsonUserConfigName(service: ExchangeService): JsonObject; //{ throw new Error("Not implemented.");}
-        GetJsonUserConfigName(service: ExchangeService, parentFolderId: FolderId, name: string): JsonObject; //{ throw new Error("Not implemented.");}
-        InitializeProperties(requestedProperties: UserConfigurationProperties): any; //{ throw new Error("Not implemented.");}
-        IsPropertyUpdated(property: UserConfigurationProperties): boolean; //{ throw new Error("Not implemented.");}
-        Load(properties: UserConfigurationProperties): any; //{ throw new Error("Not implemented.");}
-        LoadFromJson(responseObject: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        LoadFromXml(reader: EwsServiceXmlReader): any; //{ throw new Error("Not implemented.");}
-        MarkPropertyForUpdate(property: UserConfigurationProperties): any; //{ throw new Error("Not implemented.");}
-        ResetIsDirty(): any; //{ throw new Error("Not implemented.");}
-        Save(name: string, parentFolderName: WellKnownFolderName): any; //{ throw new Error("Not implemented.");}
-        Save(name: string, parentFolderId: FolderId): any; //{ throw new Error("Not implemented.");}
-        Update(): any; //{ throw new Error("Not implemented.");}
-        ValidatePropertyAccess(property: UserConfigurationProperties): any; //{ throw new Error("Not implemented.");}
-        WriteBinaryDataToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteByteArrayToXml(writer: EwsServiceXmlWriter, byteArray: System.Byte[], xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any; //{ throw new Error("Not implemented.");}
-        WriteUserConfigurationNameToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, name: string, parentFolderId: FolderId): any; //{ throw new Error("Not implemented.");}
-        WriteXmlDataToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-    }
-    class ViewBase {
-        PropertySet: PropertySet;
-        private propertySet: PropertySet;
-        AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        GetMaxEntriesReturned(): number; //{ throw new Error("Not implemented.");}
-        GetPropertySetOrDefault(): PropertySet; //{ throw new Error("Not implemented.");}
-        GetServiceObjectType(): ServiceObjectType; //{ throw new Error("Not implemented.");}
-        GetViewJsonTypeName(): string; //{ throw new Error("Not implemented.");}
-        GetViewXmlElementName(): string; //{ throw new Error("Not implemented.");}
-        InternalValidate(request: ServiceRequestBase): any; //{ throw new Error("Not implemented.");}
-        InternalWritePagingToJson(jsonView: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
-        InternalWriteViewToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
-        WriteOrderByToXml(writer: EwsServiceXmlWriter): any; //{ throw new Error("Not implemented.");}
-        WritePagingToJson(service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteShapeToJson(jsonRequest: JsonObject, service: ExchangeService): any; //{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any; //{ throw new Error("Not implemented.");}
     }
     class WebAsyncCallStateAnchor {
         ServiceRequest: ServiceRequestBase;
@@ -1465,7 +616,7 @@
         TraceResponse(response: any, memoryStream: any): any; //{ throw new Error("Not implemented.");}
         TraceWebException(e: any): any; //{ throw new Error("Not implemented.");}
     }
-    
+
     class WSSecurityUtilityIdSignedXml extends System.Security.Cryptography.Xml.SignedXml {
         private document: System.Xml.XmlDocument;
         private ids: System.Collections.Generic.Dictionary<TKey, TValue>;
@@ -1488,4 +639,10 @@
     }
     class XmlElementNames {
     }
+
 }
+
+//declare module "WebServices.Definitions" {
+//    var _temp = Microsoft.Exchange.WebServices.Data;
+//    export = _temp;
+//}

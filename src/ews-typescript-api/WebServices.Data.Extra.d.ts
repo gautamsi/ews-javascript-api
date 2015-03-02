@@ -1,7 +1,4 @@
-﻿declare module Microsoft.Exchange.WebServices.Data.AppointmentSchema {
-    class FieldUris {
-    }
-}
+﻿
 declare module Microsoft.Exchange.WebServices.Data.ContactGroupSchema {
     class FieldUris {
     }
@@ -36,39 +33,13 @@ declare module Microsoft.Exchange.WebServices.Data.FolderSchema {
     class FieldUris {
     }
 }
-declare module Microsoft.Exchange.WebServices.Data.GetStreamingEventsResponse {
-}
-declare module Microsoft.Exchange.WebServices.Data.GetStreamingEventsResults {
-    class NotificationGroup {
-        SubscriptionId: string;
-        Events: System.Collections.ObjectModel.Collection<Microsoft.Exchange.WebServices.Data.NotificationEvent>;
-    }
-}
-declare module Microsoft.Exchange.WebServices.Data.HangingServiceRequestBase {
-    class HandleResponseObject extends System.MulticastDelegate {
-        BeginInvoke(response: any, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(response: any): any; //{ throw new Error("Not implemented.");}
-    }
-    class HangingRequestDisconnectHandler extends System.MulticastDelegate {
-        BeginInvoke(sender: any, args: Microsoft.Exchange.WebServices.Data.HangingRequestDisconnectEventArgs, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-        EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-        Invoke(sender: any, args: Microsoft.Exchange.WebServices.Data.HangingRequestDisconnectEventArgs): any; //{ throw new Error("Not implemented.");}
-    }
-}
+
+
 declare module Microsoft.Exchange.WebServices.Data.ItemSchema {
     class FieldUris {
     }
 }
-declare module Microsoft.Exchange.WebServices.Data.MeetingMessageSchema {
-    class FieldUris {
-    }
-}
 declare module Microsoft.Exchange.WebServices.Data.MeetingRequestSchema {
-    class FieldUris {
-    }
-}
-declare module Microsoft.Exchange.WebServices.Data.MeetingResponseSchema {
     class FieldUris {
     }
 }

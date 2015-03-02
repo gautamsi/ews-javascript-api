@@ -483,3 +483,8 @@
 
     
 }
+
+//declare module "Exchange.Data" {
+//    var _temp = Microsoft.Exchange.WebServices.Data;
+//    export =_temp;
+//}

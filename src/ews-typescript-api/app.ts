@@ -34,7 +34,7 @@ class Greeter<T extends { new () }> {
 
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.UserDisplayName);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.UserDN);
-        s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.UserDeploymentId);
+        s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.EwsPartnerUrl);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.InternalMailboxServer);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.MailboxDN);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.ActiveDirectoryServer);
@@ -42,21 +42,21 @@ class Greeter<T extends { new () }> {
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.ExternalWebClientUrls);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.ExternalEwsUrl);
         s.push(Microsoft.Exchange.WebServices.Autodiscover.UserSettingName.PublicFolderServer);
-        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", s).then((sr) => {
-            this.div.innerHTML = JSON.stringify(sr);
-        }, (e: any) => {
-                this.div.innerHTML = JSON.stringify(e);
-            });
-
+        //autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "Thament@Singhs.pro"], s).then((sr) => {
+        //    this.div.innerHTML = JSON.stringify(sr);
+        //},(e: any) => {
+        //        this.div.innerHTML = JSON.stringify(e);
+        //    });
+        //return;
         var d: Microsoft.Exchange.WebServices.Autodiscover.DomainSettingName[] = [];
 
         d.push(Microsoft.Exchange.WebServices.Autodiscover.DomainSettingName.ExternalEwsUrl);
         d.push(Microsoft.Exchange.WebServices.Autodiscover.DomainSettingName.ExternalEwsVersion);
-        //autod.GetDomainSettings("singhspro.onmicrosoft.com", d).then((dr) => {
-        //    this.span.innerHTML = JSON.stringify(dr);
-        //}, (e: any) => {
-        //        this.span.innerHTML = JSON.stringify(e);
-        //    });
+        autod.GetDomainSettings("singhspro.onmicrosoft.com", d).then((dr) => {
+            this.span.innerHTML = JSON.stringify(dr);
+        },(e: any) => {
+                this.span.innerHTML = JSON.stringify(e);
+            });
 
 
         //this.span.innerHTML = "";
@@ -66,7 +66,7 @@ class Greeter<T extends { new () }> {
 
     stop() {
         clearTimeout(this.timerToken);
-        
+
     }
 
 }

@@ -1,4 +1,4 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+module Microsoft.Exchange.WebServices.Data {
 
     export interface IEwsHttpWebRequest {
         Accept: string;

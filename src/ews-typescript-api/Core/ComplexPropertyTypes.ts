@@ -119,40 +119,6 @@
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
-    export class Attachment extends ComplexProperty {
-        Id: string;
-        Name: string;
-        ContentType: string;
-        ContentId: string;
-        ContentLocation: string;
-        Size: number;
-        LastModifiedTime: Date;
-        IsInline: boolean;
-        IsNew: boolean;
-        Owner: Item;
-        Service: ExchangeService;
-        private owner: Item;
-        private id: string;
-        private name: string;
-        private contentType: string;
-        private contentId: string;
-        private contentLocation: string;
-        private size: number;
-        private lastModifiedTime: Date;
-        private isInline: boolean;
-        private service: ExchangeService;
-        GetXmlElementName(): string { throw new Error("Not implemented."); }
-        InternalLoad(bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        Load(): any { throw new Error("Not implemented."); }
-        LoadAttachmentIdFromJson(jsonObject: JsonObject): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        SetFieldValue(field: any, value: any): any { throw new Error("Not implemented."); }
-        ThrowIfThisIsNotNew(): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        //Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
     export class ByteArrayArray extends ComplexProperty {
         private static ItemXmlElementName: string = "Base64Binary";
         Content: any[];// System.Byte[][];
@@ -273,22 +239,6 @@
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    export class Conflict extends ComplexProperty {
-        ConflictType: ConflictType;
-        NumberOfMembers: number;
-        NumberOfMembersAvailable: number;
-        NumberOfMembersWithConflict: number;
-        NumberOfMembersWithNoData: number;
-        FreeBusyStatus: LegacyFreeBusyStatus;
-        private conflictType: ConflictType;
-        private numberOfMembers: number;
-        private numberOfMembersAvailable: number;
-        private numberOfMembersWithConflict: number;
-        private numberOfMembersWithNoData: number;
-        private freeBusyStatus: LegacyFreeBusyStatus;
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
     export class ContactPhoneEntity extends ComplexProperty {
         OriginalPhoneString: string;
         PhoneString: string;
@@ -302,21 +252,6 @@
         private propertySet: PropertySet;
         GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
         GetXmlElementName(): string { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class ConversationRequest extends ComplexProperty {
-        ConversationId: ConversationId;
-        SyncState: string;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("Not implemented."); }
-    }
-    export class ConversationResponse extends ComplexProperty {
-        ConversationId: ConversationId;
-        SyncState: string;
-        ConversationNodes: ConversationNodeCollection;
-        private propertySet: PropertySet;
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
@@ -337,41 +272,6 @@
         ToString(separator?: string): string { throw new Error("Not implemented."); }
         //ToString(): string { throw new Error("Not implemented."); }
         WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("Not implemented."); }
-    }
-    export class DelegatePermissions extends ComplexProperty {
-        CalendarFolderPermissionLevel: DelegateFolderPermissionLevel;
-        TasksFolderPermissionLevel: DelegateFolderPermissionLevel;
-        InboxFolderPermissionLevel: DelegateFolderPermissionLevel;
-        ContactsFolderPermissionLevel: DelegateFolderPermissionLevel;
-        NotesFolderPermissionLevel: DelegateFolderPermissionLevel;
-        JournalFolderPermissionLevel: DelegateFolderPermissionLevel;
-        private delegateFolderPermissions: any;// System.Collections.Generic.Dictionary<TKey, TValue>;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        Reset(): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        ValidateAddDelegate(): any { throw new Error("Not implemented."); }
-        ValidateUpdateDelegate(): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WritePermissionToJson(jsonProperty: JsonObject, elementName: string): any { throw new Error("Not implemented."); }
-        WritePermissionToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("Not implemented."); }
-    }
-    export class DelegateUser extends ComplexProperty {
-        UserId: UserId;
-        Permissions: DelegatePermissions;
-        ReceiveCopiesOfMeetingMessages: boolean;
-        ViewPrivateItems: boolean;
-        private userId: UserId;
-        private permissions: DelegatePermissions;
-        private receiveCopiesOfMeetingMessages: boolean;
-        private viewPrivateItems: boolean;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        ValidateAddDelegate(): any { throw new Error("Not implemented."); }
-        ValidateUpdateDelegate(): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class DeletedOccurrenceInfo extends ComplexProperty {
         OriginalStart: Date;
@@ -412,24 +312,6 @@
         //WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
         //WriteUriToJson(key: TKey): JsonObject { throw new Error("Not implemented."); }
         //WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): any { throw new Error("Not implemented."); }
-    }
-    export class EmailAddress extends ComplexProperty {
-        static SmtpRoutingType: string = "SMTP";
-        Name: string;
-        Address: string;
-        RoutingType: string;
-        MailboxType: MailboxType;
-        Id: ItemId;
-        private name: string;
-        private address: string;
-        private routingType: string;
-        private mailboxType: MailboxType;
-        private id: ItemId;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ToString(): string { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class EmailUserEntity extends ComplexProperty {
         Name: string;
@@ -476,21 +358,6 @@
     export class ExtractedEntity extends ComplexProperty {
         Position: EmailPosition;
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class Flag extends ComplexProperty {
-        FlagStatus: ItemFlagStatus;
-        StartDate: Date;
-        DueDate: Date;
-        CompleteDate: Date;
-        private flagStatus: ItemFlagStatus;
-        private startDate: Date;
-        private dueDate: Date;
-        private completeDate: Date;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        Validate(): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class FolderPermission extends ComplexProperty {
         UserId: UserId;
@@ -544,14 +411,6 @@
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class HighlightTerm extends ComplexProperty {
-        Scope: string;
-        Value: string;
-        private scope: string;
-        private value: string;
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
     export class InternetMessageHeader extends ComplexProperty {
         Name: string;
@@ -820,52 +679,6 @@
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    export class PhoneCall extends ComplexProperty {
-        private static SuccessfulResponseText: string = "OK";
-        private static SuccessfulResponseCode: number = 200;
-        State: PhoneCallState;
-        ConnectionFailureCause: ConnectionFailureCause;
-        SIPResponseText: string;
-        SIPResponseCode: number;
-        private service: ExchangeService;
-        private state: PhoneCallState;
-        private connectionFailureCause: ConnectionFailureCause;
-        private sipResponseText: string;
-        private sipResponseCode: number;
-        private id: PhoneCallId;
-        Disconnect(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        Refresh(): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class PhoneCallId extends ComplexProperty {
-        Id: string;
-        private id: string;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class OofSettings extends ComplexProperty {
-        State: OofState;
-        ExternalAudience: OofExternalAudience;
-        Duration: TimeWindow;
-        InternalReply: OofReply;
-        ExternalReply: OofReply;
-        AllowExternalOof: OofExternalAudience;
-        private state: OofState;
-        private externalAudience: OofExternalAudience;
-        private allowExternalOof: OofExternalAudience;
-        private duration: TimeWindow;
-        private internalReply: OofReply;
-        private externalReply: OofReply;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        SerializeOofReply(oofReply: OofReply, writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
     export class Recurrence extends ComplexProperty {
         XmlElementName: string;
         IsRegenerationPattern: boolean;
@@ -913,198 +726,6 @@
         ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
         ToString(): string { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class Rule extends ComplexProperty {
-        Id: string;
-        DisplayName: string;
-        Priority: number;
-        IsEnabled: boolean;
-        IsNotSupported: boolean;
-        IsInError: boolean;
-        Conditions: RulePredicates;
-        Actions: RuleActions;
-        Exceptions: RulePredicates;
-        private ruleId: string;
-        private displayName: string;
-        private priority: number;
-        private isEnabled: boolean;
-        private isNotSupported: boolean;
-        private isInError: boolean;
-        private conditions: RulePredicates;
-        private actions: RuleActions;
-        private exceptions: RulePredicates;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class RuleActions extends ComplexProperty {
-        private static MobileType: string = "MOBILE";
-        AssignCategories: StringList;
-        CopyToFolder: FolderId;
-        Delete: boolean;
-        ForwardAsAttachmentToRecipients: EmailAddressCollection;
-        ForwardToRecipients: EmailAddressCollection;
-        MarkImportance: Importance;
-        MarkAsRead: boolean;
-        MoveToFolder: FolderId;
-        PermanentDelete: boolean;
-        RedirectToRecipients: EmailAddressCollection;
-        SendSMSAlertToRecipients: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/;
-        ServerReplyWithMessage: ItemId;
-        StopProcessingRules: boolean;
-        private assignCategories: StringList;
-        private copyToFolder: FolderId;
-        private delete: boolean;
-        private forwardAsAttachmentToRecipients: EmailAddressCollection;
-        private forwardToRecipients: EmailAddressCollection;
-        private markImportance: Importance;
-        private markAsRead: boolean;
-        private moveToFolder: FolderId;
-        private permanentDelete: boolean;
-        private redirectToRecipients: EmailAddressCollection;
-        private sendSMSAlertToRecipients: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/;
-        private serverReplyWithMessage: ItemId;
-        private stopProcessingRules: boolean;
-        ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection(emailCollection: EmailAddressCollection): MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/ { throw new Error("Not implemented."); }
-        ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection(recipientCollection: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/): EmailAddressCollection { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class RuleCollection extends ComplexProperty {
-        OutlookRuleBlobExists: boolean;
-        Count: number;
-        Item: Rule;
-        private outlookRuleBlobExists: boolean;
-        private rules: any[];// System.Collections.Generic.List<T>;
-        GetEnumerator(): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class RuleError extends ComplexProperty {
-        RuleProperty: RuleProperty;
-        ErrorCode: RuleErrorCode;
-        ErrorMessage: string;
-        Value: string;
-        private ruleProperty: RuleProperty;
-        private errorCode: RuleErrorCode;
-        private errorMessage: string;
-        private value: string;
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class RuleOperation extends ComplexProperty {
-        XmlElementName: string;
-    }
-    export class RuleOperationError extends ComplexProperty {
-        Operation: RuleOperation;
-        Count: number;
-        Item: RuleError;
-        private operationIndex: number;
-        private operation: RuleOperation;
-        private ruleErrors: RuleErrorCollection;
-        GetEnumerator(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        SetOperationByIndex(operations: any): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
-    export class RulePredicateDateRange extends ComplexProperty {
-        Start: Date;
-        End: Date;
-        private start: Date;
-        private end: Date;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class RulePredicates extends ComplexProperty {
-        Categories: StringList;
-        ContainsBodyStrings: StringList;
-        ContainsHeaderStrings: StringList;
-        ContainsRecipientStrings: StringList;
-        ContainsSenderStrings: StringList;
-        ContainsSubjectOrBodyStrings: StringList;
-        ContainsSubjectStrings: StringList;
-        FlaggedForAction: FlaggedForAction;
-        FromAddresses: EmailAddressCollection;
-        HasAttachments: boolean;
-        Importance: Importance;
-        IsApprovalRequest: boolean;
-        IsAutomaticForward: boolean;
-        IsAutomaticReply: boolean;
-        IsEncrypted: boolean;
-        IsMeetingRequest: boolean;
-        IsMeetingResponse: boolean;
-        IsNonDeliveryReport: boolean;
-        IsPermissionControlled: boolean;
-        IsSigned: boolean;
-        IsVoicemail: boolean;
-        IsReadReceipt: boolean;
-        FromConnectedAccounts: StringList;
-        ItemClasses: StringList;
-        MessageClassifications: StringList;
-        NotSentToMe: boolean;
-        SentCcMe: boolean;
-        SentOnlyToMe: boolean;
-        SentToAddresses: EmailAddressCollection;
-        SentToMe: boolean;
-        SentToOrCcMe: boolean;
-        Sensitivity: Sensitivity;
-        WithinDateRange: RulePredicateDateRange;
-        WithinSizeRange: RulePredicateSizeRange;
-        private categories: StringList;
-        private containsBodyStrings: StringList;
-        private containsHeaderStrings: StringList;
-        private containsRecipientStrings: StringList;
-        private containsSenderStrings: StringList;
-        private containsSubjectOrBodyStrings: StringList;
-        private containsSubjectStrings: StringList;
-        private flaggedForAction: FlaggedForAction;
-        private fromAddresses: EmailAddressCollection;
-        private fromConnectedAccounts: StringList;
-        private hasAttachments: boolean;
-        private importance: Importance;
-        private isApprovalRequest: boolean;
-        private isAutomaticForward: boolean;
-        private isAutomaticReply: boolean;
-        private isEncrypted: boolean;
-        private isMeetingRequest: boolean;
-        private isMeetingResponse: boolean;
-        private isNonDeliveryReport: boolean;
-        private isPermissionControlled: boolean;
-        private isSigned: boolean;
-        private isVoicemail: boolean;
-        private isReadReceipt: boolean;
-        private itemClasses: StringList;
-        private messageClassifications: StringList;
-        private notSentToMe: boolean;
-        private sentCcMe: boolean;
-        private sentOnlyToMe: boolean;
-        private sentToAddresses: EmailAddressCollection;
-        private sentToMe: boolean;
-        private sentToOrCcMe: boolean;
-        private sensitivity: Sensitivity;
-        private withinDateRange: RulePredicateDateRange;
-        private withinSizeRange: RulePredicateSizeRange;
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class RulePredicateSizeRange extends ComplexProperty {
-        MinimumSize: number;
-        MaximumSize: number;
-        private minimumSize: number;
-        private maximumSize: number;
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
     export class SearchFilter extends ComplexProperty {
@@ -1203,35 +824,6 @@
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
-    export class StringList extends ComplexProperty {
-        Count: number;
-        Item: string;
-        private items: string[] /*System.Collections.Generic.List<string>*/;
-        private itemXmlElementName: string;
-        Add(s: string): any { throw new Error("Not implemented."); }
-        AddRange(strings:string[] /*System.Collections.Generic.IEnumerable<string>*/): any { throw new Error("Not implemented."); }
-        Clear(): any { throw new Error("Not implemented."); }
-        Contains(s: string): boolean { throw new Error("Not implemented."); }
-        Equals(obj: any): boolean { throw new Error("Not implemented."); }
-        GetEnumerator(): any { throw new Error("Not implemented."); }
-        GetHashCode(): number { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        Remove(s: string): boolean { throw new Error("Not implemented."); }
-        RemoveAt(index: number): any { throw new Error("Not implemented."); }
-        ToString(): string { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class Suggestion extends ComplexProperty {
-        Date: Date;
-        Quality: SuggestionQuality;
-        TimeSuggestions: TimeSuggestion[] /*System.Collections.ObjectModel.Collection<TimeSuggestion>*/;
-        private date: Date;
-        private quality: SuggestionQuality;
-        private timeSuggestions: TimeSuggestion[]; /*System.Collections.ObjectModel.Collection<TimeSuggestion>;*/
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    }
     export class TimeChange extends ComplexProperty {
         TimeZoneName: string;
         Offset: any /*System.TimeSpan*/;
@@ -1257,18 +849,6 @@
         private month: Month;
         TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class TimeSuggestion extends ComplexProperty {
-        MeetingTime: Date;
-        IsWorkTime: boolean;
-        Quality: SuggestionQuality;
-        Conflicts: Conflict[];// System.Collections.ObjectModel.Collection<Conflict>;
-        private meetingTime: Date;
-        private isWorkTime: boolean;
-        private quality: SuggestionQuality;
-        private conflicts: Conflict[];// System.Collections.ObjectModel.Collection<Conflict>;
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     }
     export class TimeZoneDefinition extends ComplexProperty {
         private static NoIdPrefix: string = "NoId_";
@@ -1376,44 +956,6 @@
         ToString(): string { throw new Error("Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class UserConfigurationDictionary extends ComplexProperty {
-        Item: any;
-        Count: number;
-        IsDirty: boolean;
-        private dictionary: any;// System.Collections.Generic.Dictionary<TKey, TValue>;
-        private isDirty: boolean;
-        Add(key: any, value: any): any { throw new Error("Not implemented."); }
-        Changed(): any { throw new Error("Not implemented."); }
-        Clear(): any { throw new Error("Not implemented."); }
-        ConstructObject(type: UserConfigurationDictionaryObjectType, value: string[] /*System.Collections.Generic.List<string>*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ContainsKey(key: any): boolean { throw new Error("Not implemented."); }
-        CreateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("Not implemented."); }
-        //GetDictionaryObject(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        GetDictionaryObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        GetEnumerator(): any { throw new Error("Not implemented."); }
-        GetJsonObject(dictionaryObject: any, service: ExchangeService): JsonObject { throw new Error("Not implemented."); }
-        GetObjectType(reader: EwsServiceXmlReader): UserConfigurationDictionaryObjectType { throw new Error("Not implemented."); }
-        //GetObjectType(type: string): UserConfigurationDictionaryObjectType { throw new Error("Not implemented."); }
-        GetObjectValue(valueArray: any): string[] /*System.Collections.Generic.List<string>*/ { throw new Error("Not implemented."); }
-        //GetObjectValue(reader: EwsServiceXmlReader, type: UserConfigurationDictionaryObjectType): string[] /*System.Collections.Generic.List<string>*/ { throw new Error("Not implemented."); }
-        GetTypeCode(service: ExchangeServiceBase, dictionaryObject: any, dictionaryObjectType: any, valueAsString: any): any { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        LoadEntry(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-        LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
-        Remove(key: any): boolean { throw new Error("Not implemented."); }
-        TryGetValue(key: any, value: any): boolean { throw new Error("Not implemented."); }
-        TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        UpdateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("Not implemented."); }
-        ValidateArrayObject(dictionaryObjectAsArray: Array<any> /*System.Array*/): any { throw new Error("Not implemented."); }
-        ValidateEntry(key: any, value: any): any { throw new Error("Not implemented."); }
-        ValidateObject(dictionaryObject: any): any { throw new Error("Not implemented."); }
-        ValidateObjectType(type: any/*System.Type*/): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        WriteEntryTypeToXml(writer: EwsServiceXmlWriter, dictionaryObjectType: UserConfigurationDictionaryObjectType): any { throw new Error("Not implemented."); }
-        WriteEntryValueToXml(writer: EwsServiceXmlWriter, value: string): any { throw new Error("Not implemented."); }
-        WriteObjectToXml(writer: EwsServiceXmlWriter, xmlElementName: string, dictionaryObject: any): any { throw new Error("Not implemented."); }
-        WriteObjectValueToXml(writer: EwsServiceXmlWriter, dictionaryObject: any): any { throw new Error("Not implemented."); }
     }
     export class UserId extends ComplexProperty {
         SID: string;

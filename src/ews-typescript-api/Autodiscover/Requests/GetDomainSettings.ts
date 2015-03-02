@@ -1,5 +1,6 @@
-﻿module Microsoft.Exchange.WebServices.Autodiscover {
-    export class GetDomainSettingsRequest extends AutodiscoverRequest {
+﻿
+module Microsoft.Exchange.WebServices.Autodiscover {
+    export class GetDomainSettingsRequest extends Autodiscover.AutodiscoverRequest {
         private static GetDomainSettingsActionUri: string = Data.EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetDomainSettings";
         Domains: string[];// System.Collections.Generic.List<string>;
         Settings: DomainSettingName[];// System.Collections.Generic.List<DomainSettingName>;
@@ -94,8 +95,8 @@
                 do {
                     reader.Read();
 
-                    if ((reader.NodeType == Node.ELEMENT_NODE) && (reader.LocalName == Data.XmlElementNames.UserSettingError)) {
-                        var error = new UserSettingError();
+                    if ((reader.NodeType == Node.ELEMENT_NODE) && (reader.LocalName == Data.XmlElementNames.DomainSettingError)) {
+                        var error = new DomainSettingError();
                         error.LoadFromXml(reader);
                         this.DomainSettingErrors.push(error);
                     }
@@ -138,7 +139,7 @@
                 var xxxx = null;
             }
         }
-        LoadFromXml(reader: Data.EwsXmlReader, parentElementName: string): void{ 
+        LoadFromXml(reader: Data.EwsXmlReader, parentElementName: string): void{
             do {
                 reader.Read();
 
@@ -179,7 +180,7 @@
                             break;
                         case Data.XmlElementNames.Value:
                             value = reader.ReadElementValue();
-                            break;                        
+                            break;
                     }
                 }
             }
@@ -196,6 +197,75 @@
                     "GetUserSettingsResponse.ReadSettingFromXml",
                     "Unexpected or empty name element in user setting");
         }
+
+        LoadDomainSettingErrorsFromObject(obj: any): void {
+            var errors = undefined;
+
+            if (typeof (obj[Data.XmlElementNames.DomainSettingError]) === 'undefined') return;
+
+            if (Object.prototype.toString.call(obj[Data.XmlElementNames.DomainSettingError]) === "[object Array]")
+                errors = obj[Data.XmlElementNames.DomainSettingError];
+            else
+                errors = [obj[Data.XmlElementNames.DomainSettingError]];
+
+            for (var i = 0; i < errors.length; i++) {
+                var error = new DomainSettingError();
+                error.LoadFromObject(errors[0]);
+                this.DomainSettingErrors.push(error);
+            }
+
+        }
+        LoadDomainSettingsFromObject(obj: any): void {
+            var settings = undefined;
+
+            if (typeof (obj[Data.XmlElementNames.DomainSetting]) === 'undefined') return;
+
+            if (Object.prototype.toString.call(obj[Data.XmlElementNames.DomainSetting]) === "[object Array]")
+                settings = obj[Data.XmlElementNames.DomainSetting];
+            else
+                settings = [obj[Data.XmlElementNames.DomainSetting]];
+
+            for (var i = 0; i < settings.length; i++) {
+                var setting = settings[i];
+                var settingClass = setting["type"];
+                switch (settingClass) {
+                    case Data.XmlElementNames.DomainStringSetting:
+                        this.ReadSettingFromObject(setting);
+                        break;
+
+                    default:
+                        console.assert(false,
+                            "GetDomainSettingsResponse.LoadDomainSettingsFromObject",
+                            string.Format("Invalid setting class '{0}' returned", settingClass));
+                        //EwsUtilities.Assert(
+                        //    false,
+                        //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
+                        //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                        break;
+                }
+            }
+        }
+        LoadFromObject(obj: any, parentElementName: string): void {
+            super.LoadFromObject(obj, parentElementName);
+            var settingscol = obj[Data.XmlElementNames.DomainSettings];
+            this.LoadDomainSettingsFromObject(settingscol);
+            this.RedirectTarget = obj[Data.XmlElementNames.RedirectTarget];
+            this.LoadDomainSettingErrorsFromObject(obj[Data.XmlElementNames.DomainSettingErrors]);
+        }
+        ReadSettingFromObject(obj: any): void {
+            var name: string = obj[Data.XmlElementNames.Name];
+            var value: any = obj[Data.XmlElementNames.Value];
+
+            // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
+            var domainSettingName: DomainSettingName = DomainSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
+            if (domainSettingName !== undefined)
+                this.Settings[domainSettingName] = value;
+            else
+                console.assert(false,
+                    "GetUserSettingsResponse.ReadSettingFromObject",
+                    "Unexpected or empty name element in user setting");
+        }
+
     }
     export class GetDomainSettingsResponseCollection extends AutodiscoverResponseCollection<GetDomainSettingsResponse> {
         CreateResponseInstance(): GetDomainSettingsResponse { return new GetDomainSettingsResponse();}
@@ -209,7 +279,13 @@
         //private errorCode: AutodiscoverErrorCode;
         //private errorMessage: string;
         //private settingName: string;
-        LoadFromXml(reader: Microsoft.Exchange.WebServices.Data.EwsXmlReader): void{ 
+        LoadFromObject(obj: any): void {
+            var errorstring: string = obj[Data.XmlElementNames.ErrorCode];
+            this.ErrorCode = AutodiscoverErrorCode[errorstring];
+            this.ErrorMessage = obj[Data.XmlElementNames.ErrorMessage];
+            this.SettingName = obj[Data.XmlElementNames.SettingName];
+        }
+        LoadFromXml(reader: Microsoft.Exchange.WebServices.Data.EwsXmlReader): void{
             var parent = reader.CurrentNode;
             do {
                 reader.Read();
@@ -232,6 +308,7 @@
             while (reader.HasRecursiveParentNode(parent, parent.localName));
             reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
         }
+
     }
 
 

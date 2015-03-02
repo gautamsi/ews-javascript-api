@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "none",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "noLib": false
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!node_modules/**/*.ts"
+    ],
+    "files": [
+        "./globals.ts",
+        "./linter.ts",
+        "./main/atom/atomUtils.ts",
+        "./main/atom/autoCompleteProvider.ts",
+        "./worker/messages.ts",
+        "./worker/parent.ts"
+    ]
+}

@@ -1,4 +1,9 @@
 ﻿module Microsoft.Exchange.WebServices.Data {
+
+    export class ItemId extends ServiceId {
+        GetXmlElementName(): string { throw new Error("Not implemented."); }
+    }
+
     export class Item extends ServiceObject {
         ParentAttachment: ItemAttachment;
         RootItemId: ItemId;
@@ -204,6 +209,7 @@
         Validate(): any { throw new Error("Not implemented."); }
     }
     export class Contact extends Item {
+        private static ContactPictureName: string = "ContactPicture.jpg";
         FileAs: string;
         FileAsMapping: FileAsMapping;
         DisplayName: string;
@@ -453,5 +459,6 @@
         GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
         GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
     }
+
 
 }

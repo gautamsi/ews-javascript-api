@@ -1,6 +1,13 @@
-﻿/* 
-* @author electricessence / https://github.com/electricessence/ 
-* Liscensing: MIT https://github.com/electricessence/TypeScript.NET/blob/master/LICENSE 
+﻿
+
+
+
+
+
+
+/*
+* @author electricessence / https://github.com/electricessence/
+* Liscensing: MIT https://github.com/electricessence/TypeScript.NET/blob/master/LICENSE
 */
 
 module nSystem.Text {
@@ -101,7 +108,7 @@ class TypeSystem {
         if (obj == null || typeof (obj) == undefined)
             return [];//throw new Error("can not determine type");
 
-        
+
 
         return this.GetProperties(obj);
     }
@@ -140,7 +147,7 @@ class TypeSystem {
 module Parsers {
     export class xml2js {
 
-        static parseXMLNode(xmlNode: Node, parent: any = undefined, xmlnsRoot: any = undefined): any {
+        static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
             var obj = {};
             if (!xmlnsRoot) xmlnsRoot = obj;
             if (typeof (xmlNode) === 'undefined') return obj;
@@ -152,7 +159,7 @@ module Parsers {
                         var attr: Attr = xmlNode.attributes.item(i);
                         if (attr.prefix)
                             if (attr.prefix === 'xmlns') this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
-                            else if(this.containsXMLNS(xmlnsRoot,attr.prefix))
+                            else if (this.containsXMLNS(xmlnsRoot, attr.prefix))
                                 obj[attr.localName] = attr.value;
                             else
                                 obj[attr.name] = attr.value;
@@ -161,9 +168,11 @@ module Parsers {
                         else
                             obj[attr.localName] = attr.value;
                     }
-                    if (xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
+                    if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
                         return xmlNode.firstChild.nodeValue;
-                        //obj["__text"] = xmlNode.firstChild.nodeValue;
+                    if (soapMode && obj["nil"] && obj["nil"] === 'true')
+                        return null;
+
                     break;
                 case Node.ATTRIBUTE_NODE:
 
@@ -175,22 +184,28 @@ module Parsers {
                     return obj;
             }
 
-            if (xmlNode.childNodes.length >0) {
-                if (xmlNode.firstChild.nodeType !== Node.TEXT_NODE) {
+
+            if (xmlNode.childNodes.length > 0) {
+                var skip = false;
+                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
+                    skip = true;
+
+                if (!skip) {
                     for (var i = 0; i < xmlNode.childNodes.length; i++) {
                         var node: Node = xmlNode.childNodes.item(i);
-                        var nodeObj = this.parseXMLNode(node, undefined,xmlnsRoot);
-                        if (obj[node.localName])
-                            if (Object.prototype.toString.call(obj[node.localName]) === "[object Array]")
-                                obj[node.localName].push(nodeObj);
+                        var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
+                        var localName = node.localName || "__text";
+                        if (obj[localName])
+                            if (Object.prototype.toString.call(obj[localName]) === "[object Array]")
+                                obj[localName].push(nodeObj);
                             else {
-                                var old = obj[node.localName];
-                                obj[node.localName] = [];
-                                obj[node.localName].push(old);
-                                obj[node.localName].push(nodeObj);
+                                var old = obj[localName];
+                                obj[localName] = [];
+                                obj[localName].push(old);
+                                obj[localName].push(nodeObj);
                             }
                         else
-                            obj[node.localName] = nodeObj;
+                            obj[localName] = nodeObj;
                     }
                 }
             }
@@ -218,6 +233,3 @@ interface IOutParam<T> {
 interface IRefParam<T> {
     value?: T;
 }
-
-
-

@@ -1,15 +1,17 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+//import enums = require("../Enums");
+﻿
+module Microsoft.Exchange.WebServices.Data {
     export class ServiceResponseException extends ServiceRemoteException {
         private static ExceptionClassKey: string = "ExceptionClass";
         private static ExceptionMessageKey: string = "ExceptionMessage";
         private static StackTraceKey: string = "StackTrace";
 
-        get Response(): ServiceResponse { return this.response; }
-        get ErrorCode(): ServiceError { return this.response ? this.response.ErrorCode : null; }
+        get Response(): ServiceResponse  { return this.response; }
+        get ErrorCode(): /*enums.Data.*/ServiceError { return this.response ? this.response.ErrorCode : null; }
         get Message(): string {
             // Special case for Internal Server Error. If the server returned
             // stack trace information, include it in the exception message.
-            if (this.Response.ErrorCode == ServiceError.ErrorInternalServerError) {
+            if (this.Response.ErrorCode == /*enums.Data.*/ServiceError.ErrorInternalServerError) {
                 var exceptionClass = this.Response.ErrorDetails[ServiceResponseException.ExceptionClassKey];
                 var exceptionMessage = this.Response.ErrorDetails[ServiceResponseException.ExceptionMessageKey];
                 var stackTrace = this.Response.ErrorDetails[ServiceResponseException.StackTraceKey];
@@ -39,7 +41,7 @@
         }
 
         //constructor(message?: string, innerException?: any) {
-        //    //todo: implement base export class 
+        //    //todo: implement base export class
         //    super();
 
         //}
@@ -53,7 +55,7 @@
     }
     export class ServiceXmlSerializationException extends ServiceLocalException {
         constructor(message?: string, innerException?: any) {
-            //todo: implement base export class 
+            //todo: implement base export class
             super(message, innerException);
 
         }
@@ -78,7 +80,7 @@
             //this.message = message;
         }
     }
-    export class Exception {// implements Error { 
+    export class Exception {// implements Error {
         //private name: string;
         //private message: string;
         Message: string;

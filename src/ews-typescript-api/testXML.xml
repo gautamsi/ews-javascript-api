@@ -145,6 +145,140 @@
     </s:Body>
   </s:Envelope>
 
+  <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://www.w3.org/2005/08/addressing">
+    <s:Header>
+      <a:Action s:mustUnderstand="1">http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettingsResponse</a:Action>
+      <h:ServerVersionInfo xmlns:h="http://schemas.microsoft.com/exchange/2010/Autodiscover" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <h:MajorVersion>15</h:MajorVersion>
+        <h:MinorVersion>1</h:MinorVersion>
+        <h:MajorBuildNumber>87</h:MajorBuildNumber>
+        <h:MinorBuildNumber>13</h:MinorBuildNumber>
+        <h:Version>Exchange2015</h:Version>
+      </h:ServerVersionInfo>
+    </s:Header>
+    <s:Body>
+      <GetUserSettingsResponseMessage xmlns="http://schemas.microsoft.com/exchange/2010/Autodiscover">
+        <Response xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+          <ErrorCode>NoError</ErrorCode>
+          <ErrorMessage/>
+          <UserResponses>
+            <UserResponse>
+              <ErrorCode>NoError</ErrorCode>
+              <ErrorMessage>No error.</ErrorMessage>
+              <RedirectTarget i:nil="true"/>
+              <UserSettingErrors>
+                <UserSettingError>
+                  <ErrorCode>SettingIsNotAvailable</ErrorCode>
+                  <ErrorMessage>User setting 'ActiveDirectoryServer' is not available. </ErrorMessage>
+                  <SettingName>ActiveDirectoryServer</SettingName>
+                </UserSettingError>
+                <UserSettingError>
+                  <ErrorCode>SettingIsNotAvailable</ErrorCode>
+                  <ErrorMessage>User setting 'PublicFolderServer' is not available. </ErrorMessage>
+                  <SettingName>PublicFolderServer</SettingName>
+                </UserSettingError>
+              </UserSettingErrors>
+              <UserSettings>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDisplayName</Name>
+                  <Value>gs test</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=63a7e24920da46f9974b330a05270ead-gstest</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDeploymentId</Name>
+                  <Value>6912b512-2112-48ab-ba64-191c0620d684</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>CasVersion</Name>
+                  <Value>15.01.0087.013</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>InternalMailboxServer</Name>
+                  <Value>BN3PR09MB0564.namprd09.prod.outlook.com</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>MailboxDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=5f7533c6-6588-4b05-95e0-1932a5da5b3e@singhspro.onmicrosoft.com/cn=Microsoft Private MDB</Value>
+                </UserSetting>
+                <UserSetting i:type="WebClientUrlCollectionSetting">
+                  <Name>ExternalWebClientUrls</Name>
+                  <WebClientUrls>
+                    <WebClientUrl>
+                      <AuthenticationMethods>Fba</AuthenticationMethods>
+                      <Url>https://outlook.office365.com/owa/singhspro.onmicrosoft.com/</Url>
+                    </WebClientUrl>
+                  </WebClientUrls>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>ExternalEwsUrl</Name>
+                  <Value>https://outlook.office365.com/EWS/Exchange.asmx</Value>
+                </UserSetting>
+              </UserSettings>
+            </UserResponse>
+            <UserResponse>
+              <ErrorCode>NoError</ErrorCode>
+              <ErrorMessage>No error.</ErrorMessage>
+              <RedirectTarget i:nil="true"/>
+              <UserSettingErrors>
+                <UserSettingError>
+                  <ErrorCode>SettingIsNotAvailable</ErrorCode>
+                  <ErrorMessage>User setting 'ActiveDirectoryServer' is not available. </ErrorMessage>
+                  <SettingName>ActiveDirectoryServer</SettingName>
+                </UserSettingError>
+                <UserSettingError>
+                  <ErrorCode>SettingIsNotAvailable</ErrorCode>
+                  <ErrorMessage>User setting 'PublicFolderServer' is not available. </ErrorMessage>
+                  <SettingName>PublicFolderServer</SettingName>
+                </UserSettingError>
+              </UserSettingErrors>
+              <UserSettings>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDisplayName</Name>
+                  <Value>gs test</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=63a7e24920da46f9974b330a05270ead-gstest</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDeploymentId</Name>
+                  <Value>6912b512-2112-48ab-ba64-191c0620d684</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>CasVersion</Name>
+                  <Value>15.01.0087.013</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>InternalMailboxServer</Name>
+                  <Value>BN3PR09MB0564.namprd09.prod.outlook.com</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>MailboxDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=5f7533c6-6588-4b05-95e0-1932a5da5b3e@singhspro.onmicrosoft.com/cn=Microsoft Private MDB</Value>
+                </UserSetting>
+                <UserSetting i:type="WebClientUrlCollectionSetting">
+                  <Name>ExternalWebClientUrls</Name>
+                  <WebClientUrls>
+                    <WebClientUrl>
+                      <AuthenticationMethods>Fba</AuthenticationMethods>
+                      <Url>https://outlook.office365.com/owa/singhspro.onmicrosoft.com/</Url>
+                    </WebClientUrl>
+                  </WebClientUrls>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>ExternalEwsUrl</Name>
+                  <Value>https://outlook.office365.com/EWS/Exchange.asmx</Value>
+                </UserSetting>
+              </UserSettings>
+            </UserResponse>
+          </UserResponses>
+        </Response>
+      </GetUserSettingsResponseMessage>
+    </s:Body>
+  </s:Envelope>
 
 
 
@@ -248,5 +382,26 @@
       </GetUserSettingsResponseMessage>
     </s:Body>
   </s:Envelope>
+
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://schemas.microsoft.com/exchange/2010/Autodiscover" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Header>
+      <a:RequestedServerVersion>Exchange2013</a:RequestedServerVersion>
+      <wsa:Action>http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetDomainSettings</wsa:Action>
+      <wsa:To>https://pod51045.outlook.com/autodiscover/autodiscover.svc</wsa:To>
+    </soap:Header>
+    <soap:Body>
+      <a:GetDomainSettingsRequestMessage xmlns:a="http://schemas.microsoft.com/exchange/2010/Autodiscover">
+        <a:Request>
+          <a:Domains>
+            <a:Domain>singhspro.onmicrosoft.com</a:Domain>
+          </a:Domains>
+          <a:RequestedSettings>
+            <a:Setting>ExternalEwsUrl</a:Setting>
+            <a:Setting>ExternalEwsVersion</a:Setting>
+          </a:RequestedSettings>
+        </a:Request>
+      </a:GetDomainSettingsRequestMessage>
+    </soap:Body>
+  </soap:Envelope>
 
 </request>

@@ -1809,3 +1809,5 @@ module Microsoft.Exchange.WebServices.Strings {
     }
 }
 
+//import _temp = Microsoft.Exchange.WebServices;
+//export = _temp;

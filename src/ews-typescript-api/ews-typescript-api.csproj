@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <ProjectGuid>{2ED46AD9-99FB-4711-B2E9-F5882C0A8BCF}</ProjectGuid>
+    <ProjectGuid>{96CC8472-61A3-4AD5-B44A-5AB50696A751}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <OutputPath>bin</OutputPath>
@@ -18,79 +18,14 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="app.css" />
     <Content Include="index.html" />
     <Content Include="string.js" />
-    <Content Include="testXML.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="testXML.xml" />
     <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="Autodiscover.d.ts" />
-    <TypeScriptCompile Include="Autodiscover\Autodiscover.Objects.ts" />
-    <TypeScriptCompile Include="Autodiscover\AutodiscoverService.ts" />
-    <TypeScriptCompile Include="Autodiscover\Requests\Autodiscover.ts" />
-    <TypeScriptCompile Include="Autodiscover\Requests\GetDomainSettings.ts" />
-    <TypeScriptCompile Include="Autodiscover\Requests\GetUserSettings.ts" />
-    <TypeScriptCompile Include="BaseExchangeService.ts" />
-    <TypeScriptCompile Include="Constants.ts" />
-    <TypeScriptCompile Include="Core\ComplexProperty-more_types.ts" />
-    <TypeScriptCompile Include="Core\ComplexPropertyTypes.ts" />
-    <TypeScriptCompile Include="Core\ComplexPropertyCollectionTypes.ts" />
-    <TypeScriptCompile Include="Core\LazyMemberImplementations.ts" />
-    <TypeScriptCompile Include="Core\CustomObjects.ts" />
-    <TypeScriptCompile Include="Core\Delegate_Types_Interfaces.ts" />
-    <TypeScriptCompile Include="Core\PropertyDefinitionTypes.ts" />
-    <TypeScriptCompile Include="Core\Requests\FolderRequests\FolderRequests.ts" />
-    <TypeScriptCompile Include="Core\Requests\FolderRequests\ItemRequests.ts" />
-    <TypeScriptCompile Include="Core\Responses\ServiceResponses.ts" />
-    <TypeScriptCompile Include="Core\ServiceObject.Folder-types.ts" />
-    <TypeScriptCompile Include="Core\Data.Objects.ts" />
-    <TypeScriptCompile Include="Core\EwsServiceXmlReader.ts" />
-    <TypeScriptCompile Include="Core\EwsServiceXmlWriter.ts" />
-    <TypeScriptCompile Include="Core\EwsUtilities.ts" />
-    <TypeScriptCompile Include="Core\Exceptions.ts" />
-    <TypeScriptCompile Include="Core\ExchangeService.ts" />
-    <TypeScriptCompile Include="Core\ServiceObject.Item-types.ts" />
-    <TypeScriptCompile Include="Core\ServiceObject.ResponseObject-Types.ts" />
-    <TypeScriptCompile Include="Core\ServiceObjectSchemaTypes.ts" />
-    <TypeScriptCompile Include="Core\Requests\ServiceObjectTypes.ts" />
-    <TypeScriptCompile Include="Core\Requests\ServiceRequestBase.ts" />
-    <TypeScriptCompile Include="Core\XmlElement_AttributeNames.ts" />
-    <TypeScriptCompile Include="Enums.ts" />
-    <TypeScriptCompile Include="EwsHttpWebRequestResponse.ts" />
-    <TypeScriptCompile Include="ExtensionMethods.ts" />
-    <TypeScriptCompile Include="IAutoDiscoverOperation.ts" />
-    <TypeScriptCompile Include="IEWSOperation.ts" />
-    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-1.0.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.0.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.1.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\winjs\winjs.d.ts" />
-    <TypeScriptCompile Include="System.Constants.d.ts" />
-    <TypeScriptCompile Include="System.d.ts" />
-    <TypeScriptCompile Include="System.Enums.d.ts" />
-    <TypeScriptCompile Include="_XMLWriter.ts" />
-    <TypeScriptCompile Include="_temp.ts" />
-    <TypeScriptCompile Include="WebService.Extra.ts" />
-    <TypeScriptCompile Include="WebServices.Data.Extra.d.ts" />
-    <TypeScriptCompile Include="_WebServices.Data.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
-    <None Include="SchemaXML\messages.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="SchemaXML\types.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
     <Content Include="WinJS\css\ui-dark.css" />
     <Content Include="WinJS\css\ui-dark.min.css" />
     <Content Include="WinJS\css\ui-light.css" />
@@ -103,14 +38,108 @@
     <Content Include="WinJS\js\WinJS.js" />
     <Content Include="WinJS\js\WinJS.min.js" />
     <Content Include="WinJS\License.txt" />
-    <Content Include="WinJS\README.md" />
-    <Content Include="WinJS\js\WinJS.min.js.map" />
-    <Content Include="WinJS\js\ui.min.js.map" />
-    <Content Include="WinJS\js\base.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SchemaXML\messages.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SchemaXML\types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
     <Content Include="WinJS\fonts\Symbols.ttf" />
+    <Content Include="WinJS\js\base.min.js.map" />
+    <Content Include="WinJS\js\ui.min.js.map" />
+    <Content Include="WinJS\js\WinJS.min.js.map" />
+    <Content Include="WinJS\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="Autodiscover\autod.ts" />
+    <TypeScriptCompile Include="Autodiscover\Autodiscover.Objects.ts" />
+    <TypeScriptCompile Include="Autodiscover\AutodiscoverRequest.ts" />
+    <TypeScriptCompile Include="Autodiscover\AutodiscoverService.ts" />
+    <TypeScriptCompile Include="Autodiscover\Requests\GetDomainSettings.ts" />
+    <TypeScriptCompile Include="Autodiscover\Requests\GetUserSettings.ts" />
+    <TypeScriptCompile Include="BaseExchangeService.ts" />
+    <TypeScriptCompile Include="Constants.ts" />
+    <TypeScriptCompile Include="Core\ComplexProperty-more_types.ts" />
+    <TypeScriptCompile Include="Core\ComplexPropertyCollectionTypes.ts" />
+    <TypeScriptCompile Include="Core\ComplexPropertyTypes.ts" />
+    <TypeScriptCompile Include="Core\CustomObjects.ts" />
+    <TypeScriptCompile Include="Core\Data.Objects.ts" />
+    <TypeScriptCompile Include="Core\Delegate_Types_Interfaces.ts" />
+    <TypeScriptCompile Include="Core\EwsServiceXmlReader.ts" />
+    <TypeScriptCompile Include="Core\EwsServiceXmlWriter.ts" />
+    <TypeScriptCompile Include="Core\EwsUtilities.ts" />
+    <TypeScriptCompile Include="Core\Exceptions.ts" />
+    <TypeScriptCompile Include="Core\ExchangeService.ts" />
+    <TypeScriptCompile Include="Core\LazyMemberImplementations.ts" />
+    <TypeScriptCompile Include="Core\PropertyDefinitionTypes.ts" />
+    <TypeScriptCompile Include="Core\Requests\FolderRequests\FolderRequests.ts" />
+    <TypeScriptCompile Include="Core\Requests\FolderRequests\ItemRequests.ts" />
+    <TypeScriptCompile Include="Core\Requests\ServiceObjectTypes.ts" />
+    <TypeScriptCompile Include="Core\Requests\ServiceRequestBase.ts" />
+    <TypeScriptCompile Include="Core\Responses\ServiceResponses.ts" />
+    <TypeScriptCompile Include="Core\ServiceObject.ResponseObject-Types.ts" />
+    <TypeScriptCompile Include="Core\ServiceObjectSchemaTypes.ts" />
+    <TypeScriptCompile Include="Core\XmlElement_AttributeNames.ts" />
+    <TypeScriptCompile Include="Data1.ts" />
+    <TypeScriptCompile Include="Enums.ts" />
+    <TypeScriptCompile Include="EwsHttpWebRequestResponse.ts" />
+    <TypeScriptCompile Include="ExtensionMethods.ts" />
+    <TypeScriptCompile Include="IAutoDiscoverOperation.ts" />
+    <TypeScriptCompile Include="IEWSOperation.ts" />
+    <TypeScriptCompile Include="operations\Availability\Availability.ts" />
+    <TypeScriptCompile Include="operations\BulkTransfer\BulkTransfer.ts" />
+    <TypeScriptCompile Include="operations\DelegateManagement\DelegateManagement.ts" />
+    <TypeScriptCompile Include="operations\eDiscovery\eDiscovery.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Attachment.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Conversation.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Folders.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Items.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Item\ServiceObject.Folder-types.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Item\ServiceObject.Item-types.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Reminder.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\Utilities.ts" />
+    <TypeScriptCompile Include="operations\ExchangeMailboxData\_BaseRequests.ts" />
+    <TypeScriptCompile Include="operations\InboxRules\InboxRules.ts" />
+    <TypeScriptCompile Include="operations\MailApp\MailApp.ts" />
+    <TypeScriptCompile Include="operations\MailTips\MailTips.ts" />
+    <TypeScriptCompile Include="operations\MessageTracking\MessageTracking.ts" />
+    <TypeScriptCompile Include="operations\Notification\Notification.ts" />
+    <TypeScriptCompile Include="operations\Persona\Persona.ts" />
+    <TypeScriptCompile Include="operations\RetentionPolicy\RetentionPolicy.ts" />
+    <TypeScriptCompile Include="operations\ServiceConfiguration\ServiceConfiguration.ts" />
+    <TypeScriptCompile Include="operations\Sharing\Sharing.ts" />
+    <TypeScriptCompile Include="operations\Synchronization\Synchronization.ts" />
+    <TypeScriptCompile Include="operations\TimeZone\TimeZone.ts" />
+    <TypeScriptCompile Include="operations\UnifiedContactStore\UnifiedContactStore.ts" />
+    <TypeScriptCompile Include="operations\UnifiedMessaging\UnifiedMessaging.ts" />
+    <TypeScriptCompile Include="operations\UserConfiguration\UserConfiguration.ts" />
+    <TypeScriptCompile Include="operations\_CommonObjects.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-1.0.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.0.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.1.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs.d.ts" />
+    <TypeScriptCompile Include="System.Constants.d.ts" />
+    <TypeScriptCompile Include="System.d.ts" />
+    <TypeScriptCompile Include="System.Enums.d.ts" />
+    <TypeScriptCompile Include="WebService.Extra.ts" />
+    <TypeScriptCompile Include="WebServices.Data.Extra.d.ts" />
+    <TypeScriptCompile Include="_temp.ts" />
+    <TypeScriptCompile Include="_WebServices.Data.d.ts" />
+    <TypeScriptCompile Include="_XMLWriter.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Autodiscover\Responses\" />
+    <Folder Include="operations\ExchangeMailboxData\Others\" />
+    <Folder Include="operations\ExchangeMailboxData\Utilities\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
@@ -126,7 +155,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>42987</DevelopmentServerPort>
+          <DevelopmentServerPort>54288</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:42987/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -1,8 +1,10 @@
-﻿
+//import ads = require('AutodiscoverService');
+//import AutodiscoverService =  ads.Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService;
+
 module Microsoft.Exchange.WebServices.Autodiscover {
     export class AutodiscoverRequest {
 
-        get Service(): AutodiscoverService {
+        get Service():  AutodiscoverService {
             return this.service;
         }
         get Url(): string { //System.Uri;
@@ -53,7 +55,7 @@ module Microsoft.Exchange.WebServices.Autodiscover {
         }
         CreateServiceResponse(): AutodiscoverResponse { throw new Error("Not implemented."); }
         GetRequestXmlElementName(): string { throw new Error("Not implemented."); }
-        GetResponseStream(response: Data.IEwsHttpWebResponse): any { //System.IO.Stream{ 
+        GetResponseStream(response: Data.IEwsHttpWebResponse): any { //System.IO.Stream{
             //string contentEncoding = response.ContentEncoding;
             //Stream responseStream = response.GetResponseStream();
 
@@ -93,39 +95,39 @@ module Microsoft.Exchange.WebServices.Autodiscover {
                 WinJS.xhr(xhrOptions)
                     .then((xhrResponse: XMLHttpRequest) => {
 
-                        if (xhrResponse.status == 200) {
-                            var ewsXmlReader = new Data.EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                            ewsXmlReader.Read();
-                            if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
-                                ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
-                            }
-                            else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
-                                throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
-                            }
-
-                            this.ReadSoapHeaders(ewsXmlReader);
-
-                            var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
-
-                            //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
-
-                            if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
-                                //todo: passon to successDelegate
-                                //return response;
-                            }
-                            else {
-                                throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
-                            }
-
+                    if (xhrResponse.status == 200) {
+                        var ewsXmlReader = new Data.EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
+                        ewsXmlReader.Read();
+                        if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
+                            ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
+                        }
+                        else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
+                            throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
                         }
 
-                        if (successDelegate)
-                            successDelegate(response|| xhrResponse.responseText || xhrResponse.response);
+                        this.ReadSoapHeaders(ewsXmlReader);
+
+                        var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
+
+                        //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+
+                        if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
+                            //todo: passon to successDelegate
+                            //return response;
+                        }
                         else {
-                            if (errorDelegate)
-                                errorDelegate(xhrResponse.response);
+                            throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
                         }
-                    }, (resperr: XMLHttpRequest) => {
+
+                    }
+
+                    if (successDelegate)
+                        successDelegate(response || xhrResponse.responseText || xhrResponse.response);
+                    else {
+                        if (errorDelegate)
+                            errorDelegate(xhrResponse.response);
+                    }
+                },(resperr: XMLHttpRequest) => {
                         this.ProcessWebException(resperr);
                         if (errorDelegate) errorDelegate(this.soapFaultDetails || resperr.responseText || resperr.response);
                     });
@@ -145,14 +147,23 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             response.LoadFromXml(reader, elementName);
             return response;
         }
+        LoadFromObject(obj: any): AutodiscoverResponse {
+            var elementName = this.GetResponseXmlElementName();
+            obj = obj.Body[elementName];
+            var response = this.CreateServiceResponse();
+            response.LoadFromObject(obj[Data.XmlElementNames.Response], elementName);
+            return response;
+        }
+
+
         ProcessWebException(webException: XMLHttpRequest): void {
             if (webException.response) {
                 //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
                 var soapFaultDetails: Data.SoapFaultDetails = null;
 
-                if (webException.status == System.Net.HttpStatusCode.InternalServerError) {
+                if (webException.status == 500 /*System.Net.HttpStatusCode.InternalServerError*/) {
                     // If tracing is enabled, we read the entire response into a MemoryStream so that we
-                    // can pass it along to the ITraceListener. Then we parse the response from the 
+                    // can pass it along to the ITraceListener. Then we parse the response from the
                     // MemoryStream.
                     //if (this.Service.IsTraceEnabledFor(Data.TraceFlags.AutodiscoverRequest)) {
                     //using(MemoryStream memoryStream = new MemoryStream())
@@ -188,7 +199,7 @@ module Microsoft.Exchange.WebServices.Autodiscover {
                     }
                     //todo: temporary before properly implement throwing soap fault to app code.
                     this.soapFaultDetails = soapFaultDetails;
-                    
+
                 }
                 else {
                     //todo: fix this
@@ -227,6 +238,9 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             return serverInfo;
         }
         ReadSoapBody(reader: Data.EwsXmlReader): AutodiscoverResponse {
+            //var responses = this.LoadFromObject(reader.JObject);
+            //return responses
+
             reader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPBodyElementName);
             var responses = this.LoadFromXml(reader);
             //reader.ReadEndElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPBodyElementName);
@@ -293,6 +307,9 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             }
         }
         ReadSoapHeaders(reader: Data.EwsXmlReader): void {
+
+            //this.service.ServerInfo = reader.JObject.Header.ServerVersionInfo;
+            //return;
             reader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPHeaderElementName);
             do {
                 reader.Read();
@@ -314,12 +331,12 @@ module Microsoft.Exchange.WebServices.Autodiscover {
         }
         WriteElementsToXml(writer: Data.EwsServiceXmlWriter): any { throw new Error("Not implemented. overridden"); }
         WriteExtraCustomSoapHeadersToXml(writer: Data.EwsServiceXmlWriter): void { }
-        WriteSoapRequest(requestUrl: string, //System.Uri, 
+        WriteSoapRequest(requestUrl: string, //System.Uri,
             writer: Data.EwsServiceXmlWriter): void {
 
             writer.WriteStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
-            writer.WriteAttributeValue("xmlns", Data.EwsUtilities.AutodiscoverSoapNamespacePrefix,Data.EwsUtilities.AutodiscoverSoapNamespace);
-            writer.WriteAttributeValue("xmlns", Data.EwsUtilities.WSAddressingNamespacePrefix,Data.EwsUtilities.WSAddressingNamespace);
+            writer.WriteAttributeValue("xmlns", Data.EwsUtilities.AutodiscoverSoapNamespacePrefix, Data.EwsUtilities.AutodiscoverSoapNamespace);
+            writer.WriteAttributeValue("xmlns", Data.EwsUtilities.WSAddressingNamespacePrefix, Data.EwsUtilities.WSAddressingNamespace);
             writer.WriteAttributeValue("xmlns", Data.EwsUtilities.EwsXmlSchemaInstanceNamespacePrefix, Data.EwsUtilities.EwsXmlSchemaInstanceNamespace);
             if (writer.RequireWSSecurityUtilityNamespace) {
                 writer.WriteAttributeValue("xmlns", Data.EwsUtilities.WSSecurityUtilityNamespacePrefix, Data.EwsUtilities.WSSecurityUtilityNamespace);
@@ -374,9 +391,9 @@ module Microsoft.Exchange.WebServices.Autodiscover {
         ErrorCode: AutodiscoverErrorCode;
         ErrorMessage: string;
         RedirectionUrl: string;//System.Uri;
-        private errorCode: AutodiscoverErrorCode;
-        private errorMessage: string;
-        private redirectionUrl: string;//System.Uri;
+        //private errorCode: AutodiscoverErrorCode;
+        //private errorMessage: string;
+        //private redirectionUrl: string;//System.Uri;
         LoadFromXml(reader: Data.EwsXmlReader, endElementName: string): void {
             switch (reader.LocalName) {
                 case Data.XmlElementNames.ErrorCode:
@@ -389,6 +406,15 @@ module Microsoft.Exchange.WebServices.Autodiscover {
                 default:
                     break;
             }
+        }
+        LoadFromObject(obj: any, endElementName: string): void {
+
+            var errorstring: string = obj[Data.XmlElementNames.ErrorCode];
+            this.ErrorCode = AutodiscoverErrorCode[errorstring];
+
+            var errmsg = obj[Data.XmlElementNames.ErrorMessage]
+            this.ErrorMessage = errmsg;
+
         }
     }
     export class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse {
@@ -423,6 +449,30 @@ module Microsoft.Exchange.WebServices.Autodiscover {
             while (reader.HasRecursiveParent(endElementName));
             //while (!reader.IsEndElement(Data.XmlNamespace.Autodiscover, endElementName));
         }
+
+        LoadFromObject(obj:any, endElementName: string): void {
+
+            var element = this.GetResponseCollectionXmlElementName()
+            super.LoadFromObject(obj, endElementName);
+            this.LoadResponseCollectionFromObject(obj[element]);
+        }
+
+        LoadResponseCollectionFromObject(obj: any): void {
+            var element = this.GetResponseInstanceXmlElementName()
+            var responses = undefined;
+            if (Object.prototype.toString.call(obj[element]) === "[object Array]")
+                responses = obj[element];
+            else
+                responses = [obj[element]];
+
+            for (var i = 0; i < responses.length; i++)
+            {
+                var response: TResponse = this.CreateResponseInstance();
+                response.LoadFromObject(responses[i], this.GetResponseInstanceXmlElementName());
+                this.Responses.push(response);
+            }
+        }
+
         LoadResponseCollectionFromXml(reader: Data.EwsXmlReader): void {
             if (!reader.IsEmptyElement) {
                 do {

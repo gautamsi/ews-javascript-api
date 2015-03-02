@@ -760,7 +760,7 @@
         constructor(basePropertySet: BasePropertySet = BasePropertySet.IdOnly, additionalProperties?: PropertyDefinitionBase[]) {
             this.basePropertySet = basePropertySet;
             if (additionalProperties) {
-                this.additionalProperties.push(additionalProperties); //todo: addrange for array
+                this.additionalProperties.push.apply(this.additionalProperties, additionalProperties); //todo: addrange for array - http://typescript.codeplex.com/workitem/1422
             }
         }
         
@@ -1036,6 +1036,15 @@
         //private lineNumber: number;
         //private positionWithinLine: number;
         //private errorDetails: any;//System.Collections.Generic.Dictionary<string, string>;
+        static ParseObject(obj:any): SoapFaultDetails {
+            var soapFaultDetails = new SoapFaultDetails();
+            soapFaultDetails.FaultCode = obj[XmlElementNames.SOAPFaultCodeElementName];
+            soapFaultDetails.FaultString = obj[XmlElementNames.SOAPFaultStringElementName];
+            soapFaultDetails.FaultActor = obj[XmlElementNames.SOAPFaultActorElementName];
+            soapFaultDetails.ParseDetailNode(obj[XmlElementNames.SOAPDetailElementName]);
+            return soapFaultDetails;
+        }
+
         static Parse(reader: EwsXmlReader, soapNamespace: XmlNamespace): SoapFaultDetails {
             var soapFaultDetails = new SoapFaultDetails();
 
@@ -1069,110 +1078,14 @@
             return soapFaultDetails;
         }
         //Parse(jsonObject: JsonObject): SoapFaultDetails{ throw new Error("Not implemented.");}
+        ParseDetailNodeFromObject(obj: any): void {
+
+        }
         ParseDetailNode(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
         ParseMessageXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
     }
 
 
 
-    export class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
-        get Count(): number { return this.ids.length; }
-        //Item: AbstractFolderIdWrapper;
-        private ids: AbstractFolderIdWrapper[] = [];// System.Collections.Generic.List<AbstractFolderIdWrapper>;
-        Add(folder: Folder): void;// { this.ids.push(new FolderWrapper(folder)) }
-        Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
-        Add(folderOrId: any): void {
-            if (folderOrId instanceof Folder)
-                this.ids.push(new FolderWrapper(folderOrId))
-            else if (folderOrId instanceof FolderId)
-                this.ids.push(new FolderIdWrapper(folderOrId));
-            else
-                throw new Error("should not be seeing this. inside FolderIDWrapperList.Add, trying to overload methods.");
-        }
-        AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("Not implemented."); }
-        AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("Not implemented."); }
-        AddRange(foldersOrIds: any[]): void {
-            if (foldersOrIds != null) {
-                for (var folderOrId in foldersOrIds) {
-                /*FolderId folderId*/this.Add(folderOrId);
-                }
-            }
-        }
-        //GetEnumerator(): any { throw new Error("Not implemented."); }
-        //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        Validate(version: ExchangeVersion): void {
-            for (var item in this.ids) {
-                var folderIdWrapper: AbstractFolderIdWrapper = item;
-                folderIdWrapper.Validate(version);
-            }
-        }
-        WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): void {
-            if (this.Count > 0) {
-                writer.WriteStartElement(ewsNamesapce, xmlElementName);
-
-                for (var item in this.ids) {
-                    var folderIdWrapper: AbstractFolderIdWrapper = item;
-                    folderIdWrapper.WriteToXml(writer);
-                }
-
-                writer.WriteEndElement();
-            }
-        }
-
-        _propGet(index: number): AbstractFolderIdWrapper {
-            return this.ids[index];
-        }
-    }
-
-    export class AbstractFolderIdWrapper { //IJsonSerializable
-        GetFolder(): Folder { return null; }
-        //InternalToJson(service: ExchangeService): void { throw new Error("Not implemented."); }
-        //object IJsonSerializable.ToJson(ExchangeService service)
-        //{
-        //      return this.InternalToJson(service);
-        //}
-        Validate(version: ExchangeVersion): void { /*throw new Error("Not implemented.");*/ }
-        WriteToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract; must implemented."); }
-    }
-
-    class FolderWrapper extends AbstractFolderIdWrapper {
-        private folder: Folder;
-        
-        constructor(folder: Folder) {
-            super();
-            EwsUtilities.Assert(
-                folder != null,
-                "FolderWrapper.ctor",
-                "folder is null");
-            EwsUtilities.Assert(
-                !folder.IsNew,
-                "FolderWrapper.ctor",
-                "folder does not have an Id");
-
-            this.folder = folder;
-        }
-        
-        GetFolder(): Folder { return this.folder;}
-        //InternalToJson(service: ExchangeService): void{ throw new Error("Not implemented.");}
-        WriteToXml(writer: EwsServiceXmlWriter): void { this.folder.Id.WriteToXml(writer);}
-    }
-
-    class FolderIdWrapper extends AbstractFolderIdWrapper {
-        private folderId: FolderId;
-
-        constructor(folderId: FolderId) {
-            super();
-            EwsUtilities.Assert(
-                folderId != null,
-                "FolderIdWrapper.ctor",
-                "folderId is null");
-
-            this.folderId = folderId;
-        }
-
-        //InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-        Validate(version: ExchangeVersion): void { this.folderId.Validate(version);}
-        WriteToXml(writer: EwsServiceXmlWriter): void { this.folderId.WriteToXml(writer);}
-    }
 
 }

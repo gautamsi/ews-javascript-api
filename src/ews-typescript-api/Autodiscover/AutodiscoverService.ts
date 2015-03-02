@@ -1,4 +1,6 @@
-﻿module Microsoft.Exchange.WebServices.Autodiscover {
+//import Data = require('WebServices.Definitions');
+
+module Microsoft.Exchange.WebServices.Autodiscover {
     export class AutodiscoverService extends Data.ExchangeServiceBase {
         get Domain(): string {
             return this.domain;
@@ -56,7 +58,7 @@
         DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean { throw new Error("Not implemented."); }
         DefaultGetScpUrlsForDomain(domainName: string): string[] { return null; }// System.Collections.Generic.ICollection<string>{ throw new Error("Not implemented.");}
         //DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): any{ throw new Error("Not implemented.");}
-        GetAutodiscoverEndpointUrl(host: string): string {//System.Uri{ 
+        GetAutodiscoverEndpointUrl(host: string): string {//System.Uri{
             var autodiscoverUrl: string;
 
             //if (this.TryGetAutodiscoverEndpointUrl(host, out autodiscoverUrl)) {
@@ -69,7 +71,7 @@
             return "";
         }
         GetAutodiscoverServiceHosts(domainName: string, scpHostCount: number): string[] { throw new Error("Not implemented."); }
-        GetAutodiscoverServiceUrls(domainName: string, scpHostCount: number): string[] {// System.Collections.Generic.List<T>{ 
+        GetAutodiscoverServiceUrls(domainName: string, scpHostCount: number): string[] {// System.Collections.Generic.List<T>{
             var urls: string[];
 
             if (this.enableScpLookup) {
@@ -92,7 +94,7 @@
         }
         //GetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion): GetDomainSettingsResponseCollection{ throw new Error("Not implemented.");}
         //GetDomainSettings(domains: System.Collections.Generic.IEnumerable<string>, requestedVersion: Data.ExchangeVersion, domainSettingNames: any): GetDomainSettingsResponseCollection{ throw new Error("Not implemented.");}
-        //GetDomainSettings(domain: string, requestedVersion: Data.ExchangeVersion, domainSettingNames: DomainSettingName[]): GetDomainSettingsResponse{ 
+        //GetDomainSettings(domain: string, requestedVersion: Data.ExchangeVersion, domainSettingNames: DomainSettingName[]): GetDomainSettingsResponse{
         GetDomainSettings(domain: string, domainSettingNames: DomainSettingName[]): WinJS.Promise<GetDomainSettingsResponse> {
             var request = new GetDomainSettingsRequest(this, this.url);
             request.Settings = domainSettingNames;
@@ -107,10 +109,10 @@
         //GetRedirectionUrlFromDnsSrvRecord(domainName: string): System.Uri{ throw new Error("Not implemented.");}
         //GetRedirectUrl(domainName: string): System.Uri{ throw new Error("Not implemented.");}
         //GetSettings(identities: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, getSettingsMethod: AutodiscoverService.GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>, getDomainMethod: any): any{ throw new Error("Not implemented.");}
-        GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): WinJS.Promise<GetUserSettingsResponse> {
+        GetUserSettings(userSmtpAddresses: string[], userSettingNames: UserSettingName[]): WinJS.Promise<GetUserSettingsResponse> {
             var request = new GetUserSettingsRequest(this, this.url);
             request.Settings = userSettingNames;
-            request.SmtpAddresses = [userSmtpAddress];
+            request.SmtpAddresses = userSmtpAddresses;
 
             var response = request.Execute();
             return <any>response;
@@ -171,10 +173,10 @@
 
 }
 
-module AutodiscoverService {
-    //export class GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> extends System.MulticastDelegate {
-    //    BeginInvoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(autodiscoverUrl: any, result: System.IAsyncResult): TGetSettingsResponseCollection{ throw new Error("Not implemented.");}
-    //    Invoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): TGetSettingsResponseCollection{ throw new Error("Not implemented.");}
-    //}
-}
+//module AutodiscoverService {
+//    //export class GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> extends System.MulticastDelegate {
+//    //    BeginInvoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+//    //    EndInvoke(autodiscoverUrl: any, result: System.IAsyncResult): TGetSettingsResponseCollection{ throw new Error("Not implemented.");}
+//    //    Invoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): TGetSettingsResponseCollection{ throw new Error("Not implemented.");}
+//    //}
+//}

@@ -1,4 +1,4 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+module Microsoft.Exchange.WebServices.Data {
     export module XmlAttributeNames {
         export var XmlNs: string = "xmlns";
         export var Id: string = "Id";
@@ -1339,3 +1339,7 @@
         export var EwsExceptionTypeElementName: string = "ExceptionType";
     }
 }
+
+//import _temp = Microsoft.Exchange.WebServices.Data;
+
+//export = _temp;

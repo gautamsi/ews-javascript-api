@@ -90,21 +90,6 @@
         CreateDefaultComplexProperty(): DeletedOccurrenceInfo{ throw new Error("Not implemented.");}
         GetCollectionItemXmlElementName(complexProperty: DeletedOccurrenceInfo): string{ throw new Error("Not implemented.");}
     }
-    export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
-        private collectionItemXmlElementName: string;
-        Add(emailAddress: EmailAddress): any{ throw new Error("Not implemented.");}
-        Add(smtpAddress: string): EmailAddress{ throw new Error("Not implemented.");}
-        Add(name: string, smtpAddress: string): EmailAddress{ throw new Error("Not implemented.");}
-        AddRange(emailAddresses: System.Collections.Generic.IEnumerable<T>): any{ throw new Error("Not implemented.");}
-        AddRange(smtpAddresses: System.Collections.Generic.IEnumerable<string>): any{ throw new Error("Not implemented.");}
-        Clear(): any{ throw new Error("Not implemented.");}
-        CreateComplexProperty(xmlElementName: string): EmailAddress{ throw new Error("Not implemented.");}
-        CreateDefaultComplexProperty(): EmailAddress{ throw new Error("Not implemented.");}
-        GetCollectionItemXmlElementName(emailAddress: EmailAddress): string{ throw new Error("Not implemented.");}
-        Remove(emailAddress: EmailAddress): boolean{ throw new Error("Not implemented.");}
-        RemoveAt(index: number): any{ throw new Error("Not implemented.");}
-        ShouldWriteToRequest(): boolean{ throw new Error("Not implemented.");}
-    }
     export class EmailAddressEntityCollection extends ComplexPropertyCollection<EmailAddressEntity> {
         CreateComplexProperty(xmlElementName: string): EmailAddressEntity{ throw new Error("Not implemented.");}
         CreateDefaultComplexProperty(): EmailAddressEntity{ throw new Error("Not implemented.");}
@@ -213,16 +198,6 @@
         CreateComplexProperty(xmlElementName: string): PhoneEntity{ throw new Error("Not implemented.");}
         CreateDefaultComplexProperty(): PhoneEntity{ throw new Error("Not implemented.");}
         GetCollectionItemXmlElementName(complexProperty: PhoneEntity): string{ throw new Error("Not implemented.");}
-    }
-    export class RuleErrorCollection extends ComplexPropertyCollection<RuleError> {
-        CreateComplexProperty(xmlElementName: string): RuleError{ throw new Error("Not implemented.");}
-        CreateDefaultComplexProperty(): RuleError{ throw new Error("Not implemented.");}
-        GetCollectionItemXmlElementName(ruleValidationError: RuleError): string{ throw new Error("Not implemented.");}
-    }
-    export class RuleOperationErrorCollection extends ComplexPropertyCollection<RuleOperationError> {
-        CreateComplexProperty(xmlElementName: string): RuleOperationError{ throw new Error("Not implemented.");}
-        CreateDefaultComplexProperty(): RuleOperationError{ throw new Error("Not implemented.");}
-        GetCollectionItemXmlElementName(operationError: RuleOperationError): string{ throw new Error("Not implemented.");}
     }
     export class TaskSuggestionCollection extends ComplexPropertyCollection<TaskSuggestion> {
         CreateComplexProperty(xmlElementName: string): TaskSuggestion{ throw new Error("Not implemented.");}

@@ -32,9 +32,9 @@
     }
 
     //export class InitializeLazyMember<T> extends System.MulticastDelegate {
-    //    BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): T; //{ throw new Error("Not implemented.");}
-    //    Invoke(): T; //{ throw new Error("Not implemented.");}
+    //    BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): T{ throw new Error("Not implemented.");}
+    //    Invoke(): T{ throw new Error("Not implemented.");}
     //}
 
 
@@ -193,14 +193,65 @@
         }
     }
     //class CreateServiceObjectWithAttachmentParam extends System.MulticastDelegate {
-    //    BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-    //    Invoke(itemAttachment: ItemAttachment, isNew: boolean): any; //{ throw new Error("Not implemented.");}
+    //    BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    Invoke(itemAttachment: ItemAttachment, isNew: boolean): any{ throw new Error("Not implemented.");}
     //}
     //class CreateServiceObjectWithServiceParam extends System.MulticastDelegate {
-    //    BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult; //{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any; //{ throw new Error("Not implemented.");}
-    //    Invoke(srv: ExchangeService): any; //{ throw new Error("Not implemented.");}
+    //    BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    Invoke(srv: ExchangeService): any{ throw new Error("Not implemented.");}
     //}
+
+    export interface ResponseHeadersCapturedHandler{
+        (responseHeaders: any /*System.Net.WebHeaderCollection*/):any;
+    }
+    export interface PropertyBagChangedDelegate{
+        ():any;
+    }
+    export interface GetPropertyDefinitionCallback{
+        (version: ExchangeVersion):PropertyDefinition;
+    }
+    export interface ServiceObjectChangedDelegate{
+        (serviceObject: ServiceObject): any;
+    }
+    export interface CreateComplexPropertyDelegate<TComplexProperty extends ComplexProperty>{
+        (): TComplexProperty;
+    }
+    export interface CustomXmlSerializationDelegate{
+        (writer: any /*System.Xml.XmlWriter*/): any;
+    }
+    //class ResponseHeadersCapturedHandler extends System.MulticastDelegate {
+    //    //BeginInvoke(responseHeaders: System.Net.WebHeaderCollection, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    //Invoke(responseHeaders: System.Net.WebHeaderCollection): any{ throw new Error("Not implemented.");}
+    //}
+    //class PropertyBagChangedDelegate extends System.MulticastDelegate {
+    //    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    //Invoke(): any{ throw new Error("Not implemented.");}
+    //}
+    //class GetPropertyDefinitionCallback extends System.MulticastDelegate {
+    //    //BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): PropertyDefinition{ throw new Error("Not implemented.");}
+    //    //Invoke(version: ExchangeVersion): PropertyDefinition{ throw new Error("Not implemented.");}
+    //}
+    //class ServiceObjectChangedDelegate extends System.MulticastDelegate {
+    //    //BeginInvoke(serviceObject: ServiceObject, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    //Invoke(serviceObject: ServiceObject): any{ throw new Error("Not implemented.");}
+    //}
+
+    //class CreateComplexPropertyDelegate<TComplexProperty> extends System.MulticastDelegate {
+    //    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): TComplexProperty{ throw new Error("Not implemented.");}
+    //    //Invoke(): TComplexProperty{ throw new Error("Not implemented.");}
+    //}
+    //class CustomXmlSerializationDelegate extends System.MulticastDelegate {
+    //    //BeginInvoke(writer: System.Xml.XmlWriter, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    //Invoke(writer: System.Xml.XmlWriter): any{ throw new Error("Not implemented.");}
+    //}
+
 
 }

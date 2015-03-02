@@ -1,4 +1,5 @@
-﻿module Microsoft.Exchange.WebServices.Autodiscover {
+
+module Microsoft.Exchange.WebServices.Autodiscover {
     export class GetUserSettingsRequest extends AutodiscoverRequest {
         static GetUserSettingsActionUri: string = Data.EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetUserSettings";
 
@@ -11,7 +12,7 @@
         constructor(service: AutodiscoverService, url: string) {
             super(service, url);
             this.expectPartnerToken = false;
-        }        
+        }
         CreateServiceResponse(): AutodiscoverResponse {
             return new GetUserSettingsResponseCollection();
         }
@@ -33,14 +34,14 @@
             return GetUserSettingsRequest.GetUserSettingsActionUri;// GetUserSettingsActionUri;
         }
         PostProcessResponses(responses: GetUserSettingsResponseCollection): void {
-            // Note:The response collection may not include all of the requested users if the request has been throttled.            
+            // Note:The response collection may not include all of the requested users if the request has been throttled.
             for (var index = 0; index < responses.Count; index++) {
                 responses[index].SmtpAddress = this.SmtpAddresses[index];
             }
         }
         ReadSoapHeader(reader: Data.EwsXmlReader): void {
             super.ReadSoapHeader(reader);
-
+            return;
             if (this.expectPartnerToken) {
                 if (reader.IsElement(Data.XmlNamespace.Autodiscover, Data.XmlElementNames.PartnerToken)) {
                     this.PartnerToken = reader.ReadInnerXml();
@@ -79,7 +80,7 @@
         WriteAttributesToXml(writer: Data.EwsServiceXmlWriter): void {
             writer.WriteAttributeValue(
                 "xmlns",
-                Data.EwsUtilities.AutodiscoverSoapNamespacePrefix, 
+                Data.EwsUtilities.AutodiscoverSoapNamespacePrefix,
                 Data.EwsUtilities.AutodiscoverSoapNamespace);
         }
         WriteElementsToXml(writer: Data.EwsServiceXmlWriter): any {
@@ -273,7 +274,7 @@
             //    // ignore unexpected UserSettingName in the response (due to the server-side bugs).
             //    // it'd be better if this is hooked into ITraceListener, but that is unavailable here.
             //    //
-            //    // in case "name" is null, EwsUtilities.Parse throws ArgumentNullException 
+            //    // in case "name" is null, EwsUtilities.Parse throws ArgumentNullException
             //    // (which derives from ArgumentException).
             //    //
 
@@ -283,6 +284,119 @@
             //    //    "Unexpected or empty name element in user setting");
             //}
         }
+
+        LoadFromObject(obj: any, parentElementName: string): void {
+            debugger;
+            super.LoadFromObject(obj, parentElementName);
+            var settingscol = obj[Data.XmlElementNames.UserSettings];
+            this.LoadUserSettingsFromObject(settingscol);
+            this.RedirectTarget = obj[Data.XmlElementNames.RedirectTarget];
+            //var redirecttarget = obj[Data.XmlElementNames.RedirectTarget];
+            ////if (redirecttarget["nil"]) redirecttarget = null;
+            //this.RedirectTarget = redirecttarget;
+            this.LoadUserSettingErrorsFromObject(obj[Data.XmlElementNames.UserSettingErrors]);
+
+        }
+        LoadUserSettingErrorsFromObject(obj: any): void {
+            var errors = undefined;
+
+            if (typeof (obj[Data.XmlElementNames.UserSettingError]) === 'undefined') return;
+
+            if (Object.prototype.toString.call(obj[Data.XmlElementNames.UserSettingError]) === "[object Array]")
+                errors = obj[Data.XmlElementNames.UserSettingError];
+            else
+                errors = [obj[Data.XmlElementNames.UserSettingError]];
+
+            for (var i = 0; i < errors.length; i++) {
+                var error = new UserSettingError();
+                error.LoadFromObject(errors[0]);
+                this.UserSettingErrors.push(error);
+            }
+        }
+        LoadUserSettingsFromObject(obj: any): void {
+            var settings = undefined;
+
+            if (typeof (obj[Data.XmlElementNames.UserSetting]) === 'undefined') return;
+
+            if (Object.prototype.toString.call(obj[Data.XmlElementNames.UserSetting]) === "[object Array]")
+                settings = obj[Data.XmlElementNames.UserSetting];
+            else
+                settings = [obj[Data.XmlElementNames.UserSetting]];
+
+            for (var i = 0; i < settings.length; i++) {
+                var setting = settings[i];
+                var settingClass = setting["type"];
+                switch (settingClass) {
+                    case Data.XmlElementNames.StringSetting:
+                    case Data.XmlElementNames.WebClientUrlCollectionSetting:
+                    case Data.XmlElementNames.AlternateMailboxCollectionSetting:
+                    case Data.XmlElementNames.ProtocolConnectionCollectionSetting:
+                    case Data.XmlElementNames.DocumentSharingLocationCollectionSetting:
+                        this.ReadSettingFromObject(setting);
+                        break;
+
+                    default:
+                        console.assert(false,
+                            "GetUserSettingsResponse.LoadUserSettingsFromXml",
+                            string.Format("Invalid setting class '{0}' returned", settingClass));
+                        //EwsUtilities.Assert(
+                        //    false,
+                        //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
+                        //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                        break;
+                }
+            }
+
+        }
+        ReadSettingFromObject(obj: any): void {
+            var name: string = obj[Data.XmlElementNames.Name];
+            var value: any = obj[Data.XmlElementNames.Value];
+
+            switch (obj["type"]) {
+                case Data.XmlElementNames.WebClientUrlCollectionSetting://.WebClientUrls:
+                    value = WebClientUrlCollection.LoadFromObject(obj[Data.XmlElementNames.WebClientUrls]);
+                    break;
+                case Data.XmlElementNames.ProtocolConnectionCollectionSetting://ProtocolConnections:
+                    throw new Error("not implemented");
+                    value = ProtocolConnectionCollection.LoadFromXml(obj);
+                    break;
+                case Data.XmlElementNames.AlternateMailboxCollectionSetting://AlternateMailboxes:
+                    throw new Error("not implemented");
+                    value = AlternateMailboxCollection.LoadFromXml(obj);
+                    break;
+                case Data.XmlElementNames.DocumentSharingLocationCollectionSetting://DocumentSharingLocations:
+                    throw new Error("not implemented");
+                    value = DocumentSharingLocationCollection.LoadFromXml(obj);
+                    break;
+            }
+
+            // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
+            var userSettingName: UserSettingName = UserSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
+            if (userSettingName !== undefined)
+                this.Settings[userSettingName] = value;
+            else
+                console.assert(false,
+                    "GetUserSettingsResponse.ReadSettingFromXml",
+                    "Unexpected or empty name element in user setting");
+
+            //try {
+
+            //}
+            //catch (ArgumentException) {
+            //    // ignore unexpected UserSettingName in the response (due to the server-side bugs).
+            //    // it'd be better if this is hooked into ITraceListener, but that is unavailable here.
+            //    //
+            //    // in case "name" is null, EwsUtilities.Parse throws ArgumentNullException
+            //    // (which derives from ArgumentException).
+            //    //
+
+            //    //EwsUtilities.Assert(
+            //    //    false,
+            //    //    "GetUserSettingsResponse.ReadSettingFromXml",
+            //    //    "Unexpected or empty name element in user setting");
+            //}
+        }
+
         TryGetSettingValue(setting: UserSettingName, value: any): boolean { throw new Error("Not implemented."); }
     }
     export class GetUserSettingsResponseCollection extends AutodiscoverResponseCollection<GetUserSettingsResponse> {
@@ -318,8 +432,12 @@
             while (reader.HasRecursiveParentNode(parent, parent.localName));
             reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
         }
+
+        LoadFromObject(obj: any): any {
+            var errorstring:string = obj[Data.XmlElementNames.ErrorCode];
+            this.ErrorCode = AutodiscoverErrorCode[errorstring];
+            this.ErrorMessage = obj[Data.XmlElementNames.ErrorMessage];
+            this.SettingName = obj[Data.XmlElementNames.SettingName];
+        }
     }
-
-
 }
-

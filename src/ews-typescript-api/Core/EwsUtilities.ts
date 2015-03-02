@@ -241,7 +241,7 @@
                     selfValidate.Validate();
                 }
                 catch (e) {
-                    throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e)); 
+                    throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e));
                     //ArgumentException(
                     //    Strings.ValidationFailed,
                     //    paramName,
