@@ -44,7 +44,7 @@ declare module System.Globalization {
         NativeNational = 2
     }
 }
-declare module System.Net {
+declare module "System.Net" {
     export enum HttpStatusCode {
         Continue = 100,
         SwitchingProtocols = 101,
@@ -283,7 +283,7 @@ declare module System.Security.Cryptography {
         ISO10126 = 5
     }
 }
-declare module System.Xml {
+declare module "System.Xml" {
     export enum ConformanceLevel {
         Auto = 0,
         Fragment = 1,

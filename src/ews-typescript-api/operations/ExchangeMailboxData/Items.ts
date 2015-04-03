@@ -134,17 +134,6 @@ module Microsoft.Exchange.WebServices.Data{
         GetEnumerator(): any { throw new Error("Not implemented."); }
     }
 
-    export class GroupedFindItemsResults<TItem extends Item> {
-        TotalCount: number;
-        NextPageOffset: number;
-        MoreAvailable: boolean;
-        ItemGroups: ItemGroup<TItem>[];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-        private totalCount: number;
-        private nextPageOffset: number;
-        private moreAvailable: boolean;
-        private itemGroups: ItemGroup<TItem>[];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-        GetEnumerator(): any { throw new Error("Not implemented.");}
-    }
     export class FindItemRequest<TItem extends Item> extends FindRequest<FindItemResponse<TItem>> {
         GroupBy: Grouping;
         private groupBy: Grouping;
@@ -298,22 +287,7 @@ module Microsoft.Exchange.WebServices.Data{
         WriteToXml(writer: EwsServiceXmlWriter): any{ throw new Error("Not implemented.");}
     }
 
-    export class Grouping {
-        SortDirection: SortDirection;
-        GroupOn: PropertyDefinitionBase;
-        AggregateOn: PropertyDefinitionBase;
-        AggregateType: AggregateType;
-        private sortDirection: SortDirection;
-        private groupOn: PropertyDefinitionBase;
-        private aggregateOn: PropertyDefinitionBase;
-        private aggregateType: AggregateType;
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    }
-    export class ItemGroup<TItem extends Item> {
-        GroupIndex: string;
-        Items: TItem[];//System.Collections.ObjectModel.Collection<TItem>;
-    }
+
 
     export class HighlightTerm extends ComplexProperty {
         Scope: string;

@@ -1191,7 +1191,7 @@ declare module WinJS.Class {
 /**
  * The WinJS namespace provides special Windows Library for JavaScript functionality, including Promise and xhr.
 **/
-declare module WinJS {
+declare module "WinJS" {
     //#region Properties
 
     /**

@@ -19,6 +19,10 @@
     return response;
 }
 
+//use this to work with node - https://github.com/jindw/xmldom - tested working with latest commit f053be7ceb
+//var DOMParser = require('xmldom').DOMParser;
+//var dom = new DOMParser().parseFromString("xml data", 'text/xml');
+//console.log(JSON.stringify(xmlToJson(dom.documentElement)));
 // Changes XML to JSON
 function xmlToJson(xml: XMLDocument): any {
 

@@ -9,6 +9,7 @@
 * @author electricessence / https://github.com/electricessence/
 * Liscensing: MIT https://github.com/electricessence/TypeScript.NET/blob/master/LICENSE
 */
+//system.text license above
 
 module nSystem.Text {
     export function format(source: string, ...args: any[]) {
@@ -18,7 +19,7 @@ module nSystem.Text {
     }
 }
 
-module string {
+export module stringFormatting {
     export function IsNullOrEmpty(str: string): boolean {
         return str == null || typeof str === 'undefined' || str === '';
     }
@@ -144,7 +145,12 @@ class TypeSystem {
     }
 }
 
-module Parsers {
+//use this to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb
+//var DOMParser = require('xmldom').DOMParser;
+//var dom = new DOMParser().parseFromString("xml data", 'text/xml');
+//console.log(JSON.stringify(xmlToJson(dom.documentElement)));
+
+export module Parsers {
     export class xml2js {
 
         static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
@@ -153,7 +159,7 @@ module Parsers {
             if (typeof (xmlNode) === 'undefined') return obj;
 
             switch (xmlNode.nodeType) {
-                case Node.ELEMENT_NODE:
+                case 1/*Node.ELEMENT_NODE*/:
                     if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
                     for (var i = 0; i < xmlNode.attributes.length; i++) {
                         var attr: Attr = xmlNode.attributes.item(i);
@@ -168,16 +174,16 @@ module Parsers {
                         else
                             obj[attr.localName] = attr.value;
                     }
-                    if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
+                    if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
                         return xmlNode.firstChild.nodeValue;
                     if (soapMode && obj["nil"] && obj["nil"] === 'true')
                         return null;
 
                     break;
-                case Node.ATTRIBUTE_NODE:
+                case 2/*Node.ATTRIBUTE_NODE*/:
 
                     break;
-                case Node.TEXT_NODE:
+                case 3/*Node.TEXT_NODE*/:
                     return xmlNode.nodeValue;
                     break;
                 default:
@@ -187,7 +193,7 @@ module Parsers {
 
             if (xmlNode.childNodes.length > 0) {
                 var skip = false;
-                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === Node.TEXT_NODE)
+                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
                     skip = true;
 
                 if (!skip) {
@@ -224,12 +230,12 @@ module Parsers {
     }
 }
 
-interface IOutParam<T> {
+export interface IOutParam<T> {
     value?: T;
     exception?: any;
     success?: boolean;
 
 }
-interface IRefParam<T> {
+export interface IRefParam<T> {
     value?: T;
 }

@@ -202,8 +202,6 @@ declare module Microsoft.Exchange.WebServices.Dns {
         private static typeToDnsTypeMap: Microsoft.Exchange.WebServices.Data.LazyMember<T>;
         DnsQuery(domain: string, dnsServerAddress: System.Net.IPAddress): System.Collections.Generic.List<T>; //{ throw new Error("Not implemented.");}
     }
-    class DnsException extends System.ComponentModel.Win32Exception {
-    }
     class DnsNativeMethods {
         AllocDnsServerList(dnsServerAddress: System.Net.IPAddress): number; //{ throw new Error("Not implemented.");}
         DnsQuery(pszName: string, wType: Microsoft.Exchange.WebServices.Dns.DnsRecordType, options: Microsoft.Exchange.WebServices.Dns.DnsNativeMethods.DnsQueryOptions, aipServers: number, ppQueryResults: any, pReserved: number): number; //{ throw new Error("Not implemented.");}

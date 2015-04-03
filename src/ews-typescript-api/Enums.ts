@@ -1612,6 +1612,8 @@ module Microsoft.Exchange.WebServices.Dns.DnsNativeMethods {
         RecordList = 1
     }
 }
+
+//todo - move to file where class Microsoft.Exchange.WebServices.Strings is located
 module Microsoft.Exchange.WebServices.Strings {
     export enum IDs {
         CannotRemoveSubscriptionFromLiveConnection = 1631423810,

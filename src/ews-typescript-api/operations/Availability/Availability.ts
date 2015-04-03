@@ -248,3 +248,6 @@
     }
 
 }
+
+var _export = Microsoft.Exchange.WebServices.Data;
+export=_export;
