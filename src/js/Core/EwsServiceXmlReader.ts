@@ -1,4 +1,3 @@
-import EwsXmlReader = require("./EwsXmlReader");
 import ExchangeService = require("./ExchangeService");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import DelegateTypes = require("../Misc/DelegateTypes");
@@ -6,6 +5,11 @@ import ServiceObject = require("./ServiceObjects/ServiceObject");
 import PropertySet = require("./PropertySet");
 import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 
+import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
+
+
+import EwsXmlReader = require("./EwsXmlReader");
 class EwsServiceXmlReader extends EwsXmlReader {
     get Service(): ExchangeService { return this.service;}
     private service: ExchangeService;
@@ -58,7 +62,7 @@ class EwsServiceXmlReader extends EwsXmlReader {
                 else {
                     if (this.LocalName.toLowerCase() !== serviceObject.GetXmlElementName().toLowerCase()) {
                         throw new ServiceLocalException(
-                            string.Format(
+                            String.Format(
                                 "The type of the object in the store ({0}) does not match that of the local object ({1}).",
                                 this.LocalName,
                                 serviceObject.GetXmlElementName()));

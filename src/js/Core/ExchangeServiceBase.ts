@@ -50,7 +50,7 @@ class ExchangeServiceBase {
     private OnResponseHeadersCaptured: ResponseHeadersCapturedHandler;
     private OnSerializeCustomSoapHeaders: Function;// CustomXmlSerializationDelegate;
     private preAuthenticate: boolean;
-    private requestedServerVersion: ExchangeVersion;
+    private requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2013_SP1;
     private returnClientRequestId: boolean;
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
@@ -161,7 +161,7 @@ class ExchangeServiceBase {
     SetCustomUserAgent(userAgent: string): any { throw new Error("Not implemented."); }
     TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("Not implemented."); }
     TraceHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
-    TraceMessage(traceType: TraceFlags, logEntry: string): any { throw new Error("Not implemented."); }
+    TraceMessage(traceType: TraceFlags, logEntry: string): any { console.log(logEntry); /*throw new Error("Not implemented."); */}
     TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("Not implemented."); }
     Validate(): any { throw new Error("Not implemented."); }
 }

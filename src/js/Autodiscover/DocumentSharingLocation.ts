@@ -18,6 +18,8 @@ class DocumentSharingLocation {
     private canModifyPermissions: boolean;
     private isDefault: boolean;
     LoadFromXml(reader: EwsXmlReader): DocumentSharingLocation { throw new Error("Not implemented."); }
+    static LoadFromJson(obj: any): DocumentSharingLocation { throw new Error("this was skipped at dev time, fix this"); }
+
 }
 
 export = DocumentSharingLocation;

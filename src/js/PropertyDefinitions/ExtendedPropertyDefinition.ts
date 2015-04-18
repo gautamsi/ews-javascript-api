@@ -9,6 +9,7 @@ import XmlNamespace = require("../Enumerations/XmlNamespace");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 
 import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
 
 import PropertyDefinitionBase = require("./PropertyDefinitionBase");
 
@@ -55,7 +56,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     FormatField(name: string, fieldValue: string): string {
         debugger;
         return (fieldValue != null)
-            ? ExtensionMethods.stringFormatting.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
+            ? String.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
             : "";
     }
     GetHashCode(): number { throw new Error("Not implemented."); }
@@ -91,24 +92,24 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         var attributeValue: string;
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.DistinguishedPropertySetId);
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(attributeValue)) {
+        if (!String.IsNullOrEmpty(attributeValue)) {
             this.propertySet = DefaultExtendedPropertySet[attributeValue];
         }
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertySetId);
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(attributeValue)) {
+        if (!String.IsNullOrEmpty(attributeValue)) {
             this.propertySetId = attributeValue;// new Guid(attributeValue);
         }
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyTag);
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(attributeValue)) {
+        if (!String.IsNullOrEmpty(attributeValue)) {
             this.tag = +(attributeValue);// Convert.ToUInt16(attributeValue, 16);
         }
 
         this.name = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyName);
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyId);
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(attributeValue)) {
+        if (!String.IsNullOrEmpty(attributeValue)) {
             this.id = +(attributeValue);// int.Parse(attributeValue);
         }
 
@@ -124,7 +125,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         if (this.tag) {
             writer.WriteAttributeValue("", XmlAttributeNames.PropertyTag, this.tag);
         }
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(this.name)) {
+        if (!String.IsNullOrEmpty(this.name)) {
             writer.WriteAttributeValue("", XmlAttributeNames.PropertyName, this.name);
         }
         if (this.id) {

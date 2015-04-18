@@ -26,7 +26,7 @@ export module stringFormatting {
     export var Empty = "";
 }
 
-module Enumelper {
+export module EnumHelper {
     export function HasFlag(flags: number, checkFlag: number): boolean {
         return (flags & checkFlag) == checkFlag;
     }
@@ -70,7 +70,7 @@ module object {
     }
 }
 
-class TypeSystem {
+export class TypeSystem {
     static GetProperties(obj) {
         var props = new Array<string>();
 
@@ -152,25 +152,40 @@ export module Parsers {
             var obj = {};
             if (!xmlnsRoot) xmlnsRoot = obj;
             if (typeof (xmlNode) === 'undefined') return obj;
-
+            var textNodeName = undefined;
             switch (xmlNode.nodeType) {
                 case 1/*Node.ELEMENT_NODE*/:
                     if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
+                    var nonGenericAttributeCount = 0;
                     for (var i = 0; i < xmlNode.attributes.length; i++) {
+                        nonGenericAttributeCount++;
                         var attr: Attr = xmlNode.attributes.item(i);
                         if (attr.prefix)
-                            if (attr.prefix === 'xmlns') this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
+                            if (attr.prefix === 'xmlns') {
+                                this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
+                                nonGenericAttributeCount--;
+                            }
                             else if (this.containsXMLNS(xmlnsRoot, attr.prefix))
                                 obj[attr.localName] = attr.value;
                             else
                                 obj[attr.name] = attr.value;
-                        else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value)
+                        else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
                             obj["__type"] = attr.value;
+                            nonGenericAttributeCount--;
+                        }
                         else
                             obj[attr.localName] = attr.value;
                     }
+
                     if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
-                        return xmlNode.firstChild.nodeValue;
+                        if (xmlNode.firstChild.nodeValue.trim() !== '')
+                            if (nonGenericAttributeCount === 0)
+                                return xmlNode.firstChild.nodeValue.trim();
+                            else {
+                                obj[xmlNode.localName] = xmlNode.firstChild.nodeValue.trim();
+                                return obj;
+                            }
+
                     if (soapMode && obj["nil"] && obj["nil"] === 'true')
                         return null;
 
@@ -194,8 +209,9 @@ export module Parsers {
                 if (!skip) {
                     for (var i = 0; i < xmlNode.childNodes.length; i++) {
                         var node: Node = xmlNode.childNodes.item(i);
-                        var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
                         var localName = node.localName || "__text";
+                        if (localName === "__text" && node.nodeValue.trim() === "") continue;
+                        var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
                         if (obj[localName])
                             if (Object.prototype.toString.call(obj[localName]) === "[object Array]")
                                 obj[localName].push(nodeObj);
@@ -214,14 +230,87 @@ export module Parsers {
             return obj;
         }
 
-        private static addXMLNS(obj: any, xmlnsName: string, value: string, attributeName: string = "__xmlns"): void {
-            if (!obj[attributeName]) obj[attributeName] = {};
-            (obj[attributeName])[xmlnsName] = value;
+        private static addXMLNS(xmlnsObj: any, xmlnsName: string, xmlnsValue: string, xmlnsAttrName: string = "__xmlns"): void {
+            if (!xmlnsObj[xmlnsAttrName]) xmlnsObj[xmlnsAttrName] = {};
+            (xmlnsObj[xmlnsAttrName])[xmlnsName] = xmlnsValue;
         }
-        private static containsXMLNS(obj: any, xmlnsName: string, attributeName: string = "__xmlns"): boolean {
-            if (obj[attributeName]) return typeof ((obj[attributeName])[xmlnsName]) !== 'undefined';
+        private static containsXMLNS(obj: any, xmlnsName: string, xmlnsAttrName: string = "__xmlns"): boolean {
+            if (obj[xmlnsAttrName]) return typeof ((obj[xmlnsAttrName])[xmlnsName]) !== 'undefined';
             return false;
         }
+    }
+    export class Uri {
+        //RFC Appendix B - http://www.ietf.org/rfc/rfc3986.txt 
+        /*    Appendix B.  Parsing a URI Reference with a Regular Expression
+        
+           As the "first-match-wins" algorithm is identical to the "greedy"
+           disambiguation method used by POSIX regular expressions, it is
+           natural and commonplace to use a regular expression for parsing the
+           potential five components of a URI reference.
+        
+           The following line is the regular expression for breaking-down a
+           well-formed URI reference into its components.
+        
+        
+        
+        Berners-Lee, et al.         Standards Track                    [Page 50]
+        
+        RFC 3986                   URI Generic Syntax               January 2005
+        
+        
+              ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+               12            3  4          5       6  7        8 9
+        
+           The numbers in the second line above are only to assist readability;
+           they indicate the reference points for each subexpression (i.e., each
+           paired parenthesis).  We refer to the value matched for subexpression
+           <n> as $<n>.  For example, matching the above expression to
+        
+              http://www.ics.uci.edu/pub/ietf/uri/#Related
+        
+           results in the following subexpression matches:
+        
+              $1 = http:
+              $2 = http
+              $3 = //www.ics.uci.edu
+              $4 = www.ics.uci.edu
+              $5 = /pub/ietf/uri/
+              $6 = <undefined>
+              $7 = <undefined>
+              $8 = #Related
+              $9 = Related
+        
+           where <undefined> indicates that the component is not present, as is
+           the case for the query component in the above example.  Therefore, we
+           can determine the value of the five components as
+        
+              scheme    = $2
+              authority = $4
+              path      = $5
+              query     = $7
+              fragment  = $9
+        
+           Going in the opposite direction, we can recreate a URI reference from
+           its components by using the algorithm of Section 5.3.
+        */
+        static parseString(url: string) {
+            var regex = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+            var parts = url.match(regex);
+            return {
+                scheme: parts[2],
+                authority: parts[4],
+                path: parts[5],
+                query: parts[7],
+                fragment: parts[9]
+            };
+        }
+        static getDomain(url: string) :string{
+            return Uri.parseString(url).authority;
+        }
+        static getHost(url: string): string {
+            return Uri.getDomain(url);
+        }
+
     }
 }
 
@@ -247,12 +336,3 @@ export function btoa(text: string): string {
     }
 }
 
-export interface IOutParam<T> {
-    value?: T;
-    exception?: any;
-    success?: boolean;
-
-}
-export interface IRefParam<T> {
-    value?: T;
-}

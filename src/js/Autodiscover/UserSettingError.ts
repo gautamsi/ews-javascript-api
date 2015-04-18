@@ -30,7 +30,7 @@ class UserSettingError {
         reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
     }
 
-    LoadFromObject(obj: any): any {
+    LoadFromJson(obj: any): any {
         var errorstring: string = obj[XmlElementNames.ErrorCode];
         this.ErrorCode = AutodiscoverErrorCode[errorstring];
         this.ErrorMessage = obj[XmlElementNames.ErrorMessage];

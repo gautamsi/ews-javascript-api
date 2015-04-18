@@ -405,10 +405,190 @@
   </soap:Envelope>
 
 
-<![CDATA[
+  <![CDATA[
 "<s:Envelope xmlns:s='http://schemas.xmlsoap.org/soap/envelope/' xmlns:a='http://www.w3.org/2005/08/addressing'><s:Header><a:Action s:mustUnderstand='1'>http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettingsResponse</a:Action><h:ServerVersionInfo xmlns:h='http://schemas.microsoft.com/exchange/2010/Autodiscover' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'><h:MajorVersion>15</h:MajorVersion><h:MinorVersion>1</h:MinorVersion><h:MajorBuildNumber>49</h:MajorBuildNumber><h:MinorBuildNumber>12</h:MinorBuildNumber><h:Version>Exchange2013_SP1</h:Version></h:ServerVersionInfo></s:Header><s:Body><GetUserSettingsResponseMessage xmlns='http://schemas.microsoft.com/exchange/2010/Autodiscover'><Response xmlns:i='http://www.w3.org/2001/XMLSchema-instance'><ErrorCode>NoError</ErrorCode><ErrorMessage/><UserResponses><UserResponse><ErrorCode>NoError</ErrorCode><ErrorMessage>No error.</ErrorMessage><RedirectTarget i:nil='true'/><UserSettingErrors><UserSettingError><ErrorCode>SettingIsNotAvailable</ErrorCode><ErrorMessage>User setting 'PublicFolderServer' is not available. </ErrorMessage><SettingName>PublicFolderServer</SettingName></UserSettingError><UserSettingError><ErrorCode>SettingIsNotAvailable</ErrorCode><ErrorMessage>User setting 'ActiveDirectoryServer' is not available. </ErrorMessage><SettingName>ActiveDirectoryServer</SettingName></UserSettingError></UserSettingErrors><UserSettings><UserSetting i:type='StringSetting'><Name>UserDisplayName</Name><Value>Gautam Singh</Value></UserSetting><UserSetting i:type='StringSetting'><Name>UserDN</Name><Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=d3a8122a309a4ba38da2b92046226d57-gs</Value></UserSetting><UserSetting i:type='StringSetting'><Name>UserDeploymentId</Name><Value>6912b512-2112-48ab-ba64-191c0620d684</Value></UserSetting><UserSetting i:type='StringSetting'><Name>CasVersion</Name><Value>15.01.0049.012</Value></UserSetting><UserSetting i:type='StringSetting'><Name>EwsSupportedSchemas</Name><Value>Exchange2007,Exchange2007_SP1,Exchange2010,Exchange2010_SP1,Exchange2010_SP2,Exchange2013,Exchange2013_SP1</Value></UserSetting><UserSetting i:type='StringSetting'><Name>InternalMailboxServer</Name><Value>DM2PR09MB0206.namprd09.prod.outlook.com</Value></UserSetting><UserSetting i:type='StringSetting'><Name>GroupingInformation</Name><Value>DM2PR09</Value></UserSetting><UserSetting i:type='StringSetting'><Name>MailboxDN</Name><Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=d1a570b9-89e9-409f-89f7-860cc25ba410@singhspro.onmicrosoft.com/cn=Microsoft Private MDB</Value></UserSetting><UserSetting i:type='StringSetting'><Name>EcpDeliveryReportUrlFragment</Name><Value>PersonalSettings/DeliveryReport.aspx?rfr=olk&amp;exsvurl=1&amp;IsOWA=&lt;IsOWA&gt;&amp;MsgID=&lt;MsgID&gt;&amp;Mbx=&lt;Mbx&gt;&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type='StringSetting'><Name>EcpTextMessagingUrlFragment</Name><Value>?rfr=olk&amp;p=sms/textmessaging.slab&amp;exsvurl=1&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type='StringSetting'><Name>EcpPublishingUrlFragment</Name><Value>customize/calendarpublishing.slab?rfr=olk&amp;exsvurl=1&amp;FldID=&lt;FldID&gt;&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type='StringSetting'><Name>ExternalEwsUrl</Name><Value>https://outlook.office365.com/EWS/Exchange.asmx</Value></UserSetting><UserSetting i:type='StringSetting'><Name>ExternalMailboxServer</Name><Value>outlook.office365.com</Value></UserSetting></UserSettings></UserResponse></UserResponses></Response></GetUserSettingsResponseMessage></s:Body></s:Envelope>"
 
 {"@attributes":{"xmlns:s":"http://schemas.xmlsoap.org/soap/envelope/","xmlns:a":"http://www.w3.org/2005/08/addressing"},"Header":{"Action":{"@attributes":{"s:mustUnderstand":"1"},"text":"http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettingsResponse"},"ServerVersionInfo":{"@attributes":{"xmlns:h":"http://schemas.microsoft.com/exchange/2010/Autodiscover","xmlns:i":"http://www.w3.org/2001/XMLSchema-instance"},"MajorVersion":{"text":"15"},"MinorVersion":{"text":"1"},"MajorBuildNumber":{"text":"49"},"MinorBuildNumber":{"text":"12"},"Version":{"text":"Exchange2013_SP1"}}},"Body":{"GetUserSettingsResponseMessage":{"@attributes":{"xmlns":"http://schemas.microsoft.com/exchange/2010/Autodiscover"},"Response":{"@attributes":{"xmlns:i":"http://www.w3.org/2001/XMLSchema-instance"},"ErrorCode":{"text":"NoError"},"ErrorMessage":{},"UserResponses":{"UserResponse":{"ErrorCode":{"text":"NoError"},"ErrorMessage":{"text":"No error."},"RedirectTarget":{"@attributes":{"i:nil":"true"}},"UserSettingErrors":{"UserSettingError":[{"ErrorCode":{"text":"SettingIsNotAvailable"},"ErrorMessage":{"text":"User setting 'PublicFolderServer' is not available. "},"SettingName":{"text":"PublicFolderServer"}},{"ErrorCode":{"text":"SettingIsNotAvailable"},"ErrorMessage":{"text":"User setting 'ActiveDirectoryServer' is not available. "},"SettingName":{"text":"ActiveDirectoryServer"}}]},"UserSettings":{"UserSetting":[{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"UserDisplayName"},"Value":{"text":"Gautam Singh"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"UserDN"},"Value":{"text":"/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=d3a8122a309a4ba38da2b92046226d57-gs"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"UserDeploymentId"},"Value":{"text":"6912b512-2112-48ab-ba64-191c0620d684"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"CasVersion"},"Value":{"text":"15.01.0049.012"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"EwsSupportedSchemas"},"Value":{"text":"Exchange2007,Exchange2007_SP1,Exchange2010,Exchange2010_SP1,Exchange2010_SP2,Exchange2013,Exchange2013_SP1"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"InternalMailboxServer"},"Value":{"text":"DM2PR09MB0206.namprd09.prod.outlook.com"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"GroupingInformation"},"Value":{"text":"DM2PR09"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"MailboxDN"},"Value":{"text":"/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=d1a570b9-89e9-409f-89f7-860cc25ba410@singhspro.onmicrosoft.com/cn=Microsoft Private MDB"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"EcpDeliveryReportUrlFragment"},"Value":{"text":"PersonalSettings/DeliveryReport.aspx?rfr=olk&exsvurl=1&IsOWA=<IsOWA>&MsgID=<MsgID>&Mbx=<Mbx>&realm=singhspro.onmicrosoft.com"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"EcpTextMessagingUrlFragment"},"Value":{"text":"?rfr=olk&p=sms/textmessaging.slab&exsvurl=1&realm=singhspro.onmicrosoft.com"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"EcpPublishingUrlFragment"},"Value":{"text":"customize/calendarpublishing.slab?rfr=olk&exsvurl=1&FldID=<FldID>&realm=singhspro.onmicrosoft.com"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"ExternalEwsUrl"},"Value":{"text":"https://outlook.office365.com/EWS/Exchange.asmx"}},{"@attributes":{"i:type":"StringSetting"},"Name":{"text":"ExternalMailboxServer"},"Value":{"text":"outlook.office365.com"}}]}}}}}}}
 ]]>
 
+
+  <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://www.w3.org/2005/08/addressing">
+    <s:Header>
+      <a:Action s:mustUnderstand="1">http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettingsResponse</a:Action>
+      <h:ServerVersionInfo xmlns:h="http://schemas.microsoft.com/exchange/2010/Autodiscover" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <h:MajorVersion>15</h:MajorVersion>
+        <h:MinorVersion>1</h:MinorVersion>
+        <h:MajorBuildNumber>130</h:MajorBuildNumber>
+        <h:MinorBuildNumber>19</h:MinorBuildNumber>
+        <h:Version>Exchange2015</h:Version>
+      </h:ServerVersionInfo>
+    </s:Header>
+    <s:Body>
+      <GetUserSettingsResponseMessage xmlns="http://schemas.microsoft.com/exchange/2010/Autodiscover">
+        <Response xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+          <ErrorCode>NoError</ErrorCode>
+          <ErrorMessage/>
+          <UserResponses>
+            <UserResponse>
+              <ErrorCode>NoError</ErrorCode>
+              <ErrorMessage>No error.</ErrorMessage>
+              <RedirectTarget i:nil="true"/>
+              <UserSettingErrors>
+                <UserSettingError>
+                  <ErrorCode>SettingIsNotAvailable</ErrorCode>
+                  <ErrorMessage>User setting \'ActiveDirectoryServer\' is not available. </ErrorMessage>
+                  <SettingName>ActiveDirectoryServer</SettingName>
+                </UserSettingError>
+              </UserSettingErrors>
+              <UserSettings>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDisplayName</Name>
+                  <Value>gs test</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>UserDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=63a7e24920da46f9974b330a05270ead-gstest</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>CasVersion</Name>
+                  <Value>15.01.0130.019</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>InternalMailboxServer</Name>
+                  <Value>BN3PR09MB0564.namprd09.prod.outlook.com</Value>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>MailboxDN</Name>
+                  <Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=5f7533c6-6588-4b05-95e0-1932a5da5b3e@singhspro.onmicrosoft.com/cn=Microsoft Private MDB</Value>
+                </UserSetting>
+                <UserSetting i:type="ProtocolConnectionCollectionSetting">
+                  <Name>ExternalImap4Connections</Name>
+                  <ProtocolConnections>
+                    <ProtocolConnection>
+                      <Hostname>outlook.office365.com</Hostname>
+                      <Port>995</Port>
+                      <EncryptionMethod>SSL</EncryptionMethod>
+                    </ProtocolConnection>
+                    <ProtocolConnection>
+                      <Hostname>outlook.office365.com</Hostname>
+                      <Port>993</Port>
+                      <EncryptionMethod>SSL</EncryptionMethod>
+                    </ProtocolConnection>
+                  </ProtocolConnections>
+                </UserSetting>
+                <UserSetting i:type="WebClientUrlCollectionSetting">
+                  <Name>ExternalWebClientUrls</Name>
+                  <WebClientUrls>
+                    <WebClientUrl>
+                      <AuthenticationMethods>Fba</AuthenticationMethods>
+                      <Url>https://outlook.office365.com/owa/singhspro.onmicrosoft.com/</Url>
+                    </WebClientUrl>
+                  </WebClientUrls>
+                </UserSetting>
+                <UserSetting i:type="StringSetting">
+                  <Name>EwsPartnerUrl</Name>
+                  <Value>https://outlook.office365.com/EWS/Exchange.asmx</Value>
+                </UserSetting>
+                <UserSetting i:type="AlternateMailboxCollectionSetting">
+                  <Name>AlternateMailboxes</Name>
+                  <AlternateMailboxes>
+                    <AlternateMailbox>
+                      <Type>Delegate</Type>
+                      <DisplayName>gstest test2</DisplayName>
+                      <LegacyDN>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=852c29ae9b854502a4ed9a68ba629261-gstest2</LegacyDN>
+                      <Server>39659dff-9557-466a-9200-496f9c0f66a0@singhspro.onmicrosoft.com</Server>
+                      <SmtpAddress>gstest2@singhspro.onmicrosoft.com</SmtpAddress>
+                      <OwnerSmtpAddress>gstest2@singhspro.onmicrosoft.com</OwnerSmtpAddress>
+                    </AlternateMailbox>
+                  </AlternateMailboxes>
+                </UserSetting>
+              </UserSettings>
+            </UserResponse>
+            <UserResponse>
+              <ErrorCode>RedirectAddress</ErrorCode>
+              <ErrorMessage>Redirection address.</ErrorMessage>
+              <RedirectTarget>Thament@Singhs.pro</RedirectTarget>
+              <UserSettingErrors/>
+              <UserSettings/>
+            </UserResponse>
+          </UserResponses>
+        </Response>
+      </GetUserSettingsResponseMessage>
+    </s:Body>
+  </s:Envelope>
+  <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://www.w3.org/2005/08/addressing">
+    <s:Header>
+      <a:Action s:mustUnderstand="1">http://schemas.microsoft.com/net/2005/12/windowscommunicationfoundation/dispatcher/fault</a:Action>
+    </s:Header>
+    <s:Body>
+      <s:Fault>
+        <faultcode xmlns:a="http://schemas.microsoft.com/net/2005/12/windowscommunicationfoundation/dispatcher">a:InternalServiceFault</faultcode>
+        <faultstring xml:lang="en-US">The server was unable to process the request due to an internal error.  For more information about the error, either turn on IncludeExceptionDetailInFaults (either from ServiceBehaviorAttribute or from the &lt;serviceDebug&gt; configuration behavior) on the server in order to send the exception information back to the client, or turn on tracing as per the Microsoft .NET Framework SDK documentation and inspect the server trace logs.</faultstring>
+      </s:Fault>
+    </s:Body>
+  </s:Envelope>
+
+
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://schemas.microsoft.com/exchange/2010/Autodiscover" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Header>
+      <a:RequestedServerVersion>Exchange2010</a:RequestedServerVersion>
+      <wsa:Action>http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettings</wsa:Action>
+      <wsa:To>https://autodiscover-s.outlook.com/autodiscover/autodiscover.xml</wsa:To>
+    </soap:Header>
+    <soap:Body>
+      <a:GetUserSettingsRequestMessage xmlns:a="http://schemas.microsoft.com/exchange/2010/Autodiscover">
+        <a:Request>
+          <a:Users>
+            <a:User>
+              <a:Mailbox>gstest@singhspro.onmicrosoft.com</a:Mailbox>
+            </a:User>
+          </a:Users>
+          <a:RequestedSettings>
+            <a:Setting>InternalEwsUrl</a:Setting>
+            <a:Setting>ExternalEwsUrl</a:Setting>
+          </a:RequestedSettings>
+        </a:Request>
+      </a:GetUserSettingsRequestMessage>
+    </soap:Body>
+  </soap:Envelope>
+
+  <?xml version="1.0" encoding="utf-8"?>
+  <soap:Envelope
+      xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+      <soap:Fault>
+        <faultcode>soap:Client</faultcode>
+        <faultstring>Invalid input</faultstring>
+        <faultactor
+      >http://sseely2/AYS17Sept2002/Service1.asmx</faultactor>
+        <detail>
+          <PersonErrorInfo
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ItemInError>FirstName</ItemInError>
+            <CorrectRegularExpression
+          >^([A-Z])([a-z])+</CorrectRegularExpression>
+          </PersonErrorInfo>
+          <PersonErrorInfo
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ItemInError>LastName</ItemInError>
+            <CorrectRegularExpression
+          >^([A-Z])([a-z])+</CorrectRegularExpression>
+          </PersonErrorInfo>
+          <PersonErrorInfo
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ItemInError>EmailAddress</ItemInError>
+            <CorrectRegularExpression
+          >
+              ^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-
+              9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})
+              (\]?)$
+            </CorrectRegularExpression>
+          </PersonErrorInfo>
+        </detail>
+      </soap:Fault>
+    </soap:Body>
+  </soap:Envelope>
 </request>

@@ -12,143 +12,129 @@
 
 
 
-import AutodiscoverRequest = require("./AutodiscoverRequest");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import AutodiscoverService = require("./Autodiscover/AutodiscoverService");
+////import LazyMember = lm.LazyMember;
+//import AffectedTaskOccurrence = require("../Enumerations/AffectedTaskOccurrence");
+//import altDict = require("../AltDictionary");
+//import AlternateMailboxCollection = require("../AlternateMailboxCollection");
+//import Attachment = require("../ComplexProperties/Attachment");
+//import AutodiscoverEndpoints = require("../Enumerations/AutodiscoverEndpoints");
+//import AutodiscoverError = require("../../AutodiscoverError");
+//import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
+//import AutodiscoverLocalException = require("../Exceptions/AutodiscoverLocalException");
+//import AutodiscoverLocalException = require("../Exceptions/AutodiscoverLocalException");
+//import AutodiscoverRequest = require("./AutodiscoverRequest");
+//import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
+//import AutodiscoverResponseCollection = require("../AutodiscoverResponseCollection");
+//import AutodiscoverResponseType = require("../../../Enumerations/AutodiscoverResponseType");
+//import AutodiscoverService = require("../Autodiscover/AutodiscoverService");
+//import AutodiscoverServiceDelegates = require("../Autodiscover/AutodiscoverServiceDelegates");
+//import BasePropertySet = require("../Enumerations/BasePropertySet");
+//import BodyType = require("../Enumerations/BodyType");
+//import CalendarFolder = require("../ServiceObjects/Folders/CalendarFolder");
+//import ComplexProperty = require("./ComplexProperty");
+//import ConfigurationSettingsBase = require("../ConfigurationSettingsBase");
+//import Contact = require("../ServiceObjects/Items/Contact");
+//import ContactGroup = require("../ServiceObjects/Items/ContactGroup");
+//import ContactsFolder = require("../ServiceObjects/Folders/TasksFolder");
+//import Conversation = require("../ServiceObjects/Items/Conversation");
+//import ConversationQueryTraversal = require("../Enumerations/ConversationQueryTraversal");
+//import DateTimePrecision = require("../../Enumerations/DateTimePrecision");
+//import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
+//import DefaultExtendedPropertySet = require("../Enumerations/DefaultExtendedPropertySet");
+//import DelegateTypes = require("../Misc/DelegateTypes");
+//import DeleteMode = require("../Enumerations/DeleteMode");
+//import DocumentSharingLocation = require("./DocumentSharingLocation");
+//import DocumentSharingLocationCollection = require("../DocumentSharingLocationCollection");
+//import DomainSettingError = require("../DomainSettingError");
+//import DomainSettingName = require("../../Enumerations/DomainSettingName");
+//import EmailMessage = require("../ServiceObjects/Items/EmailMessage");
+//import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
+//import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+//import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
+//import EwsUtilities = require("../EwsUtilities");
+//import EwsXmlReader = require("../../Core/EwsXmlReader");
+//import EwsXmlReader = require("../Core/EwsXmlReader");
+//import ExchangeCredentials = require("../Credentials/ExchangeCredentials");
+//import ExchangeServerInfo = require("../ExchangeServerInfo");
+//import ExchangeService = require("../ExchangeService");
+//import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
+//import ExchangeServiceBase = require("./ExchangeServiceBase");
+//import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+//import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
+//import ExtensionMethods = require("../../ExtensionMethods");
+//import ExtensionMethods = require("../ExtensionMethods");
+//import FileAsMapping = require("../Enumerations/FileAsMapping");
+//import Folder = require("../ServiceObjects/Folders/Folder");
+//import FolderId = require("../../ComplexProperties/FolderId");
+//import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+//import GetDomainSettingsRequest = require("./Requests/GetDomainSettingsRequest");
+//import GetDomainSettingsResponse = require("../Responses/GetDomainSettingsResponse");
+//import GetDomainSettingsResponseCollection = require("../Responses/GetDomainSettingsResponseCollection");
+//import GetFolderRequest = require("./Requests/GetFolderRequest");
+//import GetFolderRequestBase = require("./GetFolderRequestBase");
+//import GetFolderResponse = require("../Responses/GetFolderResponse");
+//import GetRequest = require("./GetRequest");
+//import GetUserSettingsRequest = require("./Requests/GetUserSettingsRequest");
+//import GetUserSettingsResponse = require("../Autodiscover/Responses/GetUserSettingsResponse");
+//import GetUserSettingsResponseCollection = require("../Responses/GetUserSettingsResponseCollection");
+//import IndexedPropertyDefinition = require("../../PropertyDefinitions/IndexedPropertyDefinition");
+//import IOutParam = require("../Interfaces/IOutParam");
+//import IRefParam = require("../Interfaces/IRefParam");
+//import ISelfValidate = require("../Interfaces/ISelfValidate");
+//import Item = require("../ServiceObjects/Items/Item");
+//import ItemAttachment = require("../../ComplexProperties/ItemAttachment");
+//import ItemTraversal = require("../Enumerations/ItemTraversal");
+//import LazyMember = require("./LazyMember");
+//import Mailbox = require("../ComplexProperties/Mailbox");
+//import MapiPropertyType = require("../Enumerations/MapiPropertyType");
+//import MeetingCancellation = require("../ServiceObjects/Items/MeetingCancellation");
+//import MeetingMessage = require("../ServiceObjects/Items/MeetingMessage");
+//import MeetingRequest = require("../ServiceObjects/Items/MeetingRequest");
+//import MeetingResponse = require("./Items/MeetingResponse");
+//import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+//import OutlookProtocolType = require("../../../Enumerations/OutlookProtocolType");
+//import PostItem = require("./Items/PostItem");
+//import PropertyBag = require("../Core/PropertyBag");
+//import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
+//import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
+//import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
+//import PropertySet = require("./PropertySet");
+//import PropertySet = require("./PropertySet");
+//import ProtocolConnection = require("./ProtocolConnection");
+//import ProtocolConnectionCollection = require("../ProtocolConnectionCollection");
+//import RuleOperationErrorCollection = require("../ComplexProperties/RuleOperationErrorCollection");
+//import SearchFolder = require("./Folders/SearchFolder");
+//import SendCancellationsMode = require("../Enumerations/SendCancellationsMode");
+//import ServiceError = require("../Enumerations/ServiceError");
+//import ServiceErrorHandling = require("../../Enumerations/ServiceErrorHandling");
+//import ServiceLocalException = require("./ServiceLocalException");
+//import ServiceObject = require("../ServiceObjects/ServiceObject");
+//import ServiceObjectInfo = require("./ServiceObjects/ServiceObjectInfo");
+//import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
+//import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
+//import ServiceRemoteException = require("../Exceptions/ServiceRemoteException");
+//import ServiceRequestBase = require("./ServiceRequestBase");
+//import ServiceResponse = require("../Responses/ServiceResponse");
+//import ServiceResponseCollection = require("../Responses/ServiceResponseCollection");
+//import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
+//import ServiceResult = require("../../Enumerations/ServiceResult");
+//import ServiceValidationException = require("../../Exceptions/ServiceValidationException");
+//import ServiceVersionException = require("../Exceptions/ServiceVersionException");
+//import ServiceXmlDeserializationException = require("../../Exceptions/ServiceXmlDeserializationException");
+//import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+//import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
+//import Task = require("./Items/Task");
+//import TasksFolder = require("../ServiceObjects/Folders/ContactsFolder");
+//import TraceFlags = require("../Enumerations/TraceFlags");
+//import UserSettingError = require("../UserSettingError");
+//import UserSettingName = require("../../Enumerations/UserSettingName");
+//import WebClientUrl = require("./WebClientUrl");
+//import WebClientUrlCollection = require("../WebClientUrlCollection");
+//import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
+//import WindowsLiveCredentials = require("../Credentials/WindowsLiveCredentials");
+//import xml = require("System.Xml");
+//import XmlAttributeNames = require("../XmlAttributeNames");
+//import XmlElementNames = require("../XmlElementNames");
+//import XmlNamespace = require("../../Enumerations/XmlNamespace");
 
-import GetUserSettingsResponseCollection = require("../Responses/GetUserSettingsResponseCollection");
-import GetUserSettingsResponse = require("./Responses/GetUserSettingsResponse");
-import GetDomainSettingsResponseCollection = require("../Responses/GetDomainSettingsResponseCollection");
-import GetDomainSettingsResponse = require("../Responses/GetDomainSettingsResponse");
-
-import AutodiscoverResponseCollection = require("../AutodiscoverResponseCollection");
-import AlternateMailboxCollection = require("../AlternateMailboxCollection");
-import DocumentSharingLocationCollection = require("../DocumentSharingLocationCollection");
-import WebClientUrlCollection = require("../WebClientUrlCollection");
-import ProtocolConnectionCollection = require("../ProtocolConnectionCollection");
-import ProtocolConnection = require("./ProtocolConnection");
-import DocumentSharingLocation = require("./DocumentSharingLocation");
-import GetDomainSettingsRequest = require("./Requests/GetDomainSettingsRequest");
-import GetUserSettingsRequest = require("./Requests/GetUserSettingsRequest");
-
-import ConfigurationSettingsBase = require("../ConfigurationSettingsBase");
-
-import UserSettingError = require("../UserSettingError");
-import DomainSettingError = require("../DomainSettingError");
-
-import AutodiscoverError = require("../../AutodiscoverError");
-import AutodiscoverResponse = require("./AutodiscoverResponse");
-import AutodiscoverResponseCollection = require("../AutodiscoverResponseCollection");
-
-import xml = require("System.Xml");
-
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-import ServiceResponse = require("../Core/Responses/ServiceResponse");
-import ServiceObjectSchema = require("../ServiceObjects/Schemas/ServiceObjectSchema");
-
-import XmlAttributeNames = require("../../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
-
-import AffectedTaskOccurrence = require("../Enumerations/AffectedTaskOccurrence");
-import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
-import AutodiscoverResponseType = require("../../../Enumerations/AutodiscoverResponseType");
-import BasePropertySet = require("../Enumerations/BasePropertySet");
-import BodyType = require("../Enumerations/BodyType");
-import DefaultExtendedPropertySet = require("../Enumerations/DefaultExtendedPropertySet");
-import DeleteMode = require("../Enumerations/DeleteMode");
-import DomainSettingName = require("../../Enumerations/DomainSettingName");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import MapiPropertyType = require("../Enumerations/MapiPropertyType");
-import OutlookProtocolType = require("../../../Enumerations/OutlookProtocolType");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import SendCancellationsMode = require("../Enumerations/SendCancellationsMode");
-import ServiceError = require("../Enumerations/ServiceError");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import ServiceResult = require("../../Enumerations/ServiceResult");
-import TraceFlags = require("../Enumerations/TraceFlags");
-import UserSettingName = require("../../Enumerations/UserSettingName");
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
-import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import ConversationQueryTraversal = require("../Enumerations/ConversationQueryTraversal");
-import FileAsMapping = require("../Enumerations/FileAsMapping");
-
-import WebClientUrl = require("./WebClientUrl");
-
-import RuleOperationErrorCollection = require("../ComplexProperties/RuleOperationErrorCollection");
-import Attachment = require("../ComplexProperties/Attachment");
-import ItemAttachment = require("../../ComplexProperties/ItemAttachment");
-import Mailbox = require("../ComplexProperties/Mailbox");
-
-import ComplexProperty = require("./ComplexProperty");
-
-
-import ExchangeServiceBase = require("./ExchangeServiceBase");
-import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
-
-import ExchangeService = require("../Core/ExchangeService");
-
-import EwsUtilities = require("../../Core/EwsUtilities");
-
-import ExchangeCredentials = require("./Credentials/ExchangeCredentials");
-
-import ExchangeServerInfo = require("../../Core/ExchangeServerInfo");
-
-
-import PropertyBag = require("../Core/PropertyBag");
-import PropertySet = require("./PropertySet");
-
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
-import DelegateTypes = require("../Misc/DelegateTypes");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import ServiceObjectInfo = require("./ServiceObjects/ServiceObjectInfo");
-import Item = require("../ServiceObjects/Items/Item");
-import Folder = require("../ServiceObjects/Folders/Folder");
-import CalendarFolder = require("../ServiceObjects/Folders/CalendarFolder");
-import ContactsFolder = require("../ServiceObjects/Folders/TasksFolder");
-import TasksFolder = require("../ServiceObjects/Folders/ContactsFolder");
-import SearchFolder = require("./Folders/SearchFolder");
-import Contact = require("../ServiceObjects/Items/Contact");
-import ContactGroup = require("../ServiceObjects/Items/ContactGroup");
-import Conversation = require("../ServiceObjects/Items/Conversation");
-import EmailMessage = require("../ServiceObjects/Items/EmailMessage");
-import MeetingMessage = require("../ServiceObjects/Items/MeetingMessage");
-import MeetingCancellation = require("../ServiceObjects/Items/MeetingCancellation");
-import MeetingRequest = require("../ServiceObjects/Items/MeetingRequest");
-import MeetingResponse = require("./Items/MeetingResponse");
-import PostItem = require("./Items/PostItem");
-import Task = require("./Items/Task");
-
-import PropertySet = require("./PropertySet");
-
-
-import ServiceLocalException = require("./ServiceLocalException");
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
-import ServiceValidationException = require("../../Exceptions/ServiceValidationException");
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-
-import ISelfValidate = require("../Interfaces/ISelfValidate");
-
-
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-import IndexedPropertyDefinition = require("../../PropertyDefinitions/IndexedPropertyDefinition");
-import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
-
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
-
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
-
-
-import LazyMember = require("./LazyMember");
-//import LazyMember = lm.LazyMember;
-
-import altDict = require("../AltDictionary");
+//import String = ExtensionMethods.stringFormatting;

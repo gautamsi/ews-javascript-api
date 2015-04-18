@@ -108,3 +108,14 @@ import ServiceId = require("./ServiceId");
         }
     }
 }
+
+ export = FolderId;
+
+
+
+
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;
+

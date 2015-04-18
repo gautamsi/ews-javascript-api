@@ -22,7 +22,7 @@ class AutodiscoverResponse {
                 break;
         }
     }
-    LoadFromObject(obj: any, endElementName: string): void {
+    LoadFromJson(obj: any/*, endElementName: string*/): void {
 
         var errorstring: string = obj[XmlElementNames.ErrorCode];
         this.ErrorCode = AutodiscoverErrorCode[errorstring];

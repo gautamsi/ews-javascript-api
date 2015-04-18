@@ -1,3 +1,19 @@
+import ExchangeService = require("../ExchangeService");
+import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import XmlElementNames = require("../XmlElementNames");
+import XmlNamespace = require("../../Enumerations/XmlNamespace");
+import XmlAttributeNames = require("../XmlAttributeNames");
+import EwsUtilities = require("../EwsUtilities");
+import ExchangeServerInfo = require("../ExchangeServerInfo");
+import DateTimePrecision = require("../../Enumerations/DateTimePrecision");
+import ServiceVersionException = require("../../Exceptions/ServiceVersionException");
+
+import ExtensionMethods = require("../../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
+
 class ServiceRequestBase {
 
     //#region private static and const
@@ -111,7 +127,7 @@ class ServiceRequestBase {
             //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
             var soapFaultDetails: SoapFaultDetails = null;
 
-            if (webException.status == System.Net.HttpStatusCode.InternalServerError) {
+            if (webException.status == 500  /*System.Net.HttpStatusCode.InternalServerError*/) {
                 //this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, httpWebResponse);
 
                 // If tracing is enabled, we read the entire response into a MemoryStream so that we
@@ -336,8 +352,8 @@ class ServiceRequestBase {
     ThrowIfNotSupportedByRequestedServerVersion(): void {
 
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {
-            throw new Exceptions.ServiceVersionException(
-                string.Format(
+            throw new ServiceVersionException(
+                String.Format(
                     "not supported operation, soap element {0} not only supported in exchange version {1} onward  ",//Strings.RequestIncompatibleWithRequestVersion,
                     this.GetXmlElementName(),
                     ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
@@ -365,7 +381,7 @@ class ServiceRequestBase {
             }
             //}
 
-            if (!string.IsNullOrEmpty(clientStatisticsToAdd)) {
+            if (!String.IsNullOrEmpty(clientStatisticsToAdd)) {
                 if (request.headers[ServiceRequestBase.ClientStatisticsRequestHeader]) {
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] =
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;

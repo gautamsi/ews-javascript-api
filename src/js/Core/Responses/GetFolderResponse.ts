@@ -1,106 +1,54 @@
-// ---------------------------------------------------------------------------
-// <copyright file="GetFolderResponse.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+import Folder = require("../ServiceObjects/Folders/Folder");
+import PropertySet = require("../PropertySet");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import ExchangeService = require("../ExchangeService");
+import EwsUtilities = require("../EwsUtilities");
+import XmlElementNames = require("../XmlElementNames");
 
-//-----------------------------------------------------------------------
-// <summary>Defines the GetFolderResponse class.</summary>
-//-----------------------------------------------------------------------
+import ServiceResponse = require("./ServiceResponse");
+class GetFolderResponse extends ServiceResponse {
+    get Folder(): Folder { return this.folder; }
+    private folder: Folder;
+    private propertySet: PropertySet;
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    constructor(folder: Folder, propertySet: PropertySet) {
+        super();
 
-    /// <summary>
-    /// Represents the response to an individual folder retrieval operation.
-    /// </summary>
-    public sealed class GetFolderResponse : ServiceResponse
-    {
-        private Folder folder;
-        private PropertySet propertySet;
+        this.folder = folder;
+        this.propertySet = propertySet;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetFolderResponse"/> class.
-        /// </summary>
-        /// <param name="folder">The folder.</param>
-        /// <param name="propertySet">The property set from the request.</param>
-        internal GetFolderResponse(Folder folder, PropertySet propertySet)
-            : base()
-        {
-            this.folder = folder;
-            this.propertySet = propertySet;
+        EwsUtilities.Assert(
+            this.propertySet != null,
+            "GetFolderResponse.ctor",
+            "PropertySet should not be null");
+    }
 
-            EwsUtilities.Assert(
-                this.propertySet != null,
-                "GetFolderResponse.ctor",
-                "PropertySet should not be null");
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder {
+        if (this.Folder != null) {
+            return this.Folder;
         }
-
-        /// <summary>
-        /// Reads response elements from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        internal override void ReadElementsFromXml(EwsServiceXmlReader reader)
-        {
-            base.ReadElementsFromXml(reader);
-
-            List<Folder> folders = reader.ReadServiceObjectsCollectionFromXml<Folder>(
-                XmlElementNames.Folders,
-                this.GetObjectInstance,
-                true,               /* clearPropertyBag */
-                this.propertySet,   /* requestedPropertySet */
-                false);             /* summaryPropertiesOnly */
-
-            this.folder = folders[0];
-        }
-
-        /// <summary>
-        /// Reads response elements from Json.
-        /// </summary>
-        /// <param name="responseObject">The response object.</param>
-        /// <param name="service">The service.</param>
-        internal override void ReadElementsFromJson(JsonObject responseObject, ExchangeService service)
-        {
-            base.ReadElementsFromJson(responseObject, service);
-
-            List<Folder> folders = new EwsServiceJsonReader(service).ReadServiceObjectsCollectionFromJson<Folder>(
-                responseObject,
-                XmlElementNames.Folders,
-                this.GetObjectInstance,
-                true,               /* clearPropertyBag */
-                this.propertySet,   /* requestedPropertySet */
-                false);             /* summaryPropertiesOnly */
-
-            this.folder = folders[0];
-        }
-
-        /// <summary>
-        /// Gets the folder instance.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <returns>Folder.</returns>
-        private Folder GetObjectInstance(ExchangeService service, string xmlElementName)
-        {
-            if (this.Folder != null)
-            {
-                return this.Folder;
-            }
-            else
-            {
-                return EwsUtilities.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
-            }
-        }
-
-        /// <summary>
-        /// Gets the folder that was retrieved.
-        /// </summary>
-        public Folder Folder
-        {
-            get { return this.folder; }
+        else {
+            return EwsUtilities.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
         }
     }
+    //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    ReadElementsFromXml(reader: EwsServiceXmlReader): void {
+        super.ReadElementsFromXml(reader);
+
+        var folders: Folder[] = reader.ReadServiceObjectsCollectionFromXml<Folder>(
+            XmlElementNames.Folders,
+            this.GetObjectInstance,
+            true,               /* clearPropertyBag */
+            this.propertySet,   /* requestedPropertySet */
+            false);             /* summaryPropertiesOnly */
+
+        this.folder = folders[0];
+    }
 }
+
+export= GetFolderResponse;
+
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;

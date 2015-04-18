@@ -35,14 +35,14 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
         //while (!reader.IsEndElement(XmlNamespace.Autodiscover, endElementName));
     }
 
-    LoadFromObject(obj: any, endElementName: string): void {
+    LoadFromJson(obj: any): void {
 
         var element = this.GetResponseCollectionXmlElementName()
-        super.LoadFromObject(obj, endElementName);
-        this.LoadResponseCollectionFromObject(obj[element]);
+        super.LoadFromJson(obj);
+        this.LoadResponseCollectionFromJson(obj[element]);
     }
 
-    LoadResponseCollectionFromObject(obj: any): void {
+    LoadResponseCollectionFromJson(obj: any): void {
         var element = this.GetResponseInstanceXmlElementName()
         var responses = undefined;
         if (Object.prototype.toString.call(obj[element]) === "[object Array]")
@@ -52,7 +52,7 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
 
         for (var i = 0; i < responses.length; i++) {
             var response: TResponse = this.CreateResponseInstance();
-            response.LoadFromObject(responses[i], this.GetResponseInstanceXmlElementName());
+            response.LoadFromJson(responses[i]);
             this.Responses.push(response);
         }
     }

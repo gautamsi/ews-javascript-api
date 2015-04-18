@@ -52,7 +52,10 @@ class AlternateMailbox {
         reader.SeekLast(); // to go back to last one, fix for xmlnode based reader.
         return altMailbox;
     }
+    static LoadFromJson(obj: any): AlternateMailbox { throw new Error("this was skipped as not needed at dev time, fix this"); }
+
 }
+
 
 export = AlternateMailbox;
 

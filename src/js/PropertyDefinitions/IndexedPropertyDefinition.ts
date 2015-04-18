@@ -2,8 +2,10 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlElementNames = require("../Core/XmlElementNames");
 
-import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
+import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
 
+import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
 class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
     get Index(): string { return this.index; }
     get Type(): string { return 'string'; /*return typeof string;*/ } //System.Type;
@@ -21,7 +23,7 @@ class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
     }
     GetHashCode(): number { throw new Error("Not implemented."); }
     //GetJsonType(): string { throw new Error("Not implemented."); }
-    GetPrintableName(): string { return string.Format("{0}:{1}", this.Uri, this.Index); }
+    GetPrintableName(): string { return String.Format("{0}:{1}", this.Uri, this.Index); }
     GetXmlElementName(): string { return XmlElementNames.IndexedFieldURI; }
     static IsEqualTo(idxPropDef1: IndexedPropertyDefinition, idxPropDef2: IndexedPropertyDefinition): boolean {
         return idxPropDef1 === idxPropDef2 ||

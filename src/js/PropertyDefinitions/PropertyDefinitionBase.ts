@@ -1,3 +1,4 @@
+
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
@@ -5,6 +6,9 @@ import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlElementNames = require("../Core/XmlElementNames");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
+import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
+
+import IOutParam = require("../Interfaces/IOutParam");
 
 class PropertyDefinitionBase {
     Version: ExchangeVersion;
@@ -15,29 +19,31 @@ class PropertyDefinitionBase {
     GetXmlElementName(): string { throw new Error("abstract methos, must implement"); }
     ToString(): string { return this.GetPrintableName(); }
     //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("Not implemented.");}
-    static TryLoadFromXml(reader: EwsServiceXmlReader, outP: IOutParam<PropertyDefinitionBase> /* propertyDefinition: any*/): boolean {
-        //var propertyDefinition = null;
-        outP.value = null;
-        switch (reader.LocalName) {
-            case XmlElementNames.FieldURI:
-                debugger;//todo: implement serviceobjectschema method
-                outP.value /*propertyDefinition*/ = ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI));
-                reader.SkipCurrentElement();
-                return true;
-            case XmlElementNames.IndexedFieldURI:
-                outP.value = new IndexedPropertyDefinition(
-                    reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI),
-                    reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldIndex));
-                reader.SkipCurrentElement();
-                return true;
-            case XmlElementNames.ExtendedFieldURI:
-                outP.value = new ExtendedPropertyDefinition();
-                (<ExtendedPropertyDefinition>outP.value).LoadFromXml(reader);
-                return true;
-            default:
-                return false;
-        }
-    }
+
+    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------
+    ////static TryLoadFromXml(reader: EwsServiceXmlReader, outParam: IOutParam<PropertyDefinitionBase> /* propertyDefinition: any*/): boolean {
+    ////    //var propertyDefinition = null;
+    ////    outParam.value = null;
+    ////    switch (reader.LocalName) {
+    ////        case XmlElementNames.FieldURI:
+    ////            debugger;//todo: implement serviceobjectschema method
+    ////            outParam.value /*propertyDefinition*/ = ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI));
+    ////            reader.SkipCurrentElement();
+    ////            return true;
+    ////        case XmlElementNames.IndexedFieldURI:
+    ////            outParam.value = new IndexedPropertyDefinition(
+    ////                reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI),
+    ////                reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldIndex));
+    ////            reader.SkipCurrentElement();
+    ////            return true;
+    ////        case XmlElementNames.ExtendedFieldURI:
+    ////            outParam.value = new ExtendedPropertyDefinition();
+    ////            (<ExtendedPropertyDefinition>outParam.value).LoadFromXml(reader);
+    ////            return true;
+    ////        default:
+    ////            return false;
+    ////    }
+    ////}
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract methos, must implement"); }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.GetXmlElementName());

@@ -1,5 +1,4 @@
-﻿//todo convert to delegate interface.
-export interface AutodiscoverRedirectionUrlValidationCallback {
+﻿export interface AutodiscoverRedirectionUrlValidationCallback {
     (redirectionUrl: string): boolean;
 }
 //class AutodiscoverRedirectionUrlValidationCallback extends System.MulticastDelegate {

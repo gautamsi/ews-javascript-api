@@ -123,7 +123,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
                 "Unexpected or empty name element in user setting");
     }
 
-    LoadDomainSettingErrorsFromObject(obj: any): void {
+    LoadDomainSettingErrorsFromJson(obj: any): void {
         var errors = undefined;
 
         if (typeof (obj[XmlElementNames.DomainSettingError]) === 'undefined') return;
@@ -140,7 +140,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
         }
 
     }
-    LoadDomainSettingsFromObject(obj: any): void {
+    LoadDomainSettingsFromJson(obj: any): void {
         var settings = undefined;
 
         if (typeof (obj[XmlElementNames.DomainSetting]) === 'undefined') return;
@@ -155,7 +155,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
             var settingClass = setting["type"];
             switch (settingClass) {
                 case XmlElementNames.DomainStringSetting:
-                    this.ReadSettingFromObject(setting);
+                    this.ReadSettingFromJson(setting);
                     break;
 
                 default:
@@ -170,14 +170,14 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
             }
         }
     }
-    LoadFromObject(obj: any, parentElementName: string): void {
-        super.LoadFromObject(obj, parentElementName);
+    LoadFromJson(obj: any): void {
+        super.LoadFromJson(obj);
         var settingscol = obj[XmlElementNames.DomainSettings];
-        this.LoadDomainSettingsFromObject(settingscol);
+        this.LoadDomainSettingsFromJson(settingscol);
         this.RedirectTarget = obj[XmlElementNames.RedirectTarget];
-        this.LoadDomainSettingErrorsFromObject(obj[XmlElementNames.DomainSettingErrors]);
+        this.LoadDomainSettingErrorsFromJson(obj[XmlElementNames.DomainSettingErrors]);
     }
-    ReadSettingFromObject(obj: any): void {
+    ReadSettingFromJson(obj: any): void {
         var name: string = obj[XmlElementNames.Name];
         var value: any = obj[XmlElementNames.Value];
 

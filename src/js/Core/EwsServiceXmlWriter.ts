@@ -2,6 +2,9 @@ import ExchangeServiceBase = require("./ExchangeServiceBase");
 import EwsUtilities = require("./EwsUtilities");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
+import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
+
 class EwsServiceXmlWriter {
     //get InternalWriter(): System.Xml.XmlWriter;
     get Service(): ExchangeServiceBase { return this.service }
@@ -137,7 +140,7 @@ class EwsServiceXmlWriter {
             this.WriteEndElement();
         }
         else {
-            throw new Error(string.Format(
+            throw new Error(String.Format(
             //Strings.ElementValueCannotBeSerialized.ToString(),
                 "Element value can not be serialized, {0}: {1}",
                 typeof (value), localName));

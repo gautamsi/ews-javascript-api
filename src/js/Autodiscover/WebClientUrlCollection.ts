@@ -5,7 +5,7 @@ import XmlElementNames = require("../Core/XmlElementNames");
 class WebClientUrlCollection {
     Urls: WebClientUrl[] = [];// new Array<WebClientUrl>();// System.Collections.Generic.List<WebClientUrl>;
     //private urls: WebClientUrl[];// System.Collections.Generic.List<WebClientUrl>;
-    static LoadFromObject(obj: any): WebClientUrlCollection {
+    static LoadFromJson(obj: any): WebClientUrlCollection {
         var instance = new WebClientUrlCollection();
 
         var element = XmlElementNames.WebClientUrl;
@@ -30,7 +30,7 @@ class WebClientUrlCollection {
         do {
             reader.Read();
 
-            if ((reader.NodeType == Node.ELEMENT_NODE) && (reader.LocalName == XmlElementNames.WebClientUrl)) {
+            if ((reader.NodeType == 1/*Node.ELEMENT_NODE*/) && (reader.LocalName == XmlElementNames.WebClientUrl)) {
                 instance.Urls.push(WebClientUrl.LoadFromXml(reader));
             }
         }

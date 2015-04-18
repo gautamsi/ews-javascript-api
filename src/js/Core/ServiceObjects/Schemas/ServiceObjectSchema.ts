@@ -1,3 +1,17 @@
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+import PropertyDefinitionBase = require("../../../PropertyDefinitions/PropertyDefinitionBase");
+import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
+import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
+
+import IOutParam = require("../../../Interfaces/IOutParam");
+import altDict = require("../../../AltDictionary");
+import StringPropertyDefinitionBaseDictionary = altDict.StringPropertyDefinitionBaseDictionary;
+import PropDictionary = altDict.PropDictionary;
+
+import ExtensionMethods = require("../../../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
+
+import EwsUtilities = require("../../EwsUtilities");
 
 class ServiceObjectSchema {
     //todo: fixing difficulties with following c# code.
@@ -14,6 +28,7 @@ class ServiceObjectSchema {
     private static lockObject: any = {};
     private static allSchemaTypes: string[] = function () { //SchemaTypeList - LazyMember<T>; - using typenames[] temporarily
         var typeList: string[] = [];
+        return typeList;
         typeList.push("AppointmentSchema");
         typeList.push("CalendarResponseObjectSchema");
         typeList.push("CancelMeetingMessageSchema");
@@ -58,13 +73,13 @@ class ServiceObjectSchema {
             (propertyDefinition: PropertyDefinition, fieldName: string) => {
                 // Some property definitions descend from ServiceObjectPropertyDefinition but don't have
                 // a Uri, like ExtendedProperties. Ignore them.
-                if (!string.IsNullOrEmpty(propertyDefinition.Uri)) {
-                    var existingPropertyDefinition: IOutParam<PropertyDefinitionBase> = { value: null };
+                if (!String.IsNullOrEmpty(propertyDefinition.Uri)) {
+                    var existingPropertyDefinition: IOutParam<PropertyDefinitionBase> = { outValue: null };
                     if (propDefDictionary.tryGetValue(propertyDefinition.Uri, existingPropertyDefinition)) {
                         EwsUtilities.Assert(
                             existingPropertyDefinition == propertyDefinition,
                             "Schema.allSchemaProperties.delegate",
-                            string.Format("There are at least two distinct property definitions with the following URI: {0}", propertyDefinition.Uri));
+                            String.Format("There are at least two distinct property definitions with the following URI: {0}", propertyDefinition.Uri));
                     }
                     else {
                         propDefDictionary.add(propertyDefinition.Uri, propertyDefinition);
@@ -91,17 +106,14 @@ class ServiceObjectSchema {
     static FindPropertyDefinition(uri: string): PropertyDefinitionBase {
         return ServiceObjectSchema.allSchemaProperties.get(uri);
     }
-    static ForeachPublicStaticPropertyFieldInType(type: string /*System.Type*/, propFieldDelegate: (propertyDefinition: PropertyDefinition, fieldInfo: any /*FieldInfo*/) => void /*ServiceObjectSchema.PropertyFieldInfoDelegate*/): void {
-        //FieldInfo[]fieldInfos = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-        var obj = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + type);
-        if (obj || obj != null) {
-            for (var s in obj) {
-                if (typeof (obj[s]) != "function" && obj[s] instanceof (PropertyDefinition)) {
-                    var propertyDefinition = <PropertyDefinition> obj[s];
-                    propFieldDelegate(propertyDefinition, s);
-                }
+    static ForeachPublicStaticPropertyFieldInType(type: any /*System.Type*/, propFieldDelegate: (propertyDefinition: PropertyDefinition, fieldInfo: any /*FieldInfo*/) => void /*ServiceObjectSchema.PropertyFieldInfoDelegate*/): void {
+        var keys = Object.keys(type);
+        keys.forEach((s) => {
+            if (typeof (type[s]) != "function" && type[s] instanceof (PropertyDefinition)) {
+                var propertyDefinition = <PropertyDefinition> type[s];
+                propFieldDelegate(propertyDefinition, s);
             }
-        }
+        });
         //var staticfields = TypeSystem.GetObjectStaticPropertiesByClassName("Microsoft.Exchange.WebServices.Data." + type);
 
         //for (var field in staticfields) {

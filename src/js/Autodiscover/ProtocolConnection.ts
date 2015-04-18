@@ -4,9 +4,9 @@ class ProtocolConnection {
     EncryptionMethod: string;
     Hostname: string;
     Port: number;
-    private encryptionMethod: string;
-    private hostname: string;
-    private port: number;
+    //private encryptionMethod: string;
+    //private hostname: string;
+    //private port: number;
     LoadFromXml(reader: EwsXmlReader): ProtocolConnection { throw new Error("Not implemented."); }
 }
 export = ProtocolConnection;

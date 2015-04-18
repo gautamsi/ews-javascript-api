@@ -4,9 +4,9 @@ import XmlElementNames = require("../Core/XmlElementNames");
 class WebClientUrl {
     AuthenticationMethods: string;
     Url: string;
-    private authenticationMethods: string;
-    private url: string;
-    static LoadFromObject(obj: any): WebClientUrl {
+    //private authenticationMethods: string;
+    //private url: string;
+    static LoadFromJson(obj: any): WebClientUrl {
         var webClientUrl = new WebClientUrl();
         webClientUrl.AuthenticationMethods = obj[XmlElementNames.AuthenticationMethods];
         webClientUrl.Url = obj[XmlElementNames.Url];

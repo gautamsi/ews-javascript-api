@@ -218,7 +218,15 @@ class EwsUtilities {
     static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("Not implemented."); }
     static DateTimeToXSDate(date: Date): string { throw new Error("Not implemented."); }
     static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("Not implemented."); }
-    static DomainFromEmailAddress(emailAddress: string): string { throw new Error("Not implemented."); }
+    static DomainFromEmailAddress(emailAddress: string): string {
+        var emailAddressParts: string[]  = emailAddress.split('@');
+
+        if (emailAddressParts.length != 2 || String.IsNullOrEmpty(emailAddressParts[1])) {
+            throw new Error("invalid email address"/*Strings.InvalidEmailAddress*/);
+        }
+
+        return emailAddressParts[1];
+    }
     static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): System.DayOfWeek /*todo: fix system enums here*/ { throw new Error("Not implemented."); }
     //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("Not implemented.");}
     //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("Not implemented.");}

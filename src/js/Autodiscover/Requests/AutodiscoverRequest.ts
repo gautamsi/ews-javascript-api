@@ -13,6 +13,8 @@ import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 
 import AutodiscoverService = require("../AutodiscoverService");
 import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
 
 var WinJS = require('winjs');
 
@@ -28,10 +30,6 @@ class AutodiscoverRequest {
 
     private service: AutodiscoverService;
     private url: string;//System.Uri;
-
-    private soapFaultDetails: SoapFaultDetails;
-
-
 
     constructor(service: AutodiscoverService, url: string) {
         this.service = service;
@@ -70,7 +68,7 @@ class AutodiscoverRequest {
     }
     CreateServiceResponse(): AutodiscoverResponse { throw new Error("Not implemented."); }
     GetRequestXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseStream(response:any /*IEwsHttpWebResponse*/): any { //System.IO.Stream{
+    GetResponseStream(response: any /*IEwsHttpWebResponse*/): any { //System.IO.Stream{
         //string contentEncoding = response.ContentEncoding;
         //Stream responseStream = response.GetResponseStream();
 
@@ -95,13 +93,13 @@ class AutodiscoverRequest {
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
         var cc = writer.GetXML();
-        debugger;
         var xhrOptions: WinJS.IXHROptions = {
             type: "POST",
             data: cc,
-            url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
+            //url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
+            url: this.url,
             //headers: { "Content-Type": "text/xml", "Authorization": cred },
-            headers: { "Content-Type": "text/xml"},
+            headers: { "Content-Type": "text/xml" },
             //customRequestInitializer: function (x) {
             //    var m = x;
             //}
@@ -110,12 +108,11 @@ class AutodiscoverRequest {
         return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
             WinJS.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
-                //var util = require('util');
-                //console.log(util.inspect(xhrResponse, { showHidden: false, depth: null, colors: true }));
+                var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
+                var util = require('util');
+                //console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
+                //console.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
                 if (xhrResponse.status == 200) {
-                    var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                    //var util = require('util');
-                    //console.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
 
                     //ewsXmlReader.Read();
                     //if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
@@ -140,26 +137,41 @@ class AutodiscoverRequest {
                     }
 
                 }
+                else {
+                    console.log("status !== 200" + xhrResponse);
+                    console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
+                    console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
+
+                }
 
                 if (successDelegate)
                     successDelegate(response || xhrResponse.responseText || xhrResponse.response);
-                else {
-                    if (errorDelegate)
-                        errorDelegate(xhrResponse.response);
-                }
+
             },(resperr: XMLHttpRequest) => {
-                    this.ProcessWebException(resperr);
-                    if (errorDelegate) errorDelegate(this.soapFaultDetails || resperr.responseText || resperr.response);
+                    //var ewsXmlReader = new EwsXmlReader(resperr.responseText || resperr.response);
+                    //var util = require('util');
+                    //console.log("request error");
+                    //console.log(util.inspect(resperr, { showHidden: false, depth: null, colors: true }));
+                    ////console.log(util.inspect(resperr.response, { showHidden: false, depth: null, colors: true }));
+                    //console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
+                    var exception;
+                    try {
+                        this.ProcessWebException(resperr);
+                    }
+                    catch (exc) {
+                        exception = exc;
+                    }
+                    if (errorDelegate) errorDelegate(exception || resperr.responseText || resperr.response);
                 });
         });
 
     }
-    //IsRedirectionResponse(httpWebResponse: IEwsHttpWebResponse): boolean {
-    //    return (httpWebResponse.StatusCode == System.Net.HttpStatusCode.Redirect) ||
-    //        (httpWebResponse.StatusCode == System.Net.HttpStatusCode.Moved) ||
-    //        (httpWebResponse.StatusCode == System.Net.HttpStatusCode.RedirectKeepVerb) ||
-    //        (httpWebResponse.StatusCode == System.Net.HttpStatusCode.RedirectMethod);
-    //}
+    static IsRedirectionResponse(httpWebResponse: XMLHttpRequest): boolean {
+        return (httpWebResponse.status == 302 /*System.Net.HttpStatusCode.Redirect*/) ||
+            (httpWebResponse.status == 301 /*System.Net.HttpStatusCode.Moved*/) ||
+            (httpWebResponse.status == 307 /*System.Net.HttpStatusCode.RedirectKeepVerb*/) ||
+            (httpWebResponse.status == 303 /*System.Net.HttpStatusCode.RedirectMethod*/);
+    }
     LoadFromXml(reader: EwsXmlReader): AutodiscoverResponse {
         var elementName = this.GetResponseXmlElementName();
         reader.ReadStartElement(XmlNamespace.Autodiscover, elementName);
@@ -171,7 +183,7 @@ class AutodiscoverRequest {
         var elementName = this.GetResponseXmlElementName();
         obj = obj.Body[elementName];
         var response = this.CreateServiceResponse();
-        response.LoadFromObject(obj[XmlElementNames.Response], elementName);
+        response.LoadFromJson(obj[XmlElementNames.Response]);
         return response;
     }
 
@@ -209,17 +221,13 @@ class AutodiscoverRequest {
                 //        soapFaultDetails = this.ReadSoapFault(reader);
                 //    }
                 //}
-                var reader = new EwsXmlReader(webException.responseText);
+                var reader = new EwsXmlReader(webException.responseText || webException.response);
                 soapFaultDetails = this.ReadSoapFault(reader);
 
-                if (soapFaultDetails != null) {
-                    //this.soapFaultDetails = soapFaultDetails;
+                if (soapFaultDetails) {
                     //todo: implement soap fault error throw
-                    //throw new Error(soapFaultDetails.Message);// ServiceResponseException(new ServiceResponse(soapFaultDetails));
+                    throw new ServiceResponseException(new ServiceResponse(soapFaultDetails));
                 }
-                //todo: temporary before properly implement throwing soap fault to app code.
-                this.soapFaultDetails = soapFaultDetails;
-
             }
             else {
                 //todo: fix this
@@ -258,7 +266,7 @@ class AutodiscoverRequest {
         return serverInfo;
     }
     ReadSoapBody(reader: EwsXmlReader): AutodiscoverResponse {
-        var responses = this.LoadFromObject(reader.JObject);
+        var responses = this.LoadFromObject(reader.JsonObject);
         return responses
 
         reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
@@ -267,58 +275,66 @@ class AutodiscoverRequest {
         return responses;
     }
     ReadSoapFault(reader: EwsXmlReader): SoapFaultDetails {
-        var soapFaultDetails: SoapFaultDetails = null;
-
-        try {
-            // WCF may not generate an XML declaration.
-            reader.Read();
-            //if (reader.NodeType == Node.  System.Xml.XmlNodeType.XmlDeclaration) {
-            //    reader.Read();
-            //}
-
-            if (reader.LocalName != XmlElementNames.SOAPEnvelopeElementName) {
-                return soapFaultDetails;
-            }
-
-            // Get the namespace URI from the envelope element and use it for the rest of the parsing.
-            // If it's not 1.1 or 1.2, we can't continue.
-            var soapNamespace: XmlNamespace = EwsUtilities.GetNamespaceFromUri(reader.NamespaceUri);
-            if (soapNamespace == XmlNamespace.NotSpecified) {
-                return soapFaultDetails;
-            }
-
-            reader.Read();
-
-            // Skip SOAP header.
-            if (reader.IsElement(soapNamespace, XmlElementNames.SOAPHeaderElementName)) {
-                do {
-                    reader.Read();
-                }
-                while (reader.HasRecursiveParent(XmlElementNames.SOAPHeaderElementName));
-
-                // Queue up the next read
-                //reader.Read(); - no need with nodeiterator/treewalker as the node is already a body Node
-            }
-
-            // Parse the fault element contained within the SOAP body.
-            if (reader.IsElement(soapNamespace, XmlElementNames.SOAPBodyElementName)) {
-                do {
-                    reader.Read();
-
-                    // Parse Fault element
-                    if (reader.IsElement(soapNamespace, XmlElementNames.SOAPFaultElementName)) {
-                        soapFaultDetails = SoapFaultDetails.Parse(reader, soapNamespace);
-                    }
-                }
-                while (reader.HasRecursiveParent(XmlElementNames.SOAPBodyElementName));
-            }
-        }
-        catch (XmlException) {
-            // If response doesn't contain a valid SOAP fault, just ignore exception and
-            // return null for SOAP fault details.
+        var soapFaultDetails: SoapFaultDetails = undefined;
+        if (reader.JsonObject && reader.JsonObject[XmlElementNames.SOAPBodyElementName])
+        {
+            var obj = reader.JsonObject[XmlElementNames.SOAPBodyElementName];
+            if(obj[XmlElementNames.SOAPFaultElementName])
+                soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
         }
 
         return soapFaultDetails;
+        //skipped xml section, using Json only.
+        //////try {
+        //////    // WCF may not generate an XML declaration.
+        //////    reader.Read();
+        //////    //if (reader.NodeType == Node.  System.Xml.XmlNodeType.XmlDeclaration) {
+        //////    //    reader.Read();
+        //////    //}
+
+        //////    if (reader.LocalName != XmlElementNames.SOAPEnvelopeElementName) {
+        //////        return soapFaultDetails;
+        //////    }
+
+        //////    // Get the namespace URI from the envelope element and use it for the rest of the parsing.
+        //////    // If it's not 1.1 or 1.2, we can't continue.
+        //////    var soapNamespace: XmlNamespace = EwsUtilities.GetNamespaceFromUri(reader.NamespaceUri);
+        //////    if (soapNamespace == XmlNamespace.NotSpecified) {
+        //////        return soapFaultDetails;
+        //////    }
+
+        //////    reader.Read();
+
+        //////    // Skip SOAP header.
+        //////    if (reader.IsElement(soapNamespace, XmlElementNames.SOAPHeaderElementName)) {
+        //////        do {
+        //////            reader.Read();
+        //////        }
+        //////        while (reader.HasRecursiveParent(XmlElementNames.SOAPHeaderElementName));
+
+        //////        // Queue up the next read
+        //////        //reader.Read(); - no need with nodeiterator/treewalker as the node is already a body Node
+        //////    }
+
+        //////    // Parse the fault element contained within the SOAP body.
+        //////    if (reader.IsElement(soapNamespace, XmlElementNames.SOAPBodyElementName)) {
+        //////        do {
+        //////            reader.Read();
+
+        //////            // Parse Fault element
+        //////            if (reader.IsElement(soapNamespace, XmlElementNames.SOAPFaultElementName)) {
+        //////                soapFaultDetails = SoapFaultDetails.Parse(reader, soapNamespace);
+        //////            }
+        //////        }
+        //////        while (reader.HasRecursiveParent(XmlElementNames.SOAPBodyElementName));
+        //////    }
+        //////}
+        //////catch (XmlException) {
+        //////    // If response doesn't contain a valid SOAP fault, just ignore exception and
+        //////    // return null for SOAP fault details.
+        //////}
+
+        //////return soapFaultDetails;
     }
     ReadSoapHeader(reader: EwsXmlReader): void {
         // Is this the ServerVersionInfo?
@@ -328,7 +344,7 @@ class AutodiscoverRequest {
     }
     ReadSoapHeaders(reader: EwsXmlReader): void {
 
-        this.service.ServerInfo = reader.JObject.Header.ServerVersionInfo;
+        this.service.ServerInfo = reader.JsonObject.Header.ServerVersionInfo;
         //return;
         //reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
         //do {

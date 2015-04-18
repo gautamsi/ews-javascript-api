@@ -1,5 +1,6 @@
 import EwsXmlReader = require("../Core/EwsXmlReader");
 import XmlElementNames = require("../Core/XmlElementNames");
+import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import ServiceError = require("../Enumerations/ServiceError");
 
@@ -15,7 +16,7 @@ class SoapFaultDetails {
     ExceptionType: string;
     LineNumber: number;
     PositionWithinLine: number;
-    ErrorDetails: { [index: string]: string }; //System.Collections.Generic.Dictionary<string, string>;
+    ErrorDetails: { [index: string]: string } = {}; //System.Collections.Generic.Dictionary<string, string>;
     //private faultCode: string;
     //private faultString: string;
     //private faultActor: string;
@@ -26,13 +27,67 @@ class SoapFaultDetails {
     //private lineNumber: number;
     //private positionWithinLine: number;
     //private errorDetails: any;//System.Collections.Generic.Dictionary<string, string>;
-    static ParseObject(obj: any): SoapFaultDetails {
+
+
+    static ParseFromJson(obj: any): SoapFaultDetails {
         var soapFaultDetails = new SoapFaultDetails();
         soapFaultDetails.FaultCode = obj[XmlElementNames.SOAPFaultCodeElementName];
         soapFaultDetails.FaultString = obj[XmlElementNames.SOAPFaultStringElementName];
         soapFaultDetails.FaultActor = obj[XmlElementNames.SOAPFaultActorElementName];
-        soapFaultDetails.ParseDetailNode(obj[XmlElementNames.SOAPDetailElementName]);
+
+        if (obj[XmlElementNames.SOAPDetailElementName]) {
+            soapFaultDetails.ParseDetailNodeFromJson(obj[XmlElementNames.SOAPDetailElementName]);
+        }
+
         return soapFaultDetails;
+    }
+    //Parse(jsonObject: JsonObject): SoapFaultDetails{ throw new Error("Not implemented.");}
+    ParseDetailNodeFromJson(obj: any): void {
+
+        if (obj[XmlElementNames.EwsResponseCodeElementName])
+            this.ResponseCode = obj[XmlElementNames.EwsResponseCodeElementName] || ServiceError.ErrorInternalServerError;
+
+        if (obj[XmlElementNames.EwsMessageElementName])
+            this.Message = obj[XmlElementNames.EwsMessageElementName];
+
+        if (obj[XmlElementNames.EwsLineElementName])
+            this.LineNumber = parseInt(obj[XmlElementNames.EwsLineElementName]);
+
+        if (obj[XmlElementNames.EwsPositionElementName])
+            this.PositionWithinLine = parseInt(obj[XmlElementNames.EwsPositionElementName]);
+
+        if (obj[XmlElementNames.EwsErrorCodeElementName])
+            this.ErrorCode = obj[XmlElementNames.EwsErrorCodeElementName] || ServiceError.ErrorInternalServerError;
+
+        if (obj[XmlElementNames.EwsExceptionTypeElementName])
+            this.ExceptionType = obj[XmlElementNames.EwsExceptionTypeElementName];
+
+        if (obj[XmlElementNames.MessageXml])
+            this.ParseMessageXmlFromJson(obj[XmlElementNames.MessageXml]);
+
+    }
+    ParseMessageXmlFromJson(obj: any): void {
+        if (obj[XmlElementNames.Value]) {
+            var element = XmlElementNames.Value;
+            var messageValues;
+            if (Object.prototype.toString.call(obj[element]) === "[object Array]")
+                messageValues = obj[element];
+            else
+                messageValues = [obj[element]];
+
+            for (var i = 0; i < messageValues.length; i++) {
+                var messageValue = messageValues[i];
+                var name = messageValue[XmlAttributeNames.Name];
+                if (name) {
+                    var value = messageValue[element];
+                    this.ErrorDetails[name] = value;
+                }
+
+                this.ErrorDetails;
+                //AlternateMailbox.LoadFromJson(responses[i]);
+                //instance.Entries.push(responses);
+            }
+        }
     }
 
     static Parse(reader: EwsXmlReader, soapNamespace: XmlNamespace): SoapFaultDetails {
@@ -40,7 +95,7 @@ class SoapFaultDetails {
 
         do {
             reader.Read();
-            if (reader.NodeType == 1){ //todo: make node type to match   System.Xml.XmlNodeType.Element) { // Node.ELEMENT_NODE) {
+            if (reader.NodeType == 1) { //todo: make node type to match   System.Xml.XmlNodeType.Element) { // Node.ELEMENT_NODE) {
                 switch (reader.LocalName) {
                     case XmlElementNames.SOAPFaultCodeElementName:
                         soapFaultDetails.FaultCode = reader.ReadElementValue();
@@ -67,12 +122,9 @@ class SoapFaultDetails {
 
         return soapFaultDetails;
     }
-    //Parse(jsonObject: JsonObject): SoapFaultDetails{ throw new Error("Not implemented.");}
-    ParseDetailNodeFromObject(obj: any): void {
-
-    }
     ParseDetailNode(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
     ParseMessageXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
+
 }
 
 export = SoapFaultDetails;

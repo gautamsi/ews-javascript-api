@@ -5,6 +5,7 @@ import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlElementNames = require("../Core/XmlElementNames");
 
 import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
 
 import PropertyDefinitionBase = require("./PropertyDefinitionBase");
 
@@ -16,7 +17,7 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     constructor(uri: string) {
         super();
         EwsUtilities.Assert(
-            !ExtensionMethods.stringFormatting.IsNullOrEmpty(uri),
+            !String.IsNullOrEmpty(uri),
             "ServiceObjectPropertyDefinition.ctor",
             "uri is null or empty");
 
