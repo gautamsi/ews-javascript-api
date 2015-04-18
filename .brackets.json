@@ -1,0 +1,11 @@
+{
+    "typescript": {
+        "target": "ES5",
+        "module": "none",
+        "noImplicitAny": true,
+        "sources" : [
+            "src/**/*.ts",
+            "src/**/*.d.ts"
+        ]
+    }
+}

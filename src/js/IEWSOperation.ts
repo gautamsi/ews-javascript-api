@@ -1,0 +1,2 @@
+﻿ interface asdf<T> { 
+}
