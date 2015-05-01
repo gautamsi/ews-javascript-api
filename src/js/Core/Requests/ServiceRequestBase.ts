@@ -241,12 +241,12 @@ class ServiceRequestBase {
     ReadResponse(ewsXmlReader: EwsServiceXmlReader): any /*object return*/ {
         var serviceResponse;
 
-        this.ReadPreamble(ewsXmlReader);
-        ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+        //this.ReadPreamble(ewsXmlReader);
+        //ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
         this.ReadSoapHeader(ewsXmlReader);
-        ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
+        //ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
 
-        ewsXmlReader.ReadStartElement(XmlNamespace.Messages, this.GetResponseXmlElementName());
+        //ewsXmlReader.ReadStartElement(XmlNamespace.Messages, this.GetResponseXmlElementName());
 
         serviceResponse = this.ParseResponse(ewsXmlReader);
 
@@ -319,7 +319,9 @@ class ServiceRequestBase {
     }
     //ReadSoapFault(jsonSoapFault: JsonObject): SoapFaultDetails { throw new Error("Could not implemented."); }
     ReadSoapHeader(reader: EwsServiceXmlReader): void {
+        this.service.ServerInfo = reader.JsonObject.Header.ServerVersionInfo;
         debugger;
+        return;
         reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
         do {
             reader.Read();

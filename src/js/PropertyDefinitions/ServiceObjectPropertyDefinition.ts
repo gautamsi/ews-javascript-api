@@ -14,7 +14,7 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     get Uri(): string { return this.uri; }
     private uri: string;
-    constructor(uri: string) {
+    constructor(uri?: string) {
         super();
         EwsUtilities.Assert(
             !String.IsNullOrEmpty(uri),

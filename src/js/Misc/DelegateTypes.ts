@@ -1,3 +1,6 @@
+import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 
 
 //no change needed
@@ -46,3 +49,38 @@ export interface PropertyBagChangedDelegate {
 //    //EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
 //    //Invoke(): any{ throw new Error("Not implemented.");}
 //}
+
+
+
+
+
+////// ---- do not belong here, need to have some place for them.
+
+
+export interface GetPropertyDefinitionCallback {
+    (version: ExchangeVersion): PropertyDefinition;
+}
+export interface CreateComplexPropertyDelegate<TComplexProperty extends ComplexProperty> {
+    (): TComplexProperty;
+}
+    //class GetPropertyDefinitionCallback extends System.MulticastDelegate {
+    //    //BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): PropertyDefinition{ throw new Error("Not implemented.");}
+    //    //Invoke(version: ExchangeVersion): PropertyDefinition{ throw new Error("Not implemented.");}
+    //}
+
+    //class CreateComplexPropertyDelegate<TComplexProperty> extends System.MulticastDelegate {
+    //    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    //EndInvoke(result: System.IAsyncResult): TComplexProperty{ throw new Error("Not implemented.");}
+    //    //Invoke(): TComplexProperty{ throw new Error("Not implemented.");}
+    //}
+
+
+
+
+
+
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;

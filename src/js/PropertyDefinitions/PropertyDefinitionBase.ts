@@ -13,6 +13,7 @@ import IOutParam = require("../Interfaces/IOutParam");
 class PropertyDefinitionBase {
     Version: ExchangeVersion;
     Type: any; //System.Type;
+    constructor() { }
     //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any{ throw new Error("Not implemented.");}
     //GetJsonType(): string{ throw new Error("Not implemented.");}
     GetPrintableName(): string { throw new Error("abstract methos, must implement"); }
@@ -20,7 +21,7 @@ class PropertyDefinitionBase {
     ToString(): string { return this.GetPrintableName(); }
     //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("Not implemented.");}
 
-    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------
+    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------ move to separate file so that it does not attract circular dependency
     ////static TryLoadFromXml(reader: EwsServiceXmlReader, outParam: IOutParam<PropertyDefinitionBase> /* propertyDefinition: any*/): boolean {
     ////    //var propertyDefinition = null;
     ////    outParam.value = null;

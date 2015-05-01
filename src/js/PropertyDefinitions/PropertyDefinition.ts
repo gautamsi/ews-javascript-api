@@ -7,7 +7,7 @@ import PropertyBag = require("../Core/PropertyBag");
 
 
 import ExtensionMethods = require("../ExtensionMethods");
-
+import String = ExtensionMethods.stringFormatting;
 
 import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
 
@@ -16,7 +16,7 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     get Version(): ExchangeVersion { return this.version; }
     get IsNullable(): boolean { return true; }
     get XmlElementName(): string { return this.xmlElementName; }
-    get Name(): string { if (ExtensionMethods.stringFormatting.IsNullOrEmpty(this.name)) { debugger; } return this.name; }
+    get Name(): string { if (String.IsNullOrEmpty(this.name)) { debugger; } return this.name; }
     set Name(value: string) { this.name = value; }
     private xmlElementName: string;
     private flags: PropertyDefinitionFlags;
@@ -48,11 +48,13 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
     LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): void { throw new Error("abstract method, must implement"); }
+    LoadPropertyValueFromObject(obj: any, propertyBag:PropertyBag): void { throw new Error("abstract method, must implement"); }
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]/* System.Collections.Generic.List<PropertyDefinition>*/): any {
     }
     //WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void
-    { throw new Error("abstract method, must implement."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        throw new Error("abstract method, must implement.");
+    }
 }
 
 export = PropertyDefinition;

@@ -1,11 +1,18 @@
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
+import Folder = require("../Core/ServiceObjects/Folders/Folder");
+import FolderId = require("../ComplexProperties/FolderId");
+//import FolderWrapper = require("./FolderWrapper");
+
 class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     get Count(): number { return this.ids.length; }
     //Item: AbstractFolderIdWrapper;
     private ids: AbstractFolderIdWrapper[] = [];// System.Collections.Generic.List<AbstractFolderIdWrapper>;
-    Add(folder: Folder): void;// { this.ids.push(new FolderWrapper(folder)) }
-    Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
-    Add(folderOrId: any): void {
-        if (folderOrId instanceof Folder)
+    //Add(folder: Folder): void;// { this.ids.push(new FolderWrapper(folder)) }
+    //Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
+    Add(folderOrId: Folder | FolderId): void {
+
+        if (folderOrId instanceof Folder || folderOrId instanceof FolderId)
             this.ids.push(new FolderWrapper(folderOrId))
         else if (folderOrId instanceof FolderId)
             this.ids.push(new FolderIdWrapper(folderOrId));

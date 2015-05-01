@@ -1,128 +1,41 @@
-// ---------------------------------------------------------------------------
-// <copyright file="PrivilegedUserId.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the PrivilegedUserId class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-
-    /// <summary>
-    /// Represents an privileged user Id.
-    /// </summary>
-    internal sealed class PrivilegedUserId
-    {
-        private PrivilegedLogonType logonType;
-        private ConnectingIdType idType;
-        private string id;
-        private PrivilegedUserIdBudgetType? budgetType;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivilegedUserId"/> class.
-        /// </summary>
-        public PrivilegedUserId()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PrivilegedUserId"/> class.
-        /// </summary>
-        /// <param name="openType">The open type.</param>
-        /// <param name="idType">The type of this Id.</param>
-        /// <param name="id">The user Id.</param>
-        public PrivilegedUserId(PrivilegedLogonType openType, ConnectingIdType idType, string id)
-            : this()
-        {
-            this.logonType = openType;
-            this.idType = idType;
-            this.id = id;
-        }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="requestedServerVersion">The requested server version.</param>
-        internal void WriteToXml(EwsServiceXmlWriter writer, ExchangeVersion requestedServerVersion)
-        {
-            if (string.IsNullOrEmpty(this.id))
-            {
-                throw new ArgumentException(Strings.IdPropertyMustBeSet);
-            }
-
-            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.OpenAsAdminOrSystemService);
-            writer.WriteAttributeString(XmlElementNames.LogonType, this.logonType.ToString());
-            if (requestedServerVersion >= ExchangeVersion.Exchange2013 && this.budgetType.HasValue)
-            {
-                writer.WriteAttributeString(XmlElementNames.BudgetType, ((int)this.budgetType.Value).ToString());
-            }
-
-            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ConnectingSID);
-            writer.WriteElementValue(XmlNamespace.Types, this.idType.ToString(), this.id);
-            writer.WriteEndElement(); // ConnectingSID
-            writer.WriteEndElement(); // OpenAsAdminOrSystemService
-        }
-
-        /// <summary>
-        /// Gets or sets the type of the Id.
-        /// </summary>
-        public ConnectingIdType IdType
-        {
-            get { return this.idType; }
-            set { this.idType = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the user Id.
-        /// </summary>
-        public string Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the special logon type.
-        /// </summary>
-        public PrivilegedLogonType LogonType
-        {
-            get { return this.logonType; }
-            set { this.logonType = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the budget type.
-        /// </summary>
-        public PrivilegedUserIdBudgetType? BudgetType
-        {
-            get { return this.budgetType; }
-            set { this.budgetType = value; }
-        }
+//todo: should be done
+class PrivilegedUserId {
+    IdType: ConnectingIdType;
+    Id: string;
+    LogonType: PrivilegedLogonType;
+    BudgetType: PrivilegedUserIdBudgetType;
+    //private logonType: PrivilegedLogonType;
+    //private idType: ConnectingIdType;
+    //private id: string;
+    //private budgetType: PrivilegedUserIdBudgetType;
+    constructor(openType?: PrivilegedLogonType, idType?: ConnectingIdType, id?: string) {
+        this.LogonType = openType;
+        this.IdType = idType;
+        this.Id = id;
     }
+    WriteToXml(writer: EwsServiceXmlWriter, requestedServerVersion: ExchangeVersion): void {
 
-    /// <summary>
-    /// PrivilegedUserId BudgetType enum
-    /// </summary>
-    internal enum PrivilegedUserIdBudgetType
-    {
-        /// <summary>
-        /// Interactive, charge against a copy of target mailbox budget.
-        /// </summary>
-        Default = 0,
+        if (this.Id == null || this.Id === undefined || this.Id === "") {
+            throw new Error("id can not be null");
+        }
 
-        /// <summary>
-        /// Running as background load
-        /// </summary>
-        RunningAsBackgroundLoad = 1,
+        writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.OpenAsAdminOrSystemService);
+        writer.WriteAttributeString("", XmlElementNames.LogonType, PrivilegedLogonType[this.LogonType]);
+        if (requestedServerVersion >= ExchangeVersion.Exchange2013 && this.BudgetType) {
+            writer.WriteAttributeString("", XmlElementNames.BudgetType, PrivilegedUserIdBudgetType[this.BudgetType]);
+        }
 
-        /// <summary>
-        /// Unthrottled budget.
-        /// </summary>
-        Unthrottled = 2,
+        writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ConnectingSID);
+        writer.WriteElementValue(XmlNamespace.Types, ConnectingIdType[this.IdType], ConnectingIdType[this.IdType], this.Id);
+        writer.WriteEndElement(); // ConnectingSID
+        writer.WriteEndElement(); // OpenAsAdminOrSystemService
     }
 }
+
+export = PrivilegedUserId;
+
+
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;

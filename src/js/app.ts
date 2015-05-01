@@ -4,6 +4,9 @@ import ExchangeCredentials = require("./Credentials/ExchangeCredentials");
 import UserSettingName = require("./Enumerations/UserSettingName");
 import DomainSettingName = require("./Enumerations/DomainSettingName");
 import ExchangeService = require("./Core/ExchangeService");
+import BasePropertySet = require("./Enumerations/BasePropertySet");
+import PropertySet = require("./Core/PropertySet");
+
 
 
 import ext = require("./ExtensionMethods");
@@ -27,13 +30,19 @@ class Greeter<T extends { new () }> {
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2010);
+        
+exch.BindToFolder
+
+
+
+
         //var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://autodiscover-s.coutlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);
         //var autod = new AutodiscoverService();//"https://pod51045.outlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", ExchangeVersion.Exchange2013);
         //autod.RedirectionUrlValidationCallback = (val) => { return true };
         //var autod = new AutodiscoverService("https://pod51045.outlook.com/autodiscover/autodiscover.svc", "microsoft.com", ExchangeVersion.Exchange2013);
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "test@P@ssw0rd");
-        exch.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "test@P@ssw0rd");
+        exch.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "--------");
 
         exch.AutodiscoverUrl("gs@singhspro.onmicrosoft.com",(url) => { return true; }).then((resp) => {
             var util = require('util');

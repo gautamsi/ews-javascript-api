@@ -8,6 +8,7 @@ import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
 import GetUserSettingsResponse = require("../Autodiscover/Responses/GetUserSettingsResponse");
 import GetFolderRequest = require("./Requests/GetFolderRequest");
 import GetFolderResponse = require("./Responses/GetFolderResponse");
+import ServiceResponseCollection = require("./Responses/ServiceResponseCollection");
 import ServiceErrorHandling = require("../Enumerations/ServiceErrorHandling");
 
 import ServiceRemoteException = require("../Exceptions/ServiceRemoteException");
@@ -20,6 +21,11 @@ import PropertySet = require("./PropertySet");
 import ExtensionMethods = require("../ExtensionMethods");
 import Uri = ExtensionMethods.Parsers.Uri;
 import String = ExtensionMethods.stringFormatting;
+
+
+var WinJS = require('winjs');
+
+
 
 import ExchangeServiceBase = require("./ExchangeServiceBase");
 class ExchangeService extends ExchangeServiceBase {
@@ -133,7 +139,7 @@ class ExchangeService extends ExchangeServiceBase {
     BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): TFolder {
         var result = this.BindToFolder(folderId, propertySet);
         debugger;
-        if (result instanceof Folder) //todo: implement instanceOf TFolder
+        if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
         {
             return <TFolder>result;
         }
@@ -146,7 +152,7 @@ class ExchangeService extends ExchangeServiceBase {
         }
     }
 
-    BindToFolder(folderId: FolderId, propertySet: PropertySet): Folder {
+    BindToFolder(folderId: FolderId, propertySet: PropertySet): WinJS.Promise<Folder> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
 
@@ -155,9 +161,11 @@ class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.PropertySet = propertySet;
 
-        var responses: ServiceResponseCollection<GetFolderResponse> = <any> request.Execute();
+        return request.Execute().then((responses)=>{
+            return responses[0].Folder;
+        });
 
-        return responses[0].Folder;
+
     }
     //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("Not implemented."); }
     ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("Not implemented."); }

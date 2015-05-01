@@ -28,7 +28,7 @@ class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest
         super.Validate();
         debugger;
         //EwsUtilities.ValidateParamCollection(this.FolderIds, "FolderIds");
-        //this.FolderIds.Validate(this.Service.RequestedServerVersion);
+        this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);

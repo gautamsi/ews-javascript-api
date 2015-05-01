@@ -1,100 +1,37 @@
-// ---------------------------------------------------------------------------
-// <copyright file="PhoneNumberEntry.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------
-// <summary>Defines the PhoneNumberEntry class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Text;
-
-    /// <summary>
-    /// Represents an entry of a PhoneNumberDictionary.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public sealed class PhoneNumberEntry : DictionaryEntryProperty<PhoneNumberKey>
-    {
-        private string phoneNumber;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PhoneNumberEntry"/> class.
-        /// </summary>
-        internal PhoneNumberEntry()
-            : base()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PhoneNumberEntry"/> class.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="phoneNumber">The phone number.</param>
-        internal PhoneNumberEntry(PhoneNumberKey key, string phoneNumber)
-            : base(key)
-        {
-            this.phoneNumber = phoneNumber;
-        }
-
-        /// <summary>
-        /// Reads the text value from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        internal override void ReadTextValueFromXml(EwsServiceXmlReader reader)
-        {
-            this.phoneNumber = reader.ReadValue();
-        }
-
-        /// <summary>
-        /// Writes elements to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteElementsToXml(EwsServiceXmlWriter writer)
-        {
-            writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber);
-        }
-
-        /// <summary>
-        /// Serializes the property to a Json value.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns>
-        /// A Json value (either a JsonObject, an array of Json values, or a Json primitive)
-        /// </returns>
-        internal override object InternalToJson(ExchangeService service)
-        {
-            JsonObject jsonProperty = new JsonObject();
-
-            jsonProperty.Add(XmlAttributeNames.Key, this.Key);
-            jsonProperty.Add(XmlElementNames.PhoneNumber, this.PhoneNumber);
-
-            return jsonProperty;
-        }
-
-        /// <summary>
-        /// Loads from json.
-        /// </summary>
-        /// <param name="jsonProperty">The json property.</param>
-        /// <param name="service">The service.</param>
-        internal override void LoadFromJson(JsonObject jsonProperty, ExchangeService service)
-        {
-            this.Key = jsonProperty.ReadEnumValue<PhoneNumberKey>(XmlAttributeNames.Key);
-            this.PhoneNumber = jsonProperty.ReadAsString(XmlElementNames.PhoneNumber);
-        }
-
-        /// <summary>
-        /// Gets or sets the phone number of the entry.
-        /// </summary>
-        public string PhoneNumber
-        {
-            get { return this.phoneNumber; }
-            set { this.SetFieldValue<string>(ref this.phoneNumber, value); }
-        }
-    }
+class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
+    PhoneNumber: string;
+    private phoneNumber: string;
+    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
+
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;
+
+class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
+    Street: string;
+    City: string;
+    State: string;
+    CountryOrRegion: string;
+    PostalCode: string;
+    private propertyBag: SimplePropertyBag<TKey>;
+    ClearChangeLog(): any { throw new Error("Not implemented."); }
+    GetFieldUri(xmlElementName: string): string { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): any { throw new Error("Not implemented."); }
+    InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: System.Collections.Generic.List<T>): any { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    PropertyBagChanged(): any { throw new Error("Not implemented."); }
+    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: System.Collections.Generic.List<T>): boolean { throw new Error("Not implemented."); }
+    WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: System.Collections.Generic.List<T>): boolean { throw new Error("Not implemented."); }
+    WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean { throw new Error("Not implemented."); }
+}
+
