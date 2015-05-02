@@ -13,7 +13,7 @@ class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest
     get FolderIds(): FolderIdWrapperList { return this.folderIds; } //todo - implement
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
 
-    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling) {
+    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling:any) {
         super(service, errorHandlingModeServiceErrorHandling);
     }
 

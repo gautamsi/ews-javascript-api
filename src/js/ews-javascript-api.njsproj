@@ -5,8 +5,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>ews-javascript-api</Name>
     <RootNamespace>ews-javascript-api</RootNamespace>
-    <ToolsVersionPromptShown>1.4</ToolsVersionPromptShown>
-    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <ToolsVersionPromptShown>1.5</ToolsVersionPromptShown>
+    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,7 +47,6 @@
     <TypeScriptCompile Include="MailboxSearch\MailboxStatisticsItem.ts" />
     <TypeScriptCompile Include="MailboxSearch\PreviewItemMailbox.ts" />
     <TypeScriptCompile Include="MailboxSearch\SearchRefinerItem.ts" />
-    <TypeScriptCompile Include="Microsoft.Exchange.WebServices.d.ts" />
     <TypeScriptCompile Include="PropertyDefinitions\PermissionSetPropertyDefinition.ts" />
     <TypeScriptCompile Include="_old\Core\Exceptions.ts" />
     <TypeScriptCompile Include="_old\Core\ServiceObjectSchemaTypes.ts" />
@@ -504,7 +503,7 @@
     <TypeScriptCompile Include="Enumerations\ConnectionStatus.ts" />
     <TypeScriptCompile Include="Enumerations\ContactSource.ts" />
     <TypeScriptCompile Include="Enumerations\ContainmentMode.ts" />
-    <TypeScriptCompile Include="Enumerations\ConversationAction.ts" />
+    <TypeScriptCompile Include="Enumerations\ConversationActionType.ts" />
     <TypeScriptCompile Include="Enumerations\ConversationFlagStatus.ts" />
     <TypeScriptCompile Include="Enumerations\ConversationQueryTraversal.ts" />
     <TypeScriptCompile Include="Enumerations\ConversationSortOrder.ts" />
@@ -722,16 +721,8 @@
     <TypeScriptCompile Include="Notifications\StreamingSubscriptionConnection.ts" />
     <TypeScriptCompile Include="Notifications\SubscriptionBase.ts" />
     <TypeScriptCompile Include="Notifications\SubscriptionErrorEventArgs.ts" />
-    <TypeScriptCompile Include="operations\_CommonObjects.ts" />
     <TypeScriptCompile Include="operations\BulkTransfer\BulkTransfer.ts" />
     <TypeScriptCompile Include="operations\eDiscovery\eDiscovery.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\_BaseRequests.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Attachment.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Conversation.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Folders.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Item\ServiceObject.Folder-types.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Item\ServiceObject.Item-types.ts" />
-    <TypeScriptCompile Include="operations\ExchangeMailboxData\Items.ts" />
     <TypeScriptCompile Include="operations\ExchangeMailboxData\Reminder.ts" />
     <TypeScriptCompile Include="operations\ExchangeMailboxData\Utilities.ts" />
     <TypeScriptCompile Include="operations\InboxRules\InboxRules.ts" />
@@ -744,10 +735,7 @@
     <TypeScriptCompile Include="operations\ServiceConfiguration\ServiceConfiguration.ts" />
     <TypeScriptCompile Include="operations\Sharing\Sharing.ts" />
     <TypeScriptCompile Include="operations\Synchronization\Synchronization.ts" />
-    <TypeScriptCompile Include="operations\TimeZone\TimeZone.ts" />
     <TypeScriptCompile Include="operations\UnifiedContactStore\UnifiedContactStore.ts" />
-    <TypeScriptCompile Include="operations\UnifiedMessaging\UnifiedMessaging.ts" />
-    <TypeScriptCompile Include="operations\UserConfiguration\UserConfiguration.ts" />
     <TypeScriptCompile Include="PropertyDefinitions\AttachmentsPropertyDefinition.ts" />
     <TypeScriptCompile Include="PropertyDefinitions\BoolPropertyDefinition.ts" />
     <TypeScriptCompile Include="PropertyDefinitions\ByteArrayPropertyDefinition.ts" />
@@ -869,7 +857,6 @@
     <Folder Include="operations\DelegateManagement\" />
     <Folder Include="operations\eDiscovery\" />
     <Folder Include="operations\ExchangeMailboxData\" />
-    <Folder Include="operations\ExchangeMailboxData\Item\" />
     <Folder Include="operations\InboxRules\" />
     <Folder Include="operations\MailApp\" />
     <Folder Include="operations\MailTips\" />
@@ -880,10 +867,7 @@
     <Folder Include="operations\ServiceConfiguration\" />
     <Folder Include="operations\Sharing\" />
     <Folder Include="operations\Synchronization\" />
-    <Folder Include="operations\TimeZone\" />
     <Folder Include="operations\UnifiedContactStore\" />
-    <Folder Include="operations\UnifiedMessaging\" />
-    <Folder Include="operations\UserConfiguration\" />
     <Folder Include="PropertyDefinitions\" />
     <Folder Include="ResourceManager\" />
     <Folder Include="Scripts\" />

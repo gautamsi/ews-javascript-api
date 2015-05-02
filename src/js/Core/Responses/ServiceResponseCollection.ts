@@ -21,7 +21,7 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
         this.responses.push(response);
     }
     GetEnumerator(): any { throw new Error("Not implemented."); }
-    _propget(index: number) {
+    __thisIndexer(index: number) {
         if (index < 0 || index >= this.Count) {
             throw new Error("index out of range: " + index);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
         }

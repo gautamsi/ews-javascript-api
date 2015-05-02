@@ -37,7 +37,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
                         "MultiResponseServiceRequest.Execute",
                         "ServiceErrorHandling.ThrowOnError error handling is only valid for singleton request");
 
-                    serviceResponses._propget(0).ThrowIfNecessary();
+                    serviceResponses.__thisIndexer(0).ThrowIfNecessary();
                 }
 
                 //return serviceResponses;
@@ -84,8 +84,8 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
         // call). In this case, throw a ServiceResponsException. Otherwise this
         // is an unexpected server error.
         if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
-            if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
-                throw new ServiceResponseException(serviceResponses[0]);
+            if ((serviceResponses.Count == 1) && (serviceResponses.__thisIndexer(0).Result == ServiceResult.Error)) {
+                throw new ServiceResponseException(serviceResponses.__thisIndexer(0));
             }
             else {
                 throw new ServiceXmlDeserializationException(
@@ -103,47 +103,47 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
     }
     ParseResponseObject(object:any): any {
         var serviceResponses = new ServiceResponseCollection<TResponse>();
+        throw new Error("missing implementaytion");
+        // reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
+        //
+        // for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
+        //     // Read ahead to see if we've reached the end of the response messages early.
+        //     reader.Read(); debugger;
+        //     if (reader.HasRecursiveParent(XmlElementNames.ResponseMessages)) {
+        //         break;
+        //     }
+        //
+        //     var response = this.CreateServiceResponse(reader.Service, i);
+        //
+        //     response.LoadFromXml(reader, this.GetResponseMessageXmlElementName());
+        //
+        //     // Add the response to the list after it has been deserialized because the response
+        //     // list updates an overall result as individual responses are added to it.
+        //     serviceResponses.Add(response);
+        //}
 
-        reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-
-        for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
-            // Read ahead to see if we've reached the end of the response messages early.
-            reader.Read(); debugger;
-            if (reader.HasRecursiveParent(XmlElementNames.ResponseMessages)) {
-                break;
-            }
-
-            var response = this.CreateServiceResponse(reader.Service, i);
-
-            response.LoadFromXml(reader, this.GetResponseMessageXmlElementName());
-
-            // Add the response to the list after it has been deserialized because the response
-            // list updates an overall result as individual responses are added to it.
-            serviceResponses.Add(response);
-        }
-
-        // If there's a general error in batch processing,
-        // the server will return a single response message containing the error
-        // (for example, if the SavedItemFolderId is bogus in a batch CreateItem
-        // call). In this case, throw a ServiceResponsException. Otherwise this
-        // is an unexpected server error.
-        if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
-            if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
-                throw new ServiceResponseException(serviceResponses[0]);
-            }
-            else {
-                throw new ServiceXmlDeserializationException(
-                    String.Format(
-                        "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
-                        this.GetResponseMessageXmlElementName(),
-                        this.GetExpectedResponseMessageCount(),
-                        serviceResponses.Count));
-            }
-        }
-
-        reader.ReadEndElementIfNecessary(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-
-        return serviceResponses;
+        // // If there's a general error in batch processing,
+        // // the server will return a single response message containing the error
+        // // (for example, if the SavedItemFolderId is bogus in a batch CreateItem
+        // // call). In this case, throw a ServiceResponsException. Otherwise this
+        // // is an unexpected server error.
+        // if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
+        //     if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
+        //         throw new ServiceResponseException(serviceResponses[0]);
+        //     }
+        //     else {
+        //         throw new ServiceXmlDeserializationException(
+        //             String.Format(
+        //                 "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
+        //                 this.GetResponseMessageXmlElementName(),
+        //                 this.GetExpectedResponseMessageCount(),
+        //                 serviceResponses.Count));
+        //     }
+        // }
+        //
+        // reader.ReadEndElementIfNecessary(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
+        //
+        // return serviceResponses;
     }
 
     //ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }

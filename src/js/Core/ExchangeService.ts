@@ -1,3 +1,11 @@
+import RetentionType = require("../Enumerations/RetentionType");
+import DeleteMode = require("../Enumerations/DeleteMode");
+//import DelegateUserResponse = require("./Responses/DelegateUserResponse");
+import ConversationActionType = require("../Enumerations/ConversationActionType");
+import MeetingRequestsDeliveryScope = require("../Enumerations/MeetingRequestsDeliveryScope");
+import ServiceResponse = require("./Responses/ServiceResponse");
+import Mailbox = require("../ComplexProperties/Mailbox");
+import ServiceObject = require("./ServiceObjects/ServiceObject");
 import EwsUtilities = require("./EwsUtilities");
 import AutodiscoverService = require("../Autodiscover/AutodiscoverService");
 import AutodiscoverServiceDelegates = require("../Autodiscover/AutodiscoverServiceDelegates");
@@ -31,43 +39,43 @@ import ExchangeServiceBase = require("./ExchangeServiceBase");
 class ExchangeService extends ExchangeServiceBase {
     private static TargetServerVersionHeaderName: string = "X-EWS-TargetVersion";
     Url: string;//System.Uri;
-    ImpersonatedUserId: ImpersonatedUserId;
-    PrivilegedUserId: PrivilegedUserId;
-    ManagementRoles: ManagementRoles;
-    PreferredCulture: any;//System.Globalization.CultureInfo;
-    DateTimePrecision: DateTimePrecision;
-    FileAttachmentContentHandler: IFileAttachmentContentHandler;
-    TimeZone: any;// System.TimeZoneInfo;
-    UnifiedMessaging: UnifiedMessaging;
+    // ImpersonatedUserId: ImpersonatedUserId;
+    // PrivilegedUserId: PrivilegedUserId;
+    // ManagementRoles: ManagementRoles;
+    // PreferredCulture: any;//System.Globalization.CultureInfo;
+    // DateTimePrecision: DateTimePrecision;
+    // FileAttachmentContentHandler: IFileAttachmentContentHandler;
+    // TimeZone: any;// System.TimeZoneInfo;
+    // UnifiedMessaging: UnifiedMessaging;
     EnableScpLookup: boolean;
-    Exchange2007CompatibilityMode: boolean;
+    // Exchange2007CompatibilityMode: boolean;
     RenderingMethod: ExchangeService.RenderingMode;
-    TraceEnablePrettyPrinting: boolean;
+    // TraceEnablePrettyPrinting: boolean;
     TargetServerVersion: string;
-    private url: string;//System.Uri;
-    private preferredCulture: any;// System.Globalization.CultureInfo;
-    private dateTimePrecision: DateTimePrecision;
-    private impersonatedUserId: ImpersonatedUserId;
-    private privilegedUserId: PrivilegedUserId;
-    private managementRoles: ManagementRoles;
-    private fileAttachmentContentHandler: IFileAttachmentContentHandler;
-    private unifiedMessaging: UnifiedMessaging;
-    private enableScpLookup: boolean;
+    // private url: string;//System.Uri;
+    // private preferredCulture: any;// System.Globalization.CultureInfo;
+    // private dateTimePrecision: DateTimePrecision;
+    // private impersonatedUserId: ImpersonatedUserId;
+    // private privilegedUserId: PrivilegedUserId;
+    // private managementRoles: ManagementRoles;
+    // private fileAttachmentContentHandler: IFileAttachmentContentHandler;
+    // private unifiedMessaging: UnifiedMessaging;
+    // private enableScpLookup: boolean;
     private renderingMode: ExchangeService.RenderingMode;
-    private traceEnablePrettyPrinting: boolean;
-    private targetServerVersion: string;
-    private exchange2007CompatibilityMode: boolean;
-    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("Not implemented."); }
-    //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("Not implemented."); }
+    // private traceEnablePrettyPrinting: boolean;
+    // private targetServerVersion: string;
+    // private exchange2007CompatibilityMode: boolean;
+    // AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("Not implemented."); }
+    // //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("Not implemented."); }
     AdjustServiceUriFromCredentials(uri: string /*System.Uri*/): string/*System.Uri*/ {
         return (this.Credentials != null)
             ? this.Credentials.AdjustUrl(uri)
             : uri;
     }
-    ApplyConversationAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, conversationIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, processRightAway: boolean, categories: StringList, enableAlwaysDelete: boolean, destinationFolderId: FolderId, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    ArchiveItems<TResponse extends ServiceResponse>(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, sourceFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    //AutodiscoverUrl(emailAddress: string): any { throw new Error("Not implemented."); }
+    // ApplyConversationAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, conversationIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, processRightAway: boolean, categories: StringList, enableAlwaysDelete: boolean, destinationFolderId: FolderId, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
+    // ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
+    // ArchiveItems<TResponse extends ServiceResponse>(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, sourceFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
+    // //AutodiscoverUrl(emailAddress: string): any { throw new Error("Not implemented."); }
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): WinJS.Promise<any> {
         validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
@@ -120,28 +128,28 @@ class ExchangeService extends ExchangeServiceBase {
 
 
     }
-    BeginGetEvents(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string, watermark: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToPullNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToPullNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    //BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    //BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToStreamingNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSubscribeToStreamingNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
-    BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginGetEvents(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string, watermark: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToPullNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToPullNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // //BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // //BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToStreamingNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSubscribeToStreamingNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
+    // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("Not implemented."); }
     BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): TFolder {
         var result = this.BindToFolder(folderId, propertySet);
         debugger;
         if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
         {
-            return <TFolder>result;
+            return <any>result;//<TFolder>
         }
         else {
             //throw new ServiceLocalException(
@@ -162,7 +170,7 @@ class ExchangeService extends ExchangeServiceBase {
         request.PropertySet = propertySet;
 
         return request.Execute().then((responses)=>{
-            return responses[0].Folder;
+            return responses.__thisIndexer(0).Folder;
         });
 
 

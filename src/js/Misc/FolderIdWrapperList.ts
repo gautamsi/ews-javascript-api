@@ -1,3 +1,7 @@
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import FolderIdWrapper = require("./FolderIdWrapper");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import FolderWrapper = require("./FolderWrapper");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
 import Folder = require("../Core/ServiceObjects/Folders/Folder");
@@ -12,7 +16,7 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     //Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
     Add(folderOrId: Folder | FolderId): void {
 
-        if (folderOrId instanceof Folder || folderOrId instanceof FolderId)
+        if (folderOrId instanceof Folder)
             this.ids.push(new FolderWrapper(folderOrId))
         else if (folderOrId instanceof FolderId)
             this.ids.push(new FolderIdWrapper(folderOrId));
@@ -49,7 +53,7 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
         }
     }
 
-    _propGet(index: number): AbstractFolderIdWrapper {
+    __thisIndexer(index: number): AbstractFolderIdWrapper {
         return this.ids[index];
     }
 }

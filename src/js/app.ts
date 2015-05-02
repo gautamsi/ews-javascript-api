@@ -1,4 +1,5 @@
-﻿import AutodiscoverService = require("./Autodiscover/AutodiscoverService");
+﻿
+import AutodiscoverService = require("./Autodiscover/AutodiscoverService");
 import ExchangeVersion = require("./Enumerations/ExchangeVersion");
 import ExchangeCredentials = require("./Credentials/ExchangeCredentials");
 import UserSettingName = require("./Enumerations/UserSettingName");
@@ -7,10 +8,10 @@ import ExchangeService = require("./Core/ExchangeService");
 import BasePropertySet = require("./Enumerations/BasePropertySet");
 import PropertySet = require("./Core/PropertySet");
 
-
+import {EnumHelper, btoa, DOMParser, stringFormatting} from "./ExtensionMethods";
 
 import ext = require("./ExtensionMethods");
-class Greeter<T extends { new () }> {
+class Greeter {
     element: HTMLElement;
     span: HTMLElement;
     div: HTMLElement
@@ -30,9 +31,7 @@ class Greeter<T extends { new () }> {
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2010);
-        
-exch.BindToFolder
-
+        alert(stringFormatting.Empty);
 
 
 
@@ -43,14 +42,13 @@ exch.BindToFolder
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "test@P@ssw0rd");
         exch.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "--------");
-
+        var util = require('util');
         exch.AutodiscoverUrl("gs@singhspro.onmicrosoft.com",(url) => { return true; }).then((resp) => {
-            var util = require('util');
             console.log(util.inspect(exch.Url, { showHidden: false, depth: null, colors: true }));
             exch.BindToFolder
             console.log("------------");
         },(err) => {
-                var util = require('util');
+                
                 console.log(util.inspect(err, { showHidden: false, depth: null, colors: true }));
                 console.log("------------");
 
