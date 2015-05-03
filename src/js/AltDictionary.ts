@@ -1,4 +1,6 @@
-﻿
+import IOutParam = require("./Interfaces/IOutParam");
+import PropertyDefinitionBase = require("./PropertyDefinitions/PropertyDefinitionBase");
+import {stringFormatting} from "./ExtensionMethods";﻿
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
 }
@@ -27,7 +29,7 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
         return ret;
     }
     get Items(): KeyValuePair<TKey, TValue>[] {
-        var all = [];
+        var all:any[] = [];
         for (var obj in this.objects) {
             all.push({ key: this.objects[obj], value: this.objects[obj] });
         }
@@ -55,7 +57,7 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
     }
 
     get(key: TKey): TValue {
-        if (string.IsNullOrEmpty(<any>key))
+        if (stringFormatting.IsNullOrEmpty(<any>key))
             throw new Error("invalid operation, object does not have valid Name property");
 
         //if(this.keys.indexOf(key.Name)>=0)
@@ -63,14 +65,14 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
     }
 
     tryGetValue(key: TKey, outValue: IOutParam<TValue>): boolean {
-        outValue.value = null;
+        outValue.outValue = null;
         outValue.success = false;
 
-        if (string.IsNullOrEmpty(<any>key))
+        if (stringFormatting.IsNullOrEmpty(<any>key))
             outValue.exception = new Error("invalid operation, object does not have valid Name property");
 
         if (this.containsKey(key)) {
-            outValue.value = this.objects[<any>key]
+            outValue.outValue = this.objects[<any>key]
             return true;
         }
 
@@ -78,7 +80,7 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
     }
 
     remove(key: TKey): boolean {
-        if (string.IsNullOrEmpty(<any>key)) throw new Error("missing keyString")
+        if (stringFormatting.IsNullOrEmpty(<any>key)) throw new Error("missing keyString")
         return delete this.objects[<any>key];
     }
 
@@ -128,7 +130,7 @@ export class PropDictionary<TKey extends { Name?: string }, TValue>{
         return ret;
     }
     get Items(): KeyValuePair<TKey, TValue>[] {
-        var all = [];
+        var all:any[] = [];
         for (var obj in this.objects) {
             all.push({ key: this.objects[obj].keyObject, value: this.objects[obj].value });
         }
@@ -165,7 +167,7 @@ export class PropDictionary<TKey extends { Name?: string }, TValue>{
         this.objects[oldKeyString] = { key: oldKey.Name, keyObject: oldKey, value: value || oldval };
     }
     get(key: TKey): TValue {
-        if (string.IsNullOrEmpty(key.Name))
+        if (stringFormatting.IsNullOrEmpty(key.Name))
             throw new Error("invalid operation, object does not have valid Name property");
 
         //if(this.keys.indexOf(key.Name)>=0)
@@ -174,15 +176,15 @@ export class PropDictionary<TKey extends { Name?: string }, TValue>{
     }
 
     tryGet(key: TKey, outValue: IOutParam<TValue>): boolean {
-        outValue.value = null;
+        outValue.outValue = null;
         outValue.success = false;
 
-        if (string.IsNullOrEmpty(key.Name))
+        if (stringFormatting.IsNullOrEmpty(key.Name))
             outValue.exception = new Error("invalid operation, object does not have valid Name property");
 
         if (this.containsKey(key)) {
             var val = this.objects[key.Name]
-            outValue.value = val ? val.value : null;
+            outValue.outValue = val ? val.value : null;
             return true;
         }
 
@@ -190,7 +192,7 @@ export class PropDictionary<TKey extends { Name?: string }, TValue>{
     }
 
     remove(key: TKey): boolean {
-        if (string.IsNullOrEmpty(key.Name)) throw new Error("missing keyString")
+        if (stringFormatting.IsNullOrEmpty(key.Name)) throw new Error("missing keyString")
         return delete this.objects[key.Name];
     }
 

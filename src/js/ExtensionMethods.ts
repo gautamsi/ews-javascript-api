@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="typings/xmldom.d.ts" />
+
 
 /*
 * @author electricessence / https://github.com/electricessence/
@@ -59,7 +60,7 @@ module object {
     function getPrototypeChain(ctor: Function): any[] {
         //unused
         //http://typescript.codeplex.com/discussions/468576
-        var chain = [];
+        var chain:any[] = [];
         var proto = ctor.prototype;
         while (proto) {
             chain.push(proto.constructor)
@@ -71,7 +72,7 @@ module object {
 }
 
 export class TypeSystem {
-    static GetProperties(obj) {
+    static GetProperties(obj:any) {
         var props = new Array<string>();
 
         for (var s in obj) {
@@ -83,7 +84,7 @@ export class TypeSystem {
         return props;
     }
 
-    static GetMethods(obj) {
+    static GetMethods(obj:any) {
         var methods = new Array<string>();
 
         for (var s in obj) {
@@ -121,7 +122,7 @@ export class TypeSystem {
     }
 
     static GetObjectByClassName(className: string): any {
-        var obj;
+        var obj:any;
         if (className.indexOf(".") > 0) {
             var objs = className.split(".");
             obj = window[objs[0]];
@@ -149,10 +150,10 @@ export module Parsers {
     export class xml2js {
 
         static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
-            var obj = {};
+            var obj:any = {};
             if (!xmlnsRoot) xmlnsRoot = obj;
             if (typeof (xmlNode) === 'undefined') return obj;
-            var textNodeName = undefined;
+            var textNodeName:any = undefined;
             switch (xmlNode.nodeType) {
                 case 1/*Node.ELEMENT_NODE*/:
                     if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
@@ -314,12 +315,15 @@ export module Parsers {
     }
 }
 
-declare var window;
+declare var window:any;
 var isNode = (typeof window === 'undefined')
-var dp = undefined;
+var dp:any = undefined;
+
+declare var require:any;
 
 if (isNode) {
-    var dr = require('xmldom');
+    
+    var dr:any = require('xmldom');
     dp = dr.DOMParser;
 } else {
     dp = window.DOMParser;

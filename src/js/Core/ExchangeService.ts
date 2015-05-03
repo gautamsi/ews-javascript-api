@@ -18,7 +18,7 @@ import GetFolderRequest = require("./Requests/GetFolderRequest");
 import GetFolderResponse = require("./Responses/GetFolderResponse");
 import ServiceResponseCollection = require("./Responses/ServiceResponseCollection");
 import ServiceErrorHandling = require("../Enumerations/ServiceErrorHandling");
-
+import DateTimePrecision = require("../Enumerations/DateTimePrecision");
 import ServiceRemoteException = require("../Exceptions/ServiceRemoteException");
 import AutodiscoverLocalException = require("../Exceptions/AutodiscoverLocalException");
 
@@ -31,7 +31,9 @@ import Uri = ExtensionMethods.Parsers.Uri;
 import String = ExtensionMethods.stringFormatting;
 
 
-var WinJS = require('winjs');
+import {IPromise, IXHROptions} from "../Interfaces";
+import {Promise} from "../PromiseFactory"
+import {XHR} from "../XHRFactory"
 
 
 
@@ -42,29 +44,29 @@ class ExchangeService extends ExchangeServiceBase {
     // ImpersonatedUserId: ImpersonatedUserId;
     // PrivilegedUserId: PrivilegedUserId;
     // ManagementRoles: ManagementRoles;
-    // PreferredCulture: any;//System.Globalization.CultureInfo;
+    PreferredCulture: any;//System.Globalization.CultureInfo;
     // DateTimePrecision: DateTimePrecision;
     // FileAttachmentContentHandler: IFileAttachmentContentHandler;
     // TimeZone: any;// System.TimeZoneInfo;
     // UnifiedMessaging: UnifiedMessaging;
     EnableScpLookup: boolean;
-    // Exchange2007CompatibilityMode: boolean;
+    Exchange2007CompatibilityMode: boolean;
     RenderingMethod: ExchangeService.RenderingMode;
-    // TraceEnablePrettyPrinting: boolean;
+    TraceEnablePrettyPrinting: boolean;
     TargetServerVersion: string;
-    // private url: string;//System.Uri;
-    // private preferredCulture: any;// System.Globalization.CultureInfo;
-    // private dateTimePrecision: DateTimePrecision;
+    private url: string;//System.Uri;
+    private preferredCulture: any;// System.Globalization.CultureInfo;
+    private dateTimePrecision: DateTimePrecision;
     // private impersonatedUserId: ImpersonatedUserId;
     // private privilegedUserId: PrivilegedUserId;
     // private managementRoles: ManagementRoles;
     // private fileAttachmentContentHandler: IFileAttachmentContentHandler;
     // private unifiedMessaging: UnifiedMessaging;
-    // private enableScpLookup: boolean;
+    private enableScpLookup: boolean;
     private renderingMode: ExchangeService.RenderingMode;
-    // private traceEnablePrettyPrinting: boolean;
-    // private targetServerVersion: string;
-    // private exchange2007CompatibilityMode: boolean;
+    private traceEnablePrettyPrinting: boolean;
+    private targetServerVersion: string;
+    private exchange2007CompatibilityMode: boolean;
     // AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("Not implemented."); }
     // //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("Not implemented."); }
     AdjustServiceUriFromCredentials(uri: string /*System.Uri*/): string/*System.Uri*/ {
@@ -76,7 +78,7 @@ class ExchangeService extends ExchangeServiceBase {
     // ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     // ArchiveItems<TResponse extends ServiceResponse>(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, sourceFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     // //AutodiscoverUrl(emailAddress: string): any { throw new Error("Not implemented."); }
-    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): WinJS.Promise<any> {
+    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): IPromise<any> {
         validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
         var exchangeServiceUrl: string;
@@ -160,7 +162,7 @@ class ExchangeService extends ExchangeServiceBase {
         }
     }
 
-    BindToFolder(folderId: FolderId, propertySet: PropertySet): WinJS.Promise<Folder> {
+    BindToFolder(folderId: FolderId, propertySet: PropertySet): IPromise<Folder> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
 
@@ -267,7 +269,7 @@ class ExchangeService extends ExchangeServiceBase {
     //GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("Not implemented."); }
     ////GetAttachments(attachments: any, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     ////GetAttachments(attachmentIds: System.String[], bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback): WinJS.Promise<string> /*System.Uri*/ {
+    GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback): IPromise<string> /*System.Uri*/ {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
         autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
@@ -375,7 +377,7 @@ class ExchangeService extends ExchangeServiceBase {
     ////MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     //MoveItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     ////PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("Not implemented."); }
-    PrepareHttpWebRequest(methodName: string): WinJS.IXHROptions {
+    PrepareHttpWebRequest(methodName: string): IXHROptions {
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
@@ -412,7 +414,7 @@ class ExchangeService extends ExchangeServiceBase {
     ////SearchMailboxes(searchParameters: SearchMailboxesParameters): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     //SendItem(item: Item, savedCopyDestinationFolderId: FolderId): any { throw new Error("Not implemented."); }
     //SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("Not implemented."); }
-    SetContentType(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+    SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         if (this.renderingMode == ExchangeService.RenderingMode.Xml) {
             request.headers["Content-Type"] = "text/xml; charset=utf-8";
             request.headers["Accept"] = "text/xml";

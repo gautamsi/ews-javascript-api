@@ -43,11 +43,6 @@
         WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("Not implemented.");}
         WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented.");}
     }
-    class ClientCertificateCredentials extends ExchangeCredentials {
-        ClientCertificates: /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/any;
-        private clientCertificates: /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/any;
-        PrepareWebRequest(request: /*IEwsHttpWebRequest*/any): any { throw new Error("Not implemented.");}
-    }
     class ConversationIndexedItemView extends PagedView {
         OrderBy: OrderByCollection;
         Traversal: ConversationQueryTraversal;
@@ -339,19 +334,7 @@
         Subscription: StreamingSubscription;
         Events: /*System.Collections.Generic.IEnumerable<NotificationEvent>*/any;
     }
-    class OAuthCredentials extends ExchangeCredentials {
-        private token: string;
-        private credentials: /*System.Net.ICredentials*/any;
-        private static validTokenPattern: any;
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-    }
-    class PartnerTokenCredentials extends WSSecurityBasedCredentials {
-        NeedSignature: boolean;
-        private keyInfoNode: any;
-        AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("Not implemented.");}
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-        Sign(memoryStream: any): any { throw new Error("Not implemented.");}
-    }
+    
     class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
         DayOfTheWeek: DayOfTheWeek;
         WeekIndex: number;
@@ -496,65 +479,14 @@
         ConvertToMinutes(): number { throw new Error("Not implemented.");}
         ToXSTime(): string { throw new Error("Not implemented.");}
     }
-    class TokenCredentials extends WSSecurityBasedCredentials {
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-    }
+    
     class WebAsyncCallStateAnchor {
         ServiceRequest: ServiceRequestBase;
         WebRequest: IEwsHttpWebRequest;
         AsyncState: any;
         AsyncCallback: /*System.AsyncCallback*/any;
     }
-    class WebCredentials extends ExchangeCredentials {
-        Credentials: /*System.Net.ICredentials*/any;
-        private credentials: /*System.Net.ICredentials*/any;
-        AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("Not implemented.");}
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-    }
-    class WindowsLiveCredentials extends WSSecurityBasedCredentials {
-        TraceEnabled: boolean;
-        TraceListener: ITraceListener;
-        WindowsLiveUrl: /*System.Uri*/string;
-        IsAuthenticated: boolean;
-        private windowsLiveId: string;
-        private password: string;
-        private windowsLiveUrl: /*System.Uri*/string;
-        private isAuthenticated: boolean;
-        private traceEnabled: boolean;
-        private traceListener: ITraceListener;
-        static DefaultWindowsLiveUrl: /*System.Uri*/string;
-        EmitTokenRequest(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("Not implemented.");}
-        MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("Not implemented.");}
-        ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("Not implemented.");}
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-        ProcessTokenResponse(response: any): any { throw new Error("Not implemented.");}
-        ReadWindowsLiveRSTResponseHeaders(rstResponse: EwsXmlReader): any { throw new Error("Not implemented.");}
-        TraceResponse(response: any, memoryStream: any): any { throw new Error("Not implemented.");}
-        TraceWebException(e: any): any { throw new Error("Not implemented.");}
-    }
 
-    class WSSecurityUtilityIdSignedXml /*extends System.Security.Cryptography.Xml.SignedXml*/ {
-        private document: /*System.Xml.XmlDocument*/any;
-        private ids: /*System.Collections.Generic.Dictionary<TKey, TValue>*/any;
-        private static nextId: number;
-        private static commonPrefix: string;
-        AddReference(xpath: string): any { throw new Error("Not implemented.");}
-        GetIdElement(document: /*System.Xml.XmlDocument*/any, idValue: string): /*System.Xml.XmlElement*/any { throw new Error("Not implemented.");}
-        GetUniqueId(): string { throw new Error("Not implemented.");}
-    }
-    class X509CertificateCredentials extends WSSecurityBasedCredentials {
-        NeedSignature: boolean;
-        private certificate: any;
-        private keyInfoClause: any;
-        AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("Not implemented.");}
-        //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-        Sign(memoryStream: any): any { throw new Error("Not implemented.");}
-        ToString(): string { throw new Error("Not implemented.");}
-    }
-    class XmlAttributeNames {
-    }
-    class XmlElementNames {
-    }
 
 }
 

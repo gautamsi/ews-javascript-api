@@ -22,7 +22,8 @@ import ExtendedPropertyCollection = require("../../../ComplexProperties/Extended
 import FolderId = require("../../../ComplexProperties/FolderId");
 import FolderSchema = require("../Schemas/FolderSchema");
 
-import WinJS = require("WinJS");
+import {IPromise} from "../../../Interfaces";
+import {Promise} from "../../../PromiseFactory"
 
 import ServiceObject = require("../ServiceObject");
 class Folder extends ServiceObject {
@@ -45,7 +46,7 @@ class Folder extends ServiceObject {
     set ArchiveTag(value) { this.PropertyBag._propSet(FolderSchema.ArchiveTag, value); }
     get WellKnownFolderName(): WellKnownFolderName { return <WellKnownFolderName>this.PropertyBag._propGet(FolderSchema.WellKnownFolderName); }
     //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Not implemented.");}
-    BindWithId(service: ExchangeService, id: FolderId, propertySet?: PropertySet): WinJS.Promise<Folder> {
+    BindWithId(service: ExchangeService, id: FolderId, propertySet?: PropertySet): IPromise<Folder> {
         return service.BindToFolderAs<Folder>(id, propertySet);
     }
     //Bind(service: ExchangeService, name: WellKnownFolderName): Folder{ throw new Error("Not implemented.");}

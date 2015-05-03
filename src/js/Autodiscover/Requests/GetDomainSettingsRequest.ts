@@ -7,6 +7,9 @@ import XmlNamespace = require("../../Enumerations/XmlNamespace");
 import DomainSettingName = require("../../Enumerations/DomainSettingName");
 import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 
+import {IPromise} from "../../Interfaces";
+
+
 import GetDomainSettingsResponseCollection = require("../Responses/GetDomainSettingsResponseCollection");
 import AutodiscoverService = require("../AutodiscoverService");
 import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
@@ -25,8 +28,8 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
     }
 
     CreateServiceResponse(): AutodiscoverResponse { return new GetDomainSettingsResponseCollection(); }
-    Execute(): WinJS.Promise<GetDomainSettingsResponseCollection> {
-        var responses = <WinJS.Promise<GetDomainSettingsResponseCollection>> this.InternalExecute();
+    Execute(): IPromise<GetDomainSettingsResponseCollection> {
+        var responses = <IPromise<GetDomainSettingsResponseCollection>> this.InternalExecute();
 
         //GetDomainSettingsResponseCollection responses = (GetDomainSettingsResponseCollection) this.InternalExecute();
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
@@ -41,7 +44,7 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
     PostProcessResponses(responses: GetDomainSettingsResponseCollection): any {
         // Note:The response collection may not include all of the requested domains if the request has been throttled.
         for (var index = 0; index < responses.Count; index++) {
-            responses[index].Domain = this.Domains[index];
+            responses.__thisIndexer(index).Domain = this.Domains[index];
         }
     }
     Validate(): void { super.Validate(); }
@@ -56,9 +59,8 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
 
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Domains);
 
-        for (var d in this.Domains) {
-            var domain = this.Domains[d];
-
+        for (var domain of  this.Domains) {
+            
             //if (!string.IsNullOrEmpty(domain)) {
             if (domain != undefined && domain !== "") {
                 writer.WriteElementValue(
@@ -71,8 +73,8 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
         writer.WriteEndElement(); //Domains
 
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.RequestedSettings);
-        for (var s in this.Settings) {
-            var setting = this.Settings[s];
+        for (var setting of this.Settings) {
+            
             writer.WriteElementValue(
                 XmlNamespace.Autodiscover,
                 XmlElementNames.Setting,

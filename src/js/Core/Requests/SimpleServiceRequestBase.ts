@@ -1,10 +1,12 @@
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import {IPromise} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
 
 import ServiceRequestBase = require("./ServiceRequestBase");
 class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("Not implemented.");}
     //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("Not implemented.");}
-    InternalExecute(): WinJS.Promise<any> {
+    InternalExecute(): IPromise<any> {
 
 
         //var writer = new Data.EwsServiceXmlWriter();
@@ -15,7 +17,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
         //var cc = writer.GetXML();
-        //var xhrOptions: WinJS.IXHROptions = {
+        //var xhrOptions: IXHROptions = {
         //    type: "POST",
         //    data: cc,
         //    url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
@@ -25,7 +27,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
         //    //}
         //};
 
-        return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
+        return Promise((successDelegate, errorDelegate, progressDelegate) => {
             var request = this.BuildXHR();
 
 
@@ -77,7 +79,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
     }
     private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/): any {
-        var serviceResponse;
+        var serviceResponse:any;
 
         //try
         //{

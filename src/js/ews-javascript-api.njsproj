@@ -47,7 +47,12 @@
     <TypeScriptCompile Include="MailboxSearch\MailboxStatisticsItem.ts" />
     <TypeScriptCompile Include="MailboxSearch\PreviewItemMailbox.ts" />
     <TypeScriptCompile Include="MailboxSearch\SearchRefinerItem.ts" />
+    <TypeScriptCompile Include="PromiseFactory.ts" />
+    <TypeScriptCompile Include="Promise_Q.ts" />
+    <TypeScriptCompile Include="Promise_WinJS.ts" />
     <TypeScriptCompile Include="PropertyDefinitions\PermissionSetPropertyDefinition.ts" />
+    <TypeScriptCompile Include="XHRFactory.ts" />
+    <TypeScriptCompile Include="XHRFactory_WinJS.ts" />
     <TypeScriptCompile Include="_old\Core\Exceptions.ts" />
     <TypeScriptCompile Include="_old\Core\ServiceObjectSchemaTypes.ts" />
     <TypeScriptCompile Include="_temp.ts" />

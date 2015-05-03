@@ -1,3 +1,4 @@
+import ServiceErrorHandling = require("../../Enumerations/ServiceErrorHandling");
 import ExchangeService = require("../ExchangeService");
 import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
@@ -9,8 +10,8 @@ import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
     PropertySet: PropertySet;
     //private propertySet: PropertySet;
-    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling) {
-        super(service, errorHandlingModeServiceErrorHandling);
+    constructor(service: ExchangeService, errorHandlingMode:ServiceErrorHandling) {
+        super(service, errorHandlingMode);
     }
     //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     //IJsonSerializable.ToJson(ExchangeService service): any {
@@ -24,9 +25,9 @@ class GetRequest<TServiceObject extends ServiceObject, TResponse extends Service
     GetServiceObjectType(): ServiceObjectType { throw new Error("Abstract; must implemented."); }
     Validate(): void {
         super.Validate();
-        debugger;//todo: implement propertyset
+
         //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
-        //this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
+        this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertySet.WriteToXml(writer, this.GetServiceObjectType()); }
 }
@@ -37,4 +38,3 @@ export = GetRequest;
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;
 //export = _export;
-

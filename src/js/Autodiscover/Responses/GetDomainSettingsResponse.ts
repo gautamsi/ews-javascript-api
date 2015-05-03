@@ -61,7 +61,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
             }
             while (true);// (reader.HasRecursiveParent(XmlElementNames.UserSettings));
             //while (!reader.IsEndElement(XmlNamespace.Autodiscover, XmlElementNames.UserSettings));
-            var xxxx = null;
+           
         }
     }
     LoadFromXml(reader: EwsXmlReader, parentElementName: string): void {
@@ -124,7 +124,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
     }
 
     LoadDomainSettingErrorsFromJson(obj: any): void {
-        var errors = undefined;
+        var errors:any = undefined;
 
         if (typeof (obj[XmlElementNames.DomainSettingError]) === 'undefined') return;
 
@@ -141,7 +141,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
 
     }
     LoadDomainSettingsFromJson(obj: any): void {
-        var settings = undefined;
+        var settings:any = undefined;
 
         if (typeof (obj[XmlElementNames.DomainSetting]) === 'undefined') return;
 

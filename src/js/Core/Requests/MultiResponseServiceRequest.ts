@@ -13,6 +13,9 @@ import ServiceXmlDeserializationException = require("../../Exceptions/ServiceXml
 import ExtensionMethods = require("../../ExtensionMethods");
 import String = ExtensionMethods.stringFormatting;
 
+import {IPromise} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
+
 import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
 class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends SimpleServiceRequestBase {
     get ErrorHandlingMode(): ServiceErrorHandling { return this.errorHandlingMode; }
@@ -25,9 +28,9 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
 
     CreateServiceResponse(service: ExchangeService, responseIndex: number): TResponse { throw new Error("abstract; must implemented."); }
     //EndExecute(asyncResult: any/*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    Execute(): WinJS.Promise<ServiceResponseCollection<TResponse>> {
+    Execute(): IPromise<ServiceResponseCollection<TResponse>> {
 
-        return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
+        return Promise((successDelegate, errorDelegate, progressDelegate) => {
             this.InternalExecute().then((value: any) => {
                 var serviceResponses = <ServiceResponseCollection<TResponse>>value;
 

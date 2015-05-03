@@ -9,6 +9,8 @@ import UserSettingName = require("../../Enumerations/UserSettingName");
 
 import ServiceValidationException = require("../../Exceptions/ServiceValidationException");
 
+import {IPromise} from "../../Interfaces";
+
 import AutodiscoverService = require("../AutodiscoverService");
 import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
 import GetUserSettingsResponseCollection = require("../Responses/GetUserSettingsResponseCollection");
@@ -30,8 +32,8 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     CreateServiceResponse(): AutodiscoverResponse {
         return new GetUserSettingsResponseCollection();
     }
-    Execute(): WinJS.Promise<GetUserSettingsResponseCollection> {
-        var responses = <WinJS.Promise<GetUserSettingsResponseCollection>> this.InternalExecute();
+    Execute(): IPromise<GetUserSettingsResponseCollection> {
+        var responses = <IPromise<GetUserSettingsResponseCollection>> this.InternalExecute();
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);
@@ -50,7 +52,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     PostProcessResponses(responses: GetUserSettingsResponseCollection): void {
         // Note:The response collection may not include all of the requested users if the request has been throttled.
         for (var index = 0; index < responses.Count; index++) {
-            responses[index].SmtpAddress = this.SmtpAddresses[index];
+            responses.__thisIndexer(index).SmtpAddress = this.SmtpAddresses[index];
         }
     }
     ReadSoapHeader(reader: EwsXmlReader): void {

@@ -1,3 +1,7 @@
+import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
+import ServiceValidationException = require("../Exceptions/ServiceValidationException");
+import ServiceVersionException = require("../Exceptions/ServiceVersionException");
+import ServiceRequestBase = require("./Requests/ServiceRequestBase");
 import BasePropertySet = require("../Enumerations/BasePropertySet");
 import BodyType = require("../Enumerations/BodyType");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
@@ -11,13 +15,36 @@ import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
 import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
 
-import ExtensionMethods = require("../ExtensionMethods");
-
 import LazyMember = require("./LazyMember");
+
+import {stringFormatting} from "../ExtensionMethods";
+import {IndexerWithNumericKey, IndexerWithEnumKey} from "../AltDictionary";
 
 //todo: should be done except for debugger stops
 class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitionBase>
     //using DefaultPropertySetDictionary = LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
+
+    static get DefaultPropertySetMap(): LazyMember<IndexerWithEnumKey<BasePropertySet, string>> { return this.defaultPropertySetMap; }
+    static IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
+    static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
+    private static defaultPropertySetMap: LazyMember<IndexerWithEnumKey<BasePropertySet, string>> = new LazyMember<IndexerWithEnumKey<BasePropertySet, string>>(() => {
+        var result: IndexerWithEnumKey<BasePropertySet, string> = {};// = new Dictionary<BasePropertySet, string>();
+        result[BasePropertySet.IdOnly] = "IdOnly";
+        result[BasePropertySet.FirstClassProperties] = "AllProperties";
+        return result;
+    });
+    private basePropertySet: BasePropertySet;
+    private additionalProperties: PropertyDefinitionBase[] = [];// System.Collections.Generic.List<PropertyDefinitionBase>;
+    private requestedBodyType: BodyType;
+    private requestedUniqueBodyType: BodyType;
+    private requestedNormalizedBodyType: BodyType;
+    private filterHtml: boolean;
+    private convertHtmlCodePageToUTF8: boolean;
+    private inlineImageUrlTemplate: string;
+    private blockExternalImages: boolean;
+    private addTargetToLinks: boolean;
+    private isReadOnly: boolean;
+    private maximumBodySize: number;
 
     get BasePropertySet(): BasePropertySet { return this.basePropertySet; }
     set BasePropertySet(value) { this.ThrowIfReadonly(); this.BasePropertySet = value; }
@@ -41,29 +68,9 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
     get MaximumBodySize(): number { return this.maximumBodySize; }
     set MaximumBodySize(value) { this.ThrowIfReadonly(); this.maximumBodySize = value; }
 
-    Item(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
+    get_Item(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
 
-    static get DefaultPropertySetMap(): LazyMember<IndexerWithEnumKey<BasePropertySet, string>> { return this.defaultPropertySetMap; }
-    private basePropertySet: BasePropertySet;
-    private additionalProperties: PropertyDefinitionBase[] = [];// System.Collections.Generic.List<PropertyDefinitionBase>;
-    private requestedBodyType: BodyType;
-    private requestedUniqueBodyType: BodyType;
-    private requestedNormalizedBodyType: BodyType;
-    private filterHtml: boolean;
-    private convertHtmlCodePageToUTF8: boolean;
-    private inlineImageUrlTemplate: string;
-    private blockExternalImages: boolean;
-    private addTargetToLinks: boolean;
-    private isReadOnly: boolean;
-    private maximumBodySize: number;
-    static IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
-    static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
-    private static defaultPropertySetMap: LazyMember<IndexerWithEnumKey<BasePropertySet, string>> = new LazyMember<IndexerWithEnumKey<BasePropertySet, string>>(() => {
-        var result: IndexerWithEnumKey<BasePropertySet, string> = {};// = new Dictionary<BasePropertySet, string>();
-        result[BasePropertySet.IdOnly] = "IdOnly";
-        result[BasePropertySet.FirstClassProperties] = "AllProperties";
-        return result;
-    });
+
 
     //constructor();
     //constructor(basePropertySet:BasePropertySet);
@@ -83,12 +90,12 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             this.additionalProperties.push(property);
         }
     }
-    AddRange(properties: PropertyDefinitionBase /*System.Collections.Generic.IEnumerable<T>*/): void {
+    AddRange(properties: PropertyDefinitionBase[] /*System.Collections.Generic.IEnumerable<T>*/): void {
         this.ThrowIfReadonly();
         EwsUtilities.ValidateParamCollection(properties, "properties");
 
-        for (var property in properties) {
-            this.Add(<PropertyDefinitionBase>property);
+        for (var property of properties) {
+            this.Add(property);
         }
     }
     Clear(): void {
@@ -96,12 +103,15 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
         this.additionalProperties.splice(0);
     }
     Contains(property: PropertyDefinitionBase): boolean { return this.additionalProperties.indexOf(property) !== -1; }
+
     static CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet {
         var propertySet: PropertySet = new PropertySet(basePropertySet);
         propertySet.isReadOnly = true;
         return propertySet;
     }
+
     GetEnumerator(): any { throw new Error("Not implemented."); }
+
     GetShapeName(serviceObjectType: ServiceObjectType): string {
         switch (serviceObjectType) {
             case ServiceObjectType.Item:
@@ -114,14 +124,14 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 EwsUtilities.Assert(
                     false,
                     "PropertySet.GetShapeName",
-                    ExtensionMethods.stringFormatting.Format("An unexpected object type {0} for property shape. This code path should never be reached.", serviceObjectType));
-                return ExtensionMethods.stringFormatting.Empty;
+                    stringFormatting.Format("An unexpected object type {0} for property shape. This code path should never be reached.", serviceObjectType));
+                return stringFormatting.Empty;
         }
     }
     InternalValidate(): void {
         for (var i = 0; i < this.additionalProperties.length; i++) {
             if (this.additionalProperties[i] == null) {
-                throw new Exceptions.ServiceValidationException(ExtensionMethods.stringFormatting.Format("additional property  is null at {0}" /*Strings.AdditionalPropertyIsNull*/, i));
+                throw new ServiceValidationException(stringFormatting.Format("additional property  is null at {0}" /*Strings.AdditionalPropertyIsNull*/, i));
             }
         }
     }
@@ -144,16 +154,16 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             var propertyDefinition = <PropertyDefinition>propDefBase;
             if (propertyDefinition instanceof PropertyDefinition/* != null*/) {
                 if (propertyDefinition.Version > request.Service.RequestedServerVersion) {
-                    throw new Exceptions.ServiceVersionException(
-                        ExtensionMethods.stringFormatting.Format(
+                    throw new ServiceVersionException(
+                        stringFormatting.Format(
                             "Property: {0} is incompatible with version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                             propertyDefinition.Name,
                             propertyDefinition.Version));
                 }
 
                 if (summaryPropertiesOnly && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanFind, request.Service.RequestedServerVersion)) {
-                    throw new Exceptions.ServiceValidationException(
-                        ExtensionMethods.stringFormatting.Format(
+                    throw new ServiceValidationException(
+                        stringFormatting.Format(
                             "this is not a summary property; property: {0}, xmlelementaName: {1}",//Strings.NonSummaryPropertyCannotBeUsed,
                             propertyDefinition.Name,
                             request.GetXmlElementName()));
@@ -163,8 +173,8 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         if (this.FilterHtmlContent/*.HasValue*/) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "FilterHtmlContent",
                         ExchangeVersion.Exchange2010));
@@ -173,18 +183,18 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         if (this.ConvertHtmlCodePageToUTF8/*.HasValue*/) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010_SP1) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "ConvertHtmlCodePageToUTF8",
                         ExchangeVersion.Exchange2010_SP1));
             }
         }
 
-        if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(this.InlineImageUrlTemplate)) {
+        if (!stringFormatting.IsNullOrEmpty(this.InlineImageUrlTemplate)) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "InlineImageUrlTemplate",
                         ExchangeVersion.Exchange2013));
@@ -193,8 +203,8 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         if (this.BlockExternalImages/*.HasValue*/) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "BlockExternalImages",
                         ExchangeVersion.Exchange2013));
@@ -203,8 +213,8 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         if (this.AddBlankTargetToLinks/*.HasValue*/) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "AddTargetToLinks",
                         ExchangeVersion.Exchange2013));
@@ -213,8 +223,8 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         if (this.MaximumBodySize/*.HasValue*/) {
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
-                throw new Exceptions.ServiceVersionException(
-                    ExtensionMethods.stringFormatting.Format(
+                throw new ServiceVersionException(
+                    stringFormatting.Format(
                         "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                         "MaximumBodySize",
                         ExchangeVersion.Exchange2013));
@@ -285,7 +295,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                     this.ConvertHtmlCodePageToUTF8/*.Value*/);
             }
 
-            if (!ExtensionMethods.stringFormatting.IsNullOrEmpty(this.InlineImageUrlTemplate) &&
+            if (!stringFormatting.IsNullOrEmpty(this.InlineImageUrlTemplate) &&
                 writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,

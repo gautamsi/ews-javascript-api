@@ -56,8 +56,6 @@ class Greeter {
 
         return;
 
-
-
         var s: UserSettingName[] = [];
         s.push(UserSettingName.InternalEwsUrl);
         s.push(UserSettingName.ExternalEwsUrl);

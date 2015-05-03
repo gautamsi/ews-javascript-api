@@ -7,7 +7,12 @@ import ExchangeServerInfo = require("./ExchangeServerInfo");
 
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import TraceFlags = require("../Enumerations/TraceFlags");
+import {IXHROptions} from "../Interfaces";
 
+import ExtensionMethods = require("../ExtensionMethods");
+import String = ExtensionMethods.stringFormatting;
+
+import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 
 class ExchangeServiceBase {
     static AccountIsLocked: /*System.Net.*/systemnet.HttpStatusCode = 456;
@@ -47,7 +52,7 @@ class ExchangeServiceBase {
     private httpHeaders: { [index: string]: string };//System.Collections.Generic.IDictionary<string, string>;
     private httpResponseHeaders: { [index: string]: string };//System.Collections.Generic.IDictionary<string, string>;
     private keepAlive: boolean;
-    private OnResponseHeadersCaptured: ResponseHeadersCapturedHandler;
+    private OnResponseHeadersCaptured: Function;// ResponseHeadersCapturedHandler;
     private OnSerializeCustomSoapHeaders: Function;// CustomXmlSerializationDelegate;
     private preAuthenticate: boolean;
     private requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2013_SP1;
@@ -88,17 +93,17 @@ class ExchangeServiceBase {
     }
     InternalProcessHttpErrorResponse(httpWebResponse: IEwsHttpWebResponse, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("Not implemented."); }
     IsTraceEnabledFor(traceFlags: TraceFlags): boolean { return this.TraceEnabled && ((this.TraceFlags & traceFlags) != 0); }
-    PrepareHttpWebRequestForUrl(url: string/*System.Uri*/, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): WinJS.IXHROptions /*IEwsHttpWebRequest*/ {
+    PrepareHttpWebRequestForUrl(url: string/*System.Uri*/, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
         // Verify that the protocol is something that we can handle
         if (url.toLowerCase().indexOf("https") != 0)// .Scheme != Uri.UriSchemeHttp) && (url.Scheme != Uri.UriSchemeHttps)) {
             throw new ServiceLocalException("unsupported web protocol" + url);//string.Format(Strings.UnsupportedWebProtocol, url.Scheme));
 
-        var request: WinJS.IXHROptions = { url: url };
+        var request: IXHROptions = { url: url };
         request.headers = {};
 
 
         //request.PreAuthenticate = this.PreAuthenticate;
-        //request.Timeout = this.Timeout; //todo: implement this within WinJS.Promise
+        //request.Timeout = this.Timeout; //todo: implement this within IPromise
 
         this.SetContentType(request);
 
@@ -115,7 +120,7 @@ class ExchangeServiceBase {
             request.headers["Accept-Encoding"] = "gzip,deflate";
         }
 
-        if (!string.IsNullOrEmpty(this.clientRequestId)) {
+        if (!String.IsNullOrEmpty(this.clientRequestId)) {
             request.headers["client-request-id"] = this.clientRequestId;
             if (this.returnClientRequestId) {
                 request.headers["return-client-request-id"] = "true";
@@ -154,7 +159,7 @@ class ExchangeServiceBase {
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("Not implemented."); }
     ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
     SaveHttpResponseHeaders(headers: any/* System.Net.WebHeaderCollection*/): any { throw new Error("Not implemented."); }
-    SetContentType(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+    SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         request.headers["Content-Type"] = "text/xml; charset=utf-8";
         request.headers["Accept"] = "text/xml";
     }

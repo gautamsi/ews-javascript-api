@@ -14,6 +14,10 @@ import ServiceVersionException = require("../../Exceptions/ServiceVersionExcepti
 import ExtensionMethods = require("../../ExtensionMethods");
 import String = ExtensionMethods.stringFormatting;
 
+import {IPromise, IXHROptions} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
+import {XHR} from "../../XHRFactory"
+
 class ServiceRequestBase {
 
     //#region private static and const
@@ -49,7 +53,7 @@ class ServiceRequestBase {
     //#endregion
 
     //BuildEwsHttpWebRequest(): IEwsHttpWebRequest { throw new Error("Could not implemented."); }
-    BuildXHR(): WinJS.IXHROptions {
+    BuildXHR(): IXHROptions {
 
         var request = this.Service.PrepareHttpWebRequest(this.GetXmlElementName());
         //try
@@ -91,7 +95,7 @@ class ServiceRequestBase {
     //BuildResponseObjectFromJson(jsonResponse: JsonObject): any { throw new Error("Could not implemented."); }
     //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
     //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
-    EmitRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+    EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         if (this.Service.RenderingMethod == ExchangeService.RenderingMode.Xml) {
 
             var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter();//writer.Service
@@ -110,7 +114,7 @@ class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): WinJS.Promise<XMLHttpRequest> { return WinJS.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XHR(request); }
     GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
@@ -239,7 +243,7 @@ class ServiceRequestBase {
         this.ReadXmlDeclaration(ewsXmlReader);
     }
     ReadResponse(ewsXmlReader: EwsServiceXmlReader): any /*object return*/ {
-        var serviceResponse;
+        var serviceResponse:any;
 
         //this.ReadPreamble(ewsXmlReader);
         //ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
@@ -367,7 +371,7 @@ class ServiceRequestBase {
     //TraceResponseXml(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
     //TraceXmlRequest(memoryStream: any): any { throw new Error("Could not implemented."); }
     Validate(): void { this.Service.Validate(); }
-    ValidateAndEmitRequest(request: WinJS.IXHROptions): WinJS.Promise<XMLHttpRequest> {
+    ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
         this.Validate();
 
         var request = this.BuildXHR();
@@ -395,8 +399,8 @@ class ServiceRequestBase {
         }
 
         //var startTime = Date.now();// DateTime.UtcNow;
-        //var response = WinJS.xhr(request);
-        return WinJS.xhr(request);
+        //var response = XHR(request);
+        return XHR(request);
 
         //try
         //{

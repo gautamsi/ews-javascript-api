@@ -1,5 +1,5 @@
 import ExtensionMethods = require("../ExtensionMethods");
-
+import {IXHROptions} from "../Interfaces";
 class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
@@ -19,7 +19,7 @@ class ExchangeCredentials {
         return url;
     }
     //PreAuthenticate(): any{ throw new Error("Not implemented.");}
-    PrepareWebRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
+    PrepareWebRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         request.headers["Authorization"] = "Basic " + ExtensionMethods.btoa(this.UserName + ":" + this.Password);
     }
     SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/ }

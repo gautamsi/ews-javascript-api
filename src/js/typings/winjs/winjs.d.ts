@@ -952,7 +952,7 @@ declare module WinJS.Binding {
          * @param element The DOM element to convert to a template.
          * @param options If this parameter is supplied, the template is loaded from the URI and the content of the element parameter is ignored. You can add the following options: href.
         **/
-        constructor(element: HTMLElement, options?: any);
+        constructor(element: HTMLElement, options?:any);
 
         //#endregion Constructors
 
@@ -1077,6 +1077,15 @@ declare module WinJS.Binding {
      * @returns The input customInitializer.
     **/
     function initializer(customInitializer: Function): Function;
+
+    /**
+     * Notifies listeners that a property value was updated.
+     * @param name The name of the property that is being updated.
+     * @param newValue The new value for the property.
+     * @param oldValue The old value for the property.
+     * @returns A promise that is completed when the notifications are complete.
+    **/
+    function notify(name: string, newValue: string, oldValue: string): Promise<any>;
 
     /**
      * Sets the destination property to the value of the source property.
@@ -1464,7 +1473,7 @@ declare module WinJS {
      * @param type The type of message (error, warning, info, etc.).
     **/
     function log(message: string, tags?: string, type?: string): void;
-    function log(message: () => string, tags?: string, type?: string): void;
+    function log(message: ()=>string, tags?: string, type?: string): void;
 
     /**
      * This method has been deprecated. Strict processing is always on; you don't have to call this method to turn it on.
@@ -1490,7 +1499,7 @@ declare module WinJS {
         headers?: any;
         data?: any;
         responseType?: string;
-        customRequestInitializer?: (request: XMLHttpRequest) => void;
+        customRequestInitializer?:(request: XMLHttpRequest) => void;
     }
 
     //#endregion Interfaces
@@ -1923,6 +1932,121 @@ declare module WinJS.UI.Animation {
      * @returns An object that completes when the animation is finished.
     **/
     function updateBadge(incoming: any, offset?: any): Promise<any>;
+
+    /**
+     * Execute a slide up animation.
+     * @param incoming Single element or collection of elements to animate sliding up.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideUp(incoming: any): Promise<any>;
+
+    /**
+     * Execute a slide down animation.
+     * @param incoming Single element or collection of elements to animate sliding down.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideDown(incoming: any): Promise<any>;
+
+    /**
+     * Execute a slide in from right to left animation.
+     * @param page The page containing all elements to slide.
+     * @param first First element or collection of elements to animate sliding in.
+     * @param second Second element or collection of elements to animate sliding in, which will be offset slightly farther than the first.
+     * @param third Third element or collection of elements to animate sliding in, which will be offset slightly farther than the second.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideLeftIn(page: any, first: any, second: any, third: any): Promise<any>;
+
+    /**
+     * Execute a slide out from right to left animation.
+     * @param page The page containing all elements to slide.
+     * @param first First element or collection of elements to animate sliding out.
+     * @param second Second element or collection of elements to animate sliding out, which will be offset slightly farther than the first.
+     * @param third Third element or collection of elements to animate sliding out, which will be offset slightly farther than the second.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideLeftOut(page: any, first: any, second: any, third: any): Promise<any>;
+
+    /**
+     * Execute a slide in from left to right animation.
+     * @param page The page containing all elements to slide.
+     * @param first First element or collection of elements to animate sliding in.
+     * @param second Second element or collection of elements to animate sliding in, which will be offset slightly farther than the first.
+     * @param third Third element or collection of elements to animate sliding in, which will be offset slightly farther than the second.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideRightIn(page: any, first: any, second: any, third: any): Promise<any>;
+
+    /**
+     * Execute a slide out from left to right animation.
+     * @param page The page containing all elements to slide.
+     * @param first First element or collection of elements to animate sliding out.
+     * @param second Second element or collection of elements to animate sliding out, which will be offset slightly farther than the first.
+     * @param third Third element or collection of elements to animate sliding out, which will be offset slightly farther than the second.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function slideRightOut(page: any, first: any, second: any, third: any): Promise<any>;
+
+    /**
+     * Execute a continuum animation, scaling up the incoming page while scaling, rotating, and translating the incoming item.
+     * @param page Single element to be scaled up that is the page root and does not contain the incoming item.
+     * @param itemRoot Root of the item that will be translated as part of the continuum animation.
+     * @param itemContent Content of the item that will be scaled and rotated as part of the continuum animation.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function continuumForwardIn(page: any, itemRoot: any, itemContent: any): Promise<any>;
+
+    /**
+     * Execute a continuum animation, scaling down the outgoing page while scaling, rotating, and translating the outgoing item.
+     * @param page Single element to be scaled down that is the page root and contains the outgoing item.
+     * @param item Single element to be scaled, rotated, and translated away from the outgoing page.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function continuumForwardOut(page: any, item: any): Promise<any>;
+
+    /**
+     * Execute a continuum animation, scaling down the incoming page while scaling, rotating, and translating the incoming item.
+     * @param page Single element to be scaled down that is the page root and contains the incoming item.
+     * @param item Single element to be scaled, rotated, and translated into its final position on the page.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function continuumBackwardIn(page: any, item: any): Promise<any>;
+
+    /**
+     * Execute a continuum animation, scaling down the outgoing page while.
+     * @param page Single element to be scaled down that is the page root.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function continuumBackwardOut(page: any): Promise<any>;
+
+    /**
+     * Execute a turnstile forward in animation.
+     * @param incoming Single element or collection of elements to animate.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function turnstileForwardIn(incoming: any): Promise<any>;
+
+    /**
+     * Execute a turnstile forward out animation.
+     * @param outgoing Single element or collection of elements to animate.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function turnstileForwardOut(outgoing: any): Promise<any>;
+
+    /**
+     * Execute a turnstile backward in animation.
+     * @param incoming Single element or collection of elements to animate.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function turnstileBackwardIn(incoming: any): Promise<any>;
+
+    /**
+     * Execute a turnstile backward out animation.
+     * @param outgoing Single element or collection of elements to animate.
+     * @returns A Promise that completes when the animation is finished.
+    **/
+    function turnstileBackwardOut(outgoing: any): Promise<any>;
+
 
     //#endregion Functions
 
@@ -2420,6 +2544,7 @@ declare module WinJS.UI {
      * Provides a mechanism for retrieving IItem objects asynchronously.
     **/
     interface IItemPromise<T> extends IPromise<T> {
+
         //#region Methods
 
         /**
@@ -3603,6 +3728,11 @@ declare module WinJS.UI {
         //#endregion Methods
 
         //#region Properties
+
+        /**
+         * Gets/Sets how AppBar will display itself while hidden. Values are "none" and "minimal".
+        **/
+        closedDisplayMode: string;
 
         /**
          * Sets the AppBarCommand objects that appear in the app bar.
@@ -5499,6 +5629,157 @@ declare module WinJS.UI {
     }
 
     /**
+ * A tab control that displays multiple items.
+**/
+    class Pivot {
+        //#region Constructors
+
+        /**
+         * Creates a new Pivot.
+         * @constructor 
+         * @param element The DOM element hosts the new Pivot.
+         * @param options An object that contains one or more property/value pairs to apply to the new control. Each property of the options object corresponds to one of the control's properties or events. Event names must begin with "on". For example, to provide a handler for the cancel event, add a property named "oncancel" to the options object and set its value to the event handler.
+        **/
+        constructor(element?: HTMLElement, options?: any);
+
+        //#endregion Constructors
+
+        //#region Events
+
+        /**
+         * Raised when a PivotItem control's animation ends.
+         * @param eventInfo An object that contains information about the event.
+        **/
+        onitemanimationend(eventInfo: Event): void;
+
+        /**
+         * Raised when a PivotItem control's animation starts.
+         * @param eventInfo An object that contains information about the event.
+        **/
+        onitemanimationstart(eventInfo: Event): void;
+
+        /**
+         * Raised when the user navigates to a different PivotItem.
+         * @param eventInfo An object that contains information about the event.
+        **/
+        onselectionchanged(eventInfo: Event): void;
+
+        //#endregion Events
+
+        //#region Methods
+
+        /**
+         * Registers an event handler for the specified event.
+         * @param eventName The name of the event to handle.
+         * @param eventHandler The event handler function to associate with the event.
+         * @param useCapture Set to true to register the event handler for the capturing phase; otherwise, set to false to register the event handler for the bubbling phase.
+        **/
+        addEventListener(eventName: string, eventHandler: Function, useCapture?: boolean): void;
+
+        /**
+         * Raises an event of the specified type and with additional properties.
+         * @param type The type (name) of the event.
+         * @param eventProperties The set of additional properties to be attached to the event object when the event is raised.
+         * @returns true if preventDefault was called on the event, otherwise false.
+        **/
+        dispatchEvent(type: string, eventProperties: any): boolean;
+
+        /**
+         * Releases resources held by this Pivot. Call this method when the Pivot is no longer needed. After calling this method, the Pivot becomes unusable.
+        **/
+        dispose(): void;
+
+        /**
+         * Removes an event handler that the addEventListener method registered.
+         * @param eventName The name of the event that the event handler is registered for.
+         * @param eventCallback The event handler function to remove.
+         * @param useCapture Set to true to remove the capturing phase event handler; set to false to remove the bubbling phase event handler.
+        **/
+        removeEventListener(eventName: string, eventCallback: Function, useCapture?: boolean): void;
+
+        //#endregion Methods
+
+        //#region Properties
+
+        /**
+         * Gets the DOM element that hosts the Pivot control.
+        **/
+        element: HTMLElement;
+
+        /**
+         * Gets or sets the Binding.List that contains the PivotItem objects that belong to this Pivot.
+        **/
+        items: Binding.List<PivotItem>;
+
+        /**
+         * Gets or sets a value that specifies whether the Pivot control is locked to the current item.
+        **/
+        locked: boolean;
+
+        /**
+         * Gets or sets the index of the PivotItem control in view.
+        **/
+        selectedIndex: number;
+
+        /**
+         * Gets or sets the PivotItem control in view within the Pivot control.
+        **/
+        selectedItem: PivotItem;
+
+        /**
+         * Gets or sets the title displayed above the PivotItem controls.
+        **/
+        title: string;
+
+        //#endregion Properties
+    }
+
+    /**
+     * An item within a Pivot control.
+    **/
+    class PivotItem {
+        //#region Constructors
+
+        /**
+         * Creates a new PivotItem.
+         * @constructor 
+         * @param element The DOM element hosts the new PivotItem.
+         * @param options An object that contains one or more property/value pairs to apply to the new control. Each property of the options object corresponds to one of the control's properties or events. Event names must begin with "on". For example, to provide a handler for the cancel event, add a property named "oncancel" to the options object and set its value to the event handler.
+        **/
+        constructor(element?: HTMLElement, options?: any);
+
+        //#endregion Constructors
+
+        //#region Methods
+
+        /**
+         * Releases resources held by this PivotItem. Call this method when the PivotItem is no longer needed. After calling this method, the PivotItem becomes unusable.
+        **/
+        dispose(): void;
+
+        //#endregion Methods
+
+        //#region Properties
+
+        /**
+         * Gets the DOM element that hosts the PivotItem control's content.
+        **/
+        contentElement: HTMLElement;
+
+        /**
+         * Gets the DOM element that hosts the PivotItem control.
+        **/
+        element: HTMLElement;
+
+        /**
+         * Gets or sets the header for this PivotItem.
+        **/
+        header: string;
+
+        //#endregion Properties
+    }
+
+    /**
      * Represents a menu flyout for displaying commands.
     **/
     class Menu {
@@ -6218,7 +6499,7 @@ declare module WinJS.UI {
          * @param elemnt The DOM element that will host the new control. The Repeater will create an element if this value is null.
          * @param options An object that contains one or more property/value pairs to apply to the new Repeater. Each property of the options object corresponds to one of the object's properties or events. Event names must begin with "on".
         **/
-        constructor(element?: HTMLElement, options?: any);
+        constructor(element?:HTMLElement, options?: any);
 
         //#endregion Constructors
 
@@ -7340,6 +7621,13 @@ declare module WinJS.UI {
     function scopedSelect(selector: string, element: HTMLElement): HTMLElement;
 
     /**
+     * Given a DOM element and a control, attaches the control to the element.
+     * @param element Element to associate with the control.
+     * @param control The control to attach to the element.
+    **/
+    function setControl(element: HTMLElement, control: any): void;
+
+    /**
      * Adds the set of declaratively specified options (properties and events) to the specified control. If name of the options property begins with "on", the property value is a function and the control supports addEventListener. setControl calls addEventListener on the control.
      * @param control The control on which the properties and events are to be applied.
      * @param options The set of options that are specified declaratively.
@@ -7454,7 +7742,6 @@ declare module WinJS.UI.Pages {
     //#endregion Interfaces
 
     //#region Objects
-
 
     //#endregion Objects
 
@@ -8120,25 +8407,25 @@ declare module WinJS.Utilities {
 
     }
 
-	/**
-	 * Constructor support for QueryCollection interface
-	**/
-	export var QueryCollection: {
+    /**
+     * Constructor support for QueryCollection interface
+    **/
+    export var QueryCollection: {
         new <T>(items: T[]): QueryCollection<T>;
         prototype: QueryCollection<any>;
     }
 
-	//#endregion Objects
+    //#endregion Objects
 
-	//#region Functions
+    //#region Functions
 
-	/**
-	 * Adds the specified class to the specified element.
-	 * @param e The element to which to add the class.
-	 * @param name The name of the class to add.
-	 * @returns The element.
-	**/
-	function addClass<T extends HTMLElement>(e: T, name: string): T;
+    /**
+     * Adds the specified class to the specified element.
+     * @param e The element to which to add the class.
+     * @param name The name of the class to add.
+     * @returns The element.
+    **/
+    function addClass<T extends HTMLElement>(e: T, name: string): T;
 
     /**
      * Gets a collection of elements that are the direct children of the specified element.
@@ -8243,6 +8530,20 @@ declare module WinJS.Utilities {
      * @returns The relative top coordinate.
     **/
     function getRelativeTop(element?: HTMLElement, parent?: HTMLElement): number;
+
+    /**
+     * Gets the scrollLeft and scrollTop of the specified element, adjusting the scrollLeft to change from browser specific coordinates to logical coordinates when in RTL.
+     * @param element The element.
+     * @returns An object with two properties: scrollLeft and scrollTop
+    **/
+    function getScrollPosition(element: HTMLElement): { scrollLeft: number; scrollTop: number};
+
+    /**
+     * Gets the tab index of the specified element.
+     * @param element The element
+     * @returns The tabIndex of the element. Returns -1 if the element cannot be tabbed to.
+    **/
+    function getTabIndex(element: HTMLElement): number;
 
     /**
      * Gets the height of the element, including its margins.
@@ -8363,6 +8664,13 @@ declare module WinJS.Utilities {
     function setOuterHTMLUnsafe(element: HTMLElement, text: string): void;
 
     /**
+     * Sets the scrollLeft and scrollTop of the specified element, changing the scrollLeft from logical coordinates to browser-specific coordinates when in RTL.
+     * @param element The element.
+     * @param position An object describing the position to set.
+    **/
+    function setScrollPosition(element: HTMLElement, position: { scrollLeft: number; scrollTop: number}): void;
+
+    /**
      * Configures a logger that writes messages containing the specified tags to the JavaScript console.
      * @param options The tags for messages to log. Multiple tags should be separated by spaces. May contain type, tags, excludeTags and action properties.
     **/
@@ -8390,6 +8698,11 @@ declare module WinJS.Utilities {
      * Gets whether the current script context has access to WinRT APIs.
     **/
     var hasWinRT: boolean;
+
+    /**
+     * Indicates whether the app is running on Windows Phone.
+    **/
+    var isPhone: boolean;
 
     //#endregion Properties
 
@@ -8653,4 +8966,8 @@ declare module WinJS.Utilities.Scheduler {
 
     //#endregion Functions
 
+}
+
+declare module "WinJS" {
+    export = WinJS;
 }

@@ -2,7 +2,7 @@ import EwsXmlReader = require("../Core/EwsXmlReader");
 
 import AutodiscoverResponse = require("./Responses/AutodiscoverResponse");
 
-class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse {
+class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
     Count: number;
     Item: TResponse;
     Responses: TResponse[];//System.Collections.Generic.List<TResponse>;
@@ -12,7 +12,9 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
         super();
         this.Responses = new Array<TResponse>();
     }
-
+    __thisIndexer(index: number): TResponse {
+        return this.Responses[index];
+    }
     CreateResponseInstance(): TResponse { throw new Error("Not implemented."); }
     GetEnumerator(): any { throw new Error("Not implemented."); }
     GetResponseCollectionXmlElementName(): string { throw new Error("Not implemented."); }
@@ -44,7 +46,7 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
 
     LoadResponseCollectionFromJson(obj: any): void {
         var element = this.GetResponseInstanceXmlElementName()
-        var responses = undefined;
+        var responses:any = undefined;
         if (Object.prototype.toString.call(obj[element]) === "[object Array]")
             responses = obj[element];
         else

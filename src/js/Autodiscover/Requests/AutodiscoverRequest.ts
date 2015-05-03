@@ -1,4 +1,3 @@
-/// <reference path="../../scripts/typings/winjs/winjs.d.ts" />
 
 import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
 import EwsXmlReader = require("../../Core/EwsXmlReader");
@@ -16,8 +15,9 @@ import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
 import ServiceResponse = require("../../Core/Responses/ServiceResponse");
 import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
 
-var WinJS = require('winjs');
-
+import {IPromise, IXHROptions} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
+import {XHR} from "../../XHRFactory"
 
 class AutodiscoverRequest {
 
@@ -84,7 +84,7 @@ class AutodiscoverRequest {
     }
     GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
     GetWsAddressingActionName(): string { throw new Error("Not implemented."); }
-    InternalExecute(): WinJS.Promise<AutodiscoverResponse> {
+    InternalExecute(): IPromise<AutodiscoverResponse> {
         var writer = new EwsServiceXmlWriter();
         this.WriteSoapRequest(this.url, writer);
 
@@ -93,7 +93,7 @@ class AutodiscoverRequest {
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
         var cc = writer.GetXML();
-        var xhrOptions: WinJS.IXHROptions = {
+        var xhrOptions: IXHROptions = {
             type: "POST",
             data: cc,
             //url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
@@ -105,8 +105,8 @@ class AutodiscoverRequest {
             //}
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
-        return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
-            WinJS.xhr(xhrOptions)
+        return Promise((successDelegate, errorDelegate, progressDelegate) => {
+            XHR(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                 var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                 var util = require('util');
@@ -154,7 +154,7 @@ class AutodiscoverRequest {
                     //console.log(util.inspect(resperr, { showHidden: false, depth: null, colors: true }));
                     ////console.log(util.inspect(resperr.response, { showHidden: false, depth: null, colors: true }));
                     //console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
-                    var exception;
+                    var exception:any;
                     try {
                         this.ProcessWebException(resperr);
                     }
