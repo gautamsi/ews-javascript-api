@@ -16,12 +16,14 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     private uri: string;
     constructor(uri?: string) {
         super();
-        EwsUtilities.Assert(
-            !String.IsNullOrEmpty(uri),
-            "ServiceObjectPropertyDefinition.ctor",
-            "uri is null or empty");
+        if (uri !== undefined) {
+            EwsUtilities.Assert(
+                !String.IsNullOrEmpty(uri),
+                "ServiceObjectPropertyDefinition.ctor",
+                "uri is null or empty");
 
-        this.uri = uri;
+            this.uri = uri;
+        }
     }
     //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { jsonPropertyDefinition.Add(XmlAttributeNames.FieldURI, this.Uri); }
     //GetJsonType(): string{ throw new Error("Not implemented.");}

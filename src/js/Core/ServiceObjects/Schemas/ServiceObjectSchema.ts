@@ -1,6 +1,7 @@
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 import PropertyDefinitionBase = require("../../../PropertyDefinitions/PropertyDefinitionBase");
 import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
+import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
 import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
 
 import IOutParam = require("../../../Interfaces/IOutParam");
@@ -12,6 +13,9 @@ import ExtensionMethods = require("../../../ExtensionMethods");
 import String = ExtensionMethods.stringFormatting;
 
 import EwsUtilities = require("../../EwsUtilities");
+import XmlElementNames = require("../../XmlElementNames");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
+import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
 
 class ServiceObjectSchema {
     //todo: fixing difficulties with following c# code.
@@ -60,7 +64,13 @@ class ServiceObjectSchema {
         }
         return propDefDictionary;
     } ();
-    static ExtendedProperties: PropertyDefinition;
+    static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
+                XmlElementNames.ExtendedProperty,
+                ExchangeVersion.Exchange2007_SP1,
+                undefined,
+                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+                ()=> { return new ExtendedPropertyCollection(); });
+                
 
     constructor() {
         this.RegisterProperties();

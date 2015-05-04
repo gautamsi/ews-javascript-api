@@ -13,10 +13,10 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
     Type: any;// System.Type;
     private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
     constructor(xmlElementName: string,
-        uri: string,
-        flags: PropertyDefinitionFlags,
         version: ExchangeVersion,
-        propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>) {
+        uri?: string,
+        flags?: PropertyDefinitionFlags,
+        propertyCreationDelegate?: CreateComplexPropertyDelegate<TComplexProperty>) {
         super(xmlElementName, version, uri, flags);
 
         EwsUtilities.Assert(

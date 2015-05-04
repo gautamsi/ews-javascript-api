@@ -31,8 +31,7 @@ class Greeter {
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2010);
-        alert(stringFormatting.Empty);
-
+        
 
 
         //var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://autodiscover-s.coutlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);

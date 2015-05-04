@@ -435,6 +435,7 @@
         "./src/js/Core/ServiceObjects/Schemas/SearchFolderSchema.ts",
         "./src/js/Core/ServiceObjects/Schemas/ServiceObjectSchema.ts",
         "./src/js/Core/ServiceObjects/Schemas/TaskSchema.ts",
+        "./src/js/Core/ServiceObjects/Schemas/_folder.ts",
         "./src/js/Core/ServiceObjects/ServiceObject.ts",
         "./src/js/Core/ServiceObjects/ServiceObjectInfo.ts",
         "./src/js/Core/SimplePropertyBag.ts",
