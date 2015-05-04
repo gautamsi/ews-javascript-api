@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import DayOfTheWeekIndex = require("../Enumerations/DayOfTheWeekIndex");
+import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
+import Month = require("../Enumerations/Month");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class TimeChangeRecurrence extends ComplexProperty {
     DayOfTheWeekIndex: DayOfTheWeekIndex;

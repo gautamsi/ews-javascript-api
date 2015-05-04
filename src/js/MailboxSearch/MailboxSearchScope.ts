@@ -1,4 +1,7 @@
-﻿class MailboxSearchScope {
+import MailboxSearchLocation = require("../Enumerations/MailboxSearchLocation");
+import MailboxSearchScopeType = require("../Enumerations/MailboxSearchScopeType");
+import ExtendedAttributes = require("./ExtendedAttributes");
+class MailboxSearchScope {
     Mailbox: string;
     SearchScope: MailboxSearchLocation;
     SearchScopeType: MailboxSearchScopeType;

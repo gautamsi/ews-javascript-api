@@ -1,3 +1,4 @@
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 interface IOwnedProperty {
     Owner: ServiceObject;
 }

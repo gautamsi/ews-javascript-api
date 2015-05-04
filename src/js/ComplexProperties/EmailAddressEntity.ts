@@ -1,3 +1,4 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class EmailAddressEntity extends ExtractedEntity {
     EmailAddress: string;

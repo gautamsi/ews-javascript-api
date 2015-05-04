@@ -1,3 +1,10 @@
+import FolderEvent = require("./FolderEvent");
+import ItemEvent = require("./ItemEvent");
+import NotificationEvent = require("./NotificationEvent");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EventType = require("../Enumerations/EventType");
 			
  class GetEventsResults {
 	static XmlElementNameToEventTypeMap: any /*System.Collections.Generic.Dictionary<string, EventType>*/;

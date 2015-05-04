@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import HoldAction = require("../../Enumerations/HoldAction");
+import SetHoldOnMailboxesResponse = require("../Responses/SetHoldOnMailboxesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     ActionType: HoldAction;
     HoldId: string;

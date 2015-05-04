@@ -1,3 +1,5 @@
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class FailedSearchMailbox {
     Mailbox: string;
     ErrorCode: number;

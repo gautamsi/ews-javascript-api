@@ -1,3 +1,8 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ExchangeService = require("../ExchangeService");
+import ExecuteDiagnosticMethodResponse = require("../Responses/ExecuteDiagnosticMethodResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<ExecuteDiagnosticMethodResponse> {
     Verb: string;
     Parameter: any;//System.Xml.XmlNode;

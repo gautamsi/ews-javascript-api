@@ -1,5 +1,6 @@
 			
- class MonthlyRegenerationPattern extends IntervalPattern {
+ import IntervalPattern = require("./Recurrence_IntervalPattern");						
+class MonthlyRegenerationPattern extends IntervalPattern {
 	XmlElementName: string;
 	IsRegenerationPattern: boolean;
 }

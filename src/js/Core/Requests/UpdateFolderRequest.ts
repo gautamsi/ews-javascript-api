@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import Folder = require("../ServiceObjects/Folders/Folder");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class UpdateFolderRequest extends MultiResponseServiceRequest<ServiceResponse> {
     Folders: Folder[];//System.Collections.Generic.List<Folder>;
     private folders: Folder[];//System.Collections.Generic.List<Folder>;

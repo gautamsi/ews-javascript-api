@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import PhoneCall = require("../../UnifiedMessaging/PhoneCall");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetPhoneCallResponse extends ServiceResponse {
     PhoneCall: PhoneCall;
     private phoneCall: PhoneCall;

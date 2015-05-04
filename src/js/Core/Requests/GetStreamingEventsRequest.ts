@@ -1,3 +1,7 @@
+import HangingServiceRequestBase = require("./HangingServiceRequestBase");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetStreamingEventsRequest extends HangingServiceRequestBase {
 	HeartbeatFrequency: number;

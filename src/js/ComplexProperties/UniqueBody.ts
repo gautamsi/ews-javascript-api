@@ -1,3 +1,8 @@
+import ComplexProperty = require("./ComplexProperty");
+import BodyType = require("../Enumerations/BodyType");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class UniqueBody extends ComplexProperty {
     BodyType: BodyType;
     Text: string;

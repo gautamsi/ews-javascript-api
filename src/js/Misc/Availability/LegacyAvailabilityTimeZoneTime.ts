@@ -1,3 +1,9 @@
+import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
+import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 
     class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
         HasTransitionTime: boolean;

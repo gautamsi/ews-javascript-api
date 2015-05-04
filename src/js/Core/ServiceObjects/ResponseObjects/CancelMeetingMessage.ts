@@ -1,3 +1,6 @@
+import CalendarResponseMessageBase = require("./CalendarResponseMessageBase");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
+import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
 
     class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCancellation> {
         Body: MessageBody;

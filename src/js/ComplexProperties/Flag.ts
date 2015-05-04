@@ -1,3 +1,8 @@
+import ComplexProperty = require("./ComplexProperty");
+import ItemFlagStatus = require("../Enumerations/ItemFlagStatus");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class Flag extends ComplexProperty {
     FlagStatus: ItemFlagStatus;

@@ -1,3 +1,10 @@
+import ServiceResponse = require("./ServiceResponse");
+import FindFoldersResults = require("../../Search/FindFoldersResults");
+import PropertySet = require("../PropertySet");
+import ExchangeService = require("../ExchangeService");
+import Folder = require("../ServiceObjects/Folders/Folder");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class FindFolderResponse extends ServiceResponse {
     Results: FindFoldersResults;
     private results: FindFoldersResults;

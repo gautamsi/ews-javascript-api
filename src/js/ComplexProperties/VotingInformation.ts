@@ -1,4 +1,8 @@
-﻿
+import ComplexProperty = require("./ComplexProperty");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+
     class VotingInformation extends ComplexProperty {
         UserOptions: VotingOptionData[];//System.Collections.ObjectModel.Collection<VotingOptionData>;
         VotingResponse: string;

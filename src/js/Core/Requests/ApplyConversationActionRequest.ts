@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ConversationAction = require("../../Misc/ConversationAction");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     ConversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
     private conversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;

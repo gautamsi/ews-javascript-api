@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import UninstallAppResponse = require("../Responses/UninstallAppResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class UninstallAppRequest extends SimpleServiceRequestBase {
 	private ID: string;

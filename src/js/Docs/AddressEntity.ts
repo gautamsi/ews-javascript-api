@@ -1,3 +1,4 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class AddressEntity extends ExtractedEntity {
 	Address: string;

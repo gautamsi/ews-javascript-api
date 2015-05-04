@@ -1,3 +1,5 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class EmailMessageSchema extends ItemSchema {
     static ToRecipients: PropertyDefinition;
     static BccRecipients: PropertyDefinition;

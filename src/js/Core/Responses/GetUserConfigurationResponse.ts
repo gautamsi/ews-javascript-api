@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import UserConfiguration = require("../../Misc/UserConfiguration");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetUserConfigurationResponse extends ServiceResponse {
     UserConfiguration: UserConfiguration;
     private userConfiguration: UserConfiguration;

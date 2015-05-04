@@ -1,3 +1,8 @@
+import ComplexProperty = require("../ComplexProperty");
+import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 
 class WorkingHours extends ComplexProperty {
     TimeZone: any;//System.TimeZoneInfo;

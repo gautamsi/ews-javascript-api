@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import PhoneCallId = require("../../UnifiedMessaging/PhoneCallId");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class PlayOnPhoneResponse extends ServiceResponse {
     PhoneCallId: PhoneCallId;
     private phoneCallId: PhoneCallId;

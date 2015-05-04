@@ -1,3 +1,10 @@
+import ConnectingIdType = require("../Enumerations/ConnectingIdType");
+import PrivilegedLogonType = require("../Enumerations/PrivilegedLogonType");
+import PrivilegedUserIdBudgetType = require("../Enumerations/PrivilegedUserIdBudgetType");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import XmlElementNames = require("../Core/XmlElementNames");
 //todo: should be done
 class PrivilegedUserId {
     IdType: ConnectingIdType;

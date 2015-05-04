@@ -1,3 +1,5 @@
+import ServiceObjectSchema = require("./ServiceObjectSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class ItemSchema extends ServiceObjectSchema {
     static Id: PropertyDefinition;
     static Body: PropertyDefinition;

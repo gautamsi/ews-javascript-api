@@ -1,4 +1,4 @@
-﻿/// <reference path="typings/xmldom.d.ts" />
+/// <reference path="typings/xmldom.d.ts" />
 
 
 /*

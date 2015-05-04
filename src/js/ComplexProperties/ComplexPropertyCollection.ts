@@ -1,3 +1,5 @@
+import ExchangeService = require("../Core/ExchangeService");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 

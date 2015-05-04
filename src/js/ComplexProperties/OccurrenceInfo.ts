@@ -1,3 +1,7 @@
+import ComplexProperty = require("./ComplexProperty");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class OccurrenceInfo extends ComplexProperty {
     ItemId: ItemId;

@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetAppMarketplaceUrlResponse = require("../Responses/GetAppMarketplaceUrlResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
 	ApiVersionSupported: string;

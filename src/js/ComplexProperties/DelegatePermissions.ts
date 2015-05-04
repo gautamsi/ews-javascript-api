@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import DelegateFolderPermissionLevel = require("../Enumerations/DelegateFolderPermissionLevel");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class DelegatePermissions extends ComplexProperty {
     CalendarFolderPermissionLevel: DelegateFolderPermissionLevel;
     TasksFolderPermissionLevel: DelegateFolderPermissionLevel;

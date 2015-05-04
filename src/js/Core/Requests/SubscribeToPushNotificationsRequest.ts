@@ -1,3 +1,9 @@
+import SubscribeRequest = require("./SubscribeRequest");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import SubscribeResponse = require("../Responses/SubscribeResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSubscription> {
 	Frequency: number;

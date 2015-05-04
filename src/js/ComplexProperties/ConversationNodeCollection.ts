@@ -1,3 +1,5 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+import PropertySet = require("../Core/PropertySet");
 
     class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {
         private propertySet: PropertySet;

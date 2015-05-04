@@ -1,3 +1,5 @@
+import SyncResponse = require("./SyncResponse");
+import ItemChange = require("../../Sync/ItemChange");
 			
  class SyncFolderItemsResponse extends SyncResponse<Item, ItemChange> {
 	SummaryPropertiesOnly: boolean;

@@ -1,3 +1,4 @@
+import JsonTokenType = require("../Enumerations/JsonTokenType");
 			
  class JsonTokenizer {
 	private currentMatch: any /*System.Text.RegularExpressions.Match*/;

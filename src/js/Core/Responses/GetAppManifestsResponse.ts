@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetAppManifestsResponse extends ServiceResponse {
 	Manifests: any /*System.Collections.ObjectModel.Collection<System.Xml.XmlDocument>*/;

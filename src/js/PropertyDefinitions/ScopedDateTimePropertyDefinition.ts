@@ -1,3 +1,8 @@
+import DateTimePropertyDefinition = require("./DateTimePropertyDefinition");
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import PropertyDefinition = require("./PropertyDefinition");
+import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
+import PropertyBag = require("../Core/PropertyBag");
 class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
     private getPropertyDefinitionCallback: GetPropertyDefinitionCallback;
     GetTimeZoneProperty(version: ExchangeVersion): PropertyDefinition { throw new Error("Not implemented."); }

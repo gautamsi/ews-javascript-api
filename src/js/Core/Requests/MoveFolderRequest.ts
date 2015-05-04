@@ -1,3 +1,7 @@
+import MoveCopyFolderRequest = require("./MoveCopyFolderRequest");
+import ExchangeService = require("../ExchangeService");
+import MoveCopyFolderResponse = require("../Responses/MoveCopyFolderResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 class MoveFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
     CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse { throw new Error("Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }

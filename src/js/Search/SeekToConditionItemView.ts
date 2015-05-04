@@ -1,3 +1,13 @@
+import ViewBase = require("./ViewBase");
+import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
+import ItemTraversal = require("../Enumerations/ItemTraversal");
+import OrderByCollection = require("./OrderByCollection");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 			
  class SeekToConditionItemView extends ViewBase {
 	PageSize: number;

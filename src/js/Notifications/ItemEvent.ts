@@ -1,3 +1,7 @@
+import NotificationEvent = require("./NotificationEvent");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
 			
  class ItemEvent extends NotificationEvent {
 	ItemId: ItemId;

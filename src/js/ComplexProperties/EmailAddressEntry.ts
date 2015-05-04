@@ -1,3 +1,10 @@
+import EmailAddressKey = require("../Enumerations/EmailAddressKey");
+import EmailAddress = require("./EmailAddress");
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
   class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> {
         EmailAddress: EmailAddress;
         private emailAddress: EmailAddress;

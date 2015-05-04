@@ -1,3 +1,5 @@
+import SubscriptionBase = require("./SubscriptionBase");
+import GetEventsResults = require("./GetEventsResults");
 			
  class PullSubscription extends SubscriptionBase {
 	MoreEventsAvailable: boolean;

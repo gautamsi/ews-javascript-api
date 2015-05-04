@@ -1,3 +1,11 @@
+import ServiceResponse = require("../Responses/ServiceResponse");
+import GetRequest = require("./GetRequest");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRequest<Item, TResponse> {
     ItemIds: ItemIdWrapperList;
     EmitTimeZoneHeader: boolean;

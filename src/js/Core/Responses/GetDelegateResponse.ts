@@ -1,3 +1,6 @@
+import DelegateManagementResponse = require("./DelegateManagementResponse");
+import MeetingRequestsDeliveryScope = require("../../Enumerations/MeetingRequestsDeliveryScope");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetDelegateResponse extends DelegateManagementResponse {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;

@@ -1,3 +1,10 @@
+import ComplexProperty = require("./ComplexProperty");
+import PermissionScope = require("../Enumerations/PermissionScope");
+import FolderPermissionReadAccess = require("../Enumerations/FolderPermissionReadAccess");
+import FolderPermissionLevel = require("../Enumerations/FolderPermissionLevel");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 
 class FolderPermission extends ComplexProperty {
     UserId: UserId;

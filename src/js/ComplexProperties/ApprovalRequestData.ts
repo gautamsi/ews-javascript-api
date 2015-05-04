@@ -1,4 +1,8 @@
-﻿class ApprovalRequestData extends ComplexProperty {
+import ComplexProperty = require("./ComplexProperty");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+class ApprovalRequestData extends ComplexProperty {
     IsUndecidedApprovalRequest: boolean;
     ApprovalDecision: number;
     ApprovalDecisionMaker: string;

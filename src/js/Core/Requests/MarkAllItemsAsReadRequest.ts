@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     FolderIds: FolderIdWrapperList;
     ReadFlag: boolean;

@@ -1,3 +1,11 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import Attachment = require("../../ComplexProperties/Attachment");
+import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
+import BodyType = require("../../Enumerations/BodyType");
+import ExchangeService = require("../ExchangeService");
+import GetAttachmentResponse = require("../Responses/GetAttachmentResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResponse> { //IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     AttachmentIds: string[];//System.Collections.Generic.List<string>;

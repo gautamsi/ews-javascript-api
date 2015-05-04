@@ -1,3 +1,9 @@
+import EmailAddress = require("../ComplexProperties/EmailAddress");
+import Contact = require("../Core/ServiceObjects/Items/Contact");
+import NameResolutionCollection = require("./NameResolutionCollection");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class NameResolution {
     Mailbox: EmailAddress;
     Contact: Contact;

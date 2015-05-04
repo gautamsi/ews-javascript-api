@@ -1,3 +1,12 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ConversationRequest = require("../../ComplexProperties/ConversationRequest");
+import PropertySet = require("../PropertySet");
+import ConversationSortOrder = require("../../Enumerations/ConversationSortOrder");
+import MailboxSearchLocation = require("../../Enumerations/MailboxSearchLocation");
+import ExchangeService = require("../ExchangeService");
+import GetConversationItemsResponse = require("../Responses/GetConversationItemsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {//IJsonSerializable
     Conversations: ConversationRequest[];//System.Collections.Generic.List<ConversationRequest>;
     ItemProperties: PropertySet;

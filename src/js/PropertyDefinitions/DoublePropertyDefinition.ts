@@ -1,3 +1,4 @@
+import GenericPropertyDefinition = require("./GenericPropertyDefinition");
   class DoublePropertyDefinition extends GenericPropertyDefinition<number> {
 }
 

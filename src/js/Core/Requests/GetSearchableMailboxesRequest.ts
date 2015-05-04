@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetSearchableMailboxesResponse = require("../Responses/GetSearchableMailboxesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     SearchFilter: string;
     ExpandGroupMembership: boolean;

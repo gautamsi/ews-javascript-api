@@ -1,4 +1,9 @@
-﻿
+import ComplexProperty = require("./ComplexProperty");
+import SendPrompt = require("../Enumerations/SendPrompt");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+
 class VotingOptionData extends ComplexProperty {
     DisplayName: string;
     SendPrompt: SendPrompt;

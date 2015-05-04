@@ -1,3 +1,11 @@
+import Item = require("../ServiceObjects/Items/Item");
+import ServiceResponse = require("./ServiceResponse");
+import GroupedFindItemsResults = require("../../Search/GroupedFindItemsResults");
+import FindItemsResults = require("../../Search/FindItemsResults");
+import PropertySet = require("../PropertySet");
+import ExchangeService = require("../ExchangeService");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class FindItemResponse<TItem extends Item> extends ServiceResponse {
     GroupedFindResults: GroupedFindItemsResults<TItem>;
     Results: FindItemsResults<TItem>;

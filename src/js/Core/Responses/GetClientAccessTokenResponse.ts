@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import ClientAccessTokenType = require("../../Enumerations/ClientAccessTokenType");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetClientAccessTokenResponse extends ServiceResponse {
 	Id: string;

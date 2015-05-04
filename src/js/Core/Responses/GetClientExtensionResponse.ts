@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetClientExtensionResponse extends ServiceResponse {
     ClientExtensions: ClientExtension[];//System.Collections.ObjectModel.Collection<ClientExtension>;
     RawMasterTableXml: string;

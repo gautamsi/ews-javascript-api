@@ -1,3 +1,9 @@
+import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
+import MeetingRequestsDeliveryScope = require("../../Enumerations/MeetingRequestsDeliveryScope");
+import DelegateUser = require("../../ComplexProperties/DelegateUser");
+import DelegateManagementResponse = require("../Responses/DelegateManagementResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class AddDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     DelegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;

@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import Item = require("../Core/ServiceObjects/Items/Item");
+import PropertySet = require("../Core/PropertySet");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class ConversationNode extends ComplexProperty {
     InternetMessageId: string;
     ParentInternetMessageId: string;

@@ -1,3 +1,8 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ExchangeService = require("../ExchangeService");
+import GetServerTimeZonesResponse = require("../Responses/GetServerTimeZonesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetServerTimeZonesResponse> {
     Ids: string[];//System.Collections.Generic.IEnumerable<string>;
     private ids: string[];//System.Collections.Generic.IEnumerable<string>;

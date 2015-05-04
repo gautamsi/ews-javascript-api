@@ -1,3 +1,4 @@
+import GenericPropertyDefinition = require("./GenericPropertyDefinition");
    class IntPropertyDefinition extends GenericPropertyDefinition<number> {
 }
 

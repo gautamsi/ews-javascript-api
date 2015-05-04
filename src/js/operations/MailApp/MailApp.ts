@@ -1,4 +1,11 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+import SimpleServiceRequestBase = require("../../Core/Requests/SimpleServiceRequestBase");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import MultiResponseServiceRequest = require("../../Core/Requests/MultiResponseServiceRequest");
+import ExchangeService = require("../../Core/ExchangeService");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import JsonObject = require("../../Core/JsonObject");
+module Microsoft.Exchange.WebServices.Data {
 
     export class DisableAppRequest extends SimpleServiceRequestBase {
         private Id: string;

@@ -1,3 +1,5 @@
+import ServiceRemoteException = require("./ServiceRemoteException");
+import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
 class AutodiscoverResponseException extends ServiceRemoteException {
     ErrorCode: AutodiscoverErrorCode;
     private errorCode: AutodiscoverErrorCode;

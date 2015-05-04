@@ -1,3 +1,9 @@
+import PropertyDefinition = require("./PropertyDefinition");
+import ExchangeService = require("../Core/ExchangeService");
+import PropertyBag = require("../Core/PropertyBag");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
    class TimeZonePropertyDefinition extends PropertyDefinition {
         Type: System.Type;
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }

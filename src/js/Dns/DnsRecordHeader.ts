@@ -1,3 +1,4 @@
+import DnsRecordType = require("../Enumerations/DnsRecordType");
 			
  class DnsRecordHeader {
 	NextRecord: number;

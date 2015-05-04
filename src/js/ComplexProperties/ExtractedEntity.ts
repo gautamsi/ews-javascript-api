@@ -1,3 +1,6 @@
+import ComplexProperty = require("./ComplexProperty");
+import EmailPosition = require("../Enumerations/EmailPosition");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
     class ExtractedEntity extends ComplexProperty {
         Position: EmailPosition;

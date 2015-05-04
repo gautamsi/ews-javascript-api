@@ -1,3 +1,13 @@
+import MailboxQuery = require("./MailboxQuery");
+import SearchResultType = require("../Enumerations/SearchResultType");
+import KeywordStatisticsSearchResult = require("./KeywordStatisticsSearchResult");
+import SearchPreviewItem = require("./SearchPreviewItem");
+import FailedSearchMailbox = require("./FailedSearchMailbox");
+import SearchRefinerItem = require("./SearchRefinerItem");
+import MailboxStatisticsItem = require("./MailboxStatisticsItem");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import ExtendedPropertyCollection = require("../ComplexProperties/ExtendedPropertyCollection");
+import JsonObject = require("../Core/JsonObject");
 class SearchMailboxesResult {
     SearchQueries: MailboxQuery[];
     ResultType: SearchResultType;

@@ -1,4 +1,5 @@
 			
+import IntervalPattern = require("./Recurrence_IntervalPattern");						
  class YearlyRegenerationPattern extends IntervalPattern {
 	XmlElementName: string;
 	IsRegenerationPattern: boolean;

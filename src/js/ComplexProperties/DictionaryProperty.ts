@@ -1,3 +1,5 @@
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
     Entries: any;// System.Collections.Generic.Dictionary<TKey, TEntry>;
     private entries: any;//System.Collections.Generic.Dictionary<TKey, TEntry>;

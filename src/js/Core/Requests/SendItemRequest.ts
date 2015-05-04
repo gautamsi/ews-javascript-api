@@ -1,3 +1,10 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import Item = require("../ServiceObjects/Items/Item");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     Items: Item[]/*System.Collections.Generic.IEnumerable<Item>*/;
     SavedCopyDestinationFolderId: FolderId;

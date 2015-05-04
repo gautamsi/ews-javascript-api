@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     ImageBase64: string;
     EmailText: string;

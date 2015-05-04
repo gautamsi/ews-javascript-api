@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import ExpandGroupResults = require("../../Misc/ExpandGroupResults");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ExpandGroupResponse extends ServiceResponse {
     Members: ExpandGroupResults;
     private members: ExpandGroupResults;

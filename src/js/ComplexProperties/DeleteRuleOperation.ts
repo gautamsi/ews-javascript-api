@@ -1,3 +1,6 @@
+import RuleOperation = require("./RuleOperation");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class DeleteRuleOperation extends RuleOperation {
         RuleId: string;

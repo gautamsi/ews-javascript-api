@@ -1,4 +1,4 @@
-﻿
+
 export interface IDiscoveryVersionable {
 
     ServerVersion: number;//long

@@ -1,3 +1,5 @@
+import FolderSchema = require("./FolderSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class SearchFolderSchema extends FolderSchema {
     static SearchParameters: PropertyDefinition;
     static Instance: SearchFolderSchema;

@@ -1,3 +1,5 @@
+import MeetingAttendeeType = require("../../Enumerations/MeetingAttendeeType");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AttendeeInfo {
     SmtpAddress: string;
     AttendeeType: MeetingAttendeeType;

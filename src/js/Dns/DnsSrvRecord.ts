@@ -1,3 +1,6 @@
+import DnsRecord = require("./DnsRecord");
+import DnsRecordType = require("../Enumerations/DnsRecordType");
+import DnsRecordHeader = require("./DnsRecordHeader");
 			
  class DnsSrvRecord extends DnsRecord {
 	RecordType: DnsRecordType;

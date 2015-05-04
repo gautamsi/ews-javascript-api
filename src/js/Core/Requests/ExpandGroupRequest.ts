@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import EmailAddress = require("../../ComplexProperties/EmailAddress");
+import ExchangeService = require("../ExchangeService");
+import ExpandGroupResponse = require("../Responses/ExpandGroupResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupResponse> {
     EmailAddress: EmailAddress;
     private emailAddress: EmailAddress;

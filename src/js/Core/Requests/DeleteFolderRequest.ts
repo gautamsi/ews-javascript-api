@@ -1,3 +1,10 @@
+import DeleteRequest = require("./DeleteRequest");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
     FolderIds: FolderIdWrapperList;
     private folderIds: FolderIdWrapperList;

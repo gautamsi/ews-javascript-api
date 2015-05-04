@@ -1,3 +1,9 @@
+import ServiceResponse = require("../Responses/ServiceResponse");
+import MoveCopyRequest = require("./MoveCopyRequest");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MoveCopyItemRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Item, TResponse> {
     ItemIds: ItemIdWrapperList;
     ReturnNewItemIds: boolean;

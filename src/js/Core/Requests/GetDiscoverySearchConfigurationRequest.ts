@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetDiscoverySearchConfigurationResponse = require("../Responses/GetDiscoverySearchConfigurationResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
     SearchId: string;
     ExpandGroupMembership: boolean;

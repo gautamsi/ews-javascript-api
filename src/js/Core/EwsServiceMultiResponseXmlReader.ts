@@ -1,3 +1,5 @@
+import EwsServiceXmlReader = require("./EwsServiceXmlReader");
+import ExchangeService = require("./ExchangeService");
 			
  class EwsServiceMultiResponseXmlReader extends EwsServiceXmlReader {
 	Create(stream: any /*System.IO.Stream*/, service: ExchangeService): EwsServiceMultiResponseXmlReader{ throw new Error("Not implemented.");}

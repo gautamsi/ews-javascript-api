@@ -1,3 +1,5 @@
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 
     class EntityExtractionResult extends ComplexProperty {

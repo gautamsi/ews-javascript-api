@@ -2,6 +2,7 @@ import EwsServiceXmlReader = require("./EwsServiceXmlReader");
 import EwsUtilities = require("./EwsUtilities");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
+import {stringFormatting} from "../ExtensionMethods";
 // todo: should be done
  class ExchangeServerInfo {
     MajorVersion: number;
@@ -31,7 +32,7 @@ import XmlNamespace = require("../Enumerations/XmlNamespace");
     }
     ToString(): string {
         //return string.Format("{0:d}.{1:d2}.{2:d4}.{3:d3}",
-        return string.Format("{0}.{1}.{2}.{3}",
+        return stringFormatting.Format("{0}.{1}.{2}.{3}",
             this.MajorVersion,
             this.MinorVersion,
             this.MajorBuildNumber,

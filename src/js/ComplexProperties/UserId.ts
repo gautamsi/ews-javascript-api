@@ -1,3 +1,8 @@
+import ComplexProperty = require("./ComplexProperty");
+import StandardUser = require("../Enumerations/StandardUser");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class UserId extends ComplexProperty {
     SID: string;

@@ -1,4 +1,7 @@
-﻿   class ClientApp extends ComplexProperty {
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import SafeXmlDocument = require("../Security/SafeXmlDocument");
+   class ClientApp extends ComplexProperty {
         Manifest: XMLDocument;// System.Xml.XmlDocument;
         Metadata: ClientAppMetadata;
         ReadToXmlDocument(reader: EwsServiceXmlReader): SafeXmlDocument { throw new Error("Not implemented."); }

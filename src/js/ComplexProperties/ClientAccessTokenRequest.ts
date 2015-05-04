@@ -1,3 +1,5 @@
+import ComplexProperty = require("./ComplexProperty");
+import ClientAccessTokenType = require("../Enumerations/ClientAccessTokenType");
    class ClientAccessTokenRequest extends ComplexProperty {
         Id: string;
         TokenType: ClientAccessTokenType;

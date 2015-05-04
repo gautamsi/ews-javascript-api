@@ -1,3 +1,4 @@
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 			
  class RequiredServerVersionAttribute extends System.Attribute {
 	Version: ExchangeVersion;

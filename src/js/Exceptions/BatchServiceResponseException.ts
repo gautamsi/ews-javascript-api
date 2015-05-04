@@ -1,3 +1,5 @@
+import ServiceResponse = require("../Core/Responses/ServiceResponse");
+import ServiceResponseCollection = require("../Core/Responses/ServiceResponseCollection");
 import Exception = require("./Exception");
 import ServiceRemoteException = require("./ServiceRemoteException");
 class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {

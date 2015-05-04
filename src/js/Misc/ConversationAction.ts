@@ -1,3 +1,9 @@
+import ConversationActionType = require("../Enumerations/ConversationActionType");
+import DeleteMode = require("../Enumerations/DeleteMode");
+import FolderIdWrapper = require("./FolderIdWrapper");
+import RetentionType = require("../Enumerations/RetentionType");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ConversationAction {//IJsonSerializable
     Action: ConversationActionType;
     ConversationId: ConversationId;

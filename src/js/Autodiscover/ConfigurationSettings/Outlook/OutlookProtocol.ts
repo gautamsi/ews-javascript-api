@@ -1,3 +1,4 @@
+import LazyMember = require("../../../Core/LazyMember");
 import OutlookProtocolType = require("../../../Enumerations/OutlookProtocolType");
 import UserSettingName = require("../../../Enumerations/UserSettingName");
 import WebClientUrlCollection = require("../../WebClientUrlCollection");

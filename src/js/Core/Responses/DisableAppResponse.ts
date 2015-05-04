@@ -1,3 +1,4 @@
+import ServiceResponse = require("./ServiceResponse");
 			
  class DisableAppResponse extends ServiceResponse {
 }

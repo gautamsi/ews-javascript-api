@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
 class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
     Add(attendee: Attendee): any { throw new Error("Not implemented."); }

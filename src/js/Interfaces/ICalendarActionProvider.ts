@@ -1,3 +1,6 @@
+import CalendarActionResults = require("../Misc/CalendarActionResults");
+import AcceptMeetingInvitationMessage = require("../Core/ServiceObjects/ResponseObjects/AcceptMeetingInvitationMessage");
+import DeclineMeetingInvitationMessage = require("../Core/ServiceObjects/ResponseObjects/DeclineMeetingInvitationMessage");
 			
  interface ICalendarActionProvider {
 	Accept(sendResponse: boolean): CalendarActionResults;

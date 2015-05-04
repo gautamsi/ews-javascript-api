@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import RetentionPolicyTag = require("../../Elc/RetentionPolicyTag");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetUserRetentionPolicyTagsResponse extends ServiceResponse {
 	RetentionPolicyTags: RetentionPolicyTag[];

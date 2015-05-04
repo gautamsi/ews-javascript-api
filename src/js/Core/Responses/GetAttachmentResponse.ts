@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import Attachment = require("../../ComplexProperties/Attachment");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetAttachmentResponse extends ServiceResponse {
     Attachment: Attachment;
     private attachment: Attachment;

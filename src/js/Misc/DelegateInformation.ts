@@ -1,3 +1,5 @@
+import DelegateUserResponse = require("../Core/Responses/DelegateUserResponse");
+import MeetingRequestsDeliveryScope = require("../Enumerations/MeetingRequestsDeliveryScope");
 			
  class DelegateInformation {
 	DelegateUserResponses: DelegateUserResponse[] /*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/;

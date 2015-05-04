@@ -1,3 +1,6 @@
+import Exceptions = require("../../_old/Core/Exceptions");
+import ExtendedPropertyCollection = require("../../ComplexProperties/ExtendedPropertyCollection");
+import ServiceId = require("../../ComplexProperties/ServiceId");
 import PropertyBag = require("../PropertyBag");
 import ServiceObjectSchema = require("./Schemas/ServiceObjectSchema");
 import ExchangeService = require("../ExchangeService");

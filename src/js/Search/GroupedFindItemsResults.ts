@@ -1,3 +1,5 @@
+import Item = require("../Core/ServiceObjects/Items/Item");
+import ItemGroup = require("./ItemGroup");
 
 class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup<TItem>>
     TotalCount: number;

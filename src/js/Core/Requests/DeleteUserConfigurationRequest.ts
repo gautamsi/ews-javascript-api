@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
     Name: string;
     ParentFolderId: FolderId;

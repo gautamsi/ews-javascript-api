@@ -1,3 +1,7 @@
+import IEwsHttpWebRequestFactory = require("../Interfaces/IEwsHttpWebRequestFactory");
+import ITraceListener = require("../Interfaces/ITraceListener");
+import IEwsHttpWebResponse = require("../Interfaces/IEwsHttpWebResponse");
+import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
 /// <reference path="../system.enums.d.ts" />
 import systemnet = require("System.Net");
 

@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetRoomListsResponse = require("../Responses/GetRoomListsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetRoomListsRequest extends SimpleServiceRequestBase {
     Execute(): GetRoomListsResponse { throw new Error("Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }

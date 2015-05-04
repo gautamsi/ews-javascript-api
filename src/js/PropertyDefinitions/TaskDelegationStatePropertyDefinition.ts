@@ -1,3 +1,4 @@
+import GenericPropertyDefinition = require("./GenericPropertyDefinition");
 class TaskDelegationStatePropertyDefinition extends GenericPropertyDefinition<TaskDelegationState> {
     private static NoMatch: string = "NoMatch";
     private static OwnNew: string = "OwnNew";

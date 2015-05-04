@@ -1,3 +1,12 @@
+import DeleteRequest = require("./DeleteRequest");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import AffectedTaskOccurrence = require("../../Enumerations/AffectedTaskOccurrence");
+import SendCancellationsMode = require("../../Enumerations/SendCancellationsMode");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
     ItemIds: ItemIdWrapperList;
     AffectedTaskOccurrences: AffectedTaskOccurrence;

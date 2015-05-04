@@ -1,3 +1,9 @@
+import ServiceResponse = require("./ServiceResponse");
+import Item = require("../ServiceObjects/Items/Item");
+import PropertySet = require("../PropertySet");
+import ExchangeService = require("../ExchangeService");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetItemResponse extends ServiceResponse {
     Item: Item;
     private item: Item;

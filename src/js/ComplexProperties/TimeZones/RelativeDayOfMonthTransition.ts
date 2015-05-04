@@ -1,3 +1,6 @@
+import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 			
  class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
 	DayOfTheWeek: DayOfTheWeek;

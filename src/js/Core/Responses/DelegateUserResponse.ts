@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import DelegateUser = require("../../ComplexProperties/DelegateUser");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class DelegateUserResponse extends ServiceResponse {
     DelegateUser: DelegateUser;
     private readDelegateUser: boolean;

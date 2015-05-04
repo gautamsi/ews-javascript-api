@@ -1,3 +1,6 @@
+import ServiceRequestBase = require("./ServiceRequestBase");
+import IEwsHttpWebRequest = require("../../Interfaces/IEwsHttpWebRequest");
+import ExchangeService = require("../ExchangeService");
 			
  class AsyncRequestResult {
 	ServiceRequest: ServiceRequestBase;

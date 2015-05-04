@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import OofSettings = require("../../ComplexProperties/Availability/OofSettings");
 class GetUserOofSettingsResponse extends ServiceResponse {
     OofSettings: OofSettings;
     private oofSettings: OofSettings;

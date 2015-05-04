@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import OofSettings = require("../../ComplexProperties/Availability/OofSettings");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
 	SmtpAddress: string;

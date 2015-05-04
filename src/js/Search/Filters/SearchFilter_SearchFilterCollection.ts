@@ -1,5 +1,12 @@
-			
- class SearchFilterCollection extends SearchFilter {
+import LogicalOperator = require("../../Enumerations/LogicalOperator");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+
+import SearchFilter = require("./SearchFilter");
+class SearchFilterCollection extends SearchFilter {
 	Count: number;
 	Item: SearchFilter;
 	LogicalOperator: LogicalOperator;
@@ -25,6 +32,3 @@ export = SearchFilterCollection;
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
-
-
-			

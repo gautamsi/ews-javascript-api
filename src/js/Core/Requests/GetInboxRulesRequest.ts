@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetInboxRulesResponse = require("../Responses/GetInboxRulesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetInboxRulesRequest extends SimpleServiceRequestBase {
 	MailboxSmtpAddress: string;

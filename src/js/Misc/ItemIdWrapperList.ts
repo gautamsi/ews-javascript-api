@@ -1,3 +1,7 @@
+import Item = require("../Core/ServiceObjects/Items/Item");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
     Count: number;
     Item: Item;

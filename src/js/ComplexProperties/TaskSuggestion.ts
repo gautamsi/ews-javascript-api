@@ -1,3 +1,4 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class TaskSuggestion extends ExtractedEntity {
     TaskString: string;

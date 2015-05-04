@@ -1,3 +1,10 @@
+import PropertyDefinition = require("./PropertyDefinition");
+import ResponseActions = require("../Enumerations/ResponseActions");
+import ExchangeService = require("../Core/ExchangeService");
+import PropertyBag = require("../Core/PropertyBag");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class ResponseObjectsPropertyDefinition extends PropertyDefinition {
         IsNullable: boolean;
         Type: System.Type;

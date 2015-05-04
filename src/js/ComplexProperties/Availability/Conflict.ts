@@ -1,3 +1,9 @@
+import ComplexProperty = require("../ComplexProperty");
+import ConflictType = require("../../Enumerations/ConflictType");
+import LegacyFreeBusyStatus = require("../../Enumerations/LegacyFreeBusyStatus");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 class Conflict extends ComplexProperty {
     ConflictType: ConflictType;
     NumberOfMembers: number;

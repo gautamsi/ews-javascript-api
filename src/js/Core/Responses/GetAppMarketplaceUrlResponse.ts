@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetAppMarketplaceUrlResponse extends ServiceResponse {
 	AppMarketplaceUrl: string;

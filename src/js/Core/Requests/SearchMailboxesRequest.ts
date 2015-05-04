@@ -1,3 +1,14 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import MailboxQuery = require("../../MailboxSearch/MailboxQuery");
+import SearchResultType = require("../../Enumerations/SearchResultType");
+import PreviewItemResponseShape = require("../../MailboxSearch/PreviewItemResponseShape");
+import SortDirection = require("../../Enumerations/SortDirection");
+import SearchPageDirection = require("../../Enumerations/SearchPageDirection");
+import ExchangeService = require("../ExchangeService");
+import SearchMailboxesResponse = require("../Responses/SearchMailboxesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxesResponse> {
     SearchQueries: MailboxQuery[];//System.Collections.Generic.List<MailboxQuery>;
     ResultType: SearchResultType;

@@ -1,3 +1,6 @@
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
     class ManagedFolderInformation extends ComplexProperty {
         CanDelete: boolean;

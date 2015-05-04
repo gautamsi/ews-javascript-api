@@ -1,3 +1,7 @@
+import SortDirection = require("../Enumerations/SortDirection");
+import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
+import AggregateType = require("../Enumerations/AggregateType");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class Grouping { //: ISelfValidate, IJsonSerializable
     SortDirection: SortDirection;
     GroupOn: PropertyDefinitionBase;

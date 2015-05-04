@@ -1,3 +1,9 @@
+import ComplexProperty = require("../ComplexProperty");
+import SuggestionQuality = require("../../Enumerations/SuggestionQuality");
+import Conflict = require("./Conflict");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 class TimeSuggestion extends ComplexProperty {
     MeetingTime: Date;
     IsWorkTime: boolean;

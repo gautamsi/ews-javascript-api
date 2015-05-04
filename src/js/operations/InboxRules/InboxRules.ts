@@ -1,4 +1,16 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+import SimpleServiceRequestBase = require("../../Core/Requests/SimpleServiceRequestBase");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import RuleOperationErrorCollection = require("../../ComplexProperties/RuleOperationErrorCollection");
+import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EmailAddressCollection = require("../../ComplexProperties/EmailAddressCollection");
+import FolderId = require("../../ComplexProperties/FolderId");
+import MobilePhone = require("../../Misc/MobilePhone");
+import ComplexPropertyCollection = require("../../ComplexProperties/ComplexPropertyCollection");
+module Microsoft.Exchange.WebServices.Data {
     export class GetInboxRulesRequest extends SimpleServiceRequestBase {
         MailboxSmtpAddress: string;
         private mailboxSmtpAddress: string;

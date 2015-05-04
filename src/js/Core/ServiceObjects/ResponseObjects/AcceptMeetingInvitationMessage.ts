@@ -1,3 +1,5 @@
+import CalendarResponseMessage = require("./CalendarResponseMessage");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 
     class AcceptMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {
         Tentative: boolean;

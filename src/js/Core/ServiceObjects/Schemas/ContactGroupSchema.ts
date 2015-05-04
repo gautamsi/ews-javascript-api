@@ -1,3 +1,5 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class ContactGroupSchema extends ItemSchema {
     static DisplayName: PropertyDefinition;
     static FileAs: PropertyDefinition;

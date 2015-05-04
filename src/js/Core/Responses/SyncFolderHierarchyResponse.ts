@@ -1,3 +1,5 @@
+import SyncResponse = require("./SyncResponse");
+import FolderChange = require("../../Sync/FolderChange");
 			
  class SyncFolderHierarchyResponse extends SyncResponse<Folder, FolderChange> {
 	SummaryPropertiesOnly: boolean;

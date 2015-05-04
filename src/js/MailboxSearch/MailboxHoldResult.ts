@@ -1,3 +1,6 @@
+import MailboxHoldStatus = require("./MailboxHoldStatus");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class MailboxHoldResult {
     HoldId: string;
     Query: string;

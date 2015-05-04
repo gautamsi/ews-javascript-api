@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import PhoneCallId = require("../../UnifiedMessaging/PhoneCallId");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     Id: PhoneCallId;
     private id: PhoneCallId;

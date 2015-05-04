@@ -1,4 +1,9 @@
+import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
+import JsonObject = require("../../../Core/JsonObject");
+import ExchangeService = require("../../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
 			
+import Recurrence = require("./Recurrence");						
  class IntervalPattern extends Recurrence {
 	Interval: number;
 	private interval: number;

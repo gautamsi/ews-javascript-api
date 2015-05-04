@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import SearchMailboxesResult = require("../../MailboxSearch/SearchMailboxesResult");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class SearchMailboxesResponse extends ServiceResponse {
     SearchResult: SearchMailboxesResult;
     private searchResult: SearchMailboxesResult;

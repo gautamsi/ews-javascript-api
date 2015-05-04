@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 			
  interface IJsonSerializable {
 	ToJson(service: ExchangeService): any;

@@ -1,3 +1,13 @@
+import ServiceObject = require("../ServiceObject");
+import Item = require("../Items/Item");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
+import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
+import FolderId = require("../../../ComplexProperties/FolderId");
+import MessageDisposition = require("../../../Enumerations/MessageDisposition");
+import DeleteMode = require("../../../Enumerations/DeleteMode");
+import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
+import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
+import PropertySet = require("../../PropertySet");
 
 
 class RemoveFromCalendar extends ServiceObject {

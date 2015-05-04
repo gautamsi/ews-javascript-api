@@ -1,3 +1,7 @@
+import MoveCopyItemRequest = require("./MoveCopyItemRequest");
+import ExchangeService = require("../ExchangeService");
+import MoveCopyItemResponse = require("../Responses/MoveCopyItemResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 class MoveItemRequest extends MoveCopyItemRequest<MoveCopyItemResponse> {
     CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyItemResponse { throw new Error("Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }

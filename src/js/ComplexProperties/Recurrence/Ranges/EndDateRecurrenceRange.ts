@@ -1,3 +1,7 @@
+import JsonObject = require("../../../Core/JsonObject");
+import ExchangeService = require("../../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
 
     class EndDateRecurrenceRange extends RecurrenceRange {
         XmlElementName: string;

@@ -1,3 +1,9 @@
+import CalendarResponseMessageBase = require("./CalendarResponseMessageBase");
+import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
+import Sensitivity = require("../../../Enumerations/Sensitivity");
+import AttachmentCollection = require("../../../ComplexProperties/AttachmentCollection");
+import EmailAddress = require("../../../ComplexProperties/EmailAddress");
+import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
    class CalendarResponseMessage<TMessage> extends CalendarResponseMessageBase<TMessage> {
         Body: MessageBody;
         ToRecipients: EmailAddressCollection;

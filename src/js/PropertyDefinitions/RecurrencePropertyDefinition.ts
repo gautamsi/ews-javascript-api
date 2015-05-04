@@ -1,3 +1,9 @@
+import PropertyDefinition = require("./PropertyDefinition");
+import ExchangeService = require("../Core/ExchangeService");
+import PropertyBag = require("../Core/PropertyBag");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
    class RecurrencePropertyDefinition extends PropertyDefinition {
         Type: System.Type;
         GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("Not implemented."); }

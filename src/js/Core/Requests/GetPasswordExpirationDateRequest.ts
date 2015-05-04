@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetPasswordExpirationDateResponse = require("../Responses/GetPasswordExpirationDateResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJsonSerializable
     MailboxSmtpAddress: string;
     private mailboxSmtpAddress: string;

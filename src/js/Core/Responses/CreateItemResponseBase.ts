@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import Item = require("../ServiceObjects/Items/Item");
+import ExchangeService = require("../ExchangeService");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class CreateItemResponseBase extends ServiceResponse {
     Items: Item[];//System.Collections.Generic.List<Item>;
     private items: Item[];//System.Collections.Generic.List<Item>;

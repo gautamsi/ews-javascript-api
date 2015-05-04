@@ -1,3 +1,6 @@
+import AbstractItemIdWrapper = require("./AbstractItemIdWrapper");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ItemIdWrapper extends AbstractItemIdWrapper {
     private itemId: ItemId;
     IternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }

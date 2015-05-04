@@ -1,4 +1,10 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+import SimpleServiceRequestBase = require("../../Core/Requests/SimpleServiceRequestBase");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+module Microsoft.Exchange.WebServices.Data {
 
     export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase {
         Execute(): GetUserRetentionPolicyTagsResponse { throw new Error("Not implemented."); }

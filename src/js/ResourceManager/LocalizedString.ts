@@ -1,3 +1,4 @@
+import ExchangeResourceManager = require("./ExchangeResourceManager");
 			
  class LocalizedString implements ILocalizedString {
 	private LocalizedString: LocalizedString;

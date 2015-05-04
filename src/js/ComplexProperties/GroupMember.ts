@@ -1,3 +1,10 @@
+import ComplexProperty = require("./ComplexProperty");
+import EmailAddress = require("./EmailAddress");
+import MemberStatus = require("../Enumerations/MemberStatus");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class GroupMember extends ComplexProperty {
     Key: string;

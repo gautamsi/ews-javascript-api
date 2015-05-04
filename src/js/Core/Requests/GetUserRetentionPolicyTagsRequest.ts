@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetUserRetentionPolicyTagsResponse = require("../Responses/GetUserRetentionPolicyTagsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase {
 	Execute(): GetUserRetentionPolicyTagsResponse{ throw new Error("Not implemented.");}

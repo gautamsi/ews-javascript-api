@@ -1,3 +1,4 @@
+import ServiceObjectSchema = require("./ServiceObjectSchema");
 class CalendarResponseObjectSchema extends ServiceObjectSchema {
     static Instance: CalendarResponseObjectSchema;
     RegisterProperties(): any { throw new Error("Not implemented."); }

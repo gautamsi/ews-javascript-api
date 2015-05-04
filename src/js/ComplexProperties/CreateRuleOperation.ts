@@ -1,3 +1,7 @@
+import RuleOperation = require("./RuleOperation");
+import Rule = require("./Rule");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class CreateRuleOperation extends RuleOperation {
         Rule: Rule;

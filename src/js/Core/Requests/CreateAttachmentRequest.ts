@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import Attachment = require("../../ComplexProperties/Attachment");
+import ExchangeService = require("../ExchangeService");
+import CreateAttachmentResponse = require("../Responses/CreateAttachmentResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;

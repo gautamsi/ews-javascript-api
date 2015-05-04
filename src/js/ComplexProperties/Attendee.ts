@@ -1,3 +1,7 @@
+import EmailAddress = require("./EmailAddress");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import MeetingResponseType = require("../Enumerations/MeetingResponseType");
 class Attendee extends EmailAddress {
     ResponseType: MeetingResponseType;
     LastResponseTime: Date;

@@ -1,3 +1,5 @@
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class RecurringAppointmentMasterId extends ItemId {
         GetXmlElementName(): string { throw new Error("Not implemented."); }

@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import ExtensionType = require("../Enumerations/ExtensionType");
+import ExtensionInstallScope = require("../Enumerations/ExtensionInstallScope");
+import ClientExtensionProvidedTo = require("../Enumerations/ClientExtensionProvidedTo");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class ClientExtension extends ComplexProperty {
     Type: ExtensionType;

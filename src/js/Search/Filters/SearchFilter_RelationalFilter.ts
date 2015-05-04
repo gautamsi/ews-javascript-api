@@ -1,5 +1,11 @@
-			
- class RelationalFilter extends PropertyBasedFilter {
+import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+
+import PropertyBasedFilter = require("./SearchFilter_PropertyBasedFilter");
+class RelationalFilter extends PropertyBasedFilter {
 	OtherPropertyDefinition: PropertyDefinitionBase;
 	Value: any;
 	private otherPropertyDefinition: PropertyDefinitionBase;
@@ -14,6 +20,3 @@ export = RelationalFilter;
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
-
-
-			

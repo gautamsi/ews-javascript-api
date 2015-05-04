@@ -1,3 +1,4 @@
+import ITraceListener = require("../Interfaces/ITraceListener");
 import EwsXmlReader = require("../Core/EwsXmlReader");
 import WSSecurityBasedCredentials = require("./WSSecurityBasedCredentials");
 class WindowsLiveCredentials extends WSSecurityBasedCredentials {

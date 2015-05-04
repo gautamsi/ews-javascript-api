@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 			
  interface IJsonCollectionDeserializer {
 	CreateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void;

@@ -1,3 +1,7 @@
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 interface ICustomUpdateSerializer {
     WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: /*System.Collections.Generic.List<T>*/any): boolean;
     WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean;

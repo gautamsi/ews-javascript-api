@@ -1,3 +1,7 @@
+import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
+import DelegateManagementResponse = require("../Responses/DelegateManagementResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     private userIds: UserId[];//System.Collections.Generic.List<UserId>;

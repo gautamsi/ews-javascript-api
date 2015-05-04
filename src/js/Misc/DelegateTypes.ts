@@ -1,3 +1,5 @@
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
 import ExchangeService = require("../Core/ExchangeService");
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");

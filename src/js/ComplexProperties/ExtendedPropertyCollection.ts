@@ -1,3 +1,8 @@
+import ExtendedProperty = require("./ExtendedProperty");
+import ExtendedPropertyDefinition = require("../PropertyDefinitions/ExtendedPropertyDefinition");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {

@@ -1,3 +1,6 @@
+import ChangeType = require("../Enumerations/ChangeType");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import ServiceId = require("../ComplexProperties/ServiceId");
 			
  class Change {
 	ChangeType: ChangeType;

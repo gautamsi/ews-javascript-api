@@ -1,3 +1,8 @@
+import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 
 class LegacyAvailabilityTimeZone extends ComplexProperty {
     private bias: any /*System.TimeSpan*/;

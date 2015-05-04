@@ -1,3 +1,11 @@
+import ServiceObject = require("../ServiceObjects/ServiceObject");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import CreateRequest = require("./CreateRequest");
+import MessageDisposition = require("../../Enumerations/MessageDisposition");
+import SendInvitationsMode = require("../../Enumerations/SendInvitationsMode");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends CreateRequest<TServiceObject, TResponse> {
     EmitTimeZoneHeader: boolean;
     MessageDisposition: MessageDisposition;

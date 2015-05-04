@@ -1,3 +1,6 @@
+import DnsRecordType = require("../Enumerations/DnsRecordType");
+import DnsQueryOptions = require("../Enumerations/DnsQueryOptions");
+import FreeType = require("../Enumerations/FreeType");
 			
  class DnsNativeMethods {
 	AllocDnsServerList(dnsServerAddress: any /*System.Net.IPAddress*/): number{ throw new Error("Not implemented.");}

@@ -1,3 +1,6 @@
+import ComplexProperty = require("./ComplexProperty");
+import Rule = require("./Rule");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class RuleCollection extends ComplexProperty {
 	OutlookRuleBlobExists: boolean;

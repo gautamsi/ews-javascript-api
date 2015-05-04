@@ -1,3 +1,13 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import MessageDisposition = require("../../Enumerations/MessageDisposition");
+import ConflictResolutionMode = require("../../Enumerations/ConflictResolutionMode");
+import SendInvitationsOrCancellationsMode = require("../../Enumerations/SendInvitationsOrCancellationsMode");
+import Item = require("../ServiceObjects/Items/Item");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ExchangeService = require("../ExchangeService");
+import UpdateItemResponse = require("../Responses/UpdateItemResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;
     MessageDisposition: MessageDisposition;

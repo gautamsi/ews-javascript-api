@@ -1,3 +1,7 @@
+import FindRequest = require("./FindRequest");
+import ExchangeService = require("../ExchangeService");
+import FindFolderResponse = require("../Responses/FindFolderResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
  class FindFolderRequest extends FindRequest<FindFolderResponse> {
     CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse { throw new Error("Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }

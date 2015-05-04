@@ -1,3 +1,7 @@
+import ServiceResponse = require("./ServiceResponse");
+import Folder = require("../ServiceObjects/Folders/Folder");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 
 class UpdateFolderResponse extends ServiceResponse {
     private folder: Folder;

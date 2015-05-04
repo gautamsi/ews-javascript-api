@@ -1,3 +1,8 @@
+import StreamingSubscription = require("./StreamingSubscription");
+import ExchangeService = require("../Core/ExchangeService");
+import GetStreamingEventsRequest = require("../Core/Requests/GetStreamingEventsRequest");
+import Exception = require("../Exceptions/Exception");
+import GetStreamingEventsResponse = require("../Core/Responses/GetStreamingEventsResponse");
 			
  class StreamingSubscriptionConnection {
 	CurrentSubscriptions: StreamingSubscription[] /*System.Collections.Generic.IEnumerable<StreamingSubscription>*/;

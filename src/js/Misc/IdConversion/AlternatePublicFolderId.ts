@@ -1,3 +1,7 @@
+import AlternateIdBase = require("./AlternateIdBase");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AlternatePublicFolderId extends AlternateIdBase {
     FolderId: string;
     GetXmlElementName(): string { throw new Error("Not implemented."); }

@@ -1,3 +1,4 @@
+import ComplexProperty = require("./ComplexProperty");
 			
  class RuleOperation extends ComplexProperty {
 	XmlElementName: string;

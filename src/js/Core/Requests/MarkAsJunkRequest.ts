@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import ExchangeService = require("../ExchangeService");
+import MarkAsJunkResponse = require("../Responses/MarkAsJunkResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> {//IJsonSerializable
     ItemIds: ItemIdWrapperList;
     IsJunk: boolean;

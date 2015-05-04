@@ -1,3 +1,5 @@
+import StreamingSubscription = require("./StreamingSubscription");
+import NotificationEvent = require("./NotificationEvent");
 			
  class NotificationEventArgs extends System.EventArgs {
 	Subscription: StreamingSubscription;

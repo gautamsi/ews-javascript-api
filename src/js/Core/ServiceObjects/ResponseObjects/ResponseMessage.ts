@@ -1,3 +1,8 @@
+import ResponseObject = require("./ResponseObject");
+import ResponseMessageType = require("../../../Enumerations/ResponseMessageType");
+import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
+import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
    class ResponseMessage extends ResponseObject<EmailMessage> {
         ResponseType: ResponseMessageType;
         Body: MessageBody;

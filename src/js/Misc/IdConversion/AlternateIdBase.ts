@@ -1,3 +1,7 @@
+import IdFormat = require("../../Enumerations/IdFormat");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AlternateIdBase {//ISelfValidate, IJsonSerializable
     Format: IdFormat;
     GetXmlElementName(): string { throw new Error("Not implemented."); }

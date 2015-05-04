@@ -1,3 +1,5 @@
+import IEwsHttpWebResponse = require("./IEwsHttpWebResponse");
+import IEwsHttpWebRequest = require("./IEwsHttpWebRequest");
 			
  interface IEwsHttpWebRequestFactory {
 	CreateExceptionResponse(exception: any /*System.Net.WebException*/): IEwsHttpWebResponse;

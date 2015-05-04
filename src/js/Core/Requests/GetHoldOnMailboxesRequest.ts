@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetHoldOnMailboxesResponse = require("../Responses/GetHoldOnMailboxesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     HoldId: string;
     Execute(): GetHoldOnMailboxesResponse { throw new Error("Not implemented."); }

@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
 class ContactPhoneEntityCollection extends ComplexPropertyCollection<ContactPhoneEntity> {
     CreateComplexProperty(xmlElementName: string): ContactPhoneEntity { throw new Error("Not implemented."); }

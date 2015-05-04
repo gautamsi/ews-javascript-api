@@ -1,3 +1,6 @@
+import ComplexProperty = require("./ComplexProperty");
+import SetClientExtensionActionId = require("../Enumerations/SetClientExtensionActionId");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class SetClientExtensionAction extends ComplexProperty {
         private setClientExtensionActionId: SetClientExtensionActionId;

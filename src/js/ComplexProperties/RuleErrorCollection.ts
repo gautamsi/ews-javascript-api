@@ -1,3 +1,5 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+import RuleError = require("./RuleError");
 			
  class RuleErrorCollection extends ComplexPropertyCollection<RuleError> {
 	CreateComplexProperty(xmlElementName: string): RuleError{ throw new Error("Not implemented.");}

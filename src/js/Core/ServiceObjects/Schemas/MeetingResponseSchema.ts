@@ -1,3 +1,5 @@
+import MeetingMessageSchema = require("./MeetingMessageSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class MeetingResponseSchema extends MeetingMessageSchema {
     static Start: PropertyDefinition;
     static End: PropertyDefinition;

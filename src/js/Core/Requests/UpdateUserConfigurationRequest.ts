@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import UserConfiguration = require("../../Misc/UserConfiguration");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class UpdateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     UserConfiguration: UserConfiguration;
     userConfiguration: UserConfiguration;

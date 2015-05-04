@@ -1,3 +1,7 @@
+import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import PropertyBag = require("../Core/PropertyBag");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 
 class ContainedPropertyDefinition<TComplexProperty> extends ComplexPropertyDefinition<TComplexProperty> {

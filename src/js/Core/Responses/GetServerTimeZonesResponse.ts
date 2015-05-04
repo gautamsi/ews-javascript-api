@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetServerTimeZonesResponse extends ServiceResponse {
     TimeZones: any[];// System.Collections.ObjectModel.Collection<System.TimeZoneInfo>;
     private timeZones: any[];//System.Collections.ObjectModel.Collection<System.TimeZoneInfo>;

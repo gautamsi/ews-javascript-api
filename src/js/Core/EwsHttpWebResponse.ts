@@ -1,3 +1,4 @@
+import IEwsHttpWebResponse = require("../Interfaces/IEwsHttpWebResponse");
 			
  class EwsHttpWebResponse implements IEwsHttpWebResponse{
 	private ContentEncoding: string;

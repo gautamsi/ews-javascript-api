@@ -1,4 +1,5 @@
-﻿class MailboxHoldStatus {
+import HoldStatus = require("../Enumerations/HoldStatus");
+class MailboxHoldStatus {
     Mailbox: string;
     Status: HoldStatus;
     AdditionalInfo: string;

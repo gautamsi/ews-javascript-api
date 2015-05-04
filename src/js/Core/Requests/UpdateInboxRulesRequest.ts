@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import RuleOperation = require("../../ComplexProperties/RuleOperation");
+import UpdateInboxRulesResponse = require("../Responses/UpdateInboxRulesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
     MailboxSmtpAddress: string;
     RemoveOutlookRuleBlob: boolean;

@@ -1,3 +1,13 @@
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import UserConfigurationProperties = require("../Enumerations/UserConfigurationProperties");
+import FolderId = require("../ComplexProperties/FolderId");
+import UserConfigurationDictionary = require("../ComplexProperties/UserConfigurationDictionary");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 class UserConfiguration {//IJsonSerializable
     private static ObjectVersion: ExchangeVersion = ExchangeVersion.Exchange2010;
     private static PropertiesAvailableForNewObject: UserConfigurationProperties = null;//UserConfigurationProperties.Dictionary, UserConfigurationProperties.XmlData, BinaryData;

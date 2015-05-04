@@ -1,4 +1,5 @@
-﻿class SearchRefinerItem {
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+class SearchRefinerItem {
     Name: string;
     Value: string;
     Count: number;

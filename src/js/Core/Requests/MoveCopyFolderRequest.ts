@@ -1,3 +1,9 @@
+import ServiceResponse = require("../Responses/ServiceResponse");
+import MoveCopyRequest = require("./MoveCopyRequest");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Folder, TResponse> {
     FolderIds: FolderIdWrapperList;
     private folderIds: FolderIdWrapperList;

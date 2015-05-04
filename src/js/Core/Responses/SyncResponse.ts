@@ -1,3 +1,9 @@
+import ServiceResponse = require("./ServiceResponse");
+import ChangeCollection = require("../../Sync/ChangeCollection");
+import PropertySet = require("../PropertySet");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class SyncResponse<TServiceObject, TChange> extends ServiceResponse {
 	Changes: ChangeCollection<TChange>;

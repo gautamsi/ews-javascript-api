@@ -1,3 +1,6 @@
+import CreateItemResponseBase = require("./CreateItemResponseBase");
+import ExchangeService = require("../ExchangeService");
+import Item = require("../ServiceObjects/Items/Item");
 class CreateResponseObjectResponse extends CreateItemResponseBase {
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
 }

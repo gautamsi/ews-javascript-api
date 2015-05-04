@@ -1,3 +1,7 @@
+import TypedPropertyDefinition = require("./TypedPropertyDefinition");
+import JsonObject = require("../Core/JsonObject");
+import PropertyBag = require("../Core/PropertyBag");
+import ExchangeService = require("../Core/ExchangeService");
    class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
         IsNullable: boolean;
         Type: System.Type;

@@ -1,3 +1,5 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EventType = require("../Enumerations/EventType");
 			
  class GetStreamingEventsResults {
 	Notifications: NotificationGroup[] /*System.Collections.ObjectModel.Collection<NotificationGroup>*/;

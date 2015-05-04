@@ -1,3 +1,7 @@
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ByteArrayArray extends ComplexProperty {
     private static ItemXmlElementName: string = "Base64Binary";
     Content: any[];// System.Byte[][];

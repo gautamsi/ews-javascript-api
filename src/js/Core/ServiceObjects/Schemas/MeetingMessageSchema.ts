@@ -1,3 +1,5 @@
+import EmailMessageSchema = require("./EmailMessageSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class MeetingMessageSchema extends EmailMessageSchema {
     static AssociatedAppointmentId: PropertyDefinition;
     static IsDelegated: PropertyDefinition;

@@ -1,3 +1,5 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class TaskSchema extends ItemSchema {
     static ActualWork: PropertyDefinition;
     static AssignedTime: PropertyDefinition;

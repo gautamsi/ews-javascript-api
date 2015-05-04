@@ -1,3 +1,11 @@
+import ComplexProperty = require("./ComplexProperty");
+import FolderId = require("./FolderId");
+import EmailAddressCollection = require("./EmailAddressCollection");
+import MobilePhone = require("../Misc/MobilePhone");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 			
  class RuleActions extends ComplexProperty {
 	AssignCategories: StringList;

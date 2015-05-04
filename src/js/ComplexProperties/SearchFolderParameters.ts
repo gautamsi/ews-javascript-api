@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import SearchFolderTraversal = require("../Enumerations/SearchFolderTraversal");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class SearchFolderParameters extends ComplexProperty {
         Traversal: SearchFolderTraversal;

@@ -1,3 +1,6 @@
+import SearchableMailbox = require("./SearchableMailbox");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class DiscoverySearchConfiguration {
     SearchId: string;
     SearchQuery: string;

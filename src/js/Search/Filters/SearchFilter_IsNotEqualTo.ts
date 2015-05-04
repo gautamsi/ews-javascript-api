@@ -1,11 +1,9 @@
-			
- class IsLessThan extends RelationalFilter {
+
+import RelationalFilter = require("./SearchFilter_RelationalFilter");
+class IsNotEqualTo extends RelationalFilter {
 	GetXmlElementName(): string{ throw new Error("Not implemented.");}
 }
-export = IsLessThan;
+export = IsNotEqualTo;
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
-
-
-			

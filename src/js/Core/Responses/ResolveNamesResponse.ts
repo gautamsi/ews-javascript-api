@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import NameResolutionCollection = require("../../Misc/NameResolutionCollection");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ResolveNamesResponse extends ServiceResponse {
     Resolutions: NameResolutionCollection;
     private resolutions: NameResolutionCollection;

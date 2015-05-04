@@ -1,3 +1,6 @@
+import PreviewItemMailbox = require("./PreviewItemMailbox");
+import Importance = require("../Enumerations/Importance");
+import ExtendedPropertyCollection = require("../ComplexProperties/ExtendedPropertyCollection");
 class SearchPreviewItem {
     Id: ItemId;
     Mailbox: PreviewItemMailbox;

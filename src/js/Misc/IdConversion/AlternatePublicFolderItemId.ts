@@ -1,3 +1,7 @@
+import AlternatePublicFolderId = require("./AlternatePublicFolderId");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AlternatePublicFolderItemId extends AlternatePublicFolderId {
     ItemId: string;
     private itemId: string;

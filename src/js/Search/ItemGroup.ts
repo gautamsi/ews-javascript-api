@@ -1,3 +1,4 @@
+import Item = require("../Core/ServiceObjects/Items/Item");
 class ItemGroup<TItem extends Item> {
     GroupIndex: string;
     Items: TItem[];//System.Collections.ObjectModel.Collection<TItem>;

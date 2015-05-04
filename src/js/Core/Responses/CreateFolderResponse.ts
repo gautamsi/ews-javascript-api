@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import Folder = require("../ServiceObjects/Folders/Folder");
+import ExchangeService = require("../ExchangeService");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 
 class CreateFolderResponse extends ServiceResponse {
     private folder: Folder;

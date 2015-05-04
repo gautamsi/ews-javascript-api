@@ -1,3 +1,7 @@
+import ComplexProperty = require("./ComplexProperty");
+import Time = require("../Misc/Time");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class TimeChange extends ComplexProperty {
         TimeZoneName: string;

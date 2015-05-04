@@ -1,3 +1,5 @@
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class SearchableMailbox {
     Guid: any;//System.Guid;
     SmtpAddress: string;

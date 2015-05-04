@@ -1,3 +1,6 @@
+import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
+import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 
 class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<AttachmentCollection> {
     private static Exchange2010SP2PropertyDefinitionFlags: PropertyDefinitionFlags;

@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import SearchPageDirection = require("../../Enumerations/SearchPageDirection");
+import GetNonIndexableItemDetailsResponse = require("../Responses/GetNonIndexableItemDetailsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetNonIndexableItemDetailsRequest extends SimpleServiceRequestBase {
     Mailboxes: string[];
     PageSize: number;

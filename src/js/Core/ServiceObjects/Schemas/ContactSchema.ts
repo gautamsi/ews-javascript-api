@@ -1,3 +1,6 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
 class ContactSchema extends ItemSchema {
     static FileAs: PropertyDefinition;
     static FileAsMapping: PropertyDefinition;

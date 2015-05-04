@@ -1,3 +1,11 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import ViewBase = require("../../Search/ViewBase");
+import FolderIdWrapper = require("../../Misc/FolderIdWrapper");
+import MailboxSearchLocation = require("../../Enumerations/MailboxSearchLocation");
+import FindConversationResponse = require("../Responses/FindConversationResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSerializable
     View: ViewBase;
     FolderId: FolderIdWrapper;

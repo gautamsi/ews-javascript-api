@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import MailboxHoldResult = require("../../MailboxSearch/MailboxHoldResult");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetHoldOnMailboxesResponse extends ServiceResponse {
     HoldResult: MailboxHoldResult;
     private holdResult: MailboxHoldResult;

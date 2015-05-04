@@ -1,4 +1,4 @@
-			
+import IntervalPattern = require("./Recurrence_IntervalPattern");			
  class DailyPattern extends IntervalPattern {
 	XmlElementName: string;
 }

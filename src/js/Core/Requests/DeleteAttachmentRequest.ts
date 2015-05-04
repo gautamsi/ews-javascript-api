@@ -1,3 +1,9 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import Attachment = require("../../ComplexProperties/Attachment");
+import ExchangeService = require("../ExchangeService");
+import DeleteAttachmentResponse = require("../Responses/DeleteAttachmentResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     private attachments: Attachment[];//System.Collections.Generic.List<Attachment>;

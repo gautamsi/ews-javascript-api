@@ -1,3 +1,6 @@
+import ExchangeService = require("./ExchangeService");
+import JsonObject = require("./JsonObject");
+import PropertySet = require("./PropertySet");
 			
  class EwsServiceJsonReader {
 	Service: ExchangeService;

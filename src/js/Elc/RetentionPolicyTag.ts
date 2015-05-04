@@ -1,3 +1,7 @@
+import ElcFolderType = require("../Enumerations/ElcFolderType");
+import RetentionActionType = require("../Enumerations/RetentionActionType");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class RetentionPolicyTag {
 	DisplayName: string;

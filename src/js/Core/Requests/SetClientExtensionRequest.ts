@@ -1,3 +1,8 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
     private actions: any[];//System.Collections.Generic.List<T>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }

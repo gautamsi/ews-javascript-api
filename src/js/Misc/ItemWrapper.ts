@@ -1,3 +1,7 @@
+import AbstractItemIdWrapper = require("./AbstractItemIdWrapper");
+import Item = require("../Core/ServiceObjects/Items/Item");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ItemWrapper extends AbstractItemIdWrapper {
     private item: Item;
     GetItem(): Item { throw new Error("Not implemented."); }

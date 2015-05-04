@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetClientExtensionResponse = require("../Responses/GetClientExtensionResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetClientExtensionRequest extends SimpleServiceRequestBase {
     private requestedExtensionIds: StringList;
     private shouldReturnEnabledOnly: boolean;

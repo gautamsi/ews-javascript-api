@@ -1,3 +1,5 @@
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 
     class AbsoluteMonthTransition extends TimeZoneTransition {
         TimeOffset: System.TimeSpan;

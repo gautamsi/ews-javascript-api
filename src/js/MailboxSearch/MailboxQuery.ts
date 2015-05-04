@@ -1,3 +1,4 @@
+import MailboxSearchScope = require("./MailboxSearchScope");
 class MailboxQuery {
     Query: string;
     MailboxSearchScopes: MailboxSearchScope[];

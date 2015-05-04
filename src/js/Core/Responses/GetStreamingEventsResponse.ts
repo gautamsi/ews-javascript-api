@@ -1,3 +1,7 @@
+import ServiceResponse = require("./ServiceResponse");
+import GetStreamingEventsResults = require("../../Notifications/GetStreamingEventsResults");
+import HangingServiceRequestBase = require("../Requests/HangingServiceRequestBase");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetStreamingEventsResponse extends ServiceResponse {
 	Results: GetStreamingEventsResults;

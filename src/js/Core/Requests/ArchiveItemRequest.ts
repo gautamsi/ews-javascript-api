@@ -1,3 +1,11 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import ArchiveItemResponse = require("../Responses/ArchiveItemResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse> {//IJsonSerializable
     SourceFolderId: FolderId;
     Ids: ItemIdWrapperList;

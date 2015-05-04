@@ -1,3 +1,5 @@
+import EmailAddressKey = require("../Enumerations/EmailAddressKey");
+import EmailAddress = require("./EmailAddress");
 
     class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, EmailAddressEntry> {
         Item: EmailAddress;

@@ -1,3 +1,6 @@
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import XmlElementNames = require("../Core/XmlElementNames");
 //todo: json not implemented, should be done otherwise
 class ManagementRoles {
     private userRoles: string[];

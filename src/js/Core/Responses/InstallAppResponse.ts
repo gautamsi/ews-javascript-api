@@ -1,3 +1,4 @@
+import ServiceResponse = require("./ServiceResponse");
 			
  class InstallAppResponse extends ServiceResponse {
 }

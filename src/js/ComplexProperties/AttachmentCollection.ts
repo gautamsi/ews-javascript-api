@@ -1,3 +1,9 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+import IOwnedProperty = require("../Interfaces/IOwnedProperty");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import Item = require("../Core/ServiceObjects/Items/Item");
+import ItemAttachment = require("./ItemAttachment");
+import Attachment = require("./Attachment");
 			
  class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
 	private Owner: ServiceObject;

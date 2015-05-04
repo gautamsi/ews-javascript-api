@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import RuleProperty = require("../Enumerations/RuleProperty");
+import RuleErrorCode = require("../Enumerations/RuleErrorCode");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class RuleError extends ComplexProperty {
 	RuleProperty: RuleProperty;

@@ -1,3 +1,8 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ExchangeService = require("../ExchangeService");
+import GetClientAccessTokenResponse = require("../Responses/GetClientAccessTokenResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
 	TokenRequests: ClientAccessTokenRequest[];

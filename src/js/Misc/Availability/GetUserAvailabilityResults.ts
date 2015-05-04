@@ -1,3 +1,6 @@
+import SuggestionsResponse = require("../../Core/Responses/SuggestionsResponse");
+import ServiceResponseCollection = require("../../Core/Responses/ServiceResponseCollection");
+import Suggestion = require("../../ComplexProperties/Availability/Suggestion");
 class GetUserAvailabilityResults {
     SuggestionsResponse: SuggestionsResponse;
     AttendeesAvailability: ServiceResponseCollection<AttendeeAvailability>;

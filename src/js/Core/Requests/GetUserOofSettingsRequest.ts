@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetUserOofSettingsResponse = require("../Responses/GetUserOofSettingsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
     SmtpAddress: string;
     private smtpAddress: string;

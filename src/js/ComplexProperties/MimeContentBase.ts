@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlAttributeNames = require("../Core/XmlAttributeNames");
 class MimeContentBase extends ComplexProperty{
     private characterSet:string;
     private  content:any[];//byte[]

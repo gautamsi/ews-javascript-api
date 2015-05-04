@@ -1,3 +1,8 @@
+import EventType = require("../Enumerations/EventType");
+import FolderId = require("../ComplexProperties/FolderId");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
 			
  class NotificationEvent {
 	EventType: EventType;

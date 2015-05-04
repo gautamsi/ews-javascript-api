@@ -1,4 +1,7 @@
-﻿class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
+import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
     Type: System.Type;
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("Not implemented."); }
 }

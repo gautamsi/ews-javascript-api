@@ -1,3 +1,4 @@
+import JsonWriter = require("./JsonWriter");
 			
  class JsonObject extends System.Collections.Generic.Dictionary<string, any> {
 	Add(name: string, value: number): void{ throw new Error("Not implemented.");}

@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import PlayOnPhoneResponse = require("../Responses/PlayOnPhoneResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
  class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSerializable
     ItemId: ItemId;
     DialString: string;

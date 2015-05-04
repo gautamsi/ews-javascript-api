@@ -1,3 +1,5 @@
+import ServiceObjectSchema = require("./ServiceObjectSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class CancelMeetingMessageSchema extends ServiceObjectSchema {
     static Body: PropertyDefinition;
     static Instance: CancelMeetingMessageSchema;

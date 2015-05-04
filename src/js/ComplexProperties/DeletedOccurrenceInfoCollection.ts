@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
 class DeletedOccurrenceInfoCollection extends ComplexPropertyCollection<DeletedOccurrenceInfo> {
     CreateComplexProperty(xmlElementName: string): DeletedOccurrenceInfo { throw new Error("Not implemented."); }

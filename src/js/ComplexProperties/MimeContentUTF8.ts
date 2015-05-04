@@ -1,3 +1,4 @@
+import MimeContentBase = require("./MimeContentBase");
 class MimeContentUTF8 extends MimeContentBase{
     
     

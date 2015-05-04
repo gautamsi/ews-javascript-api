@@ -1,4 +1,4 @@
-
+/// <reference path="../../typings/node/node.d.ts" />
 import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
 import EwsXmlReader = require("../../Core/EwsXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
@@ -18,7 +18,8 @@ import ServiceResponseException = require("../../Exceptions/ServiceResponseExcep
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {XHR} from "../../XHRFactory"
-
+import util = require('util');
+                
 class AutodiscoverRequest {
 
     get Service(): AutodiscoverService {
@@ -109,7 +110,6 @@ class AutodiscoverRequest {
             XHR(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                 var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                var util = require('util');
                 //console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
                 //console.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
                 if (xhrResponse.status == 200) {

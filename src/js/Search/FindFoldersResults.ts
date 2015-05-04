@@ -1,3 +1,4 @@
+import Folder = require("../Core/ServiceObjects/Folders/Folder");
 class FindFoldersResults {   //: IEnumerable<Folder>
 TotalCount: number;
 NextPageOffset: number;

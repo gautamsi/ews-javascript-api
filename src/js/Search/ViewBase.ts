@@ -1,3 +1,9 @@
+import PropertySet = require("../Core/PropertySet");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 class ViewBase {
     PropertySet: PropertySet;
     private propertySet: PropertySet;

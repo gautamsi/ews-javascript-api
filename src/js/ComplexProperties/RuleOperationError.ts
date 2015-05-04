@@ -1,3 +1,10 @@
+import ComplexProperty = require("./ComplexProperty");
+import RuleOperation = require("./RuleOperation");
+import RuleError = require("./RuleError");
+import RuleErrorCollection = require("./RuleErrorCollection");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class RuleOperationError extends ComplexProperty {
 	Operation: RuleOperation;

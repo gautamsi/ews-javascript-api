@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import DisableReasonType = require("../../Enumerations/DisableReasonType");
+import DisableAppResponse = require("../Responses/DisableAppResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class DisableAppRequest extends SimpleServiceRequestBase {
 	private Id: string;

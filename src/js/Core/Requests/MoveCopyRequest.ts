@@ -1,3 +1,10 @@
+import ServiceObject = require("../ServiceObjects/ServiceObject");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderId = require("../../ComplexProperties/FolderId");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MoveCopyRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     DestinationFolderId: FolderId;
     private destinationFolderId: FolderId;

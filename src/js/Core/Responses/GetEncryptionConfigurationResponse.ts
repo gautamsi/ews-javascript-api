@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetEncryptionConfigurationResponse extends ServiceResponse {
     ImageBase64: string;
     EmailText: string;

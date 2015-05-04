@@ -1,4 +1,6 @@
-﻿    class ClientAppMetadata extends ComplexProperty {
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+    class ClientAppMetadata extends ComplexProperty {
         EndNodeUrl: string;
         ActionUrl: string;
         AppStatus: string;

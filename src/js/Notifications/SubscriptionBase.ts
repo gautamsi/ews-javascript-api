@@ -1,3 +1,6 @@
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class SubscriptionBase {
 	Service: ExchangeService;

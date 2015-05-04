@@ -1,3 +1,4 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class MeetingSuggestion extends ExtractedEntity {
     Attendees: EmailUserEntityCollection;

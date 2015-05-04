@@ -1,3 +1,5 @@
+import ServiceRemoteException = require("./ServiceRemoteException");
+import AutodiscoverError = require("../Autodiscover/AutodiscoverError");
 class AutodiscoverRemoteException extends ServiceRemoteException {
     Error: AutodiscoverError;
     private error: AutodiscoverError;

@@ -1,3 +1,5 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class AppointmentSchema extends ItemSchema {
     static StartTimeZone: PropertyDefinition;
     static EndTimeZone: PropertyDefinition;

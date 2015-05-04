@@ -1,3 +1,10 @@
+import ComplexProperty = require("./ComplexProperty");
+import RulePredicates = require("./RulePredicates");
+import RuleActions = require("./RuleActions");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 			
  class Rule extends ComplexProperty {
 	Id: string;

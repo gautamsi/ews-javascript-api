@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import EmailAddressCollection = require("./EmailAddressCollection");
+import RulePredicateDateRange = require("./RulePredicateDateRange");
+import RulePredicateSizeRange = require("./RulePredicateSizeRange");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 			
  class RulePredicates extends ComplexProperty {
 	Categories: StringList;

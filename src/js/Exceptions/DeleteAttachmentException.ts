@@ -1,3 +1,4 @@
+import BatchServiceResponseException = require("./BatchServiceResponseException");
 import Exception = require("./Exception");
 import BatchServiceResponseException = require("./BatchServiceResponseException");
 class DeleteAttachmentException extends BatchServiceResponseException<DeleteAttachmentResponse> {

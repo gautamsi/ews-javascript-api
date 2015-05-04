@@ -1,4 +1,8 @@
-﻿
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+import Contact = require("../Core/ServiceObjects/Items/Contact");
+import EmailAddressKey = require("../Enumerations/EmailAddressKey");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+
     class GroupMemberCollection extends ComplexPropertyCollection<GroupMember> {
         private collectionIsCleared: boolean;
         Add(member: GroupMember): any { throw new Error("Not implemented."); }

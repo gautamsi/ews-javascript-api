@@ -1,3 +1,6 @@
+import enums = require("../temp/tttttttttttttttttttttttttt/Enums");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlElementNames = require("../Core/XmlElementNames");
     //todo: should be done
     class ImpersonatedUserId {
         IdType: enums.Data.ConnectingIdType;

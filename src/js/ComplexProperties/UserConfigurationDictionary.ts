@@ -1,3 +1,11 @@
+import ComplexProperty = require("./ComplexProperty");
+import UserConfigurationDictionaryObjectType = require("../Enumerations/UserConfigurationDictionaryObjectType");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonCollectionDeserializer
     Item: any;
     Count: number;

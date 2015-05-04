@@ -1,3 +1,7 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import Mailbox = require("../../ComplexProperties/Mailbox");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
     Mailbox: Mailbox;
     private mailbox: Mailbox;

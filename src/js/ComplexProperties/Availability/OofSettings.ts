@@ -1,3 +1,12 @@
+import ComplexProperty = require("../ComplexProperty");
+import OofState = require("../../Enumerations/OofState");
+import OofExternalAudience = require("../../Enumerations/OofExternalAudience");
+import TimeWindow = require("../../Misc/Availability/TimeWindow");
+import OofReply = require("../../Misc/Availability/OofReply");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 class OofSettings extends ComplexProperty {
     State: OofState;
     ExternalAudience: OofExternalAudience;

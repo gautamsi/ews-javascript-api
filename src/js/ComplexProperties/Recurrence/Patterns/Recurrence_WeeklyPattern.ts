@@ -1,5 +1,12 @@
+import ComplexProperty = require("../../ComplexProperty");
+import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
+import JsonObject = require("../../../Core/JsonObject");
+import ExchangeService = require("../../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
+import DayOfTheWeekCollection = require("../DayOfTheWeekCollection");						
 			
- class WeeklyPattern extends IntervalPattern {
+import IntervalPattern = require("./Recurrence_IntervalPattern");						
+class WeeklyPattern extends IntervalPattern {
 	XmlElementName: string;
 	DaysOfTheWeek: DayOfTheWeekCollection;
 	FirstDayOfWeek: any /*System.DayOfWeek*/;

@@ -1,3 +1,4 @@
+import ServiceObjectSchema = require("./ServiceObjectSchema");
 class PostReplySchema extends ServiceObjectSchema {
     static Instance: PostReplySchema;
     RegisterProperties(): any { throw new Error("Not implemented."); }

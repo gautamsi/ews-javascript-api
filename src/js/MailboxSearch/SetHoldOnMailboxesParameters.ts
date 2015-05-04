@@ -1,3 +1,4 @@
+import HoldAction = require("../Enumerations/HoldAction");
 			
  class SetHoldOnMailboxesParameters {
 	ActionType: HoldAction;

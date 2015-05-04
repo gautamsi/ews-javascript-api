@@ -1,3 +1,8 @@
+import ComplexProperty = require("../ComplexProperty");
+import LegacyFreeBusyStatus = require("../../Enumerations/LegacyFreeBusyStatus");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 class CalendarEvent extends ComplexProperty {
     StartTime: Date;
     EndTime: Date;

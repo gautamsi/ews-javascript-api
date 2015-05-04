@@ -1,3 +1,4 @@
+import GenericPropertyDefinition = require("./GenericPropertyDefinition");
 
 
     class ListValuePropertyDefinition<TPropertyValue> extends GenericPropertyDefinition<TPropertyValue> {

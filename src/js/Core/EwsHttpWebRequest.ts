@@ -1,3 +1,4 @@
+import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
 			
  class EwsHttpWebRequest implements  IEwsHttpWebRequest{
 	private Accept: string;

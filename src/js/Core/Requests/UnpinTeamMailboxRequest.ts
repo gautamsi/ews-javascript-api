@@ -1,3 +1,9 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import EmailAddress = require("../../ComplexProperties/EmailAddress");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     Execute(): ServiceResponse { throw new Error("Not implemented."); }

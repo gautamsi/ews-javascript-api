@@ -1,3 +1,11 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderId = require("../../ComplexProperties/FolderId");
+import UserConfiguration = require("../../Misc/UserConfiguration");
+import UserConfigurationProperties = require("../../Enumerations/UserConfigurationProperties");
+import ExchangeService = require("../ExchangeService");
+import GetUserConfigurationResponse = require("../Responses/GetUserConfigurationResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> { //IJsonSerializable
     private static EnumDelimiter: string = ",";
 

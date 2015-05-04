@@ -1,3 +1,7 @@
+import ExchangeService = require("../Core/ExchangeService");
+import NameResolution = require("./NameResolution");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class NameResolutionCollection {//IEnumerable<NameResolution>
     Session: ExchangeService;
     Count: number;

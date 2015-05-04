@@ -1,3 +1,9 @@
+import ServiceResponse = require("./ServiceResponse");
+import SearchableMailbox = require("../../MailboxSearch/SearchableMailbox");
+import FailedSearchMailbox = require("../../MailboxSearch/FailedSearchMailbox");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetSearchableMailboxesResponse extends ServiceResponse {
     SearchableMailboxes: SearchableMailbox[];
     FailedMailboxes: FailedSearchMailbox[];

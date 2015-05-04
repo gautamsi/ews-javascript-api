@@ -1,3 +1,4 @@
+import IEwsHttpWebResponse = require("./IEwsHttpWebResponse");
 			
  interface IEwsHttpWebRequest {
 	Accept: string;

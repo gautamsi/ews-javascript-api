@@ -1,3 +1,6 @@
+import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
+import SortDirection = require("../Enumerations/SortDirection");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair >, IJsonSerializable
     Count: number;

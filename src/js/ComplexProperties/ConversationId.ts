@@ -1,3 +1,4 @@
+import ServiceId = require("./ServiceId");
 
     class ConversationId extends ServiceId {
         GetJsonTypeName(): string { throw new Error("Not implemented."); }

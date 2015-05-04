@@ -1,3 +1,12 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ResolveNameSearchLocation = require("../../Enumerations/ResolveNameSearchLocation");
+import PropertySet = require("../PropertySet");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import LazyMember = require("../LazyMember");
+import ExchangeService = require("../ExchangeService");
+import ResolveNamesResponse = require("../Responses/ResolveNamesResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveNamesResponse> {//IJsonSerializable
     NameToResolve: string;
     ReturnFullContactData: boolean;

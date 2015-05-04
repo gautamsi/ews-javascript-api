@@ -1,3 +1,9 @@
+import ServiceResponse = require("../Responses/ServiceResponse");
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import ViewBase = require("../../Search/ViewBase");
+import Grouping = require("../../Search/Grouping");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     ParentFolderIds: FolderIdWrapperList;
     SearchFilter: SearchFilter;

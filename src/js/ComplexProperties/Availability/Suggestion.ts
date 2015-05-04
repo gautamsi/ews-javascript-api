@@ -1,3 +1,9 @@
+import ComplexProperty = require("../ComplexProperty");
+import SuggestionQuality = require("../../Enumerations/SuggestionQuality");
+import TimeSuggestion = require("./TimeSuggestion");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 class Suggestion extends ComplexProperty {
     Date: Date;
     Quality: SuggestionQuality;

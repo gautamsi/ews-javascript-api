@@ -1,4 +1,9 @@
-﻿   class EnhancedLocation extends ComplexProperty {
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+   class EnhancedLocation extends ComplexProperty {
         DisplayName: string;
         Annotation: string;
         PersonaPostalAddress: PersonaPostalAddress;

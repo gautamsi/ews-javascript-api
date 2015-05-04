@@ -1,3 +1,7 @@
+import ComplexProperty = require("./ComplexProperty");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
     class ChangeHighlights extends ComplexProperty {
         HasLocationChanged: boolean;
         Location: string;

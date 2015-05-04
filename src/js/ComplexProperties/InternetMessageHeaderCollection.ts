@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
     class InternetMessageHeaderCollection extends ComplexPropertyCollection<InternetMessageHeader> {
         CreateComplexProperty(xmlElementName: string): InternetMessageHeader { throw new Error("Not implemented."); }

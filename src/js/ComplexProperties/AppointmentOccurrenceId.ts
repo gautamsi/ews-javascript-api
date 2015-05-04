@@ -1,3 +1,5 @@
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
     class AppointmentOccurrenceId extends ItemId {
         OccurrenceIndex: number;

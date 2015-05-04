@@ -1,3 +1,5 @@
+import Item = require("../Core/ServiceObjects/Items/Item");
+import HighlightTerm = require("../ComplexProperties/HighlightTerm");
 class FindItemsResults<TItem extends Item> {//IEnumerable<TItem>
     TotalCount: number;
     NextPageOffset: number;

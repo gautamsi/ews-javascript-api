@@ -1,4 +1,16 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+import MultiResponseServiceRequest = require("../../Core/Requests/MultiResponseServiceRequest");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+import JsonObject = require("../../Core/JsonObject");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import StreamingSubscriptionConnection = require("../../Notifications/StreamingSubscriptionConnection");
+import SubscribeResponse = require("../../Core/Responses/SubscribeResponse");
+import ServiceRequestBase = require("../../Core/Requests/ServiceRequestBase");
+import LazyMember = require("../../Core/LazyMember");
+import FolderId = require("../../ComplexProperties/FolderId");
+module Microsoft.Exchange.WebServices.Data {
     export class GetEventsRequest extends MultiResponseServiceRequest<GetEventsResponse> {
         SubscriptionId: string;
         Watermark: string;

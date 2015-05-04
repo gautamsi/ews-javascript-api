@@ -1,3 +1,8 @@
+import CreateRequest = require("./CreateRequest");
+import Folder = require("../ServiceObjects/Folders/Folder");
+import ExchangeService = require("../ExchangeService");
+import ServiceResponse = require("../Responses/ServiceResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 
 class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
     Folders: Folder[];//System.Collections.Generic.IEnumerable<Folder>;

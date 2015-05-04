@@ -1,3 +1,11 @@
+import ViewBase = require("./ViewBase");
+import ItemTraversal = require("../Enumerations/ItemTraversal");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 			
  class CalendarView extends ViewBase {
 	StartDate: Date;

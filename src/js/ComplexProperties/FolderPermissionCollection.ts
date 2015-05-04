@@ -1,3 +1,7 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 
     class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {

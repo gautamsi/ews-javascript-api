@@ -1,3 +1,12 @@
+import PhoneNumberKey = require("../Enumerations/PhoneNumberKey");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
+import SimplePropertyBag = require("../Core/SimplePropertyBag");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 
 class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     PhoneNumber: string;

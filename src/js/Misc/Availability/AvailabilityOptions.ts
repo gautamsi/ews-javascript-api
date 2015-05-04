@@ -1,3 +1,8 @@
+import FreeBusyViewType = require("../../Enumerations/FreeBusyViewType");
+import SuggestionQuality = require("../../Enumerations/SuggestionQuality");
+import TimeWindow = require("./TimeWindow");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import GetUserAvailabilityRequest = require("../../Core/Requests/GetUserAvailabilityRequest");
 class AvailabilityOptions {
     MergedFreeBusyInterval: number;
     RequestedFreeBusyView: FreeBusyViewType;

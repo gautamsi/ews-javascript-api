@@ -1,3 +1,4 @@
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
     class ContactEntity extends ExtractedEntity {
         PersonName: string;

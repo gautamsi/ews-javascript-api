@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import LobbyBypass = require("../Enumerations/LobbyBypass");
+import OnlineMeetingAccessLevel = require("../Enumerations/OnlineMeetingAccessLevel");
+import Presenters = require("../Enumerations/Presenters");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 			
  class OnlineMeetingSettings extends ComplexProperty {
 	LobbyBypass: LobbyBypass;

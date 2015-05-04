@@ -1,3 +1,5 @@
+import SubscriptionBase = require("./SubscriptionBase");
+import ExchangeService = require("../Core/ExchangeService");
 			
  class StreamingSubscription extends SubscriptionBase {
 	Service: ExchangeService;

@@ -1,3 +1,10 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import PropertySet = require("../PropertySet");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ExchangeService = require("../ExchangeService");
+import SyncFolderHierarchyResponse = require("../Responses/SyncFolderHierarchyResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
 	PropertySet: PropertySet;

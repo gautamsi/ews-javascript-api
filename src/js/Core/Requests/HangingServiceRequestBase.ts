@@ -1,3 +1,9 @@
+import ServiceRequestBase = require("./ServiceRequestBase");
+import IEwsHttpWebResponse = require("../../Interfaces/IEwsHttpWebResponse");
+import IEwsHttpWebRequest = require("../../Interfaces/IEwsHttpWebRequest");
+import HangingRequestDisconnectReason = require("../../Enumerations/HangingRequestDisconnectReason");
+import Exception = require("../../Exceptions/Exception");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class HangingServiceRequestBase extends ServiceRequestBase {
 	IsConnected: boolean;

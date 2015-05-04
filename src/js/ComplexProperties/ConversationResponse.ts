@@ -1,3 +1,8 @@
+import ComplexProperty = require("./ComplexProperty");
+import PropertySet = require("../Core/PropertySet");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class ConversationResponse extends ComplexProperty {
     ConversationId: ConversationId;
     SyncState: string;

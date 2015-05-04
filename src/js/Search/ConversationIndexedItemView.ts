@@ -1,3 +1,11 @@
+import PagedView = require("./PagedView");
+import OrderByCollection = require("./OrderByCollection");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 			
  class ConversationIndexedItemView extends PagedView {
 	OrderBy: OrderByCollection;

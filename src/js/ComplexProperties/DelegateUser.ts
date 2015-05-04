@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import DelegatePermissions = require("./DelegatePermissions");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class DelegateUser extends ComplexProperty {
     UserId: UserId;
     Permissions: DelegatePermissions;

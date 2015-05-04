@@ -1,3 +1,11 @@
+import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
+import SimplePropertyBag = require("../Core/SimplePropertyBag");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 			
  class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
 	Street: string;

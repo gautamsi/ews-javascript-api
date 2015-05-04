@@ -1,3 +1,5 @@
+import Conversation = require("../Core/ServiceObjects/Items/Conversation");
+import HighlightTerm = require("../ComplexProperties/HighlightTerm");
 			
  class FindConversationResults {
 	Conversations: Conversation[] /*System.Collections.ObjectModel.Collection<Conversation>*/;

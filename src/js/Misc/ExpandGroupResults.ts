@@ -1,3 +1,5 @@
+import EmailAddress = require("../ComplexProperties/EmailAddress");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class ExpandGroupResults {
 	Count: number;

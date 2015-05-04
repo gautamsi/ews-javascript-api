@@ -1,3 +1,4 @@
+import ImAddressKey = require("../Enumerations/ImAddressKey");
 
     class ImAddressDictionary extends DictionaryProperty<ImAddressKey, ImAddressEntry> {
         Item: string;

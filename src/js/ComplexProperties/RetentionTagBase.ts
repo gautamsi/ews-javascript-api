@@ -1,4 +1,8 @@
-﻿
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+
 
 
     class RetentionTagBase extends ComplexProperty {

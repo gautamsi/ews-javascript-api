@@ -1,3 +1,6 @@
+import ExchangeService = require("../Core/ExchangeService");
+import PhoneCallId = require("./PhoneCallId");
+import PhoneCall = require("./PhoneCall");
  class UnifiedMessaging {
     private service: ExchangeService;
     DisconnectPhoneCall(id: PhoneCallId): any { throw new Error("Not implemented."); }

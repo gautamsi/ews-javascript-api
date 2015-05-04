@@ -1,3 +1,9 @@
+import ViewBase = require("./ViewBase");
+import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 class PagedView extends ViewBase {
     PageSize: number;
     OffsetBasePoint: OffsetBasePoint;

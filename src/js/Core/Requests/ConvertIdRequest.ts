@@ -1,3 +1,10 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import IdFormat = require("../../Enumerations/IdFormat");
+import AlternateIdBase = require("../../Misc/IdConversion/AlternateIdBase");
+import ExchangeService = require("../ExchangeService");
+import ConvertIdResponse = require("../Responses/ConvertIdResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {//IJsonSerializable
     DestinationFormat: IdFormat;
     Ids: AlternateIdBase[];//System.Collections.Generic.List<AlternateIdBase>;

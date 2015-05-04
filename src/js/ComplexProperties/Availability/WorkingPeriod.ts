@@ -1,3 +1,8 @@
+import ComplexProperty = require("../ComplexProperty");
+import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
+import JsonObject = require("../../Core/JsonObject");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 
     class WorkingPeriod extends ComplexProperty {
         DaysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;

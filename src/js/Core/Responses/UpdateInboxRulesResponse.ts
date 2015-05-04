@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import RuleOperationErrorCollection = require("../../ComplexProperties/RuleOperationErrorCollection");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class UpdateInboxRulesResponse extends ServiceResponse {
 	Errors: RuleOperationErrorCollection;

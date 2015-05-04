@@ -1,3 +1,5 @@
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AbsoluteDayOfMonthTransition extends AbsoluteMonthTransition {
     DayOfMonth: number;
     private dayOfMonth: number;

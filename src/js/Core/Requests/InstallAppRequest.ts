@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import InstallAppResponse = require("../Responses/InstallAppResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class InstallAppRequest extends SimpleServiceRequestBase {
 	private manifestStream: any /*System.IO.Stream*/;

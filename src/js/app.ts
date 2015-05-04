@@ -1,4 +1,4 @@
-﻿
+
 import AutodiscoverService = require("./Autodiscover/AutodiscoverService");
 import ExchangeVersion = require("./Enumerations/ExchangeVersion");
 import ExchangeCredentials = require("./Credentials/ExchangeCredentials");

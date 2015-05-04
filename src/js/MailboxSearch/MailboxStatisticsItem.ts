@@ -1,4 +1,5 @@
-﻿class MailboxStatisticsItem {
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+class MailboxStatisticsItem {
     MailboxId: string;
     DisplayName: string;
     ItemCount: number;

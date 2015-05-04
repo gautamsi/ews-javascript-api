@@ -1,4 +1,20 @@
-﻿ module Microsoft.Exchange.WebServices.Data {
+import ServiceRequestBase = require("./Core/Requests/ServiceRequestBase");
+import ExchangeService = require("./Core/ExchangeService");
+import Appointment = require("./Core/ServiceObjects/Items/Appointment");
+import MeetingRequest = require("./Core/ServiceObjects/Items/MeetingRequest");
+import MeetingResponse = require("./Core/ServiceObjects/Items/MeetingResponse");
+import MeetingCancellation = require("./Core/ServiceObjects/Items/MeetingCancellation");
+import ViewBase = require("./Search/ViewBase");
+import EwsServiceXmlWriter = require("./Core/EwsServiceXmlWriter");
+import Grouping = require("./Search/Grouping");
+import PagedView = require("./Search/PagedView");
+import OrderByCollection = require("./Search/OrderByCollection");
+import PropertySet = require("./Core/PropertySet");
+import EwsServiceXmlReader = require("./Core/EwsServiceXmlReader");
+import NonIndexableItemParameters = require("./MailboxSearch/NonIndexableItemParameters");
+import AcceptMeetingInvitationMessage = require("./Core/ServiceObjects/ResponseObjects/AcceptMeetingInvitationMessage");
+import DeclineMeetingInvitationMessage = require("./Core/ServiceObjects/ResponseObjects/DeclineMeetingInvitationMessage");
+ module Microsoft.Exchange.WebServices.Data {
     class AsyncRequestResult {
         ServiceRequest: ServiceRequestBase;
         WebRequest: IEwsHttpWebRequest;

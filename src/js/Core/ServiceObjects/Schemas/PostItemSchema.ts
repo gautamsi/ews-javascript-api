@@ -1,3 +1,5 @@
+import ItemSchema = require("./ItemSchema");
+import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 class PostItemSchema extends ItemSchema {
     static ConversationIndex: PropertyDefinition;
     static ConversationTopic: PropertyDefinition;

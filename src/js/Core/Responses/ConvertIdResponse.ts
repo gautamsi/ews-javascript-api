@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import AlternateIdBase = require("../../Misc/IdConversion/AlternateIdBase");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ConvertIdResponse extends ServiceResponse {
     ConvertedId: AlternateIdBase;
     private convertedId: AlternateIdBase;

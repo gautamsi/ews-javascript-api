@@ -1,3 +1,5 @@
+import ServiceResponse = require("./ServiceResponse");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ExecuteDiagnosticMethodResponse extends ServiceResponse {
     ReturnValue: any;// System.Xml.XmlDocument;
     ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }

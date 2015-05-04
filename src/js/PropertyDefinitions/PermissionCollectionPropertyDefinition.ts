@@ -1,3 +1,10 @@
+import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
+import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import Folder = require("../Core/ServiceObjects/Folders/Folder");
+import EwsUtilities = require("../Core/EwsUtilities");
 class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
     get Type(): Type {
         return new Type("FolderPermissionCollection");

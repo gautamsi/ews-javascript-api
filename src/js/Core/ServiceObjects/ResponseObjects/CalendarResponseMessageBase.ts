@@ -1,3 +1,6 @@
+import ResponseObject = require("./ResponseObject");
+import FolderId = require("../../../ComplexProperties/FolderId");
+import CalendarActionResults = require("../../../Misc/CalendarActionResults");
    class CalendarResponseMessageBase<TMessage> extends ResponseObject<TMessage> {
         Save(destinationFolderId: FolderId): CalendarActionResults { throw new Error("Not implemented."); }
         //Save(destinationFolderName: WellKnownFolderName): CalendarActionResults { throw new Error("Not implemented."); }

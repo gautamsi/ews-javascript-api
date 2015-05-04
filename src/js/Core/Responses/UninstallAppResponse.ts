@@ -1,3 +1,4 @@
+import ServiceResponse = require("./ServiceResponse");
 			
  class UninstallAppResponse extends ServiceResponse {
 }

@@ -1,3 +1,6 @@
+import ComplexProperty = require("./ComplexProperty");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ConversationRequest extends ComplexProperty {//ISelfValidate, IJsonSerializable
     ConversationId: ConversationId;
     SyncState: string;

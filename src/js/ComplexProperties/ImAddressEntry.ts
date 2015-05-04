@@ -1,3 +1,8 @@
+import ImAddressKey = require("../Enumerations/ImAddressKey");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     ImAddress: string;

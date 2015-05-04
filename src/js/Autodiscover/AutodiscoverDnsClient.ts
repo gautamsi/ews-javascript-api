@@ -1,3 +1,4 @@
+import DnsSrvRecord = require("../Dns/DnsSrvRecord");
 import AutodiscoverService = require("./AutodiscoverService");
 class AutodiscoverDnsClient {
     private service: AutodiscoverService;

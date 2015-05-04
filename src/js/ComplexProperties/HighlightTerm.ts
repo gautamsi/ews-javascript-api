@@ -1,4 +1,8 @@
-﻿class HighlightTerm extends ComplexProperty {
+import ComplexProperty = require("./ComplexProperty");
+import JsonObject = require("../Core/JsonObject");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+class HighlightTerm extends ComplexProperty {
     Scope: string;
     Value: string;
     private scope: string;

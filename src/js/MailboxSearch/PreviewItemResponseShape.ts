@@ -1,3 +1,5 @@
+import PreviewItemBaseShape = require("../Enumerations/PreviewItemBaseShape");
+import ExtendedPropertyDefinition = require("../PropertyDefinitions/ExtendedPropertyDefinition");
 class PreviewItemResponseShape {
     BaseShape: PreviewItemBaseShape;
     AdditionalProperties: ExtendedPropertyDefinition[];

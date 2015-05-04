@@ -1,3 +1,10 @@
+import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import PhoneCallState = require("../Enumerations/PhoneCallState");
+import ConnectionFailureCause = require("../Enumerations/ConnectionFailureCause");
+import ExchangeService = require("../Core/ExchangeService");
+import PhoneCallId = require("./PhoneCallId");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class PhoneCall extends ComplexProperty {
     private static SuccessfulResponseText: string = "OK";

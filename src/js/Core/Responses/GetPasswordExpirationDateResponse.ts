@@ -1,3 +1,7 @@
+import ServiceResponse = require("./ServiceResponse");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetPasswordExpirationDateResponse extends ServiceResponse {
     PasswordExpirationDate: Date;
     private passwordExpirationDate: Date;

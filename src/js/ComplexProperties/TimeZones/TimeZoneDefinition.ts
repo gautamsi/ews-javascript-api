@@ -1,3 +1,9 @@
+import ComplexProperty = require("../ComplexProperty");
+import ExchangeService = require("../../Core/ExchangeService");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import XmlElementNames = require("../../Core/XmlElementNames");
 
 class TimeZoneDefinition extends ComplexProperty {
     private static NoIdPrefix: string = "NoId_";

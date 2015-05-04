@@ -1,3 +1,9 @@
+import ServiceResponse = require("./ServiceResponse");
+import ConversationResponse = require("../../ComplexProperties/ConversationResponse");
+import PropertySet = require("../PropertySet");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetConversationItemsResponse extends ServiceResponse {
     Conversation: ConversationResponse;
     private propertySet: PropertySet;

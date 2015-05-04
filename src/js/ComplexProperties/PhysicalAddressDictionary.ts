@@ -1,3 +1,4 @@
+import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
 
 class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
     Item: PhysicalAddressEntry;

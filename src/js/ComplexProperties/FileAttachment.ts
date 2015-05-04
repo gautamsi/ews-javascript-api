@@ -1,3 +1,7 @@
+import Attachment = require("./Attachment");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class FileAttachment extends Attachment {
     FileName: string;

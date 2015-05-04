@@ -1,3 +1,12 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import AttendeeInfo = require("../../Misc/Availability/AttendeeInfo");
+import TimeWindow = require("../../Misc/Availability/TimeWindow");
+import AvailabilityData = require("../../Enumerations/AvailabilityData");
+import AvailabilityOptions = require("../../Misc/Availability/AvailabilityOptions");
+import GetUserAvailabilityResults = require("../../Misc/Availability/GetUserAvailabilityResults");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     EmitTimeZoneHeader: boolean;
     IsFreeBusyViewRequested: boolean;

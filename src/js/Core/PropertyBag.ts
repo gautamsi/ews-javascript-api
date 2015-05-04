@@ -1,3 +1,14 @@
+import ServiceObject = require("./ServiceObjects/ServiceObject");
+import PropertySet = require("./PropertySet");
+import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import IOutParam = require("../Interfaces/IOutParam");
+import Folder = require("./ServiceObjects/Folders/Folder");
+import Exceptions = require("../_old/Core/Exceptions");
+import ComplexPropertyDefinitionBase = require("../PropertyDefinitions/ComplexPropertyDefinitionBase");
+import IOwnedProperty = require("../Interfaces/IOwnedProperty");
+import BasePropertySet = require("../Enumerations/BasePropertySet");
+import EwsServiceXmlReader = require("./EwsServiceXmlReader");
+import ISelfValidate = require("../Interfaces/ISelfValidate");
 
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");

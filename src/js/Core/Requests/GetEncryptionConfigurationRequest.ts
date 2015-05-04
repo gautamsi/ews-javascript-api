@@ -1,3 +1,8 @@
+import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
+import GetEncryptionConfigurationResponse = require("../Responses/GetEncryptionConfigurationResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     Execute(): GetEncryptionConfigurationResponse { throw new Error("Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }

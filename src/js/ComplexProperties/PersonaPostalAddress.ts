@@ -1,4 +1,10 @@
-﻿
+import ComplexProperty = require("./ComplexProperty");
+import LocationSource = require("../Enumerations/LocationSource");
+import ExchangeService = require("../Core/ExchangeService");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+
 class PersonaPostalAddress extends ComplexProperty {
     Street: string;
     City: string;

@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import Item = require("../ServiceObjects/Items/Item");
+import ExchangeService = require("../ExchangeService");
+import JsonObject = require("../JsonObject");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class MoveCopyItemResponse extends ServiceResponse {
     Item: Item;
     private item: Item;

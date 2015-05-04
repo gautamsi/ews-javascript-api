@@ -1,3 +1,9 @@
+import ComplexProperty = require("./ComplexProperty");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 class DictionaryEntryProperty<TKey> extends ComplexProperty {
     Key: TKey;
     private key: TKey;

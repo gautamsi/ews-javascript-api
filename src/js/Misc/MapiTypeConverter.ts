@@ -1,3 +1,5 @@
+import LazyMember = require("../Core/LazyMember");
+import MapiPropertyType = require("../Enumerations/MapiPropertyType");
 
 
 class MapiTypeConverter {

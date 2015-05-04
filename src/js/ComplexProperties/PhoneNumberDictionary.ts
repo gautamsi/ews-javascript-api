@@ -1,3 +1,4 @@
+import PhoneNumberKey = require("../Enumerations/PhoneNumberKey");
 
 class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, PhoneNumberEntry> {
     Item: string;

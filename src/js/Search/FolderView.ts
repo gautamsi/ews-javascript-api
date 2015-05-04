@@ -1,3 +1,8 @@
+import PagedView = require("./PagedView");
+import FolderTraversal = require("../Enumerations/FolderTraversal");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class FolderView extends PagedView {
     Traversal: FolderTraversal;
     private traversal: FolderTraversal;

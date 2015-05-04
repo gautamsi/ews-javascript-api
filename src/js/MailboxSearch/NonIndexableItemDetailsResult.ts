@@ -1,3 +1,7 @@
+import NonIndexableItem = require("./NonIndexableItem");
+import FailedSearchMailbox = require("./FailedSearchMailbox");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class NonIndexableItemDetailsResult {
     Items: NonIndexableItem[];
     FailedMailboxes: FailedSearchMailbox[];

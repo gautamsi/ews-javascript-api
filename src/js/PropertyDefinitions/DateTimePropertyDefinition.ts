@@ -1,3 +1,10 @@
+import PropertyDefinition = require("./PropertyDefinition");
+import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
+import PropertyBag = require("../Core/PropertyBag");
+import ExchangeService = require("../Core/ExchangeService");
+import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import JsonObject = require("../Core/JsonObject");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class DateTimePropertyDefinition extends PropertyDefinition {
         IsNullable: boolean;
         Type: System.Type;

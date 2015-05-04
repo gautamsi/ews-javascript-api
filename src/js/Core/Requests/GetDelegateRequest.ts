@@ -1,3 +1,7 @@
+import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
+import GetDelegateResponse = require("../Responses/GetDelegateResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     IncludePermissions: boolean;

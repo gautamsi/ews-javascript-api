@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 			
  class HangingTraceStream extends System.IO.Stream {
 	CanRead: boolean;

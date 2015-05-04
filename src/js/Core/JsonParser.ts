@@ -1,3 +1,6 @@
+import JsonTokenizer = require("./JsonTokenizer");
+import JsonObject = require("./JsonObject");
+import JsonTokenType = require("../Enumerations/JsonTokenType");
 			
  class JsonParser {
 	private tokenizer: JsonTokenizer;

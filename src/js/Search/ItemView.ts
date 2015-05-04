@@ -1,3 +1,11 @@
+import PagedView = require("./PagedView");
+import ItemTraversal = require("../Enumerations/ItemTraversal");
+import OrderByCollection = require("./OrderByCollection");
+import ExchangeService = require("../Core/ExchangeService");
+import ServiceObjectType = require("../Enumerations/ServiceObjectType");
+import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import Grouping = require("./Grouping");
 class ItemView extends PagedView {
     Traversal: ItemTraversal;
     OrderBy: OrderByCollection;

@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import Suggestion = require("../../ComplexProperties/Availability/Suggestion");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class SuggestionsResponse extends ServiceResponse {
     Suggestions: Suggestion[];//System.Collections.ObjectModel.Collection<Suggestion>;
     private daySuggestions: Suggestion[];//System.Collections.ObjectModel.Collection<Suggestion>;

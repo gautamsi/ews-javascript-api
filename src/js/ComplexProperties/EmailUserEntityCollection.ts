@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
     class EmailUserEntityCollection extends ComplexPropertyCollection<EmailUserEntity> {
         CreateComplexProperty(xmlElementName: string): EmailUserEntity { throw new Error("Not implemented."); }

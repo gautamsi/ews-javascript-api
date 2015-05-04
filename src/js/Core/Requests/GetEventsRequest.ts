@@ -1,3 +1,8 @@
+import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
+import ExchangeService = require("../ExchangeService");
+import GetEventsResponse = require("../Responses/GetEventsResponse");
+import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetEventsRequest extends MultiResponseServiceRequest<GetEventsResponse> {
 	SubscriptionId: string;

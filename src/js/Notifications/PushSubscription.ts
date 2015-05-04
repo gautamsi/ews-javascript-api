@@ -1,3 +1,4 @@
+import SubscriptionBase = require("./SubscriptionBase");
 			
  class PushSubscription extends SubscriptionBase {
 }

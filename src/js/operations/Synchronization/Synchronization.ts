@@ -1,4 +1,17 @@
-﻿module Microsoft.Exchange.WebServices.Data {
+import MultiResponseServiceRequest = require("../../Core/Requests/MultiResponseServiceRequest");
+import PropertySet = require("../../Core/PropertySet");
+import FolderId = require("../../ComplexProperties/FolderId");
+import ExchangeService = require("../../Core/ExchangeService");
+import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
+import ServiceObject = require("../../Core/ServiceObjects/ServiceObject");
+import ServiceResponse = require("../../Core/Responses/ServiceResponse");
+import JsonObject = require("../../Core/JsonObject");
+import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
+import Folder = require("../../Core/ServiceObjects/Folders/Folder");
+import Item = require("../../Core/ServiceObjects/Items/Item");
+import ServiceId = require("../../ComplexProperties/ServiceId");
+module Microsoft.Exchange.WebServices.Data {
     export class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
         PropertySet: PropertySet;
         SyncFolderId: FolderId;

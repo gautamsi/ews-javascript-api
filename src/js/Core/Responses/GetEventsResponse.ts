@@ -1,3 +1,8 @@
+import ServiceResponse = require("./ServiceResponse");
+import GetEventsResults = require("../../Notifications/GetEventsResults");
+import JsonObject = require("../JsonObject");
+import ExchangeService = require("../ExchangeService");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			
  class GetEventsResponse extends ServiceResponse {
 	Results: GetEventsResults;

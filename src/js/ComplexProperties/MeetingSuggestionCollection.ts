@@ -1,3 +1,4 @@
+import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
     class MeetingSuggestionCollection extends ComplexPropertyCollection<MeetingSuggestion> {
         CreateComplexProperty(xmlElementName: string): MeetingSuggestion { throw new Error("Not implemented."); }

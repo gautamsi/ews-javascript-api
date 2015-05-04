@@ -1,3 +1,6 @@
+import Change = require("./Change");
+import Item = require("../Core/ServiceObjects/Items/Item");
+import ServiceId = require("../ComplexProperties/ServiceId");
 			
  class ItemChange extends Change {
 	Item: Item;

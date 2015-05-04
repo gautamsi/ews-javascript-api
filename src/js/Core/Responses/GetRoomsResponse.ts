@@ -1,3 +1,6 @@
+import ServiceResponse = require("./ServiceResponse");
+import EmailAddress = require("../../ComplexProperties/EmailAddress");
+import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetRoomsResponse extends ServiceResponse {
     Rooms: EmailAddress[];//System.Collections.ObjectModel.Collection<EmailAddress>;
     private rooms: EmailAddress[];//System.Collections.ObjectModel.Collection<EmailAddress>;
