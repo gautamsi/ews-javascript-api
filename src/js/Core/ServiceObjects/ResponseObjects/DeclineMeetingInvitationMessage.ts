@@ -1,3 +1,4 @@
+import MeetingResponse = require("../Items/MeetingResponse");
 import CalendarResponseMessage = require("./CalendarResponseMessage");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 class DeclineMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {

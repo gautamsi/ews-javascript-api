@@ -1,3 +1,4 @@
+import Folder = require("../ServiceObjects/Folders/Folder");
 import SyncResponse = require("./SyncResponse");
 import FolderChange = require("../../Sync/FolderChange");
 			

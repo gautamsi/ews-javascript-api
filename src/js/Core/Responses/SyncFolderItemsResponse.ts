@@ -1,3 +1,4 @@
+import Item = require("../ServiceObjects/Items/Item");
 import SyncResponse = require("./SyncResponse");
 import ItemChange = require("../../Sync/ItemChange");
 			

@@ -1,3 +1,4 @@
+import FolderPermissionCollection = require("../ComplexProperties/FolderPermissionCollection");
 import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
@@ -6,11 +7,11 @@ import ComplexProperty = require("../ComplexProperties/ComplexProperty");
 import Folder = require("../Core/ServiceObjects/Folders/Folder");
 import EwsUtilities = require("../Core/EwsUtilities");
 class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
-    get Type(): Type {
-        return new Type("FolderPermissionCollection");
+    get Type(): any {//} Type {
+        return undefined;// new Type("FolderPermissionCollection");
     }
-    constructor(xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
-        super(xmlElementName, uri, flags, version);
+    constructor(xmlElementName: string, version: ExchangeVersion, uri: string, flags: PropertyDefinitionFlags) {
+        super(xmlElementName, version, uri, flags);
     }
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
         var folder: Folder = ((owner instanceof Folder) ? <Folder>owner : null);
@@ -18,3 +19,5 @@ class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
         return new FolderPermissionCollection(folder);
     }
 }
+export = PermissionSetPropertyDefinition;
+

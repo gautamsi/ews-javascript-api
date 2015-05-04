@@ -1,3 +1,5 @@
+import StringList = require("./StringList");
+import ItemId = require("./ItemId");
 import ComplexProperty = require("./ComplexProperty");
 import FolderId = require("./FolderId");
 import EmailAddressCollection = require("./EmailAddressCollection");

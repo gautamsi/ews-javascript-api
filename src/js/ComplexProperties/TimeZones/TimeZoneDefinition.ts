@@ -1,10 +1,13 @@
+import TimeZoneTransition = require("./TimeZoneTransition");
+import TimeZonePeriod = require("./TimeZonePeriod");
+import TimeZoneTransitionGroup = require("./TimeZoneTransitionGroup");
 import ComplexProperty = require("../ComplexProperty");
 import ExchangeService = require("../../Core/ExchangeService");
 import JsonObject = require("../../Core/JsonObject");
 import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 import XmlElementNames = require("../../Core/XmlElementNames");
-
+import {IndexerWithStringKey} from "../../AltDictionary";
 class TimeZoneDefinition extends ComplexProperty {
     private static NoIdPrefix: string = "NoId_";
     Name: string;
@@ -31,7 +34,7 @@ class TimeZoneDefinition extends ComplexProperty {
         super.WriteToXml(writer, XmlElementNames.TimeZoneDefinition, this.Namespace);
     }
 }
-
+export = TimeZoneDefinition;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

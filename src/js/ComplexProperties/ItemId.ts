@@ -3,6 +3,7 @@ import ServiceId = require("./ServiceId");
 class ItemId extends ServiceId {
     GetXmlElementName(): string { throw new Error("Not implemented."); }
 }
+export = ItemId;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

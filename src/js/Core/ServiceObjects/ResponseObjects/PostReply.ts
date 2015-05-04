@@ -1,3 +1,4 @@
+import MessageBody = require("../../../ComplexProperties/MessageBody");
 import ServiceObject = require("../ServiceObject");
 import Item = require("../Items/Item");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");

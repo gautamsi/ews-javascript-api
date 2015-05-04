@@ -1,7 +1,7 @@
 import StreamingSubscription = require("./StreamingSubscription");
 import Exception = require("../Exceptions/Exception");
 			
- class SubscriptionErrorEventArgs extends System.EventArgs {
+ class SubscriptionErrorEventArgs /*extends System.EventArgs*/ {
 	Subscription: StreamingSubscription;
 	Exception: Exception;
 }

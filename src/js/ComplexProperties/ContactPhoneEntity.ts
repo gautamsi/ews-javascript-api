@@ -7,7 +7,7 @@ class ContactPhoneEntity extends ComplexProperty {
     Type: string;
     TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
-
+export = ContactPhoneEntity;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

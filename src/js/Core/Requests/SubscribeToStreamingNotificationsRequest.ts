@@ -1,3 +1,4 @@
+import StreamingSubscription = require("../../Notifications/StreamingSubscription");
 import SubscribeRequest = require("./SubscribeRequest");
 import JsonObject = require("../JsonObject");
 import ExchangeService = require("../ExchangeService");

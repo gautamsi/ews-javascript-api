@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import AbstractItemIdWrapper = require("./AbstractItemIdWrapper");
 import ExchangeService = require("../Core/ExchangeService");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");

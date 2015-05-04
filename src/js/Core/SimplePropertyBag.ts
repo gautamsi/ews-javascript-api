@@ -1,4 +1,4 @@
-			
+import {PropertyBagChangedDelegate} from "../Misc/DelegateTypes";			
  class SimplePropertyBag<TKey> {
 	AddedItems: TKey[] /*System.Collections.Generic.IEnumerable<TKey>*/;
 	RemovedItems: TKey[] /*System.Collections.Generic.IEnumerable<TKey>*/;

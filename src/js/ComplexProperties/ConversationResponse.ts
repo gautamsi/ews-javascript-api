@@ -1,3 +1,5 @@
+import ConversationId = require("./ConversationId");
+import ConversationNodeCollection = require("./ConversationNodeCollection");
 import ComplexProperty = require("./ComplexProperty");
 import PropertySet = require("../Core/PropertySet");
 import JsonObject = require("../Core/JsonObject");

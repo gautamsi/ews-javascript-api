@@ -1,13 +1,14 @@
+import ConversationNode = require("./ConversationNode");
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 import PropertySet = require("../Core/PropertySet");
 
-    class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {
-        private propertySet: PropertySet;
-        CreateComplexProperty(xmlElementName: string): ConversationNode { throw new Error("Not implemented."); }
-        CreateDefaultComplexProperty(): ConversationNode { throw new Error("Not implemented."); }
-        GetCollectionItemXmlElementName(complexProperty: ConversationNode): string { throw new Error("Not implemented."); }
-    }
-
+class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {
+    private propertySet: PropertySet;
+    CreateComplexProperty(xmlElementName: string): ConversationNode { throw new Error("Not implemented."); }
+    CreateDefaultComplexProperty(): ConversationNode { throw new Error("Not implemented."); }
+    GetCollectionItemXmlElementName(complexProperty: ConversationNode): string { throw new Error("Not implemented."); }
+}
+export =ConversationNodeCollection;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

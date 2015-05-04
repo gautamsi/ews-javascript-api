@@ -1,3 +1,4 @@
+import AbsoluteMonthTransition = require("./AbsoluteMonthTransition");
 import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AbsoluteDayOfMonthTransition extends AbsoluteMonthTransition {
@@ -9,8 +10,7 @@ class AbsoluteDayOfMonthTransition extends AbsoluteMonthTransition {
     TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
-
-
+export = AbsoluteDayOfMonthTransition;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

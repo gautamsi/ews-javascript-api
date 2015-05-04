@@ -1,3 +1,4 @@
+import FolderIdCollection = require("../../ComplexProperties/FolderIdCollection");
 import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 import ConversationRequest = require("../../ComplexProperties/ConversationRequest");
 import PropertySet = require("../PropertySet");

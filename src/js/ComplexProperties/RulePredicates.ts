@@ -1,3 +1,4 @@
+import StringList = require("./StringList");
 import ComplexProperty = require("./ComplexProperty");
 import EmailAddressCollection = require("./EmailAddressCollection");
 import RulePredicateDateRange = require("./RulePredicateDateRange");

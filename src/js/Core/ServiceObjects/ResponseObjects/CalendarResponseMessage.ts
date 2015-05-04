@@ -1,3 +1,5 @@
+import MessageBody = require("../../../ComplexProperties/MessageBody");
+import InternetMessageHeaderCollection = require("../../../ComplexProperties/InternetMessageHeaderCollection");
 import CalendarResponseMessageBase = require("./CalendarResponseMessageBase");
 import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
 import Sensitivity = require("../../../Enumerations/Sensitivity");

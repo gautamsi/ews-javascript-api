@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import NotificationEvent = require("./NotificationEvent");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import JsonObject = require("../Core/JsonObject");

@@ -1,3 +1,4 @@
+import ServiceObject = require("../ServiceObjects/ServiceObject");
 import CreateItemRequestBase = require("./CreateItemRequestBase");
 import ExchangeService = require("../ExchangeService");
 import CreateResponseObjectResponse = require("../Responses/CreateResponseObjectResponse");

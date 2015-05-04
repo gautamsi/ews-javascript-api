@@ -1,3 +1,4 @@
+import UserId = require("../../ComplexProperties/UserId");
 import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
 import DelegateManagementResponse = require("../Responses/DelegateManagementResponse");
 import ExchangeVersion = require("../../Enumerations/ExchangeVersion");

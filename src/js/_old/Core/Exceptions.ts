@@ -1,7 +1,3 @@
-//import enums = require("../Enums");
-import svcObj = require("./ServiceObject");﻿
-
-//import PropertyDefinitionBase = svcObj.PropertyDefinitionBase;
 
 module Microsoft.Exchange.WebServices.Data {
 

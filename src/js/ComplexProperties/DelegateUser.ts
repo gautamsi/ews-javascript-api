@@ -1,3 +1,4 @@
+import UserId = require("./UserId");
 import ComplexProperty = require("./ComplexProperty");
 import DelegatePermissions = require("./DelegatePermissions");
 import ExchangeService = require("../Core/ExchangeService");

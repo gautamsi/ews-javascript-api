@@ -1,3 +1,4 @@
+import StringList = require("./StringList");
 import ComplexProperty = require("./ComplexProperty");
 import ExtensionType = require("../Enumerations/ExtensionType");
 import ExtensionInstallScope = require("../Enumerations/ExtensionInstallScope");
@@ -23,7 +24,7 @@ class ClientExtension extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
-
+export = ClientExtension;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

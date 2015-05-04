@@ -1,3 +1,4 @@
+import UserId = require("./UserId");
 import ComplexProperty = require("./ComplexProperty");
 import PermissionScope = require("../Enumerations/PermissionScope");
 import FolderPermissionReadAccess = require("../Enumerations/FolderPermissionReadAccess");
@@ -44,7 +45,7 @@ class FolderPermission extends ComplexProperty {
     //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
     //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
 }
-
+export = FolderPermission;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

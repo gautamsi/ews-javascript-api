@@ -1,3 +1,8 @@
+import PolicyTag = require("../../../ComplexProperties/PolicyTag");
+import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
+import ManagedFolderInformation = require("../../../ComplexProperties/ManagedFolderInformation");
+import PermissionSetPropertyDefinition = require("../../../PropertyDefinitions/PermissionSetPropertyDefinition");
+import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
 import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
@@ -24,9 +29,9 @@ class FolderSchema extends ServiceObjectSchema {
 
   static FolderClass: PropertyDefinition = new StringPropertyDefinition(
     XmlElementNames.FolderClass,
+    ExchangeVersion.Exchange2007_SP1,
     FolderSchema.FieldUris.FolderClass,
-    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-    ExchangeVersion.Exchange2007_SP1);
+    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind );
 
   static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
     XmlElementNames.ParentFolderId,
@@ -35,33 +40,30 @@ class FolderSchema extends ServiceObjectSchema {
     ExchangeVersion.Exchange2007_SP1,
    ()=> { return new FolderId(); });
 
-  static ChildFolderCount: PropertyDefinition =      new IntPropertyDefinition(
+  static ChildFolderCount: PropertyDefinition = new IntPropertyDefinition(
           XmlElementNames.ChildFolderCount,
+          ExchangeVersion.Exchange2007_SP1,
           FolderSchema.FieldUris.ChildFolderCount,
-          PropertyDefinitionFlags.CanFind,
-          ExchangeVersion.Exchange2007_SP1) = new StringPropertyDefinition(
-              XmlElementNames.DisplayName,
-              FieldUris.DisplayName,
-              PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-              ExchangeVersion.Exchange2007_SP1);
-
+          PropertyDefinitionFlags.CanFind);
+         
+ 
   static DisplayName: PropertyDefinition = new StringPropertyDefinition(
       XmlElementNames.DisplayName,
+      ExchangeVersion.Exchange2007_SP1, 
       FolderSchema.FieldUris.DisplayName,
-      PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-      ExchangeVersion.Exchange2007_SP1);
+      PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind);
 
   static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
       XmlElementNames.UnreadCount,
+      ExchangeVersion.Exchange2007_SP1,
       FolderSchema.FieldUris.UnreadCount,
-      PropertyDefinitionFlags.CanFind,
-      ExchangeVersion.Exchange2007_SP1);
+      PropertyDefinitionFlags.CanFind);
 
   static TotalCount: PropertyDefinition = new IntPropertyDefinition(
       XmlElementNames.TotalCount,
+      ExchangeVersion.Exchange2007_SP1,
       FolderSchema.FieldUris.TotalCount,
-      PropertyDefinitionFlags.CanFind,
-      ExchangeVersion.Exchange2007_SP1);
+      PropertyDefinitionFlags.CanFind);
 
   static ManagedFolderInformation: PropertyDefinition = new ComplexPropertyDefinition<ManagedFolderInformation>(
       XmlElementNames.ManagedFolderInformation,
@@ -72,22 +74,22 @@ class FolderSchema extends ServiceObjectSchema {
 
   static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
       XmlElementNames.EffectiveRights,
+      ExchangeVersion.Exchange2007_SP1,
       FolderSchema.FieldUris.EffectiveRights,
-      PropertyDefinitionFlags.CanFind,
-      ExchangeVersion.Exchange2007_SP1);
+      PropertyDefinitionFlags.CanFind);
 
   static Permissions: PropertyDefinition = new PermissionSetPropertyDefinition(
       XmlElementNames.PermissionSet,
+      ExchangeVersion.Exchange2007_SP1,
       FolderSchema.FieldUris.PermissionSet,
-      PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-      ExchangeVersion.Exchange2007_SP1);
+      PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded);
 
   static WellKnownFolderName: PropertyDefinition = new GenericPropertyDefinition<WellKnownFolderName>(
       XmlElementNames.DistinguishedFolderId,
-      FolderSchema.FieldUris.DistinguishedFolderId,
-      PropertyDefinitionFlags.CanFind,
       ExchangeVersion.Exchange2013,
-      true);
+      FolderSchema.FieldUris.DistinguishedFolderId,
+      PropertyDefinitionFlags.CanFind);
+      
   static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
       XmlElementNames.PolicyTag,
       FolderSchema.FieldUris.PolicyTag,

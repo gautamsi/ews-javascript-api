@@ -2,12 +2,14 @@
 
 $content = Get-Content ..\..\errors.txt
 $lines = $content | ?{$_.contains("TS2304")}
+$dupli = $content | ?{$_.contains("TS2300")}
+$ts2305 = $content | ?{$_.contains("TS2305")}
 
 
 
 
 
-src/js/Attributes/RequiredServerVersionAttribute.ts(3,11): error TS2304: Cannot find name 'ExchangeVersion'.
+#src/js/Attributes/RequiredServerVersionAttribute.ts(3,11): error TS2304: Cannot find name 'ExchangeVersion'.
 
 $fixes = @()
 
@@ -42,7 +44,9 @@ return;$fixes[0] | %{
 
 
 
-$fixes | ?{!$_.filetofix.contains("ContactSchema")} | group filetofix |  %{
+#| ?{$_.filetofix.contains("AddressEntityCollection")}
+
+return;$fixes  | group filetofix |  %{
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
         $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
         if($filetofix){
@@ -55,13 +59,13 @@ $fixes | ?{!$_.filetofix.contains("ContactSchema")} | group filetofix |  %{
                 
                 #Write-Verbose $uri1 -Verbose
                 #Write-Verbose $uri2 -Verbose
-               #$uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
-               #$uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
-               #$importfile = $uri1.MakeRelative($uri2).replace(".ts","")
-               #if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
-               #$importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
-               #Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
-               #$insercontent += $importstatement
+               $uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
+               $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
+               $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
+               if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
+               $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
+               Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
+               $insercontent += $importstatement
             }
             else
             {
@@ -71,9 +75,9 @@ $fixes | ?{!$_.filetofix.contains("ContactSchema")} | group filetofix |  %{
         #$_.group.count        
         #$insercontent
 
-        #$filecontent = Get-Content $filetofix.FullName
-        #$filecontent = $insercontent + "`n" + $filecontent
-        #$filecontent | Set-Content -Path $filetofix 
+        $filecontent = Get-Content $filetofix.FullName
+        $filecontent = $insercontent + $filecontent
+        $filecontent | Set-Content -Path $filetofix 
         #$filecontent
     }
 }
@@ -81,6 +85,46 @@ $fixes | ?{!$_.filetofix.contains("ContactSchema")} | group filetofix |  %{
 
 
 
+$ff = $fixes  | group filetofix |  %{
+        #Write-Verbose $_.name.Replace("src/js/","") -Verbose
+        $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
+        if($filetofix){
+            $insercontent = @()
+            $_.group | select -Unique -Property symbol | %{      
+            
+            #Write-Verbose $_.symbol -Verbose
+            $symfile = dir ($_.symbol + ".ts") -Recurse
+            if($symfile){
+                
+                #Write-Verbose $uri1 -Verbose
+                #Write-Verbose $uri2 -Verbose
+               $uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
+               $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
+               $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
+               if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
+               $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
+               #Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
+               $insercontent += $importstatement
+            }
+            else
+            {
+                Write-Verbose ($filetofix.FullName + " | " +  $_.symbol) -Verbose
+            }
+        }
+        #$_.group.count        
+        #$insercontent
+        $alreadyfixed = $filetofix | Select-String -SimpleMatch $importstatement
+        $alreadyfixed
+        #$filecontent = Get-Content $filetofix.FullName
+        #$filecontent = $insercontent + $filecontent
+        #$filecontent | Set-Content -Path $filetofix 
+        #$filecontent
+
+        
+    }
+}
+
+$ff
 
 
 
@@ -139,5 +183,20 @@ $files | %{
         #Remove-Item ($file.BaseName + ".js") -Verbose
         copy $file $path -Force -Verbose
 
+    }
+}
+
+
+
+
+###################### bulk check missing export=
+
+$aa = dir *.ts -Recurse | Select-String -SimpleMatch "//module Microsoft.Exchange.WebServices.Data {" -Context 3,0
+
+$aa | %{
+    $m = $_
+    $s = $m.Context.PreContext | ?{$_.contains("export")}
+    if(!$s){
+        $m.Filename
     }
 }

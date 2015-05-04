@@ -1,10 +1,13 @@
 import ExchangeService = require("./ExchangeService");
 import JsonObject = require("./JsonObject");
 import PropertySet = require("./PropertySet");
-			
- class EwsServiceJsonReader {
+import {GetObjectInstanceDelegate} from "../Misc/DelegateTypes";
+class EwsServiceJsonReader {
 	Service: ExchangeService;
-	ReadServiceObjectsCollectionFromJson(jsonResponse: JsonObject, collectionJsonElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): TServiceObject[] /*System.Collections.Generic.List<TServiceObject>*/{ throw new Error("Not implemented.");}
+	constructor(service: ExchangeService){
+		this.Service = service;
+	}
+	ReadServiceObjectsCollectionFromJson<TServiceObject>(jsonResponse: JsonObject, collectionJsonElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): TServiceObject[] /*System.Collections.Generic.List<TServiceObject>*/ { throw new Error("Not implemented."); }
 }
 export = EwsServiceJsonReader;
 

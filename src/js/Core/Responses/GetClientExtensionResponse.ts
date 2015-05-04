@@ -1,3 +1,4 @@
+import ClientExtension = require("../../ComplexProperties/ClientExtension");
 import ServiceResponse = require("./ServiceResponse");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetClientExtensionResponse extends ServiceResponse {

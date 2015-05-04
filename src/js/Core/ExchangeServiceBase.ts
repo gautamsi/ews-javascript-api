@@ -1,3 +1,4 @@
+import TimeZoneDefinition = require("../ComplexProperties/TimeZones/TimeZoneDefinition");
 import IEwsHttpWebRequestFactory = require("../Interfaces/IEwsHttpWebRequestFactory");
 import ITraceListener = require("../Interfaces/ITraceListener");
 import IEwsHttpWebResponse = require("../Interfaces/IEwsHttpWebResponse");

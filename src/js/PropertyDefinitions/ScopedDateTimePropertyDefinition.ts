@@ -9,6 +9,10 @@ class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: Date, propertyBag: PropertyBag, isUpdateOperation: boolean): Date { throw new Error("Not implemented."); }
 }
 
+interface GetPropertyDefinitionCallback {
+    (version: ExchangeVersion): PropertyDefinition
+}
+
 export = ScopedDateTimePropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {
 //}

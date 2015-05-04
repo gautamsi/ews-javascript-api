@@ -1,3 +1,4 @@
+import Item = require("../ServiceObjects/Items/Item");
 import ServiceResponse = require("../Responses/ServiceResponse");
 import MoveCopyRequest = require("./MoveCopyRequest");
 import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");

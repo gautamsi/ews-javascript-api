@@ -1,3 +1,4 @@
+import ItemId = require("../../ComplexProperties/ItemId");
 import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
 import PlayOnPhoneResponse = require("../Responses/PlayOnPhoneResponse");
 import ExchangeVersion = require("../../Enumerations/ExchangeVersion");

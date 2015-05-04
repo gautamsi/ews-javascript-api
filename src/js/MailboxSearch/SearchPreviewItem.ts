@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import PreviewItemMailbox = require("./PreviewItemMailbox");
 import Importance = require("../Enumerations/Importance");
 import ExtendedPropertyCollection = require("../ComplexProperties/ExtendedPropertyCollection");

@@ -430,9 +430,6 @@ class EwsUtilities {
     //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("Not implemented.");}
     //static XSDurationToTimeSpan(xsDuration: string): System.TimeSpan{ throw new Error("Not implemented.");}
 }
-export = EwsUtilities;
-
-
 
 
 interface EnumToExhcangeVersionDelegateDictionary {
@@ -443,6 +440,9 @@ interface EnumVersionDelegate {
     (value: number): ExchangeVersion;
 }
 
+
+
+export = EwsUtilities;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

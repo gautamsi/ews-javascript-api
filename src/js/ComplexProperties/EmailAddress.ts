@@ -1,3 +1,4 @@
+import ItemId = require("./ItemId");
 import ComplexProperty = require("./ComplexProperty");
 import MailboxType = require("../Enumerations/MailboxType");
 import ExchangeService = require("../Core/ExchangeService");

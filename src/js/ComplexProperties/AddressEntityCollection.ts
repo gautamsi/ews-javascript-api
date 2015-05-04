@@ -1,3 +1,4 @@
+import AddressEntity = require("./AddressEntity");
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
 class AddressEntityCollection extends ComplexPropertyCollection<AddressEntity> {
@@ -5,7 +6,7 @@ class AddressEntityCollection extends ComplexPropertyCollection<AddressEntity> {
     CreateDefaultComplexProperty(): AddressEntity { throw new Error("Not implemented."); }
     GetCollectionItemXmlElementName(complexProperty: AddressEntity): string { throw new Error("Not implemented."); }
 }
-
+export = AddressEntityCollection;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

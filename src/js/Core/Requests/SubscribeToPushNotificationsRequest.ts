@@ -1,3 +1,4 @@
+import PushSubscription = require("../../Notifications/PushSubscription");
 import SubscribeRequest = require("./SubscribeRequest");
 import JsonObject = require("../JsonObject");
 import ExchangeService = require("../ExchangeService");

@@ -1,3 +1,5 @@
+import EmailMessage = require("../Items/EmailMessage");
+import MessageBody = require("../../../ComplexProperties/MessageBody");
 import ResponseObject = require("./ResponseObject");
 import ResponseMessageType = require("../../../Enumerations/ResponseMessageType");
 import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");

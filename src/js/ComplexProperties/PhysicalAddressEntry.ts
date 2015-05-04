@@ -1,3 +1,4 @@
+import DictionaryEntryProperty = require("./DictionaryEntryProperty");
 import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
 import SimplePropertyBag = require("../Core/SimplePropertyBag");
 import ExchangeService = require("../Core/ExchangeService");

@@ -1,3 +1,4 @@
+import SubscribeResponse = require("../Responses/SubscribeResponse");
 import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
 import EventType = require("../../Enumerations/EventType");

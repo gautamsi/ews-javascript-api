@@ -1,3 +1,4 @@
+import FileAttachment = require("./FileAttachment");
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 import IOwnedProperty = require("../Interfaces/IOwnedProperty");
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");

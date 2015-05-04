@@ -1,3 +1,4 @@
+import Folder = require("../ServiceObjects/Folders/Folder");
 import ServiceResponse = require("../Responses/ServiceResponse");
 import MoveCopyRequest = require("./MoveCopyRequest");
 import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");

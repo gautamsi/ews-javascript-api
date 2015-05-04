@@ -1,3 +1,4 @@
+import SearchFilter = require("../../Search/Filters/SearchFilter");
 import ServiceResponse = require("../Responses/ServiceResponse");
 import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");

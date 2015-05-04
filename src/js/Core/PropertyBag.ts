@@ -1,3 +1,6 @@
+import ServiceVersionException = require("../Exceptions/ServiceVersionException");
+import ServiceObjectPropertyException = require("../Exceptions/ServiceObjectPropertyException");
+import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 import ServiceObject = require("./ServiceObjects/ServiceObject");
 import PropertySet = require("./PropertySet");
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
@@ -17,9 +20,11 @@ import EwsUtilities = require("./EwsUtilities");
 import XmlElementNames = require("../Core/XmlElementNames");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
+import ICustomUpdateSerializer = require("../Interfaces/ICustomXmlUpdateSerializer");
 
 import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 
+import {PropDictionary,KeyValuePair} from "../AltDictionary";
 
 import ExtensionMethods = require("../ExtensionMethods");
 
@@ -128,11 +133,11 @@ class PropertyBag {
     }
     GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<any>): any {
         var outPropertyValue: IOutParam<any> = { value: null };
-        exception.value = null;
-        var propertyValue;
+        exception.outValue = null;
+        var propertyValue:any;
 
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
-            exception.value = new Exceptions.ServiceVersionException(
+            exception.outValue = new ServiceVersionException(
                 ExtensionMethods.stringFormatting.Format(
                     "property: {0} incompatible with this version: {1}"/*Strings.PropertyIncompatibleWithRequestVersion*/,
                     propertyDefinition.Name,
@@ -142,7 +147,7 @@ class PropertyBag {
 
         if (this.TryGetValue(propertyDefinition, outPropertyValue)) {
             // If the requested property is in the bag, return it.
-            return outPropertyValue.value;
+            return outPropertyValue.outValue;
         }
         else {
             if (propertyDefinition.HasFlag(PropertyDefinitionFlags.AutoInstantiateOnRead)) {
@@ -166,7 +171,7 @@ class PropertyBag {
                 // not been loaded, we throw.
                 if (propertyDefinition != this.Owner.GetIdPropertyDefinition()) {
                     if (!this.IsPropertyLoaded(propertyDefinition)) {
-                        exception.value = new Exceptions.ServiceObjectPropertyException("Must load or assign property before access"
+                        exception.outValue = new ServiceObjectPropertyException("Must load or assign property before access"
                             /*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
                         return null;
                     }
@@ -176,7 +181,7 @@ class PropertyBag {
                         var errorMessage = this.IsRequestedProperty(propertyDefinition)
                             ? "value property not loaded" //Strings.ValuePropertyNotLoaded
                             : "value property not assigned";//Strings.ValuePropertyNotAssigned;
-                        exception.value = new Exceptions.ServiceObjectPropertyException(errorMessage, propertyDefinition);
+                        exception.outValue = new ServiceObjectPropertyException(errorMessage, propertyDefinition);
                     }
                 }
             }
@@ -252,9 +257,9 @@ class PropertyBag {
                     var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
 
                     if (this.Owner.Schema.TryGetPropertyDefinition(reader.LocalName, propertyDefinition)) {
-                        propertyDefinition.value.LoadPropertyValueFromXml(reader, this);
+                        propertyDefinition.outValue.LoadPropertyValueFromXml(reader, this);
 
-                        this.loadedProperties.push(propertyDefinition.value);
+                        this.loadedProperties.push(propertyDefinition.outValue);
                     }
                     else {
                         debugger;
@@ -283,10 +288,10 @@ class PropertyBag {
     }
 
     _propGet(propertyDefinition: PropertyDefinition): any {
-        var serviceException: Exceptions.ServiceLocalException;
+        var serviceException: ServiceLocalException;
         var outparam: IOutParam<any> = { value: null };
         var propertyValue = this.GetPropertyValueOrException(propertyDefinition, outparam);
-        if (outparam.value == null) {
+        if (outparam.outValue == null) {
             return propertyValue;
         }
         else {
@@ -295,7 +300,7 @@ class PropertyBag {
     }
     _propSet(propertyDefinition: PropertyDefinition, value: any) {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
-            throw new Exceptions.ServiceVersionException(
+            throw new ServiceVersionException(
                 ExtensionMethods.stringFormatting.Format(
                     "property: {0} is incompatible with requested version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
@@ -307,7 +312,7 @@ class PropertyBag {
         if (!this.loading) {
             // If the owner is new and if the property cannot be set, throw.
             if (this.Owner.IsNew && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanSet, this.Owner.Service.RequestedServerVersion)) {
-                throw new Error("property is readonly\n" + JSON.stringify(propertyDefinition));//  Exceptions.ServiceObjectPropertyException(Strings.PropertyIsReadOnly, propertyDefinition);
+                throw new Error("property is readonly\n" + JSON.stringify(propertyDefinition));//  ServiceObjectPropertyException(Strings.PropertyIsReadOnly, propertyDefinition);
             }
 
             if (!this.Owner.IsNew) {
@@ -316,17 +321,17 @@ class PropertyBag {
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
                 if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {
-                    throw new Exceptions.ServiceObjectPropertyException("Item attachment cannot be updated"/*Strings.ItemAttachmentCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException("Item attachment cannot be updated"/*Strings.ItemAttachmentCannotBeUpdated*/, propertyDefinition);
                 }
 
                 // If the property cannot be deleted, throw.
                 if (value == null && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanDelete)) {
-                    throw new Exceptions.ServiceObjectPropertyException("property can not be deleted"/*Strings.PropertyCannotBeDeleted*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException("property can not be deleted"/*Strings.PropertyCannotBeDeleted*/, propertyDefinition);
                 }
 
                 // If the property cannot be updated, throw.
                 if (!propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
-                    throw new Exceptions.ServiceObjectPropertyException("propery can not be updated"/*Strings.PropertyCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException("propery can not be updated"/*Strings.PropertyCannotBeUpdated*/, propertyDefinition);
                 }
             }
         }
@@ -378,9 +383,9 @@ class PropertyBag {
     //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
     //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
     TryGetProperty(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean {
-        var serviceException: IOutParam<Exceptions.ServiceLocalException> = { value: null };
-        propertyValue.value = this.GetPropertyValueOrException(propertyDefinition, serviceException);
-        return serviceException.value == null;
+        var serviceException: IOutParam<ServiceLocalException> = { value: null };
+        propertyValue.outValue = this.GetPropertyValueOrException(propertyDefinition, serviceException);
+        return serviceException.outValue == null;
     }
     TryGetPropertyAs<T>(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<T>): boolean {
         // Verify that the type parameter and property definition's type are compatible.
@@ -397,7 +402,7 @@ class PropertyBag {
 
         var result = this.TryGetProperty(propertyDefinition, outValue);
 
-        propertyValue.value = result ? outValue.value : undefined;
+        propertyValue.outValue = result ? outValue.outValue : undefined;
 
         return result;
     }
@@ -423,7 +428,7 @@ class PropertyBag {
             //}
 
             //todo: fix interface check based on solution above (when available), this is alternate check
-            var validatingValue: ISelfValidate = propertyValue.value;
+            var validatingValue: ISelfValidate = propertyValue.outValue;
             if (validatingValue != null && validatingValue.Validate)
                 validatingValue.Validate();
         }

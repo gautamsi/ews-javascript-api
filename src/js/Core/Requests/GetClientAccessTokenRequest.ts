@@ -1,3 +1,4 @@
+import ClientAccessTokenRequest = require("../../ComplexProperties/ClientAccessTokenRequest");
 import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 import ExchangeService = require("../ExchangeService");
 import GetClientAccessTokenResponse = require("../Responses/GetClientAccessTokenResponse");

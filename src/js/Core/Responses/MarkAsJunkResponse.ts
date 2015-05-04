@@ -1,3 +1,4 @@
+import ItemId = require("../../ComplexProperties/ItemId");
 import ServiceResponse = require("./ServiceResponse");
 import JsonObject = require("../JsonObject");
 import ExchangeService = require("../ExchangeService");

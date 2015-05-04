@@ -1,3 +1,4 @@
+import TaskDelegationState = require("../Enumerations/TaskDelegationState");
 import GenericPropertyDefinition = require("./GenericPropertyDefinition");
 class TaskDelegationStatePropertyDefinition extends GenericPropertyDefinition<TaskDelegationState> {
     private static NoMatch: string = "NoMatch";

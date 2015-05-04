@@ -1,3 +1,4 @@
+import AttachmentCollection = require("../ComplexProperties/AttachmentCollection");
 import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");

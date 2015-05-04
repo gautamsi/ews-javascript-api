@@ -11,7 +11,7 @@ class Attendee extends EmailAddress {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 
-
+export = Attendee;
 
 
 

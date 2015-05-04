@@ -1,3 +1,4 @@
+import SearchFilter = require("./Filters/SearchFilter");
 import ViewBase = require("./ViewBase");
 import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
 import ItemTraversal = require("../Enumerations/ItemTraversal");

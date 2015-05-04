@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import ExchangeService = require("../Core/ExchangeService");
 import PhoneCallId = require("./PhoneCallId");
 import PhoneCall = require("./PhoneCall");

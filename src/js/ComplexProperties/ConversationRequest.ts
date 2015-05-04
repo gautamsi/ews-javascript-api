@@ -1,3 +1,4 @@
+import ConversationId = require("./ConversationId");
 import ComplexProperty = require("./ComplexProperty");
 import ExchangeService = require("../Core/ExchangeService");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");

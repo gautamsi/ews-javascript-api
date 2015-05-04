@@ -1,3 +1,4 @@
+import ExtractedEntity = require("../ComplexProperties/ExtractedEntity");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class AddressEntity extends ExtractedEntity {

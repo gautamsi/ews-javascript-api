@@ -1,6 +1,7 @@
 import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
 import XmlElementNames = require("../Core/XmlElementNames");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import {stringFormatting} from "../ExtensionMethods";
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
     private static FieldUri: string = "distributionlist:Members:Member";
@@ -15,7 +16,7 @@ class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
     //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     //GetJsonType(): string { throw new Error("Not implemented."); }
 
-    GetPrintableName(): string { return string.Format("{0}:{1}", GroupMemberPropertyDefinition.FieldUri, this.Key); }
+    GetPrintableName(): string { return stringFormatting.Format("{0}:{1}", GroupMemberPropertyDefinition.FieldUri, this.Key); }
     GetXmlElementName(): string { return XmlElementNames.IndexedFieldURI; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);

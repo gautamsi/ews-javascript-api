@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import Change = require("./Change");
 import Item = require("../Core/ServiceObjects/Items/Item");
 import ServiceId = require("../ComplexProperties/ServiceId");

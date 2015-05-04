@@ -1,3 +1,4 @@
+import NotificationGroup = require("./NotificationGroup");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EventType = require("../Enumerations/EventType");
 			

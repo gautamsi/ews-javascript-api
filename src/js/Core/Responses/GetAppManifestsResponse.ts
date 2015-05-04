@@ -1,3 +1,4 @@
+import ClientApp = require("../../ComplexProperties/ClientApp");
 import ServiceResponse = require("./ServiceResponse");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 			

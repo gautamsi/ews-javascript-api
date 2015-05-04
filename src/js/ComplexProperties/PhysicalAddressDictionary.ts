@@ -1,3 +1,5 @@
+import DictionaryProperty = require("./DictionaryProperty");
+import PhysicalAddressEntry = require("./PhysicalAddressEntry");
 import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
 
 class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
@@ -5,7 +7,7 @@ class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, P
     CreateEntryInstance(): PhysicalAddressEntry { throw new Error("Not implemented."); }
     TryGetValue(key: PhysicalAddressKey, physicalAddress: any): boolean { throw new Error("Not implemented."); }
 }
-
+export = PhysicalAddressDictionary;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

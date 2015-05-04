@@ -1,3 +1,5 @@
+import CalendarEvent = require("../../ComplexProperties/Availability/CalendarEvent");
+import WorkingHours = require("../../ComplexProperties/Availability/WorkingHours");
 import ServiceResponse = require("./ServiceResponse");
 import FreeBusyViewType = require("../../Enumerations/FreeBusyViewType");
 import LegacyFreeBusyStatus = require("../../Enumerations/LegacyFreeBusyStatus");

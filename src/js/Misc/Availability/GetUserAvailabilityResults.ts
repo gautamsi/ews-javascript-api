@@ -1,3 +1,4 @@
+import AttendeeAvailability = require("../../Core/Responses/AttendeeAvailability");
 import SuggestionsResponse = require("../../Core/Responses/SuggestionsResponse");
 import ServiceResponseCollection = require("../../Core/Responses/ServiceResponseCollection");
 import Suggestion = require("../../ComplexProperties/Availability/Suggestion");

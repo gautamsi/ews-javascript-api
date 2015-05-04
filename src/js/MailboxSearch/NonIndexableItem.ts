@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import ItemIndexError = require("../Enumerations/ItemIndexError");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 //    public enum ItemIndexError

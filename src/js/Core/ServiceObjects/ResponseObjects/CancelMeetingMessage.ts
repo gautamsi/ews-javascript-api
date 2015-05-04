@@ -1,3 +1,5 @@
+import MeetingCancellation = require("../Items/MeetingCancellation");
+import MessageBody = require("../../../ComplexProperties/MessageBody");
 import CalendarResponseMessageBase = require("./CalendarResponseMessageBase");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");

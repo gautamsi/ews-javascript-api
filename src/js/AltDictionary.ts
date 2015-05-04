@@ -1,6 +1,6 @@
 import IOutParam = require("./Interfaces/IOutParam");
 import PropertyDefinitionBase = require("./PropertyDefinitions/PropertyDefinitionBase");
-import {stringFormatting} from "./ExtensionMethods";﻿
+import {stringFormatting} from "./ExtensionMethods";
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
 }

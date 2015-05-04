@@ -16,7 +16,7 @@ class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupResponse
     Validate(): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
-ExpandGroupRequest;
+export = ExpandGroupRequest;
 
 
 //module Microsoft.Exchange.WebServices.Data {

@@ -7,7 +7,7 @@ class BatchServiceResponseException<TResponse extends ServiceResponse> extends S
     private responses: ServiceResponseCollection<TResponse>;
 }
 
-
+export = BatchServiceResponseException;
 
 
 //module Microsoft.Exchange.WebServices.Data {

@@ -1,3 +1,6 @@
+import ConversationId = require("../ComplexProperties/ConversationId");
+import StringList = require("../ComplexProperties/StringList");
+import Flag = require("../ComplexProperties/Flag");
 import ConversationActionType = require("../Enumerations/ConversationActionType");
 import DeleteMode = require("../Enumerations/DeleteMode");
 import FolderIdWrapper = require("./FolderIdWrapper");

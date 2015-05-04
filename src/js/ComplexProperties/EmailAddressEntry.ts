@@ -1,3 +1,4 @@
+import DictionaryEntryProperty = require("./DictionaryEntryProperty");
 import EmailAddressKey = require("../Enumerations/EmailAddressKey");
 import EmailAddress = require("./EmailAddress");
 import ComplexProperty = require("./ComplexProperty");
@@ -16,6 +17,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     }
+export = EmailAddressEntry;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

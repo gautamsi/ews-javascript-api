@@ -1,3 +1,4 @@
+import ItemId = require("./ItemId");
 import ComplexProperty = require("./ComplexProperty");
 import JsonObject = require("../Core/JsonObject");
 import ExchangeService = require("../Core/ExchangeService");
@@ -15,7 +16,7 @@ class OccurrenceInfo extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
-
+export = OccurrenceInfo;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

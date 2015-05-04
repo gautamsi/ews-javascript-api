@@ -1,3 +1,4 @@
+import ItemId = require("../ComplexProperties/ItemId");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import UserConfigurationProperties = require("../Enumerations/UserConfigurationProperties");
 import FolderId = require("../ComplexProperties/FolderId");

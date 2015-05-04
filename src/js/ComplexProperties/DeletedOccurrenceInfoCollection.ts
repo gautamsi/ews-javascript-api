@@ -1,3 +1,4 @@
+import DeletedOccurrenceInfo = require("./DeletedOccurrenceInfo");
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 
 class DeletedOccurrenceInfoCollection extends ComplexPropertyCollection<DeletedOccurrenceInfo> {
@@ -5,7 +6,7 @@ class DeletedOccurrenceInfoCollection extends ComplexPropertyCollection<DeletedO
     CreateDefaultComplexProperty(): DeletedOccurrenceInfo { throw new Error("Not implemented."); }
     GetCollectionItemXmlElementName(complexProperty: DeletedOccurrenceInfo): string { throw new Error("Not implemented."); }
 }
-
+export = DeletedOccurrenceInfoCollection;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

@@ -1,3 +1,5 @@
+import Recurrence = require("../ComplexProperties/Recurrence/Patterns/Recurrence");
+import RecurrenceRange = require("../ComplexProperties/Recurrence/Ranges/RecurrenceRange");
 import PropertyDefinition = require("./PropertyDefinition");
 import ExchangeService = require("../Core/ExchangeService");
 import PropertyBag = require("../Core/PropertyBag");

@@ -1,6 +1,6 @@
 import JsonWriter = require("./JsonWriter");
 			
- class JsonObject extends System.Collections.Generic.Dictionary<string, any> {
+ class JsonObject /*extends System.Collections.Generic.Dictionary<string, any>*/ {
 	Add(name: string, value: number): void{ throw new Error("Not implemented.");}
 	//Add(name: string, value: JsonObject): void{ throw new Error("Not implemented.");}
 	//Add(name: string, value: string): void{ throw new Error("Not implemented.");}
@@ -25,7 +25,7 @@ import JsonWriter = require("./JsonWriter");
 	ReadAsInt(key: string): number{ throw new Error("Not implemented.");}
 	ReadAsJsonObject(key: string): JsonObject{ throw new Error("Not implemented.");}
 	ReadAsString(key: string): string{ throw new Error("Not implemented.");}
-	ReadEnumValue(key: string): T{ throw new Error("Not implemented.");}
+	ReadEnumValue<T>(key: string): T{ throw new Error("Not implemented.");}
 	ReadTypeString(): string{ throw new Error("Not implemented.");}
 	SerializeToJson(stream: any /*System.IO.Stream*/): void{ throw new Error("Not implemented.");}
 	//SerializeToJson(stream: any /*System.IO.Stream*/, prettyPrint: boolean): void{ throw new Error("Not implemented.");}

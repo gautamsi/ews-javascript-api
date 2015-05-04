@@ -10,22 +10,11 @@ class TypedPropertyDefinition extends PropertyDefinition {
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
     LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
     Parse(value: string): any { throw new Error("Not implemented."); }
-    ToString(value: any): string { throw new Error("Not implemented."); }
+    //ToString(value: any): string { throw new Error("Not implemented."); }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
 }
 
 export = TypedPropertyDefinition;
-
-
-class TypedPropertyDefinition extends PropertyDefinition {
-    IsNullable: boolean;
-    private isNullable: boolean;
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    Parse(value: string): any { throw new Error("Not implemented."); }
-    ToString(value: any): string { throw new Error("Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-}
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

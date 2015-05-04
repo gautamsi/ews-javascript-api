@@ -24,7 +24,7 @@ class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
     //WriteUriToJson(key: TKey): JsonObject { throw new Error("Not implemented."); }
     //WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): any { throw new Error("Not implemented."); }
 }
-
+export = DictionaryProperty;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

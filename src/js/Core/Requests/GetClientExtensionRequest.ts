@@ -1,3 +1,4 @@
+import StringList = require("../../ComplexProperties/StringList");
 import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
 import GetClientExtensionResponse = require("../Responses/GetClientExtensionResponse");
 import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
