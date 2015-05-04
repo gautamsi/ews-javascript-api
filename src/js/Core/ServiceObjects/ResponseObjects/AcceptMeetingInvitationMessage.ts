@@ -6,7 +6,7 @@
         GetXmlElementNameOverride(): string { throw new Error("Not implemented."); }
 }
 
-export AcceptMeetingInvitationMessage;
+export= AcceptMeetingInvitationMessage;
 
 
 //module Microsoft.Exchange.WebServices.Data {

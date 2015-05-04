@@ -10,7 +10,7 @@ class GetEncryptionConfigurationResponse extends ServiceResponse {
     ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 
-export GetEncryptionConfigurationResponse;
+export=GetEncryptionConfigurationResponse;
 
 
 //module Microsoft.Exchange.WebServices.Data {

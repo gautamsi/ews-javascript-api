@@ -7,7 +7,7 @@
     }
 
 
-    export EffectiveRightsPropertyDefinition;
+    export= EffectiveRightsPropertyDefinition;
 
 
 

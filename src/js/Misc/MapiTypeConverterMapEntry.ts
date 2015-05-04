@@ -11,7 +11,7 @@ class MapiTypeConverterMapEntry {
     ValidateValueAsArray(value: any): any { throw new Error("Not implemented."); }
 }
 
-export MapiTypeConverterMapEntry;
+export= MapiTypeConverterMapEntry;
 
 
 //module Microsoft.Exchange.WebServices.Data {

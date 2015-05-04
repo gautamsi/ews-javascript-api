@@ -10,7 +10,7 @@ class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<Execute
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 
-export ExecuteDiagnosticMethodRequest;
+export = ExecuteDiagnosticMethodRequest;
 
 
 //module Microsoft.Exchange.WebServices.Data {

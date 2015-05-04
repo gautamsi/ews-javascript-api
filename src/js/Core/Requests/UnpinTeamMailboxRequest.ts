@@ -8,7 +8,7 @@ class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 
-export UnpinTeamMailboxRequest;
+export = UnpinTeamMailboxRequest;
 
 
 //module Microsoft.Exchange.WebServices.Data {

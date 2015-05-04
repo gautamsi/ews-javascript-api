@@ -4,7 +4,7 @@
         Parse(value: string): any { throw new Error("Not implemented."); }
     }
 
-    export ListValuePropertyDefinition;
+    export = ListValuePropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {
 //}
 //import _export = Microsoft.Exchange.WebServices.Data;

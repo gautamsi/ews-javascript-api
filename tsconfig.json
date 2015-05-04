@@ -647,7 +647,6 @@
         "./src/js/MailboxSearch/SearchableMailbox.ts",
         "./src/js/MailboxSearch/SetHoldOnMailboxesParameters.ts",
         "./src/js/MailboxSearch/Versioning.ts",
-        "./src/js/Microsoft.Exchange.WebServices.Strings.ts",
         "./src/js/Misc/AbstractFolderIdWrapper.ts",
         "./src/js/Misc/AbstractItemIdWrapper.ts",
         "./src/js/Misc/Availability/AttendeeInfo.ts",
