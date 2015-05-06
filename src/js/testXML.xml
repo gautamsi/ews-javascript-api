@@ -591,4 +591,21 @@
       </soap:Fault>
     </soap:Body>
   </soap:Envelope>
+
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+    <soap:Header>
+      <t:RequestServerVersion Version="Exchange2010"></t:RequestServerVersion>
+    </soap:Header>
+    <soap:Body>
+      <m:GetFolder>
+        <m:FolderShape>
+          <t:BaseShape>IdOnly</t:BaseShape>
+        </m:FolderShape>
+        <m:FolderIds>
+          <:DistinguishedFolderId xmlns:="" Id="inbox"></:DistinguishedFolderId>
+        </m:FolderIds>
+      </m:GetFolder>
+    </soap:Body>
+  </soap:Envelope>
+  
 </request>

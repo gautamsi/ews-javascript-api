@@ -7,7 +7,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import JsonObject = require("../Core/JsonObject");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
    class RecurrencePropertyDefinition extends PropertyDefinition {
-        Type: System.Type;
+        Type: any;//System.Type;
         GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("Not implemented."); }
         GetRecurrenceRange(recurrenceRangeString: string): RecurrenceRange { throw new Error("Not implemented."); }
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }

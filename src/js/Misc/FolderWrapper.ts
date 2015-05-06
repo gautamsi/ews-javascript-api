@@ -1,6 +1,6 @@
 import Folder = require("../Core/ServiceObjects/Folders/Folder");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import EwsUtilities = require("../Core/EwsUtilities");
+import {EwsLogging} from "../Core/EwsLogging";
 
 import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
 class FolderWrapper extends AbstractFolderIdWrapper {
@@ -8,11 +8,11 @@ class FolderWrapper extends AbstractFolderIdWrapper {
 
     constructor(folder: Folder) {
         super();
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             folder != null,
             "FolderWrapper.ctor",
             "folder is null");
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             !folder.IsNew,
             "FolderWrapper.ctor",
             "folder does not have an Id");

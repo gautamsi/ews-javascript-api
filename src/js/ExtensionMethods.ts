@@ -15,7 +15,7 @@ module nSystem.Text {
     }
 }
 
-export module stringFormatting {
+export module StringHelper {
     export function IsNullOrEmpty(str: string): boolean {
         return str == null || typeof str === 'undefined' || str === '';
     }
@@ -60,7 +60,7 @@ module object {
     function getPrototypeChain(ctor: Function): any[] {
         //unused
         //http://typescript.codeplex.com/discussions/468576
-        var chain:any[] = [];
+        var chain: any[] = [];
         var proto = ctor.prototype;
         while (proto) {
             chain.push(proto.constructor)
@@ -71,8 +71,23 @@ module object {
     }
 }
 
+export module ArrayHelper {
+    export function AddRange<T>(obj: Array<T>, array: Array<T>): void {
+        if (Object.prototype.toString.call(obj) !== "[object Array]")
+            throw new Error("input obj is not an array")
+        if (Object.prototype.toString.call(array) !== "[object Array]")
+            throw new Error("input range is not an array")
+        for (var item of array) {
+            obj.push(item);
+        }
+
+    }
+
+
+}
+
 export class TypeSystem {
-    static GetProperties(obj:any) {
+    static GetProperties(obj: any) {
         var props = new Array<string>();
 
         for (var s in obj) {
@@ -84,7 +99,7 @@ export class TypeSystem {
         return props;
     }
 
-    static GetMethods(obj:any) {
+    static GetMethods(obj: any) {
         var methods = new Array<string>();
 
         for (var s in obj) {
@@ -122,7 +137,7 @@ export class TypeSystem {
     }
 
     static GetObjectByClassName(className: string): any {
-        var obj:any;
+        var obj: any;
         if (className.indexOf(".") > 0) {
             var objs = className.split(".");
             obj = window[objs[0]];
@@ -144,16 +159,16 @@ export class TypeSystem {
 //use this to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb
 //var DOMParser = require('xmldom').DOMParser;
 //var dom = new DOMParser().parseFromString("xml data", 'text/xml');
-//console.log(JSON.stringify(xmlToJson(dom.documentElement)));
+//ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 
 export module Parsers {
     export class xml2js {
 
         static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
-            var obj:any = {};
+            var obj: any = {};
             if (!xmlnsRoot) xmlnsRoot = obj;
             if (typeof (xmlNode) === 'undefined') return obj;
-            var textNodeName:any = undefined;
+            var textNodeName: any = undefined;
             switch (xmlNode.nodeType) {
                 case 1/*Node.ELEMENT_NODE*/:
                     if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
@@ -240,90 +255,92 @@ export module Parsers {
             return false;
         }
     }
-    export class Uri {
-        //RFC Appendix B - http://www.ietf.org/rfc/rfc3986.txt 
-        /*    Appendix B.  Parsing a URI Reference with a Regular Expression
-        
-           As the "first-match-wins" algorithm is identical to the "greedy"
-           disambiguation method used by POSIX regular expressions, it is
-           natural and commonplace to use a regular expression for parsing the
-           potential five components of a URI reference.
-        
-           The following line is the regular expression for breaking-down a
-           well-formed URI reference into its components.
-        
-        
-        
-        Berners-Lee, et al.         Standards Track                    [Page 50]
-        
-        RFC 3986                   URI Generic Syntax               January 2005
-        
-        
-              ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
-               12            3  4          5       6  7        8 9
-        
-           The numbers in the second line above are only to assist readability;
-           they indicate the reference points for each subexpression (i.e., each
-           paired parenthesis).  We refer to the value matched for subexpression
-           <n> as $<n>.  For example, matching the above expression to
-        
-              http://www.ics.uci.edu/pub/ietf/uri/#Related
-        
-           results in the following subexpression matches:
-        
-              $1 = http:
-              $2 = http
-              $3 = //www.ics.uci.edu
-              $4 = www.ics.uci.edu
-              $5 = /pub/ietf/uri/
-              $6 = <undefined>
-              $7 = <undefined>
-              $8 = #Related
-              $9 = Related
-        
-           where <undefined> indicates that the component is not present, as is
-           the case for the query component in the above example.  Therefore, we
-           can determine the value of the five components as
-        
-              scheme    = $2
-              authority = $4
-              path      = $5
-              query     = $7
-              fragment  = $9
-        
-           Going in the opposite direction, we can recreate a URI reference from
-           its components by using the algorithm of Section 5.3.
-        */
-        static parseString(url: string) {
-            var regex = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
-            var parts = url.match(regex);
-            return {
-                scheme: parts[2],
-                authority: parts[4],
-                path: parts[5],
-                query: parts[7],
-                fragment: parts[9]
-            };
-        }
-        static getDomain(url: string) :string{
-            return Uri.parseString(url).authority;
-        }
-        static getHost(url: string): string {
-            return Uri.getDomain(url);
-        }
 
-    }
 }
 
-declare var window:any;
-var isNode = (typeof window === 'undefined')
-var dp:any = undefined;
+export class UriHelper {
+    //RFC Appendix B - http://www.ietf.org/rfc/rfc3986.txt 
+    /*    Appendix B.  Parsing a URI Reference with a Regular Expression
+    
+       As the "first-match-wins" algorithm is identical to the "greedy"
+       disambiguation method used by POSIX regular expressions, it is
+       natural and commonplace to use a regular expression for parsing the
+       potential five components of a URI reference.
+    
+       The following line is the regular expression for breaking-down a
+       well-formed URI reference into its components.
+    
+    
+    
+    Berners-Lee, et al.         Standards Track                    [Page 50]
+    
+    RFC 3986                   URI Generic Syntax               January 2005
+    
+    
+          ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
+           12            3  4          5       6  7        8 9
+    
+       The numbers in the second line above are only to assist readability;
+       they indicate the reference points for each subexpression (i.e., each
+       paired parenthesis).  We refer to the value matched for subexpression
+       <n> as $<n>.  For example, matching the above expression to
+    
+          http://www.ics.uci.edu/pub/ietf/uri/#Related
+    
+       results in the following subexpression matches:
+    
+          $1 = http:
+          $2 = http
+          $3 = //www.ics.uci.edu
+          $4 = www.ics.uci.edu
+          $5 = /pub/ietf/uri/
+          $6 = <undefined>
+          $7 = <undefined>
+          $8 = #Related
+          $9 = Related
+    
+       where <undefined> indicates that the component is not present, as is
+       the case for the query component in the above example.  Therefore, we
+       can determine the value of the five components as
+    
+          scheme    = $2
+          authority = $4
+          path      = $5
+          query     = $7
+          fragment  = $9
+    
+       Going in the opposite direction, we can recreate a URI reference from
+       its components by using the algorithm of Section 5.3.
+    */
+    static parseString(url: string) {
+        var regex = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+        var parts = url.match(regex);
+        return {
+            scheme: parts[2],
+            authority: parts[4],
+            path: parts[5],
+            query: parts[7],
+            fragment: parts[9]
+        };
+    }
+    static getDomain(url: string): string {
+        return this.parseString(url).authority;
+    }
+    static getHost(url: string): string {
+        return this.getDomain(url);
+    }
 
-declare var require:any;
+}
+
+declare var window: any;
+var isNode = (typeof window === 'undefined')
+var dp: any = undefined;
+
+declare var require: any;
 
 if (isNode) {
-    
-    var dr:any = require('xmldom');
+
+    var dr: any = require('xmldom');
     dp = dr.DOMParser;
 } else {
     dp = window.DOMParser;
@@ -331,12 +348,14 @@ if (isNode) {
 
 export var DOMParser = dp;
 
-export function btoa(text: string): string {
-    if (isNode) {
-        var b = new Buffer(text);
-        return b.toString('base64');
-    } else {
-        return window.btoa(text);
+export module base64Helper {
+
+    export function btoa(text: string): string {
+        if (isNode) {
+            var b = new Buffer(text);
+            return b.toString('base64');
+        } else {
+            return window.btoa(text);
+        }
     }
 }
-

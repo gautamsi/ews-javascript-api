@@ -7,7 +7,7 @@ import JsonObject = require("../Core/JsonObject");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class ResponseObjectsPropertyDefinition extends PropertyDefinition {
         IsNullable: boolean;
-        Type: System.Type;
+        Type: any;//System.Type;
         GetResponseAction(responseActionString: string): ResponseActions { throw new Error("Not implemented."); }
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
         LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }

@@ -15,11 +15,11 @@ import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
 import ServiceResponse = require("../../Core/Responses/ServiceResponse");
 import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
 
+import {EwsLogging} from "../../Core/EwsLogging";
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {XHR} from "../../XHRFactory"
-import util = require('util');
-                
+
 class AutodiscoverRequest {
 
     get Service(): AutodiscoverService {
@@ -110,8 +110,8 @@ class AutodiscoverRequest {
             XHR(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                 var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                //console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                //console.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
+                //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
+                //Ewslogging.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
                 if (xhrResponse.status == 200) {
 
                     //ewsXmlReader.Read();
@@ -138,23 +138,17 @@ class AutodiscoverRequest {
 
                 }
                 else {
-                    console.log("status !== 200" + xhrResponse);
-                    console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                    console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
+                    EwsLogging.Log("status !== 200", true, true);
+                    EwsLogging.Log(xhrResponse.response, true, true);
+                    EwsLogging.Log(ewsXmlReader, true, true);
 
                 }
 
                 if (successDelegate)
                     successDelegate(response || xhrResponse.responseText || xhrResponse.response);
 
-            },(resperr: XMLHttpRequest) => {
-                    //var ewsXmlReader = new EwsXmlReader(resperr.responseText || resperr.response);
-                    //var util = require('util');
-                    //console.log("request error");
-                    //console.log(util.inspect(resperr, { showHidden: false, depth: null, colors: true }));
-                    ////console.log(util.inspect(resperr.response, { showHidden: false, depth: null, colors: true }));
-                    //console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
-                    var exception:any;
+            }, (resperr: XMLHttpRequest) => {
+                    var exception: any;
                     try {
                         this.ProcessWebException(resperr);
                     }
@@ -276,10 +270,9 @@ class AutodiscoverRequest {
     }
     ReadSoapFault(reader: EwsXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = undefined;
-        if (reader.JsonObject && reader.JsonObject[XmlElementNames.SOAPBodyElementName])
-        {
+        if (reader.JsonObject && reader.JsonObject[XmlElementNames.SOAPBodyElementName]) {
             var obj = reader.JsonObject[XmlElementNames.SOAPBodyElementName];
-            if(obj[XmlElementNames.SOAPFaultElementName])
+            if (obj[XmlElementNames.SOAPFaultElementName])
                 soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
         }
 

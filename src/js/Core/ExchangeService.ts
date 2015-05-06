@@ -1,3 +1,8 @@
+import ManagementRoles = require("../Misc/ManagementRoles");
+import ImpersonatedUserId = require("../Misc/ImpersonatedUserId");
+import PrivilegedUserId = require("../Misc/PrivilegedUserId");
+import IFileAttachmentContentHandler = require("../Interfaces/IFileAttachmentContentHandler");
+import UnifiedMessaging = require("../UnifiedMessaging/UnifiedMessaging");
 import RetentionType = require("../Enumerations/RetentionType");
 import DeleteMode = require("../Enumerations/DeleteMode");
 //import DelegateUserResponse = require("./Responses/DelegateUserResponse");
@@ -11,6 +16,7 @@ import AutodiscoverService = require("../Autodiscover/AutodiscoverService");
 import AutodiscoverServiceDelegates = require("../Autodiscover/AutodiscoverServiceDelegates");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import TraceFlags = require("../Enumerations/TraceFlags");
+import RenderingMode = require("../Enumerations/RenderingMode");
 import UserSettingName = require("../Enumerations/UserSettingName");
 import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
 import GetUserSettingsResponse = require("../Autodiscover/Responses/GetUserSettingsResponse");
@@ -26,9 +32,7 @@ import Folder = require("./ServiceObjects/Folders/Folder");
 import FolderId = require("../ComplexProperties/FolderId");
 import PropertySet = require("./PropertySet");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import Uri = ExtensionMethods.Parsers.Uri;
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper, UriHelper} from "../ExtensionMethods";
 
 
 import {IPromise, IXHROptions} from "../Interfaces";
@@ -41,29 +45,29 @@ import ExchangeServiceBase = require("./ExchangeServiceBase");
 class ExchangeService extends ExchangeServiceBase {
     private static TargetServerVersionHeaderName: string = "X-EWS-TargetVersion";
     Url: string;//System.Uri;
-    // ImpersonatedUserId: ImpersonatedUserId;
-    // PrivilegedUserId: PrivilegedUserId;
-    // ManagementRoles: ManagementRoles;
+    ImpersonatedUserId: ImpersonatedUserId;
+    PrivilegedUserId: PrivilegedUserId;
+    ManagementRoles: ManagementRoles;
     PreferredCulture: any;//System.Globalization.CultureInfo;
-    // DateTimePrecision: DateTimePrecision;
-    // FileAttachmentContentHandler: IFileAttachmentContentHandler;
-    // TimeZone: any;// System.TimeZoneInfo;
-    // UnifiedMessaging: UnifiedMessaging;
+    DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
+    FileAttachmentContentHandler: IFileAttachmentContentHandler;
+    TimeZone: any;// System.TimeZoneInfo;
+    UnifiedMessaging: UnifiedMessaging;
     EnableScpLookup: boolean;
     Exchange2007CompatibilityMode: boolean;
-    RenderingMethod: ExchangeService.RenderingMode;
+    get RenderingMethod(): RenderingMode { return this.renderingMode; }
     TraceEnablePrettyPrinting: boolean;
     TargetServerVersion: string;
     private url: string;//System.Uri;
     private preferredCulture: any;// System.Globalization.CultureInfo;
     private dateTimePrecision: DateTimePrecision;
-    // private impersonatedUserId: ImpersonatedUserId;
-    // private privilegedUserId: PrivilegedUserId;
-    // private managementRoles: ManagementRoles;
-    // private fileAttachmentContentHandler: IFileAttachmentContentHandler;
-    // private unifiedMessaging: UnifiedMessaging;
+    private impersonatedUserId: ImpersonatedUserId;
+    private privilegedUserId: PrivilegedUserId;
+    private managementRoles: ManagementRoles;
+    private fileAttachmentContentHandler: IFileAttachmentContentHandler;
+    private unifiedMessaging: UnifiedMessaging;
     private enableScpLookup: boolean;
-    private renderingMode: ExchangeService.RenderingMode;
+    private renderingMode: RenderingMode = RenderingMode.Xml;
     private traceEnablePrettyPrinting: boolean;
     private targetServerVersion: string;
     private exchange2007CompatibilityMode: boolean;
@@ -92,11 +96,11 @@ class ExchangeService extends ExchangeServiceBase {
                 exchangeServiceUrl = url;
                 this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
                 //return;
-            },(err) => {
+            }, (err) => {
                     //catch (AutodiscoverLocalException ex)
                     this.TraceMessage(
                         TraceFlags.AutodiscoverResponse,
-                        String.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", err));
+                        StringHelper.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", err));
                     //catch (ServiceRemoteException ex)
 
                     // Special case: if the caller's account is locked we want to return this exception, not continue.
@@ -171,7 +175,7 @@ class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.PropertySet = propertySet;
 
-        return request.Execute().then((responses)=>{
+        return request.Execute().then((responses) => {
             return responses.__thisIndexer(0).Folder;
         });
 
@@ -204,7 +208,7 @@ class ExchangeService extends ExchangeServiceBase {
     //CreateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("Not implemented."); }
     DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
 
-        throw new AutodiscoverLocalException(String.Format("Autodiscover redirection blocked for url: {0}" /*Strings.AutodiscoverRedirectBlocked*/, redirectionUrl));
+        throw new AutodiscoverLocalException(StringHelper.Format("Autodiscover redirection blocked for url: {0}" /*Strings.AutodiscoverRedirectBlocked*/, redirectionUrl));
     }
     //DeleteAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<DeleteAttachmentResponse> { throw new Error("Not implemented."); }
     //DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): any { throw new Error("Not implemented."); }
@@ -285,20 +289,20 @@ class ExchangeService extends ExchangeServiceBase {
 
                 case AutodiscoverErrorCode.InvalidUser:
                     throw new ServiceRemoteException(
-                        String.Format("invalid user: {0}"/*Strings.InvalidUser*/, emailAddress));
+                        StringHelper.Format("invalid user: {0}"/*Strings.InvalidUser*/, emailAddress));
 
                 case AutodiscoverErrorCode.InvalidRequest:
                     throw new ServiceRemoteException(
-                        String.Format("invalid autodiscover requeste, error: {0}"/*Strings.InvalidAutodiscoverRequest*/, response.ErrorMessage));
+                        StringHelper.Format("invalid autodiscover requeste, error: {0}"/*Strings.InvalidAutodiscoverRequest*/, response.ErrorMessage));
 
                 default:
                     this.TraceMessage(
                         TraceFlags.AutodiscoverConfiguration,
-                        String.Format("No EWS Url returned for user {0}, error code is {1}", emailAddress, response.ErrorCode));
+                        StringHelper.Format("No EWS Url returned for user {0}, error code is {1}", emailAddress, response.ErrorCode));
 
                     throw new ServiceRemoteException(response.ErrorMessage);
             }
-        },(err) => {
+        }, (err) => {
                 throw err;
             });
 
@@ -323,12 +327,12 @@ class ExchangeService extends ExchangeServiceBase {
         // Either protocol may be returned without a configured URL.
         if ((isExternal &&
             uriString) &&
-            !String.IsNullOrEmpty(uriString)) {
+            !StringHelper.IsNullOrEmpty(uriString)) {
             return uriString;
         }
         else {
             uriString = response.GetSettingValue<string>(UserSettingName.InternalEwsUrl) || uriString;
-            if (!String.IsNullOrEmpty(uriString)) {
+            if (!StringHelper.IsNullOrEmpty(uriString)) {
                 return uriString;
             }
         }
@@ -381,7 +385,7 @@ class ExchangeService extends ExchangeServiceBase {
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
-        if (this.RenderingMethod == ExchangeService.RenderingMode.JSON) {
+        if (this.RenderingMethod === RenderingMode.JSON) {
             //endpoint = new Uri(
             //    endpoint,
             //    string.Format("{0}/{1}{2}", endpoint.AbsolutePath, methodName, endpoint.Query));
@@ -395,7 +399,7 @@ class ExchangeService extends ExchangeServiceBase {
             this.AcceptGzipEncoding,
             true);
 
-        if (!String.IsNullOrEmpty(this.TargetServerVersion)) {
+        if (!StringHelper.IsNullOrEmpty(this.TargetServerVersion)) {
             request.headers[ExchangeService.TargetServerVersionHeaderName] = this.TargetServerVersion;
         }
 
@@ -415,11 +419,11 @@ class ExchangeService extends ExchangeServiceBase {
     //SendItem(item: Item, savedCopyDestinationFolderId: FolderId): any { throw new Error("Not implemented."); }
     //SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("Not implemented."); }
     SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
-        if (this.renderingMode == ExchangeService.RenderingMode.Xml) {
+        if (this.renderingMode == RenderingMode.Xml) {
             request.headers["Content-Type"] = "text/xml; charset=utf-8";
             request.headers["Accept"] = "text/xml";
         }
-        else if (this.renderingMode == ExchangeService.RenderingMode.JSON) {
+        else if (this.renderingMode == RenderingMode.JSON) {
             request.headers["Content-Type"] = "application/json; charset=utf-8";
             request.headers["Accept"] = "application/json";
         }
@@ -466,12 +470,12 @@ class ExchangeService extends ExchangeServiceBase {
     //ValidateTargetVersion(version: string): any { throw new Error("Not implemented."); }
 }
 
-module ExchangeService {
-    export enum RenderingMode {
-        Xml = 0,
-        JSON = 1
-    }
-}
+//module ExchangeService { -> moved to its own file to remove circular dependency.
+//    export enum RenderingMode {
+//        Xml = 0,
+//        JSON = 1
+//    }
+//}
 
 
 export = ExchangeService;

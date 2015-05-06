@@ -1,5 +1,5 @@
 			
- class ExtendedAttributes extends System.Collections.Generic.List<ExtendedAttribute> {
+ class ExtendedAttributes {//extends System.Collections.Generic.List<ExtendedAttribute> {
 }
 export = ExtendedAttributes;
 

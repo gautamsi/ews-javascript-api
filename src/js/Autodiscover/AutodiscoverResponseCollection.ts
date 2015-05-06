@@ -3,14 +3,13 @@ import EwsXmlReader = require("../Core/EwsXmlReader");
 import AutodiscoverResponse = require("./Responses/AutodiscoverResponse");
 
 class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
-    Count: number;
+    get Count(): number{return this.Responses.length};
     Item: TResponse;
-    Responses: TResponse[];//System.Collections.Generic.List<TResponse>;
-    private responses: TResponse[];//System.Collections.Generic.List<TResponse>;
+    Responses: TResponse[] = [];//System.Collections.Generic.List<TResponse>;
+    //private responses: TResponse[];//System.Collections.Generic.List<TResponse>;
 
     constructor() {
         super();
-        this.Responses = new Array<TResponse>();
     }
     __thisIndexer(index: number): TResponse {
         return this.Responses[index];

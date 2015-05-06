@@ -6,7 +6,7 @@ import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
 /// <reference path="../system.enums.d.ts" />
 import systemnet = require("System.Net");
 
-import EwsUtilities = require("./EwsUtilities");
+import {EwsLogging} from "./EwsLogging";
 import ExchangeCredentials = require("../Credentials/ExchangeCredentials");
 import ExchangeServerInfo = require("./ExchangeServerInfo");
 
@@ -14,8 +14,7 @@ import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import TraceFlags = require("../Enumerations/TraceFlags");
 import {IXHROptions} from "../Interfaces";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 
@@ -87,7 +86,7 @@ class ExchangeServiceBase {
     ConvertStartDateToUnspecifiedDateTime(value: string): Date { throw new Error("Not implemented."); }
     ConvertUniversalDateTimeStringToLocalDateTime(value: string): Date { throw new Error("Not implemented."); }
     DoOnSerializeCustomSoapHeaders(writer: any /*System.Xml.XmlWriter*/): void {
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             writer != null,
             "ExchangeServiceBase.DoOnSerializeCustomSoapHeaders",
             "writer is null");
@@ -113,7 +112,8 @@ class ExchangeServiceBase {
         this.SetContentType(request);
 
         request.type = "POST";
-        request.headers["User-Agent"] = this.UserAgent || ExchangeServiceBase.defaultUserAgent;
+        
+        //request.headers["User-Agent"] = this.UserAgent || ExchangeServiceBase.defaultUserAgent; //todo:fix -> Noje.js is refusing to set this unsafe header -//
         //request.AllowAutoRedirect = allowAutoRedirect;
 
         //todo: figure out next 3 lines
@@ -125,7 +125,7 @@ class ExchangeServiceBase {
             request.headers["Accept-Encoding"] = "gzip,deflate";
         }
 
-        if (!String.IsNullOrEmpty(this.clientRequestId)) {
+        if (!StringHelper.IsNullOrEmpty(this.clientRequestId)) {
             request.headers["client-request-id"] = this.clientRequestId;
             if (this.returnClientRequestId) {
                 request.headers["return-client-request-id"] = "true";
@@ -163,17 +163,28 @@ class ExchangeServiceBase {
     }
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("Not implemented."); }
     ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
-    SaveHttpResponseHeaders(headers: any/* System.Net.WebHeaderCollection*/): any { throw new Error("Not implemented."); }
+    SaveHttpResponseHeaders(headers: IXHROptions/* System.Net.WebHeaderCollection*/): any {
+        debugger;
+        this.httpResponseHeaders = {};
+
+        for (var key in headers.headers) {
+            this.httpResponseHeaders[key] = headers.headers[key];
+        }
+
+        if (this.OnResponseHeadersCaptured != null) {
+            this.OnResponseHeadersCaptured(headers);
+        }
+    }
     SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         request.headers["Content-Type"] = "text/xml; charset=utf-8";
         request.headers["Accept"] = "text/xml";
     }
-    SetCustomUserAgent(userAgent: string): any { throw new Error("Not implemented."); }
+    SetCustomUserAgent(userAgent: string): any { /*this.userAgent = userAgent;*/ }
     TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("Not implemented."); }
     TraceHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
-    TraceMessage(traceType: TraceFlags, logEntry: string): any { console.log(logEntry); /*throw new Error("Not implemented."); */}
+    TraceMessage(traceType: TraceFlags, logEntry: string): any { EwsLogging.Log(logEntry); /*throw new Error("Not implemented."); */ }
     TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
+    Validate(): any { }
 }
 
 export = ExchangeServiceBase;

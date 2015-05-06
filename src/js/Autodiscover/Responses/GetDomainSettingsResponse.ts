@@ -5,8 +5,9 @@ import XmlAttributeNames = require("../../Core/XmlAttributeNames");
 import XmlNamespace = require("../../Enumerations/XmlNamespace");
 import DomainSettingName = require("../../Enumerations/DomainSettingName");
 
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {EwsLogging} from "../../Core/EwsLogging";
+import {StringHelper} from "../../ExtensionMethods";
+
 
 import DomainSettingError = require("../DomainSettingError");
 import AutodiscoverResponse = require("./AutodiscoverResponse");
@@ -48,13 +49,10 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
                             break;
 
                         default:
-                            console.assert(false,
-                                "GetDomainSettingsResponse.LoadUserSettingsFromXml",
-                                String.Format("Invalid setting class '{0}' returned", settingClass));
-                            //EwsUtilities.Assert(
-                            //    false,
-                            //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                            //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                            EwsLogging.Assert(
+                                false,
+                                "GetUserSettingsResponse.LoadUserSettingsFromXml",
+                                StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
                             break;
                     }
                 }
@@ -118,7 +116,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
         if (domainSettingName !== undefined)
             this.Settings[domainSettingName] = value;
         else
-            console.assert(false,
+            EwsLogging.Assert(false,
                 "GetUserSettingsResponse.ReadSettingFromXml",
                 "Unexpected or empty name element in user setting");
     }
@@ -159,13 +157,10 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
                     break;
 
                 default:
-                    console.assert(false,
-                        "GetDomainSettingsResponse.LoadDomainSettingsFromObject",
-                        String.Format("Invalid setting class '{0}' returned", settingClass));
-                    //EwsUtilities.Assert(
-                    //    false,
-                    //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                    //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                    EwsLogging.Assert(
+                        false,
+                        "GetUserSettingsResponse.LoadUserSettingsFromXml",
+                        StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
                     break;
             }
         }
@@ -186,7 +181,7 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
         if (domainSettingName !== undefined)
             this.Settings[domainSettingName] = value;
         else
-            console.assert(false,
+            EwsLogging.Assert(false,
                 "GetUserSettingsResponse.ReadSettingFromObject",
                 "Unexpected or empty name element in user setting");
     }

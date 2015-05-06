@@ -1,5 +1,5 @@
-/// <reference path="typings/node/node.d.ts"/>
-/// <reference path=".typings-dev/gulp/gulp.d.ts" />
+/// <reference path="typings-dev/node/node.d.ts"/>
+/// <reference path="typings-dev/gulp/gulp.d.ts" />
 
 var args = require('yargs').argv;
 var config = require('./gulp.config')();

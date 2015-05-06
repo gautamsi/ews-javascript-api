@@ -3,6 +3,7 @@ import PropertySet = require("../PropertySet");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import ExchangeService = require("../ExchangeService");
 import EwsUtilities = require("../EwsUtilities");
+import {EwsLogging} from "../../Core/EwsLogging";
 import XmlElementNames = require("../XmlElementNames");
 
 import ServiceResponse = require("./ServiceResponse");
@@ -17,7 +18,7 @@ class GetFolderResponse extends ServiceResponse {
         this.folder = folder;
         this.propertySet = propertySet;
 
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             this.propertySet != null,
             "GetFolderResponse.ctor",
             "PropertySet should not be null");

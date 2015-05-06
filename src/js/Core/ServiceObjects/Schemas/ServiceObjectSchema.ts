@@ -9,10 +9,11 @@ import altDict = require("../../../AltDictionary");
 import StringPropertyDefinitionBaseDictionary = altDict.StringPropertyDefinitionBaseDictionary;
 import PropDictionary = altDict.PropDictionary;
 
-import ExtensionMethods = require("../../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
 
 import EwsUtilities = require("../../EwsUtilities");
+import {EwsLogging} from "../../EwsLogging";
+import {StringHelper} from "../../../ExtensionMethods";
+
 import XmlElementNames = require("../../XmlElementNames");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
@@ -58,8 +59,8 @@ class ServiceObjectSchema {
     } ();
     private static allSchemaProperties = function () {// string[] //LazyMember<T>;
         var propDefDictionary: StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase> = new StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase>();
-        for (var item in ServiceObjectSchema.allSchemaTypes) {
-            var type: string = item;
+        for (var type of ServiceObjectSchema.allSchemaTypes) {
+            //var type: string = item;
             ServiceObjectSchema.AddSchemaPropertiesToDictionary(type, propDefDictionary);
         }
         return propDefDictionary;
@@ -83,13 +84,13 @@ class ServiceObjectSchema {
             (propertyDefinition: PropertyDefinition, fieldName: string) => {
                 // Some property definitions descend from ServiceObjectPropertyDefinition but don't have
                 // a Uri, like ExtendedProperties. Ignore them.
-                if (!String.IsNullOrEmpty(propertyDefinition.Uri)) {
+                if (!StringHelper.IsNullOrEmpty(propertyDefinition.Uri)) {
                     var existingPropertyDefinition: IOutParam<PropertyDefinitionBase> = { outValue: null };
                     if (propDefDictionary.tryGetValue(propertyDefinition.Uri, existingPropertyDefinition)) {
-                        EwsUtilities.Assert(
+                        EwsLogging.Assert(
                             existingPropertyDefinition == propertyDefinition,
                             "Schema.allSchemaProperties.delegate",
-                            String.Format("There are at least two distinct property definitions with the following URI: {0}", propertyDefinition.Uri));
+                            StringHelper.Format("There are at least two distinct property definitions with the following URI: {0}", propertyDefinition.Uri));
                     }
                     else {
                         propDefDictionary.add(propertyDefinition.Uri, propertyDefinition);
@@ -99,8 +100,8 @@ class ServiceObjectSchema {
                         // the MeetingTimeZone property.
                         var associatedInternalProperties: PropertyDefinition[] = propertyDefinition.GetAssociatedInternalProperties();
 
-                        for (var item in associatedInternalProperties) {
-                            var associatedInternalProperty: PropertyDefinition = item;
+                        for (var associatedInternalProperty of associatedInternalProperties) {
+                            //var associatedInternalProperty: PropertyDefinition = item;
                             propDefDictionary.add(associatedInternalProperty.Uri, associatedInternalProperty);
                         }
                     }
@@ -137,8 +138,8 @@ class ServiceObjectSchema {
     static InitializeSchemaPropertyNames(): void {
         //lock(lockObject)
         //{
-        for (var item in ServiceObjectSchema.allSchemaTypes) {
-            var type: string = item;
+        for (var type of ServiceObjectSchema.allSchemaTypes) {
+            //var type: string = item;
             ServiceObjectSchema.ForeachPublicStaticPropertyFieldInType(
                 type,
                 (propDef: PropertyDefinition, fieldName: string) => { propDef.Name = fieldName; });

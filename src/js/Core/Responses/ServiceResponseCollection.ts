@@ -1,6 +1,6 @@
 import ServiceResponse = require("./ServiceResponse");
 import ServiceResult = require("../../Enumerations/ServiceResult");
-import EwsUtilities = require("../EwsUtilities");
+import {EwsLogging} from "../EwsLogging";
 
 class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
     get Count(): number { return this.responses.length; }
@@ -9,7 +9,7 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
     private responses: TResponse[] = [];// System.Collections.Generic.List<T>;
     private overallResult: ServiceResult = ServiceResult.Success;
     Add(response: TResponse): void {
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             response != null,
             "EwsResponseList.Add",
             "response is null");

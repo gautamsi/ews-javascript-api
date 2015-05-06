@@ -6,8 +6,7 @@ import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlag
 import PropertyBag = require("../Core/PropertyBag");
 
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
 
@@ -16,7 +15,7 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     get Version(): ExchangeVersion { return this.version; }
     get IsNullable(): boolean { return true; }
     get XmlElementName(): string { return this.xmlElementName; }
-    get Name(): string { if (String.IsNullOrEmpty(this.name)) { debugger; } return this.name; }
+    get Name(): string { if (StringHelper.IsNullOrEmpty(this.name)) { debugger; } return this.name; }
     set Name(value: string) { this.name = value; }
     private xmlElementName: string;
     private flags: PropertyDefinitionFlags;

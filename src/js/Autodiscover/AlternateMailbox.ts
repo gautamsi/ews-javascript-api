@@ -1,4 +1,3 @@
-/// <reference path="../system.enums.d.ts" />
 //todo: fix this - import Xml = require("System.Xml");
 
 import EwsXmlReader = require("../Core/EwsXmlReader");

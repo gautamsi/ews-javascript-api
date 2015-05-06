@@ -1,6 +1,7 @@
 import ServiceResponse = require("../Responses/ServiceResponse");
 import ExchangeService = require("../ExchangeService");
 import EwsUtilities = require("../EwsUtilities");
+import {EwsLogging} from "../EwsLogging";
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import XmlElementNames = require("../XmlElementNames");
 import XmlNamespace = require("../../Enumerations/XmlNamespace");
@@ -10,8 +11,7 @@ import ServiceResponseCollection = require("../Responses/ServiceResponseCollecti
 import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
 import ServiceXmlDeserializationException = require("../../Exceptions/ServiceXmlDeserializationException");
 
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../../ExtensionMethods";
 
 import {IPromise} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
@@ -35,7 +35,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
                 var serviceResponses = <ServiceResponseCollection<TResponse>>value;
 
                 if (this.ErrorHandlingMode == ServiceErrorHandling.ThrowOnError) {
-                    EwsUtilities.Assert(
+                    EwsLogging.Assert(
                         serviceResponses.Count == 1,
                         "MultiResponseServiceRequest.Execute",
                         "ServiceErrorHandling.ThrowOnError error handling is only valid for singleton request");
@@ -92,7 +92,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
             }
             else {
                 throw new ServiceXmlDeserializationException(
-                    String.Format(
+                    StringHelper.Format(
                         "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
                         this.GetResponseMessageXmlElementName(),
                         this.GetExpectedResponseMessageCount(),
@@ -106,6 +106,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
     }
     ParseResponseObject(object:any): any {
         var serviceResponses = new ServiceResponseCollection<TResponse>();
+        debugger;
         throw new Error("missing implementaytion");
         // reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
         //

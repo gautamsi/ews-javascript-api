@@ -10,9 +10,9 @@ import EwsUtilities = require("../EwsUtilities");
 import ExchangeServerInfo = require("../ExchangeServerInfo");
 import DateTimePrecision = require("../../Enumerations/DateTimePrecision");
 import ServiceVersionException = require("../../Exceptions/ServiceVersionException");
+import RenderingMode = require("../../Enumerations/RenderingMode");
 
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../../ExtensionMethods";
 
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
@@ -26,7 +26,7 @@ class ServiceRequestBase {
     private static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
     private static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
     private static clientStatisticsCache: string[] = [];//System.Collections.Generic.List<string>;
-    get Service(): ExchangeService { return this.Service; }
+    get Service(): ExchangeService { return this.service; }
     private service: ExchangeService;
     //#endregion
 
@@ -96,14 +96,14 @@ class ServiceRequestBase {
     //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
     //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
     EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
-        if (this.Service.RenderingMethod == ExchangeService.RenderingMode.Xml) {
+        if (this.Service.RenderingMethod === RenderingMode.Xml) {
 
             var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter();//writer.Service
             this.WriteToXml(writer);
             request.data = writer.GetXML();
 
         }
-        else if (this.Service.RenderingMethod == ExchangeService.RenderingMode.JSON) {
+        else if (this.Service.RenderingMethod === RenderingMode.JSON) {
             //JsonObject requestObject = this.CreateJsonRequest();
 
             //using(Stream serviceRequestStream = this.GetWebRequestStream(request))
@@ -359,7 +359,7 @@ class ServiceRequestBase {
 
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {
             throw new ServiceVersionException(
-                String.Format(
+                StringHelper.Format(
                     "not supported operation, soap element {0} not only supported in exchange version {1} onward  ",//Strings.RequestIncompatibleWithRequestVersion,
                     this.GetXmlElementName(),
                     ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
@@ -374,7 +374,7 @@ class ServiceRequestBase {
     ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
         this.Validate();
 
-        var request = this.BuildXHR();
+        //var request = this.BuildXHR();
 
         if (this.service.SendClientLatencies) {
             var clientStatisticsToAdd: string = '';
@@ -387,7 +387,7 @@ class ServiceRequestBase {
             }
             //}
 
-            if (!String.IsNullOrEmpty(clientStatisticsToAdd)) {
+            if (!StringHelper.IsNullOrEmpty(clientStatisticsToAdd)) {
                 if (request.headers[ServiceRequestBase.ClientStatisticsRequestHeader]) {
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] =
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;

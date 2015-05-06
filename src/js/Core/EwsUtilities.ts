@@ -19,8 +19,7 @@ import ISelfValidate = require("../Interfaces/ISelfValidate");
 
 import ItemAttachment = require("../ComplexProperties/ItemAttachment");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 class EwsUtilities {
 
@@ -66,30 +65,26 @@ class EwsUtilities {
     //private static buildVersion: LazyMember<T>;
     private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
         () => {
-            var e2evnh = EnumToExchangeVersionMappingHelper;
+            var e2evmh = EnumToExchangeVersionMappingHelper;
             var dict: EnumToExhcangeVersionDelegateDictionary = {};
-            dict[e2evnh[e2evnh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evnh.WellKnownFolderName);
-            dict[e2evnh[e2evnh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evnh.ItemTraversal);
-            dict[e2evnh[e2evnh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evnh.ConversationQueryTraversal);
-            dict[e2evnh[e2evnh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evnh.FileAsMapping);
-            dict[e2evnh[e2evnh.EventType]] = EwsUtilities.BuildEnumDict(e2evnh.EventType);
-            dict[e2evnh[e2evnh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evnh.MeetingRequestsDeliveryScope);
-            dict[e2evnh[e2evnh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evnh.ViewFilter);
+            dict[e2evmh[e2evmh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evmh.WellKnownFolderName);
+            dict[e2evmh[e2evmh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ItemTraversal);
+            dict[e2evmh[e2evmh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ConversationQueryTraversal);
+            dict[e2evmh[e2evmh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evmh.FileAsMapping);
+            dict[e2evmh[e2evmh.EventType]] = EwsUtilities.BuildEnumDict(e2evmh.EventType);
+            dict[e2evmh[e2evmh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evmh.MeetingRequestsDeliveryScope);
+            dict[e2evmh[e2evmh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evmh.ViewFilter);
             return dict;
         });
     //private static schemaToEnumDictionaries: LazyMember<T>;
     //private static enumToSchemaDictionaries: LazyMember<T>;
     //private static typeNameToShortNameMap: LazyMember<T>;
-    static Assert(condition: boolean, caller: string, message: string): any {
-        if (!condition)
-            console.log(String.Format("[{0}] {1}", caller, message));
-
-    }
+    
     static BoolToXSBool(value: boolean): string { throw new Error("Not implemented."); }
     //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
     static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
-        var enumDelegate = (value) => { return ExchangeVersion.Exchange2007_SP1 };
+        var enumDelegate = (value:any) => { return ExchangeVersion.Exchange2007_SP1 };
         switch (enumType) {
             //TODO: fix numbering to named enum value if possible
             case EnumToExchangeVersionMappingHelper.WellKnownFolderName:
@@ -221,13 +216,13 @@ class EwsUtilities {
     static DomainFromEmailAddress(emailAddress: string): string {
         var emailAddressParts: string[]  = emailAddress.split('@');
 
-        if (emailAddressParts.length != 2 || String.IsNullOrEmpty(emailAddressParts[1])) {
+        if (emailAddressParts.length != 2 || StringHelper.IsNullOrEmpty(emailAddressParts[1])) {
             throw new Error("invalid email address"/*Strings.InvalidEmailAddress*/);
         }
 
         return emailAddressParts[1];
     }
-    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): System.DayOfWeek /*todo: fix system enums here*/ { throw new Error("Not implemented."); }
+    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("Not implemented."); }
     //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("Not implemented.");}
     //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("Not implemented.");}
     //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("Not implemented.");}
@@ -345,7 +340,7 @@ class EwsUtilities {
         var enumVersion = this.GetExchangeVersionFromEnumDelegate(enumType, enumValue);
         if (requestVersion < enumVersion) {
             throw new ServiceVersionException(
-                String.Format(
+                StringHelper.Format(
                     "Enum value incompatible with requested version. Folder: {0}, Type: {1}, minimum version: {2}",//Strings.EnumValueIncompatibleWithRequestVersion,
                     enumValue,
                     //WellKnownFolderName[folderEnum],
@@ -388,7 +383,7 @@ class EwsUtilities {
         var isValid = false;
 
         if (typeof (param) == "string") {
-            isValid = !String.IsNullOrEmpty(param);
+            isValid = !StringHelper.IsNullOrEmpty(param);
         }
         else {
             isValid = param != null && typeof (param) !== 'undefined';
@@ -401,6 +396,8 @@ class EwsUtilities {
         EwsUtilities.ValidateParamAllowNull(param, paramName);
     }
     static ValidateParamAllowNull(param: any, paramName: string): void {
+        return;
+        throw new Error("//todo: fix circular with service object")
         var selfValidate: ISelfValidate = param;
 
         if (selfValidate.Validate) {
@@ -418,11 +415,11 @@ class EwsUtilities {
 
         var ewsObject: ServiceObject = param;
 
-        if (ewsObject instanceof ServiceObject) {
-            if (ewsObject.IsNew) {
-                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
-            }
-        }
+//        if (ewsObject instanceof ServiceObject) {
+//            if (ewsObject.IsNew) {
+//                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
+//            }
+//        }
     }
     static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("Not implemented."); }
     static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("Not implemented."); }

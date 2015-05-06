@@ -10,7 +10,7 @@ import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
 class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
     PropertySet: PropertySet;
     //private propertySet: PropertySet;
-    constructor(service: ExchangeService, errorHandlingMode:ServiceErrorHandling) {
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);
     }
     //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
@@ -25,7 +25,7 @@ class GetRequest<TServiceObject extends ServiceObject, TResponse extends Service
     GetServiceObjectType(): ServiceObjectType { throw new Error("Abstract; must implemented."); }
     Validate(): void {
         super.Validate();
-
+        debugger;
         //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
         this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
     }

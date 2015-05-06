@@ -33,12 +33,16 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
         return new GetUserSettingsResponseCollection();
     }
     Execute(): IPromise<GetUserSettingsResponseCollection> {
-        var responses = <IPromise<GetUserSettingsResponseCollection>> this.InternalExecute();
+        return this.InternalExecute().then((adr:GetUserSettingsResponseCollection)=>{
+            this.PostProcessResponses(adr)
+            return adr;
+        });
+        //<IPromise<>> 
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);
         //}
-        return responses;
+        //return responses;
     }
     GetRequestXmlElementName(): string {
         return XmlElementNames.GetUserSettingsRequestMessage;

@@ -3,12 +3,11 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 import ComplexProperty = require("./ComplexProperty");
 class ServiceId extends ComplexProperty {
-    public get IsValid(): boolean { return !String.IsNullOrEmpty(this.UniqueId); }
+    public get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); }
     IsValidProxy(): boolean { return this.IsValid; }
     UniqueId: string;
     ChangeKey: string;
@@ -17,7 +16,7 @@ class ServiceId extends ComplexProperty {
 
     constructor(uniqueId?: string) {
         super();
-        if (!String.IsNullOrEmpty(uniqueId)) {
+        if (!StringHelper.IsNullOrEmpty(uniqueId)) {
             EwsUtilities.ValidateParam(uniqueId, "uniqueId");
             this.UniqueId = uniqueId;
         }

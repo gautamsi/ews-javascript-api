@@ -1,5 +1,5 @@
 import FolderId = require("../ComplexProperties/FolderId");
-import EwsUtilities = require("../Core/EwsUtilities");
+import {EwsLogging} from "../Core/EwsLogging";
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 
@@ -9,7 +9,7 @@ class FolderIdWrapper extends AbstractFolderIdWrapper {
 
     constructor(folderId: FolderId) {
         super();
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             folderId != null,
             "FolderIdWrapper.ctor",
             "folderId is null");

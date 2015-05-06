@@ -3,8 +3,7 @@
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import EwsUtilities = require("./EwsUtilities");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper,DOMParser,Parsers} from "../ExtensionMethods";
 
  class EwsXmlReader {
     private static ReadWriteBufferSize: number = 4096;
@@ -36,14 +35,13 @@ import String = ExtensionMethods.stringFormatting;
 
     //#region Constructor
     constructor(rawXML: string) {
-        var DOMParser = ExtensionMethods.DOMParser;
         var parser = new DOMParser();
         this.xmlDoc = parser.parseFromString(rawXML, "text/xml");
         //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
         //this.currentNode = this.treeWalker.root;
 
-        this.JsonObject = ExtensionMethods.Parsers.xml2js.parseXMLNode(this.xmlDoc.documentElement, true);
-        //console.log(this.JObject);
+        this.JsonObject = Parsers.xml2js.parseXMLNode(this.xmlDoc.documentElement, true);
+        //EwsLogging.log(this.JObject);
 
     }
     //#endregion
@@ -63,7 +61,7 @@ import String = ExtensionMethods.stringFormatting;
 
         if (localName && nodeType)
             if ((this.LocalName != localName) || (this.NamespaceUri != EwsUtilities.GetNamespaceUri(xmlNamespace))) {
-                throw new Error(String.Format(
+                throw new Error(StringHelper.Format(
                     "unexpected element, {0}:{1}, {2}, {3}, {4}",
                     EwsUtilities.GetNamespacePrefix(xmlNamespace),
                     localName,

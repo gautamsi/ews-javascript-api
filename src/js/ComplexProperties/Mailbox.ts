@@ -4,12 +4,11 @@ import XmlElementNames = require("../Core/XmlElementNames");
 
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 import ComplexProperty = require("./ComplexProperty");
 class Mailbox extends ComplexProperty {
-    get IsValid(): boolean { return !String.IsNullOrEmpty(this.Address); }
+    get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.Address); }
     Address: string;
     RoutingType: string;
 
@@ -52,9 +51,9 @@ class Mailbox extends ComplexProperty {
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     ToString(): string {
         if (!this.IsValid) {
-            return String.Empty;
+            return StringHelper.Empty;
         }
-        else if (!String.IsNullOrEmpty(this.RoutingType)) {
+        else if (!StringHelper.IsNullOrEmpty(this.RoutingType)) {
             return this.RoutingType + ":" + this.Address;
         }
         else {

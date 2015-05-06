@@ -7,7 +7,7 @@ import JsonObject = require("../Core/JsonObject");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class DateTimePropertyDefinition extends PropertyDefinition {
         IsNullable: boolean;
-        Type: System.Type;
+        Type: any;//System.Type;
         private isNullable: boolean;
         GetConvertedDateTime(service: ExchangeServiceBase, propertyBag: PropertyBag, isUpdateOperation: boolean, value: any): Date { throw new Error("Not implemented."); }
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }

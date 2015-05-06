@@ -10,7 +10,7 @@ class OutlookAccount {
     AccountType: string;
     ResponseType: AutodiscoverResponseType;
     RedirectTarget: string;
-    private protocols: System.Collections.Generic.Dictionary<OutlookProtocolType, OutlookProtocol>;
+    private protocols:any;// System.Collections.Generic.Dictionary<OutlookProtocolType, OutlookProtocol>;
     private alternateMailboxes: AlternateMailboxCollection;
     ConvertToUserSettings(requestedSettings: UserSettingName[], // System.Collections.Generic.List<Microsoft.Exchange.WebServices.Autodiscover.UserSettingName>,
         response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }

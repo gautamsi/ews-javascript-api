@@ -6,7 +6,7 @@ import IRefParam = require("../Interfaces/IRefParam");
 
 class ComplexProperty { //ISelfValidate, IJsonSerializable
   ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable"];
-  ___typeName:string = "ComplexProperty";
+  ___typeName: string = "ComplexProperty";
   Namespace: XmlNamespace = XmlNamespace.Types;
   //private xmlNamespace: XmlNamespace; ^ no need for pivate property
   OnChange: DelegateTypes.ComplexPropertyChangedDelegate[] = [];
@@ -107,6 +107,8 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
   //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("Not implemented."); }
   WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+    if (!xmlNamespace)
+      xmlNamespace = this.Namespace;
 
     writer.WriteStartElement(xmlNamespace, xmlElementName);
     this.WriteAttributesToXml(writer);

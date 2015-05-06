@@ -3,8 +3,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlElementNames = require("../Core/XmlElementNames");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
 import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
@@ -13,7 +12,7 @@ import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExcha
 import Mailbox = require("./Mailbox");
 
 import ServiceId = require("./ServiceId");
- class FolderId extends ServiceId {
+class FolderId extends ServiceId {
     get FolderName(): WellKnownFolderName { return this.folderName; }
     get Mailbox(): Mailbox { return this.mailbox; }
     public get IsValid(): boolean {
@@ -29,8 +28,14 @@ import ServiceId = require("./ServiceId");
     private folderName: WellKnownFolderName;
     private mailbox: Mailbox;
 
-    constructor(uniqueId?: string, folderName?: WellKnownFolderName, mailbox?: Mailbox) {
-        super(uniqueId);
+    //    constructor(uniqueId?: string, folderName?: WellKnownFolderName, mailbox?: Mailbox) {
+    //        super(uniqueId);
+    //
+    //        this.mailbox = mailbox;
+    //        this.folderName = folderName;
+    //    }
+    constructor(folderName?: WellKnownFolderName, mailbox?: Mailbox) {
+        super();
 
         this.mailbox = mailbox;
         this.folderName = folderName;
@@ -69,7 +74,7 @@ import ServiceId = require("./ServiceId");
         if (this.IsValid) {
             if (this.FolderName) {
                 if ((this.mailbox != null) && this.mailbox.IsValid) {
-                    return String.Format("{0} ({1})", WellKnownFolderName[this.folderName], this.Mailbox.ToString());
+                    return StringHelper.Format("{0} ({1})", WellKnownFolderName[this.folderName], this.Mailbox.ToString());
                 }
                 else {
                     return WellKnownFolderName[this.FolderName];
@@ -109,7 +114,7 @@ import ServiceId = require("./ServiceId");
     }
 }
 
- export = FolderId;
+export = FolderId;
 
 
 

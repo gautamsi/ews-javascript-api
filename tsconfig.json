@@ -11,12 +11,14 @@
     "filesGlob": [
         "./src/js/**/*.ts",
         "!./node_modules/**/*.ts",
+        "!./**/node_modules/**/*.ts",
         "!./src/**/*.d.ts",
         "!./src/js/_WebServices.Data.ts",
         "!./src/js/_XMLWriter.ts",
         "!./src/js/_temp.ts",
         "!./src/js/WebService.Extra.ts",
-        "!./src/js/typings/**/*.d.ts"
+        "!./src/js/typings/**/*.d.ts",
+        "!./typings-dev/**/*.d.ts"
     ],
     "files": [
         "./src/js/AltDictionary.ts",
@@ -210,6 +212,7 @@
         "./src/js/Core/EwsHttpWebRequest.ts",
         "./src/js/Core/EwsHttpWebRequestFactory.ts",
         "./src/js/Core/EwsHttpWebResponse.ts",
+        "./src/js/Core/EwsLogging.ts",
         "./src/js/Core/EwsServiceJsonReader.ts",
         "./src/js/Core/EwsServiceMultiResponseXmlReader.ts",
         "./src/js/Core/EwsServiceXmlReader.ts",
@@ -681,7 +684,7 @@
         "./src/js/Misc/ItemIdWrapper.ts",
         "./src/js/Misc/ItemIdWrapperList.ts",
         "./src/js/Misc/ItemWrapper.ts",
-        "./src/js/Misc/ManagementRole.ts",
+        "./src/js/Misc/ManagementRoles.ts",
         "./src/js/Misc/MapiTypeConverter.ts",
         "./src/js/Misc/MapiTypeConverterMapEntry.ts",
         "./src/js/Misc/MobilePhone.ts",

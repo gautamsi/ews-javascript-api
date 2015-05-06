@@ -1,7 +1,7 @@
-			
- class SchemaAttribute extends System.Attribute {
-}
-export = SchemaAttribute;
+//			
+// class SchemaAttribute extends System.Attribute {
+//}
+//export = SchemaAttribute;
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data------------

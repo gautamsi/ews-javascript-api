@@ -1,6 +1,6 @@
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsUtilities = require("../Core/EwsUtilities");
+import {EwsLogging} from "../Core/EwsLogging";
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
@@ -19,7 +19,7 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
         propertyCreationDelegate?: CreateComplexPropertyDelegate<TComplexProperty>) {
         super(xmlElementName, version, uri, flags);
 
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             propertyCreationDelegate != null,
             "ComplexPropertyDefinition ctor",
             "CreateComplexPropertyDelegate cannot be null");

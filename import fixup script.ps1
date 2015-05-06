@@ -4,7 +4,7 @@ $content = Get-Content ..\..\errors.txt
 $lines = $content | ?{$_.contains("TS2304")}
 $dupli = $content | ?{$_.contains("TS2300")}
 $ts2305 = $content | ?{$_.contains("TS2305")}
-
+$NoTS7017 = $content |?{!$_.contains("TS7017")}
 
 
 
@@ -15,6 +15,15 @@ $fixes = @()
 
 
 $lines |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
+        $fix = "" | select FileToFix,Symbol
+        $fix.FileToFix = $matches.file
+        $fix.Symbol = $matches.target
+        $fixes += $fix
+    }
+}
+
+
+$fixes = @(); $NoTS7017 |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
         $fix = "" | select FileToFix,Symbol
         $fix.FileToFix = $matches.file
         $fix.Symbol = $matches.target
@@ -46,7 +55,7 @@ return;$fixes[0] | %{
 
 #| ?{$_.filetofix.contains("AddressEntityCollection")}
 
-return;$fixes  | group filetofix |  %{
+return;$fixes  | group filetofix |  %{ ############## - use this to fix TS2304
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
         $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
         if($filetofix){
@@ -85,7 +94,7 @@ return;$fixes  | group filetofix |  %{
 
 
 
-$ff = $fixes  | group filetofix |  %{
+return;$ff = $fixes  | group filetofix |  %{ ##########   checking if already fixed by using import statement search
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
         $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
         if($filetofix){
@@ -103,7 +112,7 @@ $ff = $fixes  | group filetofix |  %{
                $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
                if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
                $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
-               #Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
+               Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
                $insercontent += $importstatement
             }
             else
@@ -200,3 +209,65 @@ $aa | %{
         $m.Filename
     }
 }
+
+
+
+return
+
+
+
+
+ "pattern to detect modulename -"
+  if("var EwsUtilities = require(`"./EwsUtilities`");" -match '\(\".\/((?<module>.*)\")' ){$Matches}
+ 
+ regex for module line
+ if("var EwsUtilities = require(`"./EwsUtilities`");" -match '.*(var).*(require).*\(\".\/(?<moduleName>.*)\"\);' ){$Matches}
+ if("var EwsUtilities = require(`"../asda/dasdada/dasda/ServiceObjectInfo`");" -match '.*(var).*(require).*\(.*\/(?<moduleName>.*)\"\);' ){$Matches} # refined 
+
+ $f = dir *.js -Recurse
+
+ $ews = $f | Select-String -Pattern  '.*(var).*(require).*\(\".\/(?<moduleName>.*)\"\);'
+
+ $util = dir ewsutilities.js -Recurse |  Select-String -Pattern  '.*(var).*(require).*\(.*\/(?<moduleName>.*)\"\);'
+
+ $util | %{
+    $moduleName = $_.Matches | %{$_.Groups["moduleName"]}
+    Write-Verbose $moduleName -Verbose
+    
+ }
+
+[Collections.Generic.List[String]]$looping  = @()
+[Collections.Generic.List[String]]$done  = @()
+ function subm ($f, $indent = 0, $x = $f){
+    $indention = "`t" * $indent 
+        $match = dir ($f + ".js") -Recurse |  Select-String -Pattern  '.*(var).*(require).*\(.*\/(?<moduleName>.*)\"\);'
+        if($match)
+        {
+            $moduleNames = $match | %{$_.Matches | %{$_.Groups["moduleName"].Value}}
+            $moduleNames | ?{!$global:done.Contains($_)} | %{
+                if($_ -like $x){
+                    Write-Warning "$indention found loop - $($f<#$match.Filename | select -Unique#>) "
+                    #$global:looping.Contains($f)
+                    if(!$global:looping.Contains($f)){$global:looping.Add($f)}
+                    
+                }
+                elseif(!$global:looping.contains($_)){
+                    $global:looping;                
+                    Write-Verbose "$indention file $f - chained to $_" -Verbose
+                    $indent++      
+                    if($_ -ne $x){$global:done.Add($_)}
+                    subm $_ $indent $x
+                    $indent--
+                }
+                else{
+                    Write-Verbose "$indention skipped $f" -Verbose
+                }
+            }
+
+        }
+}
+subm "ServiceRequestBase" 0
+
+   $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
+
+ Write-Verbose $moduleName -Verbose

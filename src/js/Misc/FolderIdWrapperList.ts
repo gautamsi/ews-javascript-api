@@ -27,7 +27,7 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("Not implemented."); }
     AddRange(foldersOrIds: any[]): void {
         if (foldersOrIds != null) {
-            for (var folderOrId in foldersOrIds) {
+            for (var folderOrId of foldersOrIds) {
                 /*FolderId folderId*/this.Add(folderOrId);
             }
         }
@@ -35,8 +35,8 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     //GetEnumerator(): any { throw new Error("Not implemented."); }
     //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     Validate(version: ExchangeVersion): void {
-        for (var item in this.ids) {
-            var folderIdWrapper: AbstractFolderIdWrapper = item;
+        for (var folderIdWrapper of this.ids) {
+            //var folderIdWrapper: AbstractFolderIdWrapper = item;
             folderIdWrapper.Validate(version);
         }
     }
@@ -44,8 +44,8 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
         if (this.Count > 0) {
             writer.WriteStartElement(ewsNamesapce, xmlElementName);
 
-            for (var item in this.ids) {
-                var folderIdWrapper: AbstractFolderIdWrapper = item;
+            for (var folderIdWrapper of this.ids) {
+                //var folderIdWrapper: AbstractFolderIdWrapper = item;
                 folderIdWrapper.WriteToXml(writer);
             }
 

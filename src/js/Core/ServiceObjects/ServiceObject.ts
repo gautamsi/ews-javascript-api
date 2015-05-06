@@ -1,4 +1,4 @@
-import Exceptions = require("../../_old/Core/Exceptions");
+import ServiceObjectPropertyException = require("../../Exceptions/ServiceObjectPropertyException");
 import ExtendedPropertyCollection = require("../../ComplexProperties/ExtendedPropertyCollection");
 import ServiceId = require("../../ComplexProperties/ServiceId");
 import PropertyBag = require("../PropertyBag");
@@ -17,7 +17,8 @@ import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefin
 import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
 
 
-import ExtensionMethods = require("../../ExtensionMethods");
+import {EwsLogging} from "../EwsLogging";
+import {StringHelper} from "../../ExtensionMethods";
 
 
 class ServiceObject {
@@ -48,12 +49,12 @@ class ServiceObject {
     }
 
     PropertyDefinition(propertyDefinition: PropertyDefinitionBase): any {
-        var propertyValue;
+        var propertyValue: any;
 
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;
         if (propDef != null) {
             debugger;
-            return this.PropertyBag._propGet[propDef.Name];
+            return this.PropertyBag._propGet(propDef);
         }
         else {
             var extendedPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;
@@ -62,12 +63,12 @@ class ServiceObject {
                     return propertyValue;
                 }
                 else {
-                    throw new Exceptions.ServiceObjectPropertyException("must load assigned property before load"/*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException("must load assigned property before load"/*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
                 }
             }
             else {
                 // Other subclasses of PropertyDefinitionBase are not supported.
-                throw new Error(ExtensionMethods.stringFormatting.Format(
+                throw new Error(StringHelper.Format(
                     "not supported for property definition type: {0}",
                     propertyDefinition.constructor));
             }
@@ -86,7 +87,7 @@ class ServiceObject {
     GetId(): ServiceId {
         var idPropertyDefinition = this.GetIdPropertyDefinition();
 
-        var serviceId = null;
+        var serviceId: any = null;
         debugger;
         if (idPropertyDefinition != null) {
             this.PropertyBag.TryGetValue(idPropertyDefinition, serviceId);
@@ -120,14 +121,14 @@ class ServiceObject {
     GetXmlElementName(): string {
         debugger;
         throw new Error("this must be overridden by derived class");
-        if (ExtensionMethods.stringFormatting.IsNullOrEmpty(this.xmlElementName))
+        if (StringHelper.IsNullOrEmpty(this.xmlElementName)) {
             this.xmlElementName = this.GetXmlElementNameOverride();
 
-        //EwsUtilities.Assert(
-        //    !string.IsNullOrEmpty(this.xmlElementName),
-        //    "EwsObject.GetXmlElementName",
-        //    string.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
-
+            EwsLogging.Assert(
+                !StringHelper.IsNullOrEmpty(this.xmlElementName),
+                "EwsObject.GetXmlElementName",
+                StringHelper.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
+        }
         return this.xmlElementName;
     }
     GetXmlElementNameOverride(): string { return null; }

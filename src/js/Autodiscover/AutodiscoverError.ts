@@ -1,3 +1,4 @@
+import EwsXmlReader = require("../Core/EwsXmlReader");
  class AutodiscoverError {
     Time: string;
     Id: string;
@@ -9,7 +10,7 @@
     private errorCode: number;
     private message: string;
     private debugData: string;
-    Parse(reader: Microsoft.Exchange.WebServices.Data.EwsXmlReader): AutodiscoverError { throw new Error("Not implemented."); }
+    Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("Not implemented."); }
 }
 export = AutodiscoverError;
 

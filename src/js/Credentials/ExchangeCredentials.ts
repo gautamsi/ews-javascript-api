@@ -1,4 +1,4 @@
-import ExtensionMethods = require("../ExtensionMethods");
+import {base64Helper} from "../ExtensionMethods";
 import {IXHROptions} from "../Interfaces";
 class ExchangeCredentials {
     //NeedSignature: boolean;
@@ -20,7 +20,7 @@ class ExchangeCredentials {
     }
     //PreAuthenticate(): any{ throw new Error("Not implemented.");}
     PrepareWebRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
-        request.headers["Authorization"] = "Basic " + ExtensionMethods.btoa(this.UserName + ":" + this.Password);
+        request.headers["Authorization"] = "Basic " + base64Helper.btoa(this.UserName + ":" + this.Password);
     }
     SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/ }
     //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("Not implemented.");}

@@ -16,7 +16,8 @@ import ISelfValidate = require("../Interfaces/ISelfValidate");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
-import EwsUtilities = require("./EwsUtilities");
+//import EwsUtilities = require("./EwsUtilities");
+import {EwsLogging} from "./EwsLogging";
 import XmlElementNames = require("../Core/XmlElementNames");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 
@@ -26,7 +27,7 @@ import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition")
 
 import {PropDictionary,KeyValuePair} from "../AltDictionary";
 
-import ExtensionMethods = require("../ExtensionMethods");
+import {StringHelper} from "../ExtensionMethods";
 
 
 //todo: should be done
@@ -75,7 +76,7 @@ class PropertyBag {
         this.modifiedProperties.splice(0);
         this.addedProperties.splice(0);
 
-        for (var val in this.properties.Values) {
+        for (var val of this.properties.Values) {
             var complexProperty = <ComplexProperty>val;
 
             if (complexProperty instanceof ComplexProperty) {
@@ -117,7 +118,7 @@ class PropertyBag {
         propertyDefinitions = propertyDefinitions.concat(this.modifiedProperties);
         propertyDefinitions = propertyDefinitions.concat(this.deletedProperties.Keys);
 
-        for (var item in propertyDefinitions) {
+        for (var item of propertyDefinitions) {
             var propertyDefinition: PropertyDefinition = item;
             if (propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
                 return true;
@@ -138,7 +139,7 @@ class PropertyBag {
 
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             exception.outValue = new ServiceVersionException(
-                ExtensionMethods.stringFormatting.Format(
+                StringHelper.Format(
                     "property: {0} incompatible with this version: {1}"/*Strings.PropertyIncompatibleWithRequestVersion*/,
                     propertyDefinition.Name,
                     propertyDefinition.Version));
@@ -154,7 +155,7 @@ class PropertyBag {
                 // The requested property is an auto-instantiate-on-read property
                 var complexPropertyDefinition = <ComplexPropertyDefinitionBase>propertyDefinition;
 
-                EwsUtilities.Assert(
+                EwsLogging.Assert(
                     !(complexPropertyDefinition instanceof ComplexPropertyDefinitionBase),
                     "PropertyBag.get_this[]",
                     "propertyDefinition is marked with AutoInstantiateOnRead but is not a descendant of ComplexPropertyDefinitionBase");
@@ -276,7 +277,7 @@ class PropertyBag {
         }
     }
     PropertyChanged(complexProperty: ComplexProperty): void {
-        for (var item in this.properties.Items) {
+        for (var item of this.properties.Items) {
             var keyValuePair: KeyValuePair<PropertyDefinition, any> = item;
             if (keyValuePair.value == complexProperty) {
                 if (!this.deletedProperties.containsKey(keyValuePair.key)) {
@@ -301,7 +302,7 @@ class PropertyBag {
     _propSet(propertyDefinition: PropertyDefinition, value: any) {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             throw new ServiceVersionException(
-                ExtensionMethods.stringFormatting.Format(
+                StringHelper.Format(
                     "property: {0} is incompatible with requested version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
                     ExchangeVersion[propertyDefinition.Version]), null);
@@ -408,12 +409,12 @@ class PropertyBag {
     }
     TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean { return this.properties.tryGet(propertyDefinition, propertyValue); }
     Validate(): void {
-        for (var item in this.addedProperties) {
+        for (var item of this.addedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.ValidatePropertyValue(propertyDefinition);
         }
 
-        for (var item in this.modifiedProperties) {
+        for (var item of this.modifiedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.ValidatePropertyValue(propertyDefinition);
         }
@@ -500,7 +501,7 @@ class PropertyBag {
         debugger; //fix Schema objects Ienumerable.
 
         //
-        for (var item in this.Owner.Schema.GetEnumerator()) {
+        for (var item of this.Owner.Schema.GetEnumerator()) {
             // The following test should not be necessary since the property bag prevents
             // properties to be set if they don't have the CanSet flag, but it doesn't hurt...
             var propertyDefinition: PropertyDefinition = item;
@@ -520,17 +521,17 @@ class PropertyBag {
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.Updates);
 
-        for (var item in this.addedProperties) {
+        for (var item of this.addedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.WriteSetUpdateToXml(writer, propertyDefinition);
         }
 
-        for (var item in this.modifiedProperties) {
+        for (var item of this.modifiedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.WriteSetUpdateToXml(writer, propertyDefinition);
         }
 
-        for (var kv in this.deletedProperties.Items) {
+        for (var kv of this.deletedProperties.Items) {
             var property: KeyValuePair<PropertyDefinition, any> = item;
             this.WriteDeleteUpdateToXml(
                 writer,

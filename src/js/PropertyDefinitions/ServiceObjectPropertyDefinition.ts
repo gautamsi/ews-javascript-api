@@ -1,11 +1,10 @@
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import EwsUtilities = require("../Core/EwsUtilities");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import XmlElementNames = require("../Core/XmlElementNames");
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {EwsLogging} from "../Core/EwsLogging";
+import {StringHelper} from "../ExtensionMethods";
 
 import PropertyDefinitionBase = require("./PropertyDefinitionBase");
 
@@ -17,8 +16,8 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     constructor(uri?: string) {
         super();
         if (uri !== undefined) {
-            EwsUtilities.Assert(
-                !String.IsNullOrEmpty(uri),
+            EwsLogging.Assert(
+                !StringHelper.IsNullOrEmpty(uri),
                 "ServiceObjectPropertyDefinition.ctor",
                 "uri is null or empty");
 
