@@ -1,3 +1,4 @@
+import Strings = require("../../Strings");
 import ServiceResponse = require("../Responses/ServiceResponse");
 import ExchangeService = require("../ExchangeService");
 import EwsUtilities = require("../EwsUtilities");
@@ -93,7 +94,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
             else {
                 throw new ServiceXmlDeserializationException(
                     StringHelper.Format(
-                        "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
+                        Strings.TooFewServiceReponsesReturned,
                         this.GetResponseMessageXmlElementName(),
                         this.GetExpectedResponseMessageCount(),
                         serviceResponses.Count));
@@ -138,7 +139,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
         //     else {
         //         throw new ServiceXmlDeserializationException(
         //             String.Format(
-        //                 "there are less than expected responses;element:{0},  expected:{1}, actual{2}",//Strings.TooFewServiceReponsesReturned,
+        //                 Strings.TooFewServiceReponsesReturned,
         //                 this.GetResponseMessageXmlElementName(),
         //                 this.GetExpectedResponseMessageCount(),
         //                 serviceResponses.Count));

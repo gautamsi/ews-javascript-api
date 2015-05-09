@@ -3,6 +3,7 @@ import JsonObject = require("../../Core/JsonObject");
 import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AlternateId extends AlternateIdBase {
+    static SchemaTypeName: string = "AlternateIdType";
     UniqueId: string;
     Mailbox: string;
     IsArchive: boolean;

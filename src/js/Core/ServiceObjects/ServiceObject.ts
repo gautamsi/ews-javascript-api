@@ -1,3 +1,4 @@
+import Strings = require("../../Strings");
 import ServiceObjectPropertyException = require("../../Exceptions/ServiceObjectPropertyException");
 import ExtendedPropertyCollection = require("../../ComplexProperties/ExtendedPropertyCollection");
 import ServiceId = require("../../ComplexProperties/ServiceId");
@@ -63,7 +64,7 @@ class ServiceObject {
                     return propertyValue;
                 }
                 else {
-                    throw new ServiceObjectPropertyException("must load assigned property before load"/*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.MustLoadOrAssignPropertyBeforeAccess, propertyDefinition);
                 }
             }
             else {

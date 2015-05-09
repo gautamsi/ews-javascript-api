@@ -1,17 +1,20 @@
 
-import AutodiscoverService = require("./Autodiscover/AutodiscoverService");
-import ExchangeVersion = require("./Enumerations/ExchangeVersion");
-import ExchangeCredentials = require("./Credentials/ExchangeCredentials");
-import UserSettingName = require("./Enumerations/UserSettingName");
-import DomainSettingName = require("./Enumerations/DomainSettingName");
-import ExchangeService = require("./Core/ExchangeService");
-import BasePropertySet = require("./Enumerations/BasePropertySet");
-import PropertySet = require("./Core/PropertySet");
+import AutodiscoverService = require("../../build/output/Autodiscover/AutodiscoverService");
+import ExchangeVersion = require("../../build/output/Enumerations/ExchangeVersion");
+import ExchangeCredentials = require("../../build/output/Credentials/ExchangeCredentials");
+import UserSettingName = require("../../build/output/Enumerations/UserSettingName");
+import DomainSettingName = require("../../build/output/Enumerations/DomainSettingName");
+import ExchangeService = require("../../build/output/Core/ExchangeService");
+import BasePropertySet = require("../../build/output/Enumerations/BasePropertySet");
+import PropertySet = require("../../build/output/Core/PropertySet");
 
-import {EnumHelper, base64Helper, DOMParser, StringHelper} from "./ExtensionMethods";
-import FolderId = require("./ComplexProperties/FolderId");
-import WellKnownFolderName = require("./Enumerations/WellKnownFolderName");
-import ext = require("./ExtensionMethods");
+import {EnumHelper, base64Helper, DOMParser, StringHelper} from "../../build/output/ExtensionMethods";
+import FolderId = require("../../build/output/ComplexProperties/FolderId");
+import WellKnownFolderName = require("../../build/output/Enumerations/WellKnownFolderName");
+import ext = require("../../build/output/ExtensionMethods");
+import {EwsLogging} from "../../build/output/Core/EwsLogging";
+var credentials = require("./credentials");
+
 class Greeter {
     element: HTMLElement;
     span: HTMLElement;
@@ -22,7 +25,7 @@ class Greeter {
 
 
     start() {
-
+        //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
         //var domdata = dd.parseFromString('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <soap:Fault> <faultcode>soap:Client</faultcode> <faultstring>Invalid input</faultstring> <faultactor >http://sseely2/AYS17Sept2002/Service1.asmx</faultactor> <detail> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError TextValue="FirstError"></ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>LastName</ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>EmailAddress</ItemInError> <CorrectRegularExpression >^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$</CorrectRegularExpression> </PersonErrorInfo> </detail> </soap:Fault> </soap:Body></soap:Envelope>', "text/xml");
         //var objdata = ext.Parsers.xml2js.parseXMLNode(domdata.documentElement, true);
@@ -32,16 +35,18 @@ class Greeter {
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2010);
+        console.log("AsdasdA");
+
         
-
-
         //var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://autodiscover-s.coutlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);
         //var autod = new AutodiscoverService();//"https://pod51045.outlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", ExchangeVersion.Exchange2013);
         //autod.RedirectionUrlValidationCallback = (val) => { return true };
         //var autod = new AutodiscoverService("https://pod51045.outlook.com/autodiscover/autodiscover.svc", "microsoft.com", ExchangeVersion.Exchange2013);
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
-        //autod.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "test@P@ssw0rd");
-        exch.Credentials = new ExchangeCredentials("gstest@singhspro.onmicrosoft.com", "test@P@ssw0rd");
+        //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        EwsLogging.DebugLog(exch.Credentials,true);
+        console.log("-----" + exch.Credentials);
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
         var fid: FolderId = new FolderId(WellKnownFolderName.Inbox);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)

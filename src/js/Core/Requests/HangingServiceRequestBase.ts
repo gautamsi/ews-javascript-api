@@ -7,6 +7,7 @@ import Exception = require("../../Exceptions/Exception");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 
 class HangingServiceRequestBase extends ServiceRequestBase {
+	private static BufferSize: number = 4096;
 	IsConnected: boolean;
 	private responseHandler: HandleResponseObject;
 	private response: IEwsHttpWebResponse;

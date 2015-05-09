@@ -14,7 +14,14 @@ export class EwsLogging {
             else
                 console.log(message);
         }
-
-
+    }
+    
+    static DebugLog(message: any, expandObject: boolean = false): any {
+        if (this.DebugLogEnabled) {
+            if (expandObject)
+                console.log(util.inspect(message, { showHidden: false, depth: null, colors: true }));
+            else
+                console.log(message);
+        }
     }
 }

@@ -3,6 +3,7 @@ import MapiPropertyType = require("../Enumerations/MapiPropertyType");
 
 
 class MapiTypeConverter {
+    private static UtcDataTimeStyles: any /*System.Globalization.DateTimeStyles*/ = "AdjustToUniversal, AssumeUniversal";
     static MapiTypeConverterMap: /*System.Collections.Generic.Dictionary<MapiPropertyType, MapiTypeConverterMapEntry>*/any;
     private static mapiTypeConverterMap: LazyMember</*T*/any>;
     ChangeType(mapiType: MapiPropertyType, value: any): any { throw new Error("Not implemented."); }

@@ -1,29 +1,20 @@
-/// <reference path="typings/xmldom.d.ts" />
 
-
-/*
-* @author electricessence / https://github.com/electricessence/
-* Liscensing: MIT https://github.com/electricessence/TypeScript.NET/blob/master/LICENSE
-*/
-//system.text license above
-
-module nSystem.Text {
-    export function format(source: string, ...args: any[]) {
-        for (var i = 0; i < args.length; i++)
-            source = source.replace("{" + i + "}", args[i]);
-        return source;
-    }
-}
 
 export module StringHelper {
     export function IsNullOrEmpty(str: string): boolean {
         return str == null || typeof str === 'undefined' || str === '';
     }
+    /*
+    * @author electricessence / https://github.com/electricessence/
+    * Liscensing: MIT https://github.com/electricessence/TypeScript.NET/blob/master/LICENSE
+      part System.Text at above library
+    */
     export function Format(source: string, ...args: any[]) {
         for (var i = 0; i < args.length; i++)
             source = source.replace("{" + i + "}", args[i]);
         return source;
     }
+
     export var Empty = "";
 }
 
@@ -55,8 +46,6 @@ export module EnumHelper {
 
 module object {
 
-
-
     function getPrototypeChain(ctor: Function): any[] {
         //unused
         //http://typescript.codeplex.com/discussions/468576
@@ -80,7 +69,6 @@ export module ArrayHelper {
         for (var item of array) {
             obj.push(item);
         }
-
     }
 
 
@@ -156,105 +144,106 @@ export class TypeSystem {
     }
 }
 
-//use this to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb
+//use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
+//This library creates DOMParser object like functionality in node.For browsers, skip xmldom library and use inbuilt browser object
 //var DOMParser = require('xmldom').DOMParser;
 //var dom = new DOMParser().parseFromString("xml data", 'text/xml');
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
+export class xml2JsObject {
 
-export module Parsers {
-    export class xml2js {
-
-        static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
-            var obj: any = {};
-            if (!xmlnsRoot) xmlnsRoot = obj;
-            if (typeof (xmlNode) === 'undefined') return obj;
-            var textNodeName: any = undefined;
-            switch (xmlNode.nodeType) {
-                case 1/*Node.ELEMENT_NODE*/:
-                    if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
-                    var nonGenericAttributeCount = 0;
-                    for (var i = 0; i < xmlNode.attributes.length; i++) {
-                        nonGenericAttributeCount++;
-                        var attr: Attr = xmlNode.attributes.item(i);
-                        if (attr.prefix)
-                            if (attr.prefix === 'xmlns') {
-                                this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
-                                nonGenericAttributeCount--;
-                            }
-                            else if (this.containsXMLNS(xmlnsRoot, attr.prefix))
-                                obj[attr.localName] = attr.value;
-                            else
-                                obj[attr.name] = attr.value;
-                        else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
-                            obj["__type"] = attr.value;
+    static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
+        var obj: any = {};
+        if (!xmlnsRoot) xmlnsRoot = obj;
+        if (typeof (xmlNode) === 'undefined') return obj;
+        var textNodeName: any = undefined;
+        switch (xmlNode.nodeType) {
+            case 1/*Node.ELEMENT_NODE*/:
+                if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
+                var nonGenericAttributeCount = 0;
+                for (var i = 0; i < xmlNode.attributes.length; i++) {
+                    nonGenericAttributeCount++;
+                    var attr: Attr = xmlNode.attributes.item(i);
+                    if (attr.prefix)
+                        if (attr.prefix === 'xmlns') {
+                            this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
                             nonGenericAttributeCount--;
                         }
-                        else
+                        else if (this.containsXMLNS(xmlnsRoot, attr.prefix))
                             obj[attr.localName] = attr.value;
-                    }
-
-                    if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
-                        if (xmlNode.firstChild.nodeValue.trim() !== '')
-                            if (nonGenericAttributeCount === 0)
-                                return xmlNode.firstChild.nodeValue.trim();
-                            else {
-                                obj[xmlNode.localName] = xmlNode.firstChild.nodeValue.trim();
-                                return obj;
-                            }
-
-                    if (soapMode && obj["nil"] && obj["nil"] === 'true')
-                        return null;
-
-                    break;
-                case 2/*Node.ATTRIBUTE_NODE*/:
-
-                    break;
-                case 3/*Node.TEXT_NODE*/:
-                    return xmlNode.nodeValue;
-                    break;
-                default:
-                    return obj;
-            }
-
-
-            if (xmlNode.childNodes.length > 0) {
-                var skip = false;
-                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
-                    skip = true;
-
-                if (!skip) {
-                    for (var i = 0; i < xmlNode.childNodes.length; i++) {
-                        var node: Node = xmlNode.childNodes.item(i);
-                        var localName = node.localName || "__text";
-                        if (localName === "__text" && node.nodeValue.trim() === "") continue;
-                        var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
-                        if (obj[localName])
-                            if (Object.prototype.toString.call(obj[localName]) === "[object Array]")
-                                obj[localName].push(nodeObj);
-                            else {
-                                var old = obj[localName];
-                                obj[localName] = [];
-                                obj[localName].push(old);
-                                obj[localName].push(nodeObj);
-                            }
                         else
-                            obj[localName] = nodeObj;
+                            obj[attr.name] = attr.value;
+                    else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
+                        obj["__type"] = attr.value;
+                        nonGenericAttributeCount--;
                     }
+                    else
+                        obj[attr.localName] = attr.value;
+                }
+
+                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
+                    if (xmlNode.firstChild.nodeValue.trim() !== '')
+                        if (nonGenericAttributeCount === 0)
+                            return xmlNode.firstChild.nodeValue.trim();
+                        else {
+                            obj[xmlNode.localName] = xmlNode.firstChild.nodeValue.trim();
+                            return obj;
+                        }
+
+                if (soapMode && obj["nil"] && obj["nil"] === 'true')
+                    return null;
+
+                break;
+            case 2/*Node.ATTRIBUTE_NODE*/:
+
+                break;
+            case 3/*Node.TEXT_NODE*/:
+                return xmlNode.nodeValue;
+                break;
+            default:
+                return obj;
+        }
+
+
+        if (xmlNode.childNodes.length > 0) {
+            var skip = false;
+            if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
+                skip = true;
+
+            if (!skip) {
+                for (var i = 0; i < xmlNode.childNodes.length; i++) {
+                    var node: Node = xmlNode.childNodes.item(i);
+                    var localName = node.localName || "__text";
+                    if (localName === "__text" && node.nodeValue.trim() === "") continue;
+                    var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
+                    if (obj[localName])
+                        if (Object.prototype.toString.call(obj[localName]) === "[object Array]")
+                            obj[localName].push(nodeObj);
+                        else {
+                            var old = obj[localName];
+                            obj[localName] = [];
+                            obj[localName].push(old);
+                            obj[localName].push(nodeObj);
+                        }
+                    else
+                        obj[localName] = nodeObj;
                 }
             }
-
-            return obj;
         }
 
-        private static addXMLNS(xmlnsObj: any, xmlnsName: string, xmlnsValue: string, xmlnsAttrName: string = "__xmlns"): void {
-            if (!xmlnsObj[xmlnsAttrName]) xmlnsObj[xmlnsAttrName] = {};
-            (xmlnsObj[xmlnsAttrName])[xmlnsName] = xmlnsValue;
-        }
-        private static containsXMLNS(obj: any, xmlnsName: string, xmlnsAttrName: string = "__xmlns"): boolean {
-            if (obj[xmlnsAttrName]) return typeof ((obj[xmlnsAttrName])[xmlnsName]) !== 'undefined';
-            return false;
-        }
+        return obj;
     }
+
+    private static addXMLNS(xmlnsObj: any, xmlnsName: string, xmlnsValue: string, xmlnsAttrName: string = "__xmlns"): void {
+        if (!xmlnsObj[xmlnsAttrName]) xmlnsObj[xmlnsAttrName] = {};
+        (xmlnsObj[xmlnsAttrName])[xmlnsName] = xmlnsValue;
+    }
+    private static containsXMLNS(obj: any, xmlnsName: string, xmlnsAttrName: string = "__xmlns"): boolean {
+        if (obj[xmlnsAttrName]) return typeof ((obj[xmlnsAttrName])[xmlnsName]) !== 'undefined';
+        return false;
+    }
+}
+
+module Parsers {
 
 }
 

@@ -45,7 +45,7 @@ declare module System.Globalization {
     }
 }
 declare module "System.Net" {
-    export enum HttpStatusCode {
+    export const enum HttpStatusCode {
         Continue = 100,
         SwitchingProtocols = 101,
         OK = 200,

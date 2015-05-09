@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import LazyMember = require("./LazyMember");
 import ServiceObject = require("./ServiceObjects/ServiceObject");
 import ServiceObjectInfo = require("./ServiceObjects/ServiceObjectInfo");
@@ -217,7 +218,7 @@ class EwsUtilities {
         var emailAddressParts: string[]  = emailAddress.split('@');
 
         if (emailAddressParts.length != 2 || StringHelper.IsNullOrEmpty(emailAddressParts[1])) {
-            throw new Error("invalid email address"/*Strings.InvalidEmailAddress*/);
+            throw new Error(Strings.InvalidEmailAddress);
         }
 
         return emailAddressParts[1];
@@ -341,7 +342,7 @@ class EwsUtilities {
         if (requestVersion < enumVersion) {
             throw new ServiceVersionException(
                 StringHelper.Format(
-                    "Enum value incompatible with requested version. Folder: {0}, Type: {1}, minimum version: {2}",//Strings.EnumValueIncompatibleWithRequestVersion,
+                    Strings.EnumValueIncompatibleWithRequestVersion,
                     enumValue,
                     //WellKnownFolderName[folderEnum],
                     EnumToExchangeVersionMappingHelper[enumType],
@@ -360,7 +361,7 @@ class EwsUtilities {
     ////        if (requestedVersion < enumVersion) {
     ////            throw new ServiceVersionException(
     ////                string.Format(
-    ////                    "Enum value incompatible with requested version. Folder: {0}, Type: {1}, minimum version: {2}",//Strings.EnumValueIncompatibleWithRequestVersion,
+    ////                    Strings.EnumValueIncompatibleWithRequestVersion,
     ////                    WellKnownFolderName[folderEnum],
     ////                    "WellKnownFolderName",
     ////                    ExchangeVersion[enumVersion]));

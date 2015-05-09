@@ -119,7 +119,7 @@ class AutodiscoverRequest {
                     //    ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
                     //}
                     //else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != EwsUtilities.GetNamespaceUri(XmlNamespace.Soap))) {
-                    //    throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
+                    //    throw new Error(Strings.InvalidAutodiscoverServiceResponse);
                     //}
 
                     this.ReadSoapHeaders(ewsXmlReader);
@@ -260,7 +260,7 @@ class AutodiscoverRequest {
         return serverInfo;
     }
     ReadSoapBody(reader: EwsXmlReader): AutodiscoverResponse {
-        var responses = this.LoadFromObject(reader.JsonObject);
+        var responses = this.LoadFromObject(reader.JsObject);
         return responses
 
         reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
@@ -270,8 +270,8 @@ class AutodiscoverRequest {
     }
     ReadSoapFault(reader: EwsXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = undefined;
-        if (reader.JsonObject && reader.JsonObject[XmlElementNames.SOAPBodyElementName]) {
-            var obj = reader.JsonObject[XmlElementNames.SOAPBodyElementName];
+        if (reader.JsObject && reader.JsObject[XmlElementNames.SOAPBodyElementName]) {
+            var obj = reader.JsObject[XmlElementNames.SOAPBodyElementName];
             if (obj[XmlElementNames.SOAPFaultElementName])
                 soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
         }
@@ -337,7 +337,7 @@ class AutodiscoverRequest {
     }
     ReadSoapHeaders(reader: EwsXmlReader): void {
 
-        this.service.ServerInfo = reader.JsonObject.Header.ServerVersionInfo;
+        this.service.ServerInfo = reader.JsObject.Header.ServerVersionInfo;
         //return;
         //reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
         //do {

@@ -2,10 +2,10 @@
 
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import EwsUtilities = require("./EwsUtilities");
+import {EwsLogging} from "./EwsLogging";
+import {StringHelper, DOMParser, xml2JsObject} from "../ExtensionMethods";
 
-import {StringHelper,DOMParser,Parsers} from "../ExtensionMethods";
-
- class EwsXmlReader {
+class EwsXmlReader {
     private static ReadWriteBufferSize: number = 4096;
 
     get HasAttributes(): boolean { return this.currentNode ? this.currentNode.hasAttributes() : false; }
@@ -28,8 +28,8 @@ import {StringHelper,DOMParser,Parsers} from "../ExtensionMethods";
 
 
     //#region xml2JS logic
-    JsonObject: any;
-
+    get JsObject(): any { return this.jsObject; }
+    jsObject: any;
     //#endregion
 
 
@@ -40,8 +40,8 @@ import {StringHelper,DOMParser,Parsers} from "../ExtensionMethods";
         //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
         //this.currentNode = this.treeWalker.root;
 
-        this.JsonObject = Parsers.xml2js.parseXMLNode(this.xmlDoc.documentElement, true);
-        //EwsLogging.log(this.JObject);
+        this.jsObject = xml2JsObject.parseXMLNode(this.xmlDoc.documentElement, true);
+        EwsLogging.DebugLog(this.JsObject,true);
 
     }
     //#endregion

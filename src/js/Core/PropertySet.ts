@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ServiceValidationException = require("../Exceptions/ServiceValidationException");
 import ServiceVersionException = require("../Exceptions/ServiceVersionException");
@@ -131,7 +132,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
     InternalValidate(): void {
         for (var i = 0; i < this.additionalProperties.length; i++) {
             if (this.additionalProperties[i] == null) {
-                throw new ServiceValidationException(StringHelper.Format("additional property  is null at {0}" /*Strings.AdditionalPropertyIsNull*/, i));
+                throw new ServiceValidationException(StringHelper.Format(Strings.AdditionalPropertyIsNull, i));
             }
         }
     }
@@ -156,7 +157,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 if (propertyDefinition.Version > request.Service.RequestedServerVersion) {
                     throw new ServiceVersionException(
                         StringHelper.Format(
-                            "Property: {0} is incompatible with version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                            Strings.PropertyIncompatibleWithRequestVersion,
                             propertyDefinition.Name,
                             propertyDefinition.Version));
                 }
@@ -164,7 +165,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 if (summaryPropertiesOnly && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanFind, request.Service.RequestedServerVersion)) {
                     throw new ServiceValidationException(
                         StringHelper.Format(
-                            "this is not a summary property; property: {0}, xmlelementaName: {1}",//Strings.NonSummaryPropertyCannotBeUsed,
+                            Strings.NonSummaryPropertyCannotBeUsed,
                             propertyDefinition.Name,
                             request.GetXmlElementName()));
                 }
@@ -175,7 +176,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "FilterHtmlContent",
                         ExchangeVersion.Exchange2010));
             }
@@ -185,7 +186,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2010_SP1) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "ConvertHtmlCodePageToUTF8",
                         ExchangeVersion.Exchange2010_SP1));
             }
@@ -195,7 +196,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "InlineImageUrlTemplate",
                         ExchangeVersion.Exchange2013));
             }
@@ -205,7 +206,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "BlockExternalImages",
                         ExchangeVersion.Exchange2013));
             }
@@ -215,7 +216,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "AddTargetToLinks",
                         ExchangeVersion.Exchange2013));
             }
@@ -225,7 +226,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             if (request.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
-                        "property: {0} is is incompatible with requested versioin, require version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                        Strings.PropertyIncompatibleWithRequestVersion,
                         "MaximumBodySize",
                         ExchangeVersion.Exchange2013));
             }

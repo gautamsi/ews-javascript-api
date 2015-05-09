@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import ManagementRoles = require("../Misc/ManagementRoles");
 import ImpersonatedUserId = require("../Misc/ImpersonatedUserId");
 import PrivilegedUserId = require("../Misc/PrivilegedUserId");
@@ -208,7 +209,7 @@ class ExchangeService extends ExchangeServiceBase {
     //CreateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("Not implemented."); }
     DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
 
-        throw new AutodiscoverLocalException(StringHelper.Format("Autodiscover redirection blocked for url: {0}" /*Strings.AutodiscoverRedirectBlocked*/, redirectionUrl));
+        throw new AutodiscoverLocalException(StringHelper.Format(Strings.AutodiscoverRedirectBlocked, redirectionUrl));
     }
     //DeleteAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<DeleteAttachmentResponse> { throw new Error("Not implemented."); }
     //DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): any { throw new Error("Not implemented."); }
@@ -289,11 +290,11 @@ class ExchangeService extends ExchangeServiceBase {
 
                 case AutodiscoverErrorCode.InvalidUser:
                     throw new ServiceRemoteException(
-                        StringHelper.Format("invalid user: {0}"/*Strings.InvalidUser*/, emailAddress));
+                        StringHelper.Format(Strings.InvalidUser, emailAddress));
 
                 case AutodiscoverErrorCode.InvalidRequest:
                     throw new ServiceRemoteException(
-                        StringHelper.Format("invalid autodiscover requeste, error: {0}"/*Strings.InvalidAutodiscoverRequest*/, response.ErrorMessage));
+                        StringHelper.Format(Strings.InvalidAutodiscoverRequest, response.ErrorMessage));
 
                 default:
                     this.TraceMessage(
@@ -337,7 +338,7 @@ class ExchangeService extends ExchangeServiceBase {
             }
         }
         // If Autodiscover doesn't return an internal or external EWS URL, throw an exception.
-        throw new AutodiscoverLocalException(" autodiscover did not return EWS Url"/*Strings.AutodiscoverDidNotReturnEwsUrl*/);
+        throw new AutodiscoverLocalException(Strings.AutodiscoverDidNotReturnEwsUrl);
     }
     //GetHoldOnMailboxes(holdId: string): GetHoldOnMailboxesResponse { throw new Error("Not implemented."); }
     //GetInboxRules(): RuleCollection { throw new Error("Not implemented."); }

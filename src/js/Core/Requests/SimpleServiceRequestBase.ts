@@ -38,7 +38,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
                 if (xhrResponse.status == 200) {
                     var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
-
+                    
                     var serviceResponse = this.ReadResponse(ewsXmlReader);
 
                     ////////ewsXmlReader.Read();
@@ -46,7 +46,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
                     ////////    ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
                     ////////}
                     ////////else if ((ewsXmlReader.NodeType != System.Xml.XmlNodeType.Element) || (ewsXmlReader.LocalName != Data.XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != Data.EwsUtilities.GetNamespaceUri(Data.XmlNamespace.Soap))) {
-                    ////////    throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
+                    ////////    throw new Error(Strings.InvalidAutodiscoverServiceResponse);
                     ////////}
 
                     ////////this.ReadSoapHeaders(ewsXmlReader);

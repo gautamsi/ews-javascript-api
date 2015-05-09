@@ -3,6 +3,7 @@ import JsonObject = require("../../Core/JsonObject");
 import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AlternatePublicFolderId extends AlternateIdBase {
+    static SchemaTypeName: string = "AlternatePublicFolderIdType";
     FolderId: string;
     GetXmlElementName(): string { throw new Error("Not implemented."); }
     InternalToJson(jsonObject: JsonObject): any { throw new Error("Not implemented."); }

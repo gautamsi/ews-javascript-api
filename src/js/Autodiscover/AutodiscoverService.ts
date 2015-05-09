@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import OAuthCredentials = require("../Credentials/OAuthCredentials");
 import X509CertificateCredentials = require("../Credentials/X509CertificateCredentials");
 import PartnerTokenCredentials = require("../Credentials/PartnerTokenCredentials");
@@ -272,8 +273,7 @@ class AutodiscoverService extends ExchangeServiceBase {
         if (this.RequestedServerVersion < AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService) {
             throw new ServiceVersionException(
                 StringHelper.Format(
-                //Strings.AutodiscoverServiceIncompatibleWithRequestVersion,
-                    "autodiscover service is incompatible with requested version: {0}",
+                Strings.AutodiscoverServiceIncompatibleWithRequestVersion,
                     AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService));
         }
 
@@ -505,7 +505,7 @@ class AutodiscoverService extends ExchangeServiceBase {
 
         currentHop++;
         //if (currentHop > AutodiscoverService.AutodiscoverMaxRedirections)
-        //    throw new AutodiscoverLocalException("Autodiscover settings could not be located, max redirection reached"/*Strings.AutodiscoverCouldNotBeLocated*/);
+        //    throw new AutodiscoverLocalException(Strings.AutodiscoverCouldNotBeLocated);
 
         return this.GetUserSettingsInternal(smtpAddresses, requestedSettings).then((resp) => {
             var response = resp.Responses[0];

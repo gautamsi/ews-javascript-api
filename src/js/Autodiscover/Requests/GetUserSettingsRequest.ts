@@ -1,3 +1,4 @@
+import Strings = require("../../Strings");
 
 import EwsXmlReader = require("../../Core/EwsXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
@@ -80,15 +81,13 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
         if (this.Settings.length == 0) {
             throw new ServiceValidationException(
-                //Strings.InvalidAutodiscoverSettingsCount
-                "InvalidAutodiscoverSettingsCount"
+                Strings.InvalidAutodiscoverSettingsCount                
                 );
         }
 
         if (this.SmtpAddresses.length == 0) {
             throw new ServiceValidationException(
-                //Strings.InvalidAutodiscoverSmtpAddressesCount
-                "InvalidAutodiscoverSmtpAddressesCount"
+                Strings.InvalidAutodiscoverSmtpAddressesCount
                 );
         }
 
@@ -97,8 +96,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
             //if (string.IsNullOrEmpty(smtpAddress)) {
             if (smtpAddress != undefined && smtpAddress !== "") {
                 throw new ServiceValidationException(
-                    //Strings.InvalidAutodiscoverSmtpAddress
-                    "InvalidAutodiscoverSmtpAddress"
+                    Strings.InvalidAutodiscoverSmtpAddress
                     );
             }
         }

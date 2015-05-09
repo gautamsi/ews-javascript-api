@@ -1,5 +1,6 @@
 import WSSecurityBasedCredentials = require("./WSSecurityBasedCredentials");
 class PartnerTokenCredentials extends WSSecurityBasedCredentials {
+    private static WsSecuritySymmetricKeyPathSuffix: string = "/wssecurity/symmetrickey";
     NeedSignature: boolean;
     private keyInfoNode: any;
     AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("Not implemented."); }

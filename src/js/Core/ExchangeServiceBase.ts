@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import TimeZoneDefinition = require("../ComplexProperties/TimeZones/TimeZoneDefinition");
 import IEwsHttpWebRequestFactory = require("../Interfaces/IEwsHttpWebRequestFactory");
 import ITraceListener = require("../Interfaces/ITraceListener");
@@ -146,7 +147,7 @@ class ExchangeServiceBase {
         if (!this.UseDefaultCredentials) {
             var serviceCredentials = this.Credentials;
             if (serviceCredentials == null) {
-                throw new ServiceLocalException("credential is required"/*Strings.CredentialsRequired*/);
+                throw new ServiceLocalException(Strings.CredentialsRequired);
             }
 
             // Make sure that credentials have been authenticated if required

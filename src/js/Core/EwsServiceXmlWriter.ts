@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import ExchangeServiceBase = require("./ExchangeServiceBase");
 import EwsUtilities = require("./EwsUtilities");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
@@ -140,8 +141,7 @@ class EwsServiceXmlWriter {
         }
         else {
             throw new Error(StringHelper.Format(
-            //Strings.ElementValueCannotBeSerialized.ToString(),
-                "Element value can not be serialized, {0}: {1}",
+            Strings.ElementValueCannotBeSerialized,
                 typeof (value), localName));
         }
     }

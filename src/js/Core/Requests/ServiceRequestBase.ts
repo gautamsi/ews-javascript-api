@@ -1,3 +1,4 @@
+import Strings = require("../../Strings");
 import ExchangeService = require("../ExchangeService");
 import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
@@ -323,7 +324,7 @@ class ServiceRequestBase {
     }
     //ReadSoapFault(jsonSoapFault: JsonObject): SoapFaultDetails { throw new Error("Could not implemented."); }
     ReadSoapHeader(reader: EwsServiceXmlReader): void {
-        this.service.ServerInfo = reader.JsonObject.Header.ServerVersionInfo;
+        this.service.ServerInfo = reader.JsObject.Header.ServerVersionInfo;
         debugger;
         return;
         reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
@@ -360,7 +361,7 @@ class ServiceRequestBase {
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {
             throw new ServiceVersionException(
                 StringHelper.Format(
-                    "not supported operation, soap element {0} not only supported in exchange version {1} onward  ",//Strings.RequestIncompatibleWithRequestVersion,
+                    Strings.RequestIncompatibleWithRequestVersion,
                     this.GetXmlElementName(),
                     ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
         }

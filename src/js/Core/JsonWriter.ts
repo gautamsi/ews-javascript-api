@@ -1,5 +1,6 @@
 			
 // class JsonWriter extends System.IO.TextWriter {
+//private static Indentation: string = "  ";
 //	Encoding: any /*System.Text.Encoding*/;
 //	ShouldCloseStream: boolean;
 //	private outStream: any /*System.IO.Stream*/;

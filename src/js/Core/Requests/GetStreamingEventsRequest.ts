@@ -4,6 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 			
  class GetStreamingEventsRequest extends HangingServiceRequestBase {
+	 static HeartbeatFrequencyDefault: number = 45000;
 	HeartbeatFrequency: number;
 	private subscriptionIds: string[] /*System.Collections.Generic.IEnumerable<string>*/;
 	private connectionTimeout: number;

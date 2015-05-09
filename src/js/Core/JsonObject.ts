@@ -1,6 +1,9 @@
 import JsonWriter = require("./JsonWriter");
 			
  class JsonObject /*extends System.Collections.Generic.Dictionary<string, any>*/ {
+	 	private static TypeAttribute: string = "__type";
+        private static JsonTypeNamespace: string = "Exchange";
+        static JsonValueString: string = "Value";
 	Add(name: string, value: number): void{ throw new Error("Not implemented.");}
 	//Add(name: string, value: JsonObject): void{ throw new Error("Not implemented.");}
 	//Add(name: string, value: string): void{ throw new Error("Not implemented.");}

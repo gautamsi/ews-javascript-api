@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import ServiceResponse = require("../Core/Responses/ServiceResponse");
 
 import ServiceError = require("../Enumerations/ServiceError");
@@ -25,8 +26,7 @@ class ServiceResponseException extends ServiceRemoteException {
             //    this.Response.ErrorDetails.TryGetValue(StackTraceKey, out stackTrace)) {
             if (!StringHelper.IsNullOrEmpty(exceptionClass) && !StringHelper.IsNullOrEmpty(exceptionMessage) && !StringHelper.IsNullOrEmpty(stackTrace)) {
                 return StringHelper.Format(
-                //Strings.ServerErrorAndStackTraceDetails,
-                    "server error and stack tract details - Message: {0}\n, Class: {1}\n, Exception message: {2}\n, stack trace: {3}",
+                    Strings.ServerErrorAndStackTraceDetails,
                     this.Response.ErrorMessage,
                     exceptionClass,
                     exceptionMessage,

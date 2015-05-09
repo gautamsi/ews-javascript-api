@@ -2,6 +2,15 @@ import ITraceListener = require("../Interfaces/ITraceListener");
 import EwsXmlReader = require("../Core/EwsXmlReader");
 import WSSecurityBasedCredentials = require("./WSSecurityBasedCredentials");
 class WindowsLiveCredentials extends WSSecurityBasedCredentials {
+    static XmlEncNamespace: string = "http://www.w3.org/2001/04/xmlenc#";
+    static WindowsLiveSoapNamespacePrefix: string = "S";
+    static RequestSecurityTokenResponseCollectionElementName: string = "RequestSecurityTokenResponseCollection";
+    static RequestSecurityTokenResponseElementName: string = "RequestSecurityTokenResponse";
+    static EncryptedDataElementName: string = "EncryptedData";
+    static PpElementName: string = "pp";
+    static ReqstatusElementName: string = "reqstatus";
+    static SuccessfulReqstatus: string = "0x0";
+    static XmlSignatureReference: string = "_EWSTKREF";
     TraceEnabled: boolean;
     TraceListener: ITraceListener;
     WindowsLiveUrl: /*System.Uri*/string;

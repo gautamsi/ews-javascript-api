@@ -1,3 +1,4 @@
+import Strings = require("../Strings");
 import ServiceVersionException = require("../Exceptions/ServiceVersionException");
 import ServiceObjectPropertyException = require("../Exceptions/ServiceObjectPropertyException");
 import ServiceLocalException = require("../Exceptions/ServiceLocalException");
@@ -140,7 +141,7 @@ class PropertyBag {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             exception.outValue = new ServiceVersionException(
                 StringHelper.Format(
-                    "property: {0} incompatible with this version: {1}"/*Strings.PropertyIncompatibleWithRequestVersion*/,
+                    Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
                     propertyDefinition.Version));
             return null;
@@ -172,16 +173,15 @@ class PropertyBag {
                 // not been loaded, we throw.
                 if (propertyDefinition != this.Owner.GetIdPropertyDefinition()) {
                     if (!this.IsPropertyLoaded(propertyDefinition)) {
-                        exception.outValue = new ServiceObjectPropertyException("Must load or assign property before access"
-                            /*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
+                        exception.outValue = new ServiceObjectPropertyException(Strings.MustLoadOrAssignPropertyBeforeAccess, propertyDefinition);
                         return null;
                     }
 
                     // Non-nullable properties (int, bool, etc.) must be assigned or loaded; cannot return null value.
                     if (!propertyDefinition.IsNullable) {
                         var errorMessage = this.IsRequestedProperty(propertyDefinition)
-                            ? "value property not loaded" //Strings.ValuePropertyNotLoaded
-                            : "value property not assigned";//Strings.ValuePropertyNotAssigned;
+                            ? Strings.ValuePropertyNotLoaded
+                            : Strings.ValuePropertyNotAssigned;
                         exception.outValue = new ServiceObjectPropertyException(errorMessage, propertyDefinition);
                     }
                 }
@@ -303,7 +303,7 @@ class PropertyBag {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             throw new ServiceVersionException(
                 StringHelper.Format(
-                    "property: {0} is incompatible with requested version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+                    Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
                     ExchangeVersion[propertyDefinition.Version]), null);
         }
@@ -322,17 +322,17 @@ class PropertyBag {
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
                 if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {
-                    throw new ServiceObjectPropertyException("Item attachment cannot be updated"/*Strings.ItemAttachmentCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.ItemAttachmentCannotBeUpdated, propertyDefinition);
                 }
 
                 // If the property cannot be deleted, throw.
                 if (value == null && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanDelete)) {
-                    throw new ServiceObjectPropertyException("property can not be deleted"/*Strings.PropertyCannotBeDeleted*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.PropertyCannotBeDeleted, propertyDefinition);
                 }
 
                 // If the property cannot be updated, throw.
                 if (!propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
-                    throw new ServiceObjectPropertyException("propery can not be updated"/*Strings.PropertyCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.PropertyCannotBeUpdated, propertyDefinition);
                 }
             }
         }
