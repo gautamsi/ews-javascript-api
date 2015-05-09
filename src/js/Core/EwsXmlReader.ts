@@ -29,7 +29,7 @@ class EwsXmlReader {
 
     //#region xml2JS logic
     get JsObject(): any { return this.jsObject; }
-    jsObject: any;
+    private jsObject: any;
     //#endregion
 
 

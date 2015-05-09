@@ -1,6 +1,7 @@
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import {IPromise} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
+import {EwsLogging} from "../EwsLogging";
 
 import ServiceRequestBase = require("./ServiceRequestBase");
 class SimpleServiceRequestBase extends ServiceRequestBase {
@@ -35,12 +36,13 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
 
             this.ValidateAndEmitRequest(request).then((xhrResponse: XMLHttpRequest) => {
-
+                EwsLogging.DebugLog("sending ews request");
+                EwsLogging.DebugLog(request,true);
                 if (xhrResponse.status == 200) {
+                    EwsLogging.DebugLog(xhrResponse, true);
                     var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
-                    
+                    //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
                     var serviceResponse = this.ReadResponse(ewsXmlReader);
-
                     ////////ewsXmlReader.Read();
                     ////////if (ewsXmlReader.NodeType == System.Xml.XmlNodeType.Document) {
                     ////////    ewsXmlReader.ReadStartElement(Data.XmlNamespace.Soap, Data.XmlElementNames.SOAPEnvelopeElementName);
@@ -71,7 +73,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
                     if (errorDelegate)
                         errorDelegate(xhrResponse.response);
                 }
-            },(resperr: XMLHttpRequest) => {
+            }, (resperr: XMLHttpRequest) => {
                     this.ProcessWebException(resperr);
                     if (errorDelegate) errorDelegate(this.SoapFaultDetails || resperr.responseText || resperr.response);
                 });
@@ -79,7 +81,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
     }
     private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/): any {
-        var serviceResponse:any;
+        var serviceResponse: any;
 
         //try
         //{

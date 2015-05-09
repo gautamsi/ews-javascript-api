@@ -2,11 +2,20 @@
   "version": "v4",
   "repo": "borisyankov/DefinitelyTyped",
   "ref": "master",
-  "path": "typings-dev",
-  "bundle": "typings-dev/tsd.d.ts",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
   "installed": {
     "gulp/gulp.d.ts": {
       "commit": "f3244190e20af6901e865f4cc58127d19216baa1"
+    },
+    "q/Q.d.ts": {
+      "commit": "1400e07731048ae841bcebed658cb68539cbfb99"
+    },
+    "winjs/winjs.d.ts": {
+      "commit": "1400e07731048ae841bcebed658cb68539cbfb99"
+    },
+    "node/node.d.ts": {
+      "commit": "1400e07731048ae841bcebed658cb68539cbfb99"
     }
   }
 }

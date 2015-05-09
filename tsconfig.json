@@ -3,14 +3,14 @@
         "target": "es5",
         "module": "commonjs",
         "declaration": false,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "removeComments": false,
         "noLib": false
     },
     "compileOnSave": false,
     "filesGlob": [
         "./src/js/**/*.ts",
-        "./tests/**/ap*.ts",
+        "./test/**/*.ts",
         "!./node_modules/**/*.ts",
         "!./**/node_modules/**/*.ts",
         "!./src/**/*.d.ts",
@@ -790,7 +790,7 @@
         "./src/js/operations/ServiceConfiguration/ServiceConfiguration.ts",
         "./src/js/operations/Sharing/Sharing.ts",
         "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts",
-        "./tests/ManualLiveTesting/app.ts",
-        "./tests/ManualLiveTesting/app2.ts"
+        "./test/ManualLiveTesting/app.ts",
+        "./test/ManualLiveTesting/app2.ts"
     ]
 }
