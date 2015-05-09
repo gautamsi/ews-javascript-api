@@ -1,19 +1,13 @@
 
-import AutodiscoverService = require("../../build/output/Autodiscover/AutodiscoverService");
-import ExchangeVersion = require("../../build/output/Enumerations/ExchangeVersion");
-import ExchangeCredentials = require("../../build/output/Credentials/ExchangeCredentials");
-import UserSettingName = require("../../build/output/Enumerations/UserSettingName");
-import DomainSettingName = require("../../build/output/Enumerations/DomainSettingName");
-import ExchangeService = require("../../build/output/Core/ExchangeService");
-import BasePropertySet = require("../../build/output/Enumerations/BasePropertySet");
-import PropertySet = require("../../build/output/Core/PropertySet");
-
-import {EnumHelper, base64Helper, DOMParser, StringHelper} from "../../build/output/ExtensionMethods";
-import FolderId = require("../../build/output/ComplexProperties/FolderId");
-import WellKnownFolderName = require("../../build/output/Enumerations/WellKnownFolderName");
-import ext = require("../../build/output/ExtensionMethods");
-import {EwsLogging} from "../../build/output/Core/EwsLogging";
+var ExchangeVersion = require("../../build/output/Enumerations/ExchangeVersion");
+var ExchangeCredentials = require("../../build/output/Credentials/ExchangeCredentials");
+var UserSettingName = require("../../build/output/Enumerations/UserSettingName");
+var ExchangeService = require("../../build/output/Core/ExchangeService");
+var PropertySet = require("../../build/output/Core/PropertySet");
+var FolderId = require("../../build/output/ComplexProperties/FolderId");
+var WellKnownFolderName = require("../../build/output/Enumerations/WellKnownFolderName");
 var credentials = require("./credentials");
+var EwsLogging= require("../../build/output/core/EwsLogging");
 
 class Greeter {
     element: HTMLElement;
