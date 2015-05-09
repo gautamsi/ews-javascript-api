@@ -7,7 +7,6 @@ import PropertySet = require("./PropertySet");
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
 import IOutParam = require("../Interfaces/IOutParam");
 import Folder = require("./ServiceObjects/Folders/Folder");
-import Exceptions = require("../_old/Core/Exceptions");
 import ComplexPropertyDefinitionBase = require("../PropertyDefinitions/ComplexPropertyDefinitionBase");
 import IOwnedProperty = require("../Interfaces/IOwnedProperty");
 import BasePropertySet = require("../Enumerations/BasePropertySet");

@@ -1,5 +1,4 @@
 import TimeZoneTransition = require("./TimeZoneTransition");
-import TimeZoneTransitionGroup = require("./");
 import TimeZoneDefinition = require("./TimeZoneDefinition");
 import TimeZonePeriod = require("./TimeZonePeriod");
 import ComplexProperty = require("../ComplexProperty");
@@ -7,7 +6,7 @@ import ExchangeService = require("../../Core/ExchangeService");
 import JsonObject = require("../../Core/JsonObject");
 import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
+import {StringHelper} from "../../ExtensionMethods";
 class TimeZoneTransitionGroup extends ComplexProperty {
     SupportsDaylight: boolean;
     private TransitionToDaylight: TimeZoneTransition;
@@ -33,6 +32,38 @@ class TimeZoneTransitionGroup extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+}
+
+module TimeZoneTransitionGroup{
+    export class CustomTimeZoneCreateParams {
+        private baseOffsetToUtc: any = null;//TimeSpan = null;
+        private standardDisplayName: string = null;
+        private daylightDisplayName: string = null;
+        set BaseOffsetToUtc(value){;//TimeSpan) {
+            this.baseOffsetToUtc = value;
+        }
+        get BaseOffsetToUtc(): any {//TimeSpan {
+            return this.baseOffsetToUtc;
+        }
+        set StandardDisplayName(value: string) {
+            this.standardDisplayName = value;
+        }
+        get StandardDisplayName(): string {
+            return this.standardDisplayName;
+        }
+        set DaylightDisplayName(value: string) {
+            this.daylightDisplayName = value;
+        }
+        get DaylightDisplayName(): string {
+            return this.daylightDisplayName;
+        }
+        get HasDaylightPeriod(): boolean {
+            return !StringHelper.IsNullOrEmpty(this.daylightDisplayName);
+        }
+        constructor() {
+            
+        }
+    }
 }
 export = TimeZoneTransitionGroup;
 //module Microsoft.Exchange.WebServices.Data {

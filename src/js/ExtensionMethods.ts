@@ -1,3 +1,4 @@
+/// <reference path="../../typings/node/node.d.ts" />
 
 
 export module StringHelper {
@@ -156,9 +157,14 @@ export class xml2JsObject {
         if (!xmlnsRoot) xmlnsRoot = obj;
         if (typeof (xmlNode) === 'undefined') return obj;
         var textNodeName: any = undefined;
+        const PREFIX_STR: string = "__prefix";
+        const TYPE_STR: string = "__type";
+        const TEXT_STR: string = "__text";
         switch (xmlNode.nodeType) {
             case 1/*Node.ELEMENT_NODE*/:
-                if (xmlNode.prefix) obj["__prefix"] = xmlNode.prefix;
+                if (xmlNode.prefix && xmlNode.localName !== xmlNode.nodeName)
+                    obj[PREFIX_STR] = xmlNode.prefix;
+                
                 var nonGenericAttributeCount = 0;
                 for (var i = 0; i < xmlNode.attributes.length; i++) {
                     nonGenericAttributeCount++;
@@ -173,7 +179,7 @@ export class xml2JsObject {
                         else
                             obj[attr.name] = attr.value;
                     else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
-                        obj["__type"] = attr.value;
+                        obj[TYPE_STR] = attr.value;
                         nonGenericAttributeCount--;
                     }
                     else
@@ -212,8 +218,8 @@ export class xml2JsObject {
             if (!skip) {
                 for (var i = 0; i < xmlNode.childNodes.length; i++) {
                     var node: Node = xmlNode.childNodes.item(i);
-                    var localName = node.localName || "__text";
-                    if (localName === "__text" && node.nodeValue.trim() === "") continue;
+                    var localName = node.localName || TEXT_STR;
+                    if (localName === TEXT_STR && node.nodeValue.trim() === "") continue;
                     var nodeObj = this.parseXMLNode(node, soapMode, xmlnsRoot);
                     if (obj[localName])
                         if (Object.prototype.toString.call(obj[localName]) === "[object Array]")

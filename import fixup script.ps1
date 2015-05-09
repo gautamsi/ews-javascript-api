@@ -271,3 +271,23 @@ subm "ServiceRequestBase" 0
    $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
 
  Write-Verbose $moduleName -Verbose
+
+
+
+
+
+ d:
+cd\
+cd .\dr\gh\ews-javascript-api
+cd .\src\js
+$ts = dir *.ts -Exclude *.d.ts -Recurse
+$ts.Count
+dir *.ts | measure
+dir *.ts -Recurse | measure
+$ts | %{$_.name}
+$ts | %{$_.fullname}
+$ts | %{$_.fullname.replace(".ts",".js")}
+$ts | %{$_.fullname.replace(".ts",".js") | Test-Path}
+$ts | %{$_.fullname.replace(".ts",".js") | Test-Path} | ?{!$_}
+$ts | %{$_.fullname.replace(".ts",".js") | del -Confirm}
+$ts | %{$_.fullname.replace(".ts",".js") | del}

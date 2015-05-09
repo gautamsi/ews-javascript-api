@@ -1,13 +1,20 @@
 
-var ExchangeVersion = require("../../build/output/Enumerations/ExchangeVersion");
-var ExchangeCredentials = require("../../build/output/Credentials/ExchangeCredentials");
-var UserSettingName = require("../../build/output/Enumerations/UserSettingName");
-var ExchangeService = require("../../build/output/Core/ExchangeService");
-var PropertySet = require("../../build/output/Core/PropertySet");
-var FolderId = require("../../build/output/ComplexProperties/FolderId");
-var WellKnownFolderName = require("../../build/output/Enumerations/WellKnownFolderName");
-var credentials = require("./credentials");
-var EwsLogging= require("../../build/output/core/EwsLogging");
+import AutodiscoverService = require("../../src/js/Autodiscover/AutodiscoverService");
+import ExchangeVersion = require("../../src/js/Enumerations/ExchangeVersion");
+import ExchangeCredentials = require("../../src/js/Credentials/ExchangeCredentials");
+import UserSettingName = require("../../src/js/Enumerations/UserSettingName");
+import DomainSettingName = require("../../src/js/Enumerations/DomainSettingName");
+import ExchangeService = require("../../src/js/Core/ExchangeService");
+import BasePropertySet = require("../../src/js/Enumerations/BasePropertySet");
+import PropertySet = require("../../src/js/Core/PropertySet");
+
+import {EnumHelper, base64Helper, DOMParser, StringHelper} from "../../src/js/ExtensionMethods";
+import FolderId = require("../../src/js/ComplexProperties/FolderId");
+import WellKnownFolderName = require("../../src/js/Enumerations/WellKnownFolderName");
+import ext = require("../../src/js/ExtensionMethods");
+import {EwsLogging} from "../../src/js/Core/EwsLogging";
+
+import credentials = require("./credentials");
 
 class Greeter {
     element: HTMLElement;
@@ -39,20 +46,17 @@ class Greeter {
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        EwsLogging.DebugLog(exch.Credentials,true);
+        EwsLogging.DebugLog(exch.Credentials, true);
         console.log("-----" + exch.Credentials);
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
         var fid: FolderId = new FolderId(WellKnownFolderName.Inbox);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)
             .then((sr) => {
-            var util = require('util');
-            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-            //console.log(autod.Url);
-            //console.log(sr);
+            console.log("------------");
+            EwsLogging.Log(sr, true);
             console.log("------------");
         }, (e: any) => {
-                var util = require('util');
-                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+                EwsLogging.Log(e, true);
                 console.log("------------");
             });
 
@@ -88,19 +92,19 @@ class Greeter {
         //        s.push(UserSettingName.ExternalImap4Connections );
         //        s.push(UserSettingName.AlternateMailboxes);
         //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", "Thament@Singhs.pro"], s).then((sr) => {
-        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
-            UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-            .then((sr) => {
-            var util = require('util');
-            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-            console.log(autod.Url);
-            //console.log(sr);
-            console.log("------------");
-        }, (e: any) => {
-                var util = require('util');
-                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
-                console.log("------------");
-            });
+//        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
+//            UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
+//            .then((sr) => {
+//            var util = require('util');
+//            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
+//            console.log(autod.Url);
+//            //console.log(sr);
+//            console.log("------------");
+//        }, (e: any) => {
+//                var util = require('util');
+//                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+//                console.log("------------");
+//            });
         //return;
         ////var d: DomainSettingName[] = [];
         //////return;

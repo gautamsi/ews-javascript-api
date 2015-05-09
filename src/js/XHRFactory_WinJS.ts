@@ -1,4 +1,4 @@
-/// <reference path="typings/winjs/winjs.d.ts" />
+/// <reference path="../../typings/winjs/winjs.d.ts" />
 
 import {IPromise} from "./interfaces";
 import WinJS = require('WinJS');

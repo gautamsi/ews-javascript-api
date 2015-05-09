@@ -1,4 +1,4 @@
-/// <reference path="typings/q/Q.d.ts" />
+/// <reference path="../../typings/q/Q.d.ts" />
 
 import {IPromise, IXHROptions} from "./Interfaces";
 import Q = require('q');

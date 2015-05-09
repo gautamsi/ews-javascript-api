@@ -1,14 +1,16 @@
-import enums = require("../temp/tttttttttttttttttttttttttt/Enums");
+import ConnectingIdType = require("../Enumerations/ConnectingIdType");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlElementNames = require("../Core/XmlElementNames");
     //todo: should be done
     class ImpersonatedUserId {
-        IdType: enums.Data.ConnectingIdType;
+        IdType: ConnectingIdType;
         Id: string;
         //private idType: ConnectingIdType;
         //private id: string;
 
-        constructor(idType?: enums.Data.ConnectingIdType, id?: string) {
+        constructor(idType?: ConnectingIdType, id?: string) {
             this.IdType = idType;
             this.Id = id;
         }
@@ -18,17 +20,17 @@ import XmlElementNames = require("../Core/XmlElementNames");
                 throw new Error("Id property must be set before serialization");// ArgumentException(Strings.IdPropertyMustBeSet);
             }
 
-            writer.WriteStartElement(enums.Data.XmlNamespace.Types, XmlElementNames.ExchangeImpersonation);
-            writer.WriteStartElement(enums.Data.XmlNamespace.Types, XmlElementNames.ConnectingSID);
+            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ExchangeImpersonation);
+            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ConnectingSID);
 
             // For 2007 SP1, use PrimarySmtpAddress for type SmtpAddress
             var connectingIdTypeLocalName =
-                (this.IdType == enums.Data.ConnectingIdType.SmtpAddress) && (writer.Service.RequestedServerVersion == enums.Data.ExchangeVersion.Exchange2007_SP1)
+                (this.IdType == ConnectingIdType.SmtpAddress) && (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1)
                     ? XmlElementNames.PrimarySmtpAddress
-                    : enums.Data.ConnectingIdType[this.IdType];
+                    : ConnectingIdType[this.IdType];
 
             writer.WriteElementValue(
-                enums.Data.XmlNamespace.Types,
+                XmlNamespace.Types,
                 connectingIdTypeLocalName,
                 connectingIdTypeLocalName,
                 this.Id);
