@@ -14,7 +14,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9d8ec532-6b85-4c0d-a584-2389795a3df2</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>..\..\test\ManualLiveTesting\app.ts</StartupFile>
+    <StartupFile>build\output\test\ManualLiveTesting\app.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>

@@ -1,6 +1,5 @@
-import Exception = require("./Exception");
 import ServiceRemoteException = require("./ServiceRemoteException");
-class ServiceRequestException extends ServiceRemoteException {
+class ServiceRequestException extends ServiceRemoteException {	
 }
 
 export = ServiceRequestException;

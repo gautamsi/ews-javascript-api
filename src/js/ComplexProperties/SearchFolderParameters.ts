@@ -18,7 +18,7 @@ class SearchFolderParameters extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
     ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     Validate(): any { throw new Error("Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }

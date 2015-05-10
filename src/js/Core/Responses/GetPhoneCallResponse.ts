@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetPhoneCallResponse extends ServiceResponse {
     PhoneCall: PhoneCall;
     private phoneCall: PhoneCall;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = GetPhoneCallResponse;
 //module Microsoft.Exchange.WebServices.Data {

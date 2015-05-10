@@ -14,7 +14,7 @@ class OccurrenceInfo extends ComplexProperty {
     private end: Date;
     private originalStart: Date;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = OccurrenceInfo;
 //module Microsoft.Exchange.WebServices.Data {

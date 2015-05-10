@@ -68,7 +68,7 @@ class FolderId extends ServiceId {
         }
     }
     //GetHashCode(): number { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { return this.FolderName ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
+    GetXmlElementName(): string { return typeof this.folderName!== 'undefined' && this.FolderName >=0 ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
     //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     ToString(): string {
         if (this.IsValid) {
@@ -101,7 +101,7 @@ class FolderId extends ServiceId {
         }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        if (this.FolderName) {
+        if (typeof this.folderName!== 'undefined' && this.FolderName >=0) {
             writer.WriteAttributeValue(null, XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());
 
             if (this.Mailbox != null) {

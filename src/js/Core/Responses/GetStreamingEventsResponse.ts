@@ -9,7 +9,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	private results: GetStreamingEventsResults;
 	private request: HangingServiceRequestBase;
 	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("Not implemented.");}
-	ReadElementsFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
 }
 export = GetStreamingEventsResponse;
 

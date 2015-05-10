@@ -36,7 +36,7 @@ class Attachment extends ComplexProperty {
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
     SetFieldValue(field: any, value: any): any { throw new Error("Not implemented."); }
     ThrowIfThisIsNotNew(): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     //Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }

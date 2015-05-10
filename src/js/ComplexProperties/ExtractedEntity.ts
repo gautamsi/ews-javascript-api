@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class ExtractedEntity extends ComplexProperty {
     Position: EmailPosition;
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = ExtractedEntity;
 //module Microsoft.Exchange.WebServices.Data {

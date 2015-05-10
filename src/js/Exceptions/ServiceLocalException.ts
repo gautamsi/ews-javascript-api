@@ -1,6 +1,6 @@
 import Exception = require("./Exception");
 class ServiceLocalException extends Exception {// extends System.Exception {
-    constructor(message: string, innerException?: Exception) {
+    constructor(message?: string, innerException?: Exception) {
         super(message, innerException);
         //this.message = message;
     }

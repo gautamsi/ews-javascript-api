@@ -21,7 +21,7 @@ class ExtendedProperty extends ComplexProperty {
     GetStringValue(): string { throw new Error("Not implemented."); }
     //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: any /*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean {
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
         return false;
         //switch (reader.LocalName) {
         //    case XmlElementNames.ExtendedFieldURI:

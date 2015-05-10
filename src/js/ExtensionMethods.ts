@@ -143,6 +143,18 @@ export class TypeSystem {
 
         return obj;
     }
+    
+    static GetJsObjectTypeName(obj: any): string {
+
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var element = obj[key];
+            if (element["__type"]) return element["__type"];
+        }
+    }
+    return undefined;
+
+}
 }
 
 //use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
@@ -151,6 +163,9 @@ export class TypeSystem {
 //var dom = new DOMParser().parseFromString("xml data", 'text/xml');
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 export class xml2JsObject {
+    static typeIncludedNS: string[] = [
+        "http://schemas.microsoft.com/exchange/services/2006/types"
+    ];
 
     static parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
         var obj: any = {};
@@ -164,7 +179,10 @@ export class xml2JsObject {
             case 1/*Node.ELEMENT_NODE*/:
                 if (xmlNode.prefix && xmlNode.localName !== xmlNode.nodeName)
                     obj[PREFIX_STR] = xmlNode.prefix;
-                
+
+                if (xmlNode.prefix && this.typeIncludedNS.indexOf(xmlNode.namespaceURI) >= 0)
+                    obj[TYPE_STR] = xmlNode.localName;
+
                 var nonGenericAttributeCount = 0;
                 for (var i = 0; i < xmlNode.attributes.length; i++) {
                     nonGenericAttributeCount++;
@@ -179,7 +197,7 @@ export class xml2JsObject {
                         else
                             obj[attr.name] = attr.value;
                     else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
-                        obj[TYPE_STR] = attr.value;
+                        if (typeof obj[TYPE_STR] === 'undefiend') obj[TYPE_STR] = attr.value;
                         nonGenericAttributeCount--;
                     }
                     else
@@ -343,6 +361,20 @@ if (isNode) {
 
 export var DOMParser = dp;
 
+export class Convert {
+    static toInt(input: any, zeroIfError: boolean = true): number {
+        var result: number = 0;
+        try {
+            result = parseInt(input);
+        }
+        catch (ex) {
+            if (!zeroIfError)
+                throw ex;
+        }
+        return result;
+    }
+}
+
 export module base64Helper {
 
     export function btoa(text: string): string {
@@ -354,3 +386,4 @@ export module base64Helper {
         }
     }
 }
+

@@ -29,10 +29,10 @@ class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonC
     GetTypeCode(service: ExchangeServiceBase, dictionaryObject: any, dictionaryObjectType: any, valueAsString: any): any { throw new Error("Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadEntry(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
     Remove(key: any): boolean { throw new Error("Not implemented."); }
     TryGetValue(key: any, value: any): boolean { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     UpdateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("Not implemented."); }
     ValidateArrayObject(dictionaryObjectAsArray: Array<any> /*System.Array*/): any { throw new Error("Not implemented."); }
     ValidateEntry(key: any, value: any): any { throw new Error("Not implemented."); }

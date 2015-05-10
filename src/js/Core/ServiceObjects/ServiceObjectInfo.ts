@@ -1,5 +1,7 @@
-import altDict = require("../../AltDictionary");
-import IndexerWithStringKey = altDict.IndexerWithStringKey;
+import ServiceObject = require("./ServiceObject");
+import {IndexerWithStringKey} from "../../AltDictionary";
+
+import {CreateServiceObjectWithAttachmentParam, CreateServiceObjectWithServiceParam} from "../../Misc/DelegateTypes";
 
 import XmlElementNames = require("../XmlElementNames");
 import ExchangeService = require("../ExchangeService");
@@ -40,7 +42,7 @@ class ServiceObjectInfo {
         this.InitializeServiceObjectClassMap();
     }
 
-    AddServiceObjectType(xmlElementName: string, type: string /*System.Type*/, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam, createServiceObjectWithAttachmentParam: CreateServiceObjectWithAttachmentParam): any {
+    private AddServiceObjectType(xmlElementName: string, type: string /*System.Type*/, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam, createServiceObjectWithAttachmentParam: CreateServiceObjectWithAttachmentParam): any {
         this.xmlElementNameToServiceObjectClassMap[xmlElementName] = type;
         this.serviceObjectConstructorsWithServiceParam[xmlElementName] = createServiceObjectWithServiceParam;
         if (createServiceObjectWithAttachmentParam) { //!= null) {
@@ -135,7 +137,7 @@ class ServiceObjectInfo {
         // MeetingResponse
         this.AddServiceObjectType(
             XmlElementNames.MeetingResponse,
-           "MeetingResponse",
+            "MeetingResponse",
             (srv) => { return new MeetingResponse(srv); },
             (itemAttachment, isNew) => { return new MeetingResponse(itemAttachment); });
 
@@ -167,27 +169,32 @@ class ServiceObjectInfo {
             (srv) => { return new TasksFolder(srv); },
             null);
     }
+    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
+                
+        //var itemClass = this.XmlElementNameToServiceObjectClassMap[xmlElementName];
+        //if (itemClass) {
+        //    return new itemClass(service);
+        //no need of itemclass due to lack of type conversion and dictionary implementation in javascript
+        var creationDelegate = this.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+
+        if (creationDelegate) {
+            return creationDelegate(service);
+        }
+        else return null;
+
+    }
+
+    CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("Not implemented."); }
 }
 
 
 export = ServiceObjectInfo;
 
 
-interface CreateServiceObjectWithServiceParam {
-    (srv: ExchangeService): any;
-}
 
-interface CreateServiceObjectWithAttachmentParam {
-    (itemAttachment: ItemAttachment, isNew: boolean): any
-}
 
-    //class CreateServiceObjectWithAttachmentParam extends System.MulticastDelegate {
-    //    BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
-    //    Invoke(itemAttachment: ItemAttachment, isNew: boolean): any{ throw new Error("Not implemented.");}
-    //}
-    //class CreateServiceObjectWithServiceParam extends System.MulticastDelegate {
-    //    BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
-    //    Invoke(srv: ExchangeService): any{ throw new Error("Not implemented.");}
-    //}
+//module Microsoft.Exchange.WebServices.Data {
+//}
+//import _export = Microsoft.Exchange.WebServices.Data;
+//export = _export;
+

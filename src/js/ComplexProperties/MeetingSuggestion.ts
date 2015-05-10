@@ -9,7 +9,7 @@ class MeetingSuggestion extends ExtractedEntity {
     MeetingString: string;
     StartTime: Date;
     EndTime: Date;
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = MeetingSuggestion;
 //module Microsoft.Exchange.WebServices.Data {

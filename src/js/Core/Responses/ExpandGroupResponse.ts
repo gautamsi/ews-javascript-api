@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ExpandGroupResponse extends ServiceResponse {
     Members: ExpandGroupResults;
     private members: ExpandGroupResults;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 
 export = ExpandGroupResponse;

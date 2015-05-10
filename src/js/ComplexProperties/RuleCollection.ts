@@ -9,7 +9,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	private outlookRuleBlobExists: boolean;
 	private rules: Rule[] /*System.Collections.Generic.List<Rule>*/;
 	GetEnumerator(): Rule[] /*System.Collections.Generic.IEnumerator<Rule>*/{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 }
 export = RuleCollection;
 

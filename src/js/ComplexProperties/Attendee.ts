@@ -7,7 +7,7 @@ class Attendee extends EmailAddress {
     LastResponseTime: Date;
     private responseType: MeetingResponseType;
     private lastResponseTime: Date;
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 

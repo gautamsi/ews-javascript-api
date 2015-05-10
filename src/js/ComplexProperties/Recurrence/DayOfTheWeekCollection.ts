@@ -15,7 +15,7 @@ class DayOfTheWeekCollection extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadFromJsonValue(jsonValue: string): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
     Remove(dayOfTheWeek: DayOfTheWeek): boolean { throw new Error("Not implemented."); }
     RemoveAt(index: number): any { throw new Error("Not implemented."); }
     ToString(separator?: string): string { throw new Error("Not implemented."); }

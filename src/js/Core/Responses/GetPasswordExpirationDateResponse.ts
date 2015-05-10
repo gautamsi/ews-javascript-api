@@ -6,7 +6,7 @@ class GetPasswordExpirationDateResponse extends ServiceResponse {
     PasswordExpirationDate: Date;
     private passwordExpirationDate: Date;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = GetPasswordExpirationDateResponse;
 //module Microsoft.Exchange.WebServices.Data {

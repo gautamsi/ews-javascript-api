@@ -1,3 +1,4 @@
+import IOutParam = require("../Interfaces/IOutParam");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
@@ -19,13 +20,45 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
     }
 
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("Not implemented."); }
-    GetPropertyInstance(propertyBag: PropertyBag, complexProperty: any): boolean { throw new Error("Not implemented."); }
+    GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean { 
+    complexProperty.outValue = null;
+            if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion))
+            {
+                complexProperty.outValue = this.CreatePropertyInstance(propertyBag.Owner);
+                return true;
+            }
+
+            return false;
+     }
     InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
     InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    InternalLoadFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    InternalLoadFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
+
+        var outComplexproperty: IOutParam<ComplexProperty> = { outValue: null };
+        var justCreated: boolean = this.GetPropertyInstance(propertyBag, outComplexproperty);
+
+        if (!justCreated && this.HasFlag(PropertyDefinitionFlags.UpdateCollectionItems, propertyBag.Owner.Service.RequestedServerVersion)) {
+            outComplexproperty.outValue.UpdateFromXmlJsObject(jsObject, reader.LocalName);
+        }
+        else {
+            //(outComplexproperty as ComplexProperty).LoadFromXml(reader, reader.LocalName);
+        }
+
+        propertyBag[this.Name] = outComplexproperty.outValue;
+    }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    LoadPropertyValueFromObject(obj: any, propertyBag: PropertyBag): void { throw new Error("abstract method, must implement"); }
+    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
+        this.InternalLoadFromXmlJsObject(jsObject, propertyBag);
+        
+        //    reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, this.XmlElementName);
+        //
+        //if (!reader.IsEmptyElement || reader.HasAttributes)
+        //{
+        //    this.InternalLoadFromXml(reader, propertyBag);
+        //}
+        //
+        //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.XmlElementName);
+    }
     //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
 }

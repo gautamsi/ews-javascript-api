@@ -25,7 +25,7 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
     GetCollectionItemXmlElementName(complexProperty: FolderPermission): string { throw new Error("Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
     Remove(permission: FolderPermission): boolean { throw new Error("Not implemented."); }
     RemoveAt(index: number): any { throw new Error("Not implemented."); }
     Validate(): any { throw new Error("Not implemented."); }

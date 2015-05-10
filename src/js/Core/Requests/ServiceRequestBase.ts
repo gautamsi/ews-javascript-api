@@ -1,3 +1,4 @@
+import ServiceResponse = require("../Responses/ServiceResponse");
 import Strings = require("../../Strings");
 import ExchangeService = require("../ExchangeService");
 import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
@@ -48,8 +49,12 @@ class ServiceRequestBase {
     GetXmlElementName(): string { throw new Error("abstract method, must override"); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must override"); }
     GetResponseXmlElementName(): string { throw new Error("abstract method, must override"); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
-    //ParseResponse(jsonBody: JsonObject): any{ throw new Error("abstract method, must override");}
+    //ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
+    ParseResponse(jsonBody: any/*JsonObject*/): any {
+        var serviceResponse: ServiceResponse = new ServiceResponse();
+        serviceResponse.LoadFromJson(jsonBody, this.Service);
+        return serviceResponse;
+    }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
     //#endregion
 
@@ -93,7 +98,13 @@ class ServiceRequestBase {
         //    throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, e.Message), e);
         //}
     }
-    //BuildResponseObjectFromJson(jsonResponse: JsonObject): any { throw new Error("Could not implemented."); }
+    BuildResponseObjectFromJson(jsObject: any): any {
+        if (jsObject["Header"]) {
+            this.ReadSoapHeader(jsObject["Header"]);
+        }
+
+        return this.ParseResponse(jsObject[XmlElementNames.SOAPBodyElementName]);
+    }
     //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
     //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
     EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
@@ -240,29 +251,22 @@ class ServiceRequestBase {
             }
         }
     }
-    ReadPreamble(ewsXmlReader: EwsServiceXmlReader): void {
-        this.ReadXmlDeclaration(ewsXmlReader);
-    }
-    ReadResponse(ewsXmlReader: EwsServiceXmlReader): any /*object return*/ {
-        var serviceResponse:any;
 
-        //this.ReadPreamble(ewsXmlReader);
-        //ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
-        this.ReadSoapHeader(ewsXmlReader);
-        //ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
-
-        //ewsXmlReader.ReadStartElement(XmlNamespace.Messages, this.GetResponseXmlElementName());
-
-        serviceResponse = this.ParseResponse(ewsXmlReader);
-
-        debugger;
-
-        //ewsXmlReader.ReadEndElementIfNecessary(XmlNamespace.Messages, this.GetResponseXmlElementName());
-
-        ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
-        ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+    protected ReadResponseXmlJsObject(jsObject: any): any /*object return*/ {
+        if (jsObject[XmlElementNames.SOAPHeaderElementName]) {
+            this.ReadSoapHeader(jsObject[XmlElementNames.SOAPHeaderElementName]);
+        }
+        
+        if (!jsObject[XmlElementNames.SOAPBodyElementName]) {
+            throw new Error("invalid soap message");            
+        }
+        var serviceResponse: any;
+        jsObject = jsObject[XmlElementNames.SOAPBodyElementName]
+        jsObject = jsObject[this.GetResponseXmlElementName()];
+        serviceResponse = this.ParseResponse(jsObject);        
         return serviceResponse;
     }
+    
     ReadSoapFault(reader: EwsServiceXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = null;
         debugger;
@@ -322,40 +326,13 @@ class ServiceRequestBase {
 
         return soapFaultDetails;
     }
-    //ReadSoapFault(jsonSoapFault: JsonObject): SoapFaultDetails { throw new Error("Could not implemented."); }
-    ReadSoapHeader(reader: EwsServiceXmlReader): void {
-        this.service.ServerInfo = reader.JsObject.Header.ServerVersionInfo;
-        debugger;
-        return;
-        reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
-        do {
-            reader.Read();
-
-            // Is this the ServerVersionInfo?
-            if (reader.IsElement(XmlNamespace.Types, XmlElementNames.ServerVersionInfo)) {
-                this.Service.ServerInfo = ExchangeServerInfo.Parse(reader);
-            }
-
-            // Ignore anything else inside the SOAP header
+    
+    ReadSoapHeader(jsObject: any): any {
+        if (jsObject[XmlElementNames.ServerVersionInfo]) {
+            this.Service.ServerInfo = ExchangeServerInfo.Parse(jsObject[XmlElementNames.ServerVersionInfo]);
         }
-        while (!reader.HasRecursiveParent(XmlElementNames.SOAPHeaderElementName));
+    }
 
-    }
-    //ReadSoapHeader(jsonHeader: JsonObject): any { throw new Error("Could not implemented."); }
-    private ReadXmlDeclaration(reader: EwsServiceXmlReader): void {
-        debugger;
-        //try {
-        //    reader.Read(System.Xml.XmlNodeType.XmlDeclaration);
-        //}
-        //catch (XmlException ex)
-        //{
-        //    throw new ServiceRequestException(Strings.ServiceResponseDoesNotContainXml, ex);
-        //}
-        //catch (ServiceXmlDeserializationException ex)
-        //{
-        //    throw new ServiceRequestException(Strings.ServiceResponseDoesNotContainXml, ex);
-        //}
-    }
     ThrowIfNotSupportedByRequestedServerVersion(): void {
 
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {

@@ -24,7 +24,7 @@ class SearchFilterCollection extends SearchFilter {
 	Remove(searchFilter: SearchFilter): void{ throw new Error("Not implemented.");}
 	RemoveAt(index: number): void{ throw new Error("Not implemented.");}
 	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
 	WriteToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
 }

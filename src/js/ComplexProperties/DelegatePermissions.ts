@@ -15,7 +15,7 @@ class DelegatePermissions extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
     Reset(): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     ValidateAddDelegate(): any { throw new Error("Not implemented."); }
     ValidateUpdateDelegate(): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }

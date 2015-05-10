@@ -73,6 +73,7 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
 
         if (this.containsKey(key)) {
             outValue.outValue = this.objects[<any>key]
+            outValue.success = true;
             return true;
         }
 

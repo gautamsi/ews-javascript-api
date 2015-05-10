@@ -9,7 +9,7 @@ class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJs
     Item: TItem;
     private items: Array<TItem> = [];// System.Collections.Generic.List<T>;
     GetEnumerator(): any { throw new Error("Not implemented."); }//wil be implementedfor ES6 later with yield
-    LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
 }
 export = ItemCollection;
 

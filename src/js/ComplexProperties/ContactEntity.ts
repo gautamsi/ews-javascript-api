@@ -11,7 +11,7 @@ class ContactEntity extends ExtractedEntity {
     EmailAddresses: StringList;
     Addresses: StringList;
     ContactString: string;
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = ContactEntity;
 //module Microsoft.Exchange.WebServices.Data {

@@ -5,7 +5,7 @@ class DelegateUserResponse extends ServiceResponse {
     DelegateUser: DelegateUser;
     private readDelegateUser: boolean;
     private delegateUser: DelegateUser;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = DelegateUserResponse;
 

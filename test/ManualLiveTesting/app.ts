@@ -36,9 +36,17 @@ class Greeter {
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2010);
-        console.log("AsdasdA");
 
-        
+        var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
+        var parser = new ext.DOMParser();
+        //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
+        //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
+        //this.currentNode = this.treeWalker.root;
+
+        //var objjt = ext.xml2JsObject.parseXMLNode(xmlDoc.documentElement, true);
+        //EwsLogging.DebugLog(objjt, true);
+
+        //return;
         //var autod = new Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverService("https://autodiscover-s.coutlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2013);
         //var autod = new AutodiscoverService();//"https://pod51045.outlook.com/autodiscover/autodiscover.svc", "singhspro.onmicrosoft.com", ExchangeVersion.Exchange2013);
         //autod.RedirectionUrlValidationCallback = (val) => { return true };
@@ -46,10 +54,10 @@ class Greeter {
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        EwsLogging.DebugLog(exch.Credentials, true);
+        //EwsLogging.DebugLog(exch.Credentials, true);
         console.log("-----" + exch.Credentials);
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
-        var fid: FolderId = new FolderId(WellKnownFolderName.Inbox);
+        var fid: FolderId = new FolderId(WellKnownFolderName.Calendar);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)
             .then((sr) => {
             console.log("------------");
@@ -92,19 +100,19 @@ class Greeter {
         //        s.push(UserSettingName.ExternalImap4Connections );
         //        s.push(UserSettingName.AlternateMailboxes);
         //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", "Thament@Singhs.pro"], s).then((sr) => {
-//        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
-//            UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-//            .then((sr) => {
-//            var util = require('util');
-//            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-//            console.log(autod.Url);
-//            //console.log(sr);
-//            console.log("------------");
-//        }, (e: any) => {
-//                var util = require('util');
-//                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
-//                console.log("------------");
-//            });
+        //        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
+        //            UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
+        //            .then((sr) => {
+        //            var util = require('util');
+        //            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
+        //            console.log(autod.Url);
+        //            //console.log(sr);
+        //            console.log("------------");
+        //        }, (e: any) => {
+        //                var util = require('util');
+        //                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+        //                console.log("------------");
+        //            });
         //return;
         ////var d: DomainSettingName[] = [];
         //////return;
@@ -135,3 +143,43 @@ class Greeter {
 enum Color { Red = 1, Green, Blue };
 var greeter = new Greeter();
 greeter.start();
+
+
+//{ "Body" : 
+//    { "FolderIds" : 
+//        [ 
+//        { "Id" : "inbox",
+//            "__type" : "DistinguishedFolderId:#Exchange"
+//          } 
+//      ],
+//      "FolderShape" : 
+//        { "BaseShape" : "AllProperties" 
+//        }
+//    },
+//  "Header" : 
+//    { "RequestServerVersion" : "Exchange2013_SP1" 
+//    }
+//}
+// -----------fault code
+//{ __prefix: 's',
+//  __xmlns:
+//   { s: 'http://schemas.xmlsoap.org/soap/envelope/',
+//     a: 'http://schemas.microsoft.com/exchange/services/2006/types',
+//     e: 'http://schemas.microsoft.com/exchange/services/2006/errors',
+//     t: 'http://schemas.microsoft.com/exchange/services/2006/types' },
+//  Body:
+//   { __prefix: 's',
+//     Fault:
+//      { __prefix: 's',
+//        faultcode: 'a:ErrorSchemaValidation',
+//        faultstring:
+//         { 'xml:lang': 'en-US',
+//           faultstring: 'The request failed schema validation: The required attribute \'Id\' is missing.' },
+//        detail:
+//         { ResponseCode: 'ErrorSchemaValidation',
+//           Message: 'The request failed schema validation.',
+//           MessageXml:
+//            { __prefix: 't',
+//              LineNumber: '1',
+//              LinePosition: '472',
+//              Violation: 'The required attribute \'Id\' is missing.' } } } } }

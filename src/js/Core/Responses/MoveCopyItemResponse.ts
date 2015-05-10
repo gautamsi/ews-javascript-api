@@ -8,7 +8,7 @@ class MoveCopyItemResponse extends ServiceResponse {
     private item: Item;
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = MoveCopyItemResponse;
 //module Microsoft.Exchange.WebServices.Data {

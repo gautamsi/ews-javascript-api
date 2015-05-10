@@ -25,7 +25,7 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
   }
   ClearChangeLog(): void { /*virtual method for derived class to implement if needed*/ }
-  InternalLoadFromXml(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string,
+  InternalLoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string,
     readAction: (reader: EwsServiceXmlReader) => boolean /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
 
@@ -54,12 +54,12 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   InternalValidate(): void { /*virtual method for derived class to implement if needed*/ }
   //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
   //LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
-  LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
-    this.InternalLoadFromXml(
-      reader,
+  LoadFromXmlJsObject(jsObject: any, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+    this.InternalLoadFromXmlJsObject(
+      jsObject,
       xmlNamespace || this.Namespace,
       xmlElementName,
-      this.TryReadElementFromXml);
+      this.TryReadElementFromXmlJsObject);
   }
   ReadAttributesFromXml(reader: EwsServiceXmlReader): void { /*virtual method for derived class to implement if needed*/ }
   ReadTextValueFromXml(reader: EwsServiceXmlReader): void { /*virtual method for derived class to implement if needed*/ }
@@ -85,12 +85,12 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
       this.Changed();
     }
   }
-  TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { return false; }
+  TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { return false; }
   TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { return false; }
   //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
-  UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+  UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
 
-    this.InternalLoadFromXml(
+    this.InternalLoadFromXmlJsObject(
       reader,
       xmlNamespace || this.Namespace,
       xmlElementName,

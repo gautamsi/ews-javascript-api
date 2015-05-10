@@ -37,9 +37,9 @@ class FolderPermission extends ComplexProperty {
     InternalToJson(service: ExchangeService, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
     IsEqualTo(permission: FolderPermission): boolean { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
     PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("Not implemented."); }
     Validate(): void { throw new Error("Not implemented."); }
     //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }

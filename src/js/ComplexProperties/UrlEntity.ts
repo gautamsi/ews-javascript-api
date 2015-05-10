@@ -3,7 +3,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class UrlEntity extends ExtractedEntity {
     Url: string;
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = UrlEntity;
 //module Microsoft.Exchange.WebServices.Data {

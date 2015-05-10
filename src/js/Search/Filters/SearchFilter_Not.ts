@@ -13,7 +13,7 @@ class Not extends SearchFilter {
 	InternalValidate(): void{ throw new Error("Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
 	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
 }
 export = Not;

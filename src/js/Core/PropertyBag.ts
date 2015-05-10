@@ -25,9 +25,9 @@ import ICustomUpdateSerializer = require("../Interfaces/ICustomXmlUpdateSerializ
 
 import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 
-import {PropDictionary,KeyValuePair} from "../AltDictionary";
+import {PropDictionary, KeyValuePair} from "../AltDictionary";
 
-import {StringHelper} from "../ExtensionMethods";
+import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 
 //todo: should be done
@@ -50,8 +50,13 @@ class PropertyBag {
     private addedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private requestedPropertySet: PropertySet;
 
-    constructor(serviceObject: ServiceObject) {
-        throw new Error("not implemented");
+    constructor(owner: ServiceObject) {
+        EwsLogging.Assert(
+                owner != null,
+                "PropertyBag.ctor",
+                "owner is null");
+
+            this.owner = owner;
     }
 
     static AddToChangeList(propertyDefinition: PropertyDefinition, changeList: PropertyDefinition[] /*System.Collections.Generic.List<PropertyDefinition>*/): void {
@@ -127,15 +132,15 @@ class PropertyBag {
         return false;
     }
     static GetPropertyUpdateItemName(serviceObject: ServiceObject): string {
-        return serviceObject instanceof Folder ?
-            //return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
+        //return serviceObject instanceof Folder ?
+        return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
     GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<any>): any {
         var outPropertyValue: IOutParam<any> = { value: null };
         exception.outValue = null;
-        var propertyValue:any;
+        var propertyValue: any;
 
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             exception.outValue = new ServiceVersionException(
@@ -194,8 +199,8 @@ class PropertyBag {
         if (complexProperty) {
             complexProperty.OnChange.push(this.PropertyChanged); // can't do += in javascript;
 
-            var isIOwnedProperty = Object.keys(complexProperty).indexOf("Owner") >= 0; //todo: until fix checking interface by some other means, checking property directly
-
+            //var isIOwnedProperty = Object.keys(complexProperty).indexOf("Owner") >= 0; //todo: until fix checking interface by some other means, checking property directly
+            var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty")>=0;
             if (isIOwnedProperty) {
                 var ownedProperty: IOwnedProperty = <any>complexProperty;
                 ownedProperty.Owner = this.Owner;
@@ -237,7 +242,7 @@ class PropertyBag {
         }
     }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
+    LoadFromXmlJsObject(jsObject: any, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
         if (clear) {
             this.Clear();
         }
@@ -250,25 +255,37 @@ class PropertyBag {
         this.onlySummaryPropertiesRequested = onlySummaryPropertiesRequested;
 
         try {
-            do {
-                reader.Read();
 
-                if (reader.NodeType == Node.ELEMENT_NODE) {// XmlNodeType.Element) {
+            for (var key in jsObject) {
+                if (jsObject.hasOwnProperty(key)) {
+                    var element = jsObject[key];
+
                     var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
 
-                    if (this.Owner.Schema.TryGetPropertyDefinition(reader.LocalName, propertyDefinition)) {
-                        propertyDefinition.outValue.LoadPropertyValueFromXml(reader, this);
+                    if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
+                        propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, this);
 
                         this.loadedProperties.push(propertyDefinition.outValue);
                     }
-                    else {
-                        debugger;
-                        reader.SkipCurrentElement();
-                    }
                 }
             }
-            while (reader.HasRecursiveParent(this.Owner.GetXmlElementName()));
 
+
+            //            var objTypeName: string = jsObject["__type"];
+            //            if (StringHelper.IsNullOrEmpty(objTypeName)) {
+            //                objTypeName = TypeSystem.GetJsObjectTypeName(jsObject);
+            //                jsObject = jsObject[objTypeName];
+            //            }
+            //            if (StringHelper.IsNullOrEmpty(objTypeName))
+            //                throw new Error("error determining typename");
+            //
+            //            var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
+            //
+            //            if (this.Owner.Schema.TryGetPropertyDefinition(objTypeName, propertyDefinition)) {
+            //                propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(jsObject, this);
+            //
+            //                this.loadedProperties.push(propertyDefinition.outValue);
+            //            }
             this.ClearChangeLog();
         }
         finally {
@@ -531,6 +548,7 @@ class PropertyBag {
         }
 
         for (var kv of this.deletedProperties.Items) {
+            debugger;
             var property: KeyValuePair<PropertyDefinition, any> = item;
             this.WriteDeleteUpdateToXml(
                 writer,

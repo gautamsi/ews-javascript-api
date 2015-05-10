@@ -7,55 +7,19 @@ $ts2305 = $content | ?{$_.contains("TS2305")}
 $NoTS7017 = $content |?{!$_.contains("TS7017")}
 
 
-
-
 #src/js/Attributes/RequiredServerVersionAttribute.ts(3,11): error TS2304: Cannot find name 'ExchangeVersion'.
-
 $fixes = @()
-
-
 $lines |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
         $fix = "" | select FileToFix,Symbol
         $fix.FileToFix = $matches.file
         $fix.Symbol = $matches.target
-        $fixes += $fix
-    }
-}
-
-
-$fixes = @(); $NoTS7017 |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
-        $fix = "" | select FileToFix,Symbol
-        $fix.FileToFix = $matches.file
-        $fix.Symbol = $matches.target
-        $fixes += $fix
-    }
-}
-
-
-return;$fixes[0] | %{
-    #Write-Verbose $_.FileToFix.Replace("src/js/","").Replace("/","\") -Verbose
-    $filetofix = dir $_.FileToFix.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue
-    if($filetofix){
-        Write-Verbose $_.symbol -Verbose
-        $symfile = dir ($_.symbol + ".ts") -Recurse
-        if($symfile){
-            Write-Verbose $uri1 -Verbose
-            Write-Verbose $uri2 -Verbose
-           $uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
-           $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
-           $importfile = $uri1.MakeRelative($uri2)
-           $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
-           Write-Verbose $importstatement -Verbose
-
+        if(!$fix.FileToFix.EndsWith(".d.ts")){
+            $fixes += $fix
         }
     }
 }
-
-
-
 #| ?{$_.filetofix.contains("AddressEntityCollection")}
-
-return;$fixes  | group filetofix |  %{ ############## - use this to fix TS2304
+$fixes  | group filetofix |  %{ ############## - use this to fix TS2304
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
         $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
         if($filetofix){
@@ -90,6 +54,41 @@ return;$fixes  | group filetofix |  %{ ############## - use this to fix TS2304
         #$filecontent
     }
 }
+
+
+
+
+
+
+$fixes = @(); $NoTS7017 |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
+        $fix = "" | select FileToFix,Symbol
+        $fix.FileToFix = $matches.file
+        $fix.Symbol = $matches.target
+        $fixes += $fix
+    }
+}
+
+
+return;$fixes[0] | %{
+    #Write-Verbose $_.FileToFix.Replace("src/js/","").Replace("/","\") -Verbose
+    $filetofix = dir $_.FileToFix.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue
+    if($filetofix){
+        Write-Verbose $_.symbol -Verbose
+        $symfile = dir ($_.symbol + ".ts") -Recurse
+        if($symfile){
+            Write-Verbose $uri1 -Verbose
+            Write-Verbose $uri2 -Verbose
+           $uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
+           $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
+           $importfile = $uri1.MakeRelative($uri2)
+           $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
+           Write-Verbose $importstatement -Verbose
+
+        }
+    }
+}
+
+
 
 
 

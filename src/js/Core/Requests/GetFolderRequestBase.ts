@@ -10,7 +10,7 @@ import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
 
 import GetRequest = require("./GetRequest");
 class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest<Folder, TResponse> {
-    get FolderIds(): FolderIdWrapperList { return this.folderIds; } //todo - implement
+    get FolderIds(): FolderIdWrapperList { return this.folderIds; }
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
 
     constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling:any) {

@@ -17,7 +17,7 @@ class FindItemResponse<TItem extends Item> extends ServiceResponse {
     InternalReadItemsFromJson(jsonObject: JsonObject, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("Not implemented."); }
     InternalReadItemsFromXml(reader: EwsServiceXmlReader, propertySet: PropertySet, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("Not implemented."); }
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = FindItemResponse;
 //module Microsoft.Exchange.WebServices.Data {

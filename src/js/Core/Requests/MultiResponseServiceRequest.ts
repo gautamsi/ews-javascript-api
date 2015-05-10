@@ -1,3 +1,4 @@
+import ServiceJsonDeserializationException = require("../../Exceptions/ServiceJsonDeserializationException");
 import Strings = require("../../Strings");
 import ServiceResponse = require("../Responses/ServiceResponse");
 import ExchangeService = require("../ExchangeService");
@@ -11,6 +12,7 @@ import ServiceErrorHandling = require("../../Enumerations/ServiceErrorHandling")
 import ServiceResponseCollection = require("../Responses/ServiceResponseCollection");
 import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
 import ServiceXmlDeserializationException = require("../../Exceptions/ServiceXmlDeserializationException");
+import RenderingMode = require("../../Enumerations/RenderingMode");
 
 import {StringHelper} from "../../ExtensionMethods";
 
@@ -44,7 +46,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
                     serviceResponses.__thisIndexer(0).ThrowIfNecessary();
                 }
 
-                //return serviceResponses;
+                //return serviceResponses; //no return succedssdelegates take care of returning
 
 
                 if (successDelegate)
@@ -53,7 +55,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
                     if (errorDelegate)
                         errorDelegate(value);
                 }
-            },(resperr: any) => {
+            }, (resperr: any) => {
                     debugger;
                     if (errorDelegate) errorDelegate(resperr);
                 });
@@ -61,22 +63,23 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
     }
     GetExpectedResponseMessageCount(): number { throw new Error("Abstract; must implemented."); }
     GetResponseMessageXmlElementName(): string { throw new Error("Abstract; must implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any {
+    ParseResponseXMLJsObject(jsObject: any): any {
         var serviceResponses = new ServiceResponseCollection<TResponse>();
+        //set context to XmlElementNames.ResponseMessages
+        //tod: this can have multiple reponse messages.
+        jsObject = jsObject[XmlElementNames.ResponseMessages]
+        var jsResponseMessages: any[] = [];
+        if (Object.prototype.toString.call(jsObject) === "[object Array]")
+            jsResponseMessages = jsObject;
+        else
+            jsResponseMessages = [jsObject];
 
-        reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-
+        var responseMessageXmlElementName = this.GetResponseMessageXmlElementName();
+        
+        //for (var i = 0; i < responses.length; i++) {
         for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
-            // Read ahead to see if we've reached the end of the response messages early.
-            reader.Read(); debugger;
-            if (reader.HasRecursiveParent(XmlElementNames.ResponseMessages)) {
-                break;
-            }
-
-            var response = this.CreateServiceResponse(reader.Service, i);
-
-            response.LoadFromXml(reader, this.GetResponseMessageXmlElementName());
-
+            var response: TResponse = this.CreateServiceResponse(this.Service, i);
+            response.LoadFromXmlJsObject(jsResponseMessages[i], responseMessageXmlElementName, this.Service);
             // Add the response to the list after it has been deserialized because the response
             // list updates an overall result as individual responses are added to it.
             serviceResponses.Add(response);
@@ -88,7 +91,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
         // call). In this case, throw a ServiceResponsException. Otherwise this
         // is an unexpected server error.
         if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
-            if ((serviceResponses.Count == 1) && (serviceResponses.__thisIndexer(0).Result == ServiceResult.Error)) {
+            if ((serviceResponses.Count >= 1) && (serviceResponses.__thisIndexer(0).Result == ServiceResult.Error)) {
                 throw new ServiceResponseException(serviceResponses.__thisIndexer(0));
             }
             else {
@@ -101,57 +104,43 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
             }
         }
 
-        reader.ReadEndElementIfNecessary(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-
         return serviceResponses;
     }
-    ParseResponseObject(object:any): any {
-        var serviceResponses = new ServiceResponseCollection<TResponse>();
-        debugger;
-        throw new Error("missing implementaytion");
-        // reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-        //
-        // for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
-        //     // Read ahead to see if we've reached the end of the response messages early.
-        //     reader.Read(); debugger;
-        //     if (reader.HasRecursiveParent(XmlElementNames.ResponseMessages)) {
-        //         break;
-        //     }
-        //
-        //     var response = this.CreateServiceResponse(reader.Service, i);
-        //
-        //     response.LoadFromXml(reader, this.GetResponseMessageXmlElementName());
-        //
-        //     // Add the response to the list after it has been deserialized because the response
-        //     // list updates an overall result as individual responses are added to it.
-        //     serviceResponses.Add(response);
-        //}
+    ParseResponse(jsonBody: any): any {
 
-        // // If there's a general error in batch processing,
-        // // the server will return a single response message containing the error
-        // // (for example, if the SavedItemFolderId is bogus in a batch CreateItem
-        // // call). In this case, throw a ServiceResponsException. Otherwise this
-        // // is an unexpected server error.
-        // if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
-        //     if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
-        //         throw new ServiceResponseException(serviceResponses[0]);
-        //     }
-        //     else {
-        //         throw new ServiceXmlDeserializationException(
-        //             String.Format(
-        //                 Strings.TooFewServiceReponsesReturned,
-        //                 this.GetResponseMessageXmlElementName(),
-        //                 this.GetExpectedResponseMessageCount(),
-        //                 serviceResponses.Count));
-        //     }
-        // }
-        //
-        // reader.ReadEndElementIfNecessary(XmlNamespace.Messages, XmlElementNames.ResponseMessages);
-        //
-        // return serviceResponses;
+        if (this.Service.RenderingMethod === RenderingMode.JSON) {
+            throw new Error("not implemented");
+
+            var serviceResponses = new ServiceResponseCollection<TResponse>();
+            var jsonResponseMessages: any[] = jsonBody[XmlElementNames.ResponseMessages][XmlElementNames.Items];
+
+            var responseCtr: number = 0;
+            for (var jsonResponseObject of jsonResponseMessages) {
+                var response: TResponse = this.CreateServiceResponse(this.Service, responseCtr);
+
+                response.LoadFromJson(jsonResponseObject, this.Service);
+
+                // Add the response to the list after it has been deserialized because the response
+                // list updates an overall result as individual responses are added to it.
+                serviceResponses.Add(response);
+
+                responseCtr++;
+            }
+
+            if (serviceResponses.Count < this.GetExpectedResponseMessageCount()) {
+                if ((serviceResponses.Count == 1) && (serviceResponses[0].Result == ServiceResult.Error)) {
+                    throw new ServiceResponseException(serviceResponses[0]);
+                }
+                else {
+                    throw new ServiceJsonDeserializationException();
+                }
+            }
+            return serviceResponses;
+        }
+        else {
+            return this.ParseResponseXMLJsObject(jsonBody);
+        }
     }
-
-    //ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
 }
 export = MultiResponseServiceRequest;
 

@@ -8,7 +8,7 @@ class CreateItemResponseBase extends ServiceResponse {
     private items: Item[];//System.Collections.Generic.List<Item>;
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = CreateItemResponseBase;
 //module Microsoft.Exchange.WebServices.Data {

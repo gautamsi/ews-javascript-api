@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetRoomListsResponse extends ServiceResponse {
     RoomLists: EmailAddressCollection;
     private roomLists: EmailAddressCollection;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = GetRoomListsResponse;
 

@@ -7,7 +7,7 @@ class DelegateManagementResponse extends ServiceResponse {
     private readDelegateUsers: boolean;
     private delegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
     private delegateUserResponses: DelegateUserResponse[];//System.Collections.ObjectModel.Collection<DelegateUserResponse>;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = DelegateManagementResponse;
 

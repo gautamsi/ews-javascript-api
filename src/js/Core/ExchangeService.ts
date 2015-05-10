@@ -194,7 +194,7 @@ class ExchangeService extends ExchangeServiceBase {
     //BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest { throw new Error("Not implemented."); }
     //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("Not implemented."); }
     //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    //CopyFolder(folderId: FolderId, destinationFolderId: FolderId): Folder { throw new Error("Not implemented."); }
+    CopyFolder(folderId: FolderId, destinationFolderId: FolderId): Folder { throw new Error("Not implemented."); }
     //CopyItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("Not implemented."); }
     //CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
     ////CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }

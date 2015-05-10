@@ -8,7 +8,7 @@ class ResolveNamesResponse extends ServiceResponse {
     private resolutions: NameResolutionCollection;
     InternalThrowIfNecessary(): any { throw new Error("Not implemented."); }
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = ResolveNamesResponse;
 //module Microsoft.Exchange.WebServices.Data {

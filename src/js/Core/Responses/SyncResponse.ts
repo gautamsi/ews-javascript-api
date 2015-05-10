@@ -15,7 +15,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	GetChangeIdElementName(): string{ throw new Error("Not implemented.");}
 	GetIncludesLastInRangeXmlElementName(): string{ throw new Error("Not implemented.");}
 	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	ReadElementsFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
 }
 export = SyncResponse;
 

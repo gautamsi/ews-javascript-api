@@ -15,7 +15,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	private errorMessage: string;
 	private value: string;
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 }
 export = RuleError;
 

@@ -67,7 +67,7 @@ class EwsServiceXmlReader extends EwsXmlReader {
                                 serviceObject.GetXmlElementName()));
                     }
 
-                    serviceObject.LoadFromXml(
+                    serviceObject.LoadFromXmlJsObject(
                         this,
                         clearPropertyBag,
                         requestedPropertySet,

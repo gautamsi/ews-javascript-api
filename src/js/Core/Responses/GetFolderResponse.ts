@@ -1,11 +1,13 @@
+import EwsServiceJsonReader = require("../EwsServiceJsonReader");
 import Folder = require("../ServiceObjects/Folders/Folder");
+import FolderInfo = require("../ServiceObjects/Folders/FolderInfo");
 import PropertySet = require("../PropertySet");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import ExchangeService = require("../ExchangeService");
 import EwsUtilities = require("../EwsUtilities");
-import {EwsLogging} from "../../Core/EwsLogging";
+import {EwsLogging} from "../EwsLogging";
 import XmlElementNames = require("../XmlElementNames");
-
+import {TypeSystem} from "../../ExtensionMethods";
 import ServiceResponse = require("./ServiceResponse");
 class GetFolderResponse extends ServiceResponse {
     get Folder(): Folder { return this.folder; }
@@ -29,14 +31,15 @@ class GetFolderResponse extends ServiceResponse {
             return this.Folder;
         }
         else {
-            return EwsUtilities.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
+            var flinfo:FolderInfo = new FolderInfo();
+            return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
         }
     }
-    //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): void {
-        super.ReadElementsFromXml(reader);
+    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
+        super.ReadElementsFromJson(responseObject, service);
 
-        var folders: Folder[] = reader.ReadServiceObjectsCollectionFromXml<Folder>(
+        var folders: Folder[] = new EwsServiceJsonReader(service).ReadServiceObjectsCollectionFromJson<Folder>(
+            responseObject,
             XmlElementNames.Folders,
             this.GetObjectInstance,
             true,               /* clearPropertyBag */
@@ -45,9 +48,39 @@ class GetFolderResponse extends ServiceResponse {
 
         this.folder = folders[0];
     }
+    ReadElementsFromXmlJsObject(jsObject: any, service:ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(jsObject, service);
+        jsObject = jsObject[XmlElementNames.Folders];
+        var folders: Folder[] = [];
+        var responseFolders: any[] = [];
+        if (Object.prototype.toString.call(jsObject) === "[object Array]")
+            responseFolders = jsObject;
+        else
+            responseFolders = [jsObject];
+
+        for (var responseFolder of responseFolders) {
+            var folderTypeName = TypeSystem.GetJsObjectTypeName(responseFolder);
+            if(folderTypeName){
+                var instance:Folder = this.GetObjectInstance(service,folderTypeName);
+                instance.LoadFromXmlJsObject(responseFolder[folderTypeName], true,this.propertySet,false);
+                var v = instance;
+                folders.push(instance);
+                debugger;
+            }else throw new Error("error determining typename");
+        }
+        //         = reader.ReadServiceObjectsCollectionFromXml<Folder>(
+        //            XmlElementNames.Folders,
+        //            this.GetObjectInstance,
+        //            true,               /* clearPropertyBag */
+        //            this.propertySet,   /* requestedPropertySet */
+        //            false);             /* summaryPropertiesOnly */
+
+        this.folder = folders[0];
+    }
+
 }
 
-export= GetFolderResponse;
+export = GetFolderResponse;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

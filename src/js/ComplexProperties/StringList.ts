@@ -19,7 +19,7 @@ class StringList extends ComplexProperty {
     Remove(s: string): boolean { throw new Error("Not implemented."); }
     RemoveAt(index: number): any { throw new Error("Not implemented."); }
     ToString(): string { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 export = StringList;

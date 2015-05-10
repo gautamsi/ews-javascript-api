@@ -6,7 +6,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class MarkAsJunkResponse extends ServiceResponse {
     MovedItemId: ItemId;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = MarkAsJunkResponse;
 //module Microsoft.Exchange.WebServices.Data {

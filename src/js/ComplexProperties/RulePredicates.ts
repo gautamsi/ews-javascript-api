@@ -76,7 +76,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	private withinDateRange: RulePredicateDateRange;
 	private withinSizeRange: RulePredicateSizeRange;
 	InternalValidate(): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
 }
 export = RulePredicates;

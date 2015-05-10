@@ -163,7 +163,13 @@ class ExchangeServiceBase {
         return request;
     }
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("Not implemented."); }
-    ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
+    ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): void {
+        return;
+        //todo: implement tracing
+        this.TraceHttpResponseHeaders(traceType, response);
+
+        this.SaveHttpResponseHeaders(response.Headers);
+    }
     SaveHttpResponseHeaders(headers: IXHROptions/* System.Net.WebHeaderCollection*/): any {
         debugger;
         this.httpResponseHeaders = {};

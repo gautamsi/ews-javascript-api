@@ -61,7 +61,7 @@ class EwsUtilities {
     static BuildVersion: string;
     private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
         () => {
-            return new ServiceObjectInfo();
+            //return new ServiceObjectInfo();
         });
     //private static buildVersion: LazyMember<T>;
     private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
@@ -185,12 +185,12 @@ class EwsUtilities {
         //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
         debugger;
 
-        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
-
-        if (creationDelegate) {
-            return creationDelegate(service);
-        }
-        else return null;
+//        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+//
+//        if (creationDelegate) {
+//            return creationDelegate(service);
+//        }
+//        else return null;
 
         //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
         //if (itemClass) {

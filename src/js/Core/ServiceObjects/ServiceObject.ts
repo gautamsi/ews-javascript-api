@@ -142,9 +142,9 @@ class ServiceObject {
     }
     //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("Not implemented."); }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
-        this.PropertyBag.LoadFromXml(
-            reader,
+    LoadFromXmlJsObject(jsObject: any, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
+        this.PropertyBag.LoadFromXmlJsObject(
+            jsObject,
             clearPropertyBag,
             requestedPropertySet,
             summaryPropertiesOnly);

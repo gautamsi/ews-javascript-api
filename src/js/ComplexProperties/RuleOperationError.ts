@@ -16,7 +16,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	GetEnumerator(): RuleError[] /*System.Collections.Generic.IEnumerator<RuleError>*/{ throw new Error("Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
 	SetOperationByIndex(operations: RuleOperation[] /*System.Collections.Generic.IEnumerator<RuleOperation>*/): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
 }
 export = RuleOperationError;
 

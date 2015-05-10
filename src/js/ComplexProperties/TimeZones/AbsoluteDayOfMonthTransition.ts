@@ -7,7 +7,7 @@ class AbsoluteDayOfMonthTransition extends AbsoluteMonthTransition {
     CreateTransitionTime(): any { throw new Error("Not implemented."); }
     GetXmlElementName(): string { throw new Error("Not implemented."); }
     InitializeFromTransitionTime(transitionTime: any): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
 }
 export = AbsoluteDayOfMonthTransition;

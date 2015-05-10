@@ -34,7 +34,7 @@ class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
 	InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): void { throw new Error("Not implemented."); }
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void { throw new Error("Not implemented."); }
 	PropertyBagChanged(): void { throw new Error("Not implemented."); }
-	TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 	WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("Not implemented."); }
 	WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("Not implemented."); }
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void { throw new Error("Not implemented."); }

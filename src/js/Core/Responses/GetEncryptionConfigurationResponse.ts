@@ -9,7 +9,7 @@ class GetEncryptionConfigurationResponse extends ServiceResponse {
     private emailText: string;
     private portalText: string;
     private disclaimerText: string;
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 
 export=GetEncryptionConfigurationResponse;

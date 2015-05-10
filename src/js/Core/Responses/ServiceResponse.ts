@@ -1,3 +1,5 @@
+import ExchangeService = require("../ExchangeService");
+import Strings = require("../../Strings");
 import ServiceError = require("../../Enumerations/ServiceError");
 import ServiceResult = require("../../Enumerations/ServiceResult");
 import XmlNamespace = require("../../Enumerations/XmlNamespace");
@@ -61,66 +63,83 @@ class ServiceResponse {
             return false;
         }
     }
-    //LoadFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): void {
-        if (!reader.IsElement(XmlNamespace.Messages, xmlElementName)) {
-            reader.ReadStartElement(XmlNamespace.Messages, xmlElementName);
+    LoadFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): any {
+
+        this.result = <any>ServiceResult[responseObject[XmlAttributeNames.ResponseClass]];
+        this.errorCode = <any>ServiceError[responseObject[XmlElementNames.ResponseCode]];
+            
+        // TODO: Deal with a JSON version of "LoadExtraDetailsFromXml"
+        if (this.result == ServiceResult.Warning || this.result == ServiceResult.Error) {
+            this.ErrorMessage = responseObject[XmlElementNames.MessageText];
         }
 
-        var attribute = reader.ReadAttributeValue(null, XmlAttributeNames.ResponseClass);
-        debugger;
-        this.result = ServiceResult[attribute];
+        if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
+            if (!this.BatchProcessingStopped) {
+                this.ReadElementsFromJson(responseObject, service);
+            }
+        }
 
+        this.MapErrorCodeToErrorMessage();
+
+        this.Loaded();
+
+    }
+    LoadFromXmlJsObject(jsObject: any, xmlElementName: string, service:ExchangeService): void {
+        //set contecxt to xmlelementname 
+        jsObject = jsObject[xmlElementName];
+
+        var resClass = jsObject[XmlAttributeNames.ResponseClass];
+        debugger;
+        this.result = <any>ServiceResult[resClass];
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
             if (this.result == ServiceResult.Warning) {
-                reader.Read();
-                if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.MessageText)) {
-                    this.ErrorMessage = reader.ReadElementValue();
-                } else debugger;
+                if (jsObject[XmlElementNames.MessageText]) {
+                    this.ErrorMessage = jsObject[XmlElementNames.MessageText];
+                }
+                else
+                    debugger;
+                if (jsObject[XmlElementNames.DescriptiveLinkKey]) {
+                    this.ErrorMessage = jsObject[XmlElementNames.DescriptiveLinkKey];
+                }
+                else
+                    debugger;
             }
-            reader.Read();
-            if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.ResponseCode))
-                this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
+
+            if (jsObject[XmlElementNames.ResponseCode])
+                this.errorCode = <any>ServiceError[jsObject[XmlElementNames.ResponseCode]];
             else debugger;
-            if (this.result == ServiceResult.Warning) {
-                reader.Read();
-                if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey))
-                    reader.ReadElementValue();
-                else debugger;
-            }
+
 
             // If batch processing stopped, EWS returns an empty element. Skip over it.
             if (this.BatchProcessingStopped) {
-                do {
-                    reader.Read();
-                }
-                while (!reader.HasRecursiveParent(xmlElementName));
+//                do {
+//                    reader.Read();
+//                }
+//                while (!reader.HasRecursiveParent(xmlElementName));
             }
             else {
-                this.ReadElementsFromXml(reader);
-
-                reader.ReadEndElementIfNecessary(XmlNamespace.Messages, xmlElementName);
+                this.ReadElementsFromXmlJsObject(jsObject, service);
             }
         }
         else {
-            reader.Read();
-            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
-            reader.Read();
-            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
-
-            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
-
-            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
-                reader.Read();
-
-                //if (reader.IsStartElement()) {
-                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
-                    reader.SkipCurrentElement();
-                }
-                //}
-            }
-            reader.SeekLast();
+//todo: check what  is missing            
+//            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
+//            reader.Read();
+//            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
+//
+//            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
+//
+//            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
+//                reader.Read();
+//
+//                //if (reader.IsStartElement()) {
+//                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
+//                    reader.SkipCurrentElement();
+//                }
+//                //}
+//            }
+//            reader.SeekLast();
         }
 
         this.MapErrorCodeToErrorMessage();
@@ -130,7 +149,7 @@ class ServiceResponse {
     MapErrorCodeToErrorMessage(): void {
         // Use a better error message when an item cannot be updated because its changeKey is old.
         if (this.ErrorCode == ServiceError.ErrorIrresolvableConflict) {
-            this.ErrorMessage = "item is out of date";// Strings.ItemIsOutOfDate;
+            this.ErrorMessage = Strings.ItemIsOutOfDate;
         }
     }
     ParseMessageXml(reader: EwsServiceXmlReader): void {
@@ -169,8 +188,10 @@ class ServiceResponse {
         while (!reader.HasRecursiveParent(/*XmlNamespace.Messages,*/ XmlElementNames.MessageXml));
         reader.SeekLast();
     }
-    //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
+    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
+        //virtual void
+    }
+    ReadElementsFromXmlJsObject(jsObject: any, service:ExchangeService): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
     ThrowIfNecessary(): void { this.InternalThrowIfNecessary(); }
 }
 

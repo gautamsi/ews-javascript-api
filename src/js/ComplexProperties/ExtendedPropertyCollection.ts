@@ -11,7 +11,7 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
     GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string { throw new Error("Not implemented."); }
     GetOrAddExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): ExtendedProperty { throw new Error("Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
     RemoveExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): boolean { throw new Error("Not implemented."); }
     SetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Not implemented."); }
     TryGetProperty(propertyDefinition: ExtendedPropertyDefinition, extendedProperty: any): boolean { throw new Error("Not implemented."); }

@@ -1,3 +1,4 @@
+import ItemAttachment = require("../ComplexProperties/ItemAttachment");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
@@ -34,7 +35,7 @@ export interface ResponseHeadersCapturedHandler {
 
 
 export interface ServiceObjectChangedDelegate {
-    (serviceObject: ServiceObject): any;
+    (serviceObject: ServiceObject): ServiceObject;
 }
 //class ServiceObjectChangedDelegate extends System.MulticastDelegate {
 //    //BeginInvoke(serviceObject: ServiceObject, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
@@ -77,6 +78,25 @@ export interface CreateComplexPropertyDelegate<TComplexProperty extends ComplexP
     //    //Invoke(): TComplexProperty{ throw new Error("Not implemented.");}
     //}
 
+
+export interface CreateServiceObjectWithServiceParam {
+    (srv: ExchangeService): any;
+}
+
+export interface CreateServiceObjectWithAttachmentParam {
+    (itemAttachment: ItemAttachment, isNew: boolean): any
+}
+
+    //class CreateServiceObjectWithAttachmentParam extends System.MulticastDelegate {
+    //    BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    Invoke(itemAttachment: ItemAttachment, isNew: boolean): any{ throw new Error("Not implemented.");}
+    //}
+    //class CreateServiceObjectWithServiceParam extends System.MulticastDelegate {
+    //    BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
+    //    Invoke(srv: ExchangeService): any{ throw new Error("Not implemented.");}
+    //}
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

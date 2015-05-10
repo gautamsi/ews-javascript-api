@@ -1,3 +1,4 @@
+import IOwnedProperty = require("../Interfaces/IOwnedProperty");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import {EwsLogging} from "../Core/EwsLogging";
@@ -27,7 +28,19 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
         this.propertyCreationDelegate = propertyCreationDelegate;
     }
 
-    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("Not implemented."); }
+    CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
+
+        var complexProperty: TComplexProperty = this.propertyCreationDelegate();
+        //info: Implementation check is implemented in complexproperty by using ___ImplementsInterface array property
+        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty")>=0;
+            if (isIOwnedProperty) {
+                var ownedProperty: IOwnedProperty = <any>complexProperty;
+                ownedProperty.Owner = owner;
+            }
+
+     if(complexProperty)       
+        return complexProperty;
+    }
 }
 
 export = ComplexPropertyDefinition;

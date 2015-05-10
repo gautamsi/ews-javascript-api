@@ -33,11 +33,11 @@ class ComplexPropertyCollection<TComplexProperty> extends ComplexProperty {
     InternalRemoveAt(index: number): any { throw new Error("Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
     ItemChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, localElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
     //LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
     RemoveFromChangeLog(complexProperty: TComplexProperty): any { throw new Error("Not implemented."); }
     ShouldWriteToRequest(): boolean { throw new Error("Not implemented."); }
-    UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
+    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
 }

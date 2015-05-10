@@ -1,3 +1,5 @@
+import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
+import ExchangeService = require("../Core/ExchangeService");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
@@ -15,7 +17,14 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     get Version(): ExchangeVersion { return this.version; }
     get IsNullable(): boolean { return true; }
     get XmlElementName(): string { return this.xmlElementName; }
-    get Name(): string { if (StringHelper.IsNullOrEmpty(this.name)) { debugger; } return this.name; }
+    get Name(): string {
+        if (StringHelper.IsNullOrEmpty(this.name)) {
+            throw new Error("incorrectly registered propertynames - info: fixed by initializing names in respective serviceobjectschema static properties. fix if receive this error");
+            //todo:fix: can not use this to initialize names, ServiceObjectSchema creates circular loops in modules.
+            //ServiceObjectSchema.InitializeSchemaPropertyNames(); //info: fixed by initializing names in respective serviceobjectschema static properties. fix if receive this error
+        }
+        return this.name;
+    }
     set Name(value: string) { this.name = value; }
     private xmlElementName: string;
     private flags: PropertyDefinitionFlags;
@@ -45,12 +54,11 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     HasFlag(flag: PropertyDefinitionFlags, version?: ExchangeVersion): boolean {
         return (this.flags & flag) == flag;
     }
-    //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    LoadPropertyValueFromXml(reader: EwsServiceXmlReader, propertyBag: PropertyBag): void { throw new Error("abstract method, must implement"); }
-    LoadPropertyValueFromObject(obj: any, propertyBag:PropertyBag): void { throw new Error("abstract method, must implement"); }
+    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): void { /*throw new Error("abstract method, must implement");*/ }
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]/* System.Collections.Generic.List<PropertyDefinition>*/): any {
     }
-    //WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    WriteJsonValue(jsonObject: any, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         throw new Error("abstract method, must implement.");
     }

@@ -8,7 +8,7 @@ class GetConversationItemsResponse extends ServiceResponse {
     Conversation: ConversationResponse;
     private propertySet: PropertySet;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
 }
 export = GetConversationItemsResponse;
 //module Microsoft.Exchange.WebServices.Data {

@@ -18,7 +18,7 @@ class FileAttachment extends Attachment {
     //Load(stream: System.IO.Stream): any { throw new Error("Not implemented."); }
     //Load(fileName: string): any { throw new Error("Not implemented."); }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
     //Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }

@@ -10,7 +10,7 @@ class VotingInformation extends ComplexProperty {
     private userOptions: VotingOptionData[];//System.Collections.ObjectModel.Collection<VotingOptionData>;
     private votingResponse: string;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = VotingInformation;
 //module Microsoft.Exchange.WebServices.Data {

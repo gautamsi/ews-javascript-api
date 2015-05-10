@@ -8,7 +8,7 @@ class HighlightTerm extends ComplexProperty {
     private scope: string;
     private value: string;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
 }
 export = HighlightTerm;
 //module Microsoft.Exchange.WebServices.Data {

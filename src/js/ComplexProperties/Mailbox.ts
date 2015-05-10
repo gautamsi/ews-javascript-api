@@ -60,7 +60,7 @@ class Mailbox extends ComplexProperty {
             return this.Address;
         }
     }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean {
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
         switch (reader.LocalName) {
             case XmlElementNames.EmailAddress:
                 this.Address = reader.ReadElementValue();

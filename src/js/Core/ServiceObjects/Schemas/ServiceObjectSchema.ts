@@ -1,3 +1,25 @@
+///////////////////
+import AppointmentSchema = require("./AppointmentSchema");
+import CalendarResponseObjectSchema = require("./CalendarResponseObjectSchema");
+import CancelMeetingMessageSchema = require("./CancelMeetingMessageSchema");
+import ContactGroupSchema = require("./ContactGroupSchema");
+import ContactSchema = require("./ContactSchema");
+import ConversationSchema = require("./ConversationSchema");
+import EmailMessageSchema = require("./EmailMessageSchema");
+import FolderSchema = require("./FolderSchema");
+import ItemSchema = require("./ItemSchema");
+import MeetingMessageSchema = require("./MeetingMessageSchema");
+import MeetingRequestSchema = require("./MeetingRequestSchema");
+import MeetingCancellationSchema = require("./MeetingCancellationSchema");
+import MeetingResponseSchema = require("./MeetingResponseSchema");
+import PostItemSchema = require("./PostItemSchema");
+import PostReplySchema = require("./PostReplySchema");
+import ResponseMessageSchema = require("./ResponseMessageSchema");
+import ResponseObjectSchema = require("./ResponseObjectSchema");
+import SearchFolderSchema = require("./SearchFolderSchema");
+import TaskSchema = require("./TaskSchema");
+
+///////////
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 import PropertyDefinitionBase = require("../../../PropertyDefinitions/PropertyDefinitionBase");
 import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
@@ -5,10 +27,10 @@ import ComplexPropertyDefinition = require("../../../PropertyDefinitions/Complex
 import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
 
 import IOutParam = require("../../../Interfaces/IOutParam");
-import altDict = require("../../../AltDictionary");
-import StringPropertyDefinitionBaseDictionary = altDict.StringPropertyDefinitionBaseDictionary;
-import PropDictionary = altDict.PropDictionary;
+import {StringPropertyDefinitionBaseDictionary, PropDictionary, PropertyDefinitionDictionary} from "../../../AltDictionary";
 
+
+import LazyMember = require("../../LazyMember");
 
 import EwsUtilities = require("../../EwsUtilities");
 import {EwsLogging} from "../../EwsLogging";
@@ -21,7 +43,7 @@ import ExtendedPropertyCollection = require("../../../ComplexProperties/Extended
 class ServiceObjectSchema {
     //todo: fixing difficulties with following c# code.
     //using PropertyDefinitionDictionary = LazyMember < System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
-    //using SchemaTypeList = LazyMember < System.Collections.Generic.List < System.Type>>;
+    //type SchemaTypeList = LazyMember <string[]>;
     get FirstClassProperties(): PropertyDefinition[] { return this.firstClassProperties; }//System.Collections.Generic.List<PropertyDefinition>;
     get FirstClassSummaryProperties(): PropertyDefinition[] { return this.firstClassSummaryProperties; }//System.Collections.Generic.List<PropertyDefinition>;
     get IndexedProperties(): IndexedPropertyDefinition[] { return this.indexedProperties; }//System.Collections.Generic.List<IndexedPropertyDefinition>;
@@ -31,7 +53,7 @@ class ServiceObjectSchema {
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
     private static lockObject: any = {};
-    private static allSchemaTypes: string[] = function () { //SchemaTypeList - LazyMember<T>; - using typenames[] temporarily
+    private static allSchemaTypes: LazyMember<string[]> = new LazyMember<string[]>(() => { //SchemaTypeList - LazyMember<T>; - using typenames[] temporarily
         var typeList: string[] = [];
         return typeList;
         typeList.push("AppointmentSchema");
@@ -56,22 +78,50 @@ class ServiceObjectSchema {
         typeList.push("TaskSchema");
 
         return typeList;
-    } ();
-    private static allSchemaProperties = function () {// string[] //LazyMember<T>;
+    });
+    
+//    private static allSchemaTypes: LazyMember<any[]> = new LazyMember<any[]>(() => { //SchemaTypeList - LazyMember<T>; - using typenames[] temporarily
+//        var typeList: any[] = [];
+//        return typeList;
+//        typeList.push(AppointmentSchema);
+//        typeList.push(CalendarResponseObjectSchema);
+//        typeList.push(CancelMeetingMessageSchema);
+//        typeList.push(ContactGroupSchema);
+//        typeList.push(ContactSchema);
+//        typeList.push(ConversationSchema);
+//        typeList.push(EmailMessageSchema);
+//        typeList.push(FolderSchema);
+//        typeList.push(ItemSchema);
+//        typeList.push(MeetingMessageSchema);
+//        typeList.push(MeetingRequestSchema);
+//        typeList.push(MeetingCancellationSchema);
+//        typeList.push(MeetingResponseSchema);
+//        typeList.push(PostItemSchema);
+//        typeList.push(PostReplySchema);
+//        typeList.push(ResponseMessageSchema);
+//        typeList.push(ResponseObjectSchema);
+//        typeList.push(ServiceObjectSchema);
+//        typeList.push(SearchFolderSchema);
+//        typeList.push(TaskSchema);
+//
+//        return typeList;
+//    });
+    private static allSchemaProperties = new LazyMember<StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase>>(()=> {// string[] //LazyMember<T>;PropertyDefinitionDictionary => LazyMember<System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
         var propDefDictionary: StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase> = new StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase>();
-        for (var type of ServiceObjectSchema.allSchemaTypes) {
+        for (var type of ServiceObjectSchema.allSchemaTypes.Member) {
             //var type: string = item;
             ServiceObjectSchema.AddSchemaPropertiesToDictionary(type, propDefDictionary);
         }
+        
         return propDefDictionary;
-    } ();
+    });
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
-                XmlElementNames.ExtendedProperty,
-                ExchangeVersion.Exchange2007_SP1,
-                undefined,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-                ()=> { return new ExtendedPropertyCollection(); });
-                
+        XmlElementNames.ExtendedProperty,
+        ExchangeVersion.Exchange2007_SP1,
+        undefined,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        () => { return new ExtendedPropertyCollection(); });
+
 
     constructor() {
         this.RegisterProperties();
@@ -115,9 +165,10 @@ class ServiceObjectSchema {
             { propertyNameDictionary.add(propertyDefinition, fieldName); });
     }
     static FindPropertyDefinition(uri: string): PropertyDefinitionBase {
-        return ServiceObjectSchema.allSchemaProperties.get(uri);
+        return ServiceObjectSchema.allSchemaProperties.Member.get(uri);
     }
-    static ForeachPublicStaticPropertyFieldInType(type: any /*System.Type*/, propFieldDelegate: (propertyDefinition: PropertyDefinition, fieldInfo: any /*FieldInfo*/) => void /*ServiceObjectSchema.PropertyFieldInfoDelegate*/): void {
+    static ForeachPublicStaticPropertyFieldInType(type: string /*System.Type*/, propFieldDelegate: (propertyDefinition: PropertyDefinition, fieldInfo: any /*FieldInfo*/) => void /*ServiceObjectSchema.PropertyFieldInfoDelegate*/): void {
+        
         var keys = Object.keys(type);
         keys.forEach((s) => {
             if (typeof (type[s]) != "function" && type[s] instanceof (PropertyDefinition)) {
@@ -136,9 +187,10 @@ class ServiceObjectSchema {
     }
     GetEnumerator(): PropertyDefinition[] { return this.visibleProperties; }
     static InitializeSchemaPropertyNames(): void {
+        
         //lock(lockObject)
         //{
-        for (var type of ServiceObjectSchema.allSchemaTypes) {
+        for (var type of ServiceObjectSchema.allSchemaTypes.Member) {
             //var type: string = item;
             ServiceObjectSchema.ForeachPublicStaticPropertyFieldInType(
                 type,
@@ -171,6 +223,10 @@ class ServiceObjectSchema {
     TryGetPropertyDefinition(xmlElementName: string, propertyDefinition: IOutParam<PropertyDefinition>): boolean {
         return this.properties.tryGetValue(xmlElementName, propertyDefinition);
     }
+    
+    
+    //////// no ews code - for nodejs and requirejs working
+    static CreateAndAssignName<TPropertyDefinitionBase extends PropertyDefinitionBase>(creationdelegate:Function){}
 }
 
 export = ServiceObjectSchema;
