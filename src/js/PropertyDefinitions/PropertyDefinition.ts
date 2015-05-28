@@ -1,4 +1,5 @@
 import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
+//import ServiceObjectSchemaExtension = require("../Core/ServiceObjects/Schemas/ServiceObjectSchemaExtension");
 import ExchangeService = require("../Core/ExchangeService");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
@@ -22,6 +23,7 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
             throw new Error("incorrectly registered propertynames - info: fixed by initializing names in respective serviceobjectschema static properties. fix if receive this error");
             //todo:fix: can not use this to initialize names, ServiceObjectSchema creates circular loops in modules.
             //ServiceObjectSchema.InitializeSchemaPropertyNames(); //info: fixed by initializing names in respective serviceobjectschema static properties. fix if receive this error
+            //fix - did not work , shifted to statically initialize by constructer in this class ServiceObjectSchemaExtension.InitializeSchemaPropertyNames(); //info: fixed by initializing names in respective serviceobjectschema static properties. fix if receive this error
         }
         return this.name;
     }
@@ -31,12 +33,15 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
     private name: string;
     private version: ExchangeVersion;
 
-    constructor(xmlElementName: string,
+    constructor(
+        propertyName: string,
+        xmlElementName: string,
         version: ExchangeVersion,
         uri?: string,
         flags?: PropertyDefinitionFlags) {
 
         super(uri);
+        this.name = propertyName;
         this.flags = flags;
         this.xmlElementName = xmlElementName;
         this.version = version;

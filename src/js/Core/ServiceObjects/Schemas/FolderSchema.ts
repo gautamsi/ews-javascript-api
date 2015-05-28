@@ -16,7 +16,6 @@ import FolderId = require("../../../ComplexProperties/FolderId");
 
 import ServiceObjectSchema = require("./ServiceObjectSchema");
 
-
   class FieldUris {
     //const become static
 
@@ -47,6 +46,7 @@ class FolderSchema extends ServiceObjectSchema {
     () => { return new FolderId(); });
 
   static FolderClass: PropertyDefinition = new StringPropertyDefinition(
+    "FolderClass",
     XmlElementNames.FolderClass,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.FolderClass,
@@ -60,6 +60,7 @@ class FolderSchema extends ServiceObjectSchema {
     () => { return new FolderId(); });
 
   static ChildFolderCount: PropertyDefinition = new IntPropertyDefinition(
+    "ChildFolderCount",
     XmlElementNames.ChildFolderCount,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.ChildFolderCount,
@@ -67,18 +68,21 @@ class FolderSchema extends ServiceObjectSchema {
 
 
   static DisplayName: PropertyDefinition = new StringPropertyDefinition(
+    "DisplayName",
     XmlElementNames.DisplayName,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.DisplayName,
     PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind);
 
   static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
+    "UnreadCount",
     XmlElementNames.UnreadCount,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.UnreadCount,
     PropertyDefinitionFlags.CanFind);
 
   static TotalCount: PropertyDefinition = new IntPropertyDefinition(
+    "TotalCount",
     XmlElementNames.TotalCount,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.TotalCount,
@@ -92,6 +96,7 @@ class FolderSchema extends ServiceObjectSchema {
     () => { return new ManagedFolderInformation(); });
 
   static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
+    "EffectiveRights",
     XmlElementNames.EffectiveRights,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.EffectiveRights,
@@ -104,6 +109,7 @@ class FolderSchema extends ServiceObjectSchema {
     PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded);
 
   static WellKnownFolderName: PropertyDefinition = new GenericPropertyDefinition<WellKnownFolderName>(
+    "WellKnownFolderName",
     XmlElementNames.DistinguishedFolderId,
     ExchangeVersion.Exchange2013,
     FieldUris.DistinguishedFolderId,
@@ -142,7 +148,7 @@ class FolderSchema extends ServiceObjectSchema {
     this.RegisterProperty(FolderSchema.UnreadCount);
     this.RegisterProperty(FolderSchema.WellKnownFolderName);
     this.RegisterProperty(FolderSchema.PolicyTag);
-    this.RegisterProperty(FolderSchema.ArchiveTag);
+    this.RegisterProperty(FolderSchema.ArchiveTag);    
   }
 }
 //module FolderSchema {

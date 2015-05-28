@@ -38,7 +38,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         var justCreated: boolean = this.GetPropertyInstance(propertyBag, outComplexproperty);
 
         if (!justCreated && this.HasFlag(PropertyDefinitionFlags.UpdateCollectionItems, propertyBag.Owner.Service.RequestedServerVersion)) {
-            outComplexproperty.outValue.UpdateFromXmlJsObject(jsObject, reader.LocalName);
+            outComplexproperty.outValue.UpdateFromXmlJsObject(jsObject, null /*reader.LocalName*/);
         }
         else {
             //(outComplexproperty as ComplexProperty).LoadFromXml(reader, reader.LocalName);

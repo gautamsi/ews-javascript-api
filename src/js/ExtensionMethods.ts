@@ -385,5 +385,13 @@ export module base64Helper {
             return window.btoa(text);
         }
     }
+    export function atob(text: string): string {
+        if (isNode) {
+            var b = new Buffer(text, 'base64');
+            return b.toString();
+        } else {
+            return window.atob(text);
+        }
+    }
 }
 
