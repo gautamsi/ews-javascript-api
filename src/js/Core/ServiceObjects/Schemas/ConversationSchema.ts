@@ -1,5 +1,47 @@
 import ServiceObjectSchema = require("./ServiceObjectSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+//module ConversationSchema {
+module FieldUris {
+    export var ConversationId: string = "conversation:ConversationId";
+    export var ConversationTopic: string = "conversation:ConversationTopic";
+    export var UniqueRecipients: string = "conversation:UniqueRecipients";
+    export var GlobalUniqueRecipients: string = "conversation:GlobalUniqueRecipients";
+    export var UniqueUnreadSenders: string = "conversation:UniqueUnreadSenders";
+    export var GlobalUniqueUnreadSenders: string = "conversation:GlobalUniqueUnreadSenders";
+    export var UniqueSenders: string = "conversation:UniqueSenders";
+    export var GlobalUniqueSenders: string = "conversation:GlobalUniqueSenders";
+    export var LastDeliveryTime: string = "conversation:LastDeliveryTime";
+    export var GlobalLastDeliveryTime: string = "conversation:GlobalLastDeliveryTime";
+    export var Categories: string = "conversation:Categories";
+    export var GlobalCategories: string = "conversation:GlobalCategories";
+    export var FlagStatus: string = "conversation:FlagStatus";
+    export var GlobalFlagStatus: string = "conversation:GlobalFlagStatus";
+    export var HasAttachments: string = "conversation:HasAttachments";
+    export var GlobalHasAttachments: string = "conversation:GlobalHasAttachments";
+    export var MessageCount: string = "conversation:MessageCount";
+    export var GlobalMessageCount: string = "conversation:GlobalMessageCount";
+    export var UnreadCount: string = "conversation:UnreadCount";
+    export var GlobalUnreadCount: string = "conversation:GlobalUnreadCount";
+    export var Size: string = "conversation:Size";
+    export var GlobalSize: string = "conversation:GlobalSize";
+    export var ItemClasses: string = "conversation:ItemClasses";
+    export var GlobalItemClasses: string = "conversation:GlobalItemClasses";
+    export var Importance: string = "conversation:Importance";
+    export var GlobalImportance: string = "conversation:GlobalImportance";
+    export var ItemIds: string = "conversation:ItemIds";
+    export var GlobalItemIds: string = "conversation:GlobalItemIds";
+    export var LastModifiedTime: string = "conversation:LastModifiedTime";
+    export var InstanceKey: string = "conversation:InstanceKey";
+    export var Preview: string = "conversation:Preview";
+    export var IconIndex: string = "conversation:IconIndex";
+    export var GlobalIconIndex: string = "conversation:GlobalIconIndex";
+    export var DraftItemIds: string = "conversation:DraftItemIds";
+    export var HasIrm: string = "conversation:HasIrm";
+    export var GlobalHasIrm: string = "conversation:GlobalHasIrm";
+}
+//}
+
 class ConversationSchema extends ServiceObjectSchema {
     static Id: PropertyDefinition;
     static Topic: PropertyDefinition;
@@ -39,47 +81,6 @@ class ConversationSchema extends ServiceObjectSchema {
     static GlobalHasIrm: PropertyDefinition;
     static Instance: ConversationSchema;
     RegisterProperties(): any { throw new Error("ConversationSchema.ts - RegisterProperties : Not implemented."); }
-}
-
-module ConversationSchema {
-    export module FieldUris {
-        export var /* static*/ ConversationId: string = "conversation:ConversationId";
-        export var /* static*/ ConversationTopic: string = "conversation:ConversationTopic";
-        export var /* static*/ UniqueRecipients: string = "conversation:UniqueRecipients";
-        export var /* static*/ GlobalUniqueRecipients: string = "conversation:GlobalUniqueRecipients";
-        export var /* static*/ UniqueUnreadSenders: string = "conversation:UniqueUnreadSenders";
-        export var /* static*/ GlobalUniqueUnreadSenders: string = "conversation:GlobalUniqueUnreadSenders";
-        export var /* static*/ UniqueSenders: string = "conversation:UniqueSenders";
-        export var /* static*/ GlobalUniqueSenders: string = "conversation:GlobalUniqueSenders";
-        export var /* static*/ LastDeliveryTime: string = "conversation:LastDeliveryTime";
-        export var /* static*/ GlobalLastDeliveryTime: string = "conversation:GlobalLastDeliveryTime";
-        export var /* static*/ Categories: string = "conversation:Categories";
-        export var /* static*/ GlobalCategories: string = "conversation:GlobalCategories";
-        export var /* static*/ FlagStatus: string = "conversation:FlagStatus";
-        export var /* static*/ GlobalFlagStatus: string = "conversation:GlobalFlagStatus";
-        export var /* static*/ HasAttachments: string = "conversation:HasAttachments";
-        export var /* static*/ GlobalHasAttachments: string = "conversation:GlobalHasAttachments";
-        export var /* static*/ MessageCount: string = "conversation:MessageCount";
-        export var /* static*/ GlobalMessageCount: string = "conversation:GlobalMessageCount";
-        export var /* static*/ UnreadCount: string = "conversation:UnreadCount";
-        export var /* static*/ GlobalUnreadCount: string = "conversation:GlobalUnreadCount";
-        export var /* static*/ Size: string = "conversation:Size";
-        export var /* static*/ GlobalSize: string = "conversation:GlobalSize";
-        export var /* static*/ ItemClasses: string = "conversation:ItemClasses";
-        export var /* static*/ GlobalItemClasses: string = "conversation:GlobalItemClasses";
-        export var /* static*/ Importance: string = "conversation:Importance";
-        export var /* static*/ GlobalImportance: string = "conversation:GlobalImportance";
-        export var /* static*/ ItemIds: string = "conversation:ItemIds";
-        export var /* static*/ GlobalItemIds: string = "conversation:GlobalItemIds";
-        export var /* static*/ LastModifiedTime: string = "conversation:LastModifiedTime";
-        export var /* static*/ InstanceKey: string = "conversation:InstanceKey";
-        export var /* static*/ Preview: string = "conversation:Preview";
-        export var /* static*/ IconIndex: string = "conversation:IconIndex";
-        export var /* static*/ GlobalIconIndex: string = "conversation:GlobalIconIndex";
-        export var /* static*/ DraftItemIds: string = "conversation:DraftItemIds";
-        export var /* static*/ HasIrm: string = "conversation:HasIrm";
-        export var /* static*/ GlobalHasIrm: string = "conversation:GlobalHasIrm";
-    }
 }
 
 export = ConversationSchema;

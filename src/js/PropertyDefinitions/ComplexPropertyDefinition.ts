@@ -13,12 +13,14 @@ import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase"
 class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
     Type: any;// System.Type;
     private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
-    constructor(xmlElementName: string,
+    constructor(
+        propertyName: string,
+        xmlElementName: string,
         version: ExchangeVersion,
         uri?: string,
         flags?: PropertyDefinitionFlags,
         propertyCreationDelegate?: CreateComplexPropertyDelegate<TComplexProperty>) {
-        super(xmlElementName, version, uri, flags);
+        super(propertyName, xmlElementName, version, uri, flags);
 
         EwsLogging.Assert(
             propertyCreationDelegate != null,
@@ -32,14 +34,14 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
 
         var complexProperty: TComplexProperty = this.propertyCreationDelegate();
         //info: Implementation check is implemented in complexproperty by using ___ImplementsInterface array property
-        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty")>=0;
-            if (isIOwnedProperty) {
-                var ownedProperty: IOwnedProperty = <any>complexProperty;
-                ownedProperty.Owner = owner;
-            }
+        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
+        if (isIOwnedProperty) {
+            var ownedProperty: IOwnedProperty = <any>complexProperty;
+            ownedProperty.Owner = owner;
+        }
 
-     if(complexProperty)       
-        return complexProperty;
+        if (complexProperty)
+            return complexProperty;
     }
 }
 

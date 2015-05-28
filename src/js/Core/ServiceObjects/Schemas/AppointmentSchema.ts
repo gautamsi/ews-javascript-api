@@ -1,5 +1,57 @@
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+//module AppointmentSchema {
+module FieldUris {
+    export var Start: string = "calendar:Start";
+    export var End: string = "calendar:End";
+    export var OriginalStart: string = "calendar:OriginalStart";
+    export var IsAllDayEvent: string = "calendar:IsAllDayEvent";
+    export var LegacyFreeBusyStatus: string = "calendar:LegacyFreeBusyStatus";
+    export var Location: string = "calendar:Location";
+    export var When: string = "calendar:When";
+    export var IsMeeting: string = "calendar:IsMeeting";
+    export var IsCancelled: string = "calendar:IsCancelled";
+    export var IsRecurring: string = "calendar:IsRecurring";
+    export var MeetingRequestWasSent: string = "calendar:MeetingRequestWasSent";
+    export var IsResponseRequested: string = "calendar:IsResponseRequested";
+    export var CalendarItemType: string = "calendar:CalendarItemType";
+    export var MyResponseType: string = "calendar:MyResponseType";
+    export var Organizer: string = "calendar:Organizer";
+    export var RequiredAttendees: string = "calendar:RequiredAttendees";
+    export var OptionalAttendees: string = "calendar:OptionalAttendees";
+    export var Resources: string = "calendar:Resources";
+    export var ConflictingMeetingCount: string = "calendar:ConflictingMeetingCount";
+    export var AdjacentMeetingCount: string = "calendar:AdjacentMeetingCount";
+    export var ConflictingMeetings: string = "calendar:ConflictingMeetings";
+    export var AdjacentMeetings: string = "calendar:AdjacentMeetings";
+    export var Duration: string = "calendar:Duration";
+    export var TimeZone: string = "calendar:TimeZone";
+    export var AppointmentReplyTime: string = "calendar:AppointmentReplyTime";
+    export var AppointmentSequenceNumber: string = "calendar:AppointmentSequenceNumber";
+    export var AppointmentState: string = "calendar:AppointmentState";
+    export var Recurrence: string = "calendar:Recurrence";
+    export var FirstOccurrence: string = "calendar:FirstOccurrence";
+    export var LastOccurrence: string = "calendar:LastOccurrence";
+    export var ModifiedOccurrences: string = "calendar:ModifiedOccurrences";
+    export var DeletedOccurrences: string = "calendar:DeletedOccurrences";
+    export var MeetingTimeZone: string = "calendar:MeetingTimeZone";
+    export var StartTimeZone: string = "calendar:StartTimeZone";
+    export var EndTimeZone: string = "calendar:EndTimeZone";
+    export var ConferenceType: string = "calendar:ConferenceType";
+    export var AllowNewTimeProposal: string = "calendar:AllowNewTimeProposal";
+    export var IsOnlineMeeting: string = "calendar:IsOnlineMeeting";
+    export var MeetingWorkspaceUrl: string = "calendar:MeetingWorkspaceUrl";
+    export var NetShowUrl: string = "calendar:NetShowUrl";
+    export var Uid: string = "calendar:UID";
+    export var RecurrenceId: string = "calendar:RecurrenceId";
+    export var DateTimeStamp: string = "calendar:DateTimeStamp";
+    export var EnhancedLocation: string = "calendar:EnhancedLocation";
+    export var JoinOnlineMeetingUrl: string = "calendar:JoinOnlineMeetingUrl";
+    export var OnlineMeetingSettings: string = "calendar:OnlineMeetingSettings";
+}
+//}
+
 class AppointmentSchema extends ItemSchema {
     static StartTimeZone: PropertyDefinition;
     static EndTimeZone: PropertyDefinition;
@@ -48,63 +100,8 @@ class AppointmentSchema extends ItemSchema {
     static JoinOnlineMeetingUrl: PropertyDefinition;
     static OnlineMeetingSettings: PropertyDefinition;
     static Instance: AppointmentSchema;
-    RegisterProperties(): any { throw new Error("AppointmentSchema.ts - RegisterProperties : Not implemented.");  }
+    RegisterProperties(): any { throw new Error("AppointmentSchema.ts - RegisterProperties : Not implemented."); }
 }
-
-module AppointmentSchema {
-    export module FieldUris {
-        export var /*static*/ Start: string = "calendar:Start";
-        export var /*static*/ End: string = "calendar:End";
-        export var /*static*/ OriginalStart: string = "calendar:OriginalStart";
-        export var /*static*/ IsAllDayEvent: string = "calendar:IsAllDayEvent";
-        export var /*static*/ LegacyFreeBusyStatus: string = "calendar:LegacyFreeBusyStatus";
-        export var /*static*/ Location: string = "calendar:Location";
-        export var /*static*/ When: string = "calendar:When";
-        export var /*static*/ IsMeeting: string = "calendar:IsMeeting";
-        export var /*static*/ IsCancelled: string = "calendar:IsCancelled";
-        export var /*static*/ IsRecurring: string = "calendar:IsRecurring";
-        export var /*static*/ MeetingRequestWasSent: string = "calendar:MeetingRequestWasSent";
-        export var /*static*/ IsResponseRequested: string = "calendar:IsResponseRequested";
-        export var /*static*/ CalendarItemType: string = "calendar:CalendarItemType";
-        export var /*static*/ MyResponseType: string = "calendar:MyResponseType";
-        export var /*static*/ Organizer: string = "calendar:Organizer";
-        export var /*static*/ RequiredAttendees: string = "calendar:RequiredAttendees";
-        export var /*static*/ OptionalAttendees: string = "calendar:OptionalAttendees";
-        export var /*static*/ Resources: string = "calendar:Resources";
-        export var /*static*/ ConflictingMeetingCount: string = "calendar:ConflictingMeetingCount";
-        export var /*static*/ AdjacentMeetingCount: string = "calendar:AdjacentMeetingCount";
-        export var /*static*/ ConflictingMeetings: string = "calendar:ConflictingMeetings";
-        export var /*static*/ AdjacentMeetings: string = "calendar:AdjacentMeetings";
-        export var /*static*/ Duration: string = "calendar:Duration";
-        export var /*static*/ TimeZone: string = "calendar:TimeZone";
-        export var /*static*/ AppointmentReplyTime: string = "calendar:AppointmentReplyTime";
-        export var /*static*/ AppointmentSequenceNumber: string = "calendar:AppointmentSequenceNumber";
-        export var /*static*/ AppointmentState: string = "calendar:AppointmentState";
-        export var /*static*/ Recurrence: string = "calendar:Recurrence";
-        export var /*static*/ FirstOccurrence: string = "calendar:FirstOccurrence";
-        export var /*static*/ LastOccurrence: string = "calendar:LastOccurrence";
-        export var /*static*/ ModifiedOccurrences: string = "calendar:ModifiedOccurrences";
-        export var /*static*/ DeletedOccurrences: string = "calendar:DeletedOccurrences";
-        export var /*static*/ MeetingTimeZone: string = "calendar:MeetingTimeZone";
-        export var /*static*/ StartTimeZone: string = "calendar:StartTimeZone";
-        export var /*static*/ EndTimeZone: string = "calendar:EndTimeZone";
-        export var /*static*/ ConferenceType: string = "calendar:ConferenceType";
-        export var /*static*/ AllowNewTimeProposal: string = "calendar:AllowNewTimeProposal";
-        export var /*static*/ IsOnlineMeeting: string = "calendar:IsOnlineMeeting";
-        export var /*static*/ MeetingWorkspaceUrl: string = "calendar:MeetingWorkspaceUrl";
-        export var /*static*/ NetShowUrl: string = "calendar:NetShowUrl";
-        export var /*static*/ Uid: string = "calendar:UID";
-        export var /*static*/ RecurrenceId: string = "calendar:RecurrenceId";
-        export var /*static*/ DateTimeStamp: string = "calendar:DateTimeStamp";
-        export var /*static*/ EnhancedLocation: string = "calendar:EnhancedLocation";
-        export var /*static*/ JoinOnlineMeetingUrl: string = "calendar:JoinOnlineMeetingUrl";
-        export var /*static*/ OnlineMeetingSettings: string = "calendar:OnlineMeetingSettings";
-    }
-}
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 
 
 

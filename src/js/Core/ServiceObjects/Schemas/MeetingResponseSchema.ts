@@ -1,5 +1,15 @@
 import MeetingMessageSchema = require("./MeetingMessageSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+
+//module MeetingResponseSchema {
+module FieldUris {
+    export var ProposedStart: string = "meeting:ProposedStart";
+    export var ProposedEnd: string = "meeting:ProposedEnd";
+}
+//}
+
+
 class MeetingResponseSchema extends MeetingMessageSchema {
     static Start: PropertyDefinition;
     static End: PropertyDefinition;
@@ -12,14 +22,6 @@ class MeetingResponseSchema extends MeetingMessageSchema {
     static Instance: MeetingResponseSchema;
     RegisterProperties(): any { throw new Error("MeetingResponseSchema.ts - RegisterProperties : Not implemented."); }
 }
-
-module MeetingResponseSchema {
-    export module FieldUris {
-        export var /* static*/ ProposedStart: string = "meeting:ProposedStart";
-        export var /* static*/ ProposedEnd: string = "meeting:ProposedEnd";
-    }
-}
-
 
 
 export = MeetingResponseSchema;

@@ -1,5 +1,18 @@
 import EmailMessageSchema = require("./EmailMessageSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+
+//module MeetingMessageSchema {
+module FieldUris {
+    export var AssociatedCalendarItemId: string = "meeting:AssociatedCalendarItemId";
+    export var IsDelegated: string = "meeting:IsDelegated";
+    export var IsOutOfDate: string = "meeting:IsOutOfDate";
+    export var HasBeenProcessed: string = "meeting:HasBeenProcessed";
+    export var ResponseType: string = "meeting:ResponseType";
+    export var IsOrganizer: string = "cal:IsOrganizer";
+}
+//}
+
 class MeetingMessageSchema extends EmailMessageSchema {
     static AssociatedAppointmentId: PropertyDefinition;
     static IsDelegated: PropertyDefinition;
@@ -12,16 +25,6 @@ class MeetingMessageSchema extends EmailMessageSchema {
     static IsOrganizer: PropertyDefinition;
     static Instance: MeetingMessageSchema;
     RegisterProperties(): any { throw new Error("MeetingMessageSchema.ts - RegisterProperties : Not implemented."); }
-}
-module MeetingMessageSchema {
-    export module FieldUris {
-        export var /* static*/ AssociatedCalendarItemId: string = "meeting:AssociatedCalendarItemId";
-        export var /* static*/ IsDelegated: string = "meeting:IsDelegated";
-        export var /* static*/ IsOutOfDate: string = "meeting:IsOutOfDate";
-        export var /* static*/ HasBeenProcessed: string = "meeting:HasBeenProcessed";
-        export var /* static*/ ResponseType: string = "meeting:ResponseType";
-        export var /* static*/ IsOrganizer: string = "cal:IsOrganizer";
-    }
 }
 
 export = MeetingMessageSchema;

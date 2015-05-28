@@ -12,24 +12,25 @@ import ComplexProperty = require("../ComplexProperties/ComplexProperty");
 import PropertyDefinition = require("./PropertyDefinition");
 class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
-    constructor(xmlElementName: string,
+    constructor(
+        propertyName: string,
+        xmlElementName: string,
         version: ExchangeVersion,
         uri?: string,
         flags?: PropertyDefinitionFlags) {
-        super(xmlElementName, version, uri, flags);
+        super(propertyName, xmlElementName, version, uri, flags);
     }
 
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("ComplexPropertyDefinitionBase.ts - CreatePropertyInstance : Not implemented."); }
-    GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean { 
-    complexProperty.outValue = null;
-            if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion))
-            {
-                complexProperty.outValue = this.CreatePropertyInstance(propertyBag.Owner);
-                return true;
-            }
+    GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean {
+        complexProperty.outValue = null;
+        if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion)) {
+            complexProperty.outValue = this.CreatePropertyInstance(propertyBag.Owner);
+            return true;
+        }
 
-            return false;
-     }
+        return false;
+    }
     InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadCollectionFromJson : Not implemented."); }
     InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadFromJson : Not implemented."); }
     InternalLoadFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {

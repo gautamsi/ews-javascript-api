@@ -1,5 +1,33 @@
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+//module TaskSchema {
+module FieldUris {
+    export var ActualWork: string = "task:ActualWork";
+    export var AssignedTime: string = "task:AssignedTime";
+    export var BillingInformation: string = "task:BillingInformation";
+    export var ChangeCount: string = "task:ChangeCount";
+    export var Companies: string = "task:Companies";
+    export var CompleteDate: string = "task:CompleteDate";
+    export var Contacts: string = "task:Contacts";
+    export var DelegationState: string = "task:DelegationState";
+    export var Delegator: string = "task:Delegator";
+    export var DueDate: string = "task:DueDate";
+    export var IsAssignmentEditable: string = "task:IsAssignmentEditable";
+    export var IsComplete: string = "task:IsComplete";
+    export var IsRecurring: string = "task:IsRecurring";
+    export var IsTeamTask: string = "task:IsTeamTask";
+    export var Mileage: string = "task:Mileage";
+    export var Owner: string = "task:Owner";
+    export var PercentComplete: string = "task:PercentComplete";
+    export var Recurrence: string = "task:Recurrence";
+    export var StartDate: string = "task:StartDate";
+    export var Status: string = "task:Status";
+    export var StatusDescription: string = "task:StatusDescription";
+    export var TotalWork: string = "task:TotalWork";
+}
+//}
+
 class TaskSchema extends ItemSchema {
     static ActualWork: PropertyDefinition;
     static AssignedTime: PropertyDefinition;
@@ -25,34 +53,6 @@ class TaskSchema extends ItemSchema {
     static TotalWork: PropertyDefinition;
     static Instance: TaskSchema;
     RegisterProperties(): any { throw new Error("TaskSchema.ts - RegisterProperties : Not implemented."); }
-}
-
-
-module TaskSchema {
-    export module FieldUris {
-        export var /* static*/ ActualWork: string = "task:ActualWork";
-        export var /* static*/ AssignedTime: string = "task:AssignedTime";
-        export var /* static*/ BillingInformation: string = "task:BillingInformation";
-        export var /* static*/ ChangeCount: string = "task:ChangeCount";
-        export var /* static*/ Companies: string = "task:Companies";
-        export var /* static*/ CompleteDate: string = "task:CompleteDate";
-        export var /* static*/ Contacts: string = "task:Contacts";
-        export var /* static*/ DelegationState: string = "task:DelegationState";
-        export var /* static*/ Delegator: string = "task:Delegator";
-        export var /* static*/ DueDate: string = "task:DueDate";
-        export var /* static*/ IsAssignmentEditable: string = "task:IsAssignmentEditable";
-        export var /* static*/ IsComplete: string = "task:IsComplete";
-        export var /* static*/ IsRecurring: string = "task:IsRecurring";
-        export var /* static*/ IsTeamTask: string = "task:IsTeamTask";
-        export var /* static*/ Mileage: string = "task:Mileage";
-        export var /* static*/ Owner: string = "task:Owner";
-        export var /* static*/ PercentComplete: string = "task:PercentComplete";
-        export var /* static*/ Recurrence: string = "task:Recurrence";
-        export var /* static*/ StartDate: string = "task:StartDate";
-        export var /* static*/ Status: string = "task:Status";
-        export var /* static*/ StatusDescription: string = "task:StatusDescription";
-        export var /* static*/ TotalWork: string = "task:TotalWork";
-    }
 }
 
 

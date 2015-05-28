@@ -1,5 +1,30 @@
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+
+//module EmailMessageSchema {
+module FieldUris {
+    export var ConversationIndex: string = "message:ConversationIndex";
+    export var ConversationTopic: string = "message:ConversationTopic";
+    export var InternetMessageId: string = "message:InternetMessageId";
+    export var IsRead: string = "message:IsRead";
+    export var IsResponseRequested: string = "message:IsResponseRequested";
+    export var IsReadReceiptRequested: string = "message:IsReadReceiptRequested";
+    export var IsDeliveryReceiptRequested: string = "message:IsDeliveryReceiptRequested";
+    export var References: string = "message:References";
+    export var ReplyTo: string = "message:ReplyTo";
+    export var From: string = "message:From";
+    export var Sender: string = "message:Sender";
+    export var ToRecipients: string = "message:ToRecipients";
+    export var CcRecipients: string = "message:CcRecipients";
+    export var BccRecipients: string = "message:BccRecipients";
+    export var ReceivedBy: string = "message:ReceivedBy";
+    export var ReceivedRepresenting: string = "message:ReceivedRepresenting";
+    export var ApprovalRequestData: string = "message:ApprovalRequestData";
+    export var VotingInformation: string = "message:VotingInformation";
+}
+//}
+
 class EmailMessageSchema extends ItemSchema {
     static ToRecipients: PropertyDefinition;
     static BccRecipients: PropertyDefinition;
@@ -21,29 +46,6 @@ class EmailMessageSchema extends ItemSchema {
     static VotingInformation: PropertyDefinition;
     static Instance: EmailMessageSchema;
     RegisterProperties(): any { throw new Error("EmailMessageSchema.ts - RegisterProperties : Not implemented."); }
-}
-
-module EmailMessageSchema {
-    export module FieldUris {
-        export var /* static*/ ConversationIndex: string = "message:ConversationIndex";
-        export var /* static*/ ConversationTopic: string = "message:ConversationTopic";
-        export var /* static*/ InternetMessageId: string = "message:InternetMessageId";
-        export var /* static*/ IsRead: string = "message:IsRead";
-        export var /* static*/ IsResponseRequested: string = "message:IsResponseRequested";
-        export var /* static*/ IsReadReceiptRequested: string = "message:IsReadReceiptRequested";
-        export var /* static*/ IsDeliveryReceiptRequested: string = "message:IsDeliveryReceiptRequested";
-        export var /* static*/ References: string = "message:References";
-        export var /* static*/ ReplyTo: string = "message:ReplyTo";
-        export var /* static*/ From: string = "message:From";
-        export var /* static*/ Sender: string = "message:Sender";
-        export var /* static*/ ToRecipients: string = "message:ToRecipients";
-        export var /* static*/ CcRecipients: string = "message:CcRecipients";
-        export var /* static*/ BccRecipients: string = "message:BccRecipients";
-        export var /* static*/ ReceivedBy: string = "message:ReceivedBy";
-        export var /* static*/ ReceivedRepresenting: string = "message:ReceivedRepresenting";
-        export var /* static*/ ApprovalRequestData: string = "message:ApprovalRequestData";
-        export var /* static*/ VotingInformation: string = "message:VotingInformation";
-    }
 }
 
 

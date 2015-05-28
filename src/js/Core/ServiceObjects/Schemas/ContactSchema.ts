@@ -1,6 +1,63 @@
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
+
+
+//module ContactSchema {
+module FieldUris {
+    export var FileAs: string = "contacts:FileAs";
+    export var FileAsMapping: string = "contacts:FileAsMapping";
+    export var DisplayName: string = "contacts:DisplayName";
+    export var GivenName: string = "contacts:GivenName";
+    export var Initials: string = "contacts:Initials";
+    export var MiddleName: string = "contacts:MiddleName";
+    export var NickName: string = "contacts:Nickname";
+    export var CompleteName: string = "contacts:CompleteName";
+    export var CompanyName: string = "contacts:CompanyName";
+    export var EmailAddress: string = "contacts:EmailAddress";
+    export var EmailAddresses: string = "contacts:EmailAddresses";
+    export var PhysicalAddresses: string = "contacts:PhysicalAddresses";
+    export var PhoneNumber: string = "contacts:PhoneNumber";
+    export var PhoneNumbers: string = "contacts:PhoneNumbers";
+    export var AssistantName: string = "contacts:AssistantName";
+    export var Birthday: string = "contacts:Birthday";
+    export var BusinessHomePage: string = "contacts:BusinessHomePage";
+    export var Children: string = "contacts:Children";
+    export var Companies: string = "contacts:Companies";
+    export var ContactSource: string = "contacts:ContactSource";
+    export var Department: string = "contacts:Department";
+    export var Generation: string = "contacts:Generation";
+    export var ImAddress: string = "contacts:ImAddress";
+    export var ImAddresses: string = "contacts:ImAddresses";
+    export var JobTitle: string = "contacts:JobTitle";
+    export var Manager: string = "contacts:Manager";
+    export var Mileage: string = "contacts:Mileage";
+    export var OfficeLocation: string = "contacts:OfficeLocation";
+    export var PhysicalAddressCity: string = "contacts:PhysicalAddress:City";
+    export var PhysicalAddressCountryOrRegion: string = "contacts:PhysicalAddress:CountryOrRegion";
+    export var PhysicalAddressState: string = "contacts:PhysicalAddress:State";
+    export var PhysicalAddressStreet: string = "contacts:PhysicalAddress:Street";
+    export var PhysicalAddressPostalCode: string = "contacts:PhysicalAddress:PostalCode";
+    export var PostalAddressIndex: string = "contacts:PostalAddressIndex";
+    export var Profession: string = "contacts:Profession";
+    export var SpouseName: string = "contacts:SpouseName";
+    export var Surname: string = "contacts:Surname";
+    export var WeddingAnniversary: string = "contacts:WeddingAnniversary";
+    export var HasPicture: string = "contacts:HasPicture";
+    export var PhoneticFullName: string = "contacts:PhoneticFullName";
+    export var PhoneticFirstName: string = "contacts:PhoneticFirstName";
+    export var PhoneticLastName: string = "contacts:PhoneticLastName";
+    export var Alias: string = "contacts:Alias";
+    export var Notes: string = "contacts:Notes";
+    export var Photo: string = "contacts:Photo";
+    export var UserSMIMECertificate: string = "contacts:UserSMIMECertificate";
+    export var MSExchangeCertificate: string = "contacts:MSExchangeCertificate";
+    export var DirectoryId: string = "contacts:DirectoryId";
+    export var ManagerMailbox: string = "contacts:ManagerMailbox";
+    export var DirectReports: string = "contacts:DirectReports";
+}
+//}
+
 class ContactSchema extends ItemSchema {
     static FileAs: PropertyDefinition;
     static FileAsMapping: PropertyDefinition;
@@ -88,60 +145,6 @@ class ContactSchema extends ItemSchema {
     RegisterProperties(): any { throw new Error("ContactSchema.ts - RegisterProperties : Not implemented."); }
 }
 
-module ContactSchema {
-    export module FieldUris {
-        export var /* static*/ FileAs: string = "contacts:FileAs";
-        export var /* static*/ FileAsMapping: string = "contacts:FileAsMapping";
-        export var /* static*/ DisplayName: string = "contacts:DisplayName";
-        export var /* static*/ GivenName: string = "contacts:GivenName";
-        export var /* static*/ Initials: string = "contacts:Initials";
-        export var /* static*/ MiddleName: string = "contacts:MiddleName";
-        export var /* static*/ NickName: string = "contacts:Nickname";
-        export var /* static*/ CompleteName: string = "contacts:CompleteName";
-        export var /* static*/ CompanyName: string = "contacts:CompanyName";
-        export var /* static*/ EmailAddress: string = "contacts:EmailAddress";
-        export var /* static*/ EmailAddresses: string = "contacts:EmailAddresses";
-        export var /* static*/ PhysicalAddresses: string = "contacts:PhysicalAddresses";
-        export var /* static*/ PhoneNumber: string = "contacts:PhoneNumber";
-        export var /* static*/ PhoneNumbers: string = "contacts:PhoneNumbers";
-        export var /* static*/ AssistantName: string = "contacts:AssistantName";
-        export var /* static*/ Birthday: string = "contacts:Birthday";
-        export var /* static*/ BusinessHomePage: string = "contacts:BusinessHomePage";
-        export var /* static*/ Children: string = "contacts:Children";
-        export var /* static*/ Companies: string = "contacts:Companies";
-        export var /* static*/ ContactSource: string = "contacts:ContactSource";
-        export var /* static*/ Department: string = "contacts:Department";
-        export var /* static*/ Generation: string = "contacts:Generation";
-        export var /* static*/ ImAddress: string = "contacts:ImAddress";
-        export var /* static*/ ImAddresses: string = "contacts:ImAddresses";
-        export var /* static*/ JobTitle: string = "contacts:JobTitle";
-        export var /* static*/ Manager: string = "contacts:Manager";
-        export var /* static*/ Mileage: string = "contacts:Mileage";
-        export var /* static*/ OfficeLocation: string = "contacts:OfficeLocation";
-        export var /* static*/ PhysicalAddressCity: string = "contacts:PhysicalAddress:City";
-        export var /* static*/ PhysicalAddressCountryOrRegion: string = "contacts:PhysicalAddress:CountryOrRegion";
-        export var /* static*/ PhysicalAddressState: string = "contacts:PhysicalAddress:State";
-        export var /* static*/ PhysicalAddressStreet: string = "contacts:PhysicalAddress:Street";
-        export var /* static*/ PhysicalAddressPostalCode: string = "contacts:PhysicalAddress:PostalCode";
-        export var /* static*/ PostalAddressIndex: string = "contacts:PostalAddressIndex";
-        export var /* static*/ Profession: string = "contacts:Profession";
-        export var /* static*/ SpouseName: string = "contacts:SpouseName";
-        export var /* static*/ Surname: string = "contacts:Surname";
-        export var /* static*/ WeddingAnniversary: string = "contacts:WeddingAnniversary";
-        export var /* static*/ HasPicture: string = "contacts:HasPicture";
-        export var /* static*/ PhoneticFullName: string = "contacts:PhoneticFullName";
-        export var /* static*/ PhoneticFirstName: string = "contacts:PhoneticFirstName";
-        export var /* static*/ PhoneticLastName: string = "contacts:PhoneticLastName";
-        export var /* static*/ Alias: string = "contacts:Alias";
-        export var /* static*/ Notes: string = "contacts:Notes";
-        export var /* static*/ Photo: string = "contacts:Photo";
-        export var /* static*/ UserSMIMECertificate: string = "contacts:UserSMIMECertificate";
-        export var /* static*/ MSExchangeCertificate: string = "contacts:MSExchangeCertificate";
-        export var /* static*/ DirectoryId: string = "contacts:DirectoryId";
-        export var /* static*/ ManagerMailbox: string = "contacts:ManagerMailbox";
-        export var /* static*/ DirectReports: string = "contacts:DirectReports";
-    }
-}
 
 export = ContactSchema;
 //module Microsoft.Exchange.WebServices.Data {

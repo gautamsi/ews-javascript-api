@@ -1,5 +1,14 @@
 import MeetingMessageSchema = require("./MeetingMessageSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+//module MeetingRequestSchema {
+module FieldUris {
+    export var MeetingRequestType: string = "meetingRequest:MeetingRequestType";
+    export var IntendedFreeBusyStatus: string = "meetingRequest:IntendedFreeBusyStatus";
+    export var ChangeHighlights: string = "meetingRequest:ChangeHighlights";
+}
+//}
+
 class MeetingRequestSchema extends MeetingMessageSchema {
     static MeetingRequestType: PropertyDefinition;
     static IntendedFreeBusyStatus: PropertyDefinition;
@@ -47,14 +56,8 @@ class MeetingRequestSchema extends MeetingMessageSchema {
     static Instance: MeetingRequestSchema;
     RegisterProperties(): any { throw new Error("MeetingRequestSchema.ts - RegisterProperties : Not implemented."); }
 }
-module MeetingRequestSchema {
-    export module FieldUris {
-        export var /* static*/ MeetingRequestType: string = "meetingRequest:MeetingRequestType";
-        export var /* static*/ IntendedFreeBusyStatus: string = "meetingRequest:IntendedFreeBusyStatus";
-        export var /* static*/ ChangeHighlights: string = "meetingRequest:ChangeHighlights";
-    }
-}
 
+export = MeetingRequestSchema;
 
 //module Microsoft.Exchange.WebServices.Data {
 //}

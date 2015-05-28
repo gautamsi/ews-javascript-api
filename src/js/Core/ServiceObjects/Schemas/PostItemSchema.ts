@@ -1,5 +1,12 @@
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+
+//module PostItemSchema {
+module FieldUris {
+    export var PostedTime: string = "postitem:PostedTime";
+}
+//}
+
 class PostItemSchema extends ItemSchema {
     static ConversationIndex: PropertyDefinition;
     static ConversationTopic: PropertyDefinition;
@@ -13,11 +20,6 @@ class PostItemSchema extends ItemSchema {
     RegisterProperties(): any { throw new Error("PostItemSchema.ts - RegisterProperties : Not implemented."); }
 }
 
-module PostItemSchema {
-    export module FieldUris {
-        export var /* static*/ PostedTime: string = "postitem:PostedTime";
-    }
-}
 
 export = PostItemSchema;
 

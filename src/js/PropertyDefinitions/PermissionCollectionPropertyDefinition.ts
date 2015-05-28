@@ -10,8 +10,8 @@ class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
     get Type(): any {//} Type {
         return undefined;// new Type("FolderPermissionCollection");
     }
-    constructor(xmlElementName: string, version: ExchangeVersion, uri: string, flags: PropertyDefinitionFlags) {
-        super(xmlElementName, version, uri, flags);
+    constructor(propertyName: string, xmlElementName: string, version: ExchangeVersion, uri: string, flags: PropertyDefinitionFlags) {
+        super(propertyName, xmlElementName, version, uri, flags);
     }
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
         var folder: Folder = ((owner instanceof Folder) ? <Folder>owner : null);

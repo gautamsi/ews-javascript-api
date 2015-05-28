@@ -16,29 +16,32 @@ import FolderId = require("../../../ComplexProperties/FolderId");
 
 import ServiceObjectSchema = require("./ServiceObjectSchema");
 
-  class FieldUris {
-    //const become static
+//module Microsoft.Exchange.WebServices.Data.FolderSchema {
+module FieldUris {
+  export var FolderId: string = "folder:FolderId";
+  export var ParentFolderId: string = "folder:ParentFolderId";
+  export var DisplayName: string = "folder:DisplayName";
+  export var UnreadCount: string = "folder:UnreadCount";
+  export var TotalCount: string = "folder:TotalCount";
+  export var ChildFolderCount: string = "folder:ChildFolderCount";
+  export var FolderClass: string = "folder:FolderClass";
+  export var ManagedFolderInformation: string = "folder:ManagedFolderInformation";
+  export var EffectiveRights: string = "folder:EffectiveRights";
+  export var PermissionSet: string = "folder:PermissionSet";
+  export var PolicyTag: string = "folder:PolicyTag";
+  export var ArchiveTag: string = "folder:ArchiveTag";
+  export var DistinguishedFolderId: string = "folder:DistinguishedFolderId";
+}
+//}
 
-    public static FolderId: string = "folder:FolderId";
-    public static ParentFolderId: string = "folder:ParentFolderId";
-    public static DisplayName: string = "folder:DisplayName";
-    public static UnreadCount: string = "folder:UnreadCount";
-    public static TotalCount: string = "folder:TotalCount";
-    public static ChildFolderCount: string = "folder:ChildFolderCount";
-    public static FolderClass: string = "folder:FolderClass";
-    public static ManagedFolderInformation: string = "folder:ManagedFolderInformation";
-    public static EffectiveRights: string = "folder:EffectiveRights";
-    public static PermissionSet: string = "folder:PermissionSet";
-    public static PolicyTag: string = "folder:PolicyTag";
-    public static ArchiveTag: string = "folder:ArchiveTag";
-    public static DistinguishedFolderId: string = "folder:DistinguishedFolderId";
-  }
+
 class FolderSchema extends ServiceObjectSchema {
   /* <summary>
   /// Field URIs for folders.
   /// </summary>*/
 
   static Id: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+    "Id",
     XmlElementNames.FolderId,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.FolderId,
@@ -53,6 +56,7 @@ class FolderSchema extends ServiceObjectSchema {
     PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind);
 
   static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+    "ParentFolderId",
     XmlElementNames.ParentFolderId,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.ParentFolderId,
@@ -89,6 +93,7 @@ class FolderSchema extends ServiceObjectSchema {
     PropertyDefinitionFlags.CanFind);
 
   static ManagedFolderInformation: PropertyDefinition = new ComplexPropertyDefinition<ManagedFolderInformation>(
+    "ManagedFolderInformation",
     XmlElementNames.ManagedFolderInformation,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.ManagedFolderInformation,
@@ -103,6 +108,7 @@ class FolderSchema extends ServiceObjectSchema {
     PropertyDefinitionFlags.CanFind);
 
   static Permissions: PropertyDefinition = new PermissionSetPropertyDefinition(
+    "Permissions",
     XmlElementNames.PermissionSet,
     ExchangeVersion.Exchange2007_SP1,
     FieldUris.PermissionSet,
@@ -116,6 +122,7 @@ class FolderSchema extends ServiceObjectSchema {
     PropertyDefinitionFlags.CanFind);
 
   static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
+    "PolicyTag",
     XmlElementNames.PolicyTag,
     ExchangeVersion.Exchange2013,
     FieldUris.PolicyTag,
@@ -123,6 +130,7 @@ class FolderSchema extends ServiceObjectSchema {
     () => { return new PolicyTag(); });
 
   static ArchiveTag: PropertyDefinition = new ComplexPropertyDefinition<ArchiveTag>(
+    "ArchiveTag",
     XmlElementNames.ArchiveTag,
     ExchangeVersion.Exchange2013,
     FieldUris.ArchiveTag,
@@ -148,31 +156,9 @@ class FolderSchema extends ServiceObjectSchema {
     this.RegisterProperty(FolderSchema.UnreadCount);
     this.RegisterProperty(FolderSchema.WellKnownFolderName);
     this.RegisterProperty(FolderSchema.PolicyTag);
-    this.RegisterProperty(FolderSchema.ArchiveTag);    
+    this.RegisterProperty(FolderSchema.ArchiveTag);
   }
 }
-//module FolderSchema {
-//
-//}
-
-//module Microsoft.Exchange.WebServices.Data.FolderSchema {
-//    export module FieldUris {
-//        export var /* static*/ FolderId: string = "folder:FolderId";
-//        export var /* static*/ ParentFolderId: string = "folder:ParentFolderId";
-//        export var /* static*/ DisplayName: string = "folder:DisplayName";
-//        export var /* static*/ UnreadCount: string = "folder:UnreadCount";
-//        export var /* static*/ TotalCount: string = "folder:TotalCount";
-//        export var /* static*/ ChildFolderCount: string = "folder:ChildFolderCount";
-//        export var /* static*/ FolderClass: string = "folder:FolderClass";
-//        export var /* static*/ ManagedFolderInformation: string = "folder:ManagedFolderInformation";
-//        export var /* static*/ EffectiveRights: string = "folder:EffectiveRights";
-//        export var /* static*/ PermissionSet: string = "folder:PermissionSet";
-//        export var /* static*/ PolicyTag: string = "folder:PolicyTag";
-//        export var /* static*/ ArchiveTag: string = "folder:ArchiveTag";
-//        export var /* static*/ DistinguishedFolderId: string = "folder:DistinguishedFolderId";
-//    }
-//}
-
 
 export = FolderSchema;
 
