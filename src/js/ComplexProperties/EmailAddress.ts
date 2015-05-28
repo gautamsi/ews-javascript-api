@@ -17,11 +17,11 @@ class EmailAddress extends ComplexProperty {
     private routingType: string;
     private mailboxType: MailboxType;
     private id: ItemId;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ToString(): string { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("EmailAddress.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("EmailAddress.ts - LoadFromJson : Not implemented."); }
+    ToString(): string { throw new Error("EmailAddress.ts - ToString : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EmailAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddress.ts - WriteElementsToXml : Not implemented."); }
 }
 export = EmailAddress;
 

@@ -6,7 +6,7 @@ import ExchangeService = require("../Core/ExchangeService");
         get IsNullable(): boolean{return true;}
         Type: any;//System.Type;
         Parse(value: string): any { return value; }
-        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("StringPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
     }
    export = StringPropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {

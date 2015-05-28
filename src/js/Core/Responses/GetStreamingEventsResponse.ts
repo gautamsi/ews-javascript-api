@@ -8,8 +8,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	ErrorSubscriptionIds: string[] /*System.Collections.Generic.List<string>*/;
 	private results: GetStreamingEventsResults;
 	private request: HangingServiceRequestBase;
-	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("GetStreamingEventsResponse.ts - LoadExtraErrorDetailsFromXml : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetStreamingEventsResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
 export = GetStreamingEventsResponse;
 

@@ -5,7 +5,7 @@ class PhoneEntity extends ExtractedEntity {
     OriginalPhoneString: string;
     PhoneString: string;
     Type: string;
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhoneEntity.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = PhoneEntity;
 //module Microsoft.Exchange.WebServices.Data {

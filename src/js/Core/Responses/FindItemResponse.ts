@@ -13,11 +13,11 @@ class FindItemResponse<TItem extends Item> extends ServiceResponse {
     private isGrouped: boolean;
     private groupedFindResults: GroupedFindItemsResults<TItem>;
     private propertySet: PropertySet;
-    CreateItemInstance(service: ExchangeService, xmlElementName: string): TItem { throw new Error("Not implemented."); }
-    InternalReadItemsFromJson(jsonObject: JsonObject, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("Not implemented."); }
-    InternalReadItemsFromXml(reader: EwsServiceXmlReader, propertySet: PropertySet, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    CreateItemInstance(service: ExchangeService, xmlElementName: string): TItem { throw new Error("FindItemResponse.ts - CreateItemInstance : Not implemented."); }
+    InternalReadItemsFromJson(jsonObject: JsonObject, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("FindItemResponse.ts - InternalReadItemsFromJson : Not implemented."); }
+    InternalReadItemsFromXml(reader: EwsServiceXmlReader, propertySet: PropertySet, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("FindItemResponse.ts - InternalReadItemsFromXml : Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("FindItemResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("FindItemResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = FindItemResponse;
 //module Microsoft.Exchange.WebServices.Data {

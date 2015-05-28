@@ -9,8 +9,8 @@ class OutlookUser {
     private deploymentId: string;
     private autodiscoverAMTPAddress: string;
     private static converterDictionary: LazyMember<any>;
-    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
+    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookUser.ts - ConvertToUserSettings : Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookUser.ts - LoadFromXml : Not implemented."); }
 }
 export = OutlookUser;
 

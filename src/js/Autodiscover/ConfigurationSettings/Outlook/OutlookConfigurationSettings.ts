@@ -20,12 +20,12 @@ class OutlookConfigurationSettings extends ConfigurationSettingsBase {
                 results.push(UserSettingName.AlternateMailboxes);
                 return results;
     });
-    ConvertSettings(smtpAddress: string, requestedSettings: UserSettingName[]): GetUserSettingsResponse { throw new Error("Not implemented."); }
-    GetNamespace(): string { throw new Error("Not implemented."); }
-    IsAvailableUserSetting(setting: UserSettingName): boolean { throw new Error("Not implemented."); }
-    MakeRedirectionResponse(redirectUrl: string /*System.Uri*/): any { throw new Error("Not implemented."); }
-    ReportUnsupportedSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }
-    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("Not implemented."); }
+    ConvertSettings(smtpAddress: string, requestedSettings: UserSettingName[]): GetUserSettingsResponse { throw new Error("OutlookConfigurationSettings.ts - ConvertSettings : Not implemented."); }
+    GetNamespace(): string { throw new Error("OutlookConfigurationSettings.ts - GetNamespace : Not implemented."); }
+    IsAvailableUserSetting(setting: UserSettingName): boolean { throw new Error("OutlookConfigurationSettings.ts - IsAvailableUserSetting : Not implemented."); }
+    MakeRedirectionResponse(redirectUrl: string /*System.Uri*/): any { throw new Error("OutlookConfigurationSettings.ts - MakeRedirectionResponse : Not implemented."); }
+    ReportUnsupportedSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookConfigurationSettings.ts - ReportUnsupportedSettings : Not implemented."); }
+    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("OutlookConfigurationSettings.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
 
 export = OutlookConfigurationSettings;

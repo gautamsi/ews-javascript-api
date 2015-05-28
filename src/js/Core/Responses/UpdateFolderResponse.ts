@@ -5,9 +5,9 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 
 class UpdateFolderResponse extends ServiceResponse {
     private folder: Folder;
-    GetObjectInstance(session: ExchangeService, xmlElementName: string): Folder { throw new Error("Not implemented."); }
-    Loaded(): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    GetObjectInstance(session: ExchangeService, xmlElementName: string): Folder { throw new Error("UpdateFolderResponse.ts - GetObjectInstance : Not implemented."); }
+    Loaded(): any { throw new Error("UpdateFolderResponse.ts - Loaded : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("UpdateFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = UpdateFolderResponse;
 //module Microsoft.Exchange.WebServices.Data {

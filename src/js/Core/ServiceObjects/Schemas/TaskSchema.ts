@@ -24,7 +24,7 @@ class TaskSchema extends ItemSchema {
     static StatusDescription: PropertyDefinition;
     static TotalWork: PropertyDefinition;
     static Instance: TaskSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("TaskSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 

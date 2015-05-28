@@ -16,13 +16,13 @@ class HangingServiceRequestBase extends ServiceRequestBase {
 	private lockObject: any;
 	private OnDisconnect: HangingRequestDisconnectHandler;
 	static LogAllWireBytes: boolean;
-	Disconnect(): void { throw new Error("Not implemented."); }
-	//Disconnect(reason: HangingRequestDisconnectReason, exception: Exception): void{ throw new Error("Not implemented.");}
-	InternalExecute(): void { throw new Error("Not implemented."); }
-	InternalOnConnect(): void { throw new Error("Not implemented."); }
-	InternalOnDisconnect(reason: HangingRequestDisconnectReason, exception: Exception): void { throw new Error("Not implemented."); }
-	ParseResponses(state: any): void { throw new Error("Not implemented."); }
-	ReadPreamble(ewsXmlReader: EwsServiceXmlReader): void { throw new Error("Not implemented."); }
+	Disconnect(): void { throw new Error("HangingServiceRequestBase.ts - Disconnect : Not implemented."); }
+	//Disconnect(reason: HangingRequestDisconnectReason, exception: Exception): void{ throw new Error("HangingServiceRequestBase.ts - Disconnect : Not implemented.");}
+	InternalExecute(): void { throw new Error("HangingServiceRequestBase.ts - InternalExecute : Not implemented."); }
+	InternalOnConnect(): void { throw new Error("HangingServiceRequestBase.ts - InternalOnConnect : Not implemented."); }
+	InternalOnDisconnect(reason: HangingRequestDisconnectReason, exception: Exception): void { throw new Error("HangingServiceRequestBase.ts - InternalOnDisconnect : Not implemented."); }
+	ParseResponses(state: any): void { throw new Error("HangingServiceRequestBase.ts - ParseResponses : Not implemented."); }
+	ReadPreamble(ewsXmlReader: EwsServiceXmlReader): void { throw new Error("HangingServiceRequestBase.ts - ReadPreamble : Not implemented."); }
 }
 
 interface HangingRequestDisconnectHandler {

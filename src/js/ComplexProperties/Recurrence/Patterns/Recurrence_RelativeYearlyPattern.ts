@@ -15,11 +15,11 @@ import Recurrence = require("./Recurrence");
 	private dayOfTheWeek: any /*Nullable<DayOfTheWeek>*/;
 	private dayOfTheWeekIndex: any /*Nullable<DayOfTheWeekIndex>*/;
 	private month: any /*Nullable<Month>*/;
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
+	InternalValidate(): void{ throw new Error("Recurrence_RelativeYearlyPattern.ts - InternalValidate : Not implemented.");}
+	InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Recurrence_RelativeYearlyPattern.ts - InternalWritePropertiesToXml : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Recurrence_RelativeYearlyPattern.ts - LoadFromJson : Not implemented.");}
+	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_RelativeYearlyPattern.ts - PatternToJson : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_RelativeYearlyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
 export = RelativeYearlyPattern;
 

@@ -9,12 +9,12 @@ class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManage
     DelegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
     private delegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
     private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-    CreateResponse(): DelegateManagementResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateResponse(): DelegateManagementResponse { throw new Error("UpdateDelegateRequest.ts - CreateResponse : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("UpdateDelegateRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("UpdateDelegateRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("UpdateDelegateRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("UpdateDelegateRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = UpdateDelegateRequest;
 

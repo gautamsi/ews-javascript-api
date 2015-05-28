@@ -6,10 +6,10 @@ import JsonObject = require("../Core/JsonObject");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class EffectiveRightsPropertyDefinition extends PropertyDefinition {
         Type: any;//System.Type;
-        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
+        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("EffectiveRightsPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
+        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("EffectiveRightsPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
     }
 
 

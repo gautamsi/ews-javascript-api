@@ -4,7 +4,7 @@ class SearchRefinerItem {
     Value: string;
     Count: number;
     Token: string;
-    LoadFromXml(reader: EwsServiceXmlReader): SearchRefinerItem { throw new Error("Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): SearchRefinerItem { throw new Error("SearchRefinerItem.ts - LoadFromXml : Not implemented."); }
 }
 export = SearchRefinerItem;
 //module Microsoft.Exchange.WebServices.Data {

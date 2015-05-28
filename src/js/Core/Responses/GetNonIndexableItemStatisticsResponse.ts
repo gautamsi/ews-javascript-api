@@ -5,8 +5,8 @@ import ExchangeService = require("../ExchangeService");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetNonIndexableItemStatisticsResponse extends ServiceResponse {
     NonIndexableStatistics: NonIndexableItemStatistic[];//System.Collections.Generic.List<NonIndexableItemStatistic>;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetNonIndexableItemStatisticsResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetNonIndexableItemStatisticsResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetNonIndexableItemStatisticsResponse;
 //module Microsoft.Exchange.WebServices.Data {

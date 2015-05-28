@@ -22,14 +22,14 @@ class WindowsLiveCredentials extends WSSecurityBasedCredentials {
     private traceEnabled: boolean;
     private traceListener: ITraceListener;
     static DefaultWindowsLiveUrl: /*System.Uri*/string;
-    EmitTokenRequest(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("Not implemented."); }
-    MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("Not implemented."); }
-    ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("Not implemented."); }
-    //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-    ProcessTokenResponse(response: any): any { throw new Error("Not implemented."); }
-    ReadWindowsLiveRSTResponseHeaders(rstResponse: EwsXmlReader): any { throw new Error("Not implemented."); }
-    TraceResponse(response: any, memoryStream: any): any { throw new Error("Not implemented."); }
-    TraceWebException(e: any): any { throw new Error("Not implemented."); }
+    EmitTokenRequest(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("WindowsLiveCredentials.ts - EmitTokenRequest : Not implemented."); }
+    MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("WindowsLiveCredentials.ts - MakeTokenRequestToWindowsLive : Not implemented."); }
+    ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ParseWindowsLiveRSTResponseBody : Not implemented."); }
+    //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("WindowsLiveCredentials.ts - PrepareWebRequest : Not implemented.");}
+    ProcessTokenResponse(response: any): any { throw new Error("WindowsLiveCredentials.ts - ProcessTokenResponse : Not implemented."); }
+    ReadWindowsLiveRSTResponseHeaders(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ReadWindowsLiveRSTResponseHeaders : Not implemented."); }
+    TraceResponse(response: any, memoryStream: any): any { throw new Error("WindowsLiveCredentials.ts - TraceResponse : Not implemented."); }
+    TraceWebException(e: any): any { throw new Error("WindowsLiveCredentials.ts - TraceWebException : Not implemented."); }
 }
 export = WindowsLiveCredentials;
 //module Microsoft.Exchange.WebServices.Data {

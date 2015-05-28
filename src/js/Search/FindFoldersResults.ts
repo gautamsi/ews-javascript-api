@@ -8,7 +8,7 @@ private totalCount: number;
 private nextPageOffset: number;
 private moreAvailable: boolean;
 private folders: Folder[];//System.Collections.ObjectModel.Collection<Folder>;
-GetEnumerator(): any { throw new Error("Not implemented."); }
+GetEnumerator(): any { throw new Error("FindFoldersResults.ts - GetEnumerator : Not implemented."); }
 }
 export = FindFoldersResults;
 //module Microsoft.Exchange.WebServices.Data {

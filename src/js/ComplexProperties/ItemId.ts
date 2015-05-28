@@ -1,7 +1,7 @@
 import ServiceId = require("./ServiceId");
 
 class ItemId extends ServiceId {
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
+    GetXmlElementName(): string { throw new Error("ItemId.ts - GetXmlElementName : Not implemented."); }
 }
 export = ItemId;
 

@@ -9,10 +9,10 @@ class ConversationNode extends ComplexProperty {
     ParentInternetMessageId: string;
     Items: Item[];// System.Collections.Generic.List<Item>;
     private propertySet: PropertySet;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("ConversationNode.ts - GetObjectInstance : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("ConversationNode.ts - GetXmlElementName : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ConversationNode.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationNode.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ConversationNode;
 //module Microsoft.Exchange.WebServices.Data {

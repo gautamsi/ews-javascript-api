@@ -8,12 +8,12 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
  class DisableAppRequest extends SimpleServiceRequestBase {
 	private Id: string;
 	private DisableReason: DisableReasonType;
-	Execute(): DisableAppResponse{ throw new Error("Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("Not implemented.");}
-	GetResponseXmlElementName(): string{ throw new Error("Not implemented.");}
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	Execute(): DisableAppResponse{ throw new Error("DisableAppRequest.ts - Execute : Not implemented.");}
+	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("DisableAppRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
+	GetResponseXmlElementName(): string{ throw new Error("DisableAppRequest.ts - GetResponseXmlElementName : Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("DisableAppRequest.ts - GetXmlElementName : Not implemented.");}
+	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("DisableAppRequest.ts - ParseResponse : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("DisableAppRequest.ts - WriteElementsToXml : Not implemented.");}
 }
 export = DisableAppRequest;
 

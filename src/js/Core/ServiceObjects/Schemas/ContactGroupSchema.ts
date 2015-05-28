@@ -5,7 +5,7 @@ class ContactGroupSchema extends ItemSchema {
     static FileAs: PropertyDefinition;
     static Members: PropertyDefinition;
     static Instance: ContactGroupSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("ContactGroupSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module ContactGroupSchema {

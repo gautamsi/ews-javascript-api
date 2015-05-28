@@ -8,12 +8,12 @@ class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateRespon
     IncludePermissions: boolean;
     private userIds: UserId[];//System.Collections.Generic.List<UserId>;
     private includePermissions: boolean;
-    CreateResponse(): GetDelegateResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateResponse(): GetDelegateResponse { throw new Error("GetDelegateRequest.ts - CreateResponse : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetDelegateRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetDelegateRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetDelegateRequest.ts - GetXmlElementName : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetDelegateRequest;
 

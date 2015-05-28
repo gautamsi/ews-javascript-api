@@ -13,14 +13,14 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 	private containmentMode: ContainmentMode;
 	private comparisonMode: ComparisonMode;
 	private value: string;
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	ReadAttributesFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("SearchFilter_ContainsSubstring.ts - GetXmlElementName : Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("SearchFilter_ContainsSubstring.ts - InternalToJson : Not implemented.");}
+	InternalValidate(): void{ throw new Error("SearchFilter_ContainsSubstring.ts - InternalValidate : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_ContainsSubstring.ts - LoadFromJson : Not implemented.");}
+	ReadAttributesFromXml(reader: EwsServiceXmlReader): void{ throw new Error("SearchFilter_ContainsSubstring.ts - ReadAttributesFromXml : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_ContainsSubstring.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ContainsSubstring.ts - WriteAttributesToXml : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ContainsSubstring.ts - WriteElementsToXml : Not implemented.");}
 }
 export = ContainsSubstring;
 

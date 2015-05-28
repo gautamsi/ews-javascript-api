@@ -36,13 +36,13 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	private sendSMSAlertToRecipients: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/;
 	private serverReplyWithMessage: ItemId;
 	private stopProcessingRules: boolean;
-	ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection(emailCollection: EmailAddressCollection): MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/{ throw new Error("Not implemented.");}
-	ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection(recipientCollection: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/): EmailAddressCollection{ throw new Error("Not implemented.");}
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection(emailCollection: EmailAddressCollection): MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/{ throw new Error("RuleActions.ts - ConvertSMSRecipientsFromEmailAddressCollectionToMobilePhoneCollection : Not implemented.");}
+	ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection(recipientCollection: MobilePhone[] /*System.Collections.ObjectModel.Collection<MobilePhone>*/): EmailAddressCollection{ throw new Error("RuleActions.ts - ConvertSMSRecipientsFromMobilePhoneCollectionToEmailAddressCollection : Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("RuleActions.ts - InternalToJson : Not implemented.");}
+	InternalValidate(): void{ throw new Error("RuleActions.ts - InternalValidate : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("RuleActions.ts - LoadFromJson : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RuleActions.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RuleActions.ts - WriteElementsToXml : Not implemented.");}
 }
 export = RuleActions;
 

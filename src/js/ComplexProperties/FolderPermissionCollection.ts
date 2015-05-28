@@ -17,19 +17,19 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
         super();
         this.isCalendarFolder = owner instanceof CalendarFolder;
     }
-    Add(permission: FolderPermission): any { throw new Error("Not implemented."); }
-    AddRange(permissions: FolderPermission[]/*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("Not implemented."); }
-    Clear(): any { throw new Error("Not implemented."); }
-    CreateComplexProperty(xmlElementName: string): FolderPermission { throw new Error("Not implemented."); }
-    CreateDefaultComplexProperty(): FolderPermission { throw new Error("Not implemented."); }
-    GetCollectionItemXmlElementName(complexProperty: FolderPermission): string { throw new Error("Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
-    Remove(permission: FolderPermission): boolean { throw new Error("Not implemented."); }
-    RemoveAt(index: number): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Add(permission: FolderPermission): any { throw new Error("FolderPermissionCollection.ts - Add : Not implemented."); }
+    AddRange(permissions: FolderPermission[]/*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("FolderPermissionCollection.ts - AddRange : Not implemented."); }
+    Clear(): any { throw new Error("FolderPermissionCollection.ts - Clear : Not implemented."); }
+    CreateComplexProperty(xmlElementName: string): FolderPermission { throw new Error("FolderPermissionCollection.ts - CreateComplexProperty : Not implemented."); }
+    CreateDefaultComplexProperty(): FolderPermission { throw new Error("FolderPermissionCollection.ts - CreateDefaultComplexProperty : Not implemented."); }
+    GetCollectionItemXmlElementName(complexProperty: FolderPermission): string { throw new Error("FolderPermissionCollection.ts - GetCollectionItemXmlElementName : Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("FolderPermissionCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    Remove(permission: FolderPermission): boolean { throw new Error("FolderPermissionCollection.ts - Remove : Not implemented."); }
+    RemoveAt(index: number): any { throw new Error("FolderPermissionCollection.ts - RemoveAt : Not implemented."); }
+    Validate(): any { throw new Error("FolderPermissionCollection.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FolderPermissionCollection.ts - WriteElementsToXml : Not implemented."); }
 }
 export = FolderPermissionCollection;
 

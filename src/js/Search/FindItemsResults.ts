@@ -11,7 +11,7 @@ class FindItemsResults<TItem extends Item> {//IEnumerable<TItem>
     private moreAvailable: boolean;
     private items: TItem[]/*System.Collections.ObjectModel.Collection<TItem>*/;
     private highlightTerms: HighlightTerm[]/*System.Collections.ObjectModel.Collection<HighlightTerm>*/;
-    GetEnumerator(): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("FindItemsResults.ts - GetEnumerator : Not implemented."); }
 }
 export = FindItemsResults;
 //module Microsoft.Exchange.WebServices.Data {

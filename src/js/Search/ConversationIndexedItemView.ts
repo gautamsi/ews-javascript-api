@@ -14,15 +14,15 @@ import Grouping = require("./Grouping");
 	private orderBy: OrderByCollection;
 	private traversal: any /*Nullable<ConversationQueryTraversal>*/;
 	private viewFilter: any /*Nullable<ViewFilter>*/;
-	AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	GetServiceObjectType(): ServiceObjectType{ throw new Error("Not implemented.");}
-	GetViewJsonTypeName(): string{ throw new Error("Not implemented.");}
-	GetViewXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalValidate(request: ServiceRequestBase): void{ throw new Error("Not implemented.");}
-	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("Not implemented.");}
-	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("Not implemented.");}
+	AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): void{ throw new Error("ConversationIndexedItemView.ts - AddJsonProperties : Not implemented.");}
+	GetServiceObjectType(): ServiceObjectType{ throw new Error("ConversationIndexedItemView.ts - GetServiceObjectType : Not implemented.");}
+	GetViewJsonTypeName(): string{ throw new Error("ConversationIndexedItemView.ts - GetViewJsonTypeName : Not implemented.");}
+	GetViewXmlElementName(): string{ throw new Error("ConversationIndexedItemView.ts - GetViewXmlElementName : Not implemented.");}
+	InternalValidate(request: ServiceRequestBase): void{ throw new Error("ConversationIndexedItemView.ts - InternalValidate : Not implemented.");}
+	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("ConversationIndexedItemView.ts - InternalWriteSearchSettingsToXml : Not implemented.");}
+	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("ConversationIndexedItemView.ts - WriteAttributesToXml : Not implemented.");}
+	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("ConversationIndexedItemView.ts - WriteOrderByToXml : Not implemented.");}
+	WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("ConversationIndexedItemView.ts - WriteToXml : Not implemented.");}
 }
 export = ConversationIndexedItemView;
 

@@ -201,7 +201,7 @@ class ServiceObjectSchema {
     RegisterIndexedProperty(indexedProperty: IndexedPropertyDefinition): void { this.indexedProperties.push(indexedProperty); }
     RegisterInternalProperty(property: PropertyDefinition): void { this.RegisterProperty(property, true); }
     RegisterProperties(): void { /*virtual void for derived class to implement if needed*/ }
-    //RegisterProperty(property: PropertyDefinition): any { throw new Error("Not implemented."); }
+    //RegisterProperty(property: PropertyDefinition): any { throw new Error("ServiceObjectSchema.ts - RegisterProperty : Not implemented."); }
     RegisterProperty(property: PropertyDefinition, isInternal: boolean = false): void {
         this.properties.add(property.XmlElementName, property);
 

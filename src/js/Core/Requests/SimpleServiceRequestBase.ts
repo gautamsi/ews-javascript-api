@@ -10,8 +10,8 @@ import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
 
 import ServiceRequestBase = require("./ServiceRequestBase");
 class SimpleServiceRequestBase extends ServiceRequestBase {
-    //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("Not implemented.");}
-    //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("Not implemented.");}
+    //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
+    //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - EndInternalExecute : Not implemented.");}
     InternalExecute(): IPromise<any> {
 
 
@@ -136,7 +136,7 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
         //var jsonResponse: JsonObject = new JsonParser(responseStream).Parse();
         return super.BuildResponseObjectFromJson(jsObject);
     }
-    WebRequestAsyncCallback(webAsyncResult: any/*System.IAsyncResult*/): any { throw new Error("Not implemented."); }
+    WebRequestAsyncCallback(webAsyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - WebRequestAsyncCallback : Not implemented."); }
 }
 export = SimpleServiceRequestBase;
     //module Microsoft.Exchange.WebServices.Data {

@@ -12,12 +12,12 @@ class WSSecurityBasedCredentials extends ExchangeCredentials {
     private securityToken: string;
     private ewsUrl: string;//System.Uri;
     private static namespaceManager: any;//System.Xml.XmlNamespaceManager;
-    AdjustUrl(url: string/*System.Uri*/): string/*System.Uri*/ { throw new Error("Not implemented."); }
-    EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): any { throw new Error("Not implemented."); }
-    PreAuthenticate(): any { throw new Error("Not implemented."); }
-    SerializeExtraSoapHeaders(writer: any/*System.Xml.XmlWriter*/, webMethodName: string): any { throw new Error("Not implemented."); }
-    SerializeWSAddressingHeaders(xmlWriter: any /*System.Xml.XmlWriter*/, webMethodName: string): any { throw new Error("Not implemented."); }
-    SerializeWSSecurityHeaders(xmlWriter: any /*System.Xml.XmlWriter*/): any { throw new Error("Not implemented."); }
+    AdjustUrl(url: string/*System.Uri*/): string/*System.Uri*/ { throw new Error("WSSecurityBasedCredentials.ts - AdjustUrl : Not implemented."); }
+    EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): any { throw new Error("WSSecurityBasedCredentials.ts - EmitExtraSoapHeaderNamespaceAliases : Not implemented."); }
+    PreAuthenticate(): any { throw new Error("WSSecurityBasedCredentials.ts - PreAuthenticate : Not implemented."); }
+    SerializeExtraSoapHeaders(writer: any/*System.Xml.XmlWriter*/, webMethodName: string): any { throw new Error("WSSecurityBasedCredentials.ts - SerializeExtraSoapHeaders : Not implemented."); }
+    SerializeWSAddressingHeaders(xmlWriter: any /*System.Xml.XmlWriter*/, webMethodName: string): any { throw new Error("WSSecurityBasedCredentials.ts - SerializeWSAddressingHeaders : Not implemented."); }
+    SerializeWSSecurityHeaders(xmlWriter: any /*System.Xml.XmlWriter*/): any { throw new Error("WSSecurityBasedCredentials.ts - SerializeWSSecurityHeaders : Not implemented."); }
 
 }
 

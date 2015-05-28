@@ -16,11 +16,11 @@ class ExtendedProperty extends ComplexProperty {
             this.propertyDefinition = propertyDefinition;
     }
 
-    Equals(obj: any): boolean { throw new Error("Not implemented."); }
-    GetHashCode(): number { throw new Error("Not implemented."); }
-    GetStringValue(): string { throw new Error("Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: any /*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
+    Equals(obj: any): boolean { throw new Error("ExtendedProperty.ts - Equals : Not implemented."); }
+    GetHashCode(): number { throw new Error("ExtendedProperty.ts - GetHashCode : Not implemented."); }
+    GetStringValue(): string { throw new Error("ExtendedProperty.ts - GetStringValue : Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("ExtendedProperty.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: any /*JsonObject*/, service: ExchangeService): any { throw new Error("ExtendedProperty.ts - LoadFromJson : Not implemented."); }
     TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
         return false;
         //switch (reader.LocalName) {
@@ -51,7 +51,7 @@ class ExtendedProperty extends ComplexProperty {
         //        return false;
         //}
     }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExtendedProperty.ts - WriteElementsToXml : Not implemented."); }
 }
 
 export = ExtendedProperty;

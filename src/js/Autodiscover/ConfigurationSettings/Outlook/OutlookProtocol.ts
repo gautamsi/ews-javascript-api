@@ -56,11 +56,11 @@ class OutlookProtocol {
     private static webProtocolConverterDictionary: LazyMember<any>;
     private static availableUserSettings: LazyMember<any>;
     private static protocolNameToTypeMap: LazyMember<any>;
-    ConvertEcpFragmentToUrl(fragment: string): string { throw new Error("Not implemented."); }
-    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
-    LoadWebClientUrlsFromXml(reader: EwsXmlReader, webClientUrls: WebClientUrlCollection, elementName: string): any { throw new Error("Not implemented."); }
-    ProtocolNameToType(protocolName: string): OutlookProtocolType { throw new Error("Not implemented."); }
+    ConvertEcpFragmentToUrl(fragment: string): string { throw new Error("OutlookProtocol.ts - ConvertEcpFragmentToUrl : Not implemented."); }
+    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookProtocol.ts - ConvertToUserSettings : Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookProtocol.ts - LoadFromXml : Not implemented."); }
+    LoadWebClientUrlsFromXml(reader: EwsXmlReader, webClientUrls: WebClientUrlCollection, elementName: string): any { throw new Error("OutlookProtocol.ts - LoadWebClientUrlsFromXml : Not implemented."); }
+    ProtocolNameToType(protocolName: string): OutlookProtocolType { throw new Error("OutlookProtocol.ts - ProtocolNameToType : Not implemented."); }
 }
 export = OutlookProtocol;
 

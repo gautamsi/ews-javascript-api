@@ -41,7 +41,7 @@ class SoapFaultDetails {
 
         return soapFaultDetails;
     }
-    //Parse(jsonObject: JsonObject): SoapFaultDetails{ throw new Error("Not implemented.");}
+    //Parse(jsonObject: JsonObject): SoapFaultDetails{ throw new Error("SoapFaultDetails.ts - Parse : Not implemented.");}
     ParseDetailNodeFromJson(obj: any): void {
 
         if (obj[XmlElementNames.EwsResponseCodeElementName])
@@ -122,8 +122,8 @@ class SoapFaultDetails {
 
         return soapFaultDetails;
     }
-    ParseDetailNode(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
-    ParseMessageXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
+    ParseDetailNode(reader: EwsXmlReader): any { throw new Error("SoapFaultDetails.ts - ParseDetailNode : Not implemented."); }
+    ParseMessageXml(reader: EwsXmlReader): any { throw new Error("SoapFaultDetails.ts - ParseMessageXml : Not implemented."); }
 
 }
 

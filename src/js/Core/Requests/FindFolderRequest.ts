@@ -3,11 +3,11 @@ import ExchangeService = require("../ExchangeService");
 import FindFolderResponse = require("../Responses/FindFolderResponse");
 import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
  class FindFolderRequest extends FindRequest<FindFolderResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse { throw new Error("FindFolderRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("FindFolderRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetXmlElementName : Not implemented."); }
 }
 
  export = FindFolderRequest;

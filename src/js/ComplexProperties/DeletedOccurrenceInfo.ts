@@ -6,8 +6,8 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class DeletedOccurrenceInfo extends ComplexProperty {
     OriginalStart: Date;
     private originalStart: Date;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("DeletedOccurrenceInfo.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("DeletedOccurrenceInfo.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = DeletedOccurrenceInfo;
 //module Microsoft.Exchange.WebServices.Data {

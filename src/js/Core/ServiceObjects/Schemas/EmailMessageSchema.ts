@@ -20,7 +20,7 @@ class EmailMessageSchema extends ItemSchema {
     static ApprovalRequestData: PropertyDefinition;
     static VotingInformation: PropertyDefinition;
     static Instance: EmailMessageSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("EmailMessageSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module EmailMessageSchema {

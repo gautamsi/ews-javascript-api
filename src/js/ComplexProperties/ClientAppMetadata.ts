@@ -4,7 +4,7 @@ class ClientAppMetadata extends ComplexProperty {
     EndNodeUrl: string;
     ActionUrl: string;
     AppStatus: string;
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ClientAppMetadata.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ClientAppMetadata;
 //module Microsoft.Exchange.WebServices.Data {

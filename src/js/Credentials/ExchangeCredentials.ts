@@ -18,13 +18,13 @@ class ExchangeCredentials {
 
         return url;
     }
-    //PreAuthenticate(): any{ throw new Error("Not implemented.");}
+    //PreAuthenticate(): any{ throw new Error("ExchangeCredentials.ts - PreAuthenticate : Not implemented.");}
     PrepareWebRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         request.headers["Authorization"] = "Basic " + base64Helper.btoa(this.UserName + ":" + this.Password);
     }
     SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/ }
-    //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("Not implemented.");}
-    //Sign(memoryStream: any): any{ throw new Error("Not implemented.");}
+    //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("ExchangeCredentials.ts - SerializeWSSecurityHeaders : Not implemented.");}
+    //Sign(memoryStream: any): any{ throw new Error("ExchangeCredentials.ts - Sign : Not implemented.");}
 }
 
 export = ExchangeCredentials;

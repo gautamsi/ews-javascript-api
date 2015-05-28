@@ -67,9 +67,9 @@ class FolderId extends ServiceId {
             return false;
         }
     }
-    //GetHashCode(): number { throw new Error("Not implemented."); }
+    //GetHashCode(): number { throw new Error("FolderId.ts - GetHashCode : Not implemented."); }
     GetXmlElementName(): string { return typeof this.folderName!== 'undefined' && this.FolderName >=0 ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("FolderId.ts - InternalToJson : Not implemented."); }
     ToString(): string {
         if (this.IsValid) {
             if (this.FolderName) {

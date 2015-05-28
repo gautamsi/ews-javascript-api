@@ -16,16 +16,16 @@ class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResp
     private attachmentIds: string[];//System.Collections.Generic.List<string>;
     private additionalProperties: PropertyDefinitionBase[];//System.Collections.Generic.List<PropertyDefinitionBase>;
     private bodyType: BodyType;
-    AddJsonAttachmentIdToList(attachmentIds: any[]/*System.Collections.Generic.List<T>*/, attachmentId: string): any { throw new Error("Not implemented."); }
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetAttachmentResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    AddJsonAttachmentIdToList(attachmentIds: any[]/*System.Collections.Generic.List<T>*/, attachmentId: string): any { throw new Error("GetAttachmentRequest.ts - AddJsonAttachmentIdToList : Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetAttachmentResponse { throw new Error("GetAttachmentRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("GetAttachmentRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetAttachmentRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("GetAttachmentRequest.ts - Validate : Not implemented."); }
+    WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("GetAttachmentRequest.ts - WriteAttachmentIdXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetAttachmentRequest;
 //module Microsoft.Exchange.WebServices.Data {

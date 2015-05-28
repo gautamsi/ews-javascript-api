@@ -10,9 +10,9 @@ class NameResolutionCollection {//IEnumerable<NameResolution>
     private service: ExchangeService;
     private includesAllResolutions: boolean;
     private items: any[];//System.Collections.Generic.List<T>;
-    GetEnumerator(): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("NameResolutionCollection.ts - GetEnumerator : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("NameResolutionCollection.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("NameResolutionCollection.ts - LoadFromXml : Not implemented."); }
 }
 export = NameResolutionCollection;
 //module Microsoft.Exchange.WebServices.Data {

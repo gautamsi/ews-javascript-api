@@ -75,9 +75,9 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	private sensitivity: any /*Nullable<Sensitivity>*/;
 	private withinDateRange: RulePredicateDateRange;
 	private withinSizeRange: RulePredicateSizeRange;
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	InternalValidate(): void{ throw new Error("RulePredicates.ts - InternalValidate : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicates.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RulePredicates.ts - WriteElementsToXml : Not implemented.");}
 }
 export = RulePredicates;
 

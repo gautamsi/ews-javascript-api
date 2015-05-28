@@ -30,7 +30,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
     }
 
     CreateServiceResponse(service: ExchangeService, responseIndex: number): TResponse { throw new Error("abstract; must implemented."); }
-    //EndExecute(asyncResult: any/*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
+    //EndExecute(asyncResult: any/*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("MultiResponseServiceRequest.ts - EndExecute : Not implemented."); }
     Execute(): IPromise<ServiceResponseCollection<TResponse>> {
 
         return Promise((successDelegate, errorDelegate, progressDelegate) => {

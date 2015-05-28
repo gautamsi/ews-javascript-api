@@ -11,7 +11,7 @@ class MeetingMessageSchema extends EmailMessageSchema {
     static ICalDateTimeStamp: PropertyDefinition;
     static IsOrganizer: PropertyDefinition;
     static Instance: MeetingMessageSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("MeetingMessageSchema.ts - RegisterProperties : Not implemented."); }
 }
 module MeetingMessageSchema {
     export module FieldUris {

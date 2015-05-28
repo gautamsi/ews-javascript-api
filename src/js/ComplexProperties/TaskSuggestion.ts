@@ -5,7 +5,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class TaskSuggestion extends ExtractedEntity {
     TaskString: string;
     Assignees: EmailUserEntityCollection;
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TaskSuggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = TaskSuggestion;
 //module Microsoft.Exchange.WebServices.Data {

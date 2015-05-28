@@ -8,10 +8,10 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Folder, TResponse> {
     FolderIds: FolderIdWrapperList;
     private folderIds: FolderIdWrapperList;
-    AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("MoveCopyFolderRequest.ts - AddIdsToJson : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("MoveCopyFolderRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    Validate(): any { throw new Error("MoveCopyFolderRequest.ts - Validate : Not implemented."); }
+    WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MoveCopyFolderRequest.ts - WriteIdsToXml : Not implemented."); }
 }
 export = MoveCopyFolderRequest;
 

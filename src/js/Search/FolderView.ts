@@ -6,11 +6,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class FolderView extends PagedView {
     Traversal: FolderTraversal;
     private traversal: FolderTraversal;
-    AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    GetServiceObjectType(): ServiceObjectType { throw new Error("Not implemented."); }
-    GetViewJsonTypeName(): string { throw new Error("Not implemented."); }
-    GetViewXmlElementName(): string { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderView.ts - AddJsonProperties : Not implemented."); }
+    GetServiceObjectType(): ServiceObjectType { throw new Error("FolderView.ts - GetServiceObjectType : Not implemented."); }
+    GetViewJsonTypeName(): string { throw new Error("FolderView.ts - GetViewJsonTypeName : Not implemented."); }
+    GetViewXmlElementName(): string { throw new Error("FolderView.ts - GetViewXmlElementName : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("FolderView.ts - WriteAttributesToXml : Not implemented."); }
 }
 export = FolderView;
 //module Microsoft.Exchange.WebServices.Data {

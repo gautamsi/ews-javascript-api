@@ -19,11 +19,11 @@ class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
     private dayOrder: number;
     private dayOfTheWeek: DayOfTheWeek;
     private timeOfDay: any /*System.TimeSpan*/;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ToTransitionTime(): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - LoadFromJson : Not implemented."); }
+    ToTransitionTime(): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - ToTransitionTime : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("LegacyAvailabilityTimeZoneTime.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - WriteElementsToXml : Not implemented."); }
 }
 export = LegacyAvailabilityTimeZoneTime;
 //module Microsoft.Exchange.WebServices.Data {

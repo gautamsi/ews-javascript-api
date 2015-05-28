@@ -50,7 +50,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
         LastAttemptTime: Date;
         AdditionalInfo: string;
         SortValue: string;
-        LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItem { throw new Error("Not implemented."); }
+        LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItem { throw new Error("NonIndexableItem.ts - LoadFromXml : Not implemented."); }
     }
     export = NonIndexableItem;
 //module Microsoft.Exchange.WebServices.Data {

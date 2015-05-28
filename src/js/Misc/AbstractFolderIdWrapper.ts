@@ -4,7 +4,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 class AbstractFolderIdWrapper { //IJsonSerializable
     GetFolder(): Folder { return null; }
-    //InternalToJson(service: ExchangeService): void { throw new Error("Not implemented."); }
+    //InternalToJson(service: ExchangeService): void { throw new Error("AbstractFolderIdWrapper.ts - InternalToJson : Not implemented."); }
     //object IJsonSerializable.ToJson(ExchangeService service)
     //{
     //      return this.InternalToJson(service);

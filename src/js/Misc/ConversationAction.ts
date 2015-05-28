@@ -22,10 +22,10 @@ class ConversationAction {//IJsonSerializable
     DestinationFolderId: FolderIdWrapper;
     RetentionPolicyType: RetentionType;
     RetentionPolicyTagId: any;//System.Guid;
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    GetXmlElementName(): string { throw new Error("ConversationAction.ts - GetXmlElementName : Not implemented."); }
+    ToJson(service: ExchangeService): any { throw new Error("ConversationAction.ts - ToJson : Not implemented."); }
+    Validate(): any { throw new Error("ConversationAction.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ConversationAction.ts - WriteElementsToXml : Not implemented."); }
 }
 export = ConversationAction;
 //module Microsoft.Exchange.WebServices.Data {

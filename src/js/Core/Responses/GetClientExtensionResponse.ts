@@ -6,7 +6,7 @@ class GetClientExtensionResponse extends ServiceResponse {
     RawMasterTableXml: string;
     private clientExtension: ClientExtension[];//System.Collections.ObjectModel.Collection<ClientExtension>;
     private rawMasterTableXml: string;
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetClientExtensionResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetClientExtensionResponse;
 

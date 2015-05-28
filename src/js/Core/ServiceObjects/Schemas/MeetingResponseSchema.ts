@@ -10,7 +10,7 @@ class MeetingResponseSchema extends MeetingMessageSchema {
     static ProposedEnd: PropertyDefinition;
     static EnhancedLocation: PropertyDefinition;
     static Instance: MeetingResponseSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("MeetingResponseSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module MeetingResponseSchema {

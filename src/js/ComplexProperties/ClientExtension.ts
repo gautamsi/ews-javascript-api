@@ -19,10 +19,10 @@ class ClientExtension extends ComplexProperty {
     IsEnabledByDefault: boolean;
     ProvidedTo: ClientExtensionProvidedTo;
     SpecificUsers: StringList;
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("ClientExtension.ts - ReadAttributesFromXml : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ClientExtension.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteElementsToXml : Not implemented."); }
 }
 export = ClientExtension;
 //module Microsoft.Exchange.WebServices.Data {

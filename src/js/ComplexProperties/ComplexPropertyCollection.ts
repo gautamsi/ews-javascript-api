@@ -19,27 +19,27 @@ class ComplexPropertyCollection<TComplexProperty> extends ComplexProperty {
     private addedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
     private modifiedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
     private removedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
-    ClearChangeLog(): any { throw new Error("Not implemented."); }
-    Contains(complexProperty: TComplexProperty): boolean { throw new Error("Not implemented."); }
-    CreateComplexProperty(xmlElementName: string): TComplexProperty { throw new Error("Not implemented."); }
-    CreateDefaultComplexProperty(): TComplexProperty { throw new Error("Not implemented."); }
-    GetCollectionItemXmlElementName(complexProperty: TComplexProperty): string { throw new Error("Not implemented."); }
-    GetEnumerator(): any { throw new Error("Not implemented."); }
-    IndexOf(complexProperty: TComplexProperty): number { throw new Error("Not implemented."); }
-    //InternalAdd(complexProperty: TComplexProperty): any { throw new Error("Not implemented."); }
-    InternalAdd(complexProperty: TComplexProperty, loading: boolean): any { throw new Error("Not implemented."); }
-    InternalClear(): any { throw new Error("Not implemented."); }
-    InternalRemove(complexProperty: TComplexProperty): boolean { throw new Error("Not implemented."); }
-    InternalRemoveAt(index: number): any { throw new Error("Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    ItemChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
-    //LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
-    RemoveFromChangeLog(complexProperty: TComplexProperty): any { throw new Error("Not implemented."); }
-    ShouldWriteToRequest(): boolean { throw new Error("Not implemented."); }
-    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("Not implemented."); }
+    ClearChangeLog(): any { throw new Error("ComplexPropertyCollection.ts - ClearChangeLog : Not implemented."); }
+    Contains(complexProperty: TComplexProperty): boolean { throw new Error("ComplexPropertyCollection.ts - Contains : Not implemented."); }
+    CreateComplexProperty(xmlElementName: string): TComplexProperty { throw new Error("ComplexPropertyCollection.ts - CreateComplexProperty : Not implemented."); }
+    CreateDefaultComplexProperty(): TComplexProperty { throw new Error("ComplexPropertyCollection.ts - CreateDefaultComplexProperty : Not implemented."); }
+    GetCollectionItemXmlElementName(complexProperty: TComplexProperty): string { throw new Error("ComplexPropertyCollection.ts - GetCollectionItemXmlElementName : Not implemented."); }
+    GetEnumerator(): any { throw new Error("ComplexPropertyCollection.ts - GetEnumerator : Not implemented."); }
+    IndexOf(complexProperty: TComplexProperty): number { throw new Error("ComplexPropertyCollection.ts - IndexOf : Not implemented."); }
+    //InternalAdd(complexProperty: TComplexProperty): any { throw new Error("ComplexPropertyCollection.ts - InternalAdd : Not implemented."); }
+    InternalAdd(complexProperty: TComplexProperty, loading: boolean): any { throw new Error("ComplexPropertyCollection.ts - InternalAdd : Not implemented."); }
+    InternalClear(): any { throw new Error("ComplexPropertyCollection.ts - InternalClear : Not implemented."); }
+    InternalRemove(complexProperty: TComplexProperty): boolean { throw new Error("ComplexPropertyCollection.ts - InternalRemove : Not implemented."); }
+    InternalRemoveAt(index: number): any { throw new Error("ComplexPropertyCollection.ts - InternalRemoveAt : Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("ComplexPropertyCollection.ts - InternalToJson : Not implemented."); }
+    ItemChanged(complexProperty: ComplexProperty): any { throw new Error("ComplexPropertyCollection.ts - ItemChanged : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    //LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXml : Not implemented."); }
+    RemoveFromChangeLog(complexProperty: TComplexProperty): any { throw new Error("ComplexPropertyCollection.ts - RemoveFromChangeLog : Not implemented."); }
+    ShouldWriteToRequest(): boolean { throw new Error("ComplexPropertyCollection.ts - ShouldWriteToRequest : Not implemented."); }
+    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("ComplexPropertyCollection.ts - UpdateFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ComplexPropertyCollection.ts - WriteElementsToXml : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("ComplexPropertyCollection.ts - WriteToXml : Not implemented."); }
 }
 export = ComplexPropertyCollection;
 

@@ -7,12 +7,12 @@ class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
     SearchId: string;
     ExpandGroupMembership: boolean;
     InPlaceHoldConfigurationOnly: boolean;
-    Execute(): GetDiscoverySearchConfigurationResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): GetDiscoverySearchConfigurationResponse { throw new Error("GetDiscoverySearchConfigurationRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetDiscoverySearchConfigurationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetDiscoverySearchConfigurationRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetDiscoverySearchConfigurationRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - ParseResponse : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetDiscoverySearchConfigurationRequest;
 //module Microsoft.Exchange.WebServices.Data {

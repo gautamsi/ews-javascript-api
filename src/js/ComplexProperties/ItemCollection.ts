@@ -8,8 +8,8 @@ class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJs
     Count: number;
     Item: TItem;
     private items: Array<TItem> = [];// System.Collections.Generic.List<T>;
-    GetEnumerator(): any { throw new Error("Not implemented."); }//wil be implementedfor ES6 later with yield
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("ItemCollection.ts - GetEnumerator : Not implemented."); }//wil be implementedfor ES6 later with yield
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ItemCollection.ts - LoadFromXmlJsObject : Not implemented."); }
 }
 export = ItemCollection;
 

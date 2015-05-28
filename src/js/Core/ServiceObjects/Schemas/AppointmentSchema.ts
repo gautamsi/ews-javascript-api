@@ -48,7 +48,7 @@ class AppointmentSchema extends ItemSchema {
     static JoinOnlineMeetingUrl: PropertyDefinition;
     static OnlineMeetingSettings: PropertyDefinition;
     static Instance: AppointmentSchema;
-    RegisterProperties(): any { throw new Error("Not implemented.");  }
+    RegisterProperties(): any { throw new Error("AppointmentSchema.ts - RegisterProperties : Not implemented.");  }
 }
 
 module AppointmentSchema {

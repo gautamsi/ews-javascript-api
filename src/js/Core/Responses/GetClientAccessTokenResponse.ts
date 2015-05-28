@@ -9,8 +9,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	TokenType: ClientAccessTokenType;
 	TokenValue: string;
 	TTL: number;
-	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("GetClientAccessTokenResponse.ts - ReadElementsFromJson : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetClientAccessTokenResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
 export = GetClientAccessTokenResponse;
 

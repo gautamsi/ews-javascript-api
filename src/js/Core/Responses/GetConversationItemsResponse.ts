@@ -7,8 +7,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetConversationItemsResponse extends ServiceResponse {
     Conversation: ConversationResponse;
     private propertySet: PropertySet;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetConversationItemsResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetConversationItemsResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetConversationItemsResponse;
 //module Microsoft.Exchange.WebServices.Data {

@@ -6,7 +6,7 @@ import ServiceId = require("../ComplexProperties/ServiceId");
  class FolderChange extends Change {
 	Folder: Folder;
 	FolderId: FolderId;
-	CreateId(): ServiceId{ throw new Error("Not implemented.");}
+	CreateId(): ServiceId{ throw new Error("FolderChange.ts - CreateId : Not implemented.");}
 }
 export = FolderChange;
 

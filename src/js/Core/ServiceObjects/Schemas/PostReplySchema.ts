@@ -1,7 +1,7 @@
 import ServiceObjectSchema = require("./ServiceObjectSchema");
 class PostReplySchema extends ServiceObjectSchema {
     static Instance: PostReplySchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("PostReplySchema.ts - RegisterProperties : Not implemented."); }
 }
 
 export = PostReplySchema;

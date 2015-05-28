@@ -7,11 +7,11 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
  class ExcludesBitmask extends PropertyBasedFilter {
 	Bitmask: number;
 	private bitmask: number;
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("SearchFilter_ExcludesBitmask.ts - GetXmlElementName : Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("SearchFilter_ExcludesBitmask.ts - InternalToJson : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_ExcludesBitmask.ts - LoadFromJson : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_ExcludesBitmask.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ExcludesBitmask.ts - WriteElementsToXml : Not implemented.");}
 }
 export = ExcludesBitmask;
 

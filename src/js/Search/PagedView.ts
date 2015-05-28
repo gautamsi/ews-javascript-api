@@ -11,13 +11,13 @@ class PagedView extends ViewBase {
     private pageSize: number;
     private offsetBasePoint: OffsetBasePoint;
     private offset: number;
-    GetMaxEntriesReturned(): number { throw new Error("Not implemented."); }
-    InternalValidate(request: ServiceRequestBase): any { throw new Error("Not implemented."); }
-    InternalWritePagingToJson(jsonView: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any { throw new Error("Not implemented."); }
-    InternalWriteViewToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("Not implemented."); }
-    WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    GetMaxEntriesReturned(): number { throw new Error("PagedView.ts - GetMaxEntriesReturned : Not implemented."); }
+    InternalValidate(request: ServiceRequestBase): any { throw new Error("PagedView.ts - InternalValidate : Not implemented."); }
+    InternalWritePagingToJson(jsonView: any/*JsonObject*/, service: ExchangeService): any { throw new Error("PagedView.ts - InternalWritePagingToJson : Not implemented."); }
+    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any { throw new Error("PagedView.ts - InternalWriteSearchSettingsToXml : Not implemented."); }
+    InternalWriteViewToXml(writer: EwsServiceXmlWriter): any { throw new Error("PagedView.ts - InternalWriteViewToXml : Not implemented."); }
+    WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("PagedView.ts - WriteGroupingToJson : Not implemented."); }
+    WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("PagedView.ts - WriteOrderByToXml : Not implemented."); }
 }
 export = PagedView;
 //module Microsoft.Exchange.WebServices.Data {

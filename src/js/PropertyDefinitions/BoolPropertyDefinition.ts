@@ -1,7 +1,7 @@
 import GenericPropertyDefinition = require("./GenericPropertyDefinition");
 
     class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
-        ToString(value: any): string { throw new Error("Not implemented."); }
+        ToString(value: any): string { throw new Error("BoolPropertyDefinition.ts - ToString : Not implemented."); }
     }
 
 export = BoolPropertyDefinition;

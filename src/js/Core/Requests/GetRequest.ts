@@ -13,7 +13,7 @@ class GetRequest<TServiceObject extends ServiceObject, TResponse extends Service
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);
     }
-    //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("GetRequest.ts - abstract - AddIdsToRequest : Not implemented."); }
     //IJsonSerializable.ToJson(ExchangeService service): any {
     //    JsonObject jsonRequest = new JsonObject();
 

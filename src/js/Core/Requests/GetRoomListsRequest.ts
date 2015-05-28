@@ -4,12 +4,12 @@ import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class GetRoomListsRequest extends SimpleServiceRequestBase {
-    Execute(): GetRoomListsResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): GetRoomListsResponse { throw new Error("GetRoomListsRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetRoomListsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetRoomListsRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetRoomListsRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetRoomListsRequest.ts - ParseResponse : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetRoomListsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetRoomListsRequest;
 

@@ -7,9 +7,9 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
         Month: number;
         //private timeOffset: System.TimeSpan;
         private month: number;
-        InitializeFromTransitionTime(transitionTime: any): any { throw new Error("Not implemented."); }
-        TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        InitializeFromTransitionTime(transitionTime: any): any { throw new Error("AbsoluteMonthTransition.ts - InitializeFromTransitionTime : Not implemented."); }
+        TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("AbsoluteMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("AbsoluteMonthTransition.ts - WriteElementsToXml : Not implemented."); }
     }
 export = AbsoluteMonthTransition;
 //module Microsoft.Exchange.WebServices.Data {

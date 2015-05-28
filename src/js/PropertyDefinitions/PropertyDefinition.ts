@@ -55,15 +55,15 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
         return properties;
     }
     GetPrintableName(): string { return this.Name; }
-    //HasFlag(flag: PropertyDefinitionFlags): boolean { throw new Error("Not implemented."); }
+    //HasFlag(flag: PropertyDefinitionFlags): boolean { throw new Error("PropertyDefinition.ts - HasFlag : Not implemented."); }
     HasFlag(flag: PropertyDefinitionFlags, version?: ExchangeVersion): boolean {
         return (this.flags & flag) == flag;
     }
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("PropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): void { /*throw new Error("abstract method, must implement");*/ }
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]/* System.Collections.Generic.List<PropertyDefinition>*/): any {
     }
-    WriteJsonValue(jsonObject: any, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    WriteJsonValue(jsonObject: any, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("PropertyDefinition.ts - WriteJsonValue : Not implemented."); }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         throw new Error("abstract method, must implement.");
     }

@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetDelegateResponse extends DelegateManagementResponse {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     private meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetDelegateResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetDelegateResponse;
 

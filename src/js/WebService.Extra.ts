@@ -1,4 +1,4 @@
-﻿declare module Microsoft.Exchange.WebServices {
+declare module Microsoft.Exchange.WebServices {
     //class Strings {
     //    static CannotRemoveSubscriptionFromLiveConnection: Microsoft.Exchange.WebServices.Data.LocalizedString;
     //    static ReadAccessInvalidForNonCalendarFolder: Microsoft.Exchange.WebServices.Data.LocalizedString;
@@ -194,20 +194,20 @@
     //    static UnknownTimeZonePeriodTransitionType: Microsoft.Exchange.WebServices.Data.LocalizedString;
     //    private static stringIDs: System.Collections.Generic.Dictionary<TKey, TValue>;
     //    private static ResourceManager: Microsoft.Exchange.WebServices.Data.ExchangeResourceManager;
-    //    GetLocalizedString(key: Microsoft.Exchange.WebServices.Strings.IDs): Microsoft.Exchange.WebServices.Data.LocalizedString; //{ throw new Error("Not implemented.");}
+    //    GetLocalizedString(key: Microsoft.Exchange.WebServices.Strings.IDs): Microsoft.Exchange.WebServices.Data.LocalizedString; //{ throw new Error("WebService.Extra.ts - GetLocalizedString : Not implemented.");}
     //}
 }
 declare module Microsoft.Exchange.WebServices.Dns {
     class DnsClient {
         private static typeToDnsTypeMap: Microsoft.Exchange.WebServices.Data.LazyMember<T>;
-        DnsQuery(domain: string, dnsServerAddress: System.Net.IPAddress): System.Collections.Generic.List<T>; //{ throw new Error("Not implemented.");}
+        DnsQuery(domain: string, dnsServerAddress: System.Net.IPAddress): System.Collections.Generic.List<T>; //{ throw new Error("WebService.Extra.ts - DnsQuery : Not implemented.");}
     }
     class DnsNativeMethods {
-        AllocDnsServerList(dnsServerAddress: System.Net.IPAddress): number; //{ throw new Error("Not implemented.");}
-        DnsQuery(pszName: string, wType: Microsoft.Exchange.WebServices.Dns.DnsRecordType, options: Microsoft.Exchange.WebServices.Dns.DnsNativeMethods.DnsQueryOptions, aipServers: number, ppQueryResults: any, pReserved: number): number; //{ throw new Error("Not implemented.");}
-        DnsQuery(domain: string, dnsServerAddress: System.Net.IPAddress, recordType: Microsoft.Exchange.WebServices.Dns.DnsRecordType, ppQueryResults: any): number; //{ throw new Error("Not implemented.");}
-        DnsRecordListFree(ptrRecords: number, freeType: Microsoft.Exchange.WebServices.Dns.DnsNativeMethods.FreeType): any; //{ throw new Error("Not implemented.");}
-        FreeDnsQueryResults(ptrRecords: number): any; //{ throw new Error("Not implemented.");}
+        AllocDnsServerList(dnsServerAddress: System.Net.IPAddress): number; //{ throw new Error("WebService.Extra.ts - AllocDnsServerList : Not implemented.");}
+        DnsQuery(pszName: string, wType: Microsoft.Exchange.WebServices.Dns.DnsRecordType, options: Microsoft.Exchange.WebServices.Dns.DnsNativeMethods.DnsQueryOptions, aipServers: number, ppQueryResults: any, pReserved: number): number; //{ throw new Error("WebService.Extra.ts - DnsQuery : Not implemented.");}
+        DnsQuery(domain: string, dnsServerAddress: System.Net.IPAddress, recordType: Microsoft.Exchange.WebServices.Dns.DnsRecordType, ppQueryResults: any): number; //{ throw new Error("WebService.Extra.ts - DnsQuery : Not implemented.");}
+        DnsRecordListFree(ptrRecords: number, freeType: Microsoft.Exchange.WebServices.Dns.DnsNativeMethods.FreeType): any; //{ throw new Error("WebService.Extra.ts - DnsRecordListFree : Not implemented.");}
+        FreeDnsQueryResults(ptrRecords: number): any; //{ throw new Error("WebService.Extra.ts - FreeDnsQueryResults : Not implemented.");}
     }
     class DnsRecord {
         RecordType: Microsoft.Exchange.WebServices.Dns.DnsRecordType;
@@ -215,7 +215,7 @@ declare module Microsoft.Exchange.WebServices.Dns {
         TimeToLive: System.TimeSpan;
         private name: string;
         private timeToLive: number;
-        Load(header: Microsoft.Exchange.WebServices.Dns.DnsRecordHeader, dataPointer: number): any; //{ throw new Error("Not implemented.");}
+        Load(header: Microsoft.Exchange.WebServices.Dns.DnsRecordHeader, dataPointer: number): any; //{ throw new Error("WebService.Extra.ts - Load : Not implemented.");}
     }
     class DnsRecordHeader {
         NextRecord: number;
@@ -236,7 +236,7 @@ declare module Microsoft.Exchange.WebServices.Dns {
         private priority: number;
         private weight: number;
         private port: number;
-        Load(header: Microsoft.Exchange.WebServices.Dns.DnsRecordHeader, dataPointer: number): any; //{ throw new Error("Not implemented.");}
+        Load(header: Microsoft.Exchange.WebServices.Dns.DnsRecordHeader, dataPointer: number): any; //{ throw new Error("WebService.Extra.ts - Load : Not implemented.");}
     }
 }
 declare module Microsoft.Exchange.WebServices.Dns.DnsNativeMethods {

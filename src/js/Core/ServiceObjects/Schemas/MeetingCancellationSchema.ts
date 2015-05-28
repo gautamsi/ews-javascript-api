@@ -8,7 +8,7 @@ class MeetingCancellationSchema extends MeetingMessageSchema {
     static Recurrence: PropertyDefinition;
     static EnhancedLocation: PropertyDefinition;
     static Instance: MeetingCancellationSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("MeetingCancellationSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 

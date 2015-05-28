@@ -111,7 +111,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
         return propertySet;
     }
 
-    GetEnumerator(): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("PropertySet.ts - GetEnumerator : Not implemented."); }
 
     GetShapeName(serviceObjectType: ServiceObjectType): string {
         switch (serviceObjectType) {
@@ -232,7 +232,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
             }
         }
     }
-    //WriteAdditionalPropertiesToJson(jsonItemShape: JsonObject, service: ExchangeService, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
+    //WriteAdditionalPropertiesToJson(jsonItemShape: JsonObject, service: ExchangeService, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("PropertySet.ts - WriteAdditionalPropertiesToJson : Not implemented."); }
     WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AdditionalProperties);
 
@@ -242,7 +242,7 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
 
         writer.WriteEndElement();
     }
-    //WriteGetShapeToJson(jsonRequest: JsonObject, service: ExchangeService, serviceObjectType: ServiceObjectType): any { throw new Error("Not implemented."); }
+    //WriteGetShapeToJson(jsonRequest: JsonObject, service: ExchangeService, serviceObjectType: ServiceObjectType): any { throw new Error("PropertySet.ts - WriteGetShapeToJson : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, serviceObjectType: ServiceObjectType): void {
         var shapeElementName: string = this.GetShapeName(serviceObjectType);
 

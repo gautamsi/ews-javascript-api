@@ -12,13 +12,13 @@ class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     Language: string;
     InPlaceHoldIdentity: string;
     ItemHoldPeriod: string;
-    Execute(): SetHoldOnMailboxesResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): SetHoldOnMailboxesResponse { throw new Error("SetHoldOnMailboxesRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SetHoldOnMailboxesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("SetHoldOnMailboxesRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("SetHoldOnMailboxesRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("SetHoldOnMailboxesRequest.ts - ParseResponse : Not implemented."); }
+    Validate(): any { throw new Error("SetHoldOnMailboxesRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetHoldOnMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = SetHoldOnMailboxesRequest;
 //module Microsoft.Exchange.WebServices.Data {

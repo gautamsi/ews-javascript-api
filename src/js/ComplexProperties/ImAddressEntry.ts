@@ -8,10 +8,10 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     ImAddress: string;
     private imAddress: string;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("ImAddressEntry.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ImAddressEntry.ts - LoadFromJson : Not implemented."); }
+    ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("ImAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ImAddressEntry.ts - WriteElementsToXml : Not implemented."); }
 }
 export = ImAddressEntry;
 //module Microsoft.Exchange.WebServices.Data {

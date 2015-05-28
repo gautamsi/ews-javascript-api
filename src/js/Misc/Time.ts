@@ -6,8 +6,8 @@
 	private hours: number;
 	private minutes: number;
 	private seconds: number;
-	ConvertToMinutes(): number{ throw new Error("Not implemented.");}
-	ToXSTime(): string{ throw new Error("Not implemented.");}
+	ConvertToMinutes(): number{ throw new Error("Time.ts - ConvertToMinutes : Not implemented.");}
+	ToXSTime(): string{ throw new Error("Time.ts - ToXSTime : Not implemented.");}
 }
 export = Time;
 

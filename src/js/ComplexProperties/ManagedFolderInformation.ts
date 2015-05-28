@@ -23,8 +23,8 @@ class ManagedFolderInformation extends ComplexProperty {
     private storageQuota: number;
     private folderSize: number;
     private homePage: string;
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("ManagedFolderInformation.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ManagedFolderInformation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ManagedFolderInformation;
 //module Microsoft.Exchange.WebServices.Data {

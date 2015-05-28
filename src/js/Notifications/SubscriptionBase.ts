@@ -10,8 +10,8 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	private service: ExchangeService;
 	private id: string;
 	private watermark: string;
-	LoadFromJson(jsonResponse: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	LoadFromJson(jsonResponse: JsonObject, service: ExchangeService): void{ throw new Error("SubscriptionBase.ts - LoadFromJson : Not implemented.");}
+	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("SubscriptionBase.ts - LoadFromXml : Not implemented.");}
 }
 export = SubscriptionBase;
 

@@ -42,16 +42,16 @@ class MeetingRequest extends MeetingMessage {
     ////////IsOnlineMeeting: boolean;
     ////////MeetingWorkspaceUrl: string;
     ////////NetShowUrl: string;
-    ////////Accept(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////AcceptTentatively(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingRequest { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId): MeetingRequest { throw new Error("Not implemented."); }
-    ////////CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { throw new Error("Not implemented."); }
-    ////////CreateDeclineMessage(): DeclineMeetingInvitationMessage { throw new Error("Not implemented."); }
-    ////////Decline(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    ////////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
+    ////////Accept(sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - Accept : Not implemented."); }
+    ////////AcceptTentatively(sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - AcceptTentatively : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingRequest { throw new Error("MeetingRequest.ts - Bind : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId): MeetingRequest { throw new Error("MeetingRequest.ts - Bind : Not implemented."); }
+    ////////CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { throw new Error("MeetingRequest.ts - CreateAcceptMessage : Not implemented."); }
+    ////////CreateDeclineMessage(): DeclineMeetingInvitationMessage { throw new Error("MeetingRequest.ts - CreateDeclineMessage : Not implemented."); }
+    ////////Decline(sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - Decline : Not implemented."); }
+    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    ////////GetSchema(): ServiceObjectSchema { throw new Error("MeetingRequest.ts - GetSchema : Not implemented."); }
+    ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - InternalAccept : Not implemented."); }
 }
 
 export = MeetingRequest;

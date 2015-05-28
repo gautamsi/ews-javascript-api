@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class SuggestionsResponse extends ServiceResponse {
     Suggestions: Suggestion[];//System.Collections.ObjectModel.Collection<Suggestion>;
     private daySuggestions: Suggestion[];//System.Collections.ObjectModel.Collection<Suggestion>;
-    LoadSuggestedDaysFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    LoadSuggestedDaysFromXml(reader: EwsServiceXmlReader): any { throw new Error("SuggestionsResponse.ts - LoadSuggestedDaysFromXml : Not implemented."); }
 }
 export = SuggestionsResponse;
 

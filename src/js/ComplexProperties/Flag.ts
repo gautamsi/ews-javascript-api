@@ -13,11 +13,11 @@ class Flag extends ComplexProperty {
     private startDate: Date;
     private dueDate: Date;
     private completeDate: Date;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("Flag.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Flag.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Flag.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    Validate(): any { throw new Error("Flag.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Flag.ts - WriteElementsToXml : Not implemented."); }
 }
 export = Flag;
 //module Microsoft.Exchange.WebServices.Data {

@@ -39,8 +39,8 @@ class Mailbox extends ComplexProperty {
             }
         }
     }
-    //GetHashCode(): number { throw new Error("Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //GetHashCode(): number { throw new Error("Mailbox.ts - GetHashCode : Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("Mailbox.ts - InternalToJson : Not implemented."); }
     InternalValidate(): any {
         super.InternalValidate();
 
@@ -48,7 +48,7 @@ class Mailbox extends ComplexProperty {
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Mailbox.ts - LoadFromJson : Not implemented."); }
     ToString(): string {
         if (!this.IsValid) {
             return StringHelper.Empty;

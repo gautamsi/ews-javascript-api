@@ -18,7 +18,7 @@ class EwsServiceXmlWriter {
     private isTimeZoneHeaderEmitted: boolean;
     private requireWSSecurityUtilityNamespace: boolean;
     private static utf8Encoding: any;// System.Text.Encoding;
-    Dispose(): any { throw new Error("Not implemented."); }
+    Dispose(): any { throw new Error("EwsServiceXmlWriter.ts - Dispose : Not implemented."); }
     Flush(): void { //throw new Error("Not implemented.");
     }
 
@@ -62,7 +62,7 @@ class EwsServiceXmlWriter {
 
     //#endregion
 
-    //TryConvertObjectToString(value: any, strValue: any): boolean { throw new Error("Not implemented."); }
+    //TryConvertObjectToString(value: any, strValue: any): boolean { throw new Error("EwsServiceXmlWriter.ts - TryConvertObjectToString : Not implemented."); }
     ConvertObjectToString(value: any): string {
         var strValue: string = null;
         if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) throw new Error("value can not be of type object");
@@ -96,7 +96,7 @@ class EwsServiceXmlWriter {
         //return converted;
         return undefined;
     }
-    //WriteAttributeString(localName: string, stringValue: string): any { throw new Error("Not implemented."); }
+    //WriteAttributeString(localName: string, stringValue: string): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeString : Not implemented."); }
 
     WriteAttributeString(namespacePrefix: string, localName: string, stringValue: string): void {
         var namespaceprefix = namespacePrefix || "";
@@ -118,8 +118,8 @@ class EwsServiceXmlWriter {
         //    //    ex);
         //}
     }
-    //WriteAttributeValue(localName: string, value: any): any { throw new Error("Not implemented."); }
-    //WriteAttributeValue(localName: string, alwaysWriteEmptyString: boolean, value: any): any { throw new Error("Not implemented."); }
+    //WriteAttributeValue(localName: string, value: any): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeValue : Not implemented."); }
+    //WriteAttributeValue(localName: string, alwaysWriteEmptyString: boolean, value: any): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeValue : Not implemented."); }
     //WriteAttributeValue(namespacePrefix: string, localName: string, value: any): void {}
     WriteAttributeValue(namespacePrefix: string, localName: string, value: any, alwaysWriteEmptyString?: boolean): void {
         var stringValue: string = this.ConvertObjectToString(value);
@@ -130,8 +130,8 @@ class EwsServiceXmlWriter {
                 stringValue);
         }
     }
-    //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("Not implemented.");}
-    //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("Not implemented.");}
+    //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
+    //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
     WriteElementValue(xmlNamespace: XmlNamespace, localName: string, displayName: string, value: any): void {
         var stringValue: string = this.ConvertObjectToString(value);
         if (stringValue != undefined) {
@@ -146,7 +146,7 @@ class EwsServiceXmlWriter {
         }
     }
 
-    //WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any): any{ throw new Error("Not implemented.");}
+    //WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any): any{ throw new Error("EwsServiceXmlWriter.ts - WriteElementValue : Not implemented.");}
 
     WriteEndElement(): void {
         //this.xmlWriter.WriteEndElement();
@@ -154,7 +154,7 @@ class EwsServiceXmlWriter {
         this.CloseTag();
         this.soapData += element;
     }
-    //WriteNode(xmlNode: System.Xml.XmlNode): any{ throw new Error("Not implemented.");}
+    //WriteNode(xmlNode: System.Xml.XmlNode): any{ throw new Error("EwsServiceXmlWriter.ts - WriteNode : Not implemented.");}
     WriteStartElement(xmlNamespace: XmlNamespace, localName: string): void {
         this.CloseTag();
         if (this.soapData == "")

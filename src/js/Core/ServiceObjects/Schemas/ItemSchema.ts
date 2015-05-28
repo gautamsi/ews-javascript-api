@@ -105,7 +105,7 @@ class ItemSchema extends ServiceObjectSchema {
     static TextBody: PropertyDefinition;
     static IconIndex: PropertyDefinition;
     static Instance: ItemSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("ItemSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 

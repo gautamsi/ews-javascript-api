@@ -6,8 +6,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class PlayOnPhoneResponse extends ServiceResponse {
     PhoneCallId: PhoneCallId;
     private phoneCallId: PhoneCallId;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("PlayOnPhoneResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PlayOnPhoneResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = PlayOnPhoneResponse;
 //module Microsoft.Exchange.WebServices.Data {

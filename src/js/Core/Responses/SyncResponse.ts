@@ -10,12 +10,12 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	SummaryPropertiesOnly: boolean;
 	private changes: ChangeCollection<TChange>;
 	private propertySet: PropertySet;
-	CreateChangeInstance(): TChange{ throw new Error("Not implemented.");}
-	GetChangeElementName(): string{ throw new Error("Not implemented.");}
-	GetChangeIdElementName(): string{ throw new Error("Not implemented.");}
-	GetIncludesLastInRangeXmlElementName(): string{ throw new Error("Not implemented.");}
-	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	CreateChangeInstance(): TChange{ throw new Error("SyncResponse.ts - CreateChangeInstance : Not implemented.");}
+	GetChangeElementName(): string{ throw new Error("SyncResponse.ts - GetChangeElementName : Not implemented.");}
+	GetChangeIdElementName(): string{ throw new Error("SyncResponse.ts - GetChangeIdElementName : Not implemented.");}
+	GetIncludesLastInRangeXmlElementName(): string{ throw new Error("SyncResponse.ts - GetIncludesLastInRangeXmlElementName : Not implemented.");}
+	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("SyncResponse.ts - ReadElementsFromJson : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("SyncResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
 export = SyncResponse;
 

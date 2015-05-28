@@ -13,8 +13,8 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	IsVisible: boolean;
 	OptedInto: boolean;
 	IsArchive: boolean;
-	LoadFromJson(jsonObject: JsonObject): RetentionPolicyTag{ throw new Error("Not implemented.");}
-	LoadFromXml(reader: EwsServiceXmlReader): RetentionPolicyTag{ throw new Error("Not implemented.");}
+	LoadFromJson(jsonObject: JsonObject): RetentionPolicyTag{ throw new Error("RetentionPolicyTag.ts - LoadFromJson : Not implemented.");}
+	LoadFromXml(reader: EwsServiceXmlReader): RetentionPolicyTag{ throw new Error("RetentionPolicyTag.ts - LoadFromXml : Not implemented.");}
 }
 export = RetentionPolicyTag;
 

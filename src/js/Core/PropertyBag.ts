@@ -92,9 +92,9 @@ class PropertyBag {
         this.isDirty = false;
     }
     Contains(propertyDefinition: PropertyDefinition): boolean { return this.properties.containsKey(propertyDefinition); }
-    //CreateJsonDeleteUpdate(propertyDefinition: PropertyDefinitionBase, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("Not implemented."); }
-    //CreateJsonSetUpdate(propertyDefinition: PropertyDefinition, service: ExchangeService, serviceObject: ServiceObject, propertyBag: PropertyBag): JsonObject { throw new Error("Not implemented."); }
-    //CreateJsonSetUpdate(value: ExtendedProperty, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("Not implemented."); }
+    //CreateJsonDeleteUpdate(propertyDefinition: PropertyDefinitionBase, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("PropertyBag.ts - CreateJsonDeleteUpdate : Not implemented."); }
+    //CreateJsonSetUpdate(propertyDefinition: PropertyDefinition, service: ExchangeService, serviceObject: ServiceObject, propertyBag: PropertyBag): JsonObject { throw new Error("PropertyBag.ts - CreateJsonSetUpdate : Not implemented."); }
+    //CreateJsonSetUpdate(value: ExtendedProperty, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("PropertyBag.ts - CreateJsonSetUpdate : Not implemented."); }
     DeleteProperty(propertyDefinition: PropertyDefinition): void {
         if (!this.deletedProperties.containsKey(propertyDefinition)) {
             var propertyValue: IOutParam<any> = { value: null };
@@ -241,7 +241,7 @@ class PropertyBag {
             return this.requestedPropertySet.Contains(propertyDefinition);
         }
     }
-    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("Not implemented."); }
+    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("PropertyBag.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
         if (clear) {
             this.Clear();
@@ -396,9 +396,9 @@ class PropertyBag {
     }
 
 
-    //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-    //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
-    //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
+    //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("PropertyBag.ts - ToJson : Not implemented."); }
+    //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForCreate : Not implemented."); }
+    //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForUpdate : Not implemented."); }
     TryGetProperty(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean {
         var serviceException: IOutParam<ServiceLocalException> = { value: null };
         propertyValue.outValue = this.GetPropertyValueOrException(propertyDefinition, serviceException);
@@ -450,7 +450,7 @@ class PropertyBag {
                 validatingValue.Validate();
         }
     }
-    //WriteDeleteUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, propertyValue: any, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteDeleteUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, propertyValue: any, service: ExchangeService): any { throw new Error("PropertyBag.ts - WriteDeleteUpdateToJson : Not implemented."); }
     WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition, propertyValue: any): void {
         // The following test should not be necessary since the property bag prevents
         // properties to be deleted (set to null) if they don't have the CanDelete flag,
@@ -478,7 +478,7 @@ class PropertyBag {
             }
         }
     }
-    //WriteSetUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteSetUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, service: ExchangeService): any { throw new Error("PropertyBag.ts - WriteSetUpdateToJson : Not implemented."); }
     WriteSetUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition): void {
         // The following test should not be necessary since the property bag prevents
         // properties to be updated if they don't have the CanUpdate flag, but it

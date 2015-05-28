@@ -18,20 +18,20 @@ class TimeZoneTransitionGroup extends ComplexProperty {
     private transitions: TimeZoneTransition[];//System.Collections.Generic.List<TimeZoneTransition>;
     private transitionToStandard: TimeZoneTransition;
     private transitionToDaylight: TimeZoneTransition;
-    CreateAdjustmentRule(startDate: Date, endDate: Date): any { throw new Error("Not implemented."); }
-    GetCustomTimeZoneCreationParams(): TimeZoneTransitionGroup.CustomTimeZoneCreateParams { throw new Error("Not implemented."); }
-    GetDaylightDelta(): any /*System.TimeSpan*/ { throw new Error("Not implemented."); }
-    InitializeFromAdjustmentRule(adjustmentRule: any, standardPeriod: TimeZonePeriod): any { throw new Error("Not implemented."); }
-    InitializeTransitions(): any { throw new Error("Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateAdjustmentRule(startDate: Date, endDate: Date): any { throw new Error("TimeZoneTransitionGroup.ts - CreateAdjustmentRule : Not implemented."); }
+    GetCustomTimeZoneCreationParams(): TimeZoneTransitionGroup.CustomTimeZoneCreateParams { throw new Error("TimeZoneTransitionGroup.ts - GetCustomTimeZoneCreationParams : Not implemented."); }
+    GetDaylightDelta(): any /*System.TimeSpan*/ { throw new Error("TimeZoneTransitionGroup.ts - GetDaylightDelta : Not implemented."); }
+    InitializeFromAdjustmentRule(adjustmentRule: any, standardPeriod: TimeZonePeriod): any { throw new Error("TimeZoneTransitionGroup.ts - InitializeFromAdjustmentRule : Not implemented."); }
+    InitializeTransitions(): any { throw new Error("TimeZoneTransitionGroup.ts - InitializeTransitions : Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneTransitionGroup.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneTransitionGroup.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneTransitionGroup.ts - LoadFromXmlJsObject : Not implemented."); }
+    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneTransitionGroup.ts - ReadAttributesFromXml : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeZoneTransitionGroup.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    Validate(): any { throw new Error("TimeZoneTransitionGroup.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransitionGroup.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransitionGroup.ts - WriteElementsToXml : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransitionGroup.ts - WriteToXml : Not implemented."); }
 }
 
 module TimeZoneTransitionGroup{

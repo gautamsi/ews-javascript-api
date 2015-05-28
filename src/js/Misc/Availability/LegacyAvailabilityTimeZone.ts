@@ -9,11 +9,11 @@ class LegacyAvailabilityTimeZone extends ComplexProperty {
     private bias: any /*System.TimeSpan*/;
     private standardTime: LegacyAvailabilityTimeZoneTime;
     private daylightTime: LegacyAvailabilityTimeZoneTime;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZone.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZone.ts - LoadFromJson : Not implemented."); }
+    ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("LegacyAvailabilityTimeZone.ts - ToTimeZoneInfo : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("LegacyAvailabilityTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("LegacyAvailabilityTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }
 export = LegacyAvailabilityTimeZone;
 //module Microsoft.Exchange.WebServices.Data {

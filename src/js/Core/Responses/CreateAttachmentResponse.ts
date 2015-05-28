@@ -6,8 +6,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class CreateAttachmentResponse extends ServiceResponse {
     Attachment: Attachment;
     private attachment: Attachment;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("CreateAttachmentResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("CreateAttachmentResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = CreateAttachmentResponse;
 //module Microsoft.Exchange.WebServices.Data {

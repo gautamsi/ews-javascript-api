@@ -6,8 +6,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class SearchMailboxesResponse extends ServiceResponse {
     SearchResult: SearchMailboxesResult;
     private searchResult: SearchMailboxesResult;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("SearchMailboxesResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("SearchMailboxesResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = SearchMailboxesResponse;
 //module Microsoft.Exchange.WebServices.Data {

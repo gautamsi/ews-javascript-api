@@ -4,7 +4,7 @@ class MailboxStatisticsItem {
     DisplayName: string;
     ItemCount: number;
     Size: number;
-    LoadFromXml(reader: EwsServiceXmlReader): MailboxStatisticsItem { throw new Error("Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): MailboxStatisticsItem { throw new Error("MailboxStatisticsItem.ts - LoadFromXml : Not implemented."); }
 }
 export = MailboxStatisticsItem;
 //module Microsoft.Exchange.WebServices.Data {

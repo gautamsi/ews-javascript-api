@@ -10,7 +10,7 @@ import ExchangeService = require("../ExchangeService");
 	AsyncWaitHandle: any /*System.Threading.WaitHandle*/;
 	CompletedSynchronously: boolean;
 	IsCompleted: boolean;
-	ExtractServiceRequest<T>(exchangeService: ExchangeService, asyncResult: any /*System.IAsyncResult*/): T{ throw new Error("Not implemented.");}
+	ExtractServiceRequest<T>(exchangeService: ExchangeService, asyncResult: any /*System.IAsyncResult*/): T{ throw new Error("AsyncRequestResult.ts - ExtractServiceRequest<T> : Not implemented.");}
 }
 export = AsyncRequestResult;
 

@@ -136,12 +136,12 @@ class ServiceObject {
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): void
     { throw new Error("abstract method, must implement"); }
     InternalLoad(propertySet: PropertySet): void { throw new Error("abstract method, must implement"); }
-    //Load(): any { throw new Error("Not implemented."); }
+    //Load(): any { throw new Error("ServiceObject.ts - Load : Not implemented."); }
     Load(propertySet?: PropertySet): void {
         this.InternalLoad(propertySet || PropertySet.FirstClassProperties);
     }
-    //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("Not implemented."); }
-    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("Not implemented."); }
+    //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
+    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
         this.PropertyBag.LoadFromXmlJsObject(
             jsObject,
@@ -176,9 +176,9 @@ class ServiceObject {
     //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { return this.PropertyBag.ToJson(service, isUpdateOperation);}
     TryGetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, propertyValue: any): boolean { throw new Error("Need implementation."); }
     TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Need implementation."); }
-    //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Not implemented."); }
+    //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("ServiceObject.ts - TryGetProperty : Not implemented."); }
     Validate(): void { this.PropertyBag.Validate(); }
-    //WriteToJsonForUpdate(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteToJsonForUpdate(service: ExchangeService): any { throw new Error("ServiceObject.ts - WriteToJsonForUpdate : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXml(writer); }
     WriteToXmlForUpdate(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXmlForUpdate(writer); }
 

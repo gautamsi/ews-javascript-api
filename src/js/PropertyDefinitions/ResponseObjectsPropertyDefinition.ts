@@ -8,11 +8,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
     class ResponseObjectsPropertyDefinition extends PropertyDefinition {
         IsNullable: boolean;
         Type: any;//System.Type;
-        GetResponseAction(responseActionString: string): ResponseActions { throw new Error("Not implemented."); }
-        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+        GetResponseAction(responseActionString: string): ResponseActions { throw new Error("ResponseObjectsPropertyDefinition.ts - GetResponseAction : Not implemented."); }
+        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ResponseObjectsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("ResponseObjectsPropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
+        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ResponseObjectsPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
+        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("ResponseObjectsPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
     }
 
     export = ResponseObjectsPropertyDefinition;

@@ -10,10 +10,10 @@ class MeetingMessage extends EmailMessage {
     ////////ICalUid: string;
     ////////ICalRecurrenceId: Date;
     ////////ICalDateTimeStamp: Date;
-    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingMessage { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId): MeetingMessage { throw new Error("Not implemented."); }
-    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    ////////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingMessage { throw new Error("MeetingMessage.ts - Bind : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId): MeetingMessage { throw new Error("MeetingMessage.ts - Bind : Not implemented."); }
+    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    ////////GetSchema(): ServiceObjectSchema { throw new Error("MeetingMessage.ts - GetSchema : Not implemented."); }
 }
 
 export = MeetingMessage;

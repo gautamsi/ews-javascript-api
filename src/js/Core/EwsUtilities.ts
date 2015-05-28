@@ -81,8 +81,8 @@ class EwsUtilities {
     //private static enumToSchemaDictionaries: LazyMember<T>;
     //private static typeNameToShortNameMap: LazyMember<T>;
     
-    static BoolToXSBool(value: boolean): string { throw new Error("Not implemented."); }
-    //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
+    static BoolToXSBool(value: boolean): string { throw new Error("EwsUtilities.ts - static BoolToXSBool : Not implemented."); }
+    //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumDict : Not implemented.");}
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
     static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
         var enumDelegate = (value:any) => { return ExchangeVersion.Exchange2007_SP1 };
@@ -176,11 +176,11 @@ class EwsUtilities {
 
         return ExchangeVersion.Exchange2007_SP1;
     }
-    //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
-    //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
-    //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("Not implemented.");}
-    //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("Not implemented.");}
-    static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("Not implemented."); }
+    //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented.");}
+    //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented.");}
+    //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("EwsUtilities.ts - static ConvertTime : Not implemented.");}
+    //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("EwsUtilities.ts - static CopyStream : Not implemented.");}
+    static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("EwsUtilities.ts - static CountMatchingChars : Not implemented."); }
     static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
         //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
         debugger;
@@ -210,10 +210,10 @@ class EwsUtilities {
         //    return null; //default(TServiceObject);
         //}
     }
-    //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("Not implemented.");}
-    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("Not implemented."); }
-    static DateTimeToXSDate(date: Date): string { throw new Error("Not implemented."); }
-    static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("Not implemented."); }
+    //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
+    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
+    static DateTimeToXSDate(date: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDate : Not implemented."); }
+    static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDateTime : Not implemented."); }
     static DomainFromEmailAddress(emailAddress: string): string {
         var emailAddressParts: string[]  = emailAddress.split('@');
 
@@ -223,21 +223,21 @@ class EwsUtilities {
 
         return emailAddressParts[1];
     }
-    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("Not implemented."); }
-    //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("Not implemented.");}
-    //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("Not implemented.");}
-    //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("Not implemented.");}
-    //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("Not implemented.");}
-    //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("Not implemented.");}
-    //static FormatHttpRequestHeaders(request: any): string{ throw new Error("Not implemented.");}
-    static FormatHttpResponseHeaders(response:any /*IEwsHttpWebResponse*/): string { throw new Error("Not implemented."); }
-    static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("Not implemented."); }
-    static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("Not implemented."); }
-    static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("Not implemented."); }
-    static GetEnumeratedObjectCount(objects: any): number { throw new Error("Not implemented."); }
-    //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("Not implemented.");}
-    //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("Not implemented.");}
-    //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("Not implemented.");}
+    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("EwsUtilities.ts - static EwsToSystemDayOfWeek : Not implemented."); }
+    //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("EwsUtilities.ts - static FindFirstItemOfType : Not implemented.");}
+    //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("EwsUtilities.ts - static ForEach : Not implemented.");}
+    //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
+    //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
+    //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
+    //static FormatHttpRequestHeaders(request: any): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
+    static FormatHttpResponseHeaders(response:any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
+    static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("EwsUtilities.ts - static FormatLogMessage : Not implemented."); }
+    static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
+    static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
+    static GetEnumeratedObjectCount(objects: any): number { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectCount : Not implemented."); }
+    //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("EwsUtilities.ts - static GetEnumSchemaName : Not implemented.");}
+    //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("EwsUtilities.ts - static GetEnumVersion : Not implemented.");}
+    //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("EwsUtilities.ts - static GetItemTypeFromXmlElementName : Not implemented.");}
     static GetNamespaceFromUri(namespaceUri: string): XmlNamespace {
         switch (namespaceUri) {
             case this.EwsErrorsNamespace:
@@ -313,18 +313,18 @@ class EwsUtilities {
                 return "";
         }
     }
-    //static GetPrintableTypeName(type: System.Type): string{ throw new Error("Not implemented.");}
-    //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("Not implemented.");}
-    //static IsLocalTimeZone(timeZone: System.TimeZoneInfo): boolean{ throw new Error("Not implemented.");}
-    //static Parse(value: string): any{ throw new Error("Not implemented.");}
-    //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("Not implemented.");}
-    //static ParseEnumValueList(list: System.Collections.Generic.IList<T>, value: string, separators: any): any{ throw new Error("Not implemented.");}
-    //static SerializeEnum(value: any): string{ throw new Error("Not implemented.");}
-    //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("Not implemented.");}
-    //static TimeSpanToXSDuration(timeSpan: System.TimeSpan): string{ throw new Error("Not implemented.");}
-    //static TimeSpanToXSTime(timeSpan: System.TimeSpan): string{ throw new Error("Not implemented.");}
-    //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("Not implemented.");}
-    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("Not implemented."); }
+    //static GetPrintableTypeName(type: System.Type): string{ throw new Error("EwsUtilities.ts - static GetPrintableTypeName : Not implemented.");}
+    //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
+    //static IsLocalTimeZone(timeZone: System.TimeZoneInfo): boolean{ throw new Error("EwsUtilities.ts - static IsLocalTimeZone : Not implemented.");}
+    //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
+    //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("EwsUtilities.ts - static ParseAsUnbiasedDatetimescopedToServicetimeZone : Not implemented.");}
+    //static ParseEnumValueList(list: System.Collections.Generic.IList<T>, value: string, separators: any): any{ throw new Error("EwsUtilities.ts - static ParseEnumValueList : Not implemented.");}
+    //static SerializeEnum(value: any): string{ throw new Error("EwsUtilities.ts - static SerializeEnum : Not implemented.");}
+    //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("EwsUtilities.ts - static SystemToEwsDayOfTheWeek : Not implemented.");}
+    //static TimeSpanToXSDuration(timeSpan: System.TimeSpan): string{ throw new Error("EwsUtilities.ts - static TimeSpanToXSDuration : Not implemented.");}
+    //static TimeSpanToXSTime(timeSpan: System.TimeSpan): string{ throw new Error("EwsUtilities.ts - static TimeSpanToXSTime : Not implemented.");}
+    //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("EwsUtilities.ts - static TrueForAll : Not implemented.");}
+    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("EwsUtilities.ts - static ValidateClassVersion : Not implemented."); }
     static ValidateDomainNameAllowNull(domainName: string, paramName: string): void {
 
         //todo: validate domain names per ews managed api
@@ -369,8 +369,8 @@ class EwsUtilities {
     ////    }
     ////}
     }
-    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): any { throw new Error("Not implemented."); }
-    static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("Not implemented."); }
+    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): any { throw new Error("EwsUtilities.ts - static ValidateMethodVersion : Not implemented."); }
+    static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
         if (param != null) {
             debugger; //todo: implement this somehow
@@ -422,11 +422,11 @@ class EwsUtilities {
 //            }
 //        }
     }
-    static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("Not implemented."); }
-    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("Not implemented."); }
-    static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("Not implemented."); }
-    //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("Not implemented.");}
-    //static XSDurationToTimeSpan(xsDuration: string): System.TimeSpan{ throw new Error("Not implemented.");}
+    static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
+    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }
+    static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }
+    //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("EwsUtilities.ts - static WriteTraceStartElement : Not implemented.");}
+    //static XSDurationToTimeSpan(xsDuration: string): System.TimeSpan{ throw new Error("EwsUtilities.ts - static XSDurationToTimeSpan : Not implemented.");}
 }
 
 

@@ -17,7 +17,7 @@ class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest
         super(service, errorHandlingModeServiceErrorHandling);
     }
 
-    //AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any{ throw new Error("Not implemented.");}
+    //AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any{ throw new Error("GetFolderRequestBase.ts - AddIdsToRequest : Not implemented.");}
     GetExpectedResponseMessageCount(): number { return this.FolderIds.Count; }
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     GetResponseMessageXmlElementName(): string { return XmlElementNames.GetFolderResponseMessage; }

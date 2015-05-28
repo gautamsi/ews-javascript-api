@@ -24,8 +24,8 @@ class AvailabilityOptions {
     private detailedSuggestionsWindow: TimeWindow;
     private currentMeetingTime: Date;
     private globalObjectId: string;
-    Validate(timeWindow: any /*System.TimeSpan*/): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter, request: GetUserAvailabilityRequest): any { throw new Error("Not implemented."); }
+    Validate(timeWindow: any /*System.TimeSpan*/): any { throw new Error("AvailabilityOptions.ts - Validate : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter, request: GetUserAvailabilityRequest): any { throw new Error("AvailabilityOptions.ts - WriteToXml : Not implemented."); }
 }
 export = AvailabilityOptions;
 

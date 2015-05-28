@@ -10,15 +10,15 @@ class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJ
     SavedCopyDestinationFolderId: FolderId;
     private items: Item[]/*System.Collections.Generic.IEnumerable<Item>;*/
     private savedCopyDestinationFolderId: FolderId;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("SendItemRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("SendItemRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SendItemRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("SendItemRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("SendItemRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("SendItemRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("SendItemRequest.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("SendItemRequest.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SendItemRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = SendItemRequest;
 //module Microsoft.Exchange.WebServices.Data {

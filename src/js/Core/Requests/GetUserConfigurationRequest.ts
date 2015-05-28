@@ -17,14 +17,14 @@ class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserCon
     private parentFolderId: FolderId;
     private properties: UserConfigurationProperties;
     private userConfiguration: UserConfiguration;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetUserConfigurationResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetUserConfigurationResponse { throw new Error("GetUserConfigurationRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("GetUserConfigurationRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetUserConfigurationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("GetUserConfigurationRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetUserConfigurationRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetUserConfigurationRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("GetUserConfigurationRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetUserConfigurationRequest;
 //module Microsoft.Exchange.WebServices.Data {

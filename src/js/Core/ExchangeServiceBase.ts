@@ -83,9 +83,9 @@ class ExchangeServiceBase {
     }
 
 
-    ConvertDateTimeToUniversalDateTimeString(value: Date): string { throw new Error("Not implemented."); }
-    ConvertStartDateToUnspecifiedDateTime(value: string): Date { throw new Error("Not implemented."); }
-    ConvertUniversalDateTimeStringToLocalDateTime(value: string): Date { throw new Error("Not implemented."); }
+    ConvertDateTimeToUniversalDateTimeString(value: Date): string { throw new Error("ExchangeServiceBase.ts - ConvertDateTimeToUniversalDateTimeString : Not implemented."); }
+    ConvertStartDateToUnspecifiedDateTime(value: string): Date { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
+    ConvertUniversalDateTimeStringToLocalDateTime(value: string): Date { throw new Error("ExchangeServiceBase.ts - ConvertUniversalDateTimeStringToLocalDateTime : Not implemented."); }
     DoOnSerializeCustomSoapHeaders(writer: any /*System.Xml.XmlWriter*/): void {
         EwsLogging.Assert(
             writer != null,
@@ -96,7 +96,7 @@ class ExchangeServiceBase {
             this.OnSerializeCustomSoapHeaders(writer);
         }
     }
-    InternalProcessHttpErrorResponse(httpWebResponse: IEwsHttpWebResponse, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("Not implemented."); }
+    InternalProcessHttpErrorResponse(httpWebResponse: IEwsHttpWebResponse, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("ExchangeServiceBase.ts - InternalProcessHttpErrorResponse : Not implemented."); }
     IsTraceEnabledFor(traceFlags: TraceFlags): boolean { return this.TraceEnabled && ((this.TraceFlags & traceFlags) != 0); }
     PrepareHttpWebRequestForUrl(url: string/*System.Uri*/, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
         // Verify that the protocol is something that we can handle
@@ -162,7 +162,7 @@ class ExchangeServiceBase {
 
         return request;
     }
-    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("Not implemented."); }
+    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeServiceBase.ts - ProcessHttpErrorResponse : Not implemented."); }
     ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): void {
         return;
         //todo: implement tracing
@@ -187,10 +187,10 @@ class ExchangeServiceBase {
         request.headers["Accept"] = "text/xml";
     }
     SetCustomUserAgent(userAgent: string): any { /*this.userAgent = userAgent;*/ }
-    TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("Not implemented."); }
-    TraceHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("Not implemented."); }
+    TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("ExchangeServiceBase.ts - TraceHttpRequestHeaders : Not implemented."); }
+    TraceHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("ExchangeServiceBase.ts - TraceHttpResponseHeaders : Not implemented."); }
     TraceMessage(traceType: TraceFlags, logEntry: string): any { EwsLogging.Log(logEntry); /*throw new Error("Not implemented."); */ }
-    TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("Not implemented."); }
+    TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("ExchangeServiceBase.ts - TraceXml : Not implemented."); }
     Validate(): any { }
 }
 

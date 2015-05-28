@@ -36,12 +36,12 @@ class PersonaPostalAddress extends ComplexProperty {
     private formattedAddress: string;
     private uri: string;
     private source: LocationSource;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("PersonaPostalAddress.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PersonaPostalAddress.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PersonaPostalAddress.ts - LoadFromXmlJsObject : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PersonaPostalAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteElementsToXml : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteToXml : Not implemented."); }
 }
 export = PersonaPostalAddress;
 //module Microsoft.Exchange.WebServices.Data {

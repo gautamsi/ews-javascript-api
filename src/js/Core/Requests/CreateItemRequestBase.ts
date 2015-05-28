@@ -13,14 +13,14 @@ class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse exte
     Items: TServiceObject[];//System.Collections.Generic.IEnumerable<TServiceObject>;
     private messageDisposition: MessageDisposition;
     private sendInvitationsMode: SendInvitationsMode;
-    AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    GetObjectCollectionXmlElementName(): string { throw new Error("Not implemented."); }
-    GetParentFolderXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("CreateItemRequestBase.ts - AddJsonProperties : Not implemented."); }
+    GetObjectCollectionXmlElementName(): string { throw new Error("CreateItemRequestBase.ts - GetObjectCollectionXmlElementName : Not implemented."); }
+    GetParentFolderXmlElementName(): string { throw new Error("CreateItemRequestBase.ts - GetParentFolderXmlElementName : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("CreateItemRequestBase.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("CreateItemRequestBase.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("CreateItemRequestBase.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("CreateItemRequestBase.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateItemRequestBase.ts - WriteAttributesToXml : Not implemented."); }
 }
 export = CreateItemRequestBase;
 //module Microsoft.Exchange.WebServices.Data {

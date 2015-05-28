@@ -11,14 +11,14 @@ class ItemView extends PagedView {
     OrderBy: OrderByCollection;
     private traversal: ItemTraversal;
     private orderBy: OrderByCollection;
-    AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    GetServiceObjectType(): ServiceObjectType { throw new Error("Not implemented."); }
-    GetViewJsonTypeName(): string { throw new Error("Not implemented."); }
-    GetViewXmlElementName(): string { throw new Error("Not implemented."); }
-    InternalValidate(request: ServiceRequestBase): any { throw new Error("Not implemented."); }
-    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("ItemView.ts - AddJsonProperties : Not implemented."); }
+    GetServiceObjectType(): ServiceObjectType { throw new Error("ItemView.ts - GetServiceObjectType : Not implemented."); }
+    GetViewJsonTypeName(): string { throw new Error("ItemView.ts - GetViewJsonTypeName : Not implemented."); }
+    GetViewXmlElementName(): string { throw new Error("ItemView.ts - GetViewXmlElementName : Not implemented."); }
+    InternalValidate(request: ServiceRequestBase): any { throw new Error("ItemView.ts - InternalValidate : Not implemented."); }
+    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any { throw new Error("ItemView.ts - InternalWriteSearchSettingsToXml : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemView.ts - WriteAttributesToXml : Not implemented."); }
+    WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemView.ts - WriteOrderByToXml : Not implemented."); }
 }
 export = ItemView;
 //module Microsoft.Exchange.WebServices.Data {

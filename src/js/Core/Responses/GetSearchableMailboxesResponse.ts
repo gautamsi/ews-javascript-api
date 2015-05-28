@@ -8,8 +8,8 @@ class GetSearchableMailboxesResponse extends ServiceResponse {
     SearchableMailboxes: SearchableMailbox[];
     FailedMailboxes: FailedSearchMailbox[];
     private searchableMailboxes: any[];//System.Collections.Generic.List<T>;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetSearchableMailboxesResponse;
 //module Microsoft.Exchange.WebServices.Data {

@@ -31,19 +31,19 @@ class FolderPermission extends ComplexProperty {
     private permissionLevel: FolderPermissionLevel;
     //private static defaultPermissions: LazyMember<T>;
     //private static levelVariants: LazyMember<T>;
-    AdjustPermissionLevel(): any { throw new Error("Not implemented."); }
-    AssignIndividualPermissions(permission: FolderPermission): any { throw new Error("Not implemented."); }
-    Clone(): FolderPermission { throw new Error("Not implemented."); }
-    InternalToJson(service: ExchangeService, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
-    IsEqualTo(permission: FolderPermission): boolean { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("Not implemented."); }
-    PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("Not implemented."); }
-    Validate(): void { throw new Error("Not implemented."); }
-    //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
-    //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("Not implemented."); }
+    AdjustPermissionLevel(): any { throw new Error("FolderPermission.ts - AdjustPermissionLevel : Not implemented."); }
+    AssignIndividualPermissions(permission: FolderPermission): any { throw new Error("FolderPermission.ts - AssignIndividualPermissions : Not implemented."); }
+    Clone(): FolderPermission { throw new Error("FolderPermission.ts - Clone : Not implemented."); }
+    InternalToJson(service: ExchangeService, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - InternalToJson : Not implemented."); }
+    IsEqualTo(permission: FolderPermission): boolean { throw new Error("FolderPermission.ts - IsEqualTo : Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermission.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("FolderPermission.ts - LoadFromXmlJsObject : Not implemented."); }
+    PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("FolderPermission.ts - PropertyChanged : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FolderPermission.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
+    Validate(): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
+    //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - WriteElementsToXml : Not implemented."); }
+    //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - WriteToXml : Not implemented."); }
 }
 export = FolderPermission;
 //module Microsoft.Exchange.WebServices.Data {

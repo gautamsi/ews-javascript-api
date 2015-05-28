@@ -7,12 +7,12 @@ import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
 class FindItemRequest<TItem extends Item> extends FindRequest<FindItemResponse<TItem>> {
     GroupBy: Grouping;
     private groupBy: Grouping;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindItemResponse<TItem> { throw new Error("Not implemented."); }
-    GetGroupBy(): Grouping { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindItemResponse<TItem> { throw new Error("FindItemRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetGroupBy(): Grouping { throw new Error("FindItemRequest.ts - GetGroupBy : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("FindItemRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("FindItemRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("FindItemRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("FindItemRequest.ts - GetXmlElementName : Not implemented."); }
 }
 export = FindItemRequest;
 //module Microsoft.Exchange.WebServices.Data {

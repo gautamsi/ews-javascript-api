@@ -50,10 +50,10 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
       reader.SeekLast(); // go back for next process to read.
     }
   }
-  //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+  //InternalToJson(service: ExchangeService): any { throw new Error("ComplexProperty.ts - InternalToJson : Not implemented."); }
   InternalValidate(): void { /*virtual method for derived class to implement if needed*/ }
-  //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-  //LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
+  //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ComplexProperty.ts - LoadFromJson : Not implemented."); }
+  //LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - LoadFromXml : Not implemented."); }
   LoadFromXmlJsObject(jsObject: any, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
     this.InternalLoadFromXmlJsObject(
       jsObject,
@@ -87,7 +87,7 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
   TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { return false; }
   TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { return false; }
-  //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("Not implemented."); }
+  //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - UpdateFromXml : Not implemented."); }
   UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
 
     this.InternalLoadFromXmlJsObject(
@@ -105,7 +105,7 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
   WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
   WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("Not implemented."); }
+  //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("ComplexProperty.ts - WriteToXml : Not implemented."); }
   WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
     if (!xmlNamespace)
       xmlNamespace = this.Namespace;

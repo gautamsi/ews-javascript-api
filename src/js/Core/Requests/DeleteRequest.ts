@@ -6,8 +6,8 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class DeleteRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     DeleteMode: DeleteMode;
     private deleteMode: DeleteMode;
-    InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(body: JsonObject): any { throw new Error("DeleteRequest.ts - InternalToJson : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteRequest.ts - WriteAttributesToXml : Not implemented."); }
 }
 export = DeleteRequest;
 //module Microsoft.Exchange.WebServices.Data {

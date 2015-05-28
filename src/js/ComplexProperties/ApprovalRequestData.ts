@@ -11,8 +11,8 @@ class ApprovalRequestData extends ComplexProperty {
     private approvalDecision: number;
     private approvalDecisionMaker: string;
     private approvalDecisionTime: Date;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ApprovalRequestData.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ApprovalRequestData.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ApprovalRequestData;
 //module Microsoft.Exchange.WebServices.Data {

@@ -9,14 +9,14 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Watermark: string;
 	private subscriptionId: string;
 	private watermark: string;
-	CreateServiceResponse(service: ExchangeService, responseIndex: number): GetEventsResponse{ throw new Error("Not implemented.");}
-	GetExpectedResponseMessageCount(): number{ throw new Error("Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("Not implemented.");}
-	GetResponseMessageXmlElementName(): string{ throw new Error("Not implemented.");}
-	GetResponseXmlElementName(): string{ throw new Error("Not implemented.");}
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	Validate(): void{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	CreateServiceResponse(service: ExchangeService, responseIndex: number): GetEventsResponse{ throw new Error("GetEventsRequest.ts - CreateServiceResponse : Not implemented.");}
+	GetExpectedResponseMessageCount(): number{ throw new Error("GetEventsRequest.ts - GetExpectedResponseMessageCount : Not implemented.");}
+	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("GetEventsRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
+	GetResponseMessageXmlElementName(): string{ throw new Error("GetEventsRequest.ts - GetResponseMessageXmlElementName : Not implemented.");}
+	GetResponseXmlElementName(): string{ throw new Error("GetEventsRequest.ts - GetResponseXmlElementName : Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("GetEventsRequest.ts - GetXmlElementName : Not implemented.");}
+	Validate(): void{ throw new Error("GetEventsRequest.ts - Validate : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetEventsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
 export = GetEventsRequest;
 

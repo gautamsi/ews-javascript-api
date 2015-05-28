@@ -21,7 +21,7 @@ class TypedPropertyDefinition extends PropertyDefinition {
         super(propertyName, xmlElementName, version, uri, flags);
         this.isNullable = isNullable;
     }
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("TypedPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
         var stringValue = <string>jsObject;
 
@@ -38,7 +38,7 @@ class TypedPropertyDefinition extends PropertyDefinition {
             return value.toString();
         throw new Error("TypedPropertydefinition: incorrect call of ToString()");
     }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("TypedPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }
 
 export = TypedPropertyDefinition;

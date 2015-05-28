@@ -31,28 +31,28 @@ class UserConfiguration {//IJsonSerializable
     private propertiesAvailableForAccess: UserConfigurationProperties;
     private updatedProperties: UserConfigurationProperties;
     private isNew: boolean;
-    Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): UserConfiguration { throw new Error("Not implemented."); }
-    //Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): UserConfiguration{ throw new Error("Not implemented.");}
-    Delete(): any { throw new Error("Not implemented."); }
-    GetBase64PropertyValue(bytes: any[]/*System.Byte[]*/): string { throw new Error("Not implemented."); }
-    GetJsonUserConfigName(service: ExchangeService): JsonObject { throw new Error("Not implemented."); }
-    //GetJsonUserConfigName(service: ExchangeService, parentFolderId: FolderId, name: string): JsonObject{ throw new Error("Not implemented.");}
-    InitializeProperties(requestedProperties: UserConfigurationProperties): any { throw new Error("Not implemented."); }
-    IsPropertyUpdated(property: UserConfigurationProperties): boolean { throw new Error("Not implemented."); }
-    Load(properties: UserConfigurationProperties): any { throw new Error("Not implemented."); }
-    LoadFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    MarkPropertyForUpdate(property: UserConfigurationProperties): any { throw new Error("Not implemented."); }
-    ResetIsDirty(): any { throw new Error("Not implemented."); }
-    Save(name: string, parentFolderName: WellKnownFolderName): any { throw new Error("Not implemented."); }
-    //Save(name: string, parentFolderId: FolderId): any{ throw new Error("Not implemented.");}
-    Update(): any { throw new Error("Not implemented."); }
-    ValidatePropertyAccess(property: UserConfigurationProperties): any { throw new Error("Not implemented."); }
-    WriteBinaryDataToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteByteArrayToXml(writer: EwsServiceXmlWriter, byteArray: any[]/*System.Byte[]*/, xmlElementName: string): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("Not implemented."); }
-    WriteUserConfigurationNameToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, name: string, parentFolderId: FolderId): any { throw new Error("Not implemented."); }
-    WriteXmlDataToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): UserConfiguration { throw new Error("UserConfiguration.ts - Bind : Not implemented."); }
+    //Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): UserConfiguration{ throw new Error("UserConfiguration.ts - Bind : Not implemented.");}
+    Delete(): any { throw new Error("UserConfiguration.ts - Delete : Not implemented."); }
+    GetBase64PropertyValue(bytes: any[]/*System.Byte[]*/): string { throw new Error("UserConfiguration.ts - GetBase64PropertyValue : Not implemented."); }
+    GetJsonUserConfigName(service: ExchangeService): JsonObject { throw new Error("UserConfiguration.ts - GetJsonUserConfigName : Not implemented."); }
+    //GetJsonUserConfigName(service: ExchangeService, parentFolderId: FolderId, name: string): JsonObject{ throw new Error("UserConfiguration.ts - GetJsonUserConfigName : Not implemented.");}
+    InitializeProperties(requestedProperties: UserConfigurationProperties): any { throw new Error("UserConfiguration.ts - InitializeProperties : Not implemented."); }
+    IsPropertyUpdated(property: UserConfigurationProperties): boolean { throw new Error("UserConfiguration.ts - IsPropertyUpdated : Not implemented."); }
+    Load(properties: UserConfigurationProperties): any { throw new Error("UserConfiguration.ts - Load : Not implemented."); }
+    LoadFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("UserConfiguration.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("UserConfiguration.ts - LoadFromXml : Not implemented."); }
+    MarkPropertyForUpdate(property: UserConfigurationProperties): any { throw new Error("UserConfiguration.ts - MarkPropertyForUpdate : Not implemented."); }
+    ResetIsDirty(): any { throw new Error("UserConfiguration.ts - ResetIsDirty : Not implemented."); }
+    Save(name: string, parentFolderName: WellKnownFolderName): any { throw new Error("UserConfiguration.ts - Save : Not implemented."); }
+    //Save(name: string, parentFolderId: FolderId): any{ throw new Error("UserConfiguration.ts - Save : Not implemented.");}
+    Update(): any { throw new Error("UserConfiguration.ts - Update : Not implemented."); }
+    ValidatePropertyAccess(property: UserConfigurationProperties): any { throw new Error("UserConfiguration.ts - ValidatePropertyAccess : Not implemented."); }
+    WriteBinaryDataToXml(writer: EwsServiceXmlWriter): any { throw new Error("UserConfiguration.ts - WriteBinaryDataToXml : Not implemented."); }
+    WriteByteArrayToXml(writer: EwsServiceXmlWriter, byteArray: any[]/*System.Byte[]*/, xmlElementName: string): any { throw new Error("UserConfiguration.ts - WriteByteArrayToXml : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): any { throw new Error("UserConfiguration.ts - WriteToXml : Not implemented."); }
+    WriteUserConfigurationNameToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, name: string, parentFolderId: FolderId): any { throw new Error("UserConfiguration.ts - WriteUserConfigurationNameToXml : Not implemented."); }
+    WriteXmlDataToXml(writer: EwsServiceXmlWriter): any { throw new Error("UserConfiguration.ts - WriteXmlDataToXml : Not implemented."); }
 }
 export = UserConfiguration;
 //module Microsoft.Exchange.WebServices.Data {

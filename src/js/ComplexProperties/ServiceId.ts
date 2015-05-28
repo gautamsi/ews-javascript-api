@@ -45,10 +45,10 @@ class ServiceId extends ComplexProperty {
         }
     }
     //GetHashCode(): number { return this.IsValid ? this.UniqueId.GetHashCode() : super.GetHashCode();}
-    //GetJsonTypeName(): string { throw new Error("Not implemented."); }
+    //GetJsonTypeName(): string { throw new Error("ServiceId.ts - GetJsonTypeName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("ServiceId.ts - InternalToJson : Not implemented."); }
+    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ServiceId.ts - LoadFromJson : Not implemented."); }
     ReadAttributesFromXml(reader: EwsServiceXmlReader): void {
         this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
         this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);

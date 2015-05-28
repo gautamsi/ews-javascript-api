@@ -16,12 +16,12 @@ class TimeZonePeriod extends ComplexProperty {
     private bias: any /*System.TimeSpan*/;
     private name: string;
     private id: string;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("TimeZonePeriod.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZonePeriod.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZonePeriod.ts - LoadFromXmlJsObject : Not implemented."); }
+    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("TimeZonePeriod.ts - ReadAttributesFromXml : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZonePeriod.ts - WriteAttributesToXml : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZonePeriod.ts - WriteToXml : Not implemented."); }
 }
 export = TimeZonePeriod;
 //module Microsoft.Exchange.WebServices.Data {

@@ -14,13 +14,13 @@ class MeetingTimeZone extends ComplexProperty {
     private baseOffset: any /*System.TimeSpan*/;
     private standard: TimeChange;
     private daylight: TimeChange;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - LoadFromJson : Not implemented."); }
+    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("MeetingTimeZone.ts - ReadAttributesFromXml : Not implemented."); }
+    ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("MeetingTimeZone.ts - ToTimeZoneInfo : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("MeetingTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }
 export = MeetingTimeZone;
 //module Microsoft.Exchange.WebServices.Data {

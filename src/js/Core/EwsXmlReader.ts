@@ -47,13 +47,13 @@ class EwsXmlReader {
     //#endregion
 
 
-    EnsureCurrentNodeIsEndElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("Not implemented."); }
-    //EnsureCurrentNodeIsStartElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("Not implemented."); }
-    //EnsureCurrentNodeIsStartElement(): any { throw new Error("Not implemented."); }
-    FormatElementName(namespacePrefix: string, localElementName: string): string { throw new Error("Not implemented."); }
-    GetXmlReaderForNode(): any { throw new Error("Not implemented."); }
-    InitializeXmlReader(stream: any /*System.IO.Stream*/): any { throw new Error("Not implemented."); }
-    //InternalReadElement(namespacePrefix: string, localName: string, nodeType: System.Xml.XmlNodeType): any;// { throw new Error("Not implemented."); }
+    EnsureCurrentNodeIsEndElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("EwsXmlReader.ts - EnsureCurrentNodeIsEndElement : Not implemented."); }
+    //EnsureCurrentNodeIsStartElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("EwsXmlReader.ts - EnsureCurrentNodeIsStartElement : Not implemented."); }
+    //EnsureCurrentNodeIsStartElement(): any { throw new Error("EwsXmlReader.ts - EnsureCurrentNodeIsStartElement : Not implemented."); }
+    FormatElementName(namespacePrefix: string, localElementName: string): string { throw new Error("EwsXmlReader.ts - FormatElementName : Not implemented."); }
+    GetXmlReaderForNode(): any { throw new Error("EwsXmlReader.ts - GetXmlReaderForNode : Not implemented."); }
+    InitializeXmlReader(stream: any /*System.IO.Stream*/): any { throw new Error("EwsXmlReader.ts - InitializeXmlReader : Not implemented."); }
+    //InternalReadElement(namespacePrefix: string, localName: string, nodeType: System.Xml.XmlNodeType): any;// { throw new Error("EwsXmlReader.ts - InternalReadElement : Not implemented."); }
     InternalReadElement(xmlNamespace: XmlNamespace, localName: string, nodeType: number /*Xml.XmlNodeType*/): any {
 
         if (this.LocalName === localName && this.NamespaceUri == EwsUtilities.GetNamespaceUri(xmlNamespace)) return;
@@ -86,18 +86,18 @@ class EwsXmlReader {
         else
             return this.HasRecursiveParentNode(parentNode, parentName, node.parentNode);
     }
-    //IsEndElement(xmlNamespace: XmlNamespace, localName: string): boolean { throw new Error("Not implemented."); }
-    //IsEndElement(namespacePrefix: string, localName: string): boolean { throw new Error("Not implemented."); }
-    //IsStartElement(namespacePrefix: string, localName: string): boolean { throw new Error("Not implemented."); }
-    //IsStartElement(): boolean { throw new Error("Not implemented."); }
-    //IsStartElement(xmlNamespace: XmlNamespace, localName: string): boolean { throw new Error("Not implemented."); }
+    //IsEndElement(xmlNamespace: XmlNamespace, localName: string): boolean { throw new Error("EwsXmlReader.ts - IsEndElement : Not implemented."); }
+    //IsEndElement(namespacePrefix: string, localName: string): boolean { throw new Error("EwsXmlReader.ts - IsEndElement : Not implemented."); }
+    //IsStartElement(namespacePrefix: string, localName: string): boolean { throw new Error("EwsXmlReader.ts - IsStartElement : Not implemented."); }
+    //IsStartElement(): boolean { throw new Error("EwsXmlReader.ts - IsStartElement : Not implemented."); }
+    //IsStartElement(xmlNamespace: XmlNamespace, localName: string): boolean { throw new Error("EwsXmlReader.ts - IsStartElement : Not implemented."); }
     IsElement(xmlNamespace: XmlNamespace, localName: string): boolean {
         return (this.LocalName == localName) &&
             ((this.NamespacePrefix == EwsUtilities.GetNamespacePrefix(xmlNamespace)) ||
                 (this.NamespaceUri == EwsUtilities.GetNamespaceUri(xmlNamespace)));
     }
 
-    //Read(): any { throw new Error("Not implemented."); }
+    //Read(): any { throw new Error("EwsXmlReader.ts - Read : Not implemented."); }
     Read(nodeType?: number /*Xml.XmlNodeType*/): boolean {
         this.currentNode = this.treeWalker.nextNode();
         if (this.currentNode == null) this.eof = true;
@@ -109,8 +109,8 @@ class EwsXmlReader {
     }
 
 
-    //ReadAttributeValue(attributeName: string): string;// { throw new Error("Not implemented."); }
-    //ReadAttributeValue(attributeName: string): any { throw new Error("Not implemented."); }
+    //ReadAttributeValue(attributeName: string): string;// { throw new Error("EwsXmlReader.ts - ReadAttributeValue : Not implemented."); }
+    //ReadAttributeValue(attributeName: string): any { throw new Error("EwsXmlReader.ts - ReadAttributeValue : Not implemented."); }
     ReadAttributeValue(xmlNamespace: XmlNamespace, attributeName: string): string {
         if (this.currentNode == null || this.currentNode.nodeType != this.currentNode.ELEMENT_NODE || !this.currentNode.hasAttributes()) return null;
         var elem = <Element>this.currentNode;
@@ -119,18 +119,18 @@ class EwsXmlReader {
         return val;
     }
 
-    //ReadBase64ElementValue(outputStream: System.IO.Stream): any { throw new Error("Not implemented."); }
-    ReadBase64ElementValue(): any[] /*System.Byte[]*/ { throw new Error("Not implemented."); }
+    //ReadBase64ElementValue(outputStream: System.IO.Stream): any { throw new Error("EwsXmlReader.ts - ReadBase64ElementValue : Not implemented."); }
+    ReadBase64ElementValue(): any[] /*System.Byte[]*/ { throw new Error("EwsXmlReader.ts - ReadBase64ElementValue : Not implemented."); }
 
     ReadElementValue(): string {
         return this.currentNode.textContent;
     }
-    //ReadElementValue(): any { throw new Error("Not implemented."); }
-    //ReadElementValue(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("Not implemented."); }
-    //ReadElementValue(namespacePrefix: string, localName: string): string { throw new Error("Not implemented."); }
-    //ReadElementValue(xmlNamespace: XmlNamespace, localName: string): string { throw new Error("Not implemented."); }
+    //ReadElementValue(): any { throw new Error("EwsXmlReader.ts - ReadElementValue : Not implemented."); }
+    //ReadElementValue(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("EwsXmlReader.ts - ReadElementValue : Not implemented."); }
+    //ReadElementValue(namespacePrefix: string, localName: string): string { throw new Error("EwsXmlReader.ts - ReadElementValue : Not implemented."); }
+    //ReadElementValue(xmlNamespace: XmlNamespace, localName: string): string { throw new Error("EwsXmlReader.ts - ReadElementValue : Not implemented."); }
 
-    //ReadEndElement(namespacePrefix: string, elementName: string): any { throw new Error("Not implemented."); }
+    //ReadEndElement(namespacePrefix: string, elementName: string): any { throw new Error("EwsXmlReader.ts - ReadEndElement : Not implemented."); }
     ReadEndElement(xmlNamespace: XmlNamespace, localName: string): void {
         this.InternalReadElement(xmlNamespace, localName, Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/);
 
@@ -144,17 +144,17 @@ class EwsXmlReader {
         }
     }
 
-    ReadInnerXml(): string { throw new Error("Not implemented."); }
+    ReadInnerXml(): string { throw new Error("EwsXmlReader.ts - ReadInnerXml : Not implemented."); }
 
-    ReadNullableAttributeValue(attributeName: string): any { throw new Error("Not implemented."); }
-    ReadOuterXml(): string { throw new Error("Not implemented."); }
-    //ReadStartElement(namespacePrefix: string, localName: string): any { throw new Error("Not implemented."); }
+    ReadNullableAttributeValue(attributeName: string): any { throw new Error("EwsXmlReader.ts - ReadNullableAttributeValue : Not implemented."); }
+    ReadOuterXml(): string { throw new Error("EwsXmlReader.ts - ReadOuterXml : Not implemented."); }
+    //ReadStartElement(namespacePrefix: string, localName: string): any { throw new Error("EwsXmlReader.ts - ReadStartElement : Not implemented."); }
     ReadStartElement(xmlNamespace: XmlNamespace, localName: string): void {
         this.InternalReadElement(xmlNamespace, localName, Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/);
     }
-    ReadToDescendant(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("Not implemented."); }
-    ReadValue(): string { throw new Error("Not implemented."); }
-    //ReadValue(): any { throw new Error("Not implemented."); }
+    ReadToDescendant(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("EwsXmlReader.ts - ReadToDescendant : Not implemented."); }
+    ReadValue(): string { throw new Error("EwsXmlReader.ts - ReadValue : Not implemented."); }
+    //ReadValue(): any { throw new Error("EwsXmlReader.ts - ReadValue : Not implemented."); }
     SeekLast(): void {
         if (!this.eof) this.currentNode = this.treeWalker.previousNode();
     }
@@ -167,9 +167,9 @@ class EwsXmlReader {
         while (this.HasRecursiveParentNode(parentNode, parentNode.localName));
         this.SeekLast();
     }
-    SkipElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("Not implemented."); }
-    //SkipElement(namespacePrefix: string, localName: string): any { throw new Error("Not implemented."); }
-    TryReadValue(value: any): boolean { throw new Error("Not implemented."); }
+    SkipElement(xmlNamespace: XmlNamespace, localName: string): any { throw new Error("EwsXmlReader.ts - SkipElement : Not implemented."); }
+    //SkipElement(namespacePrefix: string, localName: string): any { throw new Error("EwsXmlReader.ts - SkipElement : Not implemented."); }
+    TryReadValue(value: any): boolean { throw new Error("EwsXmlReader.ts - TryReadValue : Not implemented."); }
 }
 export = EwsXmlReader;
 

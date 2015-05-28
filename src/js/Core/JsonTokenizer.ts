@@ -28,9 +28,9 @@ class JsonTokenizer {
 	private static whitespaceRegEx: any /*System.Text.RegularExpressions.Regex*/;
 	private static tokenDictionary: any /*System.Collections.Generic.Dictionary<JsonTokenType, System.Text.RegularExpressions.Regex>*/;
 	private static fullTokenizerRegex: any /*System.Text.RegularExpressions.Regex*/;
-	AdvanceRegExMatch(): void { throw new Error("Not implemented."); }
-	NextToken(token: string): JsonTokenType { throw new Error("Not implemented."); }
-	Peek(): JsonTokenType { throw new Error("Not implemented."); }
+	AdvanceRegExMatch(): void { throw new Error("JsonTokenizer.ts - AdvanceRegExMatch : Not implemented."); }
+	NextToken(token: string): JsonTokenType { throw new Error("JsonTokenizer.ts - NextToken : Not implemented."); }
+	Peek(): JsonTokenType { throw new Error("JsonTokenizer.ts - Peek : Not implemented."); }
 }
 export = JsonTokenizer;
 

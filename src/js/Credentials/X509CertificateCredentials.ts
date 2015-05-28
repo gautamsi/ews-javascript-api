@@ -6,10 +6,10 @@ class X509CertificateCredentials extends WSSecurityBasedCredentials {
     NeedSignature: boolean;
     private certificate: any;
     private keyInfoClause: any;
-    AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("Not implemented."); }
-    //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("Not implemented.");}
-    Sign(memoryStream: any): any { throw new Error("Not implemented."); }
-    ToString(): string { throw new Error("Not implemented."); }
+    AdjustUrl(url: /*System.Uri*/string): /*System.Uri*/string { throw new Error("X509CertificateCredentials.ts - AdjustUrl : Not implemented."); }
+    //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("X509CertificateCredentials.ts - PrepareWebRequest : Not implemented.");}
+    Sign(memoryStream: any): any { throw new Error("X509CertificateCredentials.ts - Sign : Not implemented."); }
+    ToString(): string { throw new Error("X509CertificateCredentials.ts - ToString : Not implemented."); }
 }
 export = X509CertificateCredentials;
 //module Microsoft.Exchange.WebServices.Data {

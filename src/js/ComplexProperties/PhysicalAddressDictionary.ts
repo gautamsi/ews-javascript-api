@@ -4,8 +4,8 @@ import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
 
 class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
     Item: PhysicalAddressEntry;
-    CreateEntryInstance(): PhysicalAddressEntry { throw new Error("Not implemented."); }
-    TryGetValue(key: PhysicalAddressKey, physicalAddress: any): boolean { throw new Error("Not implemented."); }
+    CreateEntryInstance(): PhysicalAddressEntry { throw new Error("PhysicalAddressDictionary.ts - CreateEntryInstance : Not implemented."); }
+    TryGetValue(key: PhysicalAddressKey, physicalAddress: any): boolean { throw new Error("PhysicalAddressDictionary.ts - TryGetValue : Not implemented."); }
 }
 export = PhysicalAddressDictionary;
 

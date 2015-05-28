@@ -6,10 +6,10 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 
 class CreateFolderResponse extends ServiceResponse {
     private folder: Folder;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder { throw new Error("Not implemented."); }
-    Loaded(): any { throw new Error("Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder { throw new Error("CreateFolderResponse.ts - GetObjectInstance : Not implemented."); }
+    Loaded(): any { throw new Error("CreateFolderResponse.ts - Loaded : Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("CreateFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("CreateFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 
 export = CreateFolderResponse;

@@ -16,14 +16,14 @@ class PostReply extends ServiceObject {
     Body: MessageBody;
     BodyPrefix: MessageBody;
     private referenceItem: Item;
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): PostItem { throw new Error("Not implemented."); }
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Not implemented."); }
-    InternalLoad(propertySet: PropertySet): any { throw new Error("Not implemented."); }
-    //Save(): PostItem { throw new Error("Not implemented."); }
-    //Save(destinationFolderId: FolderId): PostItem { throw new Error("Not implemented."); }
-    Save(destinationFolderName: WellKnownFolderName): PostItem { throw new Error("Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("PostReply.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetSchema(): ServiceObjectSchema { throw new Error("PostReply.ts - GetSchema : Not implemented."); }
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): PostItem { throw new Error("PostReply.ts - InternalCreate : Not implemented."); }
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("PostReply.ts - InternalDelete : Not implemented."); }
+    InternalLoad(propertySet: PropertySet): any { throw new Error("PostReply.ts - InternalLoad : Not implemented."); }
+    //Save(): PostItem { throw new Error("PostReply.ts - Save : Not implemented."); }
+    //Save(destinationFolderId: FolderId): PostItem { throw new Error("PostReply.ts - Save : Not implemented."); }
+    Save(destinationFolderName: WellKnownFolderName): PostItem { throw new Error("PostReply.ts - Save : Not implemented."); }
 }
 
 export = PostReply;

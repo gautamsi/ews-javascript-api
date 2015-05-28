@@ -19,7 +19,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         super(xmlElementName, version, uri, flags);
     }
 
-    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("Not implemented."); }
+    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("ComplexPropertyDefinitionBase.ts - CreatePropertyInstance : Not implemented."); }
     GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean { 
     complexProperty.outValue = null;
             if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion))
@@ -30,8 +30,8 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
             return false;
      }
-    InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-    InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadCollectionFromJson : Not implemented."); }
+    InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadFromJson : Not implemented."); }
     InternalLoadFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
 
         var outComplexproperty: IOutParam<ComplexProperty> = { outValue: null };
@@ -46,7 +46,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
         propertyBag[this.Name] = outComplexproperty.outValue;
     }
-    //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
+    //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
         this.InternalLoadFromXmlJsObject(jsObject, propertyBag);
         
@@ -59,7 +59,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         //
         //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.XmlElementName);
     }
-    //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WriteJsonValue : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WritePropertyValueToXml : Not implemented."); }
 }
 export = ComplexPropertyDefinitionBase

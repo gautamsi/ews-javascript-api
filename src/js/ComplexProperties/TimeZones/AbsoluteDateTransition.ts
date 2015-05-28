@@ -5,10 +5,10 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 class AbsoluteDateTransition extends TimeZoneTransition {
     DateTime: Date;
     private dateTime: Date;
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    InitializeFromTransitionTime(transitionTime: any): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    GetXmlElementName(): string { throw new Error("AbsoluteDateTransition.ts - GetXmlElementName : Not implemented."); }
+    InitializeFromTransitionTime(transitionTime: any): any { throw new Error("AbsoluteDateTransition.ts - InitializeFromTransitionTime : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("AbsoluteDateTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("AbsoluteDateTransition.ts - WriteElementsToXml : Not implemented."); }
 }
 export = AbsoluteDateTransition;
 //module Microsoft.Exchange.WebServices.Data {

@@ -25,7 +25,7 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
         }
     }
     //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { jsonPropertyDefinition.Add(XmlAttributeNames.FieldURI, this.Uri); }
-    //GetJsonType(): string{ throw new Error("Not implemented.");}
+    //GetJsonType(): string{ throw new Error("ServiceObjectPropertyDefinition.ts - GetJsonType : Not implemented.");}
     GetXmlElementName(): string { return XmlElementNames.FieldURI; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue("", XmlAttributeNames.FieldURI, this.Uri);

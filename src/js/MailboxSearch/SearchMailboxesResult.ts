@@ -20,12 +20,12 @@ class SearchMailboxesResult {
     FailedMailboxes: FailedSearchMailbox[];
     Refiners: SearchRefinerItem[];
     MailboxStats: MailboxStatisticsItem[];
-    GetRecipients(reader: EwsServiceXmlReader, elementName: string): string[] { throw new Error("Not implemented."); }
-    LoadExtendedPropertiesXml(reader: EwsServiceXmlReader): ExtendedPropertyCollection { throw new Error("Not implemented."); }
-    LoadFromJson(jsonObject: JsonObject): SearchMailboxesResult { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): SearchMailboxesResult { throw new Error("Not implemented."); }
-    LoadKeywordStatsXml(reader: EwsServiceXmlReader): KeywordStatisticsSearchResult[] { throw new Error("Not implemented."); }
-    LoadPreviewItemsXml(reader: EwsServiceXmlReader): SearchPreviewItem[] { throw new Error("Not implemented."); }
+    GetRecipients(reader: EwsServiceXmlReader, elementName: string): string[] { throw new Error("SearchMailboxesResult.ts - GetRecipients : Not implemented."); }
+    LoadExtendedPropertiesXml(reader: EwsServiceXmlReader): ExtendedPropertyCollection { throw new Error("SearchMailboxesResult.ts - LoadExtendedPropertiesXml : Not implemented."); }
+    LoadFromJson(jsonObject: JsonObject): SearchMailboxesResult { throw new Error("SearchMailboxesResult.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): SearchMailboxesResult { throw new Error("SearchMailboxesResult.ts - LoadFromXml : Not implemented."); }
+    LoadKeywordStatsXml(reader: EwsServiceXmlReader): KeywordStatisticsSearchResult[] { throw new Error("SearchMailboxesResult.ts - LoadKeywordStatsXml : Not implemented."); }
+    LoadPreviewItemsXml(reader: EwsServiceXmlReader): SearchPreviewItem[] { throw new Error("SearchMailboxesResult.ts - LoadPreviewItemsXml : Not implemented."); }
 }
 export = SearchMailboxesResult;
 //module Microsoft.Exchange.WebServices.Data {

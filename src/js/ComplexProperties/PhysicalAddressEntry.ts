@@ -27,19 +27,19 @@ class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
 	PostalCode: string;
 	private propertyBag: SimplePropertyBag<string>;
 
-	ClearChangeLog(): void { throw new Error("Not implemented."); }
-	GetFieldUri(xmlElementName: string): string { throw new Error("Not implemented."); }
-	InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-	InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): void { throw new Error("Not implemented."); }
-	InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): void { throw new Error("Not implemented."); }
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void { throw new Error("Not implemented."); }
-	PropertyBagChanged(): void { throw new Error("Not implemented."); }
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-	WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("Not implemented."); }
-	WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("Not implemented."); }
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void { throw new Error("Not implemented."); }
-	WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("Not implemented."); }
-	WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean { throw new Error("Not implemented."); }
+	ClearChangeLog(): void { throw new Error("PhysicalAddressEntry.ts - ClearChangeLog : Not implemented."); }
+	GetFieldUri(xmlElementName: string): string { throw new Error("PhysicalAddressEntry.ts - GetFieldUri : Not implemented."); }
+	InternalToJson(service: ExchangeService): any { throw new Error("PhysicalAddressEntry.ts - InternalToJson : Not implemented."); }
+	InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): void { throw new Error("PhysicalAddressEntry.ts - InternalWriteDeleteFieldToXml : Not implemented."); }
+	InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): void { throw new Error("PhysicalAddressEntry.ts - InternalWriteDeleteUpdateToJson : Not implemented."); }
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void { throw new Error("PhysicalAddressEntry.ts - LoadFromJson : Not implemented."); }
+	PropertyBagChanged(): void { throw new Error("PhysicalAddressEntry.ts - PropertyBagChanged : Not implemented."); }
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhysicalAddressEntry.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+	WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("PhysicalAddressEntry.ts - WriteDeleteUpdateToJson : Not implemented."); }
+	WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("PhysicalAddressEntry.ts - WriteDeleteUpdateToXml : Not implemented."); }
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void { throw new Error("PhysicalAddressEntry.ts - WriteElementsToXml : Not implemented."); }
+	WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: JsonObject[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("PhysicalAddressEntry.ts - WriteSetUpdateToJson : Not implemented."); }
+	WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean { throw new Error("PhysicalAddressEntry.ts - WriteSetUpdateToXml : Not implemented."); }
 }
 
 //module PhysicalAddressEntry {

@@ -30,16 +30,16 @@ class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxes
     private pageItemReference: string;
     private pageDirection: SearchPageDirection;
     private previewItemResponseShape: PreviewItemResponseShape;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): SearchMailboxesResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    //ParseResponse(jsonBody: JsonObject): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): SearchMailboxesResponse { throw new Error("SearchMailboxesRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("SearchMailboxesRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SearchMailboxesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("SearchMailboxesRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("SearchMailboxesRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("SearchMailboxesRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("SearchMailboxesRequest.ts - ParseResponse : Not implemented."); }
+    //ParseResponse(jsonBody: JsonObject): any { throw new Error("SearchMailboxesRequest.ts - ParseResponse : Not implemented."); }
+    Validate(): any { throw new Error("SearchMailboxesRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SearchMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = SearchMailboxesRequest;
 //module Microsoft.Exchange.WebServices.Data {

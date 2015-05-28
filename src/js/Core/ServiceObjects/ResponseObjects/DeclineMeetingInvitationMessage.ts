@@ -2,7 +2,7 @@ import MeetingResponse = require("../Items/MeetingResponse");
 import CalendarResponseMessage = require("./CalendarResponseMessage");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 class DeclineMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("DeclineMeetingInvitationMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
 }
 
 

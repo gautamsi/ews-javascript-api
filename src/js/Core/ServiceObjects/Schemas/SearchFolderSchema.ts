@@ -3,7 +3,7 @@ import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefini
 class SearchFolderSchema extends FolderSchema {
     static SearchParameters: PropertyDefinition;
     static Instance: SearchFolderSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("SearchFolderSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module SearchFolderSchema {

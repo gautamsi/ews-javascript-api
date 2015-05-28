@@ -4,9 +4,9 @@ import PhoneNumberKey = require("../Enumerations/PhoneNumberKey");
 
 class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, PhoneNumberEntry> {
     Item: string;
-    CreateEntryInstance(): PhoneNumberEntry { throw new Error("Not implemented."); }
-    GetFieldURI(): string { throw new Error("Not implemented."); }
-    TryGetValue(key: PhoneNumberKey, phoneNumber: any): boolean { throw new Error("Not implemented."); }
+    CreateEntryInstance(): PhoneNumberEntry { throw new Error("PhoneNumberDictionary.ts - CreateEntryInstance : Not implemented."); }
+    GetFieldURI(): string { throw new Error("PhoneNumberDictionary.ts - GetFieldURI : Not implemented."); }
+    TryGetValue(key: PhoneNumberKey, phoneNumber: any): boolean { throw new Error("PhoneNumberDictionary.ts - TryGetValue : Not implemented."); }
 }
 export = PhoneNumberDictionary;
 //module Microsoft.Exchange.WebServices.Data {

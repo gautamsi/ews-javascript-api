@@ -18,7 +18,7 @@ class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> exte
         //
         //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
     }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("ContainedPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }
 export = ContainedPropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {

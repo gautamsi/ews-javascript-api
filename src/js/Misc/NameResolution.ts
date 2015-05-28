@@ -10,8 +10,8 @@ class NameResolution {
     private owner: NameResolutionCollection;
     private mailbox: EmailAddress;
     private contact: Contact;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("NameResolution.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("NameResolution.ts - LoadFromXml : Not implemented."); }
 }
 export = NameResolution;
 //module Microsoft.Exchange.WebServices.Data {

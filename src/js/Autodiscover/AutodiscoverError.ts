@@ -10,7 +10,7 @@ import EwsXmlReader = require("../Core/EwsXmlReader");
     private errorCode: number;
     private message: string;
     private debugData: string;
-    Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("Not implemented."); }
+    Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("AutodiscoverError.ts - Parse : Not implemented."); }
 }
 export = AutodiscoverError;
 

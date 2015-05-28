@@ -13,12 +13,12 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	private frequency: number;
 	private url: string /*Uri*/;
 	private callerData: string;
-	AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<PushSubscription>{ throw new Error("Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("Not implemented.");}
-	GetSubscriptionXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	Validate(): void{ throw new Error("Not implemented.");}
+	AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - AddJsonProperties : Not implemented.");}
+	CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<PushSubscription>{ throw new Error("SubscribeToPushNotificationsRequest.ts - CreateServiceResponse : Not implemented.");}
+	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("SubscribeToPushNotificationsRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
+	GetSubscriptionXmlElementName(): string{ throw new Error("SubscribeToPushNotificationsRequest.ts - GetSubscriptionXmlElementName : Not implemented.");}
+	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
+	Validate(): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - Validate : Not implemented.");}
 }
 export = SubscribeToPushNotificationsRequest;
 

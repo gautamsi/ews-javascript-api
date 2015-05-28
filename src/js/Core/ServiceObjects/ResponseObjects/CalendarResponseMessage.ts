@@ -16,7 +16,7 @@ import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
         Attachments: AttachmentCollection;
         InternetMessageHeaders: InternetMessageHeaderCollection;
         Sender: EmailAddress;
-        GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
+        GetSchema(): ServiceObjectSchema { throw new Error("CalendarResponseMessage.ts - GetSchema : Not implemented."); }
 }
 
    export = CalendarResponseMessage;

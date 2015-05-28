@@ -13,16 +13,16 @@ import JsonObject = require("../../../Core/JsonObject");
         private startDate: Date;
         private numberOfOccurrences: number;
         private endDate: Date;
-        GetFieldValueOrThrowIfNull(value: any, name: string): any { throw new Error("Not implemented."); }
-        InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        InternalValidate(): any { throw new Error("Not implemented."); }
-        InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-        IsSame(otherRecurrence: Recurrence): boolean { throw new Error("Not implemented."); }
-        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-        NeverEnds(): any { throw new Error("Not implemented."); }
-        PatternToJson(service: ExchangeService): JsonObject { throw new Error("Not implemented."); }
-        RangeToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+        GetFieldValueOrThrowIfNull(value: any, name: string): any { throw new Error("Recurrence.ts - GetFieldValueOrThrowIfNull : Not implemented."); }
+        InternalToJson(service: ExchangeService): any { throw new Error("Recurrence.ts - InternalToJson : Not implemented."); }
+        InternalValidate(): any { throw new Error("Recurrence.ts - InternalValidate : Not implemented."); }
+        InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Recurrence.ts - InternalWritePropertiesToXml : Not implemented."); }
+        IsSame(otherRecurrence: Recurrence): boolean { throw new Error("Recurrence.ts - IsSame : Not implemented."); }
+        LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Recurrence.ts - LoadFromJson : Not implemented."); }
+        NeverEnds(): any { throw new Error("Recurrence.ts - NeverEnds : Not implemented."); }
+        PatternToJson(service: ExchangeService): JsonObject { throw new Error("Recurrence.ts - PatternToJson : Not implemented."); }
+        RangeToJson(service: ExchangeService): any { throw new Error("Recurrence.ts - RangeToJson : Not implemented."); }
+        WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Recurrence.ts - WriteElementsToXml : Not implemented."); }
     }
 export = Recurrence;
 //module Microsoft.Exchange.WebServices.Data {

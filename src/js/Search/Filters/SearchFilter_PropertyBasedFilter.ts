@@ -8,11 +8,11 @@ import SearchFilter = require("./SearchFilter");
 class PropertyBasedFilter extends SearchFilter {
 	PropertyDefinition: PropertyDefinitionBase;
 	private propertyDefinition: PropertyDefinitionBase;
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("SearchFilter_PropertyBasedFilter.ts - InternalToJson : Not implemented.");}
+	InternalValidate(): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - InternalValidate : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - LoadFromJson : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_PropertyBasedFilter.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - WriteElementsToXml : Not implemented.");}
 }
 export = PropertyBasedFilter;
 

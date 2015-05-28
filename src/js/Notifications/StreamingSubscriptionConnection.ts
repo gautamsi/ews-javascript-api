@@ -19,21 +19,21 @@ class StreamingSubscriptionConnection {
 	private OnNotificationEvent: NotificationEventDelegate;
 	private OnSubscriptionError: SubscriptionErrorDelegate;
 	private OnDisconnect: SubscriptionErrorDelegate;
-	AddSubscription(subscription: StreamingSubscription): void { throw new Error("Not implemented."); }
-	Close(): void { throw new Error("Not implemented."); }
-	Dispose(): void { throw new Error("Not implemented."); }
-	//Dispose(suppressFinalizer: boolean): void{ throw new Error("Not implemented.");}
-	Finalize(): void { throw new Error("Not implemented."); }
-	HandleServiceResponseObject(response: any): void { throw new Error("Not implemented."); }
-	InternalOnDisconnect(ex: Exception): void { throw new Error("Not implemented."); }
-	IssueGeneralFailure(gseResponse: GetStreamingEventsResponse): void { throw new Error("Not implemented."); }
-	IssueNotificationEvents(gseResponse: GetStreamingEventsResponse): void { throw new Error("Not implemented."); }
-	IssueSubscriptionFailures(gseResponse: GetStreamingEventsResponse): void { throw new Error("Not implemented."); }
-	OnRequestDisconnect(sender: any, args: HangingRequestDisconnectEventArgs): void { throw new Error("Not implemented."); }
-	Open(): void { throw new Error("Not implemented."); }
-	RemoveSubscription(subscription: StreamingSubscription): void { throw new Error("Not implemented."); }
-	ThrowIfDisposed(): void { throw new Error("Not implemented."); }
-	ValidateConnectionState(isConnectedExpected: boolean, errorMessage: string): void { throw new Error("Not implemented."); }
+	AddSubscription(subscription: StreamingSubscription): void { throw new Error("StreamingSubscriptionConnection.ts - AddSubscription : Not implemented."); }
+	Close(): void { throw new Error("StreamingSubscriptionConnection.ts - Close : Not implemented."); }
+	Dispose(): void { throw new Error("StreamingSubscriptionConnection.ts - Dispose : Not implemented."); }
+	//Dispose(suppressFinalizer: boolean): void{ throw new Error("StreamingSubscriptionConnection.ts - Dispose : Not implemented.");}
+	Finalize(): void { throw new Error("StreamingSubscriptionConnection.ts - Finalize : Not implemented."); }
+	HandleServiceResponseObject(response: any): void { throw new Error("StreamingSubscriptionConnection.ts - HandleServiceResponseObject : Not implemented."); }
+	InternalOnDisconnect(ex: Exception): void { throw new Error("StreamingSubscriptionConnection.ts - InternalOnDisconnect : Not implemented."); }
+	IssueGeneralFailure(gseResponse: GetStreamingEventsResponse): void { throw new Error("StreamingSubscriptionConnection.ts - IssueGeneralFailure : Not implemented."); }
+	IssueNotificationEvents(gseResponse: GetStreamingEventsResponse): void { throw new Error("StreamingSubscriptionConnection.ts - IssueNotificationEvents : Not implemented."); }
+	IssueSubscriptionFailures(gseResponse: GetStreamingEventsResponse): void { throw new Error("StreamingSubscriptionConnection.ts - IssueSubscriptionFailures : Not implemented."); }
+	OnRequestDisconnect(sender: any, args: HangingRequestDisconnectEventArgs): void { throw new Error("StreamingSubscriptionConnection.ts - OnRequestDisconnect : Not implemented."); }
+	Open(): void { throw new Error("StreamingSubscriptionConnection.ts - Open : Not implemented."); }
+	RemoveSubscription(subscription: StreamingSubscription): void { throw new Error("StreamingSubscriptionConnection.ts - RemoveSubscription : Not implemented."); }
+	ThrowIfDisposed(): void { throw new Error("StreamingSubscriptionConnection.ts - ThrowIfDisposed : Not implemented."); }
+	ValidateConnectionState(isConnectedExpected: boolean, errorMessage: string): void { throw new Error("StreamingSubscriptionConnection.ts - ValidateConnectionState : Not implemented."); }
 }
 
 interface NotificationEventDelegate {

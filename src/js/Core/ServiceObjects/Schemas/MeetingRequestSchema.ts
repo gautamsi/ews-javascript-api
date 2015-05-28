@@ -45,7 +45,7 @@ class MeetingRequestSchema extends MeetingMessageSchema {
     static MeetingWorkspaceUrl: PropertyDefinition;
     static NetShowUrl: PropertyDefinition;
     static Instance: MeetingRequestSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("MeetingRequestSchema.ts - RegisterProperties : Not implemented."); }
 }
 module MeetingRequestSchema {
     export module FieldUris {

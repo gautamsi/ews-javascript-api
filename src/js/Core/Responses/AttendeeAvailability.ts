@@ -13,7 +13,7 @@ class AttendeeAvailability extends ServiceResponse {
     private mergedFreeBusyStatus: LegacyFreeBusyStatus[];//System.Collections.ObjectModel.Collection<LegacyFreeBusyStatus>;
     private viewType: FreeBusyViewType;
     private workingHours: WorkingHours;
-    LoadFreeBusyViewFromXml(reader: EwsServiceXmlReader, viewType: FreeBusyViewType): any { throw new Error("Not implemented."); }
+    LoadFreeBusyViewFromXml(reader: EwsServiceXmlReader, viewType: FreeBusyViewType): any { throw new Error("AttendeeAvailability.ts - LoadFreeBusyViewFromXml : Not implemented."); }
 }
 export = AttendeeAvailability;
 

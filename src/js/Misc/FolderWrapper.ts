@@ -21,7 +21,7 @@ class FolderWrapper extends AbstractFolderIdWrapper {
     }
 
     GetFolder(): Folder { return this.folder; }
-    //InternalToJson(service: ExchangeService): void{ throw new Error("Not implemented.");}
+    //InternalToJson(service: ExchangeService): void{ throw new Error("FolderWrapper.ts - InternalToJson : Not implemented.");}
     WriteToXml(writer: EwsServiceXmlWriter): void { this.folder.Id.WriteToXml(writer); }
 }
 export = FolderWrapper;

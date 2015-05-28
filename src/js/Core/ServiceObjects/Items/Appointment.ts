@@ -67,36 +67,36 @@ class Appointment extends Item {
     ////////    }
     ////////}
 
-    ////////Accept(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////AcceptTentatively(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Appointment { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId): Appointment { throw new Error("Not implemented."); }
-    ////////BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): Appointment { throw new Error("Not implemented."); }
-    ////////BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): Appointment { throw new Error("Not implemented."); }
-    ////////BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): Appointment { throw new Error("Not implemented."); }
-    ////////BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): Appointment { throw new Error("Not implemented."); }
-    ////////CancelMeeting(): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////CancelMeeting(cancellationMessageText: string): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { throw new Error("Not implemented."); }
-    ////////CreateCancelMeetingMessage(): CancelMeetingMessage { throw new Error("Not implemented."); }
-    ////////CreateDeclineMessage(): DeclineMeetingInvitationMessage { throw new Error("Not implemented."); }
-    ////////CreateForward(): ResponseMessage { throw new Error("Not implemented."); }
-    ////////CreateReply(replyAll: boolean): ResponseMessage { throw new Error("Not implemented."); }
-    ////////Decline(sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): any { throw new Error("Not implemented."); }
-    ////////Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-    ////////Forward(bodyPrefix: MessageBody, toRecipients: any): any { throw new Error("Not implemented."); }
-    ////////GetIsCustomDateTimeScopingRequired(): boolean { throw new Error("Not implemented."); }
-    ////////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Not implemented."); }
-    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    ////////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("Not implemented."); }
-    ////////Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("Not implemented."); }
-    ////////Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode: SendInvitationsMode): any { throw new Error("Not implemented."); }
-    ////////Save(destinationFolderId: FolderId, sendInvitationsMode: SendInvitationsMode): any { throw new Error("Not implemented."); }
-    ////////Save(sendInvitationsMode: SendInvitationsMode): any { throw new Error("Not implemented."); }
-    ////////Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): any { throw new Error("Not implemented."); }
-    ////////Validate(): any { throw new Error("Not implemented."); }
+    ////////Accept(sendResponse: boolean): CalendarActionResults { throw new Error("Appointment.ts - Accept : Not implemented."); }
+    ////////AcceptTentatively(sendResponse: boolean): CalendarActionResults { throw new Error("Appointment.ts - AcceptTentatively : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Appointment { throw new Error("Appointment.ts - Bind : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId): Appointment { throw new Error("Appointment.ts - Bind : Not implemented."); }
+    ////////BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): Appointment { throw new Error("Appointment.ts - BindToOccurrence : Not implemented."); }
+    ////////BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): Appointment { throw new Error("Appointment.ts - BindToOccurrence : Not implemented."); }
+    ////////BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): Appointment { throw new Error("Appointment.ts - BindToRecurringMaster : Not implemented."); }
+    ////////BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): Appointment { throw new Error("Appointment.ts - BindToRecurringMaster : Not implemented."); }
+    ////////CancelMeeting(): CalendarActionResults { throw new Error("Appointment.ts - CancelMeeting : Not implemented."); }
+    ////////CancelMeeting(cancellationMessageText: string): CalendarActionResults { throw new Error("Appointment.ts - CancelMeeting : Not implemented."); }
+    ////////CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { throw new Error("Appointment.ts - CreateAcceptMessage : Not implemented."); }
+    ////////CreateCancelMeetingMessage(): CancelMeetingMessage { throw new Error("Appointment.ts - CreateCancelMeetingMessage : Not implemented."); }
+    ////////CreateDeclineMessage(): DeclineMeetingInvitationMessage { throw new Error("Appointment.ts - CreateDeclineMessage : Not implemented."); }
+    ////////CreateForward(): ResponseMessage { throw new Error("Appointment.ts - CreateForward : Not implemented."); }
+    ////////CreateReply(replyAll: boolean): ResponseMessage { throw new Error("Appointment.ts - CreateReply : Not implemented."); }
+    ////////Decline(sendResponse: boolean): CalendarActionResults { throw new Error("Appointment.ts - Decline : Not implemented."); }
+    ////////Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): any { throw new Error("Appointment.ts - Delete : Not implemented."); }
+    ////////Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Appointment.ts - Forward : Not implemented."); }
+    ////////Forward(bodyPrefix: MessageBody, toRecipients: any): any { throw new Error("Appointment.ts - Forward : Not implemented."); }
+    ////////GetIsCustomDateTimeScopingRequired(): boolean { throw new Error("Appointment.ts - GetIsCustomDateTimeScopingRequired : Not implemented."); }
+    ////////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Appointment.ts - GetIsTimeZoneHeaderRequired : Not implemented."); }
+    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Appointment.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    ////////GetSchema(): ServiceObjectSchema { throw new Error("Appointment.ts - GetSchema : Not implemented."); }
+    ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("Appointment.ts - InternalAccept : Not implemented."); }
+    ////////Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("Appointment.ts - Reply : Not implemented."); }
+    ////////Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode: SendInvitationsMode): any { throw new Error("Appointment.ts - Save : Not implemented."); }
+    ////////Save(destinationFolderId: FolderId, sendInvitationsMode: SendInvitationsMode): any { throw new Error("Appointment.ts - Save : Not implemented."); }
+    ////////Save(sendInvitationsMode: SendInvitationsMode): any { throw new Error("Appointment.ts - Save : Not implemented."); }
+    ////////Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): any { throw new Error("Appointment.ts - Update : Not implemented."); }
+    ////////Validate(): any { throw new Error("Appointment.ts - Validate : Not implemented."); }
 }
  export = Appointment;
 

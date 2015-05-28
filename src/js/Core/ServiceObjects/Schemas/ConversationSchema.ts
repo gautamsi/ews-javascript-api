@@ -38,7 +38,7 @@ class ConversationSchema extends ServiceObjectSchema {
     static HasIrm: PropertyDefinition;
     static GlobalHasIrm: PropertyDefinition;
     static Instance: ConversationSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("ConversationSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module ConversationSchema {

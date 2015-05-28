@@ -21,14 +21,14 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	private syncState: string;
 	private ignoredItemIds: ItemIdWrapperList;
 	private maxChangesReturned: number;
-	CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderItemsResponse{ throw new Error("Not implemented.");}
-	GetExpectedResponseMessageCount(): number{ throw new Error("Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("Not implemented.");}
-	GetResponseMessageXmlElementName(): string{ throw new Error("Not implemented.");}
-	GetResponseXmlElementName(): string{ throw new Error("Not implemented.");}
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	Validate(): void{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	CreateServiceResponse(service: ExchangeService, responseIndex: number): SyncFolderItemsResponse{ throw new Error("SyncFolderItemsRequest.ts - CreateServiceResponse : Not implemented.");}
+	GetExpectedResponseMessageCount(): number{ throw new Error("SyncFolderItemsRequest.ts - GetExpectedResponseMessageCount : Not implemented.");}
+	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("SyncFolderItemsRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
+	GetResponseMessageXmlElementName(): string{ throw new Error("SyncFolderItemsRequest.ts - GetResponseMessageXmlElementName : Not implemented.");}
+	GetResponseXmlElementName(): string{ throw new Error("SyncFolderItemsRequest.ts - GetResponseXmlElementName : Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("SyncFolderItemsRequest.ts - GetXmlElementName : Not implemented.");}
+	Validate(): void{ throw new Error("SyncFolderItemsRequest.ts - Validate : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SyncFolderItemsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
 export = SyncFolderItemsRequest;
 

@@ -9,12 +9,12 @@ class SetTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     private sharePointSiteUrl: string/*System.Uri*/;
     private state: TeamMailboxLifecycleState;
-    Execute(): ServiceResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): ServiceResponse { throw new Error("SetTeamMailboxRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SetTeamMailboxRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("SetTeamMailboxRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("SetTeamMailboxRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("SetTeamMailboxRequest.ts - ParseResponse : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetTeamMailboxRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
 export = SetTeamMailboxRequest;

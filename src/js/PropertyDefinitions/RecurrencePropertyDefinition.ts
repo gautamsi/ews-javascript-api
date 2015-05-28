@@ -8,12 +8,12 @@ import JsonObject = require("../Core/JsonObject");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
    class RecurrencePropertyDefinition extends PropertyDefinition {
         Type: any;//System.Type;
-        GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("Not implemented."); }
-        GetRecurrenceRange(recurrenceRangeString: string): RecurrenceRange { throw new Error("Not implemented."); }
-        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("Not implemented."); }
-        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+        GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceFromString : Not implemented."); }
+        GetRecurrenceRange(recurrenceRangeString: string): RecurrenceRange { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceRange : Not implemented."); }
+        LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("RecurrencePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("RecurrencePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
+        WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
+        WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }
 
    export = RecurrencePropertyDefinition;

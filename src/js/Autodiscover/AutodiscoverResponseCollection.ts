@@ -14,10 +14,10 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
     __thisIndexer(index: number): TResponse {
         return this.Responses[index];
     }
-    CreateResponseInstance(): TResponse { throw new Error("Not implemented."); }
-    GetEnumerator(): any { throw new Error("Not implemented."); }
-    GetResponseCollectionXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseInstanceXmlElementName(): string { throw new Error("Not implemented."); }
+    CreateResponseInstance(): TResponse { throw new Error("AutodiscoverResponseCollection.ts - CreateResponseInstance : Not implemented."); }
+    GetEnumerator(): any { throw new Error("AutodiscoverResponseCollection.ts - GetEnumerator : Not implemented."); }
+    GetResponseCollectionXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseCollectionXmlElementName : Not implemented."); }
+    GetResponseInstanceXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseInstanceXmlElementName : Not implemented."); }
     LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
         do {
             reader.Read();

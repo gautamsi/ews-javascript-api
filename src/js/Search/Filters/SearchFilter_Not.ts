@@ -8,13 +8,13 @@ import SearchFilter = require("./SearchFilter");
 class Not extends SearchFilter {
 	SearchFilter: SearchFilter;
 	private searchFilter: SearchFilter;
-	GetXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	GetXmlElementName(): string{ throw new Error("SearchFilter_Not.ts - GetXmlElementName : Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("SearchFilter_Not.ts - InternalToJson : Not implemented.");}
+	InternalValidate(): void{ throw new Error("SearchFilter_Not.ts - InternalValidate : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_Not.ts - LoadFromJson : Not implemented.");}
+	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("SearchFilter_Not.ts - SearchFilterChanged : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_Not.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_Not.ts - WriteElementsToXml : Not implemented.");}
 }
 export = Not;
 

@@ -15,13 +15,13 @@ class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
         this.index = index;
     }
 
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("IndexedPropertyDefinition.ts - AddJsonProperties : Not implemented."); }
     Equals(obj: any): boolean {
         var propertyDefinition = <IndexedPropertyDefinition>obj;
         return IndexedPropertyDefinition.IsEqualTo(propertyDefinition, this);
     }
-    GetHashCode(): number { throw new Error("Not implemented."); }
-    //GetJsonType(): string { throw new Error("Not implemented."); }
+    GetHashCode(): number { throw new Error("IndexedPropertyDefinition.ts - GetHashCode : Not implemented."); }
+    //GetJsonType(): string { throw new Error("IndexedPropertyDefinition.ts - GetJsonType : Not implemented."); }
     GetPrintableName(): string { return StringHelper.Format("{0}:{1}", this.Uri, this.Index); }
     GetXmlElementName(): string { return XmlElementNames.IndexedFieldURI; }
     static IsEqualTo(idxPropDef1: IndexedPropertyDefinition, idxPropDef2: IndexedPropertyDefinition): boolean {

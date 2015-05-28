@@ -5,7 +5,7 @@ class FailedSearchMailbox {
     ErrorCode: number;
     ErrorMessage: string;
     IsArchive: boolean;
-    LoadFailedMailboxesXml(rootXmlNamespace: XmlNamespace, reader: EwsServiceXmlReader): FailedSearchMailbox[] { throw new Error("Not implemented."); }
+    LoadFailedMailboxesXml(rootXmlNamespace: XmlNamespace, reader: EwsServiceXmlReader): FailedSearchMailbox[] { throw new Error("FailedSearchMailbox.ts - LoadFailedMailboxesXml : Not implemented."); }
 }
 export = FailedSearchMailbox;
 //module Microsoft.Exchange.WebServices.Data {

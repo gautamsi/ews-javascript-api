@@ -10,7 +10,7 @@ class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup
     private nextPageOffset: number;
     private moreAvailable: boolean;
     private itemGroups: ItemGroup<TItem>[];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-    GetEnumerator(): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("GroupedFindItemsResults.ts - GetEnumerator : Not implemented."); }
 }
 export = GroupedFindItemsResults;
 //module Microsoft.Exchange.WebServices.Data {

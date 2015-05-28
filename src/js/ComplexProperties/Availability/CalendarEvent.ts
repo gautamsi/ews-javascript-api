@@ -13,8 +13,8 @@ class CalendarEvent extends ComplexProperty {
     private endTime: Date;
     private freeBusyStatus: LegacyFreeBusyStatus;
     private details: CalendarEventDetails;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("CalendarEvent.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("CalendarEvent.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = CalendarEvent;
 //module Microsoft.Exchange.WebServices.Data {

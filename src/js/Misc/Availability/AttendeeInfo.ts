@@ -7,7 +7,7 @@ class AttendeeInfo {
     private smtpAddress: string;
     private attendeeType: MeetingAttendeeType;
     private excludeConflicts: boolean;
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("AttendeeInfo.ts - WriteToXml : Not implemented."); }
 }
 export = AttendeeInfo;
 

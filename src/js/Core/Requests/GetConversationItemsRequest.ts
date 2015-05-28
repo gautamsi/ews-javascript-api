@@ -15,15 +15,15 @@ class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConvers
     MaxItemsToReturn: number;
     SortOrder: ConversationSortOrder;
     MailboxScope: MailboxSearchLocation;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetConversationItemsResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): GetConversationItemsResponse { throw new Error("GetConversationItemsRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("GetConversationItemsRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetConversationItemsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("GetConversationItemsRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetConversationItemsRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetConversationItemsRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("GetConversationItemsRequest.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetConversationItemsRequest;
 //module Microsoft.Exchange.WebServices.Data {

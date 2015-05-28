@@ -16,18 +16,18 @@ import Grouping = require("./Grouping");
 	private maxItemsReturned: number;
 	private startDate: Date;
 	private endDate: Date;
-	AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	GetMaxEntriesReturned(): number{ throw new Error("Not implemented.");}
-	GetServiceObjectType(): ServiceObjectType{ throw new Error("Not implemented.");}
-	GetViewJsonTypeName(): string{ throw new Error("Not implemented.");}
-	GetViewXmlElementName(): string{ throw new Error("Not implemented.");}
-	InternalValidate(request: ServiceRequestBase): void{ throw new Error("Not implemented.");}
-	InternalWritePagingToJson(jsonView: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("Not implemented.");}
-	InternalWriteViewToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
-	WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any{ throw new Error("Not implemented.");}
-	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): void{ throw new Error("CalendarView.ts - AddJsonProperties : Not implemented.");}
+	GetMaxEntriesReturned(): number{ throw new Error("CalendarView.ts - GetMaxEntriesReturned : Not implemented.");}
+	GetServiceObjectType(): ServiceObjectType{ throw new Error("CalendarView.ts - GetServiceObjectType : Not implemented.");}
+	GetViewJsonTypeName(): string{ throw new Error("CalendarView.ts - GetViewJsonTypeName : Not implemented.");}
+	GetViewXmlElementName(): string{ throw new Error("CalendarView.ts - GetViewXmlElementName : Not implemented.");}
+	InternalValidate(request: ServiceRequestBase): void{ throw new Error("CalendarView.ts - InternalValidate : Not implemented.");}
+	InternalWritePagingToJson(jsonView: JsonObject, service: ExchangeService): void{ throw new Error("CalendarView.ts - InternalWritePagingToJson : Not implemented.");}
+	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("CalendarView.ts - InternalWriteSearchSettingsToXml : Not implemented.");}
+	InternalWriteViewToXml(writer: EwsServiceXmlWriter): void{ throw new Error("CalendarView.ts - InternalWriteViewToXml : Not implemented.");}
+	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("CalendarView.ts - WriteAttributesToXml : Not implemented.");}
+	WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any{ throw new Error("CalendarView.ts - WriteGroupingToJson : Not implemented.");}
+	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("CalendarView.ts - WriteOrderByToXml : Not implemented.");}
 }
 export = CalendarView;
 

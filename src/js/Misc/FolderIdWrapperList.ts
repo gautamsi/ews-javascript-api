@@ -13,7 +13,7 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     //Item: AbstractFolderIdWrapper;
     private ids: AbstractFolderIdWrapper[] = [];// System.Collections.Generic.List<AbstractFolderIdWrapper>;
     //Add(folder: Folder): void;// { this.ids.push(new FolderWrapper(folder)) }
-    //Add(folderId: FolderId): void;// { throw new Error("Not implemented."); }
+    //Add(folderId: FolderId): void;// { throw new Error("FolderIdWrapperList.ts - Add : Not implemented."); }
     Add(folderOrId: Folder | FolderId): void {
 
         if (folderOrId instanceof Folder)
@@ -23,8 +23,8 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
         else
             throw new Error("should not be seeing this. inside FolderIDWrapperList.Add, trying to overload methods.");
     }
-    AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("Not implemented."); }
-    AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("Not implemented."); }
+    AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
+    AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
     AddRange(foldersOrIds: any[]): void {
         if (foldersOrIds != null) {
             for (var folderOrId of foldersOrIds) {
@@ -32,8 +32,8 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
             }
         }
     }
-    //GetEnumerator(): any { throw new Error("Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //GetEnumerator(): any { throw new Error("FolderIdWrapperList.ts - GetEnumerator : Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("FolderIdWrapperList.ts - InternalToJson : Not implemented."); }
     Validate(version: ExchangeVersion): void {
         for (var folderIdWrapper of this.ids) {
             //var folderIdWrapper: AbstractFolderIdWrapper = item;

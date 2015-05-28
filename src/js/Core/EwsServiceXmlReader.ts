@@ -18,14 +18,14 @@ class EwsServiceXmlReader extends EwsXmlReader {
         this.service = service;
     }
     //#endregion
-    ConvertStringToDateTime(dateTimeString: string): Date { throw new Error("Not implemented."); }
-    ConvertStringToUnspecifiedDate(dateTimeString: string): Date { throw new Error("Not implemented."); }
-    ReadElementValueAsDateTime(): Date { throw new Error("Not implemented."); }
-    //ReadElementValueAsDateTime(xmlNamespace: XmlNamespace, localName: string): Date { throw new Error("Not implemented."); }
-    ReadElementValueAsUnbiasedDateTimeScopedToServiceTimeZone(): Date { throw new Error("Not implemented."); }
-    ReadElementValueAsUnspecifiedDate(): Date { throw new Error("Not implemented."); }
-    //ReadServiceObjectsCollectionFromXml(collectionXmlNamespace: XmlNamespace, collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("Not implemented."); }
-    //ReadServiceObjectsCollectionFromXml(collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("Not implemented."); }
+    ConvertStringToDateTime(dateTimeString: string): Date { throw new Error("EwsServiceXmlReader.ts - ConvertStringToDateTime : Not implemented."); }
+    ConvertStringToUnspecifiedDate(dateTimeString: string): Date { throw new Error("EwsServiceXmlReader.ts - ConvertStringToUnspecifiedDate : Not implemented."); }
+    ReadElementValueAsDateTime(): Date { throw new Error("EwsServiceXmlReader.ts - ReadElementValueAsDateTime : Not implemented."); }
+    //ReadElementValueAsDateTime(xmlNamespace: XmlNamespace, localName: string): Date { throw new Error("EwsServiceXmlReader.ts - ReadElementValueAsDateTime : Not implemented."); }
+    ReadElementValueAsUnbiasedDateTimeScopedToServiceTimeZone(): Date { throw new Error("EwsServiceXmlReader.ts - ReadElementValueAsUnbiasedDateTimeScopedToServiceTimeZone : Not implemented."); }
+    ReadElementValueAsUnspecifiedDate(): Date { throw new Error("EwsServiceXmlReader.ts - ReadElementValueAsUnspecifiedDate : Not implemented."); }
+    //ReadServiceObjectsCollectionFromXml(collectionXmlNamespace: XmlNamespace, collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("EwsServiceXmlReader.ts - ReadServiceObjectsCollectionFromXml : Not implemented."); }
+    //ReadServiceObjectsCollectionFromXml(collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("EwsServiceXmlReader.ts - ReadServiceObjectsCollectionFromXml : Not implemented."); }
     ReadServiceObjectsCollectionFromXml<TServiceObject extends ServiceObject>(collectionXmlElementName: string,
         getObjectInstanceDelegate: DelegateTypes.GetObjectInstanceDelegate<TServiceObject>,
         clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean,

@@ -13,9 +13,9 @@ import ExchangeService = require("../Core/ExchangeService");
 	private timestamp: Date;
 	private parentFolderId: FolderId;
 	private oldParentFolderId: FolderId;
-	InternalLoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): void{ throw new Error("Not implemented.");}
+	InternalLoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("NotificationEvent.ts - InternalLoadFromXml : Not implemented.");}
+	LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): void{ throw new Error("NotificationEvent.ts - LoadFromJson : Not implemented.");}
+	LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): void{ throw new Error("NotificationEvent.ts - LoadFromXml : Not implemented.");}
 }
 export = NotificationEvent;
 

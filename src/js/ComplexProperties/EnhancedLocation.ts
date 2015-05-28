@@ -11,12 +11,12 @@ class EnhancedLocation extends ComplexProperty {
     private displayName: string;
     private annotation: string;
     private personaPostalAddress: PersonaPostalAddress;
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    InternalValidate(): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    PersonaPostalAddress_OnChange(complexProperty: ComplexProperty): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("EnhancedLocation.ts - InternalToJson : Not implemented."); }
+    InternalValidate(): any { throw new Error("EnhancedLocation.ts - InternalValidate : Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("EnhancedLocation.ts - LoadFromJson : Not implemented."); }
+    PersonaPostalAddress_OnChange(complexProperty: ComplexProperty): any { throw new Error("EnhancedLocation.ts - PersonaPostalAddress_OnChange : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EnhancedLocation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EnhancedLocation.ts - WriteElementsToXml : Not implemented."); }
 }
 export = EnhancedLocation;
 //module Microsoft.Exchange.WebServices.Data {

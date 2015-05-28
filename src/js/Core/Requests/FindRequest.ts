@@ -16,11 +16,11 @@ class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServic
     private queryString: string;
     private returnHighlightTerms: boolean;
     private view: ViewBase;
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetGroupBy(): Grouping { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("FindRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetGroupBy(): Grouping { throw new Error("FindRequest.ts - GetGroupBy : Not implemented."); }
+    Validate(): any { throw new Error("FindRequest.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindRequest.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = FindRequest;
 //module Microsoft.Exchange.WebServices.Data {

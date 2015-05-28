@@ -21,10 +21,10 @@ import EventType = require("../Enumerations/EventType");
 	private moreEventsAvailable: boolean;
 	private events: NotificationEvent[] /*System.Collections.ObjectModel.Collection<NotificationEvent>*/;
 	private static xmlElementNameToEventTypeMap: any /*LazyMember<System.Collections.Generic.Dictionary<string, EventType>>*/;
-	LoadEventsFromJson(jsonEventsArray: any[], service: ExchangeService): void{ throw new Error("Not implemented.");}
-	LoadFromJson(eventsResponse: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
-	LoadNotificationEventFromXml(reader: EwsServiceXmlReader, eventElementName: string, eventType: EventType): void{ throw new Error("Not implemented.");}
+	LoadEventsFromJson(jsonEventsArray: any[], service: ExchangeService): void{ throw new Error("GetEventsResults.ts - LoadEventsFromJson : Not implemented.");}
+	LoadFromJson(eventsResponse: JsonObject, service: ExchangeService): void{ throw new Error("GetEventsResults.ts - LoadFromJson : Not implemented.");}
+	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("GetEventsResults.ts - LoadFromXml : Not implemented.");}
+	LoadNotificationEventFromXml(reader: EwsServiceXmlReader, eventElementName: string, eventType: EventType): void{ throw new Error("GetEventsResults.ts - LoadNotificationEventFromXml : Not implemented.");}
 }
 export = GetEventsResults;
 

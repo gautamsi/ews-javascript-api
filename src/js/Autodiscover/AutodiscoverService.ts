@@ -110,8 +110,8 @@ class AutodiscoverService extends ExchangeServiceBase {
     DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
         throw new AutodiscoverLocalException(StringHelper.Format("Autodiscover redirection is blocked for url: {0}"/*Strings.AutodiscoverRedirectBlocked*/, redirectionUrl));
     }
-    //DefaultGetScpUrlsForDomain(domainName: string): string[] { return null; }// System.Collections.Generic.ICollection<string>{ throw new Error("Not implemented.");}
-    //DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): any{ throw new Error("Not implemented.");}
+    //DefaultGetScpUrlsForDomain(domainName: string): string[] { return null; }// System.Collections.Generic.ICollection<string>{ throw new Error("AutodiscoverService.ts - DefaultGetScpUrlsForDomain : Not implemented.");}
+    //DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): any{ throw new Error("AutodiscoverService.ts - DisableScpLookupIfDuplicateRedirection : Not implemented.");}
     GetAutodiscoverEndpointUrl(host: string): IPromise<string> {//System.Uri{
         var autodiscoverUrlOut: IOutParam<string> = { outValue: null };
 
@@ -159,8 +159,8 @@ class AutodiscoverService extends ExchangeServiceBase {
 
         return urls;
     }
-    //GetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion): GetDomainSettingsResponseCollection{ throw new Error("Not implemented.");}
-    //GetDomainSettings(domains: System.Collections.Generic.IEnumerable<string>, requestedVersion: Data.ExchangeVersion, domainSettingNames: any): GetDomainSettingsResponseCollection{ throw new Error("Not implemented.");}
+    //GetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - GetDomainSettings : Not implemented.");}
+    //GetDomainSettings(domains: System.Collections.Generic.IEnumerable<string>, requestedVersion: Data.ExchangeVersion, domainSettingNames: any): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - GetDomainSettings : Not implemented.");}
     //GetDomainSettings(domain: string, requestedVersion: Data.ExchangeVersion, domainSettingNames: DomainSettingName[]): GetDomainSettingsResponse{
     GetDomainSettings(domain: string, domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponse> {
         var request = new GetDomainSettingsRequest(this, this.url);
@@ -190,9 +190,9 @@ class AutodiscoverService extends ExchangeServiceBase {
         }
         return endpoints;
     }
-    //GetLegacyUserSettings(emailAddress: string): any{ throw new Error("Not implemented.");}
-    //GetLegacyUserSettingsAtUrl(emailAddress: string, url: System.Uri): any{ throw new Error("Not implemented.");}
-    //GetRedirectionUrlFromDnsSrvRecord(domainName: string): System.Uri{ throw new Error("Not implemented.");}
+    //GetLegacyUserSettings(emailAddress: string): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettings : Not implemented.");}
+    //GetLegacyUserSettingsAtUrl(emailAddress: string, url: System.Uri): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettingsAtUrl : Not implemented.");}
+    //GetRedirectionUrlFromDnsSrvRecord(domainName: string): System.Uri{ throw new Error("AutodiscoverService.ts - GetRedirectionUrlFromDnsSrvRecord : Not implemented.");}
     GetRedirectUrl(domainName: string): IPromise<string> /*System.Uri*/ {
         var url: string = StringHelper.Format(AutodiscoverService.AutodiscoverLegacyHttpUrl, "autodiscover." + domainName);
 
@@ -483,7 +483,7 @@ class AutodiscoverService extends ExchangeServiceBase {
 
         return this.GetUserSettingsInternal(userSmtpAddresses, userSettingNames); //calls getsettings
     }
-    //InternalGetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): GetDomainSettingsResponseCollection{ throw new Error("Not implemented.");}
+    //InternalGetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - InternalGetDomainSettings : Not implemented.");}
     private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
         throw new Error("Not implemented.");
     }
@@ -586,8 +586,8 @@ class AutodiscoverService extends ExchangeServiceBase {
 
                 });
     }
-    //PrepareHttpWebRequestForUrl(url: System.Uri): Data.IEwsHttpWebRequest{ throw new Error("Not implemented.");}
-    //ProcessHttpErrorResponse(httpWebResponse: Data.IEwsHttpWebResponse, webException: any): any{ throw new Error("Not implemented.");}
+    //PrepareHttpWebRequestForUrl(url: System.Uri): Data.IEwsHttpWebRequest{ throw new Error("AutodiscoverService.ts - PrepareHttpWebRequestForUrl : Not implemented.");}
+    //ProcessHttpErrorResponse(httpWebResponse: Data.IEwsHttpWebResponse, webException: any): any{ throw new Error("AutodiscoverService.ts - ProcessHttpErrorResponse : Not implemented.");}
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, webException: any): any { /*throw new Error("Not implemented.")*/; }
     TraceResponse(response: XMLHttpRequest, memoryStream: any): any {
         //todo: implement tracing
@@ -778,7 +778,7 @@ class AutodiscoverService extends ExchangeServiceBase {
 
     }
 
-    //TryGetPartnerAccess(targetTenantDomain: string, partnerAccessCredentials: any, targetTenantAutodiscoverUrl: any): boolean{ throw new Error("Not implemented.");}
+    //TryGetPartnerAccess(targetTenantDomain: string, partnerAccessCredentials: any, targetTenantAutodiscoverUrl: any): boolean{ throw new Error("AutodiscoverService.ts - TryGetPartnerAccess : Not implemented.");}
     TryGetRedirectionResponse(response: XMLHttpRequest, redirectUrl: IOutParam<string>): boolean {
         this.TraceMessage(TraceFlags.DebugMessage,
             "cant determine redirectionResponse, 302 redirect code does not work in browser xhr and in Node.js http response");
@@ -816,8 +816,8 @@ class AutodiscoverService extends ExchangeServiceBase {
 
         return false;
     }
-    //TryLastChanceHostRedirection(emailAddress: string, redirectionUrl: string, settings: any): boolean{ throw new Error("Not implemented.");}
-    //WriteLegacyAutodiscoverRequest(emailAddress: string, settings: ConfigurationSettingsBase, writer: any): any{ throw new Error("Not implemented.");}
+    //TryLastChanceHostRedirection(emailAddress: string, redirectionUrl: string, settings: any): boolean{ throw new Error("AutodiscoverService.ts - TryLastChanceHostRedirection : Not implemented.");}
+    //WriteLegacyAutodiscoverRequest(emailAddress: string, settings: ConfigurationSettingsBase, writer: any): any{ throw new Error("AutodiscoverService.ts - WriteLegacyAutodiscoverRequest : Not implemented.");}
 }
 export = AutodiscoverService;
 
@@ -845,9 +845,9 @@ interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
     (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<string> /*System.Uri*/, thisref:AutodiscoverService): IPromise<TGetSettingsResponseCollection>
 }
 //class GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> extends System.MulticastDelegate {
-//    BeginInvoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any, callback: System.AsyncCallback, object: any): System.IAsyncResult { throw new Error("Not implemented."); }
-//    EndInvoke(autodiscoverUrl: any, result: System.IAsyncResult): TGetSettingsResponseCollection { throw new Error("Not implemented."); }
-//    Invoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): TGetSettingsResponseCollection { throw new Error("Not implemented."); }
+//    BeginInvoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any, callback: System.AsyncCallback, object: any): System.IAsyncResult { throw new Error("AutodiscoverService.ts - BeginInvoke : Not implemented."); }
+//    EndInvoke(autodiscoverUrl: any, result: System.IAsyncResult): TGetSettingsResponseCollection { throw new Error("AutodiscoverService.ts - EndInvoke : Not implemented."); }
+//    Invoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): TGetSettingsResponseCollection { throw new Error("AutodiscoverService.ts - Invoke : Not implemented."); }
 //}
 
 

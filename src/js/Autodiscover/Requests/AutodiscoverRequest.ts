@@ -67,8 +67,8 @@ class AutodiscoverRequest {
 
         return null;
     }
-    CreateServiceResponse(): AutodiscoverResponse { throw new Error("Not implemented."); }
-    GetRequestXmlElementName(): string { throw new Error("Not implemented."); }
+    CreateServiceResponse(): AutodiscoverResponse { throw new Error("AutodiscoverRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetRequestXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetRequestXmlElementName : Not implemented."); }
     GetResponseStream(response: any /*IEwsHttpWebResponse*/): any { //System.IO.Stream{
         //string contentEncoding = response.ContentEncoding;
         //Stream responseStream = response.GetResponseStream();
@@ -83,8 +83,8 @@ class AutodiscoverRequest {
         //    return responseStream;
         //}
     }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetWsAddressingActionName(): string { throw new Error("Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetWsAddressingActionName(): string { throw new Error("AutodiscoverRequest.ts - GetWsAddressingActionName : Not implemented."); }
     InternalExecute(): IPromise<AutodiscoverResponse> {
         var writer = new EwsServiceXmlWriter();
         this.WriteSoapRequest(this.url, writer);

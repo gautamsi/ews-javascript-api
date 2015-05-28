@@ -5,8 +5,8 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 class NonIndexableItemDetailsResult {
     Items: NonIndexableItem[];
     FailedMailboxes: FailedSearchMailbox[];
-    LoadFromJson(jsonObject: JsonObject): NonIndexableItemDetailsResult { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItemDetailsResult { throw new Error("Not implemented."); }
+    LoadFromJson(jsonObject: JsonObject): NonIndexableItemDetailsResult { throw new Error("NonIndexableItemDetailsResult.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItemDetailsResult { throw new Error("NonIndexableItemDetailsResult.ts - LoadFromXml : Not implemented."); }
 }
 export = NonIndexableItemDetailsResult;
 //module Microsoft.Exchange.WebServices.Data {

@@ -5,8 +5,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetPasswordExpirationDateResponse extends ServiceResponse {
     PasswordExpirationDate: Date;
     private passwordExpirationDate: Date;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetPasswordExpirationDateResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetPasswordExpirationDateResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetPasswordExpirationDateResponse;
 //module Microsoft.Exchange.WebServices.Data {

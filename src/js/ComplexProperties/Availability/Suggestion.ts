@@ -11,8 +11,8 @@ class Suggestion extends ComplexProperty {
     private date: Date;
     private quality: SuggestionQuality;
     private timeSuggestions: TimeSuggestion[]; /*System.Collections.ObjectModel.Collection<TimeSuggestion>;*/
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Suggestion.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Suggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = Suggestion;
 

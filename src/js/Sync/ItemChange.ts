@@ -8,7 +8,7 @@ import ServiceId = require("../ComplexProperties/ServiceId");
 	IsRead: boolean;
 	ItemId: ItemId;
 	private isRead: boolean;
-	CreateId(): ServiceId{ throw new Error("Not implemented.");}
+	CreateId(): ServiceId{ throw new Error("ItemChange.ts - CreateId : Not implemented.");}
 }
 export = ItemChange;
 

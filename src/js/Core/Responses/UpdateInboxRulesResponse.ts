@@ -5,7 +5,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
  class UpdateInboxRulesResponse extends ServiceResponse {
 	Errors: RuleOperationErrorCollection;
 	private errors: RuleOperationErrorCollection;
-	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("Not implemented.");}
+	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("UpdateInboxRulesResponse.ts - LoadExtraErrorDetailsFromXml : Not implemented.");}
 }
 export = UpdateInboxRulesResponse;
 

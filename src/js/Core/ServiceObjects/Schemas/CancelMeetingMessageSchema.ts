@@ -3,7 +3,7 @@ import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefini
 class CancelMeetingMessageSchema extends ServiceObjectSchema {
     static Body: PropertyDefinition;
     static Instance: CancelMeetingMessageSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("CancelMeetingMessageSchema.ts - RegisterProperties : Not implemented."); }
 }
 export = CancelMeetingMessageSchema;
 

@@ -7,14 +7,14 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     ConversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
     private conversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("ApplyConversationActionRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("ApplyConversationActionRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("ApplyConversationActionRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("ApplyConversationActionRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("ApplyConversationActionRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("ApplyConversationActionRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("ApplyConversationActionRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ApplyConversationActionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = ApplyConversationActionRequest;
 //module Microsoft.Exchange.WebServices.Data {

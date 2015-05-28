@@ -25,11 +25,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	private conditions: RulePredicates;
 	private actions: RuleActions;
 	private exceptions: RulePredicates;
-	InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
-	InternalValidate(): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Not implemented.");}
+	InternalToJson(service: ExchangeService): any{ throw new Error("Rule.ts - InternalToJson : Not implemented.");}
+	InternalValidate(): void{ throw new Error("Rule.ts - InternalValidate : Not implemented.");}
+	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Rule.ts - LoadFromJson : Not implemented.");}
+	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Rule.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Rule.ts - WriteElementsToXml : Not implemented.");}
 }
 export = Rule;
 

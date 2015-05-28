@@ -6,9 +6,9 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class ArchiveItemResponse extends ServiceResponse {
     Item: Item;
     private item: Item;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("ArchiveItemResponse.ts - GetObjectInstance : Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("ArchiveItemResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("ArchiveItemResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = ArchiveItemResponse;
 //module Microsoft.Exchange.WebServices.Data {

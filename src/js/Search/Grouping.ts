@@ -11,8 +11,8 @@ class Grouping { //: ISelfValidate, IJsonSerializable
     private groupOn: PropertyDefinitionBase;
     private aggregateOn: PropertyDefinitionBase;
     private aggregateType: AggregateType;
-    InternalValidate(): any { throw new Error("Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    InternalValidate(): any { throw new Error("Grouping.ts - InternalValidate : Not implemented."); }
+    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("Grouping.ts - WriteToXml : Not implemented."); }
 }
 export = Grouping;
 //module Microsoft.Exchange.WebServices.Data {

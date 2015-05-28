@@ -6,8 +6,8 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 class GetDiscoverySearchConfigurationResponse extends ServiceResponse {
     DiscoverySearchConfigurations: DiscoverySearchConfiguration[];
     private configurations: any[];//System.Collections.Generic.List<T>;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetDiscoverySearchConfigurationResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetDiscoverySearchConfigurationResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 export = GetDiscoverySearchConfigurationResponse;
 //module Microsoft.Exchange.WebServices.Data {

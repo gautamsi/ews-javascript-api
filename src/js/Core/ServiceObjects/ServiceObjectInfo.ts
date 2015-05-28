@@ -184,7 +184,7 @@ class ServiceObjectInfo {
 
     }
 
-    CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("Not implemented."); }
+    CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("ServiceObjectInfo.ts - CreateItemFromItemClass : Not implemented."); }
 }
 
 

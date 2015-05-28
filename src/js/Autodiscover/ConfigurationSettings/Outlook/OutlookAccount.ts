@@ -13,8 +13,8 @@ class OutlookAccount {
     private protocols:any;// System.Collections.Generic.Dictionary<OutlookProtocolType, OutlookProtocol>;
     private alternateMailboxes: AlternateMailboxCollection;
     ConvertToUserSettings(requestedSettings: UserSettingName[], // System.Collections.Generic.List<Microsoft.Exchange.WebServices.Autodiscover.UserSettingName>,
-        response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
+        response: GetUserSettingsResponse): any { throw new Error("OutlookAccount.ts - response: GetUserSettingsResponse): any { throw new Error : Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookAccount.ts - LoadFromXml : Not implemented."); }
 }
 export = OutlookAccount;
 

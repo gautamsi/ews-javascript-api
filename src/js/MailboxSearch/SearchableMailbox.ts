@@ -8,8 +8,8 @@ class SearchableMailbox {
     DisplayName: string;
     IsMembershipGroup: boolean;
     ReferenceId: string;
-    LoadFromJson(jsonObject: JsonObject): SearchableMailbox { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): SearchableMailbox { throw new Error("Not implemented."); }
+    LoadFromJson(jsonObject: JsonObject): SearchableMailbox { throw new Error("SearchableMailbox.ts - LoadFromJson : Not implemented."); }
+    LoadFromXml(reader: EwsServiceXmlReader): SearchableMailbox { throw new Error("SearchableMailbox.ts - LoadFromXml : Not implemented."); }
 }
 export = SearchableMailbox;
 //module Microsoft.Exchange.WebServices.Data {

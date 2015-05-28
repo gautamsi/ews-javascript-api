@@ -15,7 +15,7 @@ class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
             
         throw new Error("ByteArrayPropertyDefinition: incorrect call of ToString(), undefined or null passed");
     }
-    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
+    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ByteArrayPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
 }
 export = ByteArrayPropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {

@@ -50,7 +50,7 @@ class Folder extends ServiceObject {
     get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._propGet(FolderSchema.ArchiveTag); }
     set ArchiveTag(value) { this.PropertyBag._propSet(FolderSchema.ArchiveTag, value); }
     get WellKnownFolderName(): WellKnownFolderName { return <WellKnownFolderName>this.PropertyBag._propGet(FolderSchema.WellKnownFolderName); }
-    //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Not implemented.");}
+    //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
     
     
     constructor(service: ExchangeService) {
@@ -60,10 +60,10 @@ class Folder extends ServiceObject {
     BindWithId(service: ExchangeService, id: FolderId, propertySet?: PropertySet): IPromise<Folder> {
         return service.BindToFolderAs<Folder>(id, propertySet);
     }
-    //Bind(service: ExchangeService, name: WellKnownFolderName): Folder{ throw new Error("Not implemented.");}
-    BindWithName(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Folder { throw new Error("Not implemented."); }
-    //Copy(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Not implemented."); }
-    //Copy(destinationFolderId: FolderId): Folder { throw new Error("Not implemented."); }
+    //Bind(service: ExchangeService, name: WellKnownFolderName): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
+    BindWithName(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Folder { throw new Error("Folder.ts - BindWithName : Not implemented."); }
+    //Copy(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
+    //Copy(destinationFolderId: FolderId): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
     Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): Folder {
         this.ThrowIfThisIsNew();
 
@@ -78,37 +78,37 @@ class Folder extends ServiceObject {
         EwsLogging.Assert(true, "Folder.Copy", "unknown paramete type");
         throw new Error("unknow parameter type. this should nobe  reached");
     }
-    Delete(deleteMode: DeleteMode): any { throw new Error("Not implemented."); }
-    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): any { throw new Error("Not implemented."); }
-    FindFolders(view: FolderView): FindFoldersResults { throw new Error("Not implemented."); }
-    //FindFolders(searchFilter: SearchFilter, view: FolderView): FindFoldersResults { throw new Error("Not implemented."); }
-    FindItems<TItem extends Item>(view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Not implemented."); }
-    //FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Not implemented."); }
-    //FindItems(view: ItemView): FindItemsResults<TItem> { throw new Error("Not implemented."); }
-    //FindItems(queryString: string, view: ItemView): FindItemsResults<TItem> { throw new Error("Not implemented."); }
-    //FindItems(searchFilter: SearchFilter, view: ItemView): FindItemsResults<TItem> { throw new Error("Not implemented."); }
-    //FindItems(queryString: string, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Not implemented."); }
-    GetChangeXmlElementName(): string { throw new Error("Not implemented."); }
-    GetDeleteFieldXmlElementName(): string { throw new Error("Not implemented."); }
+    Delete(deleteMode: DeleteMode): any { throw new Error("Folder.ts - Delete : Not implemented."); }
+    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): any { throw new Error("Folder.ts - Empty : Not implemented."); }
+    FindFolders(view: FolderView): FindFoldersResults { throw new Error("Folder.ts - FindFolders : Not implemented."); }
+    //FindFolders(searchFilter: SearchFilter, view: FolderView): FindFoldersResults { throw new Error("Folder.ts - FindFolders : Not implemented."); }
+    FindItems<TItem extends Item>(view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems<TItem extends Item> : Not implemented."); }
+    //FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    //FindItems(view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    //FindItems(queryString: string, view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    //FindItems(searchFilter: SearchFilter, view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    //FindItems(queryString: string, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    GetChangeXmlElementName(): string { throw new Error("Folder.ts - GetChangeXmlElementName : Not implemented."); }
+    GetDeleteFieldXmlElementName(): string { throw new Error("Folder.ts - GetDeleteFieldXmlElementName : Not implemented."); }
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }
-    GetIdPropertyDefinition(): PropertyDefinition { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
+    GetIdPropertyDefinition(): PropertyDefinition { throw new Error("Folder.ts - GetIdPropertyDefinition : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Folder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetSchema(): ServiceObjectSchema { return FolderSchema.Instance;}
-    GetSetFieldXmlElementName(): string { throw new Error("Not implemented."); }
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Not implemented."); }
-    //InternalFindItems(queryString: string, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    InternalFindItems<TResponse extends ServiceResponse>(searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Not implemented."); }
-    InternalLoad(propertySet: PropertySet): any { throw new Error("Not implemented."); }
-    MarkAllItemsAsRead(suppressReadReceipts: boolean): any { throw new Error("Not implemented."); }
-    MarkAllItemsAsUnread(suppressReadReceipts: boolean): any { throw new Error("Not implemented."); }
-    //Move(destinationFolderId: FolderId): Folder { throw new Error("Not implemented."); }
-    Move(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Not implemented."); }
-    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean { throw new Error("Not implemented."); }
-    //Save(parentFolderName: WellKnownFolderName): any { throw new Error("Not implemented."); }
-    Save(parentFolderId: FolderId): any { throw new Error("Not implemented."); }
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Not implemented."); }
-    Update(): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
+    GetSetFieldXmlElementName(): string { throw new Error("Folder.ts - GetSetFieldXmlElementName : Not implemented."); }
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Folder.ts - InternalDelete : Not implemented."); }
+    //InternalFindItems(queryString: string, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Folder.ts - InternalFindItems : Not implemented."); }
+    InternalFindItems<TResponse extends ServiceResponse>(searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Folder.ts - InternalFindItems<TResponse extends ServiceResponse> : Not implemented."); }
+    InternalLoad(propertySet: PropertySet): any { throw new Error("Folder.ts - InternalLoad : Not implemented."); }
+    MarkAllItemsAsRead(suppressReadReceipts: boolean): any { throw new Error("Folder.ts - MarkAllItemsAsRead : Not implemented."); }
+    MarkAllItemsAsUnread(suppressReadReceipts: boolean): any { throw new Error("Folder.ts - MarkAllItemsAsUnread : Not implemented."); }
+    //Move(destinationFolderId: FolderId): Folder { throw new Error("Folder.ts - Move : Not implemented."); }
+    Move(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Folder.ts - Move : Not implemented."); }
+    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean { throw new Error("Folder.ts - RemoveExtendedProperty : Not implemented."); }
+    //Save(parentFolderName: WellKnownFolderName): any { throw new Error("Folder.ts - Save : Not implemented."); }
+    Save(parentFolderId: FolderId): any { throw new Error("Folder.ts - Save : Not implemented."); }
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Folder.ts - SetExtendedProperty : Not implemented."); }
+    Update(): any { throw new Error("Folder.ts - Update : Not implemented."); }
+    Validate(): any { throw new Error("Folder.ts - Validate : Not implemented."); }
 
     //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
     IsFolderInstance(): boolean { return true; }//only folder instance returns true.

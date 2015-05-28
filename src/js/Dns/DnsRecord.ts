@@ -7,7 +7,7 @@ import DnsRecordHeader = require("./DnsRecordHeader");
 	TimeToLive: any /*System.TimeSpan*/;
 	private name: string;
 	private timeToLive: number;
-	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("Not implemented.");}
+	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("DnsRecord.ts - Load : Not implemented.");}
 }
 export = DnsRecord;
 

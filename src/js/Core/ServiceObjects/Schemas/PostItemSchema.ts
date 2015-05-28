@@ -10,7 +10,7 @@ class PostItemSchema extends ItemSchema {
     static References: PropertyDefinition;
     static Sender: PropertyDefinition;
     static Instance: PostItemSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("PostItemSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module PostItemSchema {

@@ -19,13 +19,13 @@ class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     private timeWindow: TimeWindow;
     private requestedData: AvailabilityData;
     private options: AvailabilityOptions;
-    Execute(): GetUserAvailabilityResults { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): GetUserAvailabilityResults { throw new Error("GetUserAvailabilityRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetUserAvailabilityRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("GetUserAvailabilityRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("GetUserAvailabilityRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetUserAvailabilityRequest.ts - ParseResponse : Not implemented."); }
+    Validate(): any { throw new Error("GetUserAvailabilityRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserAvailabilityRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = GetUserAvailabilityRequest;
 

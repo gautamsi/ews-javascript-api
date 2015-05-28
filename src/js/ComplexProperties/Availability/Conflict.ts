@@ -17,8 +17,8 @@ class Conflict extends ComplexProperty {
     private numberOfMembersWithConflict: number;
     private numberOfMembersWithNoData: number;
     private freeBusyStatus: LegacyFreeBusyStatus;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Conflict.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Conflict.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = Conflict;
 

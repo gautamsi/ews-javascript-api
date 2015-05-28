@@ -5,8 +5,8 @@ import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
     class AcceptMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {
         Tentative: boolean;
         private tentative: boolean;
-        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-        GetXmlElementNameOverride(): string { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("AcceptMeetingInvitationMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+        GetXmlElementNameOverride(): string { throw new Error("AcceptMeetingInvitationMessage.ts - GetXmlElementNameOverride : Not implemented."); }
 }
 
 export= AcceptMeetingInvitationMessage;

@@ -8,18 +8,18 @@ import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
  class ItemAttachment<TItem extends Item> extends Attachment {
     Item: Item;
     private item: Item;
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    ItemChanged(serviceObject: ServiceObject): any { throw new Error("Not implemented."); }
-    //Load(additionalProperties: any): any { throw new Error("Not implemented."); }
-    //Load(additionalProperties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-    //Load(bodyType: BodyType, additionalProperties: any): any { throw new Error("Not implemented."); }
-    //Load(bodyType: BodyType, additionalProperties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("Not implemented."); }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { throw new Error("Not implemented."); }
-    //Validate(attachmentIndex: number): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    GetXmlElementName(): string { throw new Error("ItemAttachment.ts - GetXmlElementName : Not implemented."); }
+    InternalToJson(service: ExchangeService): any { throw new Error("ItemAttachment.ts - InternalToJson : Not implemented."); }
+    ItemChanged(serviceObject: ServiceObject): any { throw new Error("ItemAttachment.ts - ItemChanged : Not implemented."); }
+    //Load(additionalProperties: any): any { throw new Error("ItemAttachment.ts - Load : Not implemented."); }
+    //Load(additionalProperties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("ItemAttachment.ts - Load : Not implemented."); }
+    //Load(bodyType: BodyType, additionalProperties: any): any { throw new Error("ItemAttachment.ts - Load : Not implemented."); }
+    //Load(bodyType: BodyType, additionalProperties: System.Collections.Generic.IEnumerable<T>): any { throw new Error("ItemAttachment.ts - Load : Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("ItemAttachment.ts - LoadFromJson : Not implemented."); }
+    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ItemAttachment.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { throw new Error("ItemAttachment.ts - TryReadElementFromXmlToPatch : Not implemented."); }
+    //Validate(attachmentIndex: number): any { throw new Error("ItemAttachment.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemAttachment.ts - WriteElementsToXml : Not implemented."); }
 }
 
  export = ItemAttachment;

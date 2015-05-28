@@ -6,8 +6,8 @@ import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
 
     class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCancellation> {
         Body: MessageBody;
-        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-        GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("CancelMeetingMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+        GetSchema(): ServiceObjectSchema { throw new Error("CancelMeetingMessage.ts - GetSchema : Not implemented."); }
 }
 
 export = CancelMeetingMessage;

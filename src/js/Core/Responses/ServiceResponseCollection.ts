@@ -20,7 +20,7 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
 
         this.responses.push(response);
     }
-    GetEnumerator(): any { throw new Error("Not implemented."); }
+    GetEnumerator(): any { throw new Error("ServiceResponseCollection.ts - GetEnumerator : Not implemented."); }
     __thisIndexer(index: number) {
         if (index < 0 || index >= this.Count) {
             throw new Error("index out of range: " + index);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);

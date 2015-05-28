@@ -2,9 +2,9 @@ import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 import RuleError = require("./RuleError");
 			
  class RuleErrorCollection extends ComplexPropertyCollection<RuleError> {
-	CreateComplexProperty(xmlElementName: string): RuleError{ throw new Error("Not implemented.");}
-	CreateDefaultComplexProperty(): RuleError{ throw new Error("Not implemented.");}
-	GetCollectionItemXmlElementName(ruleValidationError: RuleError): string{ throw new Error("Not implemented.");}
+	CreateComplexProperty(xmlElementName: string): RuleError{ throw new Error("RuleErrorCollection.ts - CreateComplexProperty : Not implemented.");}
+	CreateDefaultComplexProperty(): RuleError{ throw new Error("RuleErrorCollection.ts - CreateDefaultComplexProperty : Not implemented.");}
+	GetCollectionItemXmlElementName(ruleValidationError: RuleError): string{ throw new Error("RuleErrorCollection.ts - GetCollectionItemXmlElementName : Not implemented.");}
 }
 export = RuleErrorCollection;
 

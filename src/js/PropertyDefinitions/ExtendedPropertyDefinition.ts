@@ -47,7 +47,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         this.name = name;
     }
 
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("ExtendedPropertyDefinition.ts - AddJsonProperties : Not implemented."); }
     Equals(obj: any): boolean {
         var propertyDefinition = <ExtendedPropertyDefinition>obj;
         return ExtendedPropertyDefinition.IsEqualTo(propertyDefinition, this);
@@ -58,8 +58,8 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
             ? StringHelper.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
             : "";
     }
-    GetHashCode(): number { throw new Error("Not implemented."); }
-    //GetJsonType(): string { throw new Error("Not implemented."); }
+    GetHashCode(): number { throw new Error("ExtendedPropertyDefinition.ts - GetHashCode : Not implemented."); }
+    //GetJsonType(): string { throw new Error("ExtendedPropertyDefinition.ts - GetJsonType : Not implemented."); }
     GetPrintableName(): string {
         debugger;
         var sb = "";
@@ -86,7 +86,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
             extPropDef1.PropertySet == extPropDef2.PropertySet &&
             extPropDef1.propertySetId == extPropDef2.propertySetId);
     }
-    //LoadFromJson(jsonObject: JsonObject): any { throw new Error("Not implemented."); }
+    //LoadFromJson(jsonObject: JsonObject): any { throw new Error("ExtendedPropertyDefinition.ts - LoadFromJson : Not implemented."); }
     LoadFromXml(reader: EwsServiceXmlReader): void {
         var attributeValue: string;
 

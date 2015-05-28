@@ -12,7 +12,7 @@ import DnsRecordHeader = require("./DnsRecordHeader");
 	private priority: number;
 	private weight: number;
 	private port: number;
-	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("Not implemented.");}
+	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("DnsSrvRecord.ts - Load : Not implemented.");}
 }
 export = DnsSrvRecord;
 

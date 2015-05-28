@@ -9,11 +9,11 @@ class ConfigurationSettingsBase {
     RedirectTarget: string;
     Error: AutodiscoverError;
     private error: AutodiscoverError;
-    ConvertSettings(smtpAddress: string, requestedSettings: UserSettingName[]): GetUserSettingsResponse { throw new Error("Not implemented."); }
-    GetNamespace(): string { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
-    MakeRedirectionResponse(redirectUrl: string /*System.Uri*/): any { throw new Error("Not implemented."); }
-    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("Not implemented."); }
+    ConvertSettings(smtpAddress: string, requestedSettings: UserSettingName[]): GetUserSettingsResponse { throw new Error("ConfigurationSettingsBase.ts - ConvertSettings : Not implemented."); }
+    GetNamespace(): string { throw new Error("ConfigurationSettingsBase.ts - GetNamespace : Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): any { throw new Error("ConfigurationSettingsBase.ts - LoadFromXml : Not implemented."); }
+    MakeRedirectionResponse(redirectUrl: string /*System.Uri*/): any { throw new Error("ConfigurationSettingsBase.ts - MakeRedirectionResponse : Not implemented."); }
+    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("ConfigurationSettingsBase.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
 export = ConfigurationSettingsBase;
 

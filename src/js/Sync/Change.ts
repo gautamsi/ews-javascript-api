@@ -9,7 +9,7 @@ import ServiceId = require("../ComplexProperties/ServiceId");
 	private changeType: ChangeType;
 	private serviceObject: ServiceObject;
 	private id: ServiceId;
-	CreateId(): ServiceId{ throw new Error("Not implemented.");}
+	CreateId(): ServiceId{ throw new Error("Change.ts - CreateId : Not implemented.");}
 }
 export = Change;
 

@@ -13,8 +13,8 @@ class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
         super(GroupMemberPropertyDefinition.FieldUri);
         this.Key = key;
     }
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    //GetJsonType(): string { throw new Error("Not implemented."); }
+    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("GroupMemberPropertyDefinition.ts - AddJsonProperties : Not implemented."); }
+    //GetJsonType(): string { throw new Error("GroupMemberPropertyDefinition.ts - GetJsonType : Not implemented."); }
 
     GetPrintableName(): string { return StringHelper.Format("{0}:{1}", GroupMemberPropertyDefinition.FieldUri, this.Key); }
     GetXmlElementName(): string { return XmlElementNames.IndexedFieldURI; }

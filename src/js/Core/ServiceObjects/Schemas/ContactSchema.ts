@@ -85,7 +85,7 @@ class ContactSchema extends ItemSchema {
     static OtherAddressCountryOrRegion: IndexedPropertyDefinition;
     static OtherAddressPostalCode: IndexedPropertyDefinition;
     static Instance: ContactSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("ContactSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 module ContactSchema {

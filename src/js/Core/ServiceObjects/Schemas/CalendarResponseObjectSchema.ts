@@ -1,7 +1,7 @@
 import ServiceObjectSchema = require("./ServiceObjectSchema");
 class CalendarResponseObjectSchema extends ServiceObjectSchema {
     static Instance: CalendarResponseObjectSchema;
-    RegisterProperties(): any { throw new Error("Not implemented."); }
+    RegisterProperties(): any { throw new Error("CalendarResponseObjectSchema.ts - RegisterProperties : Not implemented."); }
 }
 
 export = CalendarResponseObjectSchema;

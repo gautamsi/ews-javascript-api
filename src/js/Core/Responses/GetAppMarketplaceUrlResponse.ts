@@ -4,7 +4,7 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
  class GetAppMarketplaceUrlResponse extends ServiceResponse {
 	AppMarketplaceUrl: string;
 	private appMarketplaceUrl: string;
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetAppMarketplaceUrlResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
 export = GetAppMarketplaceUrlResponse;
 

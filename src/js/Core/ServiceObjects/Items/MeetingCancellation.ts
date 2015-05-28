@@ -6,11 +6,11 @@ class MeetingCancellation extends MeetingMessage {
     //////Location: string;
     //////Recurrence: Recurrence;
     //////EnhancedLocation: EnhancedLocation;
-    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingCancellation { throw new Error("Not implemented."); }
-    //////Bind(service: ExchangeService, id: ItemId): MeetingCancellation { throw new Error("Not implemented."); }
-    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    //////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    //////RemoveMeetingFromCalendar(): CalendarActionResults { throw new Error("Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingCancellation { throw new Error("MeetingCancellation.ts - Bind : Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId): MeetingCancellation { throw new Error("MeetingCancellation.ts - Bind : Not implemented."); }
+    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingCancellation.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    //////GetSchema(): ServiceObjectSchema { throw new Error("MeetingCancellation.ts - GetSchema : Not implemented."); }
+    //////RemoveMeetingFromCalendar(): CalendarActionResults { throw new Error("MeetingCancellation.ts - RemoveMeetingFromCalendar : Not implemented."); }
 }
 export = MeetingCancellation;
 

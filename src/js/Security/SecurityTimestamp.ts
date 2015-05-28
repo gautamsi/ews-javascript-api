@@ -15,12 +15,12 @@ class SecurityTimestamp {
 	private expiryTimeUtc: Date;
 	static DefaultTimestampValidityDuration: any /*System.TimeSpan*/;
 	static DefaultTimeToLive: any /*System.TimeSpan*/;
-	GetCreationTimeChars(): any[] /*System.Char[]*/ { throw new Error("Not implemented."); }
-	GetDigest(): any /*System.Byte[]*/ { throw new Error("Not implemented."); }
-	GetExpiryTimeChars(): any[] /*System.Char[]*/ { throw new Error("Not implemented."); }
-	ToChars(utcTime: Date): any[] /*System.Char[]*/ { throw new Error("Not implemented."); }
-	//ToChars(n: number, buffer: any[] /*System.Char[]*/, offset: number /*System.Int32&*/, count: number): void{ throw new Error("Not implemented.");}
-	ToString(): string { throw new Error("Not implemented."); }
+	GetCreationTimeChars(): any[] /*System.Char[]*/ { throw new Error("SecurityTimestamp.ts - GetCreationTimeChars : Not implemented."); }
+	GetDigest(): any /*System.Byte[]*/ { throw new Error("SecurityTimestamp.ts - GetDigest : Not implemented."); }
+	GetExpiryTimeChars(): any[] /*System.Char[]*/ { throw new Error("SecurityTimestamp.ts - GetExpiryTimeChars : Not implemented."); }
+	ToChars(utcTime: Date): any[] /*System.Char[]*/ { throw new Error("SecurityTimestamp.ts - ToChars : Not implemented."); }
+	//ToChars(n: number, buffer: any[] /*System.Char[]*/, offset: number /*System.Int32&*/, count: number): void{ throw new Error("SecurityTimestamp.ts - ToChars : Not implemented.");}
+	ToString(): string { throw new Error("SecurityTimestamp.ts - ToString : Not implemented."); }
 }
 export = SecurityTimestamp;
 

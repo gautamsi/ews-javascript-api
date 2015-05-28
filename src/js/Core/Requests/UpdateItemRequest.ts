@@ -21,15 +21,15 @@ class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> 
     private conflictResolutionMode: ConflictResolutionMode;
     private messageDisposition: MessageDisposition;
     private sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): UpdateItemResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): UpdateItemResponse { throw new Error("UpdateItemRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetExpectedResponseMessageCount(): number { throw new Error("UpdateItemRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("UpdateItemRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseMessageXmlElementName(): string { throw new Error("UpdateItemRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("UpdateItemRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("UpdateItemRequest.ts - GetXmlElementName : Not implemented."); }
+    Validate(): any { throw new Error("UpdateItemRequest.ts - Validate : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateItemRequest.ts - WriteAttributesToXml : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateItemRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 export = UpdateItemRequest;
 //module Microsoft.Exchange.WebServices.Data {

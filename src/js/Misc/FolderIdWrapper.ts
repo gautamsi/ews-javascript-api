@@ -17,7 +17,7 @@ class FolderIdWrapper extends AbstractFolderIdWrapper {
         this.folderId = folderId;
     }
 
-    //InternalToJson(service: ExchangeService): any{ throw new Error("Not implemented.");}
+    //InternalToJson(service: ExchangeService): any{ throw new Error("FolderIdWrapper.ts - InternalToJson : Not implemented.");}
     Validate(version: ExchangeVersion): void { this.folderId.Validate(version); }
     WriteToXml(writer: EwsServiceXmlWriter): void { this.folderId.WriteToXml(writer); }
 }

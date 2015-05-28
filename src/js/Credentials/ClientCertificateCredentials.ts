@@ -2,7 +2,7 @@ import ExchangeCredentials = require("./ExchangeCredentials");
 class ClientCertificateCredentials extends ExchangeCredentials {
     ClientCertificates: /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/any;
     private clientCertificates: /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/any;
-    PrepareWebRequest(request: /*IEwsHttpWebRequest*/any): any { throw new Error("Not implemented."); }
+    PrepareWebRequest(request: /*IEwsHttpWebRequest*/any): any { throw new Error("ClientCertificateCredentials.ts - PrepareWebRequest : Not implemented."); }
 }
 export = ClientCertificateCredentials;
 //module Microsoft.Exchange.WebServices.Data {

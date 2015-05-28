@@ -14,9 +14,9 @@ import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
         Subject: string;
         BodyPrefix: MessageBody;
         private responseType: ResponseMessageType;
-        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-        GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-        GetXmlElementNameOverride(): string { throw new Error("Not implemented."); }
+        GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("ResponseMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+        GetSchema(): ServiceObjectSchema { throw new Error("ResponseMessage.ts - GetSchema : Not implemented."); }
+        GetXmlElementNameOverride(): string { throw new Error("ResponseMessage.ts - GetXmlElementNameOverride : Not implemented."); }
     }
 
 

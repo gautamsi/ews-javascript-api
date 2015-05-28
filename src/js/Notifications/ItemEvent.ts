@@ -9,8 +9,8 @@ import ExchangeService = require("../Core/ExchangeService");
 	OldItemId: ItemId;
 	private itemId: ItemId;
 	private oldItemId: ItemId;
-	InternalLoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("Not implemented.");}
-	LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): void{ throw new Error("Not implemented.");}
+	InternalLoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("ItemEvent.ts - InternalLoadFromXml : Not implemented.");}
+	LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): void{ throw new Error("ItemEvent.ts - LoadFromJson : Not implemented.");}
 }
 export = ItemEvent;
 

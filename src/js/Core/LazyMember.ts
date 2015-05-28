@@ -32,8 +32,8 @@ interface InitializeLazyMember<T> {
     (): T;
 
     //export class InitializeLazyMember<T> extends System.MulticastDelegate {
-    //    BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): T{ throw new Error("Not implemented.");}
-    //    Invoke(): T{ throw new Error("Not implemented.");}
+    //    BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("LazyMember.ts - BeginInvoke : Not implemented.");}
+    //    EndInvoke(result: System.IAsyncResult): T{ throw new Error("LazyMember.ts - EndInvoke : Not implemented.");}
+    //    Invoke(): T{ throw new Error("LazyMember.ts - Invoke : Not implemented.");}
     //}
 }

@@ -11,13 +11,13 @@ class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
     private mailboxSmtpAddress: string;
     private removeOutlookRuleBlob: boolean;
     private inboxRuleOperations: RuleOperation[];//System.Collections.Generic.IEnumerable<RuleOperation>;
-    Execute(): UpdateInboxRulesResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): UpdateInboxRulesResponse { throw new Error("UpdateInboxRulesRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("UpdateInboxRulesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("UpdateInboxRulesRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("UpdateInboxRulesRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("UpdateInboxRulesRequest.ts - ParseResponse : Not implemented."); }
+    Validate(): any { throw new Error("UpdateInboxRulesRequest.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateInboxRulesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
 export = UpdateInboxRulesRequest;

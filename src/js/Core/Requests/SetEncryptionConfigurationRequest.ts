@@ -12,12 +12,12 @@ class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     private emailText: string;
     private portalText: string;
     private disclaimerText: string;
-    Execute(): ServiceResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+    Execute(): ServiceResponse { throw new Error("SetEncryptionConfigurationRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SetEncryptionConfigurationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("SetEncryptionConfigurationRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("SetEncryptionConfigurationRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("SetEncryptionConfigurationRequest.ts - ParseResponse : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
 export = SetEncryptionConfigurationRequest;
