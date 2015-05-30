@@ -8,7 +8,7 @@ import MapiPropertyType = require("../Enumerations/MapiPropertyType");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import XmlAttributeNames = require("../Core/XmlAttributeNames");
 
-import {StringHelper} from "../ExtensionMethods";
+import {StringHelper, Convert} from "../ExtensionMethods";
 
 import PropertyDefinitionBase = require("./PropertyDefinitionBase");
 
@@ -87,7 +87,35 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
             extPropDef1.propertySetId == extPropDef2.propertySetId);
     }
     //LoadFromJson(jsonObject: JsonObject): any { throw new Error("ExtendedPropertyDefinition.ts - LoadFromJson : Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): void {
+    LoadPropertyValueFromXmlJsObject(jsObject: any): void {
+
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.DistinguishedPropertySetId:
+                    this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet> +(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
+                    break;
+                case XmlAttributeNames.PropertySetId:
+                    debugger;
+                    this.propertySetId = jsObject[key];// new Guid(jsObject.ReadAsString(key));
+                    break;
+                case XmlAttributeNames.PropertyTag:
+                    this.tag = Convert.toNumber(jsObject[key]);//Convert.ToUInt16(jsObject.ReadAsString(key), 16);
+                    break;
+                case XmlAttributeNames.PropertyName:
+                    this.name = jsObject[key];//jsObject.ReadAsString(key);
+                    break;
+                case XmlAttributeNames.PropertyId:
+                    this.id = Convert.toInt(jsObject[key]);//jsObject.ReadAsInt(key);
+                    break;
+                case XmlAttributeNames.PropertyType:
+                    this.mapiType = isNaN(jsObject[key]) ? MapiPropertyType[jsObject[key]] : <any><MapiPropertyType> +(jsObject[key]);// jsObject.ReadEnumValue<MapiPropertyType>(key);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    private LoadFromXml(reader: EwsServiceXmlReader): void {
         var attributeValue: string;
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.DistinguishedPropertySetId);

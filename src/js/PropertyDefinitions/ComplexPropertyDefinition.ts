@@ -5,9 +5,7 @@ import {EwsLogging} from "../Core/EwsLogging";
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-interface CreateComplexPropertyDelegate<TComplexProperty extends ComplexProperty> {
-    (): TComplexProperty;
-}
+import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
 
 import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
 class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {

@@ -11,7 +11,10 @@ import Folder = require("./Folder");
 import TasksFolder = require("./ContactsFolder");
 import SearchFolder = require("./SearchFolder");
 
-
+/**
+ * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc. 
+ * this to is to avoid circular referencing with requirejs/commonjs/nodejs
+ */
 class FolderInfo {
 
     get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<any> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;

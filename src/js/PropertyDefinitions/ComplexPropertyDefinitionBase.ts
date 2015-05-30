@@ -21,7 +21,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         super(propertyName, xmlElementName, version, uri, flags);
     }
 
-    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("ComplexPropertyDefinitionBase.ts - CreatePropertyInstance : Not implemented."); }
+    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("ComplexPropertyDefinitionBase.ts - CreatePropertyInstance : Abstract method - Not implemented."); }
     GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean {
         complexProperty.outValue = null;
         if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion)) {
@@ -61,6 +61,14 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.XmlElementName);
     }
     //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WriteJsonValue : Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WritePropertyValueToXml : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+
+        var complexProperty: ComplexProperty = <ComplexProperty> propertyBag._propGet(this);
+        debugger;
+        if (complexProperty != null || typeof complexProperty !== 'undefined') {
+            complexProperty.WriteToXml(writer, this.XmlElementName);
+        } 
+        //throw new Error("ComplexPropertyDefinitionBase.ts - WritePropertyValueToXml : Not implemented."); 
+    }
 }
 export = ComplexPropertyDefinitionBase

@@ -1,4 +1,5 @@
 ﻿return
+cd D:\dr\lgh\ews-javascript-api\src\js
 
 $content = Get-Content ..\..\errors.txt
 $lines = $content | ?{$_.contains("TS2304")}
@@ -18,6 +19,7 @@ $lines |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
         }
     }
 }
+$fixes
 #| ?{$_.filetofix.contains("AddressEntityCollection")}
 $fixes  | group filetofix |  %{ ############## - use this to fix TS2304
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
@@ -290,3 +292,39 @@ $ts | %{$_.fullname.replace(".ts",".js") | Test-Path}
 $ts | %{$_.fullname.replace(".ts",".js") | Test-Path} | ?{!$_}
 $ts | %{$_.fullname.replace(".ts",".js") | del -Confirm}
 $ts | %{$_.fullname.replace(".ts",".js") | del}
+
+
+
+
+
+
+
+
+
+
+
+
+script to fix throw not implemented error ro something traceable.
+return;
+$fs = dir *.ts -Recurse | Select-String -pattern "{ throw new Error(`"Not implemented.`");" -SimpleMatch | %{$_.path} | select -Unique
+
+foreach($f in $fs){
+    $c = Get-Content $f
+    $fn = ([System.IO.FileInfo]$f).Name
+    $fp = $f.Replace("\src\","\test\src\")
+    $path = ([System.IO.FileInfo]$fp).DirectoryName
+    mkdir $path -ErrorAction SilentlyContinue
+
+    if($c){
+        $c.Where({$_.contains("{ throw new Error(`"Not implemented.`");")}) | %{
+            $l = $_.replace("/","").trim();
+            Write-Verbose ("$fn - " + $l.Substring(0,$l.indexof("("))) -Verbose; 
+            $c[$c.IndexOf($_)] = $_.replace("{ throw new Error(`"Not implemented.`");", "{ throw new Error(`"$fn - " + $l.Substring(0,$l.indexof("(")) + " : Not implemented.`");") 
+        }
+        #$c
+        #$c | Set-Content $fp -Force
+        $c | Set-Content $f -Force
+        Start-Sleep -Milliseconds 200
+        Write-Verbose $fp -Verbose
+    }
+}

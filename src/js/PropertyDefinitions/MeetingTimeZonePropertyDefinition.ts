@@ -9,7 +9,14 @@ class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
     WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        var value: MeetingTimeZone = <MeetingTimeZone> propertyBag._propGet(this);
+
+        if (value != null || typeof value !== 'undefined') {
+            value.WriteToXml(writer, this.XmlElementName);
+        }
+        //throw new Error("MeetingTimeZonePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
+    }
 }
 export = MeetingTimeZonePropertyDefinition;
 

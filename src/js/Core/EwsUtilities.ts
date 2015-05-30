@@ -20,7 +20,7 @@ import ISelfValidate = require("../Interfaces/ISelfValidate");
 
 import ItemAttachment = require("../ComplexProperties/ItemAttachment");
 
-import {StringHelper} from "../ExtensionMethods";
+import {StringHelper, Convert} from "../ExtensionMethods";
 
 class EwsUtilities {
 
@@ -81,11 +81,15 @@ class EwsUtilities {
     //private static enumToSchemaDictionaries: LazyMember<T>;
     //private static typeNameToShortNameMap: LazyMember<T>;
     
-    static BoolToXSBool(value: boolean): string { throw new Error("EwsUtilities.ts - static BoolToXSBool : Not implemented."); }
+    static BoolToXSBool(value: boolean): string {
+        var boolvalue = Convert.toBool(value)
+        return value ? EwsUtilities.XSTrue : EwsUtilities.XSFalse;
+        //throw new Error("EwsUtilities.ts - static BoolToXSBool : Not implemented.");
+    }
     //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumDict : Not implemented.");}
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
     static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
-        var enumDelegate = (value:any) => { return ExchangeVersion.Exchange2007_SP1 };
+        var enumDelegate = (value: any) => { return ExchangeVersion.Exchange2007_SP1 };
         switch (enumType) {
             //TODO: fix numbering to named enum value if possible
             case EnumToExchangeVersionMappingHelper.WellKnownFolderName:
@@ -107,7 +111,7 @@ class EwsUtilities {
                 enumDelegate = (value) => {
                     if (value <= 1) //<= ItemTraversal.SoftDeleted
                         return ExchangeVersion.Exchange2007_SP1;
-                    else if(value ==2) // === Associated
+                    else if (value == 2) // === Associated
                         return ExchangeVersion.Exchange2010;
 
                     return ExchangeVersion.Exchange_Version_Not_Updated;
@@ -166,12 +170,11 @@ class EwsUtilities {
     }
     private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
         var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
-        if (delegate && typeof delegate === 'function')
-        {
+        if (delegate && typeof delegate === 'function') {
             try {
                 return delegate(enumValue);
             }
-            catch(ex){}
+            catch (ex) { }
         }
 
         return ExchangeVersion.Exchange2007_SP1;
@@ -185,12 +188,12 @@ class EwsUtilities {
         //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
         debugger;
 
-//        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
-//
-//        if (creationDelegate) {
-//            return creationDelegate(service);
-//        }
-//        else return null;
+        //        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+        //
+        //        if (creationDelegate) {
+        //            return creationDelegate(service);
+        //        }
+        //        else return null;
 
         //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
         //if (itemClass) {
@@ -215,7 +218,7 @@ class EwsUtilities {
     static DateTimeToXSDate(date: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDate : Not implemented."); }
     static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDateTime : Not implemented."); }
     static DomainFromEmailAddress(emailAddress: string): string {
-        var emailAddressParts: string[]  = emailAddress.split('@');
+        var emailAddressParts: string[] = emailAddress.split('@');
 
         if (emailAddressParts.length != 2 || StringHelper.IsNullOrEmpty(emailAddressParts[1])) {
             throw new Error(Strings.InvalidEmailAddress);
@@ -230,7 +233,7 @@ class EwsUtilities {
     //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
     //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
     //static FormatHttpRequestHeaders(request: any): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
-    static FormatHttpResponseHeaders(response:any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
+    static FormatHttpResponseHeaders(response: any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
     static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("EwsUtilities.ts - static FormatLogMessage : Not implemented."); }
     static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
     static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
@@ -337,7 +340,7 @@ class EwsUtilities {
         //    }
         //}
     }
-    static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper,enumValue: number, requestVersion: ExchangeVersion): void {
+    static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper, enumValue: number, requestVersion: ExchangeVersion): void {
         var enumVersion = this.GetExchangeVersionFromEnumDelegate(enumType, enumValue);
         if (requestVersion < enumVersion) {
             throw new ServiceVersionException(
@@ -349,25 +352,25 @@ class EwsUtilities {
                     ExchangeVersion[enumVersion]));
         }
         //////EwsUtilities.ValidateEnumVersionValue(this.FolderName, version); - alternate validation using next line
-    //////todo: move to ewsutilities - done
-    ////export class ExchangeVersionValidator {
-    ////    static ValidateWellKnownFolderName(folderEnum: WellKnownFolderName, requestedVersion: ExchangeVersion): void {
-    ////        var enumVersion = ExchangeVersion.Exchange2007_SP1;
-    ////        if (folderEnum <= 15) enumVersion = ExchangeVersion.Exchange2007_SP1;
-    ////        else if (folderEnum >= 16 && folderEnum <= 26) enumVersion = ExchangeVersion.Exchange2010_SP1;
-    ////        else if (folderEnum >= 27 && folderEnum <= 34) enumVersion = ExchangeVersion.Exchange2013;
-    ////        else enumVersion = ExchangeVersion.Exchange2013;
+        //////todo: move to ewsutilities - done
+        ////export class ExchangeVersionValidator {
+        ////    static ValidateWellKnownFolderName(folderEnum: WellKnownFolderName, requestedVersion: ExchangeVersion): void {
+        ////        var enumVersion = ExchangeVersion.Exchange2007_SP1;
+        ////        if (folderEnum <= 15) enumVersion = ExchangeVersion.Exchange2007_SP1;
+        ////        else if (folderEnum >= 16 && folderEnum <= 26) enumVersion = ExchangeVersion.Exchange2010_SP1;
+        ////        else if (folderEnum >= 27 && folderEnum <= 34) enumVersion = ExchangeVersion.Exchange2013;
+        ////        else enumVersion = ExchangeVersion.Exchange2013;
 
-    ////        if (requestedVersion < enumVersion) {
-    ////            throw new ServiceVersionException(
-    ////                string.Format(
-    ////                    Strings.EnumValueIncompatibleWithRequestVersion,
-    ////                    WellKnownFolderName[folderEnum],
-    ////                    "WellKnownFolderName",
-    ////                    ExchangeVersion[enumVersion]));
-    ////        }
-    ////    }
-    ////}
+        ////        if (requestedVersion < enumVersion) {
+        ////            throw new ServiceVersionException(
+        ////                string.Format(
+        ////                    Strings.EnumValueIncompatibleWithRequestVersion,
+        ////                    WellKnownFolderName[folderEnum],
+        ////                    "WellKnownFolderName",
+        ////                    ExchangeVersion[enumVersion]));
+        ////        }
+        ////    }
+        ////}
     }
     static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): any { throw new Error("EwsUtilities.ts - static ValidateMethodVersion : Not implemented."); }
     static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
@@ -416,11 +419,11 @@ class EwsUtilities {
 
         var ewsObject: ServiceObject = param;
 
-//        if (ewsObject instanceof ServiceObject) {
-//            if (ewsObject.IsNew) {
-//                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
-//            }
-//        }
+        //        if (ewsObject instanceof ServiceObject) {
+        //            if (ewsObject.IsNew) {
+        //                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
+        //            }
+        //        }
     }
     static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
     static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }

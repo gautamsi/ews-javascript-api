@@ -55,16 +55,16 @@ class Greeter {
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
-        console.log("-----" + exch.Credentials);
+        
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
-        var fid: FolderId = new FolderId(WellKnownFolderName.Calendar);
+        var fid: FolderId = new FolderId(WellKnownFolderName.Root);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)
             .then((sr) => {
             console.log("------------");
-            EwsLogging.Log(sr, true);
+            EwsLogging.Log(sr, true,true);
             console.log("------------");
         }, (e: any) => {
-                EwsLogging.Log(e, true);
+                EwsLogging.Log(e, true, true);
                 console.log("------------");
             });
 

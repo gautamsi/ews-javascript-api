@@ -1,10 +1,11 @@
 import Folder = require("../Core/ServiceObjects/Folders/Folder");
-import CalendarFolder = require("../Core/ServiceObjects/Folders/CalendarFolder");
+//import CalendarFolder = require("../Core/ServiceObjects/Folders/Calendar____Folder");
 import FolderPermission = require("./FolderPermission");
 import ComplexPropertyCollection = require("./ComplexPropertyCollection");
 import ExchangeService = require("../Core/ExchangeService");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlElementNames = require("../Core/XmlElementNames");
 
 
 class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
@@ -13,9 +14,9 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
     private isCalendarFolder: boolean;
     private unknownEntries: string[];// System.Collections.ObjectModel.Collection<string>;
     UnknownEntries: string[];// System.Collections.ObjectModel.Collection<string>;
-    constructor(owner:Folder){
+    constructor(owner: Folder) {
         super();
-        this.isCalendarFolder = owner instanceof CalendarFolder;
+        this.isCalendarFolder = owner._FolderType === XmlElementNames.CalendarFolder; //owner instanceof CalendarFolder;
     }
     Add(permission: FolderPermission): any { throw new Error("FolderPermissionCollection.ts - Add : Not implemented."); }
     AddRange(permissions: FolderPermission[]/*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("FolderPermissionCollection.ts - AddRange : Not implemented."); }

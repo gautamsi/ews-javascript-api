@@ -1,9 +1,14 @@
 import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
+import XmlElementNames = require("../../XmlElementNames");
 
 import ExchangeService = require("../../ExchangeService");
 import Folder = require("./Folder");
 class CalendarFolder extends Folder {
+    /**
+     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
+     */
+    get _FolderType():string{return XmlElementNames.CalendarFolder;}
     constructor(service:ExchangeService){
         super(service);
     }

@@ -12,6 +12,7 @@ class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
     }
     constructor(propertyName: string, xmlElementName: string, version: ExchangeVersion, uri: string, flags: PropertyDefinitionFlags) {
         super(propertyName, xmlElementName, version, uri, flags);
+        throw new Error("use type defined in other file, named exactly like the typename = PermissionSetPropertyDefinition");
     }
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
         var folder: Folder = ((owner instanceof Folder) ? <Folder>owner : null);

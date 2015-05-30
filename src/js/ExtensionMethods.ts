@@ -143,18 +143,18 @@ export class TypeSystem {
 
         return obj;
     }
-    
+
     static GetJsObjectTypeName(obj: any): string {
 
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            var element = obj[key];
-            if (element["__type"]) return element["__type"];
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                var element = obj[key];
+                if (element["__type"]) return element["__type"];
+            }
         }
-    }
-    return undefined;
+        return undefined;
 
-}
+    }
 }
 
 //use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
@@ -362,16 +362,33 @@ if (isNode) {
 export var DOMParser = dp;
 
 export class Convert {
-    static toInt(input: any, zeroIfError: boolean = true): number {
+    static toInt(value: any, zeroIfError: boolean = true): number {
         var result: number = 0;
         try {
-            result = parseInt(input);
+            result = parseInt(value);
         }
         catch (ex) {
             if (!zeroIfError)
                 throw ex;
         }
         return result;
+    }
+
+    static toNumber(value: any): number {
+        return Number(value);
+    }
+    static toBool(value: any, truefalseString = true, throwIfNotBool = false) {
+        if (typeof value === 'boolean') return value;
+        var num = Number(value);
+        if (num !== NaN) {
+            return num !== 0;
+        }
+        if (truefalseString) {
+            return (<string>value).toLowerCase() === 'true'
+        }
+
+        if (throwIfNotBool) throw new Error("not a boolean");
+        return false;
     }
 }
 

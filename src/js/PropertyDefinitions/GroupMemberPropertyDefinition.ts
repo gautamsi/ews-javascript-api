@@ -9,7 +9,7 @@ class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
     Type: any;// System.Type;
     //private key: string;
 
-    constructor(key: string) {
+    constructor(key?: string) {
         super(GroupMemberPropertyDefinition.FieldUri);
         this.Key = key;
     }

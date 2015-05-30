@@ -24,7 +24,9 @@ import Task = require("./Items/Task");
 import TasksFolder = require("../ServiceObjects/Folders/ContactsFolder");
 import SearchFolder = require("./Folders/SearchFolder");
 
-
+/**
+ * Moved part of CreateEwsObjectFromXmlElementName to different object type like FolderInfo, itemInfo etc
+ */
 class ServiceObjectInfo {
 
     get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<any> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;
@@ -169,8 +171,12 @@ class ServiceObjectInfo {
             (srv) => { return new TasksFolder(srv); },
             null);
     }
+    /**
+ * Moved part of CreateEwsObjectFromXmlElementName to different object type like FolderInfo, itemInfo etc
+ */
+
     CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
-                
+        throw new Error("Moved part of CreateEwsObjectFromXmlElementName to different object type like FolderInfo, ItemInfo etc");                
         //var itemClass = this.XmlElementNameToServiceObjectClassMap[xmlElementName];
         //if (itemClass) {
         //    return new itemClass(service);

@@ -13,7 +13,7 @@ class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<Attachment
 
             return super.HasFlag(flag, version);
         
-        throw new Error("AttachmentsPropertyDefinition: Not implemented."); }
+        throw new Error("AttachmentsPropertyDefinition - HasFlags: Not implemented - something missing."); }
 }
 export = AttachmentsPropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {

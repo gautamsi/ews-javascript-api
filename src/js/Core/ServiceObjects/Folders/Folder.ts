@@ -29,6 +29,7 @@ import FolderSchema = require("../Schemas/FolderSchema");
 import {EwsLogging} from "../../EwsLogging";
 import {IPromise} from "../../../Interfaces";
 import {Promise} from "../../../PromiseFactory"
+import XmlElementNames = require("../../XmlElementNames");
 
 import ServiceObject = require("../ServiceObject");
 class Folder extends ServiceObject {
@@ -50,6 +51,12 @@ class Folder extends ServiceObject {
     get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._propGet(FolderSchema.ArchiveTag); }
     set ArchiveTag(value) { this.PropertyBag._propSet(FolderSchema.ArchiveTag, value); }
     get WellKnownFolderName(): WellKnownFolderName { return <WellKnownFolderName>this.PropertyBag._propGet(FolderSchema.WellKnownFolderName); }
+    
+    /**
+     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
+     */
+     get _FolderType():string{return XmlElementNames.Folder;}
+    
     //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
     
     

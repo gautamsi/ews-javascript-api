@@ -722,7 +722,6 @@
         "./src/js/PropertyDefinitions/IntPropertyDefinition.ts",
         "./src/js/PropertyDefinitions/ListValuePropertyDefinition.ts",
         "./src/js/PropertyDefinitions/MeetingTimeZonePropertyDefinition.ts",
-        "./src/js/PropertyDefinitions/PermissionCollectionPropertyDefinition.ts",
         "./src/js/PropertyDefinitions/PermissionSetPropertyDefinition.ts",
         "./src/js/PropertyDefinitions/PropertyDefinition.ts",
         "./src/js/PropertyDefinitions/PropertyDefinitionBase.ts",

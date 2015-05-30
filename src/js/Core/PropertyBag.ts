@@ -97,7 +97,7 @@ class PropertyBag {
     //CreateJsonSetUpdate(value: ExtendedProperty, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("PropertyBag.ts - CreateJsonSetUpdate : Not implemented."); }
     DeleteProperty(propertyDefinition: PropertyDefinition): void {
         if (!this.deletedProperties.containsKey(propertyDefinition)) {
-            var propertyValue: IOutParam<any> = { value: null };
+            var propertyValue: IOutParam<any> = { outValue: null };
 
             this.properties.tryGet(propertyDefinition, propertyValue);
 
@@ -138,7 +138,7 @@ class PropertyBag {
             XmlElementNames.Item;
     }
     GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<any>): any {
-        var outPropertyValue: IOutParam<any> = { value: null };
+        var outPropertyValue: IOutParam<any> = { outValue: null };
         exception.outValue = null;
         var propertyValue: any;
 
@@ -260,7 +260,7 @@ class PropertyBag {
                 if (jsObject.hasOwnProperty(key)) {
                     var element = jsObject[key];
 
-                    var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
+                    var propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
 
                     if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
                         propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, this);
@@ -306,7 +306,7 @@ class PropertyBag {
 
     _propGet(propertyDefinition: PropertyDefinition): any {
         var serviceException: ServiceLocalException;
-        var outparam: IOutParam<any> = { value: null };
+        var outparam: IOutParam<any> = { outValue: null };
         var propertyValue = this.GetPropertyValueOrException(propertyDefinition, outparam);
         if (outparam.outValue == null) {
             return propertyValue;
@@ -400,7 +400,7 @@ class PropertyBag {
     //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForCreate : Not implemented."); }
     //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForUpdate : Not implemented."); }
     TryGetProperty(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean {
-        var serviceException: IOutParam<ServiceLocalException> = { value: null };
+        var serviceException: IOutParam<ServiceLocalException> = { outValue: null };
         propertyValue.outValue = this.GetPropertyValueOrException(propertyDefinition, serviceException);
         return serviceException.outValue == null;
     }
@@ -436,7 +436,7 @@ class PropertyBag {
         }
     }
     ValidatePropertyValue(propertyDefinition: PropertyDefinition): void {
-        var propertyValue: IOutParam<any> = { value: null };
+        var propertyValue: IOutParam<any> = { outValue: null };
         if (this.TryGetProperty(propertyDefinition, propertyValue)) {
             //todo: check for interface somehow;
             //ISelfValidate validatingValue = propertyValue as ISelfValidate;
@@ -549,7 +549,7 @@ class PropertyBag {
 
         for (var kv of this.deletedProperties.Items) {
             debugger;
-            var property: KeyValuePair<PropertyDefinition, any> = item;
+            var property: KeyValuePair<PropertyDefinition, any> = <any>item;
             this.WriteDeleteUpdateToXml(
                 writer,
                 property.key,

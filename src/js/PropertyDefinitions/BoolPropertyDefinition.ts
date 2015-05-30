@@ -1,8 +1,13 @@
-import GenericPropertyDefinition = require("./GenericPropertyDefinition");
+import EwsUtilities = require("../Core/EwsUtilities");
 
-    class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
-        ToString(value: any): string { throw new Error("BoolPropertyDefinition.ts - ToString : Not implemented."); }
+import GenericPropertyDefinition = require("./GenericPropertyDefinition");
+class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
+
+    ToString(value: any): string {
+        return EwsUtilities.BoolToXSBool(value);      
+        //throw new Error("BoolPropertyDefinition.ts - ToString : Not implemented."); 
     }
+}
 
 export = BoolPropertyDefinition;
 //module Microsoft.Exchange.WebServices.Data {
