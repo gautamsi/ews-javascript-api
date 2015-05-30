@@ -32,7 +32,7 @@ class TypedPropertyDefinition extends PropertyDefinition {
             propertyBag._propSet(this, this.Parse(jsObject.toString()));
         }
     }
-    Parse(value: string): any { throw new Error("abstract method in TypedPropertyDefinition.ts, Not implemented."); }
+    Parse(value: string): any { throw new Error("abstract TypedPropertyDefinition.ts - Parse : Not implemented."); }
     ToString(value?: any): string {
         if (value)
             return value.toString();

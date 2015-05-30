@@ -94,10 +94,10 @@ class ExchangeService extends ExchangeServiceBase {
                 emailAddress,
                 this.RequestedServerVersion,
                 validateRedirectionUrlCallback).then((url) => {
-                exchangeServiceUrl = url;
-                this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
-                //return;
-            }, (err) => {
+                    exchangeServiceUrl = url;
+                    this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
+                    //return;
+                }, (err) => {
                     //catch (AutodiscoverLocalException ex)
                     this.TraceMessage(
                         TraceFlags.AutodiscoverResponse,
@@ -122,8 +122,8 @@ class ExchangeService extends ExchangeServiceBase {
                         ExchangeVersion.Exchange2007_SP1,
                         validateRedirectionUrlCallback).then((url) => {
 
-                        this.Url = this.AdjustServiceUriFromCredentials(url);
-                    });
+                            this.Url = this.AdjustServiceUriFromCredentials(url);
+                        });
 
                 });
         }
@@ -151,20 +151,20 @@ class ExchangeService extends ExchangeServiceBase {
     // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginUnsubscribe : Not implemented."); }
-    BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): TFolder {
-        var result = this.BindToFolder(folderId, propertySet);
-        debugger;
-        if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
-        {
-            return <any>result;//<TFolder>
-        }
-        else {
-            //throw new ServiceLocalException(
-            //    string.Format(
-            //        Strings.FolderTypeNotCompatible,
-            //        result.GetType().Name,
-            //        typeof (TFolder).Name));
-        }
+    BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
+        // debugger;
+        return this.BindToFolder(folderId, propertySet);
+        // if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
+        // {
+        //     return <any>result;//<TFolder>
+        // }
+        // else {
+        //     //throw new ServiceLocalException(
+        //     //    string.Format(
+        //     //        Strings.FolderTypeNotCompatible,
+        //     //        result.GetType().Name,
+        //     //        typeof (TFolder).Name));
+        // }
     }
 
     BindToFolder(folderId: FolderId, propertySet: PropertySet): IPromise<Folder> {
@@ -284,26 +284,26 @@ class ExchangeService extends ExchangeServiceBase {
             emailAddress,
             UserSettingName.InternalEwsUrl,
             UserSettingName.ExternalEwsUrl).then((response) => {
-            switch (response.ErrorCode) {
-                case AutodiscoverErrorCode.NoError:
-                    return this.GetEwsUrlFromResponse(response, autodiscoverService.IsExternal);
+                switch (response.ErrorCode) {
+                    case AutodiscoverErrorCode.NoError:
+                        return this.GetEwsUrlFromResponse(response, autodiscoverService.IsExternal);
 
-                case AutodiscoverErrorCode.InvalidUser:
-                    throw new ServiceRemoteException(
-                        StringHelper.Format(Strings.InvalidUser, emailAddress));
+                    case AutodiscoverErrorCode.InvalidUser:
+                        throw new ServiceRemoteException(
+                            StringHelper.Format(Strings.InvalidUser, emailAddress));
 
-                case AutodiscoverErrorCode.InvalidRequest:
-                    throw new ServiceRemoteException(
-                        StringHelper.Format(Strings.InvalidAutodiscoverRequest, response.ErrorMessage));
+                    case AutodiscoverErrorCode.InvalidRequest:
+                        throw new ServiceRemoteException(
+                            StringHelper.Format(Strings.InvalidAutodiscoverRequest, response.ErrorMessage));
 
-                default:
-                    this.TraceMessage(
-                        TraceFlags.AutodiscoverConfiguration,
-                        StringHelper.Format("No EWS Url returned for user {0}, error code is {1}", emailAddress, response.ErrorCode));
+                    default:
+                        this.TraceMessage(
+                            TraceFlags.AutodiscoverConfiguration,
+                            StringHelper.Format("No EWS Url returned for user {0}, error code is {1}", emailAddress, response.ErrorCode));
 
-                    throw new ServiceRemoteException(response.ErrorMessage);
-            }
-        }, (err) => {
+                        throw new ServiceRemoteException(response.ErrorMessage);
+                }
+            }, (err) => {
                 throw err;
             });
 

@@ -16,8 +16,8 @@ class PropertyDefinitionBase {
     constructor() { }
     //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any{ throw new Error("PropertyDefinitionBase.ts - AddJsonProperties : Not implemented.");}
     //GetJsonType(): string{ throw new Error("PropertyDefinitionBase.ts - GetJsonType : Not implemented.");}
-    GetPrintableName(): string { throw new Error("abstract methos, must implement"); }
-    GetXmlElementName(): string { throw new Error("abstract methos, must implement"); }
+    GetPrintableName(): string { throw new Error("PropertyDefinitionBase - GetPrintableName: abstract methos, must implement"); }
+    GetXmlElementName(): string { throw new Error("PropertyDefinitionBase - GetXmlElementName: abstract methos, must implement"); }
     ToString(): string { return this.GetPrintableName(); }
     //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("PropertyDefinitionBase.ts - TryLoadFromJson : Not implemented.");}
 
@@ -45,7 +45,7 @@ class PropertyDefinitionBase {
     ////            return false;
     ////    }
     ////}
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract methos, must implement"); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("PropertyDefinitionBase - WriteAttributesToXml: abstract methos, must implement"); }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.GetXmlElementName());
         this.WriteAttributesToXml(writer);

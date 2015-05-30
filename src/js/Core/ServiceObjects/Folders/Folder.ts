@@ -55,20 +55,31 @@ class Folder extends ServiceObject {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
-     get _FolderType():string{return XmlElementNames.Folder;}
-    
-    //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
-    
-    
+    get _FolderType(): string { return XmlElementNames.Folder; }
+
+
+
     constructor(service: ExchangeService) {
         super(service);
     }
 
-    BindWithId(service: ExchangeService, id: FolderId, propertySet?: PropertySet): IPromise<Folder> {
-        return service.BindToFolderAs<Folder>(id, propertySet);
+    //WithId
+    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Folder> {
+        if (idOrName instanceof FolderId)
+            return service.BindToFolderAs<Folder>(idOrName, propertySet);
+        else
+            return service.BindToFolderAs<Folder>(new FolderId(<WellKnownFolderName>idOrName), propertySet);
+            
     }
+    //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
+    // Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<Folder> {
+    //     return Folder.Bind(
+    //         service,
+    //         new FolderId(name),
+    //         PropertySet.FirstClassProperties);
+    // }
     //Bind(service: ExchangeService, name: WellKnownFolderName): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
-    BindWithName(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Folder { throw new Error("Folder.ts - BindWithName : Not implemented."); }
+    
     //Copy(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
     //Copy(destinationFolderId: FolderId): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
     Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): Folder {
@@ -100,7 +111,7 @@ class Folder extends ServiceObject {
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }
     GetIdPropertyDefinition(): PropertyDefinition { throw new Error("Folder.ts - GetIdPropertyDefinition : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Folder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetSchema(): ServiceObjectSchema { return FolderSchema.Instance;}
+    GetSchema(): ServiceObjectSchema { return FolderSchema.Instance; }
     GetSetFieldXmlElementName(): string { throw new Error("Folder.ts - GetSetFieldXmlElementName : Not implemented."); }
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Folder.ts - InternalDelete : Not implemented."); }
     //InternalFindItems(queryString: string, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Folder.ts - InternalFindItems : Not implemented."); }

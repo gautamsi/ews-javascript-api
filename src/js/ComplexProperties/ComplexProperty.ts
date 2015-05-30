@@ -28,7 +28,7 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   InternalLoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string,
     readAction: (reader: EwsServiceXmlReader) => boolean /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
-
+    throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
     this.ReadAttributesFromXml(reader);
 
     if (!reader.IsEmptyElement) {
