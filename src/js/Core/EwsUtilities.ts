@@ -59,10 +59,10 @@ class EwsUtilities {
 
 
     static BuildVersion: string;
-    private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
-        () => {
-            //return new ServiceObjectInfo();
-        });
+    // private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
+    //     () => {
+    //         //return new ServiceObjectInfo();
+    //     });
     //private static buildVersion: LazyMember<T>;
     private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
         () => {
@@ -83,7 +83,7 @@ class EwsUtilities {
     
     static BoolToXSBool(value: boolean): string {
         var boolvalue = Convert.toBool(value)
-        return value ? EwsUtilities.XSTrue : EwsUtilities.XSFalse;
+        return boolvalue ? EwsUtilities.XSTrue : EwsUtilities.XSFalse;
         //throw new Error("EwsUtilities.ts - static BoolToXSBool : Not implemented.");
     }
     //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumDict : Not implemented.");}
@@ -184,37 +184,37 @@ class EwsUtilities {
     //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("EwsUtilities.ts - static ConvertTime : Not implemented.");}
     //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("EwsUtilities.ts - static CopyStream : Not implemented.");}
     static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("EwsUtilities.ts - static CountMatchingChars : Not implemented."); }
-    static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
-        //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
-        debugger;
+    // static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
+    //     //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
+    //     debugger;
 
-        //        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
-        //
-        //        if (creationDelegate) {
-        //            return creationDelegate(service);
-        //        }
-        //        else return null;
+    //     //        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+    //     //
+    //     //        if (creationDelegate) {
+    //     //            return creationDelegate(service);
+    //     //        }
+    //     //        else return null;
 
-        //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
-        //if (itemClass) {
-        //    //return new itemClass(service);
+    //     //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
+    //     //if (itemClass) {
+    //     //    //return new itemClass(service);
 
-        //    creationDelegate: CreateServiceObjectWithServiceParam;
+    //     //    creationDelegate: CreateServiceObjectWithServiceParam;
 
 
-        //    //if (EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam.TryGetValue(itemClass, out creationDelegate)) {
-        //    //    return (TServiceObject)creationDelegate(service);
-        //    //}
-        //    //else {
-        //    //    throw new ArgumentException(Strings.NoAppropriateConstructorForItemClass);
-        //    //}
-        //}
-        //else {
-        //    return null; //default(TServiceObject);
-        //}
-    }
+    //     //    //if (EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam.TryGetValue(itemClass, out creationDelegate)) {
+    //     //    //    return (TServiceObject)creationDelegate(service);
+    //     //    //}
+    //     //    //else {
+    //     //    //    throw new ArgumentException(Strings.NoAppropriateConstructorForItemClass);
+    //     //    //}
+    //     //}
+    //     //else {
+    //     //    return null; //default(TServiceObject);
+    //     //}
+    // }
     //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
-    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
+    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment<any>, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
     static DateTimeToXSDate(date: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDate : Not implemented."); }
     static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDateTime : Not implemented."); }
     static DomainFromEmailAddress(emailAddress: string): string {

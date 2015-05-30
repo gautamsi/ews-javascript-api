@@ -8,6 +8,8 @@ import {StringHelper} from "../ExtensionMethods";
 
 import ComplexProperty = require("./ComplexProperty");
 class Mailbox extends ComplexProperty {
+    ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "GetSearchString"];
+    ___typeName: string = "Mailbox";
     get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.Address); }
     Address: string;
     RoutingType: string;

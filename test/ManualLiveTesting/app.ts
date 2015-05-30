@@ -57,13 +57,14 @@ class Greeter {
         //EwsLogging.DebugLog(exch.Credentials, true);
         
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
-        var fid: FolderId = new FolderId(WellKnownFolderName.Root);
+        var fid: FolderId = new FolderId(WellKnownFolderName.Inbox);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)
             .then((sr) => {
-            console.log("------------");
-            EwsLogging.Log(sr, true,true);
-            console.log("------------");
-        }, (e: any) => {
+                console.log("------found folder------" + sr.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
+                //EwsLogging.Log(sr, true, true);
+                //sr.FindItems()
+                console.log("------------");
+            }, (e: any) => {
                 EwsLogging.Log(e, true, true);
                 console.log("------------");
             });

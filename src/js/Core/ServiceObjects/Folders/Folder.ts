@@ -1,3 +1,5 @@
+import ServiceErrorHandling = require("../../../Enumerations/ServiceErrorHandling");
+import FindItemsResults = require("../../../Search/FindItemsResults");
 import PolicyTag = require("../../../ComplexProperties/PolicyTag");
 import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
 import ManagedFolderInformation = require("../../../ComplexProperties/ManagedFolderInformation");
@@ -7,6 +9,7 @@ import GroupedFindItemsResults = require("../../../Search/GroupedFindItemsResult
 import ItemView = require("../../../Search/ItemView");
 import Item = require("../Items/Item");
 import ServiceResponseCollection = require("../../Responses/ServiceResponseCollection");
+import FindItemResponse = require("../../Responses/FindItemResponse");
 import Grouping = require("../../../Search/Grouping");
 import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
 import ViewBase = require("../../../Search/ViewBase");
@@ -16,8 +19,8 @@ import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
 import ServiceResponse = require("../../Responses/ServiceResponse");
 import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import FindFoldersResults = require("../../../Search/FindFoldersResults");
 import PropertySet = require("../../PropertySet");
+import FindFoldersResults = require("../../../Search/FindFoldersResults");
 import FolderView = require("../../../Search/FolderView");
 import DeleteMode = require("../../../Enumerations/DeleteMode");
 import ExchangeService = require("../../ExchangeService");
@@ -65,68 +68,184 @@ class Folder extends ServiceObject {
 
     //WithId
     static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Folder> {
-        if (idOrName instanceof FolderId)
+        if (idOrName instanceof FolderId) {
             return service.BindToFolderAs<Folder>(idOrName, propertySet);
-        else
-            return service.BindToFolderAs<Folder>(new FolderId(<WellKnownFolderName>idOrName), propertySet);
-            
+        }
+        else if (typeof idOrName === 'number') {
+            return service.BindToFolderAs<Folder>(new FolderId(idOrName), propertySet);
+        }
+        EwsLogging.Assert(false, "Folder.Bind", "unknown paramete type");
+        throw new Error("unknow parameter type. this should nobe  reached");
     }
     //Bind(service: ExchangeService, id: FolderId): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
-    // Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<Folder> {
-    //     return Folder.Bind(
-    //         service,
-    //         new FolderId(name),
-    //         PropertySet.FirstClassProperties);
-    // }
     //Bind(service: ExchangeService, name: WellKnownFolderName): Folder{ throw new Error("Folder.ts - Bind : Not implemented.");}
     
-    //Copy(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
-    //Copy(destinationFolderId: FolderId): Folder { throw new Error("Folder.ts - Copy : Not implemented."); }
-    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): Folder {
+    //Copy(destinationFolderName: WellKnownFolderName): Folder { }
+    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Folder> {
         this.ThrowIfThisIsNew();
-
         //EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
         if (destinationFolderIdOrName instanceof FolderId) {
             return this.Service.CopyFolder(this.Id, destinationFolderIdOrName);
         }
         else if (typeof destinationFolderIdOrName === 'number') {
-
             return this.Copy(new FolderId(destinationFolderIdOrName));
         }
-        EwsLogging.Assert(true, "Folder.Copy", "unknown paramete type");
+        EwsLogging.Assert(false, "Folder.Copy", "unknown paramete type");
         throw new Error("unknow parameter type. this should nobe  reached");
     }
-    Delete(deleteMode: DeleteMode): any { throw new Error("Folder.ts - Delete : Not implemented."); }
-    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): any { throw new Error("Folder.ts - Empty : Not implemented."); }
-    FindFolders(view: FolderView): FindFoldersResults { throw new Error("Folder.ts - FindFolders : Not implemented."); }
-    //FindFolders(searchFilter: SearchFilter, view: FolderView): FindFoldersResults { throw new Error("Folder.ts - FindFolders : Not implemented."); }
-    FindItems<TItem extends Item>(view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems<TItem extends Item> : Not implemented."); }
-    //FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    Delete(deleteMode: DeleteMode): IPromise<void> { return this.InternalDelete(deleteMode, null, null); }
+    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> {
+        this.ThrowIfThisIsNew();
+        return this.Service.EmptyFolder(
+            this.Id,
+            deleteMode,
+            deleteSubFolders);
+    }
+    //FindFolders(view: FolderView): FindFoldersResults { }
+    //FindFolders(searchFilter: SearchFilter, view: FolderView): FindFoldersResults {}
+    FindFolders(view: FolderView, searchFilter?: SearchFilter): IPromise<FindFoldersResults> {
+        this.ThrowIfThisIsNew();
+        return this.Service.FindFolders(this.Id, view, searchFilter);
+    }
+
     //FindItems(view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
     //FindItems(queryString: string, view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
     //FindItems(searchFilter: SearchFilter, view: ItemView): FindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    FindItems(view: ItemView, searchFilterOrQueryString?: SearchFilter | string): IPromise<FindItemsResults<Item>> {
+        return this.InternalFindItems<Item>(
+            searchFilterOrQueryString,
+            view,
+            null /* groupBy */)
+            .then((res) => {
+                return res.__thisIndexer(0).Results;
+            });
+    }
     //FindItems(queryString: string, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
-    GetChangeXmlElementName(): string { throw new Error("Folder.ts - GetChangeXmlElementName : Not implemented."); }
-    GetDeleteFieldXmlElementName(): string { throw new Error("Folder.ts - GetDeleteFieldXmlElementName : Not implemented."); }
+    //FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    //FindItems(view: ItemView, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("Folder.ts - FindItems : Not implemented."); }
+    FindItemsWithGroupBy(view: ItemView, groupBy: Grouping, searchFilterOrQueryString?: SearchFilter| string): IPromise<GroupedFindItemsResults<Item>> {
+        // if(typeof searchFilterOrQueryString === 'undefined')
+        // searchFilterOrQueryString = null;
+        return this.InternalFindItems<Item>(searchFilterOrQueryString, view, groupBy).then((res) => {
+            return res.__thisIndexer(0).GroupedFindResults;
+        });
+    }
+
+    GetChangeXmlElementName(): string { return XmlElementNames.FolderChange; }
+    GetDeleteFieldXmlElementName(): string { return XmlElementNames.DeleteFolderField; }
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }
-    GetIdPropertyDefinition(): PropertyDefinition { throw new Error("Folder.ts - GetIdPropertyDefinition : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Folder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetIdPropertyDefinition(): PropertyDefinition { return FolderSchema.Id; }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     GetSchema(): ServiceObjectSchema { return FolderSchema.Instance; }
-    GetSetFieldXmlElementName(): string { throw new Error("Folder.ts - GetSetFieldXmlElementName : Not implemented."); }
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Folder.ts - InternalDelete : Not implemented."); }
+    GetSetFieldXmlElementName(): string { return XmlElementNames.SetFolderField; }
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode?: SendCancellationsMode, affectedTaskOccurrences?: AffectedTaskOccurrence): IPromise<void> {
+        this.ThrowIfThisIsNew();
+        return this.Service.DeleteFolder(this.Id, deleteMode);
+    }
     //InternalFindItems(queryString: string, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Folder.ts - InternalFindItems : Not implemented."); }
-    InternalFindItems<TResponse extends ServiceResponse>(searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("Folder.ts - InternalFindItems<TResponse extends ServiceResponse> : Not implemented."); }
-    InternalLoad(propertySet: PropertySet): any { throw new Error("Folder.ts - InternalLoad : Not implemented."); }
-    MarkAllItemsAsRead(suppressReadReceipts: boolean): any { throw new Error("Folder.ts - MarkAllItemsAsRead : Not implemented."); }
-    MarkAllItemsAsUnread(suppressReadReceipts: boolean): any { throw new Error("Folder.ts - MarkAllItemsAsUnread : Not implemented."); }
-    //Move(destinationFolderId: FolderId): Folder { throw new Error("Folder.ts - Move : Not implemented."); }
-    Move(destinationFolderName: WellKnownFolderName): Folder { throw new Error("Folder.ts - Move : Not implemented."); }
-    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean { throw new Error("Folder.ts - RemoveExtendedProperty : Not implemented."); }
-    //Save(parentFolderName: WellKnownFolderName): any { throw new Error("Folder.ts - Save : Not implemented."); }
-    Save(parentFolderId: FolderId): any { throw new Error("Folder.ts - Save : Not implemented."); }
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Folder.ts - SetExtendedProperty : Not implemented."); }
-    Update(): any { throw new Error("Folder.ts - Update : Not implemented."); }
-    Validate(): any { throw new Error("Folder.ts - Validate : Not implemented."); }
+    protected InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>> {
+        this.ThrowIfThisIsNew();
+
+        if (searchFilterOrQueryString instanceof SearchFilter) {
+
+            return this.Service.FindItemsAs<TItem>(
+                [this.Id], // FolderId[]
+                searchFilterOrQueryString,
+                null, /* queryString */
+                view,
+                groupBy,
+                ServiceErrorHandling.ThrowOnError);
+        }
+        else if (typeof searchFilterOrQueryString === 'string') {
+            return this.Service.FindItemsAs<TItem>(
+                [this.Id], // FolderId[]
+                null, /* searchFilter */
+                searchFilterOrQueryString,
+                view,
+                groupBy,
+                ServiceErrorHandling.ThrowOnError);
+        }
+        else {
+            debugger;//check: verify if querystring is null
+            return this.Service.FindItemsAs<TItem>(
+                [this.Id], // FolderId[]
+                null, /* searchFilter */
+                null, /* queryString */
+                view,
+                groupBy,
+                ServiceErrorHandling.ThrowOnError);
+        }
+
+        EwsLogging.Assert(false, "Folder.InternalFindItems", "unknown paramete type - searchfilterorstring");
+        throw new Error("unknow parameter type. this should nobe  reached");
+    }
+
+    InternalLoad(propertySet: PropertySet): IPromise<void> {
+        this.ThrowIfThisIsNew();
+        return this.Service.LoadPropertiesForFolder(this, propertySet);
+    }
+    MarkAllItemsAsRead(suppressReadReceipts: boolean): IPromise<void> {
+        this.ThrowIfThisIsNew();
+        return this.Service.MarkAllItemsAsRead(
+            this.Id,
+            true,
+            suppressReadReceipts);
+    }
+    MarkAllItemsAsUnread(suppressReadReceipts: boolean): IPromise<void> {
+        this.ThrowIfThisIsNew();
+        return this.Service.MarkAllItemsAsRead(
+            this.Id,
+            false,
+            suppressReadReceipts);
+    }
+    //Move(destinationFolderName: WellKnownFolderName): Folder { }
+    Move(destinationFolderIdOrname: FolderId | WellKnownFolderName): IPromise<Folder> {
+        this.ThrowIfThisIsNew();
+
+        //EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
+        if (destinationFolderIdOrname instanceof FolderId) {
+            return this.Service.MoveFolder(this.Id, destinationFolderIdOrname);
+        }
+        else if (typeof destinationFolderIdOrname === 'number') {
+            return this.Move(new FolderId(destinationFolderIdOrname));
+        }
+        EwsLogging.Assert(false, "Folder.Move", "unknown paramete type");
+        throw new Error("unknow parameter type. this should nobe  reached");
+    }
+    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean { return this.ExtendedProperties.RemoveExtendedProperty(extendedPropertyDefinition); }
+    //Save(parentFolderName: WellKnownFolderName): any { }
+    Save(parentFolderIdOrname: FolderId | WellKnownFolderName): IPromise<void> {
+        this.ThrowIfThisIsNotNew();
+        //EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
+        if (parentFolderIdOrname instanceof FolderId) {
+            if (this.IsDirty) {
+                return this.Service.CreateFolder(this, parentFolderIdOrname);
+            }
+            else return null;
+        }
+        else if (typeof parentFolderIdOrname === 'number') {
+            return this.Save(new FolderId(parentFolderIdOrname));
+        }
+        EwsLogging.Assert(false, "Folder.Save", "unknown paramete type");
+        throw new Error("unknow parameter type. this should nobe  reached");
+    }
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void { this.ExtendedProperties.SetExtendedProperty(extendedPropertyDefinition, value); }
+    Update(): IPromise<void> {
+        if (this.IsDirty) {
+            if (this.PropertyBag.GetIsUpdateCallNecessary()) {
+                return this.Service.UpdateFolder(this);
+            }
+        }
+        return undefined;
+    }
+    Validate(): void {
+        super.Validate();
+
+        // Validate folder permissions
+        if (this.PropertyBag.Contains(FolderSchema.Permissions)) {
+            this.Permissions.Validate();
+        }
+    }
 
     //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
     IsFolderInstance(): boolean { return true; }//only folder instance returns true.

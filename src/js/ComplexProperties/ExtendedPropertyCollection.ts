@@ -18,7 +18,7 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
     TryGetValue(propertyDefinition: ExtendedPropertyDefinition, propertyValue: any): boolean { throw new Error("ExtendedPropertyCollection.ts - TryGetValue : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("ExtendedPropertyCollection.ts - WriteToXml : Not implemented."); }
 }
-export = ExtendedProperty;
+export = ExtendedPropertyCollection;
 
 
 //module Microsoft.Exchange.WebServices.Data {
