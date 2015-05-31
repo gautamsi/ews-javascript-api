@@ -1,3 +1,4 @@
+import IOutParam = require("../../Interfaces/IOutParam");
 import Strings = require("../../Strings");
 import ServiceObjectPropertyException = require("../../Exceptions/ServiceObjectPropertyException");
 import ExtendedPropertyCollection = require("../../ComplexProperties/ExtendedPropertyCollection");
@@ -88,13 +89,13 @@ class ServiceObject {
     GetId(): ServiceId {
         var idPropertyDefinition = this.GetIdPropertyDefinition();
 
-        var serviceId: any = null;
+        var serviceId: IOutParam<any> = {outValue: null};
         debugger;
         if (idPropertyDefinition != null) {
             this.PropertyBag.TryGetValue(idPropertyDefinition, serviceId);
         }
 
-        return <ServiceId> serviceId;
+        return <ServiceId> serviceId.outValue;
     }
     GetIdPropertyDefinition(): PropertyDefinition { return null; }
     GetIsCustomDateTimeScopingRequired(): boolean { return false; }

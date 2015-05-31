@@ -27,7 +27,7 @@ class ComplexPropertyCollection<TComplexProperty> extends ComplexProperty {
     GetEnumerator(): any { throw new Error("ComplexPropertyCollection.ts - GetEnumerator : Not implemented."); }
     IndexOf(complexProperty: TComplexProperty): number { throw new Error("ComplexPropertyCollection.ts - IndexOf : Not implemented."); }
     //InternalAdd(complexProperty: TComplexProperty): any { throw new Error("ComplexPropertyCollection.ts - InternalAdd : Not implemented."); }
-    InternalAdd(complexProperty: TComplexProperty, loading: boolean): any { throw new Error("ComplexPropertyCollection.ts - InternalAdd : Not implemented."); }
+    InternalAdd(complexProperty: TComplexProperty, loading: boolean = false): any { throw new Error("ComplexPropertyCollection.ts - InternalAdd : Not implemented."); }
     InternalClear(): any { throw new Error("ComplexPropertyCollection.ts - InternalClear : Not implemented."); }
     InternalRemove(complexProperty: TComplexProperty): boolean { throw new Error("ComplexPropertyCollection.ts - InternalRemove : Not implemented."); }
     InternalRemoveAt(index: number): any { throw new Error("ComplexPropertyCollection.ts - InternalRemoveAt : Not implemented."); }

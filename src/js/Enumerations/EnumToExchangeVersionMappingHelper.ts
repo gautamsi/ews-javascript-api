@@ -1,5 +1,6 @@
 ﻿enum EnumToExchangeVersionMappingHelper {
     WellKnownFolderName,
+    /**Item Traversal */
     ItemTraversal,
     ConversationQueryTraversal,
     FileAsMapping,

@@ -1,3 +1,5 @@
+import GroupedFindItemsResults = require("../Search/GroupedFindItemsResults");
+import FindItemsResults = require("../Search/FindItemsResults");
 import FindItemRequest = require("./Requests/FindItemRequest");
 import Item = require("./ServiceObjects/Items/Item");
 import ViewBase = require("../Search/ViewBase");

@@ -1,3 +1,8 @@
+import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
+import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
+import XmlElementNames = require("../Core/XmlElementNames");
+import EwsUtilities = require("../Core/EwsUtilities");
+import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import PagedView = require("./PagedView");
 import ItemTraversal = require("../Enumerations/ItemTraversal");
 import OrderByCollection = require("./OrderByCollection");
@@ -8,17 +13,28 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import Grouping = require("./Grouping");
 class ItemView extends PagedView {
     Traversal: ItemTraversal;
-    OrderBy: OrderByCollection;
-    private traversal: ItemTraversal;
-    private orderBy: OrderByCollection;
+    get OrderBy(): OrderByCollection { return this.orderBy; }
+    //private traversal: ItemTraversal; - not needed 
+    private orderBy: OrderByCollection = new OrderByCollection();
+    constructor(
+        pageSize: number,
+        offset?: number,
+        offsetBasePoint?: OffsetBasePoint) {
+        super(pageSize, offset, offsetBasePoint)
+    }
     AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("ItemView.ts - AddJsonProperties : Not implemented."); }
-    GetServiceObjectType(): ServiceObjectType { throw new Error("ItemView.ts - GetServiceObjectType : Not implemented."); }
+    GetServiceObjectType(): ServiceObjectType { return ServiceObjectType.Item; }
     GetViewJsonTypeName(): string { throw new Error("ItemView.ts - GetViewJsonTypeName : Not implemented."); }
-    GetViewXmlElementName(): string { throw new Error("ItemView.ts - GetViewXmlElementName : Not implemented."); }
-    InternalValidate(request: ServiceRequestBase): any { throw new Error("ItemView.ts - InternalValidate : Not implemented."); }
-    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): any { throw new Error("ItemView.ts - InternalWriteSearchSettingsToXml : Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemView.ts - WriteAttributesToXml : Not implemented."); }
-    WriteOrderByToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemView.ts - WriteOrderByToXml : Not implemented."); }
+    GetViewXmlElementName(): string { return XmlElementNames.IndexedPageItemView; }
+    InternalValidate(request: ServiceRequestBase): void {
+        super.InternalValidate(request);
+        EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.ItemTraversal, this.Traversal, request.Service.RequestedServerVersion);
+    }
+    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void { super.InternalWriteSearchSettingsToXml(writer, groupBy); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteAttributeValue(undefined, XmlAttributeNames.Traversal, this.Traversal);
+    }
+    WriteOrderByToXml(writer: EwsServiceXmlWriter): void { this.orderBy.WriteToXml(writer, XmlElementNames.SortOrder); }
 }
 export = ItemView;
 //module Microsoft.Exchange.WebServices.Data {

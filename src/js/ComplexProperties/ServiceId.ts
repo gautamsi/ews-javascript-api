@@ -1,3 +1,4 @@
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 import EwsUtilities = require("../Core/EwsUtilities");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
@@ -7,8 +8,8 @@ import {StringHelper} from "../ExtensionMethods";
 
 import ComplexProperty = require("./ComplexProperty");
 class ServiceId extends ComplexProperty {
-    public get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); }
-    IsValidProxy(): boolean { return this.IsValid; }
+    public get IsValid(): boolean { return this.IsValidProxy(); }
+    protected IsValidProxy(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); } //proxy to be able to call super. from inherited child
     UniqueId: string;
     ChangeKey: string;
     //private changeKey: string; not needed for proxy
@@ -49,6 +50,20 @@ class ServiceId extends ComplexProperty {
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
     //InternalToJson(service: ExchangeService): any { throw new Error("ServiceId.ts - InternalToJson : Not implemented."); }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ServiceId.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.Id:
+                    this.UniqueId = jsObject[key];
+                    break;
+                case XmlAttributeNames.ChangeKey:
+                    this.ChangeKey = jsObject[key];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     ReadAttributesFromXml(reader: EwsServiceXmlReader): void {
         this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
         this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);

@@ -2,12 +2,12 @@ import IOutParam = require("../Interfaces/IOutParam");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-//import XmlElementNames = require("../Core/XmlElementNames");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import PropertyBag = require("../Core/PropertyBag");
 import ExchangeService = require("../Core/ExchangeService");
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import {TypeSystem} from "../ExtensionMethods";
 
 import PropertyDefinition = require("./PropertyDefinition");
 class ComplexPropertyDefinitionBase extends PropertyDefinition {
@@ -42,10 +42,11 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
             outComplexproperty.outValue.UpdateFromXmlJsObject(jsObject, null /*reader.LocalName*/);
         }
         else {
-            //(outComplexproperty as ComplexProperty).LoadFromXml(reader, reader.LocalName);
+            //var typename = TypeSystem.GetJsObjectTypeName(jsObject);
+            outComplexproperty.outValue.LoadFromXmlJsObject(jsObject, null);
         }
 
-        propertyBag[this.Name] = outComplexproperty.outValue;
+        propertyBag._propSet(this, outComplexproperty.outValue);
     }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {

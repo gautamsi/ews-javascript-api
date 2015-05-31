@@ -1,3 +1,5 @@
+import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import XmlElementNames = require("../Core/XmlElementNames");
 import UserId = require("./UserId");
 import ComplexProperty = require("./ComplexProperty");
 import PermissionScope = require("../Enumerations/PermissionScope");
@@ -41,9 +43,70 @@ class FolderPermission extends ComplexProperty {
     PropertyChanged(complexProperty: ComplexProperty): any { throw new Error("FolderPermission.ts - PropertyChanged : Not implemented."); }
     TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FolderPermission.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
-    Validate(): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
-    //WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - WriteElementsToXml : Not implemented."); }
-    //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - WriteToXml : Not implemented."); }
+    Validate(isCalendarFolder?: boolean, permissionIndex?: number): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean): void {
+        if (this.UserId != null)
+            {
+                this.UserId.WriteToXml(writer, XmlElementNames.UserId);
+            }
+
+            if (this.PermissionLevel == FolderPermissionLevel.Custom)
+            {
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.CanCreateItems,
+                    XmlElementNames.CanCreateItems,
+                    this.CanCreateItems);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.CanCreateSubFolders,
+                    XmlElementNames.CanCreateSubFolders,
+                    this.CanCreateSubFolders);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.IsFolderOwner,
+                    XmlElementNames.IsFolderOwner,
+                    this.IsFolderOwner);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.IsFolderVisible,
+                    this.IsFolderVisible);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.IsFolderContact,
+                    this.IsFolderContact);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.EditItems,
+                    this.EditItems);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.DeleteItems,
+                    this.DeleteItems);
+
+                writer.WriteElementValue(
+                    XmlNamespace.Types,
+                    XmlElementNames.ReadItems,
+                    this.ReadItems);
+            }
+
+            writer.WriteElementValue(
+                XmlNamespace.Types,
+                isCalendarFolder ? XmlElementNames.CalendarPermissionLevel : XmlElementNames.PermissionLevel,
+                this.PermissionLevel);
+    }
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, isCalendarFolder: boolean): void {
+        writer.WriteStartElement(this.Namespace, xmlElementName);
+            this.WriteAttributesToXml(writer);
+            this.WriteElementsToXml(writer, isCalendarFolder);
+            writer.WriteEndElement();
+    }
 }
 export = FolderPermission;
 //module Microsoft.Exchange.WebServices.Data {

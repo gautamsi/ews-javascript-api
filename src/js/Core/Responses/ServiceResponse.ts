@@ -113,6 +113,7 @@ class ServiceResponse {
 
             // If batch processing stopped, EWS returns an empty element. Skip over it.
             if (this.BatchProcessingStopped) {
+                debugger;
 //                do {
 //                    reader.Read();
 //                }
@@ -123,7 +124,8 @@ class ServiceResponse {
             }
         }
         else {
-//todo: check what  is missing            
+//todo: check what  is missing   
+debugger;         
 //            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
 //            reader.Read();
 //            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);

@@ -1,19 +1,81 @@
+import ServiceLocalException = require("../Exceptions/ServiceLocalException");
+import IOutParam = require("../Interfaces/IOutParam");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import XmlElementNames = require("../Core/XmlElementNames");
+import XmlAttributeNames = require("../Core/XmlAttributeNames");
 import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
 import SortDirection = require("../Enumerations/SortDirection");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+import {KeyValuePair} from "../AltDictionary";
+import {StringHelper} from "../ExtensionMethods";
+import Strings = require("../Strings");
+
+type PropertyDefinitionSortDirectionPair = KeyValuePair<PropertyDefinitionBase, SortDirection>;
 
 class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair >, IJsonSerializable
-    Count: number;
-    Item: /*System.Collections.Generic.KeyValuePair<PropertyDefinitionBase, SortDirection>*/any;
-    private propDefSortOrderPairList: /*System.Collections.Generic.List<T>*/any;
-    Add(propertyDefinition: PropertyDefinitionBase, sortDirection: SortDirection): any { throw new Error("OrderByCollection.ts - Add : Not implemented."); }
-    Clear(): any { throw new Error("OrderByCollection.ts - Clear : Not implemented."); }
-    Contains(propertyDefinition: PropertyDefinitionBase): boolean { throw new Error("OrderByCollection.ts - Contains : Not implemented."); }
+    ___implementsInterface: string[] = ["IEnumerable", "IEnumerable<PropertyDefinitionSortDirectionPair>", "IJsonSerializable"];
+
+    get Count(): number { return this.propDefSortOrderPairList.length; }
+    //Item: PropertyDefinitionSortDirectionPair;/*System.Collections.Generic.KeyValuePair<PropertyDefinitionBase, SortDirection>*/
+    private propDefSortOrderPairList: PropertyDefinitionSortDirectionPair[] = []; /*System.Collections.Generic.List<T>*/
+    __thisIndexer(index: number): PropertyDefinitionSortDirectionPair {
+        return this.propDefSortOrderPairList[index];
+    }
+
+    Add(propertyDefinition: PropertyDefinitionBase, sortDirection: SortDirection): void {
+        if (this.Contains(propertyDefinition)) {
+            throw new ServiceLocalException(StringHelper.Format(Strings.PropertyAlreadyExistsInOrderByCollection, propertyDefinition.GetPrintableName()));
+        }
+
+        this.propDefSortOrderPairList.push({ key: propertyDefinition, value: sortDirection }); //new PropertyDefinitionSortDirectionPair() not seamless in javascript
+    }
+    Clear(): void {
+        this.propDefSortOrderPairList.splice(0);
+    }
+    Contains(propertyDefinition: PropertyDefinitionBase): boolean {
+        this.propDefSortOrderPairList.forEach((pair, index) => {
+            debugger;// check if equality works or need to use any property
+            if (pair.key === propertyDefinition)
+                return true;
+        });
+        return false;
+    }
     GetEnumerator(): any { throw new Error("OrderByCollection.ts - GetEnumerator : Not implemented."); }
-    Remove(propertyDefinition: PropertyDefinitionBase): boolean { throw new Error("OrderByCollection.ts - Remove : Not implemented."); }
-    RemoveAt(index: number): any { throw new Error("OrderByCollection.ts - RemoveAt : Not implemented."); }
-    TryGetValue(propertyDefinition: PropertyDefinitionBase, sortDirection: any): boolean { throw new Error("OrderByCollection.ts - TryGetValue : Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("OrderByCollection.ts - WriteToXml : Not implemented."); }
+    Remove(propertyDefinition: PropertyDefinitionBase): boolean {
+        var oldCount = this.Count;
+        this.propDefSortOrderPairList = this.propDefSortOrderPairList.filter((value) => { return value.key !== propertyDefinition; });
+        //var count = this.propDefSortOrderPairList.RemoveAll((pair) => pair.Key.Equals(propertyDefinition));
+        return oldCount > this.Count;
+    }
+    RemoveAt(index: number): void {
+        this.propDefSortOrderPairList.splice(index, 1);
+    }
+    TryGetValue(propertyDefinition: PropertyDefinitionBase, sortDirection: IOutParam<SortDirection>): boolean {
+        for (var pair of this.propDefSortOrderPairList) {
+            if (pair.key == propertyDefinition) { //possible bug - log at Github
+                sortDirection.outValue = pair.value;
+                return true;
+            }
+        }
+
+        sortDirection.outValue = SortDirection.Ascending;        // out parameter has to be set to some value.
+        return false;
+    }
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
+        if (this.Count > 0) {
+            writer.WriteStartElement(XmlNamespace.Messages, xmlElementName);
+
+            for (var keyValuePair of this.propDefSortOrderPairList) {
+                writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.FieldOrder);
+
+                writer.WriteAttributeValue(undefined, XmlAttributeNames.Order, keyValuePair.value);
+                keyValuePair.key.WriteToXml(writer);
+
+                writer.WriteEndElement(); // FieldOrder
+            }
+            writer.WriteEndElement();
+        }
+    }
 }
 export = OrderByCollection;
 //module Microsoft.Exchange.WebServices.Data {
