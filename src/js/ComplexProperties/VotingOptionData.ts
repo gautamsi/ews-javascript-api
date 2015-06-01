@@ -10,7 +10,7 @@ class VotingOptionData extends ComplexProperty {
     private displayName: string;
     private sendPrompt: SendPrompt;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("VotingOptionData.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("VotingOptionData.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("VotingOptionData.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = VotingOptionData;
 //module Microsoft.Exchange.WebServices.Data {

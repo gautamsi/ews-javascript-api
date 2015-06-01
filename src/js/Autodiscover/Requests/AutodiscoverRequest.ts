@@ -1,4 +1,3 @@
-/// <reference path="../../typings/node/node.d.ts" />
 import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
 import EwsXmlReader = require("../../Core/EwsXmlReader");
 import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
@@ -379,20 +378,17 @@ class AutodiscoverRequest {
 
         writer.WriteElementValue(
             XmlNamespace.Autodiscover,
-            XmlElementNames.RequestedServerVersion, //LocalName
-            XmlElementNames.RequestedServerVersion, // displayName
+            XmlElementNames.RequestedServerVersion,
             ExchangeVersion[this.Service.RequestedServerVersion]
             );
 
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,
             XmlElementNames.Action,
-            XmlElementNames.Action,
             this.GetWsAddressingActionName());
 
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,
-            XmlElementNames.To,
             XmlElementNames.To,
             requestUrl);//.AbsoluteUri);
 

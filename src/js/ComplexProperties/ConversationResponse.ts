@@ -11,7 +11,7 @@ class ConversationResponse extends ComplexProperty {
     ConversationNodes: ConversationNodeCollection;
     private propertySet: PropertySet;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ConversationResponse.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationResponse.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationResponse.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ConversationResponse;
 //module Microsoft.Exchange.WebServices.Data {

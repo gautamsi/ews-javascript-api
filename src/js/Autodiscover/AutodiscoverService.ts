@@ -278,7 +278,7 @@ class AutodiscoverService extends ExchangeServiceBase {
         }
 
         var response: IPromise<TGetSettingsResponseCollection> = null;
-        var autodiscoverUrlRef: IRefParam<string> = { refvalue: this.Url };
+        var autodiscoverUrlRef: IRefParam<string> = { refValue: this.Url };
 
         // If Url is specified, call service directly.
         if (this.Url != null) {
@@ -288,7 +288,7 @@ class AutodiscoverService extends ExchangeServiceBase {
                 settings,
                 requestedVersion,
                 autodiscoverUrlRef, this).then((response) => {
-                this.Url = autodiscoverUrlRef.refvalue;
+                this.Url = autodiscoverUrlRef.refValue;
                 return response;
             });
         }
@@ -296,14 +296,14 @@ class AutodiscoverService extends ExchangeServiceBase {
         // If Domain is specified, determine endpoint Url and call service.
         else if (!StringHelper.IsNullOrEmpty(this.Domain)) {
             return this.GetAutodiscoverEndpointUrl(this.Domain).then((adsvcurl) => {
-                autodiscoverUrlRef = { refvalue: adsvcurl };
+                autodiscoverUrlRef = { refValue: adsvcurl };
                 return getSettingsMethod(
                     identities,
                     settings,
                     requestedVersion,
                     autodiscoverUrlRef, this).then((response) => {
                     // If we got this far, response was successful, set Url.
-                    this.Url = autodiscoverUrlRef.refvalue;
+                    this.Url = autodiscoverUrlRef.refValue;
                     return response;
                 });
             },(err) => {
@@ -349,7 +349,7 @@ class AutodiscoverService extends ExchangeServiceBase {
                                         identities,
                                         settings,
                                         requestedVersion,
-                                        { refvalue: autodiscoverUrl },this).then((response) => {
+                                        { refValue: autodiscoverUrl },this).then((response) => {
                                         // If we got this far, response was successful, set Url.
                                         this.Url = autodiscoverUrl;
                                         return response;
@@ -406,7 +406,7 @@ class AutodiscoverService extends ExchangeServiceBase {
                     requestedVersion,
                     autodiscoverUrlRef,this).then((response) => {
                     // If we got this far, the response was successful, set Url.
-                    this.Url = autodiscoverUrlRef.refvalue;
+                    this.Url = autodiscoverUrlRef.refValue;
 
                     // Not external if Autodiscover endpoint found via SCP returned the settings.
                     //if (isScpHost) {
@@ -522,7 +522,7 @@ class AutodiscoverService extends ExchangeServiceBase {
 
                     // If this email address was already tried, we may have a loop
                     // in SCP lookups. Disable consideration of SCP records.
-                    this.ThrowIfDuplicateRedirection(response.RedirectTarget, { refvalue: redirectionEmailAddresses });
+                    this.ThrowIfDuplicateRedirection(response.RedirectTarget, { refValue: redirectionEmailAddresses });
                     return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses, currentHop);
                     break;
 
@@ -563,7 +563,7 @@ class AutodiscoverService extends ExchangeServiceBase {
         //BUG  - Typescript bug, reference for "this" inside multiple layers of IPromise points to global this object;
         //(may be not) - this functional is called as delegate under Promise chaining, loss poiters to this.
         //var request: GetUserSettingsRequest = new GetUserSettingsRequest(this, autodiscoverUrlRef.refvalue);
-        var request: GetUserSettingsRequest = new GetUserSettingsRequest(thisref, autodiscoverUrlRef.refvalue);
+        var request: GetUserSettingsRequest = new GetUserSettingsRequest(thisref, autodiscoverUrlRef.refValue);
 
             request.SmtpAddresses = smtpAddresses;
             request.Settings = settings;
@@ -572,11 +572,11 @@ class AutodiscoverService extends ExchangeServiceBase {
                 if (response.ErrorCode == AutodiscoverErrorCode.RedirectUrl && response.RedirectionUrl != null) {
                     this.TraceMessage(
                         TraceFlags.AutodiscoverConfiguration,
-                        StringHelper.Format("Request to {0} returned redirection to {1}", autodiscoverUrlRef.refvalue.toString(), response.RedirectionUrl));
+                        StringHelper.Format("Request to {0} returned redirection to {1}", autodiscoverUrlRef.refValue.toString(), response.RedirectionUrl));
 
                     // this url need be brought back to the caller.
                     //
-                    autodiscoverUrlRef.refvalue = response.RedirectionUrl;
+                    autodiscoverUrlRef.refValue = response.RedirectionUrl;
                     return this.InternalGetUserSettings(smtpAddresses, settings, requestedVersion, autodiscoverUrlRef, thisref, currentHop);
                 }
                 else {
@@ -609,7 +609,7 @@ class AutodiscoverService extends ExchangeServiceBase {
         url.outValue = null;
 
         var endpointsOut: IOutParam<AutodiscoverEndpoints> = { outValue: AutodiscoverEndpoints.None };
-        return this.TryGetEnabledEndpointsForHost({ refvalue: host }, endpointsOut).then((value) => {
+        return this.TryGetEnabledEndpointsForHost({ refValue: host }, endpointsOut).then((value) => {
             if (value) {
                 url.outValue = StringHelper.Format(AutodiscoverService.AutodiscoverSoapHttpsUrl, host);
                 var endpoints = endpointsOut.outValue;
@@ -685,7 +685,7 @@ class AutodiscoverService extends ExchangeServiceBase {
 
         this.TraceMessage(
             TraceFlags.AutodiscoverConfiguration,
-            StringHelper.Format("Determining which endpoints are enabled for host {0}", host.refvalue));
+            StringHelper.Format("Determining which endpoints are enabled for host {0}", host.refValue));
         currentHop++;
 
         // We may get redirected to another host. And therefore need to limit the number
@@ -698,7 +698,7 @@ class AutodiscoverService extends ExchangeServiceBase {
             throw new AutodiscoverLocalException("Maximum redirection hop reached"/*Strings.MaximumRedirectionHopsExceeded*/);
         }
 
-        var autoDiscoverUrl: string = StringHelper.Format(AutodiscoverService.AutodiscoverLegacyHttpsUrl, host.refvalue);
+        var autoDiscoverUrl: string = StringHelper.Format(AutodiscoverService.AutodiscoverLegacyHttpsUrl, host.refValue);
 
         endpoints.outValue = AutodiscoverEndpoints.None;
 
@@ -718,7 +718,7 @@ class AutodiscoverService extends ExchangeServiceBase {
                         TraceFlags.AutodiscoverConfiguration,
                         StringHelper.Format("Host returned redirection to host '{0}'", redirectUrl.Host));
 
-                    host.refvalue = UriHelper.getHost(redirectUrl);
+                    host.refValue = UriHelper.getHost(redirectUrl);
                 } else {
                     endpoints.outValue = this.GetEndpointsFromHttpResponse(response);
 
@@ -768,12 +768,12 @@ class AutodiscoverService extends ExchangeServiceBase {
         // SMTP addresses are case-insensitive so entries are converted to lower-case.
         emailAddress = emailAddress.toLowerCase();
 
-        if (redirectionEmailAddresses.refvalue.indexOf(emailAddress) >= 0) {
+        if (redirectionEmailAddresses.refValue.indexOf(emailAddress) >= 0) {
             //this.EnableScpLookup = false;
             throw new AutodiscoverLocalException("Detected redirection loop, Redirection address already tried");
         }
         else {
-            redirectionEmailAddresses.refvalue.push(emailAddress);
+            redirectionEmailAddresses.refValue.push(emailAddress);
         }
 
     }

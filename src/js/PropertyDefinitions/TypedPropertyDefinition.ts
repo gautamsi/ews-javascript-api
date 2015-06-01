@@ -1,3 +1,4 @@
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import PropertyBag = require("../Core/PropertyBag");
@@ -38,7 +39,14 @@ class TypedPropertyDefinition extends PropertyDefinition {
             return value.toString();
         throw new Error("TypedPropertydefinition: incorrect call of ToString()");
     }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("TypedPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        var value = propertyBag._propGet(this);
+
+            if (value != null)
+            {
+                writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, value, this.Name);
+            }
+    }
 }
 
 export = TypedPropertyDefinition;

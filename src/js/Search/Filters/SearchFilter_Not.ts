@@ -13,7 +13,7 @@ class Not extends SearchFilter {
 	InternalValidate(): void{ throw new Error("SearchFilter_Not.ts - InternalValidate : Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_Not.ts - LoadFromJson : Not implemented.");}
 	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("SearchFilter_Not.ts - SearchFilterChanged : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_Not.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_Not.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_Not.ts - WriteElementsToXml : Not implemented.");}
 }
 export = Not;

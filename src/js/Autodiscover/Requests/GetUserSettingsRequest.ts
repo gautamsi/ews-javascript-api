@@ -34,7 +34,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
         return new GetUserSettingsResponseCollection();
     }
     Execute(): IPromise<GetUserSettingsResponseCollection> {
-        return this.InternalExecute().then((adr:GetUserSettingsResponseCollection)=>{
+        return this.InternalExecute().then((adr: GetUserSettingsResponseCollection) => {
             this.PostProcessResponses(adr)
             return adr;
         });
@@ -81,7 +81,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
         if (this.Settings.length == 0) {
             throw new ServiceValidationException(
-                Strings.InvalidAutodiscoverSettingsCount                
+                Strings.InvalidAutodiscoverSettingsCount
                 );
         }
 
@@ -120,7 +120,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
             if (smtpAddress != undefined && smtpAddress !== "") {
                 writer.WriteElementValue(
                     XmlNamespace.Autodiscover,
-                    XmlElementNames.Mailbox, XmlElementNames.Mailbox,
+                    XmlElementNames.Mailbox,
                     smtpAddress);
             }
             writer.WriteEndElement(); // User
@@ -133,7 +133,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
             writer.WriteElementValue(
                 XmlNamespace.Autodiscover,
-                XmlElementNames.Setting, XmlElementNames.Setting,
+                XmlElementNames.Setting,
                 UserSettingName[setting]);
         }
 
@@ -143,13 +143,14 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     }
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void {
 
-        //if (this.expectPartnerToken) {
-        //    writer.WriteElementValue(
-        //        XmlNamespace.Autodiscover,
-        //        XmlElementNames.BinarySecret,
-        //        btoa(ExchangeServiceBase.SessionKey));
-        //        //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
-        //}
+        if (this.expectPartnerToken) {
+            debugger;
+            // writer.WriteElementValue(
+            //    XmlNamespace.Autodiscover,
+            //    XmlElementNames.BinarySecret,
+            //    btoa(ExchangeServiceBase.SessionKey));
+            //    //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
+        }
     }
 }
 

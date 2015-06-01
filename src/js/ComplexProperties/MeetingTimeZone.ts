@@ -16,9 +16,9 @@ class MeetingTimeZone extends ComplexProperty {
     private daylight: TimeChange;
     InternalToJson(service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - LoadFromJson : Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("MeetingTimeZone.ts - ReadAttributesFromXml : Not implemented."); }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("MeetingTimeZone.ts - ReadAttributesFromXml : Not implemented."); }
     ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("MeetingTimeZone.ts - ToTimeZoneInfo : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("MeetingTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("MeetingTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }

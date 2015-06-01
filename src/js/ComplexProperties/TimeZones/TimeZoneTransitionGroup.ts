@@ -26,8 +26,8 @@ class TimeZoneTransitionGroup extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneTransitionGroup.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneTransitionGroup.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneTransitionGroup.ts - LoadFromXmlJsObject : Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneTransitionGroup.ts - ReadAttributesFromXml : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeZoneTransitionGroup.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneTransitionGroup.ts - ReadAttributesFromXml : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeZoneTransitionGroup.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     Validate(): any { throw new Error("TimeZoneTransitionGroup.ts - Validate : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransitionGroup.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransitionGroup.ts - WriteElementsToXml : Not implemented."); }

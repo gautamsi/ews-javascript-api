@@ -17,7 +17,7 @@ class EntityExtractionResult extends ComplexProperty {
     Contacts: ContactEntityCollection;
     Urls: UrlEntityCollection;
     PhoneNumbers: PhoneEntityCollection;
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EntityExtractionResult.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EntityExtractionResult.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = EntityExtractionResult;
 //module Microsoft.Exchange.WebServices.Data {

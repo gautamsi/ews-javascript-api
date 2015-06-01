@@ -27,7 +27,7 @@ class CompleteName extends ComplexProperty {
     private yomiSurname: string;
     InternalToJson(service: ExchangeService): any { throw new Error("CompleteName.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("CompleteName.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("CompleteName.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("CompleteName.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CompleteName.ts - WriteElementsToXml : Not implemented."); }
 }
 export = CompleteName;

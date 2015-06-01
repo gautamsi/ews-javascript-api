@@ -22,7 +22,7 @@ class PhoneCall extends ComplexProperty {
     Disconnect(): any { throw new Error("PhoneCall.ts - Disconnect : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneCall.ts - LoadFromJson : Not implemented."); }
     Refresh(): any { throw new Error("PhoneCall.ts - Refresh : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhoneCall.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhoneCall.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = PhoneCall;
 //module Microsoft.Exchange.WebServices.Data {

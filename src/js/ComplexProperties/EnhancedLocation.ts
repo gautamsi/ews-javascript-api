@@ -15,7 +15,7 @@ class EnhancedLocation extends ComplexProperty {
     InternalValidate(): any { throw new Error("EnhancedLocation.ts - InternalValidate : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("EnhancedLocation.ts - LoadFromJson : Not implemented."); }
     PersonaPostalAddress_OnChange(complexProperty: ComplexProperty): any { throw new Error("EnhancedLocation.ts - PersonaPostalAddress_OnChange : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EnhancedLocation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EnhancedLocation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EnhancedLocation.ts - WriteElementsToXml : Not implemented."); }
 }
 export = EnhancedLocation;

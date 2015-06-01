@@ -7,7 +7,7 @@ import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition")
 class DictionaryEntryProperty<TKey> extends ComplexProperty {
     Key: TKey;
     private key: TKey;
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("DictionaryEntryProperty.ts - ReadAttributesFromXml : Not implemented."); }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("DictionaryEntryProperty.ts - ReadAttributesFromXml : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("DictionaryEntryProperty.ts - WriteAttributesToXml : Not implemented."); }
     WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[] /*System.Collections.Generic.List<T>*/): boolean { throw new Error("DictionaryEntryProperty.ts - WriteDeleteUpdateToJson : Not implemented."); }
     WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { throw new Error("DictionaryEntryProperty.ts - WriteDeleteUpdateToXml : Not implemented."); }

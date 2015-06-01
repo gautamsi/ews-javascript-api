@@ -15,8 +15,8 @@ class TimeChange extends ComplexProperty {
     private time: Time;
     private absoluteDate: Date;
     private recurrence: TimeChangeRecurrence;
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("TimeChange.ts - ReadAttributesFromXml : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeChange.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeChange.ts - ReadAttributesFromXml : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeChange.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChange.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChange.ts - WriteElementsToXml : Not implemented."); }
 }

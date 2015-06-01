@@ -21,7 +21,7 @@ class ManagementRoles {
             writer.WriteStartElement(XmlNamespace.Types, elementName);
 
             for (var role of roles) {
-                writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Role, XmlElementNames.Role, role);
+                writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Role, role);
             }
 
             writer.WriteEndElement();

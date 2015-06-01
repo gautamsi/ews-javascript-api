@@ -6,7 +6,7 @@ class ClientApp extends ComplexProperty {
     Manifest: XMLDocument;// System.Xml.XmlDocument;
     Metadata: ClientAppMetadata;
     ReadToXmlDocument(reader: EwsServiceXmlReader): SafeXmlDocument { throw new Error("ClientApp.ts - ReadToXmlDocument : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ClientApp.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ClientApp.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ClientApp;
 //module Microsoft.Exchange.WebServices.Data {

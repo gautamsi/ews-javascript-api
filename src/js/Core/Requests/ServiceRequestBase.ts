@@ -491,7 +491,6 @@ class ServiceRequestBase {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.MailboxCulture,
-                XmlElementNames.MailboxCulture,
                 this.Service.PreferredCulture.Name);
         }
 
@@ -499,7 +498,6 @@ class ServiceRequestBase {
         if (this.Service.DateTimePrecision != DateTimePrecision.Default) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
-                XmlElementNames.DateTimePrecision,
                 XmlElementNames.DateTimePrecision,
                 DateTimePrecision[this.Service.DateTimePrecision]);
             //this.Service.DateTimePrecision.ToString());

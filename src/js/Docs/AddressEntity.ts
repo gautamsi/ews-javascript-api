@@ -3,7 +3,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 			
  class AddressEntity extends ExtractedEntity {
 	Address: string;
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("AddressEntity.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("AddressEntity.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
 export = AddressEntity;
 

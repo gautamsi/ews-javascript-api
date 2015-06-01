@@ -66,7 +66,6 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
                 writer.WriteElementValue(
                     XmlNamespace.Autodiscover,
                     XmlElementNames.Domain,
-                    XmlElementNames.Domain,
                     domain);
             }
         }
@@ -78,7 +77,6 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
             writer.WriteElementValue(
                 XmlNamespace.Autodiscover,
                 XmlElementNames.Setting,
-                XmlElementNames.Setting,
                 DomainSettingName[setting]);
         }
 
@@ -86,7 +84,6 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
 
         if (this.requestedVersion) {
             writer.WriteElementValue(XmlNamespace.Autodiscover,
-                XmlElementNames.RequestedVersion,
                 XmlElementNames.RequestedVersion,
                 this.requestedVersion);
         }

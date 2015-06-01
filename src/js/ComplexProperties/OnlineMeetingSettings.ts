@@ -12,7 +12,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	private lobbyBypass: LobbyBypass;
 	private accessLevel: OnlineMeetingAccessLevel;
 	private presenters: Presenters;
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("OnlineMeetingSettings.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("OnlineMeetingSettings.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("OnlineMeetingSettings.ts - WriteElementsToXml : Not implemented.");}
 }
 export = OnlineMeetingSettings;

@@ -11,7 +11,7 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 	CreateTransitionTime(): any /*System.TimeZoneInfo.TransitionTime*/{ throw new Error("RelativeDayOfMonthTransition.ts - CreateTransitionTime : Not implemented.");}
 	GetXmlElementName(): string{ throw new Error("RelativeDayOfMonthTransition.ts - GetXmlElementName : Not implemented.");}
 	InitializeFromTransitionTime(transitionTime: any /*System.TimeZoneInfo.TransitionTime*/): void{ throw new Error("RelativeDayOfMonthTransition.ts - InitializeFromTransitionTime : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RelativeDayOfMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RelativeDayOfMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RelativeDayOfMonthTransition.ts - WriteElementsToXml : Not implemented.");}
 }
 export = RelativeDayOfMonthTransition;

@@ -12,7 +12,7 @@ class ConversationNode extends ComplexProperty {
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("ConversationNode.ts - GetObjectInstance : Not implemented."); }
     GetXmlElementName(): string { throw new Error("ConversationNode.ts - GetXmlElementName : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ConversationNode.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationNode.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationNode.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ConversationNode;
 //module Microsoft.Exchange.WebServices.Data {

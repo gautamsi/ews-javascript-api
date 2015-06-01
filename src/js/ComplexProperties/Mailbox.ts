@@ -62,7 +62,7 @@ class Mailbox extends ComplexProperty {
             return this.Address;
         }
     }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
         switch (reader.LocalName) {
             case XmlElementNames.EmailAddress:
                 this.Address = reader.ReadElementValue();
@@ -75,8 +75,8 @@ class Mailbox extends ComplexProperty {
         }
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, XmlElementNames.EmailAddress, this.Address);
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, XmlElementNames.RoutingType, this.RoutingType);
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
     }
 
     GetSearchString(): string //ISearchStringProvider.GetSearchString

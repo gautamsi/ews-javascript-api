@@ -12,7 +12,7 @@ class SetRuleOperation extends RuleOperation {
     InternalToJson(service: ExchangeService): any { throw new Error("SetRuleOperation.ts - InternalToJson : Not implemented."); }
     InternalValidate(): any { throw new Error("SetRuleOperation.ts - InternalValidate : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("SetRuleOperation.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("SetRuleOperation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("SetRuleOperation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetRuleOperation.ts - WriteElementsToXml : Not implemented."); }
 }
 export = SetRuleOperation;

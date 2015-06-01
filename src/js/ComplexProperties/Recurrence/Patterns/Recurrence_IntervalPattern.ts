@@ -10,7 +10,7 @@ import Recurrence = require("./Recurrence");
 	InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Recurrence_IntervalPattern.ts - InternalWritePropertiesToXml : Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Recurrence_IntervalPattern.ts - LoadFromJson : Not implemented.");}
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_IntervalPattern.ts - PatternToJson : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_IntervalPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_IntervalPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
 export = IntervalPattern;
 

@@ -64,7 +64,7 @@ class ServiceId extends ComplexProperty {
             }
         }
     }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): void {
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void {
         this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
         this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);
     }

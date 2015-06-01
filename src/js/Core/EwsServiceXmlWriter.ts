@@ -132,7 +132,7 @@ class EwsServiceXmlWriter {
     }
     //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
     //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
-    WriteElementValue(xmlNamespace: XmlNamespace, localName: string, displayName: string, value: any): void {
+    WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any,displayName: string = localName): void {
         var stringValue: string = this.ConvertObjectToString(value);
         if (stringValue != undefined) {
             this.WriteStartElement(xmlNamespace, localName);

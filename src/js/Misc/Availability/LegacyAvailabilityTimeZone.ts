@@ -12,7 +12,7 @@ class LegacyAvailabilityTimeZone extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZone.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZone.ts - LoadFromJson : Not implemented."); }
     ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("LegacyAvailabilityTimeZone.ts - ToTimeZoneInfo : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("LegacyAvailabilityTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("LegacyAvailabilityTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("LegacyAvailabilityTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }
 export = LegacyAvailabilityTimeZone;

@@ -14,7 +14,7 @@ class WorkingHours extends ComplexProperty {
     private startTime: any /*System.TimeSpan*/;
     private endTime: any /*System.TimeSpan*/;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("WorkingHours.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingHours.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingHours.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = WorkingHours;
 //module Microsoft.Exchange.WebServices.Data {

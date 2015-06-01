@@ -18,8 +18,8 @@ class FileAttachment extends Attachment {
     //Load(stream: System.IO.Stream): any { throw new Error("FileAttachment.ts - Load : Not implemented."); }
     //Load(fileName: string): any { throw new Error("FileAttachment.ts - Load : Not implemented."); }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FileAttachment.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FileAttachment.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { throw new Error("FileAttachment.ts - TryReadElementFromXmlToPatch : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FileAttachment.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObjectToPatch(reader: EwsServiceXmlReader): boolean { throw new Error("FileAttachment.ts - TryReadElementFromXmlToPatch : Not implemented."); }
     //Validate(attachmentIndex: number): any { throw new Error("FileAttachment.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FileAttachment.ts - WriteElementsToXml : Not implemented."); }
 }

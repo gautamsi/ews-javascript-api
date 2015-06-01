@@ -1,3 +1,4 @@
+import EwsUtilities = require("../EwsUtilities");
 import Item = require("../ServiceObjects/Items/Item");
 import GroupedFindItemsResults = require("../../Search/GroupedFindItemsResults");
 import FindItemsResults = require("../../Search/FindItemsResults");
@@ -26,7 +27,7 @@ class FindItemResponse<TItem extends Item> extends ServiceResponse {
                 "PropertySet should not be null");
     }
     CreateItemInstance(service: ExchangeService, xmlElementName: string): TItem { 
-        return EwsUtilities.CreateEwsObjectFromXmlElementName<TItem>(service, xmlElementName);
+        //return EwsUtilities.CreateEwsObjectFromXmlElementName<TItem>(service, xmlElementName);
         }
     InternalReadItemsFromJson(jsonObject: JsonObject, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): any { throw new Error("FindItemResponse.ts - InternalReadItemsFromJson : Not implemented."); }
     InternalReadItemsFromXmlJsObject(jsObejct:any, propertySet: PropertySet, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): void { 

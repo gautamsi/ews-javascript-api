@@ -12,8 +12,8 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         EmailAddressChanged(complexProperty: ComplexProperty): any { throw new Error("EmailAddressEntry.ts - EmailAddressChanged : Not implemented."); }
         InternalToJson(service: ExchangeService): any { throw new Error("EmailAddressEntry.ts - InternalToJson : Not implemented."); }
         LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("EmailAddressEntry.ts - LoadFromJson : Not implemented."); }
-        ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadAttributesFromXml : Not implemented."); }
-        ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
+        ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadAttributesFromXml : Not implemented."); }
+        ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddressEntry.ts - WriteAttributesToXml : Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddressEntry.ts - WriteElementsToXml : Not implemented."); }
     }

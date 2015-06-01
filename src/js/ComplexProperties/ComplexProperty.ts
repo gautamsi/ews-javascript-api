@@ -25,29 +25,30 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
   }
   ClearChangeLog(): void { /*virtual method for derived class to implement if needed*/ }
-  InternalLoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlNamespace: XmlNamespace, xmlElementName: string,
-    readAction: (reader: EwsServiceXmlReader) => boolean /*System.Func<T, TResult>*/): void {
+  InternalLoadFromXmlJsObject(jsObject :any, xmlNamespace: XmlNamespace, xmlElementName: string,
+    readAction: (jsObject: any) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
+    debugger;//check how to implement with jsobject.
     throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
-    this.ReadAttributesFromXml(reader);
+    this.ReadAttributesFromXmlJsObject(jsObject);
 
-    if (!reader.IsEmptyElement) {
+    if (!jsObject.IsEmptyElement) {
       do {
-        reader.Read();
+        jsObject.Read();
 
-        switch (reader.NodeType) {
+        switch (jsObject.NodeType) {
           case Node.ELEMENT_NODE:
-            if (!readAction(reader)) {
-              reader.SkipCurrentElement();
+            if (!readAction(jsObject)) {
+              jsObject.SkipCurrentElement();
             }
             break;
           case Node.TEXT_NODE:
-            this.ReadTextValueFromXml(reader);
+            this.ReadTextValueFromXmlJsObject(jsObject);
             break;
         }
       }
-      while (!reader.HasRecursiveParent(xmlElementName));
-      reader.SeekLast(); // go back for next process to read.
+      while (!jsObject.HasRecursiveParent(xmlElementName));
+      jsObject.SeekLast(); // go back for next process to read.
     }
   }
   //InternalToJson(service: ExchangeService): any { throw new Error("ComplexProperty.ts - InternalToJson : Not implemented."); }
@@ -59,18 +60,18 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
       jsObject,
       xmlNamespace || this.Namespace,
       xmlElementName,
-      this.TryReadElementFromXmlJsObject);
+      this.ReadElementsFromXmlJsObject);
   }
-  ReadAttributesFromXml(reader: EwsServiceXmlReader): void { /*virtual method for derived class to implement if needed*/ }
-  ReadTextValueFromXml(reader: EwsServiceXmlReader): void { /*virtual method for derived class to implement if needed*/ }
+  ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
+  ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
   SetFieldValue<T>(field: IRefParam<T>, value: T): void {  //irefparam to workaround ref parameters irefparam.value is actual value;
     var applyChange: boolean = false;
 
-    if (field.refvalue == null) {
+    if (field.refValue == null) {
       applyChange = value != null;
     }
     else {
-      var fieldAny = <any>field.refvalue;
+      var fieldAny = <any>field.refValue;
       if (fieldAny.CompareTo) //todo: fix this if find new ways to check if it implements certain interface - if( field is IComparable)
       {
         applyChange = fieldAny.CompareTo(value) != 0; //todo: until fix the interface check (field as IComparable).CompareTo(value) != 0;
@@ -81,12 +82,12 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
 
     if (applyChange) {
-      field.refvalue = value;
+      field.refValue = value;
       this.Changed();
     }
   }
-  TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { return false; }
-  TryReadElementFromXmlToPatch(reader: EwsServiceXmlReader): boolean { return false; }
+  ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
+  ReadElementsFromXmlJsObjectToPatch(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
   //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - UpdateFromXml : Not implemented."); }
   UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
 
@@ -94,7 +95,7 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
       reader,
       xmlNamespace || this.Namespace,
       xmlElementName,
-      this.TryReadElementFromXmlToPatch);
+      this.ReadElementsFromXmlJsObjectToPatch);
   }
   /// <summary>
   /// Implements ISelfValidate.Validate. Validates this instance.

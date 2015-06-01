@@ -72,6 +72,18 @@ export module ArrayHelper {
         }
     }
 
+    export function RemoveEntry<T>(array: Array<T>, entry: T): boolean {
+        var index = array.indexOf(entry);
+        var lastLength = array.length;
+        if (index >= 0) {
+            array.splice(index, 1);
+            return lastLength - array.length === 1;
+        }
+        else {
+            return false
+        }
+    }
+
 
 }
 
@@ -380,7 +392,7 @@ export class Convert {
     static toBool(value: any, truefalseString = true, throwIfNotBool = false) {
         if (typeof value === 'boolean') return value;
         var num = Number(value);
-        if (num !== NaN) {
+        if (!isNaN(num)) {
             return num !== 0;
         }
         if (truefalseString) {

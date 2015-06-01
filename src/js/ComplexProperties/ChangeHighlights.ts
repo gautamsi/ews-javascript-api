@@ -16,7 +16,7 @@ class ChangeHighlights extends ComplexProperty {
     private hasEndTimeChanged: boolean;
     private end: Date;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ChangeHighlights.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ChangeHighlights.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ChangeHighlights.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = ChangeHighlights;
 //module Microsoft.Exchange.WebServices.Data {

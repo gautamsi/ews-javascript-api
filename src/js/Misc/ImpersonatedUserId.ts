@@ -32,7 +32,6 @@ import XmlElementNames = require("../Core/XmlElementNames");
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 connectingIdTypeLocalName,
-                connectingIdTypeLocalName,
                 this.Id);
 
             writer.WriteEndElement(); // ConnectingSID

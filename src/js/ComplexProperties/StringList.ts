@@ -19,7 +19,7 @@ class StringList extends ComplexProperty {
     Remove(s: string): boolean { throw new Error("StringList.ts - Remove : Not implemented."); }
     RemoveAt(index: number): any { throw new Error("StringList.ts - RemoveAt : Not implemented."); }
     ToString(): string { throw new Error("StringList.ts - ToString : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("StringList.ts - WriteElementsToXml : Not implemented."); }
 }
 export = StringList;

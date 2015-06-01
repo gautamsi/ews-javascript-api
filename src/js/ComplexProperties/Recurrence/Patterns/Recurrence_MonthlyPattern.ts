@@ -12,7 +12,7 @@ import IntervalPattern = require("./Recurrence_IntervalPattern");
 	InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Recurrence_MonthlyPattern.ts - InternalWritePropertiesToXml : Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Recurrence_MonthlyPattern.ts - LoadFromJson : Not implemented.");}
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_MonthlyPattern.ts - PatternToJson : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_MonthlyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_MonthlyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
 export = MonthlyPattern;
 

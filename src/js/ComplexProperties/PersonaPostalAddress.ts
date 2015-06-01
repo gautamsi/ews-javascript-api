@@ -39,7 +39,7 @@ class PersonaPostalAddress extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("PersonaPostalAddress.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PersonaPostalAddress.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PersonaPostalAddress.ts - LoadFromXmlJsObject : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PersonaPostalAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PersonaPostalAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteElementsToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteToXml : Not implemented."); }
 }

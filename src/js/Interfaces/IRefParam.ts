@@ -1,4 +1,4 @@
 ﻿interface IRefParam<T> {
-    refvalue?: T;
+    refValue: T;
 }
 export = IRefParam;

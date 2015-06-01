@@ -3,7 +3,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
 class EmailAddressEntity extends ExtractedEntity {
     EmailAddress: string;
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EmailAddressEntity.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EmailAddressEntity.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = EmailAddressEntity;
 //module Microsoft.Exchange.WebServices.Data {

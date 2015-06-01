@@ -12,7 +12,7 @@ class WorkingPeriod extends ComplexProperty {
     private startTime: any /*System.TimeSpan*/;
     private endTime: any /*System.TimeSpan*/;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("WorkingPeriod.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = WorkingPeriod;
 //module Microsoft.Exchange.WebServices.Data {

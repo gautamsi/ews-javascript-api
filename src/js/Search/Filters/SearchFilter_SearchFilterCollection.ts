@@ -24,7 +24,7 @@ class SearchFilterCollection extends SearchFilter {
 	Remove(searchFilter: SearchFilter): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - Remove : Not implemented.");}
 	RemoveAt(index: number): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - RemoveAt : Not implemented.");}
 	SearchFilterChanged(complexProperty: ComplexProperty): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - SearchFilterChanged : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_SearchFilterCollection.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_SearchFilterCollection.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - WriteElementsToXml : Not implemented.");}
 	WriteToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - WriteToXml : Not implemented.");}
 }

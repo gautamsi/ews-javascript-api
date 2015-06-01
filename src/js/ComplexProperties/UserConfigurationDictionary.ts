@@ -32,7 +32,7 @@ class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonC
     LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("UserConfigurationDictionary.ts - LoadFromXmlJsObject : Not implemented."); }
     Remove(key: any): boolean { throw new Error("UserConfigurationDictionary.ts - Remove : Not implemented."); }
     TryGetValue(key: any, value: any): boolean { throw new Error("UserConfigurationDictionary.ts - TryGetValue : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("UserConfigurationDictionary.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("UserConfigurationDictionary.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     UpdateFromJsonCollection(jsonCollection: any, service: ExchangeService): any { throw new Error("UserConfigurationDictionary.ts - UpdateFromJsonCollection : Not implemented."); }
     ValidateArrayObject(dictionaryObjectAsArray: Array<any> /*System.Array*/): any { throw new Error("UserConfigurationDictionary.ts - ValidateArrayObject : Not implemented."); }
     ValidateEntry(key: any, value: any): any { throw new Error("UserConfigurationDictionary.ts - ValidateEntry : Not implemented."); }

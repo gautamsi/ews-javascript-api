@@ -14,7 +14,7 @@ class TimeSuggestion extends ComplexProperty {
     private quality: SuggestionQuality;
     private conflicts: Conflict[];// System.Collections.ObjectModel.Collection<Conflict>;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeSuggestion.ts - LoadFromJson : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeSuggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeSuggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 export = TimeSuggestion;
 

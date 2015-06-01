@@ -24,9 +24,9 @@ class TimeZoneDefinition extends ComplexProperty {
     InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneDefinition.ts - LoadFromXmlJsObject : Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneDefinition.ts - ReadAttributesFromXml : Not implemented."); }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("TimeZoneDefinition.ts - ReadAttributesFromXml : Not implemented."); }
     ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("TimeZoneDefinition.ts - ToTimeZoneInfo : Not implemented."); }
-    TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeZoneDefinition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeZoneDefinition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     Validate(): any { throw new Error("TimeZoneDefinition.ts - Validate : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneDefinition.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneDefinition.ts - WriteElementsToXml : Not implemented."); }

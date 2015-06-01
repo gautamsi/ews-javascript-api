@@ -17,7 +17,7 @@ class WeeklyPattern extends IntervalPattern {
 	InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Recurrence_WeeklyPattern.ts - InternalWritePropertiesToXml : Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("Recurrence_WeeklyPattern.ts - LoadFromJson : Not implemented.");}
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_WeeklyPattern.ts - PatternToJson : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_WeeklyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_WeeklyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
 export = WeeklyPattern;
 

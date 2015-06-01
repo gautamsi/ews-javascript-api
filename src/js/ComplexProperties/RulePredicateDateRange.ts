@@ -12,7 +12,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	InternalToJson(service: ExchangeService): any{ throw new Error("RulePredicateDateRange.ts - InternalToJson : Not implemented.");}
 	InternalValidate(): void{ throw new Error("RulePredicateDateRange.ts - InternalValidate : Not implemented.");}
 	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("RulePredicateDateRange.ts - LoadFromJson : Not implemented.");}
-	TryReadElementFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicateDateRange.ts - TryReadElementFromXmlJsObject : Not implemented.");}
+	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicateDateRange.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RulePredicateDateRange.ts - WriteElementsToXml : Not implemented.");}
 }
 export = RulePredicateDateRange;

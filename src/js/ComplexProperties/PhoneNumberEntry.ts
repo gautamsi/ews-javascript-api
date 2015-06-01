@@ -14,7 +14,7 @@ class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     private phoneNumber: string;
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - LoadFromJson : Not implemented."); }
-    ReadTextValueFromXml(reader: EwsServiceXmlReader): any { throw new Error("PhoneNumberEntry.ts - ReadTextValueFromXml : Not implemented."); }
+    ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PhoneNumberEntry.ts - ReadTextValueFromXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneNumberEntry.ts - WriteElementsToXml : Not implemented."); }
 }
 export = PhoneNumberEntry;

@@ -33,7 +33,7 @@ class PrivilegedUserId {
         }
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ConnectingSID);
-        writer.WriteElementValue(XmlNamespace.Types, ConnectingIdType[this.IdType], ConnectingIdType[this.IdType], this.Id);
+        writer.WriteElementValue(XmlNamespace.Types, ConnectingIdType[this.IdType], this.Id);
         writer.WriteEndElement(); // ConnectingSID
         writer.WriteEndElement(); // OpenAsAdminOrSystemService
     }

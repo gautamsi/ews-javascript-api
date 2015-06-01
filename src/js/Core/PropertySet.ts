@@ -251,14 +251,12 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.BaseShape,
-            XmlElementNames.BaseShape,
             PropertySet.defaultPropertySetMap.Member[this.BasePropertySet]);
 
         if (serviceObjectType == ServiceObjectType.Item) {
             if (this.RequestedBodyType/*.HasValue*/) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
-                    XmlElementNames.BodyType,
                     XmlElementNames.BodyType,
                     this.RequestedBodyType/*.Value*/);
             }
@@ -267,7 +265,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.UniqueBodyType,
-                    XmlElementNames.UniqueBodyType,
                     this.RequestedUniqueBodyType/*.Value*/);
             }
 
@@ -275,14 +272,12 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.NormalizedBodyType,
-                    XmlElementNames.NormalizedBodyType,
                     this.RequestedNormalizedBodyType/*.Value*/);
             }
 
             if (this.FilterHtmlContent/*.HasValue*/) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
-                    XmlElementNames.FilterHtmlContent,
                     XmlElementNames.FilterHtmlContent,
                     this.FilterHtmlContent/*.Value*/);
             }
@@ -292,7 +287,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.ConvertHtmlCodePageToUTF8,
-                    XmlElementNames.ConvertHtmlCodePageToUTF8,
                     this.ConvertHtmlCodePageToUTF8/*.Value*/);
             }
 
@@ -300,7 +294,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
-                    XmlElementNames.InlineImageUrlTemplate,
                     XmlElementNames.InlineImageUrlTemplate,
                     this.InlineImageUrlTemplate);
             }
@@ -310,7 +303,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.BlockExternalImages,
-                    XmlElementNames.BlockExternalImages,
                     this.BlockExternalImages/*.Value*/);
             }
 
@@ -319,7 +311,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.AddBlankTargetToLinks,
-                    XmlElementNames.AddBlankTargetToLinks,
                     this.AddBlankTargetToLinks/*.Value*/);
             }
 
@@ -327,7 +318,6 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
                 writer.Service.RequestedServerVersion >= ExchangeVersion.Exchange2013) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
-                    XmlElementNames.MaximumBodySize,
                     XmlElementNames.MaximumBodySize,
                     this.MaximumBodySize/*.Value*/);
             }
