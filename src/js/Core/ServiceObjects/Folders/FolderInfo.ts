@@ -5,65 +5,56 @@ import {CreateServiceObjectWithServiceParam} from "../../../Misc/DelegateTypes";
 
 import XmlElementNames = require("../../XmlElementNames");
 import ExchangeService = require("../../ExchangeService");
+
 import CalendarFolder = require("./CalendarFolder");
 import ContactsFolder = require("./ContactsFolder");
 import Folder = require("./Folder");
-import TasksFolder = require("./ContactsFolder");
 import SearchFolder = require("./SearchFolder");
+import TasksFolder = require("./TasksFolder");
 
+import ServiceObjectInfo = require("../ServiceObjectInfo");
 /**
  * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc. 
  * this to is to avoid circular referencing with requirejs/commonjs/nodejs
  */
-class FolderInfo {
+class FolderInfo extends ServiceObjectInfo {
 
-    get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<any> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;
-    get ServiceObjectConstructorsWithServiceParam(): IndexerWithStringKey<CreateServiceObjectWithServiceParam> { return this.serviceObjectConstructorsWithServiceParam; }// System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
-    private xmlElementNameToServiceObjectClassMap: IndexerWithStringKey<string>;//System.Collections.Generic.Dictionary<string, System.Type>;
-    private serviceObjectConstructorsWithServiceParam: IndexerWithStringKey<CreateServiceObjectWithServiceParam>;//System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
-
-    constructor() {
-        this.xmlElementNameToServiceObjectClassMap = {};
-        this.serviceObjectConstructorsWithServiceParam = {};
-
-        this.InitializeServiceObjectClassMap();
-    }
-
-    private AddServiceObjectType(xmlElementName: string, type: string /*System.Type*/, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam): void {
-        this.xmlElementNameToServiceObjectClassMap[xmlElementName] = type;
-        this.serviceObjectConstructorsWithServiceParam[xmlElementName] = createServiceObjectWithServiceParam;
-    }
-    InitializeServiceObjectClassMap(): any {
+InitializeServiceObjectClassMap(): any {
         // CalendarFolder
         this.AddServiceObjectType(
             XmlElementNames.CalendarFolder,
             "CalendarFolder",
-            (srv) => { return new CalendarFolder(srv); });
+            (srv) => { return new CalendarFolder(srv); },
+            null);
 
         // ContactsFolder
         this.AddServiceObjectType(
             XmlElementNames.ContactsFolder,
             "ContactsFolder",
-            (srv) => { return new ContactsFolder(srv); });
+            (srv) => { return new ContactsFolder(srv); },
+            null);
 
         // Folder
         this.AddServiceObjectType(
             XmlElementNames.Folder,
             "Folder",
-            (srv) => { return new Folder(srv); });
+            (srv) => { return new Folder(srv); },
+            null);
 
 
         // SearchFolder
         this.AddServiceObjectType(
             XmlElementNames.SearchFolder,
             "SearchFolder",
-            (srv) => { return new SearchFolder(srv); });
+            (srv) => { return new SearchFolder(srv); },
+            null);
 
         // TasksFolder
         this.AddServiceObjectType(
             XmlElementNames.TasksFolder,
             "TasksFolder",
-            (srv) => { return new TasksFolder(srv); });
+            (srv) => { return new TasksFolder(srv); },
+            null);
     }
     
     CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {

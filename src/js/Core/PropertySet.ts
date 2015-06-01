@@ -48,13 +48,13 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
     private maximumBodySize: number;
 
     get BasePropertySet(): BasePropertySet { return this.basePropertySet; }
-    set BasePropertySet(value) { this.ThrowIfReadonly(); this.BasePropertySet = value; }
+    set BasePropertySet(value) { this.ThrowIfReadonly(); this.basePropertySet = value; }
     get RequestedBodyType(): BodyType { return this.requestedBodyType; }
     set RequestedBodyType(value) { this.ThrowIfReadonly(); this.requestedBodyType = value; }
     get RequestedUniqueBodyType(): BodyType { return this.requestedUniqueBodyType; }
     set RequestedUniqueBodyType(value) { this.ThrowIfReadonly(); this.requestedUniqueBodyType = value; }
-    get RequestedNormalizedBodyType(): BodyType { return this.RequestedNormalizedBodyType; }
-    set RequestedNormalizedBodyType(value) { this.ThrowIfReadonly(); this.RequestedNormalizedBodyType = value; }
+    get RequestedNormalizedBodyType(): BodyType { return this.requestedNormalizedBodyType; }
+    set RequestedNormalizedBodyType(value) { this.ThrowIfReadonly(); this.requestedNormalizedBodyType = value; }
     get Count(): number { return this.additionalProperties.length; }
     get FilterHtmlContent(): boolean { return this.filterHtml; } //todo - nullable properties implementations;
     set FilterHtmlContent(value) { this.ThrowIfReadonly(); this.filterHtml = value; }

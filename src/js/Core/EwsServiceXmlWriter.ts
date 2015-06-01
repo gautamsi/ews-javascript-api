@@ -98,7 +98,7 @@ class EwsServiceXmlWriter {
     }
     //WriteAttributeString(localName: string, stringValue: string): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeString : Not implemented."); }
 
-    WriteAttributeString(namespacePrefix: string, localName: string, stringValue: string): void {
+    WriteAttributeString(namespacePrefix: string, localName: string, stringValue: string, alwaysWriteEmptyString: boolean = false): void {
         var namespaceprefix = namespacePrefix || "";
         if (namespaceprefix !== "") namespaceprefix += ":";
         this.soapData += " " + namespaceprefix + localName + "=\"" + stringValue + "\"";
@@ -121,9 +121,9 @@ class EwsServiceXmlWriter {
     //WriteAttributeValue(localName: string, value: any): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeValue : Not implemented."); }
     //WriteAttributeValue(localName: string, alwaysWriteEmptyString: boolean, value: any): any { throw new Error("EwsServiceXmlWriter.ts - WriteAttributeValue : Not implemented."); }
     //WriteAttributeValue(namespacePrefix: string, localName: string, value: any): void {}
-    WriteAttributeValue(namespacePrefix: string, localName: string, value: any, alwaysWriteEmptyString?: boolean): void {
+    WriteAttributeValue(namespacePrefix: string, localName: string, value: any, alwaysWriteEmptyString: boolean = false): void {
         var stringValue: string = this.ConvertObjectToString(value);
-        if (typeof (stringValue) !== 'undefined' && stringValue !== "") {
+        if (!StringHelper.IsNullOrEmpty(stringValue) || alwaysWriteEmptyString) {
             this.WriteAttributeString(
                 namespacePrefix,
                 localName,
@@ -132,7 +132,7 @@ class EwsServiceXmlWriter {
     }
     //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
     //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
-    WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any,displayName: string = localName): void {
+    WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any, displayName: string = localName): void {
         var stringValue: string = this.ConvertObjectToString(value);
         if (stringValue != undefined) {
             this.WriteStartElement(xmlNamespace, localName);
@@ -141,7 +141,7 @@ class EwsServiceXmlWriter {
         }
         else {
             throw new Error(StringHelper.Format(
-            Strings.ElementValueCannotBeSerialized,
+                Strings.ElementValueCannotBeSerialized,
                 typeof (value), localName));
         }
     }

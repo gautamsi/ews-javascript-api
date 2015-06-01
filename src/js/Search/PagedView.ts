@@ -29,16 +29,12 @@ class PagedView extends ViewBase {
     //private offsetBasePoint: OffsetBasePoint; //not used as there is not difference in auto proerpty get or set.
     private offset: number;
     constructor(pageSize: number,
-        offset: number,
-        offsetBasePoint: OffsetBasePoint) {
+        offset: number = 0,
+        offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
         super();
         this.PageSize = pageSize;
-        if (typeof offset !== 'undefined') {
-            this.Offset = offset;
-        }
-        if (typeof offsetBasePoint !== 'undefined') {
-            this.OffsetBasePoint = offsetBasePoint;
-        }
+        this.Offset = offset;
+        this.OffsetBasePoint = offsetBasePoint;
     }
     GetMaxEntriesReturned(): number { return this.PageSize; }
     InternalValidate(request: ServiceRequestBase): void { super.InternalValidate(request); }
@@ -51,7 +47,7 @@ class PagedView extends ViewBase {
     InternalWriteViewToXml(writer: EwsServiceXmlWriter): void {
         super.InternalWriteViewToXml(writer);
         writer.WriteAttributeValue(undefined, XmlAttributeNames.Offset, this.Offset);
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.BasePoint, this.OffsetBasePoint);
+        writer.WriteAttributeValue(undefined, XmlAttributeNames.BasePoint, OffsetBasePoint[this.OffsetBasePoint]);
     }
     WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("PagedView.ts - WriteGroupingToJson : Not implemented."); }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { /* No order by for paged view*/ }

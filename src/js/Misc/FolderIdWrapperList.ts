@@ -23,9 +23,9 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
         else
             throw new Error("should not be seeing this. inside FolderIDWrapperList.Add, trying to overload methods.");
     }
-    AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
-    AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
-    AddRange(foldersOrIds: any[]): void {
+    //AddRange(folders: Folder[] /*System.Collections.Generic.IEnumerable<Folder>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
+    //AddRange(folderIds: FolderId[] /*System.Collections.Generic.IEnumerable<T>*/): void;// { throw new Error("FolderIdWrapperList.ts - AddRange : Not implemented."); }
+    AddRange(foldersOrIds: Folder[] | FolderId[]): void {
         if (foldersOrIds != null) {
             for (var folderOrId of foldersOrIds) {
                 /*FolderId folderId*/this.Add(folderOrId);

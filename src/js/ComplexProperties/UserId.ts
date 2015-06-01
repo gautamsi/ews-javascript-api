@@ -51,7 +51,7 @@ class UserId extends ComplexProperty {
                     this.displayName = jsonProperty[key];
                     break;
                 case XmlElementNames.DistinguishedUser:
-                    debugger;//check for enum value consistency
+                    //debugger;//check for enum value consistency
                     this.standardUser = <StandardUser><any>StandardUser[jsonProperty[key]];
                     break;
                 default:

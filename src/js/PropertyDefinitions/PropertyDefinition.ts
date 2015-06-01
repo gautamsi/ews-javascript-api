@@ -60,7 +60,7 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
         return (this.flags & flag) == flag;
     }
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("PropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): void { /*throw new Error("abstract method, must implement");*/ }
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void { /*throw new Error("abstract method, must implement");*/ }
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]/* System.Collections.Generic.List<PropertyDefinition>*/): any {
     }
     WriteJsonValue(jsonObject: any, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("PropertyDefinition.ts - WriteJsonValue : Not implemented."); }

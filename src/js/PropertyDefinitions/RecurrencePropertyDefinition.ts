@@ -11,7 +11,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceFromString : Not implemented."); }
         GetRecurrenceRange(recurrenceRangeString: string): RecurrenceRange { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceRange : Not implemented."); }
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("RecurrencePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-        LoadPropertyValueFromXmlJsObject(reader: EwsServiceXmlReader, propertyBag: PropertyBag): any { throw new Error("RecurrencePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
+        LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("RecurrencePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
         WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
         WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }

@@ -59,6 +59,20 @@ class Greeter {
         //EwsLogging.DebugLog(exch.Credentials, true);
         
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
+
+        exch.FindItems(WellKnownFolderName.SentItems, new ItemView(3))
+            .then((fi) => {
+                //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
+                EwsLogging.Log(fi, true, true);
+                console.log("------------");
+            }, (ei: any) => {
+                EwsLogging.Log(ei, true, true);
+                console.log("------------");
+            });
+        console.log("------------");
+        return;
+
+
         var fid: FolderId = new FolderId(WellKnownFolderName.SentItems);
         exch.BindToFolder(fid, PropertySet.FirstClassProperties)
             .then((sr) => {
@@ -67,7 +81,7 @@ class Greeter {
                 sr.FindItems(new ItemView(3))
                     .then((fi) => {
                         //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
-                        EwsLogging.Log(fi, true, true);                        
+                        EwsLogging.Log(fi, true, true);
                         console.log("------------");
                     }, (ei: any) => {
                         EwsLogging.Log(ei, true, true);

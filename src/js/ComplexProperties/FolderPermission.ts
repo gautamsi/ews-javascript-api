@@ -349,7 +349,7 @@ class FolderPermission extends ComplexProperty {
             switch (key) {
                 case XmlElementNames.UserId:
                     this.UserId = new UserId();
-                    this.UserId.LoadFromXmlJsObject(jsonProperty[key], xmlElementName);
+                    this.UserId.LoadFromXmlJsObject(jsonProperty[key]);
                     break;
                 case XmlElementNames.CanCreateItems:
                     this.canCreateItems = Convert.toBool(jsonProperty[key]);
@@ -367,20 +367,20 @@ class FolderPermission extends ComplexProperty {
                     this.isFolderContact = Convert.toBool(jsonProperty[key]);
                     break;
                 case XmlElementNames.EditItems:
-                    debugger;//check for assignable enumeration type
+                    //debugger;//check for assignable enumeration type
                     this.editItems = <PermissionScope><any>PermissionScope[jsonProperty[key]];
                     break;
                 case XmlElementNames.DeleteItems:
-                    debugger;//check for assignable enumeration type
+                    //debugger;//check for assignable enumeration type
                     this.deleteItems = <PermissionScope><any>PermissionScope[jsonProperty[key]];
                     break;
                 case XmlElementNames.ReadItems:
-                    debugger;//check for assignable enumeration type
+                    //debugger;//check for assignable enumeration type
                     this.readItems = <FolderPermissionReadAccess><any>FolderPermissionReadAccess[jsonProperty[key]]
                     break;
                 case XmlElementNames.PermissionLevel:
                 case XmlElementNames.CalendarPermissionLevel:
-                    debugger;//check for assignable enumeration type
+                    //debugger;//check for assignable enumeration type
                     this.permissionLevel = <FolderPermissionLevel><any>FolderPermissionLevel[jsonProperty[key]];
                     break;
                 default:

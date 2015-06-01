@@ -1,3 +1,4 @@
+import ExchangeService = require("./ExchangeService");
 import Strings = require("../Strings");
 import ServiceVersionException = require("../Exceptions/ServiceVersionException");
 import ServiceObjectPropertyException = require("../Exceptions/ServiceObjectPropertyException");
@@ -242,7 +243,7 @@ class PropertyBag {
         }
     }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("PropertyBag.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsObject: any, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService,clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
         if (clear) {
             this.Clear();
         }

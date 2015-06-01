@@ -47,15 +47,16 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
             permission.LoadFromXmlJsObject(jsonFolderPermission, undefined, undefined);
             this.InternalAdd(permission);
         }
-
-        var jsonUnknownEntries: any[] = jsonProperty[XmlElementNames.UnknownEntries];
-        if (typeof jsonUnknownEntries !== 'object' && !Array.isArray(jsonFolderPermissions)) {
-            debugger;
-            throw new Error("Invalid xml returned - check for consistency, UnknownEntries must be array type");
-        }
-        debugger;//check for unknown entries type, shold be string or array of string
-        for (var jsonUnknownEntry of jsonUnknownEntries) {
-            this.unknownEntries.push(jsonUnknownEntry);
+        if (jsonProperty[XmlElementNames.UnknownEntries]) {
+            var jsonUnknownEntries: any[] = jsonProperty[XmlElementNames.UnknownEntries];
+            if (typeof jsonUnknownEntries !== 'object' && !Array.isArray(jsonFolderPermissions)) {
+                debugger;
+                throw new Error("Invalid xml returned - check for consistency, UnknownEntries must be array type");
+            }
+            debugger;//check for unknown entries type, shold be string or array of string
+            for (var jsonUnknownEntry of jsonUnknownEntries) {
+                this.unknownEntries.push(jsonUnknownEntry);
+            }
         }
     }
     Remove(permission: FolderPermission): boolean { return this.InternalRemove(permission); }

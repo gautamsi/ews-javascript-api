@@ -20,10 +20,10 @@ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extend
     get RemovedItems(): TComplexProperty[] { return this.removedItems; }  //System.Collections.Generic.List<TComplexProperty>;
     get Count(): number { return this.items.length; }
     //Item: TComplexProperty;
-    private items: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
-    private addedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
-    private modifiedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
-    private removedItems: TComplexProperty[];  //System.Collections.Generic.List<TComplexProperty>;
+    private items: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
+    private addedItems: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
+    private modifiedItems: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
+    private removedItems: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
     
     __thisIndexer(index: number): TComplexProperty {
         if (index < 0 || index >= this.Count) {
@@ -124,7 +124,7 @@ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extend
         // Only write collection if it has at least one element.
         return this.Count > 0;
     }
-    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): any { throw new Error("ComplexPropertyCollection.ts - UpdateFromXmlJsObject : Not implemented."); }
+    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace = XmlNamespace.Types): any { throw new Error("ComplexPropertyCollection.ts - UpdateFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var complexProperty of this.items) {
             complexProperty.WriteToXml(writer, this.GetCollectionItemXmlElementName(complexProperty));

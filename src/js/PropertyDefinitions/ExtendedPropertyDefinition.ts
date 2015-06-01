@@ -92,6 +92,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         for (var key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.DistinguishedPropertySetId:
+                debugger;
                     this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet> +(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
                     break;
                 case XmlAttributeNames.PropertySetId:

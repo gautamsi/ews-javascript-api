@@ -21,7 +21,7 @@ class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServic
     QueryString: string;
     ReturnHighlightTerms: boolean;
     View: ViewBase;
-    private parentFolderIds: FolderIdWrapperList;
+    private parentFolderIds: FolderIdWrapperList = new FolderIdWrapperList();
     //private searchFilter: SearchFilter;
     //private queryString: string;
     //private returnHighlightTerms: boolean;

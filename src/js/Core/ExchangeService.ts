@@ -487,7 +487,22 @@ class ExchangeService extends ExchangeServiceBase {
     ////FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     ////FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     ////FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    FindItems(parentFolderIdorName: FolderId | WellKnownFolderName, view: ViewBase, searchFilterOrQueryString?: SearchFilter | string, returnHighlightTerms: boolean = false): IPromise<FindItemsResults<TItem>> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
+    FindItems(parentFolderIdorName: FolderId | WellKnownFolderName, view: ViewBase, searchFilterOrQueryString?: SearchFilter | string, returnHighlightTerms: boolean = false): IPromise<FindItemsResults<Item>> {
+        //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
+
+            return this.FindItemsAs<Item>(
+                [new FolderId( <WellKnownFolderName>parentFolderIdorName)],
+                <any>searchFilterOrQueryString,
+                null, /* queryString */
+                view,
+                null,   /* groupBy */
+                ServiceErrorHandling.ThrowOnError).then((responses)=>{
+                    return responses[0].Results;        
+                });
+                
+
+            
+    }
     
     ////FindItems_ext_As<TItem extends Item>(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     ////FindItems_ext_As<TItem extends Item>(parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }

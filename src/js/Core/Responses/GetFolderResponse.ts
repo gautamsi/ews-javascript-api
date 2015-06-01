@@ -31,15 +31,16 @@ class GetFolderResponse extends ServiceResponse {
             return this.Folder;
         }
         else {
-            var flinfo:FolderInfo = new FolderInfo();
+            var flinfo: FolderInfo = new FolderInfo();
             return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
         }
     }
     ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
         super.ReadElementsFromJson(responseObject, service);
 
-        var folders: Folder[] = new EwsServiceJsonReader(service).ReadServiceObjectsCollectionFromJson<Folder>(
+        var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
             responseObject,
+            service,
             XmlElementNames.Folders,
             this.GetObjectInstance,
             true,               /* clearPropertyBag */
@@ -48,25 +49,23 @@ class GetFolderResponse extends ServiceResponse {
 
         this.folder = folders[0];
     }
-    ReadElementsFromXmlJsObject(jsObject: any, service:ExchangeService): void {
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         super.ReadElementsFromXmlJsObject(jsObject, service);
         jsObject = jsObject[XmlElementNames.Folders];
         var folders: Folder[] = [];
-        var responseFolders: any[] = [];
-        if (Object.prototype.toString.call(jsObject) === "[object Array]")
-            responseFolders = jsObject;
-        else
-            responseFolders = [jsObject];
+        var responseFolders: any[] = jsObject;
+        if (!Array.isArray(responseFolders))
+            responseFolders = [responseFolders];
 
         for (var responseFolder of responseFolders) {
             var folderTypeName = TypeSystem.GetJsObjectTypeName(responseFolder);
-            if(folderTypeName){
-                var instance:Folder = this.GetObjectInstance(service,folderTypeName);
-                instance.LoadFromXmlJsObject(responseFolder[folderTypeName], true,this.propertySet,false);
+            if (folderTypeName) {
+                var instance: Folder = this.GetObjectInstance(service, folderTypeName);
+                instance.LoadFromXmlJsObject(responseFolder[folderTypeName], service, true, this.propertySet, false);
                 var v = instance;
                 folders.push(instance);
                 debugger;
-            }else throw new Error("error determining typename");
+            } else throw new Error("error determining typename");
         }
         //         = reader.ReadServiceObjectsCollectionFromXml<Folder>(
         //            XmlElementNames.Folders,

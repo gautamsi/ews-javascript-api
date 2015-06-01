@@ -52,7 +52,7 @@ class ServiceRequestBase {
     //ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
     ParseResponse(jsonBody: any/*JsonObject*/): any {
         var serviceResponse: ServiceResponse = new ServiceResponse();
-        serviceResponse.LoadFromJson(jsonBody, this.Service);
+        serviceResponse.LoadFromXmlJsObject (jsonBody, this.Service);
         return serviceResponse;
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
@@ -271,7 +271,7 @@ class ServiceRequestBase {
         var soapFaultDetails: SoapFaultDetails = null;
         debugger;
         try {
-            this.ReadXmlDeclaration(reader);
+            //this.ReadXmlDeclaration(reader);
 
             reader.Read();
             if (reader.LocalName != XmlElementNames.SOAPEnvelopeElementName) {

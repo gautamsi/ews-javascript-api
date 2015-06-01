@@ -9,7 +9,7 @@ import PropertyDefinition = require("./PropertyDefinition");
 class EffectiveRightsPropertyDefinition extends PropertyDefinition {
     Type: any;//System.Type;
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
         var effectiveRightsValue: EffectiveRights = EffectiveRights.None;
         if (jsObject != null) {
             for (var key in jsObject) {

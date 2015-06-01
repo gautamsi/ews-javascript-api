@@ -12,14 +12,14 @@ import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import Grouping = require("./Grouping");
 class ItemView extends PagedView {
-    Traversal: ItemTraversal;
+    Traversal: ItemTraversal = ItemTraversal.Shallow;
     get OrderBy(): OrderByCollection { return this.orderBy; }
     //private traversal: ItemTraversal; - not needed 
     private orderBy: OrderByCollection = new OrderByCollection();
     constructor(
         pageSize: number,
-        offset?: number,
-        offsetBasePoint?: OffsetBasePoint) {
+        offset: number = 0,
+        offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
         super(pageSize, offset, offsetBasePoint)
     }
     AddJsonProperties(jsonRequest: any/*JsonObject*/, service: ExchangeService): any { throw new Error("ItemView.ts - AddJsonProperties : Not implemented."); }
@@ -32,7 +32,7 @@ class ItemView extends PagedView {
     }
     InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void { super.InternalWriteSearchSettingsToXml(writer, groupBy); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.Traversal, this.Traversal);
+        writer.WriteAttributeValue(undefined, XmlAttributeNames.Traversal, ItemTraversal[this.Traversal]);
     }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { this.orderBy.WriteToXml(writer, XmlElementNames.SortOrder); }
 }

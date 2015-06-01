@@ -63,7 +63,7 @@ class ServiceResponse {
             return false;
         }
     }
-    LoadFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): any {
+    LoadFromXmlJsObject(responseObject: any /*JsonObject*/, service: ExchangeService): any {
 
         this.result = <any>ServiceResult[responseObject[XmlAttributeNames.ResponseClass]];
         this.errorCode = <any>ServiceError[responseObject[XmlElementNames.ResponseCode]];
@@ -75,7 +75,7 @@ class ServiceResponse {
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
             if (!this.BatchProcessingStopped) {
-                this.ReadElementsFromJson(responseObject, service);
+                this.ReadElementsFromXmlJsObject(responseObject, service);
             }
         }
 
@@ -84,7 +84,7 @@ class ServiceResponse {
         this.Loaded();
 
     }
-    LoadFromXmlJsObject(jsObject: any, xmlElementName: string, service:ExchangeService): void {
+    LoadFromXmlJsObject_old(jsObject: any, xmlElementName: string, service:ExchangeService): void {
         //set contecxt to xmlelementname 
         jsObject = jsObject[xmlElementName];
 
@@ -166,7 +166,8 @@ debugger;
                     break;
 
                 case XmlElementNames.FieldURI:
-                    this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(null, XmlAttributeNames.FieldURI)));
+                    debugger;//next statement needs implementation or varification of accuracy
+                    //this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(null, XmlAttributeNames.FieldURI)));
                     break;
 
                 case XmlElementNames.IndexedFieldURI:
@@ -178,7 +179,8 @@ debugger;
 
                 case XmlElementNames.ExtendedFieldURI:
                     var extendedPropDef = new ExtendedPropertyDefinition();
-                    extendedPropDef.LoadFromXml(reader);
+                    debugger;//next statement may be inaccurate
+                    extendedPropDef.LoadPropertyValueFromXmlJsObject(reader);
                     this.errorProperties.push(extendedPropDef);
                     break;
 

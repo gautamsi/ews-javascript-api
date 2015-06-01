@@ -66,20 +66,20 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
     ParseResponseXMLJsObject(jsObject: any): any {
         var serviceResponses = new ServiceResponseCollection<TResponse>();
         //set context to XmlElementNames.ResponseMessages
-        //tod: this can have multiple reponse messages.
-        jsObject = jsObject[XmlElementNames.ResponseMessages]
-        var jsResponseMessages: any[] = [];
-        if (Object.prototype.toString.call(jsObject) === "[object Array]")
-            jsResponseMessages = jsObject;
-        else
-            jsResponseMessages = [jsObject];
-
+        //todo: this can have multiple reponse messages.
+        var jsResponseMessages:any[] = jsObject[XmlElementNames.ResponseMessages]
+        if (!Array.isArray(jsResponseMessages)){
+            jsResponseMessages = [jsResponseMessages];
+        }
+        
         var responseMessageXmlElementName = this.GetResponseMessageXmlElementName();
         
         //for (var i = 0; i < responses.length; i++) {
         for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
             var response: TResponse = this.CreateServiceResponse(this.Service, i);
-            response.LoadFromXmlJsObject(jsResponseMessages[i], responseMessageXmlElementName, this.Service);
+            debugger; // check need for responseMessageXmlElementName
+            var jsResponseMessage = jsResponseMessages[i];
+            response.LoadFromXmlJsObject(jsResponseMessage[responseMessageXmlElementName], this.Service)//, responseMessageXmlElementName, this.Service);
             // Add the response to the list after it has been deserialized because the response
             // list updates an overall result as individual responses are added to it.
             serviceResponses.Add(response);
@@ -118,7 +118,7 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
             for (var jsonResponseObject of jsonResponseMessages) {
                 var response: TResponse = this.CreateServiceResponse(this.Service, responseCtr);
 
-                response.LoadFromJson(jsonResponseObject, this.Service);
+                response.LoadFromXmlJsObject(jsonResponseObject, this.Service);
 
                 // Add the response to the list after it has been deserialized because the response
                 // list updates an overall result as individual responses are added to it.

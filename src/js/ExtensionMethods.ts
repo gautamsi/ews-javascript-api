@@ -157,6 +157,14 @@ export class TypeSystem {
     }
 
     static GetJsObjectTypeName(obj: any): string {
+        var keys = Object.keys(obj);
+        if(keys && keys.indexOf("__type")>=0)
+        return obj["__type"];
+
+        return undefined;
+
+    }
+    static GetJsObjectTypeName_old(obj: any): string {
 
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {

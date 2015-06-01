@@ -9,7 +9,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
     Type: any;//System.Type;
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): void {
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
         debugger;
         if (jsObject != null) {
             var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone();

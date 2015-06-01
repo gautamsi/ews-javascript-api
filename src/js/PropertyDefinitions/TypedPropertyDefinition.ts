@@ -23,7 +23,7 @@ class TypedPropertyDefinition extends PropertyDefinition {
         this.isNullable = isNullable;
     }
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("TypedPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
         var stringValue = <string>jsObject;
 
         if (typeof jsObject === 'string' || jsObject instanceof String) {

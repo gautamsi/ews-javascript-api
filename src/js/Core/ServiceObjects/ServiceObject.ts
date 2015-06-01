@@ -129,7 +129,7 @@ class ServiceObject {
             EwsLogging.Assert(
                 !StringHelper.IsNullOrEmpty(this.xmlElementName),
                 "EwsObject.GetXmlElementName",
-                StringHelper.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
+                StringHelper.Format("The class {0} does not have an associated XML element name.","unknown decendent of ServiceObject - in serviceObject.GetXmlElementname"));
         }
         return this.xmlElementName;
     }
@@ -143,9 +143,10 @@ class ServiceObject {
     }
     //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsObject: any, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
         this.PropertyBag.LoadFromXmlJsObject(
             jsObject,
+            service,
             clearPropertyBag,
             requestedPropertySet,
             summaryPropertiesOnly);

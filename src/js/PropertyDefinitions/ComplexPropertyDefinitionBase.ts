@@ -33,7 +33,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
     }
     InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadCollectionFromJson : Not implemented."); }
     InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadFromJson : Not implemented."); }
-    InternalLoadFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
+    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
 
         var outComplexproperty: IOutParam<ComplexProperty> = { outValue: null };
         var justCreated: boolean = this.GetPropertyInstance(propertyBag, outComplexproperty);
@@ -49,8 +49,8 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         propertyBag._propSet(this, outComplexproperty.outValue);
     }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): any {
-        this.InternalLoadFromXmlJsObject(jsObject, propertyBag);
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
+        this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
         
         //    reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, this.XmlElementName);
         //
