@@ -1,8 +1,9 @@
+import XmlElementNames = require("../../XmlElementNames");
 
 import Item = require("./Item");
 class Appointment extends Item {
-     //fix constructor
-    constructor(x:any,y?:any) { super(null); }
+    //fix constructor
+    constructor(x: any, y?: any) { super(null); }
     ////////DefaultSendCancellationsMode: SendCancellationsMode;
     ////////DefaultSendInvitationsMode: SendInvitationsMode;
     ////////DefaultSendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode;
@@ -90,6 +91,7 @@ class Appointment extends Item {
     ////////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Appointment.ts - GetIsTimeZoneHeaderRequired : Not implemented."); }
     ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Appointment.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     ////////GetSchema(): ServiceObjectSchema { throw new Error("Appointment.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.CalendarItem; }
     ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("Appointment.ts - InternalAccept : Not implemented."); }
     ////////Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("Appointment.ts - Reply : Not implemented."); }
     ////////Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode: SendInvitationsMode): any { throw new Error("Appointment.ts - Save : Not implemented."); }
@@ -98,7 +100,7 @@ class Appointment extends Item {
     ////////Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): any { throw new Error("Appointment.ts - Update : Not implemented."); }
     ////////Validate(): any { throw new Error("Appointment.ts - Validate : Not implemented."); }
 }
- export = Appointment;
+export = Appointment;
 
 
 

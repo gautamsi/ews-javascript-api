@@ -33,7 +33,7 @@ import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 //todo: should be done
 class PropertyBag {
-    //Properties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    get Properties(): PropDictionary<PropertyDefinition, any> {return this.properties;}//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     get Owner(): ServiceObject { return this.owner; }
     get IsDirty(): boolean {
         var changes = this.modifiedProperties.length + this.deletedProperties.length + this.addedProperties.length;
@@ -264,7 +264,7 @@ class PropertyBag {
                     var propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
 
                     if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
-                        propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, this);
+                        propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, service, this);
 
                         this.loadedProperties.push(propertyDefinition.outValue);
                     }
@@ -305,7 +305,7 @@ class PropertyBag {
         }
     }
 
-    _propGet(propertyDefinition: PropertyDefinition): any {
+    _getItem(propertyDefinition: PropertyDefinition): any {
         var serviceException: ServiceLocalException;
         var outparam: IOutParam<any> = { outValue: null };
         var propertyValue = this.GetPropertyValueOrException(propertyDefinition, outparam);
@@ -316,7 +316,7 @@ class PropertyBag {
             throw serviceException;
         }
     }
-    _propSet(propertyDefinition: PropertyDefinition, value: any) {
+    _setItem(propertyDefinition: PropertyDefinition, value: any) {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             throw new ServiceVersionException(
                 StringHelper.Format(
@@ -485,7 +485,7 @@ class PropertyBag {
         // properties to be updated if they don't have the CanUpdate flag, but it
         // doesn't hurt...
         if (propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
-            var propertyValue = this._propGet(propertyDefinition);
+            var propertyValue = this._getItem(propertyDefinition);
 
             var handled = false;
 

@@ -13,6 +13,7 @@ class SearchFolder extends Folder {
     //////Bind(service: ExchangeService, name: WellKnownFolderName): SearchFolder { throw new Error("SearchFolder.ts - Bind : Not implemented."); }
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SearchFolder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     //////GetSchema(): ServiceObjectSchema { throw new Error("SearchFolder.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.SearchFolder; }
     //////Validate(): any { throw new Error("SearchFolder.ts - Validate : Not implemented."); }
 }
 export = SearchFolder;

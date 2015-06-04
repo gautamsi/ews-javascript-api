@@ -3,7 +3,7 @@ import EwsUtilities = require("../Core/EwsUtilities");
 import GenericPropertyDefinition = require("./GenericPropertyDefinition");
 class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
 
-    ToString(value: any): string {
+    ToString(value?: any): string {
         return EwsUtilities.BoolToXSBool(value);      
         //throw new Error("BoolPropertyDefinition.ts - ToString : Not implemented."); 
     }

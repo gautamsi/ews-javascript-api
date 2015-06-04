@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import Item = require("./Item");
 class PostItem extends Item {
     ////////ConversationIndex: System.Byte[];
@@ -17,10 +18,11 @@ class PostItem extends Item {
     ////////Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): any { throw new Error("PostItem.ts - Forward : Not implemented."); }
     ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("PostItem.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     ////////GetSchema(): ServiceObjectSchema { throw new Error("PostItem.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.PostItem; }
     ////////PostReply(bodyPrefix: MessageBody): any { throw new Error("PostItem.ts - PostReply : Not implemented."); }
     ////////Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("PostItem.ts - Reply : Not implemented."); }
 }
- export = PostItem;
+export = PostItem;
 
 
 

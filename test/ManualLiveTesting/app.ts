@@ -67,6 +67,7 @@ class Greeter {
                 console.log("------------");
             }, (ei: any) => {
                 EwsLogging.Log(ei, true, true);
+                console.log(ei.stack, ei.stack.split("\n"));
                 console.log("------------");
             });
         console.log("------------");

@@ -162,9 +162,6 @@ class ExchangeService extends ExchangeServiceBase {
     // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginUnsubscribe : Not implemented."); }
-    //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
-    ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
-    //BindToItems(itemIds: TResponse[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - BindToItems : Not implemented."); }
     //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
     //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
     //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
@@ -174,15 +171,9 @@ class ExchangeService extends ExchangeServiceBase {
     //BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest { throw new Error("ExchangeService.ts - BuildUnsubscribeRequest : Not implemented."); }
     //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("ExchangeService.ts - ConvertId : Not implemented."); }
     //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ConvertIds : Not implemented."); }
-    //CopyItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - CopyItem : Not implemented."); }
-    //CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
-    ////CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
-    //CopyItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItemsInConversations : Not implemented."); }
     //CreateAttachments(parentItemId: string, attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<CreateAttachmentResponse> { throw new Error("ExchangeService.ts - CreateAttachments : Not implemented."); }
     //CreateGetNonIndexableItemDetailsRequest(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemDetailsRequest : Not implemented."); }
     //CreateGetNonIndexableItemStatisticsRequest(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemStatisticsRequest : Not implemented."); }
-    //CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): any { throw new Error("ExchangeService.ts - CreateItem : Not implemented."); }
-    //CreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CreateItems : Not implemented."); }
     //CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest { throw new Error("ExchangeService.ts - CreateSearchMailboxesRequest : Not implemented."); }
     //CreateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - CreateUserConfiguration : Not implemented."); }
     DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
@@ -190,11 +181,6 @@ class ExchangeService extends ExchangeServiceBase {
         throw new AutodiscoverLocalException(StringHelper.Format(Strings.AutodiscoverRedirectBlocked, redirectionUrl));
     }
     //DeleteAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<DeleteAttachmentResponse> { throw new Error("ExchangeService.ts - DeleteAttachments : Not implemented."); }
-    //DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
-    ////DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
-    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
-    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
-    //DeleteItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, deleteMode: DeleteMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItemsInConversations : Not implemented."); }
     //DeleteUserConfiguration(name: string, parentFolderId: FolderId): any { throw new Error("ExchangeService.ts - DeleteUserConfiguration : Not implemented."); }
     //DisableAlwaysCategorizeItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysCategorizeItemsInConversations : Not implemented."); }
     //DisableAlwaysDeleteItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysDeleteItemsInConversations : Not implemented."); }
@@ -324,17 +310,12 @@ class ExchangeService extends ExchangeServiceBase {
     //InternalFindFolders(parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalFindFolders : Not implemented."); }
     //InternalGetAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetAttachments : Not implemented."); }
     //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
-    //InternalLoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalLoadPropertiesForItems : Not implemented."); }
     //InternalMoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalMoveItems : Not implemented."); }
     //InternalUpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalUpdateItems : Not implemented."); }
     //IsMajorMinor(versionPart: string): boolean { throw new Error("ExchangeService.ts - IsMajorMinor : Not implemented."); }
     //LoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - LoadPropertiesForItems : Not implemented."); }
     //LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): any { throw new Error("ExchangeService.ts - LoadPropertiesForUserConfiguration : Not implemented."); }
     //MarkAsJunk(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, isJunk: boolean, moveItem: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MarkAsJunk : Not implemented."); }
-    //MoveItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - MoveItem : Not implemented."); }
-    //MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
-    ////MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
-    //MoveItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItemsInConversations : Not implemented."); }
     ////PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
     PrepareHttpWebRequest(methodName: string): IXHROptions {
         var endpoint = this.Url;
@@ -415,10 +396,6 @@ class ExchangeService extends ExchangeServiceBase {
     ////UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - UpdateDelegates : Not implemented."); }
     //UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
     ////UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
-    //UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
-    ////UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
-    //UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
-    ////UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
     //UpdateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - UpdateUserConfiguration : Not implemented."); }
     //Validate(): any { throw new Error("ExchangeService.ts - Validate : Not implemented."); }
     //ValidateTargetVersion(version: string): any { throw new Error("ExchangeService.ts - ValidateTargetVersion : Not implemented."); }
@@ -471,7 +448,23 @@ class ExchangeService extends ExchangeServiceBase {
     UpdateFolder(folder: Folder): IPromise<void> { throw new Error("ExchangeService.ts - UpdateFolder : Not implemented."); }
 
     // Item Operations
-
+    //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
+    ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
+    //BindToItems(itemIds: TResponse[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - BindToItems : Not implemented."); }
+    
+    //CopyItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - CopyItem : Not implemented."); }
+    //CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
+    ////CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
+    //CopyItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItemsInConversations : Not implemented."); }
+    //CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): any { throw new Error("ExchangeService.ts - CreateItem : Not implemented."); }
+    //CreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CreateItems : Not implemented."); }
+    //DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
+    ////DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
+    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
+    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
+    //DeleteItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, deleteMode: DeleteMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItemsInConversations : Not implemented."); }
+    
+    
     ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
@@ -490,18 +483,18 @@ class ExchangeService extends ExchangeServiceBase {
     FindItems(parentFolderIdorName: FolderId | WellKnownFolderName, view: ViewBase, searchFilterOrQueryString?: SearchFilter | string, returnHighlightTerms: boolean = false): IPromise<FindItemsResults<Item>> {
         //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
 
-            return this.FindItemsAs<Item>(
-                [new FolderId( <WellKnownFolderName>parentFolderIdorName)],
-                <any>searchFilterOrQueryString,
-                null, /* queryString */
-                view,
-                null,   /* groupBy */
-                ServiceErrorHandling.ThrowOnError).then((responses)=>{
-                    return responses[0].Results;        
-                });
-                
+        return this.FindItemsAs<Item>(
+            [new FolderId(<WellKnownFolderName>parentFolderIdorName)],
+            <any>searchFilterOrQueryString,
+            null, /* queryString */
+            view,
+            null,   /* groupBy */
+            ServiceErrorHandling.ThrowOnError).then((responses) => {
+                return responses[0].Results;
+            });
 
-            
+
+
     }
     
     ////FindItems_ext_As<TItem extends Item>(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
@@ -530,7 +523,19 @@ class ExchangeService extends ExchangeServiceBase {
 
     }
 
+    InternalLoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<ServiceResponse> { throw new Error("ExchangeService.ts - InternalLoadPropertiesForItems : Not implemented."); }
+    
+    //MoveItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - MoveItem : Not implemented."); }
+    //MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
+    ////MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
+    //MoveItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItemsInConversations : Not implemented."); }
+    
 
+    //UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
+    ////UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
+    //UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
+    ////UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
+    
 
 
 }

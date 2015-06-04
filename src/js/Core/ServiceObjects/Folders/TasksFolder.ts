@@ -11,6 +11,7 @@ class TasksFolder extends Folder {
     ////////Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): TasksFolder { throw new Error("TasksFolder.ts - Bind : Not implemented."); }
     //////Bind(service: ExchangeService, name: WellKnownFolderName): TasksFolder { throw new Error("TasksFolder.ts - Bind : Not implemented."); }
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("TasksFolder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.TasksFolder; }
 }
 export = TasksFolder;
 

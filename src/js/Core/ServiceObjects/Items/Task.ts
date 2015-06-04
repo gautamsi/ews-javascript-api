@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import Item = require("./Item");
 class Task extends Item {
     //////ActualWork: number;
@@ -29,6 +30,7 @@ class Task extends Item {
     //////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Task.ts - GetIsTimeZoneHeaderRequired : Not implemented."); }
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Task.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     //////GetSchema(): ServiceObjectSchema { throw new Error("Task.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.Task; }
     //////Update(conflictResolutionMode: ConflictResolutionMode): Task { throw new Error("Task.ts - Update : Not implemented."); }
 }
 export = Task;

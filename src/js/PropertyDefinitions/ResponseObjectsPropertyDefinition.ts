@@ -66,7 +66,7 @@ class ResponseObjectsPropertyDefinition extends PropertyDefinition {
             }
         }
 
-        propertyBag._propSet(this, responseActionValue);
+        propertyBag._setItem(this, responseActionValue);
     }
     WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }

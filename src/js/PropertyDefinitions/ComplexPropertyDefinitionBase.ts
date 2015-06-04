@@ -46,7 +46,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
             outComplexproperty.outValue.LoadFromXmlJsObject(jsObject, null);
         }
 
-        propertyBag._propSet(this, outComplexproperty.outValue);
+        propertyBag._setItem(this, outComplexproperty.outValue);
     }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
@@ -64,7 +64,7 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
     //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WriteJsonValue : Not implemented."); }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
 
-        var complexProperty: ComplexProperty = <ComplexProperty> propertyBag._propGet(this);
+        var complexProperty: ComplexProperty = <ComplexProperty> propertyBag._getItem(this);
         debugger;
         if (complexProperty != null || typeof complexProperty !== 'undefined') {
             complexProperty.WriteToXml(writer, this.XmlElementName);

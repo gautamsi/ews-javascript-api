@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import MessageBody = require("../../../ComplexProperties/MessageBody");
 import ServiceObject = require("../ServiceObject");
 import Item = require("../Items/Item");
@@ -18,6 +19,7 @@ class PostReply extends ServiceObject {
     private referenceItem: Item;
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("PostReply.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetSchema(): ServiceObjectSchema { throw new Error("PostReply.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.PostReplyItem; }
     InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): PostItem { throw new Error("PostReply.ts - InternalCreate : Not implemented."); }
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("PostReply.ts - InternalDelete : Not implemented."); }
     InternalLoad(propertySet: PropertySet): any { throw new Error("PostReply.ts - InternalLoad : Not implemented."); }

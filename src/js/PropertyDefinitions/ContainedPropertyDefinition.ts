@@ -43,7 +43,7 @@ class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> exte
     //     //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
     // }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
-        var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._propGet(this);
+        var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
         debugger;
         if (complexProperty != null || typeof complexProperty !== 'undefined') {
             writer.WriteStartElement(XmlNamespace.Types, this.XmlElementName);

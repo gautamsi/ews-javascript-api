@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 
 import Item = require("./Item");
 class Contact extends Item {
@@ -50,6 +51,7 @@ class Contact extends Item {
     //////GetContactPictureAttachment(): FileAttachment { throw new Error("Contact.ts - GetContactPictureAttachment : Not implemented."); }
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Contact.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     //////GetSchema(): ServiceObjectSchema { throw new Error("Contact.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.Contact; }
     //////InternalRemoveContactPicture(): any { throw new Error("Contact.ts - InternalRemoveContactPicture : Not implemented."); }
     //////RemoveContactPicture(): any { throw new Error("Contact.ts - RemoveContactPicture : Not implemented."); }
     //////SetContactPicture(content: System.Byte[]): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }

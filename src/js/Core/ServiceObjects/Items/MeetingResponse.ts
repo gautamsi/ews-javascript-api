@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import MeetingMessage = require("./MeetingMessage");
 class MeetingResponse extends MeetingMessage {
     //////Start: Date;
@@ -11,8 +12,9 @@ class MeetingResponse extends MeetingMessage {
     //////Bind(service: ExchangeService, id: ItemId): MeetingResponse { throw new Error("MeetingResponse.ts - Bind : Not implemented."); }
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingResponse.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     //////GetSchema(): ServiceObjectSchema { throw new Error("MeetingResponse.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.MeetingResponse; }
 }
- export = MeetingResponse;
+export = MeetingResponse;
 
 
 

@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import MeetingMessage = require("./MeetingMessage");
 class MeetingRequest extends MeetingMessage {
     ////////MeetingRequestType: MeetingRequestType;
@@ -51,6 +52,7 @@ class MeetingRequest extends MeetingMessage {
     ////////Decline(sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - Decline : Not implemented."); }
     ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     ////////GetSchema(): ServiceObjectSchema { throw new Error("MeetingRequest.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.MeetingRequest; }
     ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - InternalAccept : Not implemented."); }
 }
 

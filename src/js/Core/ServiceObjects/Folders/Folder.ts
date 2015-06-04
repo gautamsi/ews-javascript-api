@@ -36,24 +36,24 @@ import XmlElementNames = require("../../XmlElementNames");
 
 import ServiceObject = require("../ServiceObject");
 class Folder extends ServiceObject {
-    get Id(): FolderId { return <FolderId>this.PropertyBag._propGet(this.GetIdPropertyDefinition()); }
-    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._propGet(FolderSchema.ParentFolderId); }
-    get ChildFolderCount(): number { return <number>this.PropertyBag._propGet(FolderSchema.ChildFolderCount); }
-    get DisplayName(): string { return <string>this.PropertyBag._propGet(FolderSchema.DisplayName); }
-    set DisplayName(value: string) { this.PropertyBag._propSet(FolderSchema.DisplayName, value); }
-    get FolderClass(): string { return <string>this.PropertyBag._propGet(FolderSchema.FolderClass); }
-    set FolderClass(value: string) { this.PropertyBag._propSet(FolderSchema.FolderClass, value); }
-    get TotalCount(): number { return <number>this.PropertyBag._propGet(FolderSchema.TotalCount); }
-    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._propGet(FolderSchema.ExtendedProperties); }
-    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._propGet(FolderSchema.ManagedFolderInformation); }
-    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._propGet(FolderSchema.EffectiveRights); }
-    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._propGet(FolderSchema.Permissions); }
-    get UnreadCount(): number { return <number>this.PropertyBag._propGet(FolderSchema.UnreadCount); }
-    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._propGet(FolderSchema.PolicyTag); }
-    set PolicyTag(value: PolicyTag) { this.PropertyBag._propSet(FolderSchema.PolicyTag, value); }
-    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._propGet(FolderSchema.ArchiveTag); }
-    set ArchiveTag(value) { this.PropertyBag._propSet(FolderSchema.ArchiveTag, value); }
-    get WellKnownFolderName(): WellKnownFolderName { return <WellKnownFolderName>this.PropertyBag._propGet(FolderSchema.WellKnownFolderName); }
+    get Id(): FolderId { return <FolderId>this.PropertyBag._getItem(this.GetIdPropertyDefinition()); }
+    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(FolderSchema.ParentFolderId); }
+    get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.ChildFolderCount); }
+    get DisplayName(): string { return <string>this.PropertyBag._getItem(FolderSchema.DisplayName); }
+    set DisplayName(value: string) { this.PropertyBag._setItem(FolderSchema.DisplayName, value); }
+    get FolderClass(): string { return <string>this.PropertyBag._getItem(FolderSchema.FolderClass); }
+    set FolderClass(value: string) { this.PropertyBag._setItem(FolderSchema.FolderClass, value); }
+    get TotalCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.TotalCount); }
+    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._getItem(FolderSchema.ExtendedProperties); }
+    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._getItem(FolderSchema.ManagedFolderInformation); }
+    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._getItem(FolderSchema.EffectiveRights); }
+    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._getItem(FolderSchema.Permissions); }
+    get UnreadCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.UnreadCount); }
+    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._getItem(FolderSchema.PolicyTag); }
+    set PolicyTag(value: PolicyTag) { this.PropertyBag._setItem(FolderSchema.PolicyTag, value); }
+    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._getItem(FolderSchema.ArchiveTag); }
+    set ArchiveTag(value) { this.PropertyBag._setItem(FolderSchema.ArchiveTag, value); }
+    get WellKnownFolderName(): WellKnownFolderName { return <WellKnownFolderName>this.PropertyBag._getItem(FolderSchema.WellKnownFolderName); }
     
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
@@ -130,7 +130,7 @@ class Folder extends ServiceObject {
             return res.__thisIndexer(0).GroupedFindResults;
         });
     }
-
+    GetXmlElementName(): string { return XmlElementNames.Folder; }
     GetChangeXmlElementName(): string { return XmlElementNames.FolderChange; }
     GetDeleteFieldXmlElementName(): string { return XmlElementNames.DeleteFolderField; }
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }

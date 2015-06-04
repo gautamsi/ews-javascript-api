@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import ServiceObject = require("../ServiceObject");
 import Item = require("../Items/Item");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
@@ -14,6 +15,7 @@ class RemoveFromCalendar extends ServiceObject {
     private referenceItem: Item;
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("RemoveFromCalendar.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetSchema(): ServiceObjectSchema { throw new Error("RemoveFromCalendar.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.RemoveItem; }
     InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Item[]/*System.Collections.Generic.List<Item>*/ { throw new Error("RemoveFromCalendar.ts - InternalCreate : Not implemented."); }
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("RemoveFromCalendar.ts - InternalDelete : Not implemented."); }
     InternalLoad(propertySet: PropertySet): any { throw new Error("RemoveFromCalendar.ts - InternalLoad : Not implemented."); }

@@ -1,3 +1,4 @@
+import XmlElementNames = require("../../XmlElementNames");
 import ServiceObject = require("../ServiceObject");
 class Conversation extends ServiceObject {
     //////Id: ConversationId;
@@ -55,10 +56,10 @@ class Conversation extends ServiceObject {
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Conversation.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     //////GetSchema(): ServiceObjectSchema { throw new Error("Conversation.ts - GetSchema : Not implemented."); }
     //////GetSetFieldXmlElementName(): string { throw new Error("Conversation.ts - GetSetFieldXmlElementName : Not implemented."); }
-    //////GetXmlElementName(): string {
+    GetXmlElementName(): string {
 
-    //////    return XmlElementNames.Conversation;
-    //////}
+       return XmlElementNames.Conversation;
+    }
     //////InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Conversation.ts - InternalDelete : Not implemented."); }
     //////InternalLoad(propertySet: PropertySet): any { throw new Error("Conversation.ts - InternalLoad : Not implemented."); }
     //////MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): any { throw new Error("Conversation.ts - MoveItemsInConversation : Not implemented."); }

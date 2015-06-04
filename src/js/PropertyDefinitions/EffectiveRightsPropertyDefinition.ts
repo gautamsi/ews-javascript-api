@@ -52,7 +52,7 @@ class EffectiveRightsPropertyDefinition extends PropertyDefinition {
                 }
             }
         }
-        propertyBag._propSet(this,jsObject);
+        propertyBag._setItem(this,jsObject);
         //throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented.");
     }
     //WriteJsonValue(jsObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("EffectiveRightsPropertyDefinition.ts - WriteJsonValue : Not implemented."); }

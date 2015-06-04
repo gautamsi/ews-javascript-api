@@ -27,10 +27,10 @@ class TypedPropertyDefinition extends PropertyDefinition {
         var stringValue = <string>jsObject;
 
         if (typeof jsObject === 'string' || jsObject instanceof String) {
-            propertyBag._propSet(this, this.Parse(jsObject));
+            propertyBag._setItem(this, this.Parse(jsObject));
         }
         else if (jsObject != null || typeof jsObject !== 'undefined') {
-            propertyBag._propSet(this, this.Parse(jsObject.toString()));
+            propertyBag._setItem(this, this.Parse(jsObject.toString()));
         }
     }
     Parse(value: string): any { throw new Error("abstract TypedPropertyDefinition.ts - Parse : Not implemented."); }
@@ -40,7 +40,7 @@ class TypedPropertyDefinition extends PropertyDefinition {
         throw new Error("TypedPropertydefinition: incorrect call of ToString()");
     }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
-        var value = propertyBag._propGet(this);
+        var value = propertyBag._getItem(this);
 
             if (value != null)
             {

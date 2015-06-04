@@ -83,6 +83,15 @@ export module ArrayHelper {
             return false
         }
     }
+    
+    export function Find<T>(array: Array<T>, comparer:(item:T)=>boolean){
+        for(var entry of array){
+            if(comparer(entry)){
+                return entry;
+            }
+        }
+        return null;
+    }
 
 
 }

@@ -1,3 +1,4 @@
+import XmlElementNames = require("../Core/XmlElementNames");
 import AttachmentCollection = require("../ComplexProperties/AttachmentCollection");
 import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
@@ -5,6 +6,15 @@ import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 
 class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<AttachmentCollection> {
     private static Exchange2010SP2PropertyDefinitionFlags: PropertyDefinitionFlags = PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.UpdateCollectionItems;
+    constructor(propertyName: string){
+        super(
+            propertyName,
+            XmlElementNames.Attachments,
+            ExchangeVersion.Exchange2007_SP1,
+            "item:Attachments",
+            PropertyDefinitionFlags.AutoInstantiateOnRead,
+            ()=> { return new AttachmentCollection(); })
+    }
     HasFlag(flag: PropertyDefinitionFlags, version: ExchangeVersion): boolean { 
         if (version != null && version >= ExchangeVersion.Exchange2010_SP2)
             {

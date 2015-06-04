@@ -5,7 +5,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
 
- class ItemAttachment<TItem extends Item> extends Attachment {
+ class ItemAttachment extends Attachment {
     Item: Item;
     private item: Item;
     GetXmlElementName(): string { throw new Error("ItemAttachment.ts - GetXmlElementName : Not implemented."); }
