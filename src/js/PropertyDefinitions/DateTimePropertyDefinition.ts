@@ -1,3 +1,5 @@
+import XmlNamespace = require("../Enumerations/XmlNamespace");
+import EwsUtilities = require("../Core/EwsUtilities");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
@@ -9,9 +11,9 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
 import PropertyDefinition = require("./PropertyDefinition");
 class DateTimePropertyDefinition extends PropertyDefinition {
-    IsNullable: boolean;
+    get IsNullable(): boolean{return this.isNullable;}
     Type: any;//System.Type;
-    private isNullable: boolean;
+    private isNullable: boolean = false;
     constructor(
         propertyName: string,
         xmlElementName: string,
@@ -19,7 +21,6 @@ class DateTimePropertyDefinition extends PropertyDefinition {
         uri?: string,
         flags?: PropertyDefinitionFlags,
         isNullable: boolean = false) {
-
         super(propertyName, xmlElementName, version, uri, flags);
     }
     GetConvertedDateTime(service: ExchangeServiceBase, propertyBag: PropertyBag, isUpdateOperation: boolean, value: any): Date { throw new Error("DateTimePropertyDefinition.ts - GetConvertedDateTime : Not implemented."); }
@@ -27,7 +28,20 @@ class DateTimePropertyDefinition extends PropertyDefinition {
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("DateTimePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: Date, propertyBag: PropertyBag, isUpdateOperation: boolean): Date { throw new Error("DateTimePropertyDefinition.ts - ScopeToTimeZone : Not implemented."); }
     WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("DateTimePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("DateTimePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        var value = propertyBag._getItem(this);
+
+            if (value != null)
+            {
+                writer.WriteStartElement(XmlNamespace.Types, this.XmlElementName);
+
+                var convertedDateTime:Date =this.GetConvertedDateTime(writer.Service, propertyBag, isUpdateOperation, value);
+
+                writer.WriteValue(EwsUtilities.DateTimeToXSDateTime(convertedDateTime), this.Name);
+
+                writer.WriteEndElement();
+            }
+    }
 }
 
 

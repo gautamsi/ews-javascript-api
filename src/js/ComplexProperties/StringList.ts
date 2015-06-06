@@ -1,26 +1,98 @@
+import XmlElementNames = require("../Core/XmlElementNames");
+import Strings = require("../Strings");
+import XmlNamespace = require("../Enumerations/XmlNamespace");
 import ComplexProperty = require("./ComplexProperty");
 import ExchangeService = require("../Core/ExchangeService");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 
-class StringList extends ComplexProperty {
-    Count: number;
-    Item: string;
-    private items: string[] /*System.Collections.Generic.List<string>*/;
-    private itemXmlElementName: string;
-    Add(s: string): any { throw new Error("StringList.ts - Add : Not implemented."); }
-    AddRange(strings: string[] /*System.Collections.Generic.IEnumerable<string>*/): any { throw new Error("StringList.ts - AddRange : Not implemented."); }
-    Clear(): any { throw new Error("StringList.ts - Clear : Not implemented."); }
-    Contains(s: string): boolean { throw new Error("StringList.ts - Contains : Not implemented."); }
+class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
+    get Count(): number { return this.items.length; }
+    get Items(): string[] { return this.items; }
+    private items: string[] = [];// /*System.Collections.Generic.List<string>*/;
+    private itemXmlElementName: string = XmlElementNames.String;
+
+    constructor(stringOrItemXmlElementName?: string| string[]) {
+        super();
+        if (typeof stringOrItemXmlElementName !== 'undefined') {
+            if (typeof stringOrItemXmlElementName === 'string') {
+                this.itemXmlElementName = stringOrItemXmlElementName;
+            }
+            else {
+                this.AddRange(stringOrItemXmlElementName);
+            }
+        }
+    }
+
+    _getItem(index: number): string {
+        if (index < 0 || index >= this.Count) {
+            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+        }
+        return this.items[index];
+    }
+    _setItem(index: number, value: string): void {
+        if (index < 0 || index >= this.Count) {
+            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+        }
+        if (this.items[index] !== value) {
+            this.items[index] = value;
+            this.Changed();
+        }
+    }
+
+
+    Add(s: string): void {
+        this.items.push(s);
+        this.Changed();
+    }
+    AddRange(strings: string[] /*System.Collections.Generic.IEnumerable<string>*/): void {
+        var changed = false;
+
+        for (var s of strings) {
+            if (!this.Contains(s)) {
+                this.items.push(s);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            this.Changed();
+        }
+    }
+    Clear(): void {
+        this.items.splice(0);
+        this.Changed();
+    }
+    Contains(s: string): boolean { return this.items.indexOf(s) >= 0; }
     Equals(obj: any): boolean { throw new Error("StringList.ts - Equals : Not implemented."); }
     GetEnumerator(): any { throw new Error("StringList.ts - GetEnumerator : Not implemented."); }
     GetHashCode(): number { throw new Error("StringList.ts - GetHashCode : Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("StringList.ts - InternalToJson : Not implemented."); }
-    Remove(s: string): boolean { throw new Error("StringList.ts - Remove : Not implemented."); }
-    RemoveAt(index: number): any { throw new Error("StringList.ts - RemoveAt : Not implemented."); }
-    ToString(): string { throw new Error("StringList.ts - ToString : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("StringList.ts - WriteElementsToXml : Not implemented."); }
+    Remove(s: string): boolean {
+        var index = this.items.indexOf(s);
+        if (index >= 0) {
+            this.RemoveAt(index);
+            this.Changed();
+            return true;
+        }
+        return false;
+    }
+    RemoveAt(index: number): void {
+        if (index < 0 || index >= this.Count) {
+            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+        }
+        this.items.splice(index, 1);
+        this.Changed();
+    }
+    ToString(): string { return this.items.join(","); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        for (var item of this.items) {
+            writer.WriteStartElement(XmlNamespace.Types, this.itemXmlElementName);
+            writer.WriteValue(item, this.itemXmlElementName);
+            writer.WriteEndElement();
+        }
+    }
 }
 export = StringList;
 //module Microsoft.Exchange.WebServices.Data {

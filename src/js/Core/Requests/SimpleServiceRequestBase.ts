@@ -45,8 +45,8 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
 
                 var dom = new DOMParser();
                 var req = xml2JsObject.parseXMLNode(dom.parseFromString(rawXML, "text/xml").documentElement, true);
-                successDelegate(this.ReadResponsePrivate(req));
                 EwsLogging.DebugLog(req, true);
+                successDelegate(this.ReadResponsePrivate(req));
                 return req;
             }
             //////////////////////////////////////

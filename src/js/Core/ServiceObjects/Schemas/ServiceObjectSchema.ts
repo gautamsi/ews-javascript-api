@@ -1,27 +1,5 @@
-///////////////////
-import AppointmentSchema = require("./AppointmentSchema");
-import CalendarResponseObjectSchema = require("./CalendarResponseObjectSchema");
-import CancelMeetingMessageSchema = require("./CancelMeetingMessageSchema");
-import ContactGroupSchema = require("./ContactGroupSchema");
-import ContactSchema = require("./ContactSchema");
-import ConversationSchema = require("./ConversationSchema");
-import EmailMessageSchema = require("./EmailMessageSchema");
-import FolderSchema = require("./FolderSchema");
-import ItemSchema = require("./ItemSchema");
-import MeetingMessageSchema = require("./MeetingMessageSchema");
-import MeetingRequestSchema = require("./MeetingRequestSchema");
-import MeetingCancellationSchema = require("./MeetingCancellationSchema");
-import MeetingResponseSchema = require("./MeetingResponseSchema");
-import PostItemSchema = require("./PostItemSchema");
-import PostReplySchema = require("./PostReplySchema");
-import ResponseMessageSchema = require("./ResponseMessageSchema");
-import ResponseObjectSchema = require("./ResponseObjectSchema");
-import SearchFolderSchema = require("./SearchFolderSchema");
-import TaskSchema = require("./TaskSchema");
-
-///////////
+import XmlElementNames = require("../../XmlElementNames");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import PropertyDefinitionBase = require("../../../PropertyDefinitions/PropertyDefinitionBase");
 import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
 import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
 import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
@@ -29,14 +7,12 @@ import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefiniti
 import IOutParam = require("../../../Interfaces/IOutParam");
 import {StringPropertyDefinitionBaseDictionary, PropDictionary, PropertyDefinitionDictionary} from "../../../AltDictionary";
 
-
 import LazyMember = require("../../LazyMember");
 
 import EwsUtilities = require("../../EwsUtilities");
 import {EwsLogging} from "../../EwsLogging";
 import {StringHelper} from "../../../ExtensionMethods";
 
-import XmlElementNames = require("../../XmlElementNames");
 import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
 
@@ -52,14 +28,14 @@ class ServiceObjectSchema {
     private firstClassProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
-    
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
         "ExtendedProperties",
         XmlElementNames.ExtendedProperty,
         ExchangeVersion.Exchange2007_SP1,
-        undefined,
+        null,//FieldUri
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-        () => { return new ExtendedPropertyCollection(); });
+        () => { return new ExtendedPropertyCollection(); }
+        );
 
     
     //    private static lockObject: any = {};

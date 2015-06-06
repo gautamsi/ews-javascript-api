@@ -1,3 +1,8 @@
+import XmlElementNames = require("../../XmlElementNames");
+import EmailMessageSchema = require("./EmailMessageSchema");
+import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
+import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import ItemSchema = require("./ItemSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 
@@ -8,16 +13,33 @@ module FieldUris {
 //}
 
 class PostItemSchema extends ItemSchema {
-    static ConversationIndex: PropertyDefinition;
-    static ConversationTopic: PropertyDefinition;
-    static From: PropertyDefinition;
-    static InternetMessageId: PropertyDefinition;
-    static IsRead: PropertyDefinition;
-    static PostedTime: PropertyDefinition;
-    static References: PropertyDefinition;
-    static Sender: PropertyDefinition;
-    static Instance: PostItemSchema;
-    RegisterProperties(): any { throw new Error("PostItemSchema.ts - RegisterProperties : Not implemented."); }
+    static ConversationIndex: PropertyDefinition = EmailMessageSchema.ConversationIndex;
+    static ConversationTopic: PropertyDefinition = EmailMessageSchema.ConversationTopic;
+    static From: PropertyDefinition = EmailMessageSchema.From;
+    static InternetMessageId: PropertyDefinition = EmailMessageSchema.InternetMessageId;
+    static IsRead: PropertyDefinition = EmailMessageSchema.IsRead;
+    static PostedTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "PostedTime",
+        XmlElementNames.PostedTime,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.PostedTime,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    static References: PropertyDefinition = EmailMessageSchema.References;
+    static Sender: PropertyDefinition = EmailMessageSchema.Sender;
+    static Instance: PostItemSchema = new PostItemSchema();
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(PostItemSchema.ConversationIndex);
+        super.RegisterProperty(PostItemSchema.ConversationTopic);
+        super.RegisterProperty(PostItemSchema.From);
+        super.RegisterProperty(PostItemSchema.InternetMessageId);
+        super.RegisterProperty(PostItemSchema.IsRead);
+        super.RegisterProperty(PostItemSchema.PostedTime);
+        super.RegisterProperty(PostItemSchema.References);
+        super.RegisterProperty(PostItemSchema.Sender);
+    }
 }
 
 

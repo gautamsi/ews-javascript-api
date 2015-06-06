@@ -23,6 +23,7 @@
     ],
     "files": [
         "./src/js/AltDictionary.ts",
+        "./src/js/ExchangeWebService.ts",
         "./src/js/Attributes/AttachableAttribute.ts",
         "./src/js/Attributes/EwsEnumAttribute.ts",
         "./src/js/Attributes/RequiredServerVersionAttribute.ts",

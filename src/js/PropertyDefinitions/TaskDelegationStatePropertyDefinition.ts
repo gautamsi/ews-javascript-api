@@ -7,7 +7,7 @@ class TaskDelegationStatePropertyDefinition extends GenericPropertyDefinition<Ta
     private static Accepted: string = "Accepted";
 
     Parse(value: string): any { throw new Error("TaskDelegationStatePropertyDefinition.ts - Parse : Not implemented."); }
-    ToString(value: any): string { throw new Error("TaskDelegationStatePropertyDefinition.ts - ToString : Not implemented."); }
+    ToString(value?: any): string { throw new Error("TaskDelegationStatePropertyDefinition.ts - ToString : Not implemented."); }
 }
 
 export = TaskDelegationStatePropertyDefinition;

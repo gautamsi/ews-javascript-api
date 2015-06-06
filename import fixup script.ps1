@@ -237,6 +237,8 @@ return
     
  }
 
+
+ cd D:\dr\lgh\ews-javascript-api\build\output\src\
 [Collections.Generic.List[String]]$looping  = @()
 [Collections.Generic.List[String]]$done  = @()
  function subm ($f, $indent = 0, $x = $f){
@@ -267,7 +269,7 @@ return
 
         }
 }
-subm "ServiceRequestBase" 0
+subm "AppointmentSchema" 0
 
    $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
 

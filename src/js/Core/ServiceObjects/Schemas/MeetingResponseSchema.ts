@@ -1,3 +1,8 @@
+import XmlElementNames = require("../../XmlElementNames");
+import AppointmentSchema = require("./AppointmentSchema");
+import ScopedDateTimePropertyDefinition = require("../../../PropertyDefinitions/ScopedDateTimePropertyDefinition");
+import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
+import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
 import MeetingMessageSchema = require("./MeetingMessageSchema");
 import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
 
@@ -11,16 +16,42 @@ module FieldUris {
 
 
 class MeetingResponseSchema extends MeetingMessageSchema {
-    static Start: PropertyDefinition;
-    static End: PropertyDefinition;
-    static Location: PropertyDefinition;
-    static AppointmentType: PropertyDefinition;
-    static Recurrence: PropertyDefinition;
-    static ProposedStart: PropertyDefinition;
-    static ProposedEnd: PropertyDefinition;
-    static EnhancedLocation: PropertyDefinition;
-    static Instance: MeetingResponseSchema;
-    RegisterProperties(): any { throw new Error("MeetingResponseSchema.ts - RegisterProperties : Not implemented."); }
+    static Start: PropertyDefinition = AppointmentSchema.Start;
+    static End: PropertyDefinition = AppointmentSchema.End;
+    static Location: PropertyDefinition = AppointmentSchema.Location;
+    static AppointmentType: PropertyDefinition = AppointmentSchema.AppointmentType;
+    static Recurrence: PropertyDefinition = AppointmentSchema.Recurrence;
+    static ProposedStart: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedStart",
+        XmlElementNames.ProposedStart,
+        ExchangeVersion.Exchange2013,
+        FieldUris.ProposedStart,
+        PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return AppointmentSchema.StartTimeZone; }
+        );
+
+    static ProposedEnd: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedEnd",
+        XmlElementNames.ProposedEnd,
+        ExchangeVersion.Exchange2013,
+        FieldUris.ProposedEnd,
+        PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return AppointmentSchema.EndTimeZone; }
+        );
+
+    static EnhancedLocation: PropertyDefinition = AppointmentSchema.EnhancedLocation;
+    static Instance: MeetingResponseSchema = new MeetingResponseSchema();
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(MeetingResponseSchema.Start);
+        super.RegisterProperty(MeetingResponseSchema.End);
+        super.RegisterProperty(MeetingResponseSchema.Location);
+        super.RegisterProperty(MeetingResponseSchema.Recurrence);
+        super.RegisterProperty(MeetingResponseSchema.AppointmentType);
+        super.RegisterProperty(MeetingResponseSchema.ProposedStart);
+        super.RegisterProperty(MeetingResponseSchema.ProposedEnd);
+        super.RegisterProperty(MeetingResponseSchema.EnhancedLocation);
+    }
 }
 
 

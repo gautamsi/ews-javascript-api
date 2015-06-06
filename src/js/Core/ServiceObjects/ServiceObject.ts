@@ -215,9 +215,9 @@ class ServiceObject {
                 else
                 {
                     // Other subclasses of PropertyDefinitionBase are not supported.
-                    throw new NotSupportedException(StringHelper.Format(
+                    throw new Error(StringHelper.Format(
                         Strings.OperationNotSupportedForPropertyDefinitionType,
-                        propertyDefinition.Type));
+                        propertyDefinition.Type));//NotSupportedException
                 }
             }
     }

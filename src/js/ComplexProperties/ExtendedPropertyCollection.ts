@@ -58,12 +58,12 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
             var errorMessage = StringHelper.Format(
                 Strings.PropertyDefinitionTypeMismatch,
                 EwsUtilities.GetPrintableTypeName(propertyDefinition.Type),
-                EwsUtilities.GetPrintableTypeName(typeof (T)));
-            throw new ArgumentException(errorMessage, "propertyDefinition");
+                EwsUtilities.GetPrintableTypeName("Y"));
+            throw new Error(errorMessage +  " - propertyDefinition");//ArgumentException
             //}
 
             propertyValue = <T>extendedProperty.outValue.Value;
-            return true;
+            return true
         }
         else {
             propertyValue = null;// default(T);
