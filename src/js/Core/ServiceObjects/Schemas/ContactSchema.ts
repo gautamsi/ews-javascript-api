@@ -412,7 +412,7 @@ class ContactSchema extends ItemSchema {
     static ManagerMailbox: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "ManagerMailbox", 
         XmlElementNames.ManagerMailbox, 
-        "Mailbox", 
+        XmlElementNames.Mailbox, 
         ExchangeVersion.Exchange2010_SP1, 
         FieldUris.ManagerMailbox, 
         PropertyDefinitionFlags.CanFind, 

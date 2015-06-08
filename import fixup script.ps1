@@ -19,12 +19,15 @@ $lines |%{if($_ -match '(\A(?<file>.*)\()([^'']+).* (.(?<target>.*)[^.]+)') {
         }
     }
 }
-$fixes
+#$fixes
 #| ?{$_.filetofix.contains("AddressEntityCollection")}
 $fixes  | group filetofix |  %{ ############## - use this to fix TS2304
         #Write-Verbose $_.name.Replace("src/js/","") -Verbose
         $filetofix = dir $_.name.Replace("src/js/","").replace("/","\") -ErrorAction SilentlyContinue        
-        if($filetofix){
+        if($filetofix -eq $null){
+            $filetofix = dir $_.name.Replace("test/","../../test/").replace("/","\") -ErrorAction SilentlyContinue 
+        }
+        if($filetofix -ne $null){
             $insercontent = @()
             $_.group | select -Unique -Property symbol | %{      
             
@@ -269,7 +272,7 @@ return
 
         }
 }
-subm "AppointmentSchema" 0
+subm "EmailMessageSchema" 0
 
    $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
 

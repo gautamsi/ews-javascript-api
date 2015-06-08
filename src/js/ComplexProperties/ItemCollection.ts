@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 
@@ -9,7 +10,7 @@ class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJs
     Item: TItem;
     private items: Array<TItem> = [];// System.Collections.Generic.List<T>;
     GetEnumerator(): any { throw new Error("ItemCollection.ts - GetEnumerator : Not implemented."); }//wil be implementedfor ES6 later with yield
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ItemCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): any { throw new Error("ItemCollection.ts - LoadFromXmlJsObject : Not implemented."); }
 }
 export = ItemCollection;
 

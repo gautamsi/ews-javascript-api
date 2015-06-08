@@ -11,21 +11,31 @@ class EwsServiceJsonReader {
     // constructor(service: ExchangeService){
     // 	this.Service = service;
     // }
+    static ReadAsArray(jsObject: any, xmlElementName: string) {
+        if (!jsObject || !jsObject[xmlElementName]) {
+            throw new Error("EwsServiceJsonReader - ReadAsArray - json property not found");
+        }
+        var collectionItems: any[] = jsObject[xmlElementName];
+        if (!Array.isArray(collectionItems)) {
+            collectionItems = [collectionItems];
+        }
+        return collectionItems;
+    }
     static ReadServiceObjectsCollectionFromJson<TServiceObject extends ServiceObject>(jsonResponse: any/*JsonObject*/, service: ExchangeService, collectionJsonElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): TServiceObject[] /*System.Collections.Generic.List<TServiceObject>*/ {
 
         var serviceObjects: TServiceObject[] = [];
         var serviceObject: TServiceObject = null;
 
         var collectionItems: any[] = jsonResponse[collectionJsonElementName];
-       
+
         for (var key in collectionItems) {
-            if((<string>key).indexOf("__")===0)
-            continue;
-            var jsonServiceObjects:any[] = collectionItems[key]; 
-            if(!Array.isArray(jsonServiceObjects)){
+            if ((<string>key).indexOf("__") === 0)
+                continue;
+            var jsonServiceObjects: any[] = collectionItems[key];
+            if (!Array.isArray(jsonServiceObjects)) {
                 jsonServiceObjects = [jsonServiceObjects];
             }
-            for(var jsonServiceObject of jsonServiceObjects){               
+            for (var jsonServiceObject of jsonServiceObjects) {
                 if (jsonServiceObject != null) {
                     var typeName = TypeSystem.GetJsObjectTypeName(jsonServiceObject);
                     if (StringHelper.IsNullOrEmpty(typeName)) debugger;//check why typeName is empty - may be invalid xml parsing by xml2js
@@ -52,7 +62,7 @@ class EwsServiceJsonReader {
                         debugger;
                 }
             }
-            
+
         }
 
         return serviceObjects;

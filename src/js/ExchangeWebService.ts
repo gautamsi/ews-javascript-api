@@ -5,4 +5,6 @@ import AppointmentSchema = require("./Core/ServiceObjects/Schemas/AppointmentSch
  * BootStraper code. to initializes some class to avoid circular reference. 
  */
 
-ServiceObjectSchema.AppointmentSchema = AppointmentSchema;
+ServiceObjectSchema.AppointmentSchema = AppointmentSchema.Instance;
+
+//export = ServiceObjectSchema;

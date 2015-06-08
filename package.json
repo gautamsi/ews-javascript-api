@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/gautamsi/ews-javascript-api",
   "dependencies": {
-    "xmldom": "^0.1.19",
-    "winjs": "^1.0.0"
+    "moment": "^2.10.3",
+    "moment-timezone": "^0.4.0",
+    "winjs": "^1.0.0",
+    "xmldom": "^0.1.19"
   },
   "devDependencies": {
     "debug": "^2.0.0",

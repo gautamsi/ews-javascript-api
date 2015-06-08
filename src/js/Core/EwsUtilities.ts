@@ -1,3 +1,4 @@
+import TimeZoneConversionException = require("../Exceptions/TimeZoneConversionException");
 import Strings = require("../Strings");
 import LazyMember = require("./LazyMember");
 import ServiceObject = require("./ServiceObjects/ServiceObject");
@@ -21,6 +22,7 @@ import ISelfValidate = require("../Interfaces/ISelfValidate");
 import ItemAttachment = require("../ComplexProperties/ItemAttachment");
 
 import {StringHelper, Convert} from "../ExtensionMethods";
+import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
 
 class EwsUtilities {
 
@@ -181,7 +183,24 @@ class EwsUtilities {
     }
     //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented.");}
     //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented.");}
-    //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("EwsUtilities.ts - static ConvertTime : Not implemented.");}
+    static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime {
+        try {
+            return TimeZoneInfo.ConvertTime(
+                dateTime,
+                sourceTimeZone,
+                destinationTimeZone);
+        }
+        catch (ex)//ArgumentException
+        {
+            throw new TimeZoneConversionException(
+                StringHelper.Format(
+                    Strings.CannotConvertBetweenTimeZones,
+                    EwsUtilities.DateTimeToXSDateTime(dateTime),
+                    sourceTimeZone.DisplayName,
+                    destinationTimeZone.DisplayName),
+                ex);
+        }
+    }
     //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("EwsUtilities.ts - static CopyStream : Not implemented.");}
     static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("EwsUtilities.ts - static CountMatchingChars : Not implemented."); }
     static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
@@ -216,8 +235,8 @@ class EwsUtilities {
     }
     //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
     static CreateItemFromXmlElementName(itemAttachment: ItemAttachment<any>, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
-    static DateTimeToXSDate(date: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDate : Not implemented."); }
-    static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("EwsUtilities.ts - static DateTimeToXSDateTime : Not implemented."); }
+    static DateTimeToXSDate(date: DateTime): string { return DateTime.DateTimeToXSDate(date); }
+    static DateTimeToXSDateTime(dateTime: DateTime): string { return DateTime.DateTimeToXSDateTime(dateTime); }
     static DomainFromEmailAddress(emailAddress: string): string {
         var emailAddressParts: string[] = emailAddress.split('@');
 
@@ -317,9 +336,50 @@ class EwsUtilities {
                 return "";
         }
     }
-    //static GetPrintableTypeName(type: System.Type): string{ throw new Error("EwsUtilities.ts - static GetPrintableTypeName : Not implemented.");}
+    static GetPrintableTypeName(type: any /*instance */): string {
+        var typename: string = typeof type;
+        if (typename.indexOf("object") >= 0) {
+            try {
+                typename = type.__proto__.constructor.name;
+
+            } catch (error) {
+                typename += " - Error getting name";
+            }
+        }
+
+        return typename;
+        //         if (type.IsGenericType)
+        //             {
+        //                 // Convert generic type to printable form (e.g. List<Item>)
+        //                 string genericPrefix = type.Name.Substring(0, type.Name.IndexOf('`'));
+        //                 StringBuilder nameBuilder = new StringBuilder(genericPrefix);
+        // 
+        //                 // Note: building array of generic parameters is done recursively. Each parameter could be any type.
+        //                 string[] genericArgs = type.GetGenericArguments().ToList<Type>().ConvertAll<string>(t => GetPrintableTypeName(t)).ToArray<string>();
+        // 
+        //                 nameBuilder.Append("<");
+        //                 nameBuilder.Append(string.Join(",", genericArgs));
+        //                 nameBuilder.Append(">");
+        //                 return nameBuilder.ToString();
+        //             }
+        //             else if (type.IsArray)
+        //             {
+        //                 // Convert array type to printable form.
+        //                 string arrayPrefix = type.Name.Substring(0, type.Name.IndexOf('['));
+        //                 StringBuilder nameBuilder = new StringBuilder(EwsUtilities.GetSimplifiedTypeName(arrayPrefix));
+        //                 for (int rank = 0; rank < type.GetArrayRank(); rank++)
+        //                 {
+        //                     nameBuilder.Append("[]");
+        //                 }
+        //                 return nameBuilder.ToString();
+        //             }
+        //             else
+        //             {
+        //                 return EwsUtilities.GetSimplifiedTypeName(type.Name);
+        //             }
+    }
     //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
-    //static IsLocalTimeZone(timeZone: System.TimeZoneInfo): boolean{ throw new Error("EwsUtilities.ts - static IsLocalTimeZone : Not implemented.");}
+    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
     //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("EwsUtilities.ts - static ParseAsUnbiasedDatetimescopedToServicetimeZone : Not implemented.");}
     //static ParseEnumValueList(list: System.Collections.Generic.IList<T>, value: string, separators: any): any{ throw new Error("EwsUtilities.ts - static ParseEnumValueList : Not implemented.");}

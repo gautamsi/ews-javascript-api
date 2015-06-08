@@ -7,6 +7,9 @@ import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefiniti
 import IOutParam = require("../../../Interfaces/IOutParam");
 import {StringPropertyDefinitionBaseDictionary, PropDictionary, PropertyDefinitionDictionary} from "../../../AltDictionary";
 
+import AppointmentSchema = require("./AppointmentSchema");
+
+
 import LazyMember = require("../../LazyMember");
 
 import EwsUtilities = require("../../EwsUtilities");
@@ -28,6 +31,8 @@ class ServiceObjectSchema {
     private firstClassProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
+    static AppointmentSchema: AppointmentSchema;
+    static appointmentSchema: AppointmentSchema;
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
         "ExtendedProperties",
         XmlElementNames.ExtendedProperty,

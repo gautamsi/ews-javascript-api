@@ -33,7 +33,7 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
     GetCollectionItemXmlElementName(complexProperty: FolderPermission): string { return this.CollectionItemXmlElementName; }
     InternalToJson(service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, localElementName: string): void {
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         var jsonFolderPermissions: any[] = jsonProperty[this.InnerCollectionXmlElementName];
         if (jsonFolderPermissions && jsonFolderPermissions[this.CollectionItemXmlElementName])
             jsonFolderPermissions = jsonFolderPermissions[this.CollectionItemXmlElementName];
@@ -44,7 +44,7 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
         for (var jsonFolderPermission of jsonFolderPermissions) {
             var permission: FolderPermission = new FolderPermission();
             debugger;//implement this
-            permission.LoadFromXmlJsObject(jsonFolderPermission, undefined, undefined);
+            permission.LoadFromXmlJsObject(jsonFolderPermission, service);
             this.InternalAdd(permission);
         }
         if (jsonProperty[XmlElementNames.UnknownEntries]) {

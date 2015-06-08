@@ -1,5 +1,5 @@
-/// <reference path="typings-dev/node/node.d.ts"/>
-/// <reference path="typings-dev/gulp/gulp.d.ts" />
+/// <reference path="typings/node/node.d.ts"/>
+/// <reference path="typings/gulp/gulp.d.ts" />
 
 var args = require('yargs').argv;
 var config = require('./gulp.config')();
@@ -95,6 +95,31 @@ function runTSC(directory, done) {
     childProcess.on('close', function () {
         done();
     });
+}
+
+/**
+ * Compiles *.js files, sourcemaps, 
+ * and optionally d.ts files (if passed --dts)
+ */
+gulp.task('ts-compile-amd', function(done) {    
+    runTSCAmd('.', done);
+});
+
+function runTSCAmd(directory, done) {
+    var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
+    var outdir = path.join(process.cwd(),'projects/vs2015/build/output/amd');
+    var childProcessAmd = cp.spawn('node', [tscjs, '-p', directory, '--outDir', outdir, "--module", "amd"], { cwd: process.cwd() });
+        childProcessAmd.stdout.on('data', function (data) {
+            // Ticino will read the output
+            console.log(data.toString());
+        });
+        childProcessAmd.stderr.on('data', function (data) {
+            // Ticino will read the output
+            console.log(data.toString());
+        });
+        childProcessAmd.on('close', function () {
+            done();
+        });
 }
 
 

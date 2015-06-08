@@ -83,10 +83,10 @@ export module ArrayHelper {
             return false
         }
     }
-    
-    export function Find<T>(array: Array<T>, comparer:(item:T)=>boolean){
-        for(var entry of array){
-            if(comparer(entry)){
+
+    export function Find<T>(array: Array<T>, comparer: (item: T) => boolean) {
+        for (var entry of array) {
+            if (comparer(entry)) {
                 return entry;
             }
         }
@@ -167,8 +167,8 @@ export class TypeSystem {
 
     static GetJsObjectTypeName(obj: any): string {
         var keys = Object.keys(obj);
-        if(keys && keys.indexOf("__type")>=0)
-        return obj["__type"];
+        if (keys && keys.indexOf("__type") >= 0)
+            return obj["__type"];
 
         return undefined;
 
@@ -233,18 +233,24 @@ export class xml2JsObject {
                         obj[attr.localName] = attr.value;
                 }
 
-                if (soapMode && xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/)
-                    if (xmlNode.firstChild.nodeValue.trim() !== '')
-                        if (nonGenericAttributeCount === 0)
-                            return xmlNode.firstChild.nodeValue.trim();
-                        else {
-                            obj[xmlNode.localName] = xmlNode.firstChild.nodeValue.trim();
-                            return obj;
+                if (soapMode) {
+                    if (nonGenericAttributeCount ===0 && xmlNode.childNodes.length === 0)
+                        return null;
+                    if (xmlNode.childNodes.length === 1 && xmlNode.firstChild.nodeType === 3/*Node.TEXT_NODE*/) {
+                        if (xmlNode.firstChild.nodeValue.trim() !== '') {
+                            if (nonGenericAttributeCount === 0) {
+                                return xmlNode.firstChild.nodeValue.trim();
+                            }
+                            else {
+                                obj[xmlNode.localName] = xmlNode.firstChild.nodeValue.trim();
+                                return obj;
+                            }
                         }
-
-                if (soapMode && obj["nil"] && obj["nil"] === 'true')
-                    return null;
-
+                    }
+                    if (soapMode && obj["nil"] && obj["nil"] === 'true') {
+                        return null;
+                    }
+                }
                 break;
             case 2/*Node.ATTRIBUTE_NODE*/:
 

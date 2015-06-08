@@ -16,6 +16,15 @@
     },
     "node/node.d.ts": {
       "commit": "1400e07731048ae841bcebed658cb68539cbfb99"
+    },
+    "moment/moment.d.ts": {
+      "commit": "8c7444882a2bc2ab87387f8f736a7d97e89b9c90"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "8c7444882a2bc2ab87387f8f736a7d97e89b9c90"
+    },
+    "moment-timezone/moment-timezone.d.ts": {
+      "commit": "8c7444882a2bc2ab87387f8f736a7d97e89b9c90"
     }
   }
 }

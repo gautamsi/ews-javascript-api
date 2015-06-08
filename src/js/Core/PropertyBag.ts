@@ -17,7 +17,7 @@ import ISelfValidate = require("../Interfaces/ISelfValidate");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
-//import EwsUtilities = require("./EwsUtilities");
+import EwsUtilities = require("./EwsUtilities");
 import {EwsLogging} from "./EwsLogging";
 import XmlElementNames = require("../Core/XmlElementNames");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
@@ -33,7 +33,7 @@ import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 //todo: should be done
 class PropertyBag {
-    get Properties(): PropDictionary<PropertyDefinition, any> {return this.properties;}//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    get Properties(): PropDictionary<PropertyDefinition, any> { return this.properties; }//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     get Owner(): ServiceObject { return this.owner; }
     get IsDirty(): boolean {
         var changes = this.modifiedProperties.length + this.deletedProperties.length + this.addedProperties.length;
@@ -53,11 +53,11 @@ class PropertyBag {
 
     constructor(owner: ServiceObject) {
         EwsLogging.Assert(
-                owner != null,
-                "PropertyBag.ctor",
-                "owner is null");
+            owner != null,
+            "PropertyBag.ctor",
+            "owner is null");
 
-            this.owner = owner;
+        this.owner = owner;
     }
 
     static AddToChangeList(propertyDefinition: PropertyDefinition, changeList: PropertyDefinition[] /*System.Collections.Generic.List<PropertyDefinition>*/): void {
@@ -201,7 +201,7 @@ class PropertyBag {
             complexProperty.OnChange.push(this.PropertyChanged); // can't do += in javascript;
 
             //var isIOwnedProperty = Object.keys(complexProperty).indexOf("Owner") >= 0; //todo: until fix checking interface by some other means, checking property directly
-            var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty")>=0;
+            var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
             if (isIOwnedProperty) {
                 var ownedProperty: IOwnedProperty = <any>complexProperty;
                 ownedProperty.Owner = this.Owner;
@@ -243,7 +243,7 @@ class PropertyBag {
         }
     }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("PropertyBag.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService,clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
         if (clear) {
             this.Clear();
         }
@@ -264,9 +264,10 @@ class PropertyBag {
                     var propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
 
                     if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
+                        EwsLogging.Assert(false, EwsUtilities.GetPrintableTypeName(propertyDefinition.outValue), "\t\tLoading property :\t\t" + key);
                         propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, service, this);
-
                         this.loadedProperties.push(propertyDefinition.outValue);
+                        EwsLogging.DebugLog(this._getItem(propertyDefinition.outValue), true);//todo:remove this after testing
                     }
                 }
             }

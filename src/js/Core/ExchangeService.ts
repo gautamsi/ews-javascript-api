@@ -465,61 +465,147 @@ class ExchangeService extends ExchangeServiceBase {
     //DeleteItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, deleteMode: DeleteMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItemsInConversations : Not implemented."); }
     
     
-    ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_WithGroupBy(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_WithGroupBy(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_WithGroupBy(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase, groupBy: Grouping): GroupedFindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    FindItemsWithGroupBy(parentFolderIdorName: FolderId | WellKnownFolderName, searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping, returnHighlightTerms: boolean = false): IPromise<GroupedFindItemsResults<Item>> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
     
-    ////FindItems(parentFolderId: FolderId, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    FindItems(parentFolderIdorName: FolderId | WellKnownFolderName, view: ViewBase, searchFilterOrQueryString?: SearchFilter | string, returnHighlightTerms: boolean = false): IPromise<FindItemsResults<Item>> {
-        //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
-
-        return this.FindItemsAs<Item>(
-            [new FolderId(<WellKnownFolderName>parentFolderIdorName)],
-            <any>searchFilterOrQueryString,
-            null, /* queryString */
-            view,
-            null,   /* groupBy */
-            ServiceErrorHandling.ThrowOnError).then((responses) => {
-                return responses[0].Results;
-            });
-
-
-
-    }
+                        FindItems(parentFolderName: WellKnownFolderName,    view: ViewBase                                                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 view: ViewBase                                                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 view: ViewBase,                 groupBy: Grouping                                                                                                               ): IPromise<GroupedFindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 queryString: string,            view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderName: WellKnownFolderName,    queryString: string,            view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderName: WellKnownFolderName,    searchFilter: SearchFilter,     view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 queryString: string,            view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
+                        FindItems(parentFolderName: WellKnownFolderName,    searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
+                        FindItems(parentFolderName: WellKnownFolderName,    queryString: string,            view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 queryString: string,            returnHighlightTerms: boolean,      view: ViewBase                                                                              ): IPromise<FindItemsResults<Item>>;
+                        FindItems(parentFolderId: FolderId,                 queryString: string,            returnHighlightTerms: boolean,      view: ViewBase,         groupBy: Grouping                                                   ): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems<TItem extends Item>(parentFolderIds: FolderId[] ,             searchFilter: SearchFilter,     queryString: string,                view: ViewBase,         groupBy: Grouping,          errorHandlingMode: ServiceErrorHandling ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     
-    ////FindItems_ext_As<TItem extends Item>(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    ////FindItems_ext_As<TItem extends Item>(parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - FindItems : Not implemented."); }
-    FindItemsAs<TItem extends Item>(parentFolderIds: FolderId | FolderId[] /*System.Collections.Generic.IEnumerable<T>*/, searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>> {
-        // EwsUtilities.ValidateParamCollection(parentFolderIds, "parentFolderIds");
-        // EwsUtilities.ValidateParam(view, "view");
-        // EwsUtilities.ValidateParamAllowNull(groupBy, "groupBy");
-        // EwsUtilities.ValidateParamAllowNull(queryString, "queryString");
-        // EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
-        var parentIds: FolderId[] = <FolderId[]>parentFolderIds;
-        if (!Array.isArray(parentFolderIds))
-            parentIds = [<FolderId>parentFolderIds];
+    // not needed, no calls coming in to this internal function in ews managed api c3 library, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    FindItems<TItem extends Item>(
+        nameIdOrIds: WellKnownFolderName | FolderId | FolderId[],
+        viewQueryStringOrSearchFilter: ViewBase | string| SearchFilter,
+        groupByViewRHTOrQueryString?: Grouping | ViewBase | boolean | string,
+        groupByOrView?: Grouping | ViewBase,
+        groupBy?: Grouping,
+        errorHandlingMode: ServiceErrorHandling = ServiceErrorHandling.ThrowOnError
+        ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item> | ServiceResponseCollection<FindItemResponse<TItem>>> {
+            
+        var argsLength = arguments.length;
+        if (argsLength < 2 && argsLength > 6) {
+            throw new Error("invalid arguments, check documentation and try again.");
+        }
+        
+        //position 1 - nameIdOrIds
+        var parentIds: FolderId[] = []
+        if (typeof nameIdOrIds === 'number') {
+            parentIds.push(new FolderId(nameIdOrIds));
+        }
+        else if (nameIdOrIds instanceof FolderId) {
+            parentIds.push(nameIdOrIds);
+        }
+        else if (Array.isArray(nameIdOrIds)) {
+            parentIds = <FolderId[]> nameIdOrIds;
+        }
 
-        var request: FindItemRequest<TItem> = new FindItemRequest<TItem>(this, errorHandlingMode);
+        var queryString: string = null;
+        var searchFilter: SearchFilter = null;
+        var view: ViewBase = null;
+        
+        //position 2 - viewQueryStringOrSearchFilter
+        if (typeof viewQueryStringOrSearchFilter === 'string') {
+            queryString = viewQueryStringOrSearchFilter;
+        }
+        else if (viewQueryStringOrSearchFilter instanceof SearchFilter) {
+            searchFilter = viewQueryStringOrSearchFilter;
+        }
+        else if (viewQueryStringOrSearchFilter instanceof ViewBase) {
+            view = viewQueryStringOrSearchFilter;
+        }
+        else {
+            throw new Error("ExchangeService.ts - FindItems - incorrect uses of parameters at 2nd position, must be string, ViewBase or SearchFilter");
+        }
+
+        var groupResultBy: Grouping = null;
+        var returnHighlightTerms: boolean = false;
+        var isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
+        
+        //position 3 - groupByViewRHTOrQueryString
+        if (argsLength >= 3) {
+            if (groupByViewRHTOrQueryString instanceof Grouping) {
+                if (!(viewQueryStringOrSearchFilter instanceof ViewBase)) {
+                    throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 3nd position, it must be ViewBase when using Grouping at 4th place");
+                }
+                groupResultBy = groupByViewRHTOrQueryString;
+                isGroupped = true;
+            }
+            else if (groupByViewRHTOrQueryString instanceof ViewBase) {
+                view = groupByViewRHTOrQueryString;
+            }
+            else if (typeof groupByViewRHTOrQueryString === 'string') {
+                queryString = groupByViewRHTOrQueryString;
+            }
+            else if (typeof groupByViewRHTOrQueryString === 'boolean') {
+                returnHighlightTerms = groupByViewRHTOrQueryString;
+            }
+            else {
+                throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, must be string, boolean, ViewBase or Grouping");
+            }
+        }
+        
+        //position 4 - groupByOrView
+        if (argsLength >= 4) {
+            if (groupByOrView instanceof Grouping) {
+                if (!(groupByViewRHTOrQueryString instanceof ViewBase)) {
+                    throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, it must be ViewBase when using Grouping at 3rd place");
+                }
+                groupResultBy = groupByOrView;
+                isGroupped = true;
+            }
+            else if (groupByOrView instanceof ViewBase) {
+                view = groupByOrView;
+            }
+            else {
+                throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 4th  position, must be  ViewBase or Grouping");
+            }
+        }
+        
+        //position 5 - groupBy
+        if (argsLength >= 5) {
+            if (!(groupByOrView instanceof ViewBase)) {
+                throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 4th position, it must be ViewBase when using Grouping at 5th place");
+            }
+            groupResultBy = groupBy;
+            isGroupped = true;
+        }
+        var isRaw: boolean = false; // to return ServiceResponseCollection<FindItemResponse<TItem>>
+        //position 6 - errorHandlingMode
+        if (argsLength === 6) {
+            isRaw = true;
+        }
+
+        var request: FindItemRequest<TItem> = new FindItemRequest<TItem>(this, errorHandlingMode | ServiceErrorHandling.ThrowOnError);
 
         request.ParentFolderIds.AddRange(parentIds);
-        request.SearchFilter = searchFilter;
-        request.QueryString = queryString;
-        request.View = view;
-        request.GroupBy = groupBy;
 
-        return request.Execute();
-        // throw new Error("ExchangeService.ts - FindItems : Not implemented.");
-        // return null;
+        request.SearchFilter = searchFilter;
+
+        request.QueryString = queryString;
+
+        request.View = view;
+
+        request.GroupBy = groupResultBy;
+
+        return request.Execute().then((responses) => {
+            if (isRaw) {
+                return responses;
+            }
+            if (isGroupped) {
+                return responses.__thisIndexer(0).GroupedFindResults;
+            }
+            return responses.__thisIndexer(0).Results;
+            return
+        });
 
     }
 

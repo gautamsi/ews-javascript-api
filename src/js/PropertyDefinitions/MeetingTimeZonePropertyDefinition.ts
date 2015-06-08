@@ -1,5 +1,6 @@
 import MeetingTimeZone = require("../ComplexProperties/MeetingTimeZone");
 import AppointmentSchema = require("../Core/ServiceObjects/Schemas/AppointmentSchema");
+import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
 import PropertyDefinition = require("./PropertyDefinition");
 import ExchangeService = require("../Core/ExchangeService");
 import PropertyBag = require("../Core/PropertyBag");
@@ -13,9 +14,9 @@ class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
         debugger;
         if (jsObject != null) {
             var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone();
-            meetingTimeZone.LoadFromXmlJsObject(jsObject, this.GetXmlElementName());
+            meetingTimeZone.LoadFromXmlJsObject(jsObject, service);//this.GetXmlElementName()
 
-            propertyBag._setItem(AppointmentSchema.StartTimeZone, meetingTimeZone.ToTimeZoneInfo());
+            propertyBag._setItem(AppointmentSchema.Instance.StartTimeZone, meetingTimeZone.ToTimeZoneInfo());
         }
 
         throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented.");

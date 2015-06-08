@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
 import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
 import {EwsLogging} from "../Core/EwsLogging";
@@ -32,16 +33,19 @@ class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> exte
     }
     
     
-    // InternalLoadFromXmlJsObject(jsObject: any, propertyBag: PropertyBag): void {
-        
-    //     super.InternalLoadFromXmlJsObject(jsObject, propertyBag);
+    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        debugger;//check for correct contained element name
+        if(jsObject[this.containedXmlElementName]){
+            jsObject = jsObject[this.containedXmlElementName];
+        }        
+        super.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
                 
-    //     //reader.ReadStartElement(XmlNamespace.Types, this.containedXmlElementName);
-    //     //
-    //     //base.InternalLoadFromXml(reader, propertyBag);
-    //     //
-    //     //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
-    // }
+        //reader.ReadStartElement(XmlNamespace.Types, this.containedXmlElementName);
+        //
+        //base.InternalLoadFromXml(reader, propertyBag);
+        //
+        //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
+    }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
         debugger;

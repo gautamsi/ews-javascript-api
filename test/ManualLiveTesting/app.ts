@@ -1,4 +1,10 @@
-
+import EmailMessageSchema = require("../../src/js/Core/ServiceObjects/Schemas/EmailMessageSchema");
+import ItemSchema = require("../../src/js/Core/ServiceObjects/Schemas/ItemSchema");
+import AggregateType = require("../../src/js/Enumerations/AggregateType");
+import SortDirection = require("../../src/js/Enumerations/SortDirection");
+///<
+import ExchangeWebService = require("../../src/js/ExchangeWebService");
+ExchangeWebService;
 import AutodiscoverService = require("../../src/js/Autodiscover/AutodiscoverService");
 import ExchangeVersion = require("../../src/js/Enumerations/ExchangeVersion");
 import ExchangeCredentials = require("../../src/js/Credentials/ExchangeCredentials");
@@ -15,8 +21,16 @@ import ext = require("../../src/js/ExtensionMethods");
 import {EwsLogging} from "../../src/js/Core/EwsLogging";
 
 import ItemView = require("../../src/js/Search/ItemView");
+import Grouping = require("../../src/js/Search/Grouping")
+var credentials: any = undefined;
 
-import credentials = require("./credentials");
+if (typeof window === 'undefined') {
+    credentials = require("./credentials");
+}
+else {
+    credentials = { username: "username", password: "password" }
+}
+
 
 class Greeter {
     element: HTMLElement;
@@ -28,6 +42,7 @@ class Greeter {
 
 
     start() {
+        
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
         //var domdata = dd.parseFromString('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <soap:Fault> <faultcode>soap:Client</faultcode> <faultstring>Invalid input</faultstring> <faultactor >http://sseely2/AYS17Sept2002/Service1.asmx</faultactor> <detail> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError TextValue="FirstError"></ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>LastName</ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>EmailAddress</ItemInError> <CorrectRegularExpression >^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$</CorrectRegularExpression> </PersonErrorInfo> </detail> </soap:Fault> </soap:Body></soap:Envelope>', "text/xml");
@@ -37,8 +52,7 @@ class Greeter {
         //return;
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
-        var exch = new ExchangeService(ExchangeVersion.Exchange2010);
-
+        var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
         var parser = new ext.DOMParser();
         //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
@@ -59,8 +73,15 @@ class Greeter {
         //EwsLogging.DebugLog(exch.Credentials, true);
         
         exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
-
-        exch.FindItems(WellKnownFolderName.SentItems, new ItemView(3))
+        var view = new ItemView(3);
+        view.PropertySet = PropertySet.FirstClassProperties;
+        //var sf = new SearchFilter.ContainsSubstring(ItemSchema.Subject,"test");
+        var groupBy = new Grouping();
+        groupBy.GroupOn = EmailMessageSchema.Subject;
+        groupBy.AggregateOn = ItemSchema.DateTimeReceived;
+        groupBy.AggregateType = AggregateType.Minimum;
+        groupBy.SortDirection = SortDirection.Descending;
+        exch.FindItems(new FolderId(WellKnownFolderName.SentItems), view, groupBy)
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
                 EwsLogging.Log(fi, true, true);

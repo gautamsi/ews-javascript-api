@@ -1,5 +1,20 @@
 import {StringHelper} from "../ExtensionMethods";
-import util = require('util');
+declare var window: any;
+var isNode = (typeof window === 'undefined')
+var util: any = undefined;
+
+declare var require: any;
+
+if (isNode) {
+    util = require('util');
+}
+else {
+    util = {
+        inspect: (obj: any, option: any) => { return obj; }
+    }
+}
+
+
 export class EwsLogging {
     static DebugLogEnabled: boolean = true;
     static Assert(condition: boolean, caller: string, message: string): any {
@@ -15,7 +30,7 @@ export class EwsLogging {
                 console.log(message);
         }
     }
-    
+
     static DebugLog(message: any, expandObject: boolean = false): any {
         if (this.DebugLogEnabled) {
             if (expandObject)

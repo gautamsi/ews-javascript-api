@@ -38,7 +38,7 @@ class UserId extends ComplexProperty {
         return typeof this.StandardUser === 'number' || !StringHelper.IsNullOrEmpty(this.PrimarySmtpAddress) || !StringHelper.IsNullOrEmpty(this.SID);
     }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("UserId.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any): void {
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         for (var key in jsonProperty) {
             switch (key) {
                 case XmlElementNames.SID:

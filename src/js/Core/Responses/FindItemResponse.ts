@@ -86,44 +86,48 @@ class FindItemResponse<TItem extends Item> extends ServiceResponse {
                 this.results.Items);
         }
         else {
-            throw new Error("fix and implement correctly + test");
-
             this.groupedFindResults = new GroupedFindItemsResults<TItem>();
             this.groupedFindResults.TotalCount = totalItemsInView;
             this.groupedFindResults.NextPageOffset = nextPageOffset;
             this.groupedFindResults.MoreAvailable = moreItemsAvailable;
 
-            if (rootFolder.ContainsKey(XmlElementNames.Groups)) {
-                var jsGroups: any[] = rootFolder.ReadAsArray(XmlElementNames.Groups);
+            if (rootFolder[XmlElementNames.Groups]) {
+                var jsGroups: any[] = EwsServiceJsonReader.ReadAsArray(rootFolder, XmlElementNames.Groups);
 
-                for (var jsGroup in jsGroups) //jsGroups.OfType<JsonObject>()
+                for (var jsGroup of jsGroups) //jsGroups.OfType<JsonObject>()
                 {
-                    if (jsGroup.ContainsKey(XmlElementNames.GroupedItems)) {
-                        var jsGroupedItems: any = jsGroup.ReadAsJsonObject(XmlElementNames.GroupedItems);
+                    if (jsGroup[XmlElementNames.GroupedItems]) {
+                        var jsGroupedItemCollection: any[] = EwsServiceJsonReader.ReadAsArray(jsGroup, XmlElementNames.GroupedItems);
+                        for (var jsGroupedItem of jsGroupedItemCollection) {
+                            var groupIndex: string = jsGroupedItem[XmlElementNames.GroupIndex];
 
-                        var groupIndex: string = jsGroupedItems.ReadAsString(XmlElementNames.GroupIndex);
-
-                        var itemList: TItem[] = [];// new List<TItem>();
-                        this.InternalReadItemsFromJson(
-                            jsGroupedItems,
-                            this.propertySet,
-                            service,
-                            itemList);
-
-                        this.groupedFindResults.ItemGroups.push(new ItemGroup<TItem>(groupIndex, itemList));
+                            var itemList: TItem[] = [];// new List<TItem>();
+                            this.InternalReadItemsFromXmlJsObject(
+                                jsGroupedItem,
+                                this.propertySet,
+                                service,
+                                itemList);
+                            debugger;
+                            this.groupedFindResults.ItemGroups.push(new ItemGroup<TItem>(groupIndex, itemList));
+                        }
                     }
                 }
             }
         }
-
-        var highlightTermObjects: any[] = responseObject.ReadAsArray(XmlElementNames.HighlightTerms);
-        if (highlightTermObjects != null) {
-            for (var highlightTermObject in highlightTermObjects) {
-                var jsonHighlightTerm = highlightTermObject;// as JsonObject;
-                var term: HighlightTerm = new HighlightTerm();
-
-                term.LoadFromJson(jsonHighlightTerm, service);
-                this.results.HighlightTerms.push(term);
+        debugger;
+        debugger;
+        //todo: check highlight terms and grouping.
+        if (responseObject[XmlElementNames.HighlightTerms]) {
+            var highlightTermElements: any[] = EwsServiceJsonReader.ReadAsArray(responseObject, XmlElementNames.HighlightTerms);
+            for (var highlightTermElement of highlightTermElements) {
+                if (highlightTermElement[XmlElementNames.HighlightTerm]) {
+                    var highlightTermObjects = EwsServiceJsonReader.ReadAsArray(highlightTermElement, XmlElementNames.HighlightTerm);
+                    for (var jsonHighlightTerm of highlightTermObjects) {
+                        var term: HighlightTerm = new HighlightTerm();
+                        term.LoadFromJson(jsonHighlightTerm, service);
+                        this.results.HighlightTerms.push(term);
+                    }
+                }
             }
         }
     }

@@ -5,11 +5,11 @@ class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup
     TotalCount: number;
     NextPageOffset: number;
     MoreAvailable: boolean;
-    ItemGroups: ItemGroup<TItem>[];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
-    private totalCount: number;
-    private nextPageOffset: number;
-    private moreAvailable: boolean;
-    private itemGroups: ItemGroup<TItem>[];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
+    get ItemGroups(): ItemGroup<TItem>[]{return this.itemGroups;}//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
+    // private totalCount: number;
+    // private nextPageOffset: number;
+    // private moreAvailable: boolean;
+    private itemGroups: ItemGroup<TItem>[] = [];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
     GetEnumerator(): any { throw new Error("GroupedFindItemsResults.ts - GetEnumerator : Not implemented."); }
 }
 export = GroupedFindItemsResults;

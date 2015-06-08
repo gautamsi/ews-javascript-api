@@ -29,7 +29,7 @@ class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonC
     GetTypeCode(service: ExchangeServiceBase, dictionaryObject: any, dictionaryObjectType: any, valueAsString: any): any { throw new Error("UserConfigurationDictionary.ts - GetTypeCode : Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("UserConfigurationDictionary.ts - InternalToJson : Not implemented."); }
     LoadEntry(reader: EwsServiceXmlReader): any { throw new Error("UserConfigurationDictionary.ts - LoadEntry : Not implemented."); }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace): void { throw new Error("UserConfigurationDictionary.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void { throw new Error("UserConfigurationDictionary.ts - LoadFromXmlJsObject : Not implemented."); }
     Remove(key: any): boolean { throw new Error("UserConfigurationDictionary.ts - Remove : Not implemented."); }
     TryGetValue(key: any, value: any): boolean { throw new Error("UserConfigurationDictionary.ts - TryGetValue : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("UserConfigurationDictionary.ts - TryReadElementFromXmlJsObject : Not implemented."); }

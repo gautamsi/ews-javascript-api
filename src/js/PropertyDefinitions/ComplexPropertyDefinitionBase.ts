@@ -43,13 +43,14 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         }
         else {
             //var typename = TypeSystem.GetJsObjectTypeName(jsObject);
-            outComplexproperty.outValue.LoadFromXmlJsObject(jsObject, null);
+            outComplexproperty.outValue.LoadFromXmlJsObject(jsObject, service);
         }
 
         propertyBag._setItem(this, outComplexproperty.outValue);
     }
     //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
+        debugger;//todo: check for array type.
         this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
         
         //    reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, this.XmlElementName);

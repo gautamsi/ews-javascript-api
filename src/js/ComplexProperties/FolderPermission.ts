@@ -344,12 +344,12 @@ class FolderPermission extends ComplexProperty {
         this.ReadItems == permission.ReadItems;
     }
     LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermission.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, xmlElementName: string, xmlNamespace: XmlNamespace): void {
+    LoadFromXmlJsObject(jsonProperty: any/*JsonObject*/, service: ExchangeService): void {
         for (var key in jsonProperty) {
             switch (key) {
                 case XmlElementNames.UserId:
                     this.UserId = new UserId();
-                    this.UserId.LoadFromXmlJsObject(jsonProperty[key]);
+                    this.UserId.LoadFromXmlJsObject(jsonProperty[key], service);
                     break;
                 case XmlElementNames.CanCreateItems:
                     this.canCreateItems = Convert.toBool(jsonProperty[key]);

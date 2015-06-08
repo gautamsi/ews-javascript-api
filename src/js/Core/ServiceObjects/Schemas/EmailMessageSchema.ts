@@ -84,9 +84,9 @@ class EmailMessageSchema extends ItemSchema {
     static From: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "From",
         XmlElementNames.From,
-        FieldUris.From,
-        ExchangeVersion.Exchange2007_SP1,
         XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.From,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
         () => { return new EmailAddress(); }
         );
@@ -152,9 +152,9 @@ class EmailMessageSchema extends ItemSchema {
     static Sender: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "Sender",
         XmlElementNames.Sender,
-        FieldUris.Sender,
-        ExchangeVersion.Exchange2007_SP1,
         XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Sender,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind,
         () => { return new EmailAddress(); }
         );
@@ -162,9 +162,9 @@ class EmailMessageSchema extends ItemSchema {
     static ReceivedBy: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "ReceivedBy",
         XmlElementNames.ReceivedBy,
-        FieldUris.ReceivedBy,
-        ExchangeVersion.Exchange2007_SP1,
         XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ReceivedBy,
         PropertyDefinitionFlags.CanFind,
         () => { return new EmailAddress(); }
         );
@@ -172,9 +172,9 @@ class EmailMessageSchema extends ItemSchema {
     static ReceivedRepresenting: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "ReceivedRepresenting",
         XmlElementNames.ReceivedRepresenting,
-        FieldUris.ReceivedRepresenting,
-        ExchangeVersion.Exchange2007_SP1,
         XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ReceivedRepresenting,
         PropertyDefinitionFlags.CanFind,
         () => { return new EmailAddress(); }
         );

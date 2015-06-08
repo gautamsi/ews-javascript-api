@@ -19,7 +19,7 @@ import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolProper
 import InternetMessageHeaderCollection = require("../../../ComplexProperties/InternetMessageHeaderCollection");
 import ResponseObjectsPropertyDefinition = require("../../../PropertyDefinitions/ResponseObjectsPropertyDefinition");
 import ScopedDateTimePropertyDefinition = require("../../../PropertyDefinitions/ScopedDateTimePropertyDefinition");
-import AppointmentSchema = require("./AppointmentSchema");
+//import AppointmentSchema = require("./AppointmentSchema");
 import EffectiveRightsPropertyDefinition = require("../../../PropertyDefinitions/EffectiveRightsPropertyDefinition");
 import ConversationId = require("../../../ComplexProperties/ConversationId");
 import UniqueBody = require("../../../ComplexProperties/UniqueBody");
@@ -281,7 +281,7 @@ class ItemSchema extends ServiceObjectSchema {
         ExchangeVersion.Exchange2007_SP1,
         FieldUris.ReminderDueBy,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { return AppointmentSchema.StartTimeZone; }
+        (version: ExchangeVersion) => { debugger;return ServiceObjectSchema.AppointmentSchema.StartTimeZone; }
         );
 
     static IsReminderSet: PropertyDefinition = new BoolPropertyDefinition(

@@ -29,8 +29,8 @@ class TypedPropertyDefinition extends PropertyDefinition {
         if (typeof jsObject === 'string' || jsObject instanceof String) {
             propertyBag._setItem(this, this.Parse(jsObject));
         }
-        else if (jsObject != null || typeof jsObject !== 'undefined') {
-            propertyBag._setItem(this, this.Parse(jsObject.toString()));
+        else if (jsObject != null ) { //undefined == null returns true, false for === comparison.
+            propertyBag._setItem(this, this.Parse(jsObject));
         }
     }
     Parse(value: string): any { throw new Error("abstract TypedPropertyDefinition.ts - Parse : Not implemented."); }

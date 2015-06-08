@@ -4,11 +4,10 @@ import IEwsHttpWebRequestFactory = require("../Interfaces/IEwsHttpWebRequestFact
 import ITraceListener = require("../Interfaces/ITraceListener");
 import IEwsHttpWebResponse = require("../Interfaces/IEwsHttpWebResponse");
 import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
-/// <reference path="../system.enums.d.ts" />
-import systemnet = require("System.Net");
 
 import {EwsLogging} from "./EwsLogging";
 import ExchangeCredentials = require("../Credentials/ExchangeCredentials");
+import EwsUtilities = require("./EwsUtilities");
 import ExchangeServerInfo = require("./ExchangeServerInfo");
 
 import ExchangeVersion = require("../Enumerations/ExchangeVersion");
@@ -16,6 +15,7 @@ import TraceFlags = require("../Enumerations/TraceFlags");
 import {IXHROptions} from "../Interfaces";
 
 import {StringHelper} from "../ExtensionMethods";
+import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 
 import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 
@@ -39,7 +39,7 @@ class ExchangeServiceBase {
     static SessionKey: any[];//System.Byte[];
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
-    TimeZone: any;//System.TimeZoneInfo;
+    TimeZone: TimeZoneInfo = TimeZoneInfo.Local;//System.TimeZoneInfo;
     TimeZoneDefinition: TimeZoneDefinition;
     TraceEnabled: boolean;
     TraceFlags: TraceFlags;
@@ -83,9 +83,67 @@ class ExchangeServiceBase {
     }
 
 
-    ConvertDateTimeToUniversalDateTimeString(value: Date): string { throw new Error("ExchangeServiceBase.ts - ConvertDateTimeToUniversalDateTimeString : Not implemented."); }
-    ConvertStartDateToUnspecifiedDateTime(value: string): Date { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
-    ConvertUniversalDateTimeStringToLocalDateTime(value: string): Date { throw new Error("ExchangeServiceBase.ts - ConvertUniversalDateTimeStringToLocalDateTime : Not implemented."); }
+    ConvertDateTimeToUniversalDateTimeString(value: DateTime): string {
+        var dateTime: DateTime;
+
+        switch (value.Kind) {
+            case DateTimeKind.Unspecified:
+                dateTime = EwsUtilities.ConvertTime(
+                    value,
+                    this.TimeZone,
+                    TimeZoneInfo.Utc);
+
+                break;
+            case DateTimeKind.Local:
+                dateTime = EwsUtilities.ConvertTime(
+                    value,
+                    TimeZoneInfo.Local,
+                    TimeZoneInfo.Utc);
+
+                break;
+            default:
+                // The date is already in UTC, no need to convert it.
+                dateTime = value;
+
+                break;
+        }
+        debugger;//todo:iso string should work
+        return dateTime.ToISOString();// ISO string should work .ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
+    }
+    ConvertStartDateToUnspecifiedDateTime(value: string): DateTime { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
+    ConvertUniversalDateTimeStringToLocalDateTime(value: string): DateTime {
+        if (StringHelper.IsNullOrEmpty(value)) {
+            return null;
+        }
+        else {
+            // Assume an unbiased date/time is in UTC. Convert to UTC otherwise.
+            var dateTime: DateTime = DateTime.Parse(
+                value);
+            // CultureInfo.InvariantCulture,
+            // DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+
+            if (this.TimeZone == TimeZoneInfo.Utc) {
+                // This returns a DateTime with Kind.Utc
+                return dateTime;
+            }
+            else {
+                var localTime: DateTime = EwsUtilities.ConvertTime(
+
+                    dateTime,
+                    TimeZoneInfo.Utc,
+                    this.TimeZone);
+
+                if (EwsUtilities.IsLocalTimeZone(this.TimeZone)) {
+                    // This returns a DateTime with Kind.Local
+                    return new DateTime(localTime, DateTimeKind.Local);
+                }
+                else {
+                    // This returns a DateTime with Kind.Unspecified
+                    return localTime;
+                }
+            }
+        }
+    }
     DoOnSerializeCustomSoapHeaders(writer: any /*System.Xml.XmlWriter*/): void {
         EwsLogging.Assert(
             writer != null,
@@ -156,7 +214,8 @@ class ExchangeServiceBase {
             // Apply credentials to the request
             serviceCredentials.PrepareWebRequest(request);
         }
-        else debugger;
+        else
+            debugger;
 
         this.httpResponseHeaders = {};
 

@@ -3,6 +3,7 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import DelegateTypes = require("../Misc/DelegateTypes");
 import IRefParam = require("../Interfaces/IRefParam");
+import ExchangeService = require("../Core/ExchangeService");
 
 class ComplexProperty { //ISelfValidate, IJsonSerializable
   ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable"];
@@ -25,42 +26,43 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
   }
   ClearChangeLog(): void { /*virtual method for derived class to implement if needed*/ }
-  InternalLoadFromXmlJsObject(jsObject :any, xmlNamespace: XmlNamespace, xmlElementName: string,
+  InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, //xmlNamespace: XmlNamespace, xmlElementName: string,
     readAction: (jsObject: any) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
     debugger;//check how to implement with jsobject.
     throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
-    this.ReadAttributesFromXmlJsObject(jsObject);
+    // this.ReadAttributesFromXmlJsObject(jsObject);
 
-    if (!jsObject.IsEmptyElement) {
-      do {
-        jsObject.Read();
+    // if (!jsObject.IsEmptyElement) {
+    //   do {
+    //     jsObject.Read();
 
-        switch (jsObject.NodeType) {
-          case Node.ELEMENT_NODE:
-            if (!readAction(jsObject)) {
-              jsObject.SkipCurrentElement();
-            }
-            break;
-          case Node.TEXT_NODE:
-            this.ReadTextValueFromXmlJsObject(jsObject);
-            break;
-        }
-      }
-      while (!jsObject.HasRecursiveParent(xmlElementName));
-      jsObject.SeekLast(); // go back for next process to read.
-    }
+    //     switch (jsObject.NodeType) {
+    //       case Node.ELEMENT_NODE:
+    //         if (!readAction(jsObject)) {
+    //           jsObject.SkipCurrentElement();
+    //         }
+    //         break;
+    //       case Node.TEXT_NODE:
+    //         this.ReadTextValueFromXmlJsObject(jsObject);
+    //         break;
+    //     }
+    //   }
+    //   while (!jsObject.HasRecursiveParent(xmlElementName));
+    //   jsObject.SeekLast(); // go back for next process to read.
+    //}
   }
   //InternalToJson(service: ExchangeService): any { throw new Error("ComplexProperty.ts - InternalToJson : Not implemented."); }
   InternalValidate(): void { /*virtual method for derived class to implement if needed*/ }
   //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ComplexProperty.ts - LoadFromJson : Not implemented."); }
   //LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - LoadFromXml : Not implemented."); }
-  LoadFromXmlJsObject(jsObject: any, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+  LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {//, xmlElementName: string
     this.InternalLoadFromXmlJsObject(
       jsObject,
-      xmlNamespace || this.Namespace,
-      xmlElementName,
+      service,
       this.ReadElementsFromXmlJsObject);
+    // xmlNamespace || this.Namespace,
+    // xmlElementName,
   }
   ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
   ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
@@ -89,13 +91,14 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
   ReadElementsFromXmlJsObjectToPatch(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
   //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - UpdateFromXml : Not implemented."); }
-  UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+  UpdateFromXmlJsObject(jsObject: any, service: ExchangeService /*, xmlElementName: string, xmlNamespace?: XmlNamespace*/): void {
 
     this.InternalLoadFromXmlJsObject(
-      reader,
-      xmlNamespace || this.Namespace,
-      xmlElementName,
+      jsObject,
+      service,
       this.ReadElementsFromXmlJsObjectToPatch);
+    // xmlNamespace || this.Namespace,
+    // xmlElementName,
   }
   /// <summary>
   /// Implements ISelfValidate.Validate. Validates this instance.

@@ -113,7 +113,7 @@ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extend
             }
         }
     }
-    LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string, xmlNamespace: XmlNamespace = XmlNamespace.Types): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
     //LoadFromXml(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXml : Not implemented."); }
     RemoveFromChangeLog(complexProperty: TComplexProperty): void {
         ArrayHelper.RemoveEntry(this.removedItems, complexProperty);     //this.removedItems.Remove(complexProperty);
@@ -124,7 +124,7 @@ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extend
         // Only write collection if it has at least one element.
         return this.Count > 0;
     }
-    UpdateFromXmlJsObject(reader: EwsServiceXmlReader, xmlElementName: string, xmlNamespace: XmlNamespace = XmlNamespace.Types): any { throw new Error("ComplexPropertyCollection.ts - UpdateFromXmlJsObject : Not implemented."); }
+    UpdateFromXmlJsObject(jsObject: any, service: ExchangeService): any { throw new Error("ComplexPropertyCollection.ts - UpdateFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var complexProperty of this.items) {
             complexProperty.WriteToXml(writer, this.GetCollectionItemXmlElementName(complexProperty));

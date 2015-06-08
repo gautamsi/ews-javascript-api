@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 import XmlNamespace = require("../Enumerations/XmlNamespace");
 import EwsUtilities = require("../Core/EwsUtilities");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
@@ -50,7 +51,7 @@ class ServiceId extends ComplexProperty {
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
     //InternalToJson(service: ExchangeService): any { throw new Error("ServiceId.ts - InternalToJson : Not implemented."); }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ServiceId.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsObject: any, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (var key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.Id:

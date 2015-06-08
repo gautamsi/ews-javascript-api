@@ -1,3 +1,4 @@
+import ExchangeService = require("../Core/ExchangeService");
 import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 import XmlElementNames = require("../Core/XmlElementNames");
@@ -51,6 +52,16 @@ class Mailbox extends ComplexProperty {
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Mailbox.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): any {
+        debugger;
+        if (jsonProperty[XmlElementNames.EmailAddress]) {
+            this.Address = jsonProperty[XmlElementNames.EmailAddress];//.ReadAsString(XmlElementNames.EmailAddress);
+        }
+
+        if (jsonProperty[XmlElementNames.RoutingType]) {
+            this.RoutingType = jsonProperty[XmlElementNames.RoutingType];//.ReadAsString(XmlElementNames.RoutingType);
+        }
+    }
     ToString(): string {
         if (!this.IsValid) {
             return StringHelper.Empty;
