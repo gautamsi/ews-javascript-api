@@ -1,21 +1,21 @@
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import ServiceVersionException = require("../../Exceptions/ServiceVersionException");
-import Strings = require("../../Strings");
-import SeekToConditionItemView = require("../../Search/SeekToConditionItemView");
-import ServiceLocalException = require("../../Exceptions/ServiceLocalException");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import XmlElementNames = require("../XmlElementNames");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import SearchFilter = require("../../Search/Filters/SearchFilter");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import ViewBase = require("../../Search/ViewBase");
-import Grouping = require("../../Search/Grouping");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
+﻿import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
+import {Strings} from "../../Strings";
+import {SeekToConditionItemView} from "../../Search/SeekToConditionItemView";
+import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {SearchFilter} from "../../Search/Filters/SearchFilter";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {ViewBase} from "../../Search/ViewBase";
+import {Grouping} from "../../Search/Grouping";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {StringHelper} from "../../ExtensionMethods";
 
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+export class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     get ParentFolderIds(): FolderIdWrapperList { return this.parentFolderIds; }
     SearchFilter: SearchFilter;
     QueryString: string;
@@ -105,8 +105,3 @@ class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServic
         }
     }
 }
-    export = FindRequest;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

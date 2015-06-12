@@ -1,10 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import HoldAction = require("../../Enumerations/HoldAction");
-import SetHoldOnMailboxesResponse = require("../Responses/SetHoldOnMailboxesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {HoldAction} from "../../Enumerations/HoldAction";
+import {SetHoldOnMailboxesResponse} from "../Responses/SetHoldOnMailboxesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     ActionType: HoldAction;
     HoldId: string;
     Query: string;
@@ -20,8 +20,9 @@ class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("SetHoldOnMailboxesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetHoldOnMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SetHoldOnMailboxesRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

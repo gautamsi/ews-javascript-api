@@ -1,11 +1,11 @@
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
 import {StringHelper} from "../ExtensionMethods";
 
-import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
-class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
+import {ServiceObjectPropertyDefinition} from "./ServiceObjectPropertyDefinition";
+export class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
     get Index(): string { return this.index; }
     get Type(): string { return 'string'; /*return typeof string;*/ } //System.Type;
     private index: string;
@@ -34,10 +34,3 @@ class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
         writer.WriteAttributeValue("", XmlAttributeNames.FieldIndex, this.Index);
     }
 }
-export = IndexedPropertyDefinition;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

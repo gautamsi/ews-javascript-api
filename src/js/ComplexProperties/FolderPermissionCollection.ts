@@ -1,15 +1,13 @@
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import Folder = require("../Core/ServiceObjects/Folders/Folder");
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {Folder} from "../Core/ServiceObjects/Folders/Folder";
 //import CalendarFolder = require("../Core/ServiceObjects/Folders/Calendar____Folder");
-import FolderPermission = require("./FolderPermission");
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
-
-
-class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
+import {FolderPermission} from "./FolderPermission";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+export class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
     private get InnerCollectionXmlElementName(): string { return this.isCalendarFolder ? XmlElementNames.CalendarPermissions : XmlElementNames.Permissions; }
     private get CollectionItemXmlElementName(): string { return this.isCalendarFolder ? XmlElementNames.CalendarPermission : XmlElementNames.Permission; }
     private isCalendarFolder: boolean;
@@ -79,10 +77,5 @@ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermiss
         writer.WriteEndElement(); // this.InnerCollectionXmlElementName
     }
 }
-export = FolderPermissionCollection;
 
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

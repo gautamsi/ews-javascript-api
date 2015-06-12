@@ -1,14 +1,14 @@
-import MailboxQuery = require("./MailboxQuery");
-import SearchResultType = require("../Enumerations/SearchResultType");
-import KeywordStatisticsSearchResult = require("./KeywordStatisticsSearchResult");
-import SearchPreviewItem = require("./SearchPreviewItem");
-import FailedSearchMailbox = require("./FailedSearchMailbox");
-import SearchRefinerItem = require("./SearchRefinerItem");
-import MailboxStatisticsItem = require("./MailboxStatisticsItem");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import ExtendedPropertyCollection = require("../ComplexProperties/ExtendedPropertyCollection");
-import JsonObject = require("../Core/JsonObject");
-class SearchMailboxesResult {
+﻿import {MailboxQuery} from "./MailboxQuery";
+import {SearchResultType} from "../Enumerations/SearchResultType";
+import {KeywordStatisticsSearchResult} from "./KeywordStatisticsSearchResult";
+import {SearchPreviewItem} from "./SearchPreviewItem";
+import {FailedSearchMailbox} from "./FailedSearchMailbox";
+import {SearchRefinerItem} from "./SearchRefinerItem";
+import {MailboxStatisticsItem} from "./MailboxStatisticsItem";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {ExtendedPropertyCollection} from "../ComplexProperties/ExtendedPropertyCollection";
+import {JsonObject} from "../Core/JsonObject";
+export class SearchMailboxesResult {
     SearchQueries: MailboxQuery[];
     ResultType: SearchResultType;
     ItemCount: number;
@@ -27,8 +27,9 @@ class SearchMailboxesResult {
     LoadKeywordStatsXml(reader: EwsServiceXmlReader): KeywordStatisticsSearchResult[] { throw new Error("SearchMailboxesResult.ts - LoadKeywordStatsXml : Not implemented."); }
     LoadPreviewItemsXml(reader: EwsServiceXmlReader): SearchPreviewItem[] { throw new Error("SearchMailboxesResult.ts - LoadPreviewItemsXml : Not implemented."); }
 }
-export = SearchMailboxesResult;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

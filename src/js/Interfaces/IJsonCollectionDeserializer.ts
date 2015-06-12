@@ -1,13 +1,14 @@
-import ExchangeService = require("../Core/ExchangeService");
+﻿import {ExchangeService} from "../Core/ExchangeService";
 			
- interface IJsonCollectionDeserializer {
+ export interface IJsonCollectionDeserializer {
 	CreateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void;
 	UpdateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void;
 }
-export = IJsonCollectionDeserializer;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

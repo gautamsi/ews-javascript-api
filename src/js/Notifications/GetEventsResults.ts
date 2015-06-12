@@ -1,12 +1,11 @@
-import FolderEvent = require("./FolderEvent");
-import ItemEvent = require("./ItemEvent");
-import NotificationEvent = require("./NotificationEvent");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EventType = require("../Enumerations/EventType");
-			
- class GetEventsResults {
+﻿import {FolderEvent} from "./FolderEvent";
+import {ItemEvent} from "./ItemEvent";
+import {NotificationEvent} from "./NotificationEvent";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EventType} from "../Enumerations/EventType";
+export class GetEventsResults {
 	static XmlElementNameToEventTypeMap: any /*System.Collections.Generic.Dictionary<string, EventType>*/;
 	SubscriptionId: string;
 	PreviousWatermark: string;
@@ -26,10 +25,11 @@ import EventType = require("../Enumerations/EventType");
 	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("GetEventsResults.ts - LoadFromXml : Not implemented.");}
 	LoadNotificationEventFromXml(reader: EwsServiceXmlReader, eventElementName: string, eventType: EventType): void{ throw new Error("GetEventsResults.ts - LoadNotificationEventFromXml : Not implemented.");}
 }
-export = GetEventsResults;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

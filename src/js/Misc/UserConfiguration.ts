@@ -1,15 +1,15 @@
-import ItemId = require("../ComplexProperties/ItemId");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import UserConfigurationProperties = require("../Enumerations/UserConfigurationProperties");
-import FolderId = require("../ComplexProperties/FolderId");
-import UserConfigurationDictionary = require("../ComplexProperties/UserConfigurationDictionary");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-class UserConfiguration {//IJsonSerializable
+﻿import {ItemId} from "../ComplexProperties/ItemId";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {UserConfigurationProperties} from "../Enumerations/UserConfigurationProperties";
+import {FolderId} from "../ComplexProperties/FolderId";
+import {UserConfigurationDictionary} from "../ComplexProperties/UserConfigurationDictionary";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+export class UserConfiguration {//IJsonSerializable
     private static ObjectVersion: ExchangeVersion = ExchangeVersion.Exchange2010;
     private static PropertiesAvailableForNewObject: UserConfigurationProperties = null;//UserConfigurationProperties.Dictionary, UserConfigurationProperties.XmlData, BinaryData;
     private static NoProperties: UserConfigurationProperties = 0;
@@ -54,8 +54,3 @@ class UserConfiguration {//IJsonSerializable
     WriteUserConfigurationNameToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, name: string, parentFolderId: FolderId): any { throw new Error("UserConfiguration.ts - WriteUserConfigurationNameToXml : Not implemented."); }
     WriteXmlDataToXml(writer: EwsServiceXmlWriter): any { throw new Error("UserConfiguration.ts - WriteXmlDataToXml : Not implemented."); }
 }
-export = UserConfiguration;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

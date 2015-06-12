@@ -1,13 +1,12 @@
-import ViewBase = require("./ViewBase");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import Grouping = require("./Grouping");
-			
- class CalendarView extends ViewBase {
+﻿import {ViewBase} from "./ViewBase";
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
+import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {Grouping} from "./Grouping";
+export class CalendarView extends ViewBase {
 	StartDate: Date;
 	EndDate: Date;
 	MaxItemsReturned: number;
@@ -29,10 +28,11 @@ import Grouping = require("./Grouping");
 	WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any{ throw new Error("CalendarView.ts - WriteGroupingToJson : Not implemented.");}
 	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("CalendarView.ts - WriteOrderByToXml : Not implemented.");}
 }
-export = CalendarView;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

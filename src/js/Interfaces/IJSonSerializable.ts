@@ -1,12 +1,13 @@
-import ExchangeService = require("../Core/ExchangeService");
-			
- interface IJsonSerializable {
-	ToJson(service: ExchangeService): any;
+﻿import { ExchangeService } from "../Core/ExchangeService";
+
+export interface IJsonSerializable {
+    ToJson(service: ExchangeService): any;
 }
-export = IJsonSerializable;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
 
 
-			
+
+
+
+

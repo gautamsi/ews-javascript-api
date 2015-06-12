@@ -1,9 +1,9 @@
-import ComplexProperty = require("./ComplexProperty");
-import ExtendedPropertyDefinition = require("../PropertyDefinitions/ExtendedPropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class ExtendedProperty extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ExtendedProperty extends ComplexProperty {
     PropertyDefinition: ExtendedPropertyDefinition;
     Value: any;
     private propertyDefinition: ExtendedPropertyDefinition;
@@ -53,12 +53,5 @@ class ExtendedProperty extends ComplexProperty {
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExtendedProperty.ts - WriteElementsToXml : Not implemented."); }
 }
-
-export = ExtendedProperty;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 
 

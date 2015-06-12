@@ -8,7 +8,7 @@
 //export = SafeXmlSchema;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
 
 
 			

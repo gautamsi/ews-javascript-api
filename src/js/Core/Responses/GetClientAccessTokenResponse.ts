@@ -1,10 +1,9 @@
-import ServiceResponse = require("./ServiceResponse");
-import ClientAccessTokenType = require("../../Enumerations/ClientAccessTokenType");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-			
- class GetClientAccessTokenResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {ClientAccessTokenType} from "../../Enumerations/ClientAccessTokenType";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class GetClientAccessTokenResponse extends ServiceResponse {
 	Id: string;
 	TokenType: ClientAccessTokenType;
 	TokenValue: string;
@@ -12,10 +11,11 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("GetClientAccessTokenResponse.ts - ReadElementsFromJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetClientAccessTokenResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
-export = GetClientAccessTokenResponse;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

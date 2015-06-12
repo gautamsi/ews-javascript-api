@@ -1,13 +1,13 @@
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ItemId = require("./ItemId");
-import MailboxType = require("../Enumerations/MailboxType");
-import XmlElementNames = require("../Core/XmlElementNames");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import ComplexProperty = require("./ComplexProperty");
-class EmailAddress extends ComplexProperty {
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ItemId} from "./ItemId";
+import {MailboxType} from "../Enumerations/MailboxType";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ComplexProperty} from "./ComplexProperty";
+export class EmailAddress extends ComplexProperty {
     static SmtpRoutingType: string = "SMTP";
     Name: string;
     Address: string;
@@ -51,9 +51,4 @@ class EmailAddress extends ComplexProperty {
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddress.ts - WriteElementsToXml : Not implemented."); }
 }
-export = EmailAddress;
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

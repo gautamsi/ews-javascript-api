@@ -1,37 +1,37 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Sensitivity = require("../../../Enumerations/Sensitivity");
-import Importance = require("../../../Enumerations/Importance");
-import IconIndex = require("../../../Enumerations/IconIndex");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ItemId = require("../../../ComplexProperties/ItemId");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import MimeContent = require("../../../ComplexProperties/MimeContent");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import AttachmentsPropertyDefinition = require("../../../PropertyDefinitions/AttachmentsPropertyDefinition");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
-import StringList = require("../../../ComplexProperties/StringList");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import InternetMessageHeaderCollection = require("../../../ComplexProperties/InternetMessageHeaderCollection");
-import ResponseObjectsPropertyDefinition = require("../../../PropertyDefinitions/ResponseObjectsPropertyDefinition");
-import ScopedDateTimePropertyDefinition = require("../../../PropertyDefinitions/ScopedDateTimePropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {Importance} from "../../../Enumerations/Importance";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {MimeContent} from "../../../ComplexProperties/MimeContent";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {AttachmentsPropertyDefinition} from "../../../PropertyDefinitions/AttachmentsPropertyDefinition";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import {ResponseObjectsPropertyDefinition} from "../../../PropertyDefinitions/ResponseObjectsPropertyDefinition";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
 //import AppointmentSchema = require("./AppointmentSchema");
-import EffectiveRightsPropertyDefinition = require("../../../PropertyDefinitions/EffectiveRightsPropertyDefinition");
-import ConversationId = require("../../../ComplexProperties/ConversationId");
-import UniqueBody = require("../../../ComplexProperties/UniqueBody");
-import ByteArrayPropertyDefinition = require("../../../PropertyDefinitions/ByteArrayPropertyDefinition");
-import NormalizedBody = require("../../../ComplexProperties/NormalizedBody");
-import EntityExtractionResult = require("../../../ComplexProperties/EntityExtractionResult");
-import Flag = require("../../../ComplexProperties/Flag");
-import PolicyTag = require("../../../ComplexProperties/PolicyTag");
-import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
-import TextBody = require("../../../ComplexProperties/TextBody");
-import ServiceObjectSchema = require("./ServiceObjectSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
+import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
+import {Flag} from "../../../ComplexProperties/Flag";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {TextBody} from "../../../ComplexProperties/TextBody";
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 
 
@@ -87,10 +87,7 @@ module FieldUris {
     export var WebClientReadFormQueryString: string = "item:WebClientReadFormQueryString";
 }
 //}
-
-
-
-class ItemSchema extends ServiceObjectSchema {
+export class ItemSchema extends ServiceObjectSchema {
     static Id: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
         "Id",
         XmlElementNames.ItemId,
@@ -540,12 +537,3 @@ class ItemSchema extends ServiceObjectSchema {
         super.RegisterProperty(ItemSchema.IconIndex);
     }
 }
-
-
-
-export = ItemSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

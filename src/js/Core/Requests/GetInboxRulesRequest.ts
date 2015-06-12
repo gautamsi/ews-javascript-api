@@ -1,10 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetInboxRulesResponse = require("../Responses/GetInboxRulesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class GetInboxRulesRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetInboxRulesResponse} from "../Responses/GetInboxRulesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetInboxRulesRequest extends SimpleServiceRequestBase {
 	MailboxSmtpAddress: string;
 	private mailboxSmtpAddress: string;
 	Execute(): GetInboxRulesResponse{ throw new Error("GetInboxRulesRequest.ts - Execute : Not implemented.");}
@@ -14,10 +13,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetInboxRulesRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetInboxRulesRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = GetInboxRulesRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

@@ -1,6 +1,5 @@
-import HoldAction = require("../Enumerations/HoldAction");
-			
- class SetHoldOnMailboxesParameters {
+﻿import {HoldAction} from "../Enumerations/HoldAction";
+export class SetHoldOnMailboxesParameters {
 	ActionType: HoldAction;
 	HoldId: string;
 	Query: string;
@@ -8,10 +7,11 @@ import HoldAction = require("../Enumerations/HoldAction");
 	Language: string;
 	InPlaceHoldIdentity: string;
 }
-export = SetHoldOnMailboxesParameters;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

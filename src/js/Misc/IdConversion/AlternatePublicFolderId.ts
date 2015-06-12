@@ -1,8 +1,8 @@
-import AlternateIdBase = require("./AlternateIdBase");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class AlternatePublicFolderId extends AlternateIdBase {
+﻿import {AlternateIdBase} from "./AlternateIdBase";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class AlternatePublicFolderId extends AlternateIdBase {
     static SchemaTypeName: string = "AlternatePublicFolderIdType";
     FolderId: string;
     GetXmlElementName(): string { throw new Error("AlternatePublicFolderId.ts - GetXmlElementName : Not implemented."); }
@@ -11,8 +11,9 @@ class AlternatePublicFolderId extends AlternateIdBase {
     LoadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("AlternatePublicFolderId.ts - LoadAttributesFromXml : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternatePublicFolderId.ts - WriteAttributesToXml : Not implemented."); }
 }
-export = AlternatePublicFolderId;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

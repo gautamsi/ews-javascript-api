@@ -1,20 +1,20 @@
-import XmlElementNames = require("../../XmlElementNames");
-import PolicyTag = require("../../../ComplexProperties/PolicyTag");
-import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
-import ManagedFolderInformation = require("../../../ComplexProperties/ManagedFolderInformation");
-import PermissionSetPropertyDefinition = require("../../../PropertyDefinitions/PermissionSetPropertyDefinition");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
-import EffectiveRightsPropertyDefinition = require("../../../PropertyDefinitions/EffectiveRightsPropertyDefinition");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import FolderId = require("../../../ComplexProperties/FolderId");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
+import {PermissionSetPropertyDefinition} from "../../../PropertyDefinitions/PermissionSetPropertyDefinition";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {FolderId} from "../../../ComplexProperties/FolderId";
 
-import ServiceObjectSchema = require("./ServiceObjectSchema");
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
 //module Microsoft.Exchange.WebServices.Data.FolderSchema {
 module FieldUris {
@@ -33,9 +33,7 @@ module FieldUris {
   export var DistinguishedFolderId: string = "folder:DistinguishedFolderId";
 }
 //}
-
-
-class FolderSchema extends ServiceObjectSchema {
+export class FolderSchema extends ServiceObjectSchema {
   /* <summary>
   /// Field URIs for folders.
   /// </summary>*/
@@ -172,11 +170,3 @@ class FolderSchema extends ServiceObjectSchema {
     this.RegisterProperty(FolderSchema.ArchiveTag);
   }
 }
-
-export = FolderSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

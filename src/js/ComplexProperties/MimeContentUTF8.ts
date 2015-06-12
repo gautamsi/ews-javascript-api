@@ -1,5 +1,5 @@
-import MimeContentBase = require("./MimeContentBase");
-class MimeContentUTF8 extends MimeContentBase{
+﻿import {MimeContentBase} from "./MimeContentBase";
+export class MimeContentUTF8 extends MimeContentBase{
     
     
     constructor(content:any[]/* byte[]*/)
@@ -38,5 +38,4 @@ class MimeContentUTF8 extends MimeContentBase{
 }
 
 
-export = MimeContentUTF8;
 

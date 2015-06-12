@@ -1,6 +1,6 @@
 import {base64Helper} from "../ExtensionMethods";
 import {IXHROptions} from "../Interfaces";
-class ExchangeCredentials {
+export class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
 
@@ -26,11 +26,3 @@ class ExchangeCredentials {
     //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("ExchangeCredentials.ts - SerializeWSSecurityHeaders : Not implemented.");}
     //Sign(memoryStream: any): any{ throw new Error("ExchangeCredentials.ts - Sign : Not implemented.");}
 }
-
-export = ExchangeCredentials;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

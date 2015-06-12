@@ -1,19 +1,19 @@
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import DefaultExtendedPropertySet = require("../Enumerations/DefaultExtendedPropertySet");
-import MapiPropertyType = require("../Enumerations/MapiPropertyType");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
+﻿import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {DefaultExtendedPropertySet} from "../Enumerations/DefaultExtendedPropertySet";
+import {MapiPropertyType} from "../Enumerations/MapiPropertyType";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 
 import {StringHelper, Convert} from "../ExtensionMethods";
 
-import PropertyDefinitionBase = require("./PropertyDefinitionBase");
+import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
 
 //should be done
-class ExtendedPropertyDefinition extends PropertyDefinitionBase {
+export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     private static FieldFormat: string = "{0}: {1} ";
     private static PropertySetFieldName: string = "PropertySet";
     private static PropertySetIdFieldName: string = "PropertySetId";
@@ -164,4 +164,4 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     }
 }
 
-export = ExtendedPropertyDefinition;
+

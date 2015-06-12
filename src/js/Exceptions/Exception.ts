@@ -1,5 +1,5 @@
 ﻿//make necessay changes if needed
-class Exception {// implements Error {
+export class Exception {// implements Error {
     //private name: string;
     //private message: string;
     Message: string;
@@ -11,4 +11,3 @@ class Exception {// implements Error {
 
 }
 
-export = Exception;

@@ -1,23 +1,23 @@
-import ServiceObject = require("../ServiceObject");
+﻿import {ServiceObject} from "../ServiceObject";
 import {IndexerWithStringKey} from "../../../AltDictionary";
 
 import {CreateServiceObjectWithServiceParam} from "../../../Misc/DelegateTypes";
 
-import XmlElementNames = require("../../XmlElementNames");
-import ExchangeService = require("../../ExchangeService");
+import {XmlElementNames} from "../../XmlElementNames";
+import {ExchangeService} from "../../ExchangeService";
 
-import CalendarFolder = require("./CalendarFolder");
-import ContactsFolder = require("./ContactsFolder");
-import Folder = require("./Folder");
-import SearchFolder = require("./SearchFolder");
-import TasksFolder = require("./TasksFolder");
+import {CalendarFolder} from "./CalendarFolder";
+import {ContactsFolder} from "./ContactsFolder";
+import {Folder} from "./Folder";
+import {SearchFolder} from "./SearchFolder";
+import {TasksFolder} from "./TasksFolder";
 
-import ServiceObjectInfo = require("../ServiceObjectInfo");
+import {ServiceObjectInfo} from "../ServiceObjectInfo";
 /**
  * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc. 
  * this to is to avoid circular referencing with requirejs/commonjs/nodejs
  */
-class FolderInfo extends ServiceObjectInfo {
+export class FolderInfo extends ServiceObjectInfo {
 
 InitializeServiceObjectClassMap(): any {
         // CalendarFolder
@@ -72,15 +72,3 @@ InitializeServiceObjectClassMap(): any {
 
     }
 }
-
-
-export = FolderInfo;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

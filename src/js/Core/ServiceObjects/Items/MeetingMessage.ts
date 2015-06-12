@@ -1,7 +1,7 @@
-import XmlElementNames = require("../../XmlElementNames");
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import EmailMessage = require("./EmailMessage");
-class MeetingMessage extends EmailMessage {
+import {EmailMessage} from "./EmailMessage";
+export class MeetingMessage extends EmailMessage {
     ////////AssociatedAppointmentId: ItemId;
     ////////IsDelegated: boolean;
     ////////IsOutOfDate: boolean;
@@ -17,12 +17,3 @@ class MeetingMessage extends EmailMessage {
     ////////GetSchema(): ServiceObjectSchema { throw new Error("MeetingMessage.ts - GetSchema : Not implemented."); }
     GetXmlElementName(): string { return XmlElementNames.MeetingMessage; }
 }
-
-export = MeetingMessage;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

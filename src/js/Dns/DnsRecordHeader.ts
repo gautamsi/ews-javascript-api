@@ -1,6 +1,5 @@
-import DnsRecordType = require("../Enumerations/DnsRecordType");
-			
- class DnsRecordHeader {
+﻿import {DnsRecordType} from "../Enumerations/DnsRecordType";
+export class DnsRecordHeader {
 	NextRecord: number;
 	Name: string;
 	RecordType: DnsRecordType;
@@ -9,10 +8,11 @@ import DnsRecordType = require("../Enumerations/DnsRecordType");
 	Ttl: number;
 	Reserved: number;
 }
-export = DnsRecordHeader;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Dns------------
 
 
 			
+

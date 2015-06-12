@@ -1,16 +1,16 @@
-import ExchangeService = require("./ExchangeService");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import DelegateTypes = require("../Misc/DelegateTypes");
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import PropertySet = require("./PropertySet");
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
+﻿import {ExchangeService} from "./ExchangeService";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {GetObjectInstanceDelegate} from "../Misc/DelegateTypes";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {PropertySet} from "./PropertySet";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
 
 import {StringHelper} from "../ExtensionMethods";
 
 
-import EwsXmlReader = require("./EwsXmlReader");
-class EwsServiceXmlReader extends EwsXmlReader {
-    get Service(): ExchangeService { return this.service;}
+import {EwsXmlReader} from "./EwsXmlReader";
+export class EwsServiceXmlReader extends EwsXmlReader {
+    get Service(): ExchangeService { return this.service; }
     private service: ExchangeService;
     //#region Constructor
     constructor(rawXML: string, service: ExchangeService) {
@@ -27,7 +27,7 @@ class EwsServiceXmlReader extends EwsXmlReader {
     //ReadServiceObjectsCollectionFromXml(collectionXmlNamespace: XmlNamespace, collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("EwsServiceXmlReader.ts - ReadServiceObjectsCollectionFromXml : Not implemented."); }
     //ReadServiceObjectsCollectionFromXml(collectionXmlElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<T>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): System.Collections.Generic.List<T> { throw new Error("EwsServiceXmlReader.ts - ReadServiceObjectsCollectionFromXml : Not implemented."); }
     ReadServiceObjectsCollectionFromXml<TServiceObject extends ServiceObject>(collectionXmlElementName: string,
-        getObjectInstanceDelegate: DelegateTypes.GetObjectInstanceDelegate<TServiceObject>,
+        getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>,
         clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean,
         collectionXmlNamespace: XmlNamespace = XmlNamespace.Messages): TServiceObject[] /*System.Collections.Generic.List<T>*/ {
 
@@ -85,8 +85,5 @@ class EwsServiceXmlReader extends EwsXmlReader {
 
     }
 }
-export = EwsServiceXmlReader;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

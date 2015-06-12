@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Item = require("./Item");
-class Task extends Item {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Item} from "./Item";
+export class Task extends Item {
     //////ActualWork: number;
     //////AssignedTime: Date;
     //////BillingInformation: string;
@@ -33,12 +33,3 @@ class Task extends Item {
     GetXmlElementName(): string { return XmlElementNames.Task; }
     //////Update(conflictResolutionMode: ConflictResolutionMode): Task { throw new Error("Task.ts - Update : Not implemented."); }
 }
-export = Task;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,9 +1,9 @@
-import ItemId = require("../ComplexProperties/ItemId");
-import AbstractItemIdWrapper = require("./AbstractItemIdWrapper");
-import ExchangeService = require("../Core/ExchangeService");
+﻿import {ItemId} from "../ComplexProperties/ItemId";
+import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
+import {ExchangeService} from "../Core/ExchangeService";
 import {EwsLogging} from "../Core/EwsLogging";
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class ItemIdWrapper extends AbstractItemIdWrapper {
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ItemIdWrapper extends AbstractItemIdWrapper {
     private itemId: ItemId;
     constructor(itemId: ItemId) {
         super();
@@ -17,8 +17,3 @@ class ItemIdWrapper extends AbstractItemIdWrapper {
     IternalToJson(service: ExchangeService): any { throw new Error("ItemIdWrapper.ts - IternalToJson : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): void {this.itemId.WriteToXml(writer);}
 }
-export = ItemIdWrapper;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

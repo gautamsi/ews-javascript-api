@@ -1,10 +1,10 @@
-import AutodiscoverResponseType = require("../../Enumerations/AutodiscoverResponseType");
-import AutodiscoverError = require("../AutodiscoverError");
-import UserSettingName = require("../../Enumerations/UserSettingName");
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import GetUserSettingsResponse = require("../Responses/GetUserSettingsResponse");
+﻿import {AutodiscoverResponseType} from "../../Enumerations/AutodiscoverResponseType";
+import {AutodiscoverError} from "../AutodiscoverError";
+import {UserSettingName} from "../../Enumerations/UserSettingName";
+import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {GetUserSettingsResponse} from "../Responses/GetUserSettingsResponse";
 
-class ConfigurationSettingsBase {
+export class ConfigurationSettingsBase {
     ResponseType: AutodiscoverResponseType;
     RedirectTarget: string;
     Error: AutodiscoverError;
@@ -15,9 +15,4 @@ class ConfigurationSettingsBase {
     MakeRedirectionResponse(redirectUrl: string /*System.Uri*/): any { throw new Error("ConfigurationSettingsBase.ts - MakeRedirectionResponse : Not implemented."); }
     TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("ConfigurationSettingsBase.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
-export = ConfigurationSettingsBase;
 
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

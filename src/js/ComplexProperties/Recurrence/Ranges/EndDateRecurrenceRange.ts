@@ -1,11 +1,10 @@
-import RecurrenceRange = require("./RecurrenceRange");
-import Recurrence = require("../Patterns/Recurrence");
-import JsonObject = require("../../../Core/JsonObject");
-import ExchangeService = require("../../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
-
-class EndDateRecurrenceRange extends RecurrenceRange {
+﻿import {RecurrenceRange} from "./RecurrenceRange";
+import {Recurrence} from "../Patterns/Recurrence";
+import {JsonObject} from "../../../Core/JsonObject";
+import {ExchangeService} from "../../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
+export class EndDateRecurrenceRange extends RecurrenceRange {
     XmlElementName: string;
     EndDate: Date;
     private endDate: Date;
@@ -15,8 +14,9 @@ class EndDateRecurrenceRange extends RecurrenceRange {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EndDateRecurrenceRange.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EndDateRecurrenceRange.ts - WriteElementsToXml : Not implemented."); }
 }
-export = EndDateRecurrenceRange;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

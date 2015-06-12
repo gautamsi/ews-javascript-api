@@ -1,11 +1,10 @@
-import Recurrence = require("../Patterns/Recurrence");
-import ComplexProperty = require("../../ComplexProperty");
-import JsonObject = require("../../../Core/JsonObject");
-import ExchangeService = require("../../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
-
-class RecurrenceRange extends ComplexProperty {
+﻿import {Recurrence} from "../Patterns/Recurrence";
+import {ComplexProperty} from "../../ComplexProperty";
+import {JsonObject} from "../../../Core/JsonObject";
+import {ExchangeService} from "../../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
+export class RecurrenceRange extends ComplexProperty {
     XmlElementName: string;
     Recurrence: Recurrence;
     StartDate: Date;
@@ -19,8 +18,9 @@ class RecurrenceRange extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("RecurrenceRange.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("RecurrenceRange.ts - WriteElementsToXml : Not implemented."); }
 }
-export = RecurrenceRange;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

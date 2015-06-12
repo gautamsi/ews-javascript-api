@@ -1,9 +1,9 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ExchangeService = require("../ExchangeService");
-import ExecuteDiagnosticMethodResponse = require("../Responses/ExecuteDiagnosticMethodResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<ExecuteDiagnosticMethodResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ExchangeService} from "../ExchangeService";
+import {ExecuteDiagnosticMethodResponse} from "../Responses/ExecuteDiagnosticMethodResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<ExecuteDiagnosticMethodResponse> {
     Verb: string;
     Parameter: any;//System.Xml.XmlNode;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ExecuteDiagnosticMethodResponse { throw new Error("ExecuteDiagnosticMethodRequest.ts - CreateServiceResponse : Not implemented."); }
@@ -15,10 +15,10 @@ class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<Execute
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExecuteDiagnosticMethodRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = ExecuteDiagnosticMethodRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

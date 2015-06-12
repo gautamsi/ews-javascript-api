@@ -1,10 +1,10 @@
-import PropertyDefinition = require("./PropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class TimeZonePropertyDefinition extends PropertyDefinition {
+﻿import {PropertyDefinition} from "./PropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class TimeZonePropertyDefinition extends PropertyDefinition {
         Type: any;//System.Type;
         LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("TimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
         LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("TimeZonePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented."); }
@@ -12,8 +12,8 @@ class TimeZonePropertyDefinition extends PropertyDefinition {
         WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("TimeZonePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }
 
-export = TimeZonePropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

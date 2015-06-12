@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetHoldOnMailboxesResponse = require("../Responses/GetHoldOnMailboxesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetHoldOnMailboxesResponse} from "../Responses/GetHoldOnMailboxesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     HoldId: string;
     Execute(): GetHoldOnMailboxesResponse { throw new Error("GetHoldOnMailboxesRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetHoldOnMailboxesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
@@ -13,8 +13,9 @@ class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("GetHoldOnMailboxesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetHoldOnMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetHoldOnMailboxesRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

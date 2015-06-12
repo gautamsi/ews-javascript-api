@@ -1,6 +1,5 @@
-import JsonTokenType = require("../Enumerations/JsonTokenType");
-
-class JsonTokenizer {
+﻿import {JsonTokenType} from "../Enumerations/JsonTokenType";
+export class JsonTokenizer {
 	private static JsonStringRegExCode: string = '"([^\\"]|\\"|\\\\|\\/|\\b|\\f|\\n|\\r|\\t|\\u[\da - fA - F]{4 }) * "';
 	private static JsonNumberRegExCode: string = "-?\d+(.\d+)?([eE][+-]?\d+)?";
 	private static JsonBooleanRegExCode: string = "(true|false)";
@@ -32,10 +31,11 @@ class JsonTokenizer {
 	NextToken(token: string): JsonTokenType { throw new Error("JsonTokenizer.ts - NextToken : Not implemented."); }
 	Peek(): JsonTokenType { throw new Error("JsonTokenizer.ts - Peek : Not implemented."); }
 }
-export = JsonTokenizer;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

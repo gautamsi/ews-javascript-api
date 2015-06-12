@@ -1,52 +1,52 @@
-import GroupedFindItemsResults = require("../Search/GroupedFindItemsResults");
-import FindItemsResults = require("../Search/FindItemsResults");
-import FindItemRequest = require("./Requests/FindItemRequest");
-import FindFolderRequest = require("./Requests/FindFolderRequest");
-import CopyFolderRequest = require("./Requests/CopyFolderRequest");
-import Item = require("./ServiceObjects/Items/Item");
-import ViewBase = require("../Search/ViewBase");
-import Grouping = require("../Search/Grouping");
-import FindItemResponse = require("./Responses/FindItemResponse");
-import FindFolderResponse = require("./Responses/FindFolderResponse");
-import MoveCopyFolderResponse = require("./Responses/MoveCopyFolderResponse");
-import Strings = require("../Strings");
-import ManagementRoles = require("../Misc/ManagementRoles");
-import ImpersonatedUserId = require("../Misc/ImpersonatedUserId");
-import PrivilegedUserId = require("../Misc/PrivilegedUserId");
-import IFileAttachmentContentHandler = require("../Interfaces/IFileAttachmentContentHandler");
-import UnifiedMessaging = require("../UnifiedMessaging/UnifiedMessaging");
-import RetentionType = require("../Enumerations/RetentionType");
-import DeleteMode = require("../Enumerations/DeleteMode");
+﻿import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
+import {FindItemsResults} from "../Search/FindItemsResults";
+import {FindItemRequest} from "./Requests/FindItemRequest";
+import {FindFolderRequest} from "./Requests/FindFolderRequest";
+import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
+import {Item} from "./ServiceObjects/Items/Item";
+import {ViewBase} from "../Search/ViewBase";
+import {Grouping} from "../Search/Grouping";
+import {FindItemResponse} from "./Responses/FindItemResponse";
+import {FindFolderResponse} from "./Responses/FindFolderResponse";
+import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
+import {Strings} from "../Strings";
+import {ManagementRoles} from "../Misc/ManagementRoles";
+import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
+import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
+import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
+import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {RetentionType} from "../Enumerations/RetentionType";
+import {DeleteMode} from "../Enumerations/DeleteMode";
 //import DelegateUserResponse = require("./Responses/DelegateUserResponse");
-import ConversationActionType = require("../Enumerations/ConversationActionType");
-import MeetingRequestsDeliveryScope = require("../Enumerations/MeetingRequestsDeliveryScope");
-import ServiceResponse = require("./Responses/ServiceResponse");
-import Mailbox = require("../ComplexProperties/Mailbox");
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import EwsUtilities = require("./EwsUtilities");
-import AutodiscoverService = require("../Autodiscover/AutodiscoverService");
-import AutodiscoverServiceDelegates = require("../Autodiscover/AutodiscoverServiceDelegates");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import TraceFlags = require("../Enumerations/TraceFlags");
-import RenderingMode = require("../Enumerations/RenderingMode");
-import UserSettingName = require("../Enumerations/UserSettingName");
-import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
-import GetUserSettingsResponse = require("../Autodiscover/Responses/GetUserSettingsResponse");
-import GetFolderRequest = require("./Requests/GetFolderRequest");
-import GetFolderResponse = require("./Responses/GetFolderResponse");
-import ServiceResponseCollection = require("./Responses/ServiceResponseCollection");
-import ServiceErrorHandling = require("../Enumerations/ServiceErrorHandling");
-import DateTimePrecision = require("../Enumerations/DateTimePrecision");
-import ServiceRemoteException = require("../Exceptions/ServiceRemoteException");
-import AutodiscoverLocalException = require("../Exceptions/AutodiscoverLocalException");
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import SearchFilter = require("../Search/Filters/SearchFilter");
-import FindFoldersResults = require("../Search/FindFoldersResults");
-import FolderView = require("../Search/FolderView");
+import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliveryScope";
+import {ServiceResponse} from "./Responses/ServiceResponse";
+import {Mailbox} from "../ComplexProperties/Mailbox";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {EwsUtilities} from "./EwsUtilities";
+import {AutodiscoverService} from "../Autodiscover/AutodiscoverService";
+import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/AutodiscoverServiceDelegates";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {TraceFlags} from "../Enumerations/TraceFlags";
+import {RenderingMode} from "../Enumerations/RenderingMode";
+import {UserSettingName} from "../Enumerations/UserSettingName";
+import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
+import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
+import {GetFolderRequest} from "./Requests/GetFolderRequest";
+import {GetFolderResponse} from "./Responses/GetFolderResponse";
+import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
+import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
+import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
+import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
+import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {SearchFilter} from "../Search/Filters/SearchFilter";
+import {FindFoldersResults} from "../Search/FindFoldersResults";
+import {FolderView} from "../Search/FolderView";
 
-import Folder = require("./ServiceObjects/Folders/Folder");
-import FolderId = require("../ComplexProperties/FolderId");
-import PropertySet = require("./PropertySet");
+import {Folder} from "./ServiceObjects/Folders/Folder";
+import {FolderId} from "../ComplexProperties/FolderId";
+import {PropertySet} from "./PropertySet";
 
 import {StringHelper, UriHelper} from "../ExtensionMethods";
 
@@ -57,8 +57,8 @@ import {XHR} from "../XHRFactory"
 
 
 
-import ExchangeServiceBase = require("./ExchangeServiceBase");
-class ExchangeService extends ExchangeServiceBase {
+import {ExchangeServiceBase} from "./ExchangeServiceBase";
+export class ExchangeService extends ExchangeServiceBase {
     private static TargetServerVersionHeaderName: string = "X-EWS-TargetVersion";
     Url: string;//System.Uri;
     ImpersonatedUserId: ImpersonatedUserId;
@@ -98,7 +98,7 @@ class ExchangeService extends ExchangeServiceBase {
     // ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ApplyConversationOneTimeAction<TResponse extends ServiceResponse> : Not implemented."); }
     // ArchiveItems<TResponse extends ServiceResponse>(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, sourceFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ArchiveItems<TResponse extends ServiceResponse> : Not implemented."); }
     // //AutodiscoverUrl(emailAddress: string): any { throw new Error("ExchangeService.ts - AutodiscoverUrl : Not implemented."); }
-    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): IPromise<any> {
+    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): IPromise<any> {
         validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
         var exchangeServiceUrl: string;
@@ -221,7 +221,7 @@ class ExchangeService extends ExchangeServiceBase {
     //GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("ExchangeService.ts - GetAttachment : Not implemented."); }
     ////GetAttachments(attachments: any, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetAttachments : Not implemented."); }
     ////GetAttachments(attachmentIds: System.String[], bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetAttachments : Not implemented."); }
-    GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback): IPromise<string> /*System.Uri*/ {
+    GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<string> /*System.Uri*/ {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
         autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
@@ -724,10 +724,3 @@ class ExchangeService extends ExchangeServiceBase {
 //}
 
 
-export = ExchangeService;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

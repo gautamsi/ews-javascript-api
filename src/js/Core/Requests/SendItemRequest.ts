@@ -1,11 +1,11 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import Item = require("../ServiceObjects/Items/Item");
-import FolderId = require("../../ComplexProperties/FolderId");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {Item} from "../ServiceObjects/Items/Item";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     Items: Item[]/*System.Collections.Generic.IEnumerable<Item>*/;
     SavedCopyDestinationFolderId: FolderId;
     private items: Item[]/*System.Collections.Generic.IEnumerable<Item>;*/
@@ -20,8 +20,9 @@ class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJ
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("SendItemRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SendItemRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SendItemRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

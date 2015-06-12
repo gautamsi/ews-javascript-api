@@ -1,8 +1,8 @@
-import AlternatePublicFolderId = require("./AlternatePublicFolderId");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class AlternatePublicFolderItemId extends AlternatePublicFolderId {
+﻿import {AlternatePublicFolderId} from "./AlternatePublicFolderId";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class AlternatePublicFolderItemId extends AlternatePublicFolderId {
     ItemId: string;
     private itemId: string;
     GetXmlElementName(): string { throw new Error("AlternatePublicFolderItemId.ts - GetXmlElementName : Not implemented."); }
@@ -11,8 +11,9 @@ class AlternatePublicFolderItemId extends AlternatePublicFolderId {
     LoadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("AlternatePublicFolderItemId.ts - LoadAttributesFromXml : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternatePublicFolderItemId.ts - WriteAttributesToXml : Not implemented."); }
 }
-export = AlternatePublicFolderItemId;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

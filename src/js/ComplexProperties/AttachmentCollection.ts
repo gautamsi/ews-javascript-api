@@ -1,13 +1,13 @@
-import FileAttachment = require("./FileAttachment");
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
-import IOwnedProperty = require("../Interfaces/IOwnedProperty");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import Item = require("../Core/ServiceObjects/Items/Item");
-import ItemAttachment = require("./ItemAttachment");
-import Attachment = require("./Attachment");
+﻿import {FileAttachment} from "./FileAttachment";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {Item} from "../Core/ServiceObjects/Items/Item";
+import {ItemAttachment} from "./ItemAttachment";
+import {Attachment} from "./Attachment";
 import {EwsLogging} from "../Core/EwsLogging";
 
-class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
+export class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
     ___implementsInterface: string[] = ["IOwnedProperty", "ISelfValidate", "IJsonSerializable", "IEnumerable<TComplexProperty>", "ICustomUpdateSerializer", "IJsonCollectionDeserialize"];
     ___typeName: string = "Attachment";
     ___typeGenerics: string[] = ["ComplexProperty"];
@@ -39,10 +39,11 @@ class AttachmentCollection extends ComplexPropertyCollection<Attachment> impleme
 	Save(): void { throw new Error("AttachmentCollection.ts - Save : Not implemented."); }
 	Validate(): void { throw new Error("AttachmentCollection.ts - Validate : Not implemented."); }
 }
-export = AttachmentCollection;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

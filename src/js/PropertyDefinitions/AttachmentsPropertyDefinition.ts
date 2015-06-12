@@ -1,10 +1,9 @@
-import XmlElementNames = require("../Core/XmlElementNames");
-import AttachmentCollection = require("../ComplexProperties/AttachmentCollection");
-import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-
-class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<AttachmentCollection> {
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+import {AttachmentCollection} from "../ComplexProperties/AttachmentCollection";
+import {ComplexPropertyDefinition} from "./ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+export class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<AttachmentCollection> {
     private static Exchange2010SP2PropertyDefinitionFlags: PropertyDefinitionFlags = PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.UpdateCollectionItems;
     constructor(propertyName: string){
         super(
@@ -25,9 +24,3 @@ class AttachmentsPropertyDefinition extends ComplexPropertyDefinition<Attachment
         
         throw new Error("AttachmentsPropertyDefinition - HasFlags: Not implemented - something missing."); }
 }
-export = AttachmentsPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

@@ -1,10 +1,9 @@
-import ItemId = require("./ItemId");
-import ComplexProperty = require("./ComplexProperty");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-
-class OccurrenceInfo extends ComplexProperty {
+﻿import {ItemId} from "./ItemId";
+import {ComplexProperty} from "./ComplexProperty";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class OccurrenceInfo extends ComplexProperty {
     ItemId: ItemId;
     Start: Date;
     End: Date;
@@ -16,8 +15,9 @@ class OccurrenceInfo extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("OccurrenceInfo.ts - LoadFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("OccurrenceInfo.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = OccurrenceInfo;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

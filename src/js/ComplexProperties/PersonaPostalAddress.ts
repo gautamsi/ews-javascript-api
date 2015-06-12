@@ -1,11 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import LocationSource = require("../Enumerations/LocationSource");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class PersonaPostalAddress extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {LocationSource} from "../Enumerations/LocationSource";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class PersonaPostalAddress extends ComplexProperty {
     Street: string;
     City: string;
     State: string;
@@ -43,8 +42,9 @@ class PersonaPostalAddress extends ComplexProperty {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteElementsToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("PersonaPostalAddress.ts - WriteToXml : Not implemented."); }
 }
-export = PersonaPostalAddress;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

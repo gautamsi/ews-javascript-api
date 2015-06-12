@@ -1,12 +1,11 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import PropertySet = require("../PropertySet");
-import FolderId = require("../../ComplexProperties/FolderId");
-import ExchangeService = require("../ExchangeService");
-import SyncFolderHierarchyResponse = require("../Responses/SyncFolderHierarchyResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {PropertySet} from "../PropertySet";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {ExchangeService} from "../ExchangeService";
+import {SyncFolderHierarchyResponse} from "../Responses/SyncFolderHierarchyResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
 	PropertySet: PropertySet;
 	SyncFolderId: FolderId;
 	SyncState: string;
@@ -22,10 +21,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("SyncFolderHierarchyRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SyncFolderHierarchyRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = SyncFolderHierarchyRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

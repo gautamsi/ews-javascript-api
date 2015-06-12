@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Folder = require("./Folder");
-class TasksFolder extends Folder {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Folder} from "./Folder";
+export class TasksFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
@@ -13,11 +13,3 @@ class TasksFolder extends Folder {
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("TasksFolder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetXmlElementName(): string { return XmlElementNames.TasksFolder; }
 }
-export = TasksFolder;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export

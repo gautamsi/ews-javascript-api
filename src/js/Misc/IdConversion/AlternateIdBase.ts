@@ -1,8 +1,8 @@
-import IdFormat = require("../../Enumerations/IdFormat");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class AlternateIdBase {//ISelfValidate, IJsonSerializable
+﻿import {IdFormat} from "../../Enumerations/IdFormat";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class AlternateIdBase {//ISelfValidate, IJsonSerializable
     Format: IdFormat;
     GetXmlElementName(): string { throw new Error("AlternateIdBase.ts - GetXmlElementName : Not implemented."); }
     InternalToJson(jsonObject: JsonObject): any { throw new Error("AlternateIdBase.ts - InternalToJson : Not implemented."); }
@@ -12,8 +12,9 @@ class AlternateIdBase {//ISelfValidate, IJsonSerializable
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternateIdBase.ts - WriteAttributesToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternateIdBase.ts - WriteToXml : Not implemented."); }
 }
-export = AlternateIdBase;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

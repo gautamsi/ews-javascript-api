@@ -1,12 +1,11 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ServiceError = require("../Enumerations/ServiceError");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ServiceError} from "../Enumerations/ServiceError";
 
 //todo: fix this - import Xml = require("System.Xml");
-
-class SoapFaultDetails {
+export class SoapFaultDetails {
     FaultCode: string;
     FaultString: string;
     FaultActor: string;
@@ -126,12 +125,3 @@ class SoapFaultDetails {
     ParseMessageXml(reader: EwsXmlReader): any { throw new Error("SoapFaultDetails.ts - ParseMessageXml : Not implemented."); }
 
 }
-
-export = SoapFaultDetails;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

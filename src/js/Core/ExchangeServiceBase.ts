@@ -1,25 +1,24 @@
-import Strings = require("../Strings");
-import TimeZoneDefinition = require("../ComplexProperties/TimeZones/TimeZoneDefinition");
-import IEwsHttpWebRequestFactory = require("../Interfaces/IEwsHttpWebRequestFactory");
-import ITraceListener = require("../Interfaces/ITraceListener");
-import IEwsHttpWebResponse = require("../Interfaces/IEwsHttpWebResponse");
-import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
+﻿import {Strings} from "../Strings";
+import {TimeZoneDefinition} from "../ComplexProperties/TimeZones/TimeZoneDefinition";
+import {IEwsHttpWebRequestFactory} from "../Interfaces/IEwsHttpWebRequestFactory";
+import {ITraceListener} from "../Interfaces/ITraceListener";
+// import {IEwsHttpWebResponse} from "../Interfaces/IEwsHttpWebResponse";
+// import {IEwsHttpWebRequest} from "../Interfaces/IEwsHttpWebRequest";
 
 import {EwsLogging} from "./EwsLogging";
-import ExchangeCredentials = require("../Credentials/ExchangeCredentials");
-import EwsUtilities = require("./EwsUtilities");
-import ExchangeServerInfo = require("./ExchangeServerInfo");
+import {ExchangeCredentials} from "../Credentials/ExchangeCredentials";
+import {EwsUtilities} from "./EwsUtilities";
+import {ExchangeServerInfo} from "./ExchangeServerInfo";
 
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import TraceFlags = require("../Enumerations/TraceFlags");
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {TraceFlags} from "../Enumerations/TraceFlags";
 import {IXHROptions} from "../Interfaces";
 
 import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
-
-class ExchangeServiceBase {
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+export class ExchangeServiceBase {
     static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
     AcceptGzipEncoding: boolean;
@@ -154,7 +153,7 @@ class ExchangeServiceBase {
             this.OnSerializeCustomSoapHeaders(writer);
         }
     }
-    InternalProcessHttpErrorResponse(httpWebResponse: IEwsHttpWebResponse, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("ExchangeServiceBase.ts - InternalProcessHttpErrorResponse : Not implemented."); }
+    InternalProcessHttpErrorResponse(httpWebResponse: any, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("ExchangeServiceBase.ts - InternalProcessHttpErrorResponse : Not implemented."); }
     IsTraceEnabledFor(traceFlags: TraceFlags): boolean { return this.TraceEnabled && ((this.TraceFlags & traceFlags) != 0); }
     PrepareHttpWebRequestForUrl(url: string/*System.Uri*/, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
         // Verify that the protocol is something that we can handle
@@ -222,7 +221,7 @@ class ExchangeServiceBase {
         return request;
     }
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeServiceBase.ts - ProcessHttpErrorResponse : Not implemented."); }
-    ProcessHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): void {
+    ProcessHttpResponseHeaders(traceType: TraceFlags, response: any): void {
         return;
         //todo: implement tracing
         this.TraceHttpResponseHeaders(traceType, response);
@@ -247,15 +246,9 @@ class ExchangeServiceBase {
     }
     SetCustomUserAgent(userAgent: string): any { /*this.userAgent = userAgent;*/ }
     TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("ExchangeServiceBase.ts - TraceHttpRequestHeaders : Not implemented."); }
-    TraceHttpResponseHeaders(traceType: TraceFlags, response: IEwsHttpWebResponse): any { throw new Error("ExchangeServiceBase.ts - TraceHttpResponseHeaders : Not implemented."); }
+    TraceHttpResponseHeaders(traceType: TraceFlags, response: any): any { throw new Error("ExchangeServiceBase.ts - TraceHttpResponseHeaders : Not implemented."); }
     TraceMessage(traceType: TraceFlags, logEntry: string): any { EwsLogging.Log(logEntry); /*throw new Error("Not implemented."); */ }
     TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("ExchangeServiceBase.ts - TraceXml : Not implemented."); }
     Validate(): any { }
 }
 
-export = ExchangeServiceBase;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,11 +1,5 @@
-import ServiceId = require("./ServiceId");
-
-class ItemId extends ServiceId {
-    GetXmlElementName(): string { throw new Error("ItemId.ts - GetXmlElementName : Not implemented."); }
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+import {ServiceId} from "./ServiceId";
+export class ItemId extends ServiceId {
+    GetXmlElementName(): string { return XmlElementNames.ItemId; }
 }
-export = ItemId;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

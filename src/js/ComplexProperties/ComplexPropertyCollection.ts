@@ -1,15 +1,15 @@
-import Strings = require("../Strings");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {Strings} from "../Strings";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ArrayHelper, StringHelper} from "../ExtensionMethods";
 import {EwsLogging} from "../Core/EwsLogging";
 
-import ComplexProperty = require("./ComplexProperty");
-class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty {
+import {ComplexProperty} from "./ComplexProperty";
+export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty {
     ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "IEnumerable<TComplexProperty>", "ICustomUpdateSerializer", "IJsonCollectionDeserialize"];
     ___typeName: string = "ComplexPropertyCollection";
     ___typeGenerics: string[] = ["ComplexProperty"];
@@ -162,11 +162,5 @@ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extend
         return false;
     }
 }
-export = ComplexPropertyCollection;
 
 
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,11 +1,11 @@
-import ItemId = require("../ComplexProperties/ItemId");
-import Item = require("../Core/ServiceObjects/Items/Item");
-import ItemIdWrapper = require("./ItemIdWrapper");
-import AbstractItemIdWrapper = require("./AbstractItemIdWrapper");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
+﻿import {ItemId} from "../ComplexProperties/ItemId";
+import {Item} from "../Core/ServiceObjects/Items/Item";
+import {ItemIdWrapper} from "./ItemIdWrapper";
+import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+export class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
     get Count(): number { return this.itemIds.length; }
     //Item: Item;
     private itemIds: AbstractItemIdWrapper[] = [];//System.Collections.Generic.List<ItemId>;
@@ -47,8 +47,3 @@ class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
         return this.itemIds[index].GetItem();
     }
 }
-export = ItemIdWrapperList;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

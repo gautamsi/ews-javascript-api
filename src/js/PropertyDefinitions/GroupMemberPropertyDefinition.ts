@@ -1,9 +1,9 @@
-import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
-import XmlElementNames = require("../Core/XmlElementNames");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {ServiceObjectPropertyDefinition} from "./ServiceObjectPropertyDefinition";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {StringHelper} from "../ExtensionMethods";
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+export class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
     private static FieldUri: string = "distributionlist:Members:Member";
     Key: string;
     Type: any;// System.Type;
@@ -23,8 +23,3 @@ class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefinition {
         writer.WriteAttributeValue("", XmlAttributeNames.FieldIndex, this.Key);
     }
 }
-export = GroupMemberPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

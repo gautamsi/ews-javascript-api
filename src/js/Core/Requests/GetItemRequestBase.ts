@@ -1,13 +1,13 @@
-import Item = require("../ServiceObjects/Items/Item");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import GetRequest = require("./GetRequest");
-import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRequest<Item, TResponse> {
+﻿import {Item} from "../ServiceObjects/Items/Item";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {GetRequest} from "./GetRequest";
+import {ItemIdWrapperList} from "../../Misc/ItemIdWrapperList";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRequest<Item, TResponse> {
     ItemIds: ItemIdWrapperList;
     EmitTimeZoneHeader: boolean;
     private itemIds: ItemIdWrapperList;
@@ -21,8 +21,9 @@ class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRequest<I
     Validate(): any { throw new Error("GetItemRequestBase.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetItemRequestBase.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetItemRequestBase;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

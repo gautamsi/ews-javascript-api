@@ -1,10 +1,10 @@
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../../XmlElementNames");
+﻿import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../../XmlElementNames";
 
-import ExchangeService = require("../../ExchangeService");
-import Folder = require("./Folder");
-class CalendarFolder extends Folder {
+import {ExchangeService} from "../../ExchangeService";
+import {Folder} from "./Folder";
+export class CalendarFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
@@ -20,12 +20,3 @@ class CalendarFolder extends Folder {
     //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("CalendarFolder.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetXmlElementName(): string { return XmlElementNames.CalendarFolder; }
 }
-export = CalendarFolder;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export

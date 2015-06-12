@@ -1,10 +1,10 @@
-import ConnectingIdType = require("../Enumerations/ConnectingIdType");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ConnectingIdType} from "../Enumerations/ConnectingIdType";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
     //todo: should be done
-    class ImpersonatedUserId {
+export class ImpersonatedUserId {
         IdType: ConnectingIdType;
         Id: string;
         //private idType: ConnectingIdType;
@@ -38,8 +38,3 @@ import XmlElementNames = require("../Core/XmlElementNames");
             writer.WriteEndElement(); // ExchangeImpersonation
         }
     }
-export = ImpersonatedUserId;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

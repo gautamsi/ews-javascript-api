@@ -1,5 +1,4 @@
-			
-class ExchangeResourceManager /*extends System.Resources.ResourceManager*/ {
+export class ExchangeResourceManager /*extends System.Resources.ResourceManager*/ {
 //	BaseName: string;
 //	AssemblyName: string;
 //	private static resourceManagers: any /*System.Collections.Specialized.HybridDictionary*/;
@@ -8,10 +7,10 @@ class ExchangeResourceManager /*extends System.Resources.ResourceManager*/ {
 //	GetString(name: string): string{ throw new Error("ExchangeResourceManager.ts - GetString : Not implemented.");}
 //	//GetString(name: string, culture: any /*System.Globalization.CultureInfo*/): string{ throw new Error("ExchangeResourceManager.ts - GetString : Not implemented.");}
 }
-export = ExchangeResourceManager;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

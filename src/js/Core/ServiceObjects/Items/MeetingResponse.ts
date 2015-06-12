@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MeetingMessage = require("./MeetingMessage");
-class MeetingResponse extends MeetingMessage {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MeetingMessage} from "./MeetingMessage";
+export class MeetingResponse extends MeetingMessage {
     //////Start: Date;
     //////End: Date;
     //////Location: string;
@@ -14,12 +14,3 @@ class MeetingResponse extends MeetingMessage {
     //////GetSchema(): ServiceObjectSchema { throw new Error("MeetingResponse.ts - GetSchema : Not implemented."); }
     GetXmlElementName(): string { return XmlElementNames.MeetingResponse; }
 }
-export = MeetingResponse;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

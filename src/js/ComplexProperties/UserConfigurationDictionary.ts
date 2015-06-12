@@ -1,12 +1,12 @@
-import ComplexProperty = require("./ComplexProperty");
-import UserConfigurationDictionaryObjectType = require("../Enumerations/UserConfigurationDictionaryObjectType");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonCollectionDeserializer
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {UserConfigurationDictionaryObjectType} from "../Enumerations/UserConfigurationDictionaryObjectType";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonCollectionDeserializer
     Item: any;
     Count: number;
     IsDirty: boolean;
@@ -44,8 +44,9 @@ class UserConfigurationDictionary extends ComplexProperty {//IEnumerable, IJsonC
     WriteObjectToXml(writer: EwsServiceXmlWriter, xmlElementName: string, dictionaryObject: any): any { throw new Error("UserConfigurationDictionary.ts - WriteObjectToXml : Not implemented."); }
     WriteObjectValueToXml(writer: EwsServiceXmlWriter, dictionaryObject: any): any { throw new Error("UserConfigurationDictionary.ts - WriteObjectValueToXml : Not implemented."); }
 }
-export = UserConfigurationDictionary;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

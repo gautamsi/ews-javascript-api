@@ -1,7 +1,7 @@
-import XmlElementNames = require("../../XmlElementNames");
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import MeetingMessage = require("./MeetingMessage");
-class MeetingCancellation extends MeetingMessage {
+import {MeetingMessage} from "./MeetingMessage";
+export class MeetingCancellation extends MeetingMessage {
     //////Start: Date;
     //////End: Date;
     //////Location: string;
@@ -14,12 +14,3 @@ class MeetingCancellation extends MeetingMessage {
         GetXmlElementName(): string { return XmlElementNames.MeetingCancellation; }
 //////RemoveMeetingFromCalendar(): CalendarActionResults { throw new Error("MeetingCancellation.ts - RemoveMeetingFromCalendar : Not implemented."); }
 }
-export = MeetingCancellation;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

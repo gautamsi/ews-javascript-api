@@ -1,10 +1,10 @@
-import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
-import MeetingRequestsDeliveryScope = require("../../Enumerations/MeetingRequestsDeliveryScope");
-import DelegateUser = require("../../ComplexProperties/DelegateUser");
-import DelegateManagementResponse = require("../Responses/DelegateManagementResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
+﻿import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import {MeetingRequestsDeliveryScope} from "../../Enumerations/MeetingRequestsDeliveryScope";
+import {DelegateUser} from "../../ComplexProperties/DelegateUser";
+import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     DelegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
     private delegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
@@ -16,9 +16,10 @@ class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManage
     Validate(): any { throw new Error("UpdateDelegateRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = UpdateDelegateRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,7 +1,7 @@
-import ITraceListener = require("../Interfaces/ITraceListener");
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import WSSecurityBasedCredentials = require("./WSSecurityBasedCredentials");
-class WindowsLiveCredentials extends WSSecurityBasedCredentials {
+﻿import {ITraceListener} from "../Interfaces/ITraceListener";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {WSSecurityBasedCredentials} from "./WSSecurityBasedCredentials";
+export class WindowsLiveCredentials extends WSSecurityBasedCredentials {
     static XmlEncNamespace: string = "http://www.w3.org/2001/04/xmlenc#";
     static WindowsLiveSoapNamespacePrefix: string = "S";
     static RequestSecurityTokenResponseCollectionElementName: string = "RequestSecurityTokenResponseCollection";
@@ -31,8 +31,3 @@ class WindowsLiveCredentials extends WSSecurityBasedCredentials {
     TraceResponse(response: any, memoryStream: any): any { throw new Error("WindowsLiveCredentials.ts - TraceResponse : Not implemented."); }
     TraceWebException(e: any): any { throw new Error("WindowsLiveCredentials.ts - TraceWebException : Not implemented."); }
 }
-export = WindowsLiveCredentials;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,12 +1,12 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import Attachment = require("../../ComplexProperties/Attachment");
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import BodyType = require("../../Enumerations/BodyType");
-import ExchangeService = require("../ExchangeService");
-import GetAttachmentResponse = require("../Responses/GetAttachmentResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResponse> { //IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {Attachment} from "../../ComplexProperties/Attachment";
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {BodyType} from "../../Enumerations/BodyType";
+import {ExchangeService} from "../ExchangeService";
+import {GetAttachmentResponse} from "../Responses/GetAttachmentResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResponse> { //IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     AttachmentIds: string[];//System.Collections.Generic.List<string>;
     AdditionalProperties: PropertyDefinitionBase[];//System.Collections.Generic.List<PropertyDefinitionBase>;
@@ -27,8 +27,9 @@ class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResp
     WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("GetAttachmentRequest.ts - WriteAttachmentIdXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetAttachmentRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

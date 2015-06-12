@@ -1,10 +1,9 @@
-import NotificationEvent = require("./NotificationEvent");
-import FolderId = require("../ComplexProperties/FolderId");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-			
- class FolderEvent extends NotificationEvent {
+﻿import {NotificationEvent} from "./NotificationEvent";
+import {FolderId} from "../ComplexProperties/FolderId";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+export class FolderEvent extends NotificationEvent {
 	FolderId: FolderId;
 	OldFolderId: FolderId;
 	UnreadCount: number;
@@ -14,10 +13,11 @@ import ExchangeService = require("../Core/ExchangeService");
 	InternalLoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("FolderEvent.ts - InternalLoadFromXml : Not implemented.");}
 	LoadFromJson(jsonEvent: JsonObject, service: ExchangeService): void{ throw new Error("FolderEvent.ts - LoadFromJson : Not implemented.");}
 }
-export = FolderEvent;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

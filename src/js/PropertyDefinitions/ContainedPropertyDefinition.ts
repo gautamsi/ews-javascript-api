@@ -1,16 +1,16 @@
-import ExchangeService = require("../Core/ExchangeService");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {EwsLogging} from "../Core/EwsLogging";
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
 
-import ComplexPropertyDefinition = require("./ComplexPropertyDefinition");
-class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinition<TComplexProperty> {
+import {ComplexPropertyDefinition} from "./ComplexPropertyDefinition";
+export class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinition<TComplexProperty> {
 
     private containedXmlElementName: string;
 
@@ -59,8 +59,3 @@ class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> exte
         //throw new Error("ContainedPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }
-export = ContainedPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

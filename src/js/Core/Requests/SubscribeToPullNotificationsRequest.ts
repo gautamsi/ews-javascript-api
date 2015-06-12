@@ -1,12 +1,11 @@
-import PullSubscription = require("../../Notifications/PullSubscription");
-import SubscribeRequest = require("./SubscribeRequest");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import SubscribeResponse = require("../Responses/SubscribeResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SubscribeToPullNotificationsRequest extends SubscribeRequest<PullSubscription> {
+﻿import {PullSubscription} from "../../Notifications/PullSubscription";
+import {SubscribeRequest} from "./SubscribeRequest";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {SubscribeResponse} from "../Responses/SubscribeResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SubscribeToPullNotificationsRequest extends SubscribeRequest<PullSubscription> {
 	Timeout: number;
 	private timeout: number;
 	AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): void{ throw new Error("SubscribeToPullNotificationsRequest.ts - AddJsonProperties : Not implemented.");}
@@ -16,10 +15,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToPullNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
 	Validate(): void{ throw new Error("SubscribeToPullNotificationsRequest.ts - Validate : Not implemented.");}
 }
-export = SubscribeToPullNotificationsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

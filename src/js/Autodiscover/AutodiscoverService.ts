@@ -1,35 +1,34 @@
-import Strings = require("../Strings");
-import OAuthCredentials = require("../Credentials/OAuthCredentials");
-import X509CertificateCredentials = require("../Credentials/X509CertificateCredentials");
-import PartnerTokenCredentials = require("../Credentials/PartnerTokenCredentials");
-import WindowsLiveCredentials = require("../Credentials/WindowsLiveCredentials");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");//enum
-import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
-import EwsUtilities = require("../Core/EwsUtilities");
+﻿import {Strings} from "../Strings";
+import {OAuthCredentials} from "../Credentials/OAuthCredentials";
+import {X509CertificateCredentials} from "../Credentials/X509CertificateCredentials";
+import {PartnerTokenCredentials} from "../Credentials/PartnerTokenCredentials";
+import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
+import {EwsUtilities} from "../Core/EwsUtilities";
 import {EwsLogging} from "../Core/EwsLogging";
-import UserSettingName = require("../Enumerations/UserSettingName");
-import DomainSettingName = require("../Enumerations/DomainSettingName");
-import AutodiscoverEndpoints = require("../Enumerations/AutodiscoverEndpoints");
-import TraceFlags = require("../Enumerations/TraceFlags");
-import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
-import AutodiscoverRequest = require("./Requests/AutodiscoverRequest");
-import GetDomainSettingsRequest = require("./Requests/GetDomainSettingsRequest");
-import GetDomainSettingsResponse = require("./Responses/GetDomainSettingsResponse");
-import GetUserSettingsResponse = require("./Responses/GetUserSettingsResponse");
-import GetUserSettingsRequest = require("./Requests/GetUserSettingsRequest");
-//import WindowsLiveCredentials = require("../Credentials/WindowsLiveCredentials");
+import {UserSettingName} from "../Enumerations/UserSettingName";
+import {DomainSettingName} from "../Enumerations/DomainSettingName";
+import {AutodiscoverEndpoints} from "../Enumerations/AutodiscoverEndpoints";
+import {TraceFlags} from "../Enumerations/TraceFlags";
+import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
+import {AutodiscoverRequest} from "./Requests/AutodiscoverRequest";
+import {GetDomainSettingsRequest} from "./Requests/GetDomainSettingsRequest";
+import {GetDomainSettingsResponse} from "./Responses/GetDomainSettingsResponse";
+import {GetUserSettingsResponse} from "./Responses/GetUserSettingsResponse";
+import {GetUserSettingsRequest} from "./Requests/GetUserSettingsRequest";
+//import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
 
-import AutodiscoverLocalException = require("../Exceptions/AutodiscoverLocalException");
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-import ServiceValidationException = require("../Exceptions/ServiceValidationException");
+import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 
-import GetUserSettingsResponseCollection = require("./Responses/GetUserSettingsResponseCollection");
+import {GetUserSettingsResponseCollection} from "./Responses/GetUserSettingsResponseCollection";
 
-import IOutParam = require("../Interfaces/IOutParam");
-import IRefParam = require("../Interfaces/IRefParam");
+import {IOutParam} from "../Interfaces/IOutParam";
+import {IRefParam} from "../Interfaces/IRefParam";
 
-import AutodiscoverServiceDelegates = require("./AutodiscoverServiceDelegates");
-import AutodiscoverRedirectionUrlValidationCallback = AutodiscoverServiceDelegates.AutodiscoverRedirectionUrlValidationCallback;
+import {AutodiscoverRedirectionUrlValidationCallback} from "./AutodiscoverServiceDelegates";
 import {StringHelper, EnumHelper, UriHelper} from "../ExtensionMethods";
 
 
@@ -38,7 +37,7 @@ import {IPromise, IXHROptions} from "../Interfaces";
 import {Promise} from "../PromiseFactory"
 import {XHR} from "../XHRFactory"
 
-class AutodiscoverService extends ExchangeServiceBase {
+export class AutodiscoverService extends ExchangeServiceBase {
     get Domain(): string {
         return this.domain;
     }
@@ -829,7 +828,7 @@ class AutodiscoverService extends ExchangeServiceBase {
     //TryLastChanceHostRedirection(emailAddress: string, redirectionUrl: string, settings: any): boolean{ throw new Error("AutodiscoverService.ts - TryLastChanceHostRedirection : Not implemented.");}
     //WriteLegacyAutodiscoverRequest(emailAddress: string, settings: ConfigurationSettingsBase, writer: any): any{ throw new Error("AutodiscoverService.ts - WriteLegacyAutodiscoverRequest : Not implemented.");}
 }
-export = AutodiscoverService;
+
 
 //export module AutodiscoverService {
 //    export var private static AutodiscoverLegacyPath: string = "/autodiscover/autodiscover.xml";
@@ -861,8 +860,3 @@ interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
 //}
 
 
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

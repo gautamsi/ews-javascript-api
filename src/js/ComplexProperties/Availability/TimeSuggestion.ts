@@ -1,10 +1,10 @@
-import ComplexProperty = require("../ComplexProperty");
-import SuggestionQuality = require("../../Enumerations/SuggestionQuality");
-import Conflict = require("./Conflict");
-import JsonObject = require("../../Core/JsonObject");
-import ExchangeService = require("../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-class TimeSuggestion extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {SuggestionQuality} from "../../Enumerations/SuggestionQuality";
+import {Conflict} from "./Conflict";
+import {JsonObject} from "../../Core/JsonObject";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+export class TimeSuggestion extends ComplexProperty {
     MeetingTime: Date;
     IsWorkTime: boolean;
     Quality: SuggestionQuality;
@@ -16,9 +16,10 @@ class TimeSuggestion extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeSuggestion.ts - LoadFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeSuggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = TimeSuggestion;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

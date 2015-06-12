@@ -1,11 +1,11 @@
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+﻿import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 
-import PropertyBasedFilter = require("./SearchFilter_PropertyBasedFilter");
-class RelationalFilter extends PropertyBasedFilter {
+import {PropertyBasedFilter} from "./SearchFilter_PropertyBasedFilter";
+export class RelationalFilter extends PropertyBasedFilter {
 	OtherPropertyDefinition: PropertyDefinitionBase;
 	Value: any;
 	private otherPropertyDefinition: PropertyDefinitionBase;
@@ -16,7 +16,8 @@ class RelationalFilter extends PropertyBasedFilter {
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_RelationalFilter.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_RelationalFilter.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RelationalFilter;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
+

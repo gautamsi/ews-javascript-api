@@ -1,13 +1,13 @@
-import DeleteRequest = require("./DeleteRequest");
-import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
-import AffectedTaskOccurrence = require("../../Enumerations/AffectedTaskOccurrence");
-import SendCancellationsMode = require("../../Enumerations/SendCancellationsMode");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import JsonObject = require("../JsonObject");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
+﻿import {DeleteRequest} from "./DeleteRequest";
+import {ItemIdWrapperList} from "../../Misc/ItemIdWrapperList";
+import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
+import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {JsonObject} from "../JsonObject";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
     ItemIds: ItemIdWrapperList;
     AffectedTaskOccurrences: AffectedTaskOccurrence;
     SendCancellationsMode: SendCancellationsMode;
@@ -26,8 +26,9 @@ class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteItemRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteItemRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DeleteItemRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

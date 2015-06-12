@@ -1,5 +1,4 @@
-
-class JsonNames {
+export class JsonNames {
   static Events: string = "Events";
   static NotificationType: string = "NotificationType";
   static OldFolderId: string = "OldFolderId";
@@ -11,10 +10,10 @@ class JsonNames {
   static RecurrencePattern: string = "RecurrencePattern";
   static RecurrenceRange: string = "RecurrenceRange";
 }
-export = JsonNames;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

@@ -1,9 +1,9 @@
-import FreeBusyViewType = require("../../Enumerations/FreeBusyViewType");
-import SuggestionQuality = require("../../Enumerations/SuggestionQuality");
-import TimeWindow = require("./TimeWindow");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import GetUserAvailabilityRequest = require("../../Core/Requests/GetUserAvailabilityRequest");
-class AvailabilityOptions {
+﻿import {FreeBusyViewType} from "../../Enumerations/FreeBusyViewType";
+import {SuggestionQuality} from "../../Enumerations/SuggestionQuality";
+import {TimeWindow} from "./TimeWindow";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {GetUserAvailabilityRequest} from "../../Core/Requests/GetUserAvailabilityRequest";
+export class AvailabilityOptions {
     MergedFreeBusyInterval: number;
     RequestedFreeBusyView: FreeBusyViewType;
     GoodSuggestionThreshold: number;
@@ -27,9 +27,10 @@ class AvailabilityOptions {
     Validate(timeWindow: any /*System.TimeSpan*/): any { throw new Error("AvailabilityOptions.ts - Validate : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, request: GetUserAvailabilityRequest): any { throw new Error("AvailabilityOptions.ts - WriteToXml : Not implemented."); }
 }
-export = AvailabilityOptions;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

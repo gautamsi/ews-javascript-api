@@ -1,12 +1,11 @@
-import PropertyBasedFilter = require("./SearchFilter_PropertyBasedFilter");
-import ContainmentMode = require("../../Enumerations/ContainmentMode");
-import ComparisonMode = require("../../Enumerations/ComparisonMode");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
- class ContainsSubstring extends PropertyBasedFilter {
+﻿import {PropertyBasedFilter} from "./SearchFilter_PropertyBasedFilter";
+import {ContainmentMode} from "../../Enumerations/ContainmentMode";
+import {ComparisonMode} from "../../Enumerations/ComparisonMode";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class ContainsSubstring extends PropertyBasedFilter {
 	ContainmentMode: ContainmentMode;
 	ComparisonMode: ComparisonMode;
 	Value: string;
@@ -22,7 +21,8 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ContainsSubstring.ts - WriteAttributesToXml : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ContainsSubstring.ts - WriteElementsToXml : Not implemented.");}
 }
-export = ContainsSubstring;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
+

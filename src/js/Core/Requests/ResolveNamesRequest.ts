@@ -1,13 +1,13 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ResolveNameSearchLocation = require("../../Enumerations/ResolveNameSearchLocation");
-import PropertySet = require("../PropertySet");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import LazyMember = require("../LazyMember");
-import ExchangeService = require("../ExchangeService");
-import ResolveNamesResponse = require("../Responses/ResolveNamesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveNamesResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ResolveNameSearchLocation} from "../../Enumerations/ResolveNameSearchLocation";
+import {PropertySet} from "../PropertySet";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {LazyMember} from "../LazyMember";
+import {ExchangeService} from "../ExchangeService";
+import {ResolveNamesResponse} from "../Responses/ResolveNamesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveNamesResponse> {//IJsonSerializable
     NameToResolve: string;
     ReturnFullContactData: boolean;
     SearchLocation: ResolveNameSearchLocation;
@@ -29,8 +29,9 @@ class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveNamesRespon
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ResolveNamesRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ResolveNamesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ResolveNamesRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

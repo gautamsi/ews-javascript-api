@@ -1,11 +1,11 @@
-import Month = require("../../../Enumerations/Month");
-import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
-import JsonObject = require("../../../Core/JsonObject");
-import ExchangeService = require("../../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
+﻿import {Month} from "../../../Enumerations/Month";
+import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
+import {JsonObject} from "../../../Core/JsonObject";
+import {ExchangeService} from "../../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
 			
-import Recurrence = require("./Recurrence");						
- class YearlyPattern extends Recurrence {
+import {Recurrence} from "./Recurrence";
+export class YearlyPattern extends Recurrence {
 	XmlElementName: string;
 	Month: Month;
 	DayOfMonth: number;
@@ -17,10 +17,11 @@ import Recurrence = require("./Recurrence");
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_YearlyPattern.ts - PatternToJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_YearlyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
-export = YearlyPattern;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.Recurrence------------
 
 
 			
+

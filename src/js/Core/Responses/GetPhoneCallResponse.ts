@@ -1,13 +1,14 @@
-import ServiceResponse = require("./ServiceResponse");
-import PhoneCall = require("../../UnifiedMessaging/PhoneCall");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-class GetPhoneCallResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {PhoneCall} from "../../UnifiedMessaging/PhoneCall";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class GetPhoneCallResponse extends ServiceResponse {
     PhoneCall: PhoneCall;
     private phoneCall: PhoneCall;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetPhoneCallResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-export = GetPhoneCallResponse;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

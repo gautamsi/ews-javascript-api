@@ -1,8 +1,7 @@
-import RuleOperation = require("./RuleOperation");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class DeleteRuleOperation extends RuleOperation {
+﻿import {RuleOperation} from "./RuleOperation";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class DeleteRuleOperation extends RuleOperation {
     RuleId: string;
     XmlElementName: string;
     private ruleId: string;
@@ -10,8 +9,4 @@ class DeleteRuleOperation extends RuleOperation {
     InternalValidate(): any { throw new Error("DeleteRuleOperation.ts - InternalValidate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteRuleOperation.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DeleteRuleOperation;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

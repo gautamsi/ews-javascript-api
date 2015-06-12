@@ -1,6 +1,5 @@
-import JsonWriter = require("./JsonWriter");
-			
- class JsonObject /*extends System.Collections.Generic.Dictionary<string, any>*/ {
+﻿import {JsonWriter} from "./JsonWriter";
+export class JsonObject /*extends System.Collections.Generic.Dictionary<string, any>*/ {
 	 	private static TypeAttribute: string = "__type";
         private static JsonTypeNamespace: string = "Exchange";
         static JsonValueString: string = "Value";
@@ -36,10 +35,11 @@ import JsonWriter = require("./JsonWriter");
 	WriteKeyValuePair(writer: JsonWriter, key: string, value: any): void{ throw new Error("JsonObject.ts - WriteKeyValuePair : Not implemented.");}
 	WriteValue(writer: JsonWriter, value: any): void{ throw new Error("JsonObject.ts - WriteValue : Not implemented.");}
 }
-export = JsonObject;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

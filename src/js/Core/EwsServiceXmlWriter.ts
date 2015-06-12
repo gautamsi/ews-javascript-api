@@ -1,11 +1,10 @@
-import Strings = require("../Strings");
-import ExchangeServiceBase = require("./ExchangeServiceBase");
-import EwsUtilities = require("./EwsUtilities");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+﻿import {Strings} from "../Strings";
+import {ExchangeServiceBase} from "./ExchangeServiceBase";
+import {EwsUtilities} from "./EwsUtilities";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
 import {StringHelper} from "../ExtensionMethods";
-
-class EwsServiceXmlWriter {
+export class EwsServiceXmlWriter {
     //get InternalWriter(): System.Xml.XmlWriter;
     get Service(): ExchangeServiceBase { return this.service }
     static BufferSize: number = 4096;
@@ -188,13 +187,3 @@ class EwsServiceXmlWriter {
         // name is used for exception with invalid characters
     }
 }
-
-export = EwsServiceXmlWriter;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

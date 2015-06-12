@@ -1,13 +1,13 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import EmailMessageSchema = require("./EmailMessageSchema");
-import ResponseObjectSchema = require("./ResponseObjectSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import ServiceObjectSchema = require("./ServiceObjectSchema");
-class CancelMeetingMessageSchema extends ServiceObjectSchema {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {EmailMessageSchema} from "./EmailMessageSchema";
+import {ResponseObjectSchema} from "./ResponseObjectSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+export class CancelMeetingMessageSchema extends ServiceObjectSchema {
     static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
         "Body",
         XmlElementNames.NewBodyContent,
@@ -25,9 +25,3 @@ class CancelMeetingMessageSchema extends ServiceObjectSchema {
         super.RegisterProperty(CancelMeetingMessageSchema.Body);
     }
 }
-export = CancelMeetingMessageSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

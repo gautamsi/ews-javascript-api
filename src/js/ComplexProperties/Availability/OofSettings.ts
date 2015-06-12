@@ -1,13 +1,13 @@
-import ComplexProperty = require("../ComplexProperty");
-import OofState = require("../../Enumerations/OofState");
-import OofExternalAudience = require("../../Enumerations/OofExternalAudience");
-import TimeWindow = require("../../Misc/Availability/TimeWindow");
-import OofReply = require("../../Misc/Availability/OofReply");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-class OofSettings extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {OofState} from "../../Enumerations/OofState";
+import {OofExternalAudience} from "../../Enumerations/OofExternalAudience";
+import {TimeWindow} from "../../Misc/Availability/TimeWindow";
+import {OofReply} from "../../Misc/Availability/OofReply";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+export class OofSettings extends ComplexProperty {
     State: OofState;
     ExternalAudience: OofExternalAudience;
     Duration: TimeWindow;
@@ -26,9 +26,10 @@ class OofSettings extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("OofSettings.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("OofSettings.ts - WriteElementsToXml : Not implemented."); }
 }
-export = OofSettings;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

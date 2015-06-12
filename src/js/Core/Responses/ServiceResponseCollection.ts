@@ -1,8 +1,7 @@
-import ServiceResponse = require("./ServiceResponse");
-import ServiceResult = require("../../Enumerations/ServiceResult");
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {EwsLogging} from "../EwsLogging";
-
-class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
+export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
     get Count(): number { return this.responses.length; }
     //Item: TResponse;
     get OverallResult(): ServiceResult { return this.overallResult; }
@@ -30,11 +29,3 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
     }
 
 }
-export = ServiceResponseCollection;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

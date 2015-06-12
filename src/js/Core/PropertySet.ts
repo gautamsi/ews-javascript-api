@@ -1,28 +1,28 @@
-import Strings = require("../Strings");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ServiceValidationException = require("../Exceptions/ServiceValidationException");
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-import ServiceRequestBase = require("./Requests/ServiceRequestBase");
-import BasePropertySet = require("../Enumerations/BasePropertySet");
-import BodyType = require("../Enumerations/BodyType");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import EwsUtilities = require("./EwsUtilities");
-import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
+﻿import {Strings} from "../Strings";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ServiceRequestBase} from "./Requests/ServiceRequestBase";
+import {BasePropertySet} from "../Enumerations/BasePropertySet";
+import {BodyType} from "../Enumerations/BodyType";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
+import {EwsUtilities} from "./EwsUtilities";
+import {EwsServiceXmlWriter} from "./EwsServiceXmlWriter";
 
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
 
-import LazyMember = require("./LazyMember");
+import {LazyMember} from "./LazyMember";
 import {EwsLogging} from "../Core/EwsLogging";
 import {StringHelper} from "../ExtensionMethods";
 import {IndexerWithNumericKey, IndexerWithEnumKey} from "../AltDictionary";
 
 //todo: should be done except for debugger stops
-class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitionBase>
+export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitionBase>
     //using DefaultPropertySetDictionary = LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
 
     static get DefaultPropertySetMap(): LazyMember<IndexerWithEnumKey<BasePropertySet, string>> { return this.defaultPropertySetMap; }
@@ -330,10 +330,3 @@ class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitio
         writer.WriteEndElement(); // Item/FolderShape
     }
 }
-
-export = PropertySet;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

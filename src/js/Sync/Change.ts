@@ -1,8 +1,7 @@
-import ChangeType = require("../Enumerations/ChangeType");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import ServiceId = require("../ComplexProperties/ServiceId");
-			
- class Change {
+﻿import {ChangeType} from "../Enumerations/ChangeType";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {ServiceId} from "../ComplexProperties/ServiceId";
+export class Change {
 	ChangeType: ChangeType;
 	ServiceObject: ServiceObject;
 	Id: ServiceId;
@@ -11,10 +10,11 @@ import ServiceId = require("../ComplexProperties/ServiceId");
 	private id: ServiceId;
 	CreateId(): ServiceId{ throw new Error("Change.ts - CreateId : Not implemented.");}
 }
-export = Change;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

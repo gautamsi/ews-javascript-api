@@ -1,8 +1,7 @@
-import DnsRecord = require("./DnsRecord");
-import DnsRecordType = require("../Enumerations/DnsRecordType");
-import DnsRecordHeader = require("./DnsRecordHeader");
-			
- class DnsSrvRecord extends DnsRecord {
+﻿import {DnsRecord} from "./DnsRecord";
+import {DnsRecordType} from "../Enumerations/DnsRecordType";
+import {DnsRecordHeader} from "./DnsRecordHeader";
+export class DnsSrvRecord extends DnsRecord {
 	RecordType: DnsRecordType;
 	NameTarget: string;
 	Priority: number;
@@ -14,10 +13,11 @@ import DnsRecordHeader = require("./DnsRecordHeader");
 	private port: number;
 	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("DnsSrvRecord.ts - Load : Not implemented.");}
 }
-export = DnsSrvRecord;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Dns------------
 
 
 			
+

@@ -1,16 +1,15 @@
+﻿
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
 
-import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
-
-import IOutParam = require("../Interfaces/IOutParam");
-
-class PropertyDefinitionBase {
+import {IOutParam} from "../Interfaces/IOutParam";
+export class PropertyDefinitionBase {
     Version: ExchangeVersion;
     Type: any; //System.Type;
     constructor() { }
@@ -52,12 +51,3 @@ class PropertyDefinitionBase {
         writer.WriteEndElement();
     }
 }
-export = PropertyDefinitionBase;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import Attachment = require("../../ComplexProperties/Attachment");
-import ExchangeService = require("../ExchangeService");
-import CreateAttachmentResponse = require("../Responses/CreateAttachmentResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {Attachment} from "../../ComplexProperties/Attachment";
+import {ExchangeService} from "../ExchangeService";
+import {CreateAttachmentResponse} from "../Responses/CreateAttachmentResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     ParentItemId: string;
@@ -19,8 +19,9 @@ class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachme
     Validate(): any { throw new Error("CreateAttachmentRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = CreateAttachmentRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

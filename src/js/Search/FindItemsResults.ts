@@ -1,6 +1,6 @@
-import Item = require("../Core/ServiceObjects/Items/Item");
-import HighlightTerm = require("../ComplexProperties/HighlightTerm");
-class FindItemsResults<TItem extends Item> {//IEnumerable<TItem>
+﻿import {Item} from "../Core/ServiceObjects/Items/Item";
+import {HighlightTerm} from "../ComplexProperties/HighlightTerm";
+export class FindItemsResults<TItem extends Item> {//IEnumerable<TItem>
     TotalCount: number;
     NextPageOffset: number;
     MoreAvailable: boolean;
@@ -14,8 +14,3 @@ class FindItemsResults<TItem extends Item> {//IEnumerable<TItem>
     constructor(){}
     //GetEnumerator(): any { throw new Error("FindItemsResults.ts - GetEnumerator : Not implemented."); }
 }
-export = FindItemsResults;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

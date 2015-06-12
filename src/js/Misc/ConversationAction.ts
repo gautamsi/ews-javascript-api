@@ -1,13 +1,13 @@
-import ConversationId = require("../ComplexProperties/ConversationId");
-import StringList = require("../ComplexProperties/StringList");
-import Flag = require("../ComplexProperties/Flag");
-import ConversationActionType = require("../Enumerations/ConversationActionType");
-import DeleteMode = require("../Enumerations/DeleteMode");
-import FolderIdWrapper = require("./FolderIdWrapper");
-import RetentionType = require("../Enumerations/RetentionType");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class ConversationAction {//IJsonSerializable
+﻿import {ConversationId} from "../ComplexProperties/ConversationId";
+import {StringList} from "../ComplexProperties/StringList";
+import {Flag} from "../ComplexProperties/Flag";
+import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {DeleteMode} from "../Enumerations/DeleteMode";
+import {FolderIdWrapper} from "./FolderIdWrapper";
+import {RetentionType} from "../Enumerations/RetentionType";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ConversationAction {//IJsonSerializable
     Action: ConversationActionType;
     ConversationId: ConversationId;
     ProcessRightAway: boolean;
@@ -27,8 +27,9 @@ class ConversationAction {//IJsonSerializable
     Validate(): any { throw new Error("ConversationAction.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ConversationAction.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ConversationAction;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

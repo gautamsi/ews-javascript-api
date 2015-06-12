@@ -1,8 +1,8 @@
-import ExchangeService = require("../Core/ExchangeService");
-import NameResolution = require("./NameResolution");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-class NameResolutionCollection {//IEnumerable<NameResolution>
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {NameResolution} from "./NameResolution";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class NameResolutionCollection {//IEnumerable<NameResolution>
     Session: ExchangeService;
     Count: number;
     IncludesAllResolutions: boolean;
@@ -14,8 +14,9 @@ class NameResolutionCollection {//IEnumerable<NameResolution>
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("NameResolutionCollection.ts - LoadFromJson : Not implemented."); }
     LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("NameResolutionCollection.ts - LoadFromXml : Not implemented."); }
 }
-export = NameResolutionCollection;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

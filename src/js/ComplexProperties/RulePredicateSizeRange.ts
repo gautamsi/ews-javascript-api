@@ -1,10 +1,9 @@
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-			
- class RulePredicateSizeRange extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class RulePredicateSizeRange extends ComplexProperty {
 	MinimumSize: number;
 	MaximumSize: number;
 	private minimumSize: number;
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicateSizeRange.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RulePredicateSizeRange.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RulePredicateSizeRange;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

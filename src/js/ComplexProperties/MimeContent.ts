@@ -1,9 +1,8 @@
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class MimeContent extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class MimeContent extends ComplexProperty {
     CharacterSet: string;
     Content: any[];//System.Byte[];
     private characterSet: string;
@@ -16,9 +15,10 @@ class MimeContent extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("MimeContent.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MimeContent.ts - WriteElementsToXml : Not implemented."); }
 }
-export = MimeContent;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

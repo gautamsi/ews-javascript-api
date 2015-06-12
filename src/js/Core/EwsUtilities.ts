@@ -1,30 +1,29 @@
-import TimeZoneConversionException = require("../Exceptions/TimeZoneConversionException");
-import Strings = require("../Strings");
-import LazyMember = require("./LazyMember");
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import ServiceObjectInfo = require("./ServiceObjects/ServiceObjectInfo");
-import Item = require("./ServiceObjects/Items/Item");
+﻿import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
+import {Strings} from "../Strings";
+import {LazyMember} from "./LazyMember";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
+import {Item} from "./ServiceObjects/Items/Item";
 
-import ExchangeService = require("./ExchangeService");
+import {ExchangeService} from "./ExchangeService";
 
-import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import ConversationQueryTraversal = require("../Enumerations/ConversationQueryTraversal");
-import FileAsMapping = require("../Enumerations/FileAsMapping");
+import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
+import {FileAsMapping} from "../Enumerations/FileAsMapping";
 
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-import ISelfValidate = require("../Interfaces/ISelfValidate");
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
-import ItemAttachment = require("../ComplexProperties/ItemAttachment");
+import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
 
 import {StringHelper, Convert} from "../ExtensionMethods";
 import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
-
-class EwsUtilities {
+export class EwsUtilities {
 
     //#region constants in c# - typescript static
     static XSFalse: string = "false";
@@ -517,10 +516,3 @@ interface EnumVersionDelegate {
 }
 
 
-
-export = EwsUtilities;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

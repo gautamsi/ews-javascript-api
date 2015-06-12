@@ -1,10 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import EmailAddress = require("../../ComplexProperties/EmailAddress");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {EmailAddress} from "../../ComplexProperties/EmailAddress";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     Execute(): ServiceResponse { throw new Error("UnpinTeamMailboxRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("UnpinTeamMailboxRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
@@ -14,10 +14,10 @@ class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UnpinTeamMailboxRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = UnpinTeamMailboxRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

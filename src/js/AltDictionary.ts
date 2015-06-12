@@ -1,5 +1,5 @@
-import IOutParam = require("./Interfaces/IOutParam");
-import PropertyDefinitionBase = require("./PropertyDefinitions/PropertyDefinitionBase");
+﻿import {IOutParam} from "./Interfaces/IOutParam";
+import {PropertyDefinitionBase} from "./PropertyDefinitions/PropertyDefinitionBase";
 import {StringHelper} from "./ExtensionMethods";
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
@@ -210,3 +210,4 @@ export class PropDictionary<TKey extends { Name?: string }, TValue>{
         this.objects = {};
     }
 }
+

@@ -1,13 +1,13 @@
-import DayOfTheWeekIndex = require("../../../Enumerations/DayOfTheWeekIndex");
-import DayOfTheWeek = require("../../../Enumerations/DayOfTheWeek");
-import Month = require("../../../Enumerations/Month");
-import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
-import JsonObject = require("../../../Core/JsonObject");
-import ExchangeService = require("../../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
+﻿import {DayOfTheWeekIndex} from "../../../Enumerations/DayOfTheWeekIndex";
+import {DayOfTheWeek} from "../../../Enumerations/DayOfTheWeek";
+import {Month} from "../../../Enumerations/Month";
+import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
+import {JsonObject} from "../../../Core/JsonObject";
+import {ExchangeService} from "../../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
 			
-import Recurrence = require("./Recurrence");						
- class RelativeYearlyPattern extends Recurrence {
+import {Recurrence} from "./Recurrence";
+export class RelativeYearlyPattern extends Recurrence {
 	XmlElementName: string;
 	DayOfTheWeekIndex: DayOfTheWeekIndex;
 	DayOfTheWeek: DayOfTheWeek;
@@ -21,10 +21,11 @@ import Recurrence = require("./Recurrence");
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_RelativeYearlyPattern.ts - PatternToJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_RelativeYearlyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
-export = RelativeYearlyPattern;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.Recurrence------------
 
 
 			
+

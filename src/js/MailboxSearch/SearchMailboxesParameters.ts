@@ -1,9 +1,9 @@
-import MailboxQuery = require("./MailboxQuery");
-import SearchResultType = require("../Enumerations/SearchResultType");
-import SortDirection = require("../Enumerations/SortDirection");
-import SearchPageDirection = require("../Enumerations/SearchPageDirection");
-import PreviewItemResponseShape = require("./PreviewItemResponseShape");
-class SearchMailboxesParameters {
+﻿import {MailboxQuery} from "./MailboxQuery";
+import {SearchResultType} from "../Enumerations/SearchResultType";
+import {SortDirection} from "../Enumerations/SortDirection";
+import {SearchPageDirection} from "../Enumerations/SearchPageDirection";
+import {PreviewItemResponseShape} from "./PreviewItemResponseShape";
+export class SearchMailboxesParameters {
     SearchQueries: MailboxQuery[];
     ResultType: SearchResultType;
     SortBy: string;
@@ -15,8 +15,9 @@ class SearchMailboxesParameters {
     PreviewItemResponseShape: PreviewItemResponseShape;
     Language: string;
 }
-export = SearchMailboxesParameters;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

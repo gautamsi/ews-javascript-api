@@ -1,11 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import DayOfTheWeekIndex = require("../Enumerations/DayOfTheWeekIndex");
-import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
-import Month = require("../Enumerations/Month");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class TimeChangeRecurrence extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {DayOfTheWeekIndex} from "../Enumerations/DayOfTheWeekIndex";
+import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
+import {Month} from "../Enumerations/Month";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class TimeChangeRecurrence extends ComplexProperty {
     DayOfTheWeekIndex: DayOfTheWeekIndex;
     DayOfTheWeek: DayOfTheWeek;
     Month: Month;
@@ -15,8 +14,9 @@ class TimeChangeRecurrence extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeChangeRecurrence.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChangeRecurrence.ts - WriteElementsToXml : Not implemented."); }
 }
-export = TimeChangeRecurrence;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

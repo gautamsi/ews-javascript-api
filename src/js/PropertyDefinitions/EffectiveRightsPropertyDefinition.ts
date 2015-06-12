@@ -1,12 +1,12 @@
-import EffectiveRights = require("../Enumerations/EffectiveRights");
-import XmlElementNames = require("../Core/XmlElementNames");
-import ExchangeService = require("../Core/ExchangeService");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {EffectiveRights} from "../Enumerations/EffectiveRights";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {Convert} from "../ExtensionMethods";
-import PropertyDefinition = require("./PropertyDefinition");
-class EffectiveRightsPropertyDefinition extends PropertyDefinition {
+import {PropertyDefinition} from "./PropertyDefinition";
+export class EffectiveRightsPropertyDefinition extends PropertyDefinition {
     Type: any;//System.Type;
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
@@ -61,13 +61,3 @@ class EffectiveRightsPropertyDefinition extends PropertyDefinition {
         //throw new Error("EffectiveRightsPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }
-
-
-export = EffectiveRightsPropertyDefinition;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

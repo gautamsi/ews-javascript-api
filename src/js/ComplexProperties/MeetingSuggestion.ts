@@ -1,8 +1,7 @@
-import ExtractedEntity = require("./ExtractedEntity");
-import EmailUserEntityCollection = require("./EmailUserEntityCollection");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-
-class MeetingSuggestion extends ExtractedEntity {
+﻿import {ExtractedEntity} from "./ExtractedEntity";
+import {EmailUserEntityCollection} from "./EmailUserEntityCollection";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class MeetingSuggestion extends ExtractedEntity {
     Attendees: EmailUserEntityCollection;
     Location: string;
     Subject: string;
@@ -11,8 +10,9 @@ class MeetingSuggestion extends ExtractedEntity {
     EndTime: Date;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("MeetingSuggestion.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = MeetingSuggestion;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

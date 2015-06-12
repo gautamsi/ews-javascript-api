@@ -1,9 +1,8 @@
-import HangingServiceRequestBase = require("./HangingServiceRequestBase");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class GetStreamingEventsRequest extends HangingServiceRequestBase {
+﻿import {HangingServiceRequestBase} from "./HangingServiceRequestBase";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetStreamingEventsRequest extends HangingServiceRequestBase {
 	 static HeartbeatFrequencyDefault: number = 45000;
 	HeartbeatFrequency: number;
 	private subscriptionIds: string[] /*System.Collections.Generic.IEnumerable<string>*/;
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetStreamingEventsRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetStreamingEventsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = GetStreamingEventsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

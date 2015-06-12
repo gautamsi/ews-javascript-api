@@ -1,13 +1,12 @@
-import FolderIdCollection = require("./FolderIdCollection");
-import SearchFilter = require("../Search/Filters/SearchFilter");
-import ComplexProperty = require("./ComplexProperty");
-import SearchFolderTraversal = require("../Enumerations/SearchFolderTraversal");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class SearchFolderParameters extends ComplexProperty {
+﻿import {FolderIdCollection} from "./FolderIdCollection";
+import {SearchFilter} from "../Search/Filters/SearchFilter";
+import {ComplexProperty} from "./ComplexProperty";
+import {SearchFolderTraversal} from "../Enumerations/SearchFolderTraversal";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class SearchFolderParameters extends ComplexProperty {
     Traversal: SearchFolderTraversal;
     RootFolderIds: FolderIdCollection;
     SearchFilter: SearchFilter;
@@ -23,8 +22,9 @@ class SearchFolderParameters extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("SearchFolderParameters.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SearchFolderParameters.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SearchFolderParameters;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

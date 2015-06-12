@@ -1,16 +1,16 @@
-import ServiceObject = require("./ServiceObject");
+﻿import {ServiceObject} from "./ServiceObject";
 import {IndexerWithStringKey} from "../../AltDictionary";
 
 import {CreateServiceObjectWithAttachmentParam, CreateServiceObjectWithServiceParam} from "../../Misc/DelegateTypes";
 
-import XmlElementNames = require("../XmlElementNames");
-import ExchangeService = require("../ExchangeService");
-import ItemAttachment = require("../../ComplexProperties/ItemAttachment");
+import {XmlElementNames} from "../XmlElementNames";
+import {ExchangeService} from "../ExchangeService";
+import {ItemAttachment} from "../../ComplexProperties/ItemAttachment";
 
 /**
  * Moved part of CreateEwsObjectFromXmlElementName to different object type like FolderInfo, itemInfo etc
  */
-class ServiceObjectInfo {
+export class ServiceObjectInfo {
 
     get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<string> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;
     get ServiceObjectConstructorsWithServiceParam(): IndexerWithStringKey<CreateServiceObjectWithServiceParam> { return this.serviceObjectConstructorsWithServiceParam; }// System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
@@ -186,14 +186,4 @@ class ServiceObjectInfo {
     //CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("ServiceObjectInfo.ts - CreateItemFromItemClass : Not implemented."); }
 }
 
-
-export = ServiceObjectInfo;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 

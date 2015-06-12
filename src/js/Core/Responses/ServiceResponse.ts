@@ -1,23 +1,22 @@
-import ExchangeService = require("../ExchangeService");
-import Strings = require("../../Strings");
-import ServiceError = require("../../Enumerations/ServiceError");
-import ServiceResult = require("../../Enumerations/ServiceResult");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
+﻿import {ExchangeService} from "../ExchangeService";
+import {Strings} from "../../Strings";
+import {ServiceError} from "../../Enumerations/ServiceError";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import IndexedPropertyDefinition = require("../../PropertyDefinitions/IndexedPropertyDefinition");
-import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {IndexedPropertyDefinition} from "../../PropertyDefinitions/IndexedPropertyDefinition";
+import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
 
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
+import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
 
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
+import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
 
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import XmlElementNames = require("../XmlElementNames");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import ServiceObjectSchema = require("../ServiceObjects/Schemas/ServiceObjectSchema");
-
-class ServiceResponse {
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {ServiceObjectSchema} from "../ServiceObjects/Schemas/ServiceObjectSchema";
+export class ServiceResponse {
     get BatchProcessingStopped(): boolean { return (this.result == ServiceResult.Warning) && (this.errorCode == ServiceError.ErrorBatchProcessingStopped); }
     get Result(): ServiceResult { return this.result; }
     get ErrorCode(): ServiceError { return this.errorCode; }
@@ -198,10 +197,3 @@ debugger;
     ReadElementsFromXmlJsObject(jsObject: any, service:ExchangeService): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
     ThrowIfNecessary(): void { this.InternalThrowIfNecessary(); }
 }
-
-export = ServiceResponse;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

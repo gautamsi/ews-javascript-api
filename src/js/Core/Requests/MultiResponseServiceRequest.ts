@@ -1,26 +1,26 @@
-import ServiceJsonDeserializationException = require("../../Exceptions/ServiceJsonDeserializationException");
-import Strings = require("../../Strings");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeService = require("../ExchangeService");
-import EwsUtilities = require("../EwsUtilities");
+﻿import {ServiceJsonDeserializationException} from "../../Exceptions/ServiceJsonDeserializationException";
+import {Strings} from "../../Strings";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeService} from "../ExchangeService";
+import {EwsUtilities} from "../EwsUtilities";
 import {EwsLogging} from "../EwsLogging";
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import XmlElementNames = require("../XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import ServiceResult = require("../../Enumerations/ServiceResult");
-import ServiceErrorHandling = require("../../Enumerations/ServiceErrorHandling");
-import ServiceResponseCollection = require("../Responses/ServiceResponseCollection");
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
-import ServiceXmlDeserializationException = require("../../Exceptions/ServiceXmlDeserializationException");
-import RenderingMode = require("../../Enumerations/RenderingMode");
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {ServiceResponseCollection} from "../Responses/ServiceResponseCollection";
+import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
+import {ServiceXmlDeserializationException} from "../../Exceptions/ServiceXmlDeserializationException";
+import {RenderingMode} from "../../Enumerations/RenderingMode";
 
 import {StringHelper} from "../../ExtensionMethods";
 
 import {IPromise} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends SimpleServiceRequestBase {
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+export class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends SimpleServiceRequestBase {
     get ErrorHandlingMode(): ServiceErrorHandling { return this.errorHandlingMode; }
     private errorHandlingMode: ServiceErrorHandling;
 
@@ -142,11 +142,3 @@ class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends Sim
         }
     }
 }
-export = MultiResponseServiceRequest;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

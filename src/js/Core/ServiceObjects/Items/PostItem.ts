@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Item = require("./Item");
-class PostItem extends Item {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Item} from "./Item";
+export class PostItem extends Item {
     ////////ConversationIndex: System.Byte[];
     ////////ConversationTopic: string;
     ////////From: EmailAddress;
@@ -22,11 +22,3 @@ class PostItem extends Item {
     ////////PostReply(bodyPrefix: MessageBody): any { throw new Error("PostItem.ts - PostReply : Not implemented."); }
     ////////Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("PostItem.ts - Reply : Not implemented."); }
 }
-export = PostItem;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

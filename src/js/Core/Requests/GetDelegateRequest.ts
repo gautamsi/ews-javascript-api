@@ -1,9 +1,9 @@
-import UserId = require("../../ComplexProperties/UserId");
-import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
-import GetDelegateResponse = require("../Responses/GetDelegateResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
+﻿import {UserId} from "../../ComplexProperties/UserId";
+import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import {GetDelegateResponse} from "../Responses/GetDelegateResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     IncludePermissions: boolean;
     private userIds: UserId[];//System.Collections.Generic.List<UserId>;
@@ -15,9 +15,10 @@ class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateRespon
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetDelegateRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

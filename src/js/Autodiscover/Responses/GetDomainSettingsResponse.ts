@@ -1,17 +1,17 @@
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import XmlAttributeNames = require("../../Core/XmlAttributeNames");
+﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
 
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import DomainSettingName = require("../../Enumerations/DomainSettingName");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {DomainSettingName} from "../../Enumerations/DomainSettingName";
 
 import {EwsLogging} from "../../Core/EwsLogging";
 import {StringHelper} from "../../ExtensionMethods";
 
 
-import DomainSettingError = require("../DomainSettingError");
-import AutodiscoverResponse = require("./AutodiscoverResponse");
-class GetDomainSettingsResponse extends AutodiscoverResponse {
+import {DomainSettingError} from "../DomainSettingError";
+import {AutodiscoverResponse} from "./AutodiscoverResponse";
+export class GetDomainSettingsResponse extends AutodiscoverResponse {
     Domain: string;
     RedirectTarget: string;
     Settings: { [index: number]: any }; //System.Collections.Generic.IDictionary<DomainSettingName, any>;
@@ -187,11 +187,3 @@ class GetDomainSettingsResponse extends AutodiscoverResponse {
     }
 
 }
-
-export = GetDomainSettingsResponse;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

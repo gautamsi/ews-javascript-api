@@ -1,10 +1,9 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class UnsubscribeRequest extends MultiResponseServiceRequest<ServiceResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class UnsubscribeRequest extends MultiResponseServiceRequest<ServiceResponse> {
 	SubscriptionId: string;
 	CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse{ throw new Error("UnsubscribeRequest.ts - CreateServiceResponse : Not implemented.");}
 	GetExpectedResponseMessageCount(): number{ throw new Error("UnsubscribeRequest.ts - GetExpectedResponseMessageCount : Not implemented.");}
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("UnsubscribeRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("UnsubscribeRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = UnsubscribeRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

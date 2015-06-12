@@ -1,6 +1,6 @@
-import ComplexProperty = require("./ComplexProperty");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
     Entries: any;// System.Collections.Generic.Dictionary<TKey, TEntry>;
     private entries: any;//System.Collections.Generic.Dictionary<TKey, TEntry>;
     private removedEntries: any;// System.Collections.Generic.Dictionary<TKey, TEntry>;
@@ -24,8 +24,5 @@ class DictionaryProperty<TKey, TEntry> extends ComplexProperty {
     //WriteUriToJson(key: TKey): JsonObject { throw new Error("DictionaryProperty.ts - WriteUriToJson : Not implemented."); }
     //WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): any { throw new Error("DictionaryProperty.ts - WriteUriToXml : Not implemented."); }
 }
-export = DictionaryProperty;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

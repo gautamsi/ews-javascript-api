@@ -1,16 +1,15 @@
-import SearchFilter = require("./Filters/SearchFilter");
-import ViewBase = require("./ViewBase");
-import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import OrderByCollection = require("./OrderByCollection");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import Grouping = require("./Grouping");
-			
- class SeekToConditionItemView extends ViewBase {
+﻿import {SearchFilter} from "./Filters/SearchFilter";
+import {ViewBase} from "./ViewBase";
+import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {OrderByCollection} from "./OrderByCollection";
+import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {Grouping} from "./Grouping";
+export class SeekToConditionItemView extends ViewBase {
 	PageSize: number;
 	OffsetBasePoint: OffsetBasePoint;
 	Condition: SearchFilter;
@@ -37,10 +36,11 @@ import Grouping = require("./Grouping");
 	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SeekToConditionItemView.ts - WriteOrderByToXml : Not implemented.");}
 	WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("SeekToConditionItemView.ts - WriteToXml : Not implemented.");}
 }
-export = SeekToConditionItemView;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

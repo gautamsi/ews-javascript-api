@@ -1,12 +1,12 @@
-import ServiceObject = require("../ServiceObjects/ServiceObject");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import CreateRequest = require("./CreateRequest");
-import MessageDisposition = require("../../Enumerations/MessageDisposition");
-import SendInvitationsMode = require("../../Enumerations/SendInvitationsMode");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends CreateRequest<TServiceObject, TResponse> {
+﻿import {ServiceObject} from "../ServiceObjects/ServiceObject";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {CreateRequest} from "./CreateRequest";
+import {MessageDisposition} from "../../Enumerations/MessageDisposition";
+import {SendInvitationsMode} from "../../Enumerations/SendInvitationsMode";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends CreateRequest<TServiceObject, TResponse> {
     EmitTimeZoneHeader: boolean;
     MessageDisposition: MessageDisposition;
     SendInvitationsMode: SendInvitationsMode;
@@ -22,8 +22,9 @@ class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse exte
     Validate(): any { throw new Error("CreateItemRequestBase.ts - Validate : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateItemRequestBase.ts - WriteAttributesToXml : Not implemented."); }
 }
-export = CreateItemRequestBase;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

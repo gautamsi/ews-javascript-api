@@ -1,4 +1,4 @@
-class Strings {
+export class Strings {
     static CannotRemoveSubscriptionFromLiveConnection: string = "Subscriptions can't be removed from an open connection.";
     static ReadAccessInvalidForNonCalendarFolder: string = "The Permission read access value {0} can't be used with a non-calendar folder.";
     static PropertyDefinitionPropertyMustBeSet: string = "The PropertyDefinition property must be set.";
@@ -195,8 +195,4 @@ class Strings {
     static JsonDeserializationNotImplemented: string = "JSON Deserialization is not implemented for this request.Please retry the request with the XML rendering method.";
 }
 
-export = Strings;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

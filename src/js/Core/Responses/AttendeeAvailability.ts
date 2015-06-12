@@ -1,10 +1,10 @@
-import CalendarEvent = require("../../ComplexProperties/Availability/CalendarEvent");
-import WorkingHours = require("../../ComplexProperties/Availability/WorkingHours");
-import ServiceResponse = require("./ServiceResponse");
-import FreeBusyViewType = require("../../Enumerations/FreeBusyViewType");
-import LegacyFreeBusyStatus = require("../../Enumerations/LegacyFreeBusyStatus");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-class AttendeeAvailability extends ServiceResponse {
+﻿import {CalendarEvent} from "../../ComplexProperties/Availability/CalendarEvent";
+import {WorkingHours} from "../../ComplexProperties/Availability/WorkingHours";
+import {ServiceResponse} from "./ServiceResponse";
+import {FreeBusyViewType} from "../../Enumerations/FreeBusyViewType";
+import {LegacyFreeBusyStatus} from "../../Enumerations/LegacyFreeBusyStatus";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class AttendeeAvailability extends ServiceResponse {
     CalendarEvents: CalendarEvent[];//System.Collections.ObjectModel.Collection<CalendarEvent>;
     ViewType: FreeBusyViewType;
     MergedFreeBusyStatus: LegacyFreeBusyStatus[];//System.Collections.ObjectModel.Collection<LegacyFreeBusyStatus>;
@@ -15,9 +15,10 @@ class AttendeeAvailability extends ServiceResponse {
     private workingHours: WorkingHours;
     LoadFreeBusyViewFromXml(reader: EwsServiceXmlReader, viewType: FreeBusyViewType): any { throw new Error("AttendeeAvailability.ts - LoadFreeBusyViewFromXml : Not implemented."); }
 }
-export = AttendeeAvailability;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

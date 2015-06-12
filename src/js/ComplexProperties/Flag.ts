@@ -1,11 +1,11 @@
-import ComplexProperty = require("./ComplexProperty");
-import ItemFlagStatus = require("../Enumerations/ItemFlagStatus");
-import ExchangeService = require("../Core/ExchangeService");
-import XmlElementNames = require("../Core/XmlElementNames");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ItemFlagStatus} from "../Enumerations/ItemFlagStatus";
+import {ExchangeService} from "../Core/ExchangeService";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {DateTime} from "../DateTime";
-class Flag extends ComplexProperty {
+export class Flag extends ComplexProperty {
     FlagStatus: ItemFlagStatus;
     StartDate: DateTime;
     DueDate: DateTime;
@@ -42,9 +42,6 @@ class Flag extends ComplexProperty {
     Validate(): any { throw new Error("Flag.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Flag.ts - WriteElementsToXml : Not implemented."); }
 }
-export = Flag;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
 

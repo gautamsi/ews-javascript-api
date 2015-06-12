@@ -1,11 +1,10 @@
-//todo: ix this - import Xml = require("System.Xml");
+﻿//todo: ix this - import Xml = require("System.Xml");
 
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EwsUtilities = require("./EwsUtilities");
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsUtilities} from "./EwsUtilities";
 import {EwsLogging} from "./EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../ExtensionMethods";
-
-class EwsXmlReader {
+export class EwsXmlReader {
     private static ReadWriteBufferSize: number = 4096;
 
     get HasAttributes(): boolean { return this.currentNode ? this.currentNode.hasAttributes() : false; }
@@ -171,12 +170,4 @@ class EwsXmlReader {
     //SkipElement(namespacePrefix: string, localName: string): any { throw new Error("EwsXmlReader.ts - SkipElement : Not implemented."); }
     TryReadValue(value: any): boolean { throw new Error("EwsXmlReader.ts - TryReadValue : Not implemented."); }
 }
-export = EwsXmlReader;
 
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

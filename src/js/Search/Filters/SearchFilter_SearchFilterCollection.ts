@@ -1,12 +1,12 @@
-import LogicalOperator = require("../../Enumerations/LogicalOperator");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
+﻿import {LogicalOperator} from "../../Enumerations/LogicalOperator";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 
-import SearchFilter = require("./SearchFilter");
-class SearchFilterCollection extends SearchFilter {
+import {SearchFilter} from "./SearchFilter";
+export class SearchFilterCollection extends SearchFilter {
 	Count: number;
 	Item: SearchFilter;
 	LogicalOperator: LogicalOperator;
@@ -28,7 +28,8 @@ class SearchFilterCollection extends SearchFilter {
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - WriteElementsToXml : Not implemented.");}
 	WriteToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_SearchFilterCollection.ts - WriteToXml : Not implemented.");}
 }
-export = SearchFilterCollection;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
+

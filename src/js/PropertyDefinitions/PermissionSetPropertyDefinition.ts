@@ -1,12 +1,12 @@
-import FolderPermissionCollection = require("../ComplexProperties/FolderPermissionCollection");
-import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import Folder = require("../Core/ServiceObjects/Folders/Folder");
+﻿import {FolderPermissionCollection} from "../ComplexProperties/FolderPermissionCollection";
+import {ComplexPropertyDefinitionBase} from "./ComplexPropertyDefinitionBase";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {Folder} from "../Core/ServiceObjects/Folders/Folder";
 import {EwsLogging} from "../Core/EwsLogging";
-class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
+export class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
     get Type(): any {//} Type {
         return undefined;// new Type("FolderPermissionCollection");
     }
@@ -19,8 +19,3 @@ class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
         return new FolderPermissionCollection(folder);
     }
 }
-export = PermissionSetPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import Attachment = require("../../ComplexProperties/Attachment");
-import ExchangeService = require("../ExchangeService");
-import DeleteAttachmentResponse = require("../Responses/DeleteAttachmentResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {Attachment} from "../../ComplexProperties/Attachment";
+import {ExchangeService} from "../ExchangeService";
+import {DeleteAttachmentResponse} from "../Responses/DeleteAttachmentResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     private attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): DeleteAttachmentResponse { throw new Error("DeleteAttachmentRequest.ts - CreateServiceResponse : Not implemented."); }
@@ -16,8 +16,9 @@ class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachme
     Validate(): any { throw new Error("DeleteAttachmentRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DeleteAttachmentRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

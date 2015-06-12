@@ -1,7 +1,6 @@
-import EmailAddress = require("../ComplexProperties/EmailAddress");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-			
- class ExpandGroupResults {
+﻿import {EmailAddress} from "../ComplexProperties/EmailAddress";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class ExpandGroupResults {
 	Count: number;
 	IncludesAllMembers: boolean;
 	Members: EmailAddress[] /*System.Collections.ObjectModel.Collection<EmailAddress>*/;
@@ -10,10 +9,11 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	GetEnumerator(): EmailAddress[] /*System.Collections.Generic.IEnumerator<EmailAddress>*/{ throw new Error("ExpandGroupResults.ts - GetEnumerator : Not implemented.");}
 	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("ExpandGroupResults.ts - LoadFromXml : Not implemented.");}
 }
-export = ExpandGroupResults;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

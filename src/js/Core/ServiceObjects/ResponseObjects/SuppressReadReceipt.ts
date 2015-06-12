@@ -1,16 +1,15 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ServiceObject = require("../ServiceObject");
-import Item = require("../Items/Item");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import MessageDisposition = require("../../../Enumerations/MessageDisposition");
-import DeleteMode = require("../../../Enumerations/DeleteMode");
-import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
-import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
-import PropertySet = require("../../PropertySet");
-
-class SuppressReadReceipt extends ServiceObject {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ServiceObject} from "../ServiceObject";
+import {Item} from "../Items/Item";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {PropertySet} from "../../PropertySet";
+export class SuppressReadReceipt extends ServiceObject {
     private referenceItem: Item;
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("SuppressReadReceipt.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetSchema(): ServiceObjectSchema { throw new Error("SuppressReadReceipt.ts - GetSchema : Not implemented."); }
@@ -20,11 +19,11 @@ class SuppressReadReceipt extends ServiceObject {
     InternalLoad(propertySet: PropertySet): any { throw new Error("SuppressReadReceipt.ts - InternalLoad : Not implemented."); }
 }
 
-export = SuppressReadReceipt;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

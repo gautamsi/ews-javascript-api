@@ -1,11 +1,11 @@
-import LazyMember = require("../../../Core/LazyMember");
-import OutlookProtocolType = require("../../../Enumerations/OutlookProtocolType");
-import UserSettingName = require("../../../Enumerations/UserSettingName");
-import WebClientUrlCollection = require("../../WebClientUrlCollection");
-import GetUserSettingsResponse = require("../../Responses/GetUserSettingsResponse");
-import EwsXmlReader = require("../../../Core/EwsXmlReader");
+﻿import {LazyMember} from "../../../Core/LazyMember";
+import {OutlookProtocolType} from "../../../Enumerations/OutlookProtocolType";
+import {UserSettingName} from "../../../Enumerations/UserSettingName";
+import {WebClientUrlCollection} from "../../WebClientUrlCollection";
+import {GetUserSettingsResponse} from "../../Responses/GetUserSettingsResponse";
+import {EwsXmlReader} from "../../../Core/EwsXmlReader";
 
-class OutlookProtocol {
+export class OutlookProtocol {
     private static EXPR: string = "EXPR";
     private static EXCH: string = "EXCH";
     private static WEB: string = "WEB";
@@ -62,9 +62,3 @@ class OutlookProtocol {
     LoadWebClientUrlsFromXml(reader: EwsXmlReader, webClientUrls: WebClientUrlCollection, elementName: string): any { throw new Error("OutlookProtocol.ts - LoadWebClientUrlsFromXml : Not implemented."); }
     ProtocolNameToType(protocolName: string): OutlookProtocolType { throw new Error("OutlookProtocol.ts - ProtocolNameToType : Not implemented."); }
 }
-export = OutlookProtocol;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

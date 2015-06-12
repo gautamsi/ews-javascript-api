@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MeetingMessage = require("./MeetingMessage");
-class MeetingRequest extends MeetingMessage {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MeetingMessage} from "./MeetingMessage";
+export class MeetingRequest extends MeetingMessage {
     ////////MeetingRequestType: MeetingRequestType;
     ////////IntendedFreeBusyStatus: LegacyFreeBusyStatus;
     ////////ChangeHighlights: ChangeHighlights;
@@ -55,13 +55,3 @@ class MeetingRequest extends MeetingMessage {
     GetXmlElementName(): string { return XmlElementNames.MeetingRequest; }
     ////////InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults { throw new Error("MeetingRequest.ts - InternalAccept : Not implemented."); }
 }
-
-export = MeetingRequest;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

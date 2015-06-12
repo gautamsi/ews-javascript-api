@@ -1,10 +1,10 @@
-import PersonaPostalAddress = require("./PersonaPostalAddress");
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class EnhancedLocation extends ComplexProperty {
+﻿import {PersonaPostalAddress} from "./PersonaPostalAddress";
+import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class EnhancedLocation extends ComplexProperty {
     DisplayName: string;
     Annotation: string;
     PersonaPostalAddress: PersonaPostalAddress;
@@ -18,8 +18,9 @@ class EnhancedLocation extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EnhancedLocation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EnhancedLocation.ts - WriteElementsToXml : Not implemented."); }
 }
-export = EnhancedLocation;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,23 +1,23 @@
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
-import Strings = require("../Strings");
-import StandardUser = require("../Enumerations/StandardUser");
-import ServiceValidationException = require("../Exceptions/ServiceValidationException");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
-import UserId = require("./UserId");
-import PermissionScope = require("../Enumerations/PermissionScope");
-import FolderPermissionReadAccess = require("../Enumerations/FolderPermissionReadAccess");
-import FolderPermissionLevel = require("../Enumerations/FolderPermissionLevel");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import LazyMember = require("../Core/LazyMember");
+﻿import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {Strings} from "../Strings";
+import {StandardUser} from "../Enumerations/StandardUser";
+import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {UserId} from "./UserId";
+import {PermissionScope} from "../Enumerations/PermissionScope";
+import {FolderPermissionReadAccess} from "../Enumerations/FolderPermissionReadAccess";
+import {FolderPermissionLevel} from "../Enumerations/FolderPermissionLevel";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {LazyMember} from "../Core/LazyMember";
 import {Convert, StringHelper} from "../ExtensionMethods";
 import {IndexerWithEnumKey} from "../AltDictionary";
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import IRefParam = require("../Interfaces/IRefParam")
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {IRefParam} from "../Interfaces/IRefParam";
 
-import ComplexProperty = require("./ComplexProperty");
-class FolderPermission extends ComplexProperty {
+import {ComplexProperty} from "./ComplexProperty";
+export class FolderPermission extends ComplexProperty {
     get UserId(): UserId { return this.userId; }
     set UserId(value) {
         if (this.userId != null) {
@@ -480,8 +480,4 @@ class FolderPermission extends ComplexProperty {
         writer.WriteEndElement();
     }
 }
-export = FolderPermission;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

@@ -1,12 +1,12 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import FolderId = require("../../ComplexProperties/FolderId");
-import UserConfiguration = require("../../Misc/UserConfiguration");
-import UserConfigurationProperties = require("../../Enumerations/UserConfigurationProperties");
-import ExchangeService = require("../ExchangeService");
-import GetUserConfigurationResponse = require("../Responses/GetUserConfigurationResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> { //IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {UserConfiguration} from "../../Misc/UserConfiguration";
+import {UserConfigurationProperties} from "../../Enumerations/UserConfigurationProperties";
+import {ExchangeService} from "../ExchangeService";
+import {GetUserConfigurationResponse} from "../Responses/GetUserConfigurationResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> { //IJsonSerializable
     private static EnumDelimiter: string = ",";
 
     Name: string;
@@ -26,8 +26,9 @@ class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserCon
     Validate(): any { throw new Error("GetUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetUserConfigurationRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

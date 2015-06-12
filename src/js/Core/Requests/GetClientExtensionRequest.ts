@@ -1,10 +1,10 @@
-import StringList = require("../../ComplexProperties/StringList");
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetClientExtensionResponse = require("../Responses/GetClientExtensionResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetClientExtensionRequest extends SimpleServiceRequestBase {
+﻿import {StringList} from "../../ComplexProperties/StringList";
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetClientExtensionResponse} from "../Responses/GetClientExtensionResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetClientExtensionRequest extends SimpleServiceRequestBase {
     private requestedExtensionIds: StringList;
     private shouldReturnEnabledOnly: boolean;
     private isUserScope: boolean;
@@ -19,11 +19,12 @@ class GetClientExtensionRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetClientExtensionRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetClientExtensionRequest;
 
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

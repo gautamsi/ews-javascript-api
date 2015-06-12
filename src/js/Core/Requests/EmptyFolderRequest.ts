@@ -1,11 +1,11 @@
-import DeleteRequest = require("./DeleteRequest");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import JsonObject = require("../JsonObject");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
+﻿import {DeleteRequest} from "./DeleteRequest";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {JsonObject} from "../JsonObject";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
     FolderIds: FolderIdWrapperList;
     DeleteSubFolders: boolean;
     private folderIds: FolderIdWrapperList;
@@ -21,9 +21,9 @@ class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmptyFolderRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = EmptyFolderRequest;
 
-    //module Microsoft.Exchange.WebServices.Data {
+    //
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

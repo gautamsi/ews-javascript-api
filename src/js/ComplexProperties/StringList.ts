@@ -1,12 +1,11 @@
-import XmlElementNames = require("../Core/XmlElementNames");
-import Strings = require("../Strings");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+import {Strings} from "../Strings";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
     get Count(): number { return this.items.length; }
     get Items(): string[] { return this.items; }
     private items: string[] = [];// /*System.Collections.Generic.List<string>*/;
@@ -94,8 +93,9 @@ class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollecti
         }
     }
 }
-export = StringList;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

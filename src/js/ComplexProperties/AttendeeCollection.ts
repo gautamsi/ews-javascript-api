@@ -1,7 +1,7 @@
-import Attendee = require("./Attendee");
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
+﻿import {Attendee} from "./Attendee";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
 
-class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
+export class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
     Add(attendee: Attendee): any { throw new Error("AttendeeCollection.ts - Add : Not implemented."); }
     //Add(smtpAddress: string): Attendee { throw new Error("AttendeeCollection.ts - Add : Not implemented."); }
     //Add(name: string, smtpAddress: string): Attendee { throw new Error("AttendeeCollection.ts - Add : Not implemented."); }
@@ -12,8 +12,4 @@ class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
     Remove(attendee: Attendee): boolean { throw new Error("AttendeeCollection.ts - Remove : Not implemented."); }
     RemoveAt(index: number): any { throw new Error("AttendeeCollection.ts - RemoveAt : Not implemented."); }
 }
-export = AttendeeCollection;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

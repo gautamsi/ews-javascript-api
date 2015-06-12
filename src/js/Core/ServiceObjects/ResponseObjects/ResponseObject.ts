@@ -1,15 +1,14 @@
-import ServiceObject = require("../ServiceObject");
-import Item = require("../Items/Item");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import MessageDisposition = require("../../../Enumerations/MessageDisposition");
-import DeleteMode = require("../../../Enumerations/DeleteMode");
-import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
-import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
-import PropertySet = require("../../PropertySet");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-
-class ResponseObject<TMessage> extends ServiceObject {
+﻿import {ServiceObject} from "../ServiceObject";
+import {Item} from "../Items/Item";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {PropertySet} from "../../PropertySet";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+export class ResponseObject<TMessage> extends ServiceObject {
     IsReadReceiptRequested: boolean;
     IsDeliveryReceiptRequested: boolean;
     private referenceItem: Item;
@@ -25,13 +24,4 @@ class ResponseObject<TMessage> extends ServiceObject {
     //SendAndSaveCopy(destinationFolderName: WellKnownFolderName): any { throw new Error("ResponseObject.ts - SendAndSaveCopy : Not implemented."); }
     //SendAndSaveCopy(): any { throw new Error("ResponseObject.ts - SendAndSaveCopy : Not implemented."); }
 }
-
-export = ResponseObject;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
 

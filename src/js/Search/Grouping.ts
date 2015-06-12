@@ -1,11 +1,11 @@
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import SortDirection = require("../Enumerations/SortDirection");
-import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
-import AggregateType = require("../Enumerations/AggregateType");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class Grouping { //: ISelfValidate, IJsonSerializable
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {SortDirection} from "../Enumerations/SortDirection";
+import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
+import {AggregateType} from "../Enumerations/AggregateType";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class Grouping { //: ISelfValidate, IJsonSerializable
     SortDirection: SortDirection = SortDirection.Ascending;
     GroupOn: PropertyDefinitionBase;
     AggregateOn: PropertyDefinitionBase;
@@ -42,22 +42,17 @@ class Grouping { //: ISelfValidate, IJsonSerializable
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.GroupBy);
-            writer.WriteAttributeValue(null,XmlAttributeNames.Order, this.SortDirection);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Order, this.SortDirection);
 
-            this.GroupOn.WriteToXml(writer);
+        this.GroupOn.WriteToXml(writer);
 
-            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AggregateOn);
-            writer.WriteAttributeValue(null,XmlAttributeNames.Aggregate, this.AggregateType);
+        writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AggregateOn);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Aggregate, this.AggregateType);
 
-            this.AggregateOn.WriteToXml(writer);
+        this.AggregateOn.WriteToXml(writer);
 
-            writer.WriteEndElement(); // AggregateOn
+        writer.WriteEndElement(); // AggregateOn
 
-            writer.WriteEndElement(); // GroupBy
+        writer.WriteEndElement(); // GroupBy
     }
 }
-export = Grouping;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,7 +1,7 @@
-import MailboxSearchLocation = require("../Enumerations/MailboxSearchLocation");
-import MailboxSearchScopeType = require("../Enumerations/MailboxSearchScopeType");
-import ExtendedAttributes = require("./ExtendedAttributes");
-class MailboxSearchScope {
+﻿import {MailboxSearchLocation} from "../Enumerations/MailboxSearchLocation";
+import {MailboxSearchScopeType} from "../Enumerations/MailboxSearchScopeType";
+import {ExtendedAttributes} from "./ExtendedAttributes";
+export class MailboxSearchScope {
     Mailbox: string;
     SearchScope: MailboxSearchLocation;
     SearchScopeType: MailboxSearchScopeType;
@@ -9,8 +9,9 @@ class MailboxSearchScope {
     private searchScope: MailboxSearchLocation;
     private scopeType: MailboxSearchScopeType;
 }
-export = MailboxSearchScope;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

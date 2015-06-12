@@ -1,11 +1,11 @@
-import ServiceResponse = require("./ServiceResponse");
-			
- class UninstallAppResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+export class UninstallAppResponse extends ServiceResponse {
 }
-export = UninstallAppResponse;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

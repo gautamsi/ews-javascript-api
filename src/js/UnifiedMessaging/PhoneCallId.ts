@@ -1,10 +1,9 @@
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class PhoneCallId extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class PhoneCallId extends ComplexProperty {
     Id: string;
     private id: string;
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneCallId.ts - InternalToJson : Not implemented."); }
@@ -13,8 +12,9 @@ class PhoneCallId extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneCallId.ts - WriteAttributesToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneCallId.ts - WriteToXml : Not implemented."); }
 }
-export = PhoneCallId;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

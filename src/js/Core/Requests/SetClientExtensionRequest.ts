@@ -1,9 +1,9 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
     private actions: any[];//System.Collections.Generic.List<T>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("SetClientExtensionRequest.ts - CreateServiceResponse : Not implemented."); }
     GetExpectedResponseMessageCount(): number { throw new Error("SetClientExtensionRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
@@ -14,10 +14,11 @@ class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceRespo
     Validate(): any { throw new Error("SetClientExtensionRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SetClientExtensionRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

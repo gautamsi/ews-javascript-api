@@ -1,18 +1,18 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
-import ByteArrayPropertyDefinition = require("../../../PropertyDefinitions/ByteArrayPropertyDefinition");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import ContainedPropertyDefinition = require("../../../PropertyDefinitions/ContainedPropertyDefinition");
-import EmailAddress = require("../../../ComplexProperties/EmailAddress");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import ApprovalRequestData = require("../../../ComplexProperties/ApprovalRequestData");
-import VotingInformation = require("../../../ComplexProperties/VotingInformation");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {ApprovalRequestData} from "../../../ComplexProperties/ApprovalRequestData";
+import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-import ItemSchema = require("./ItemSchema");
+import {ItemSchema} from "./ItemSchema";
 
 //module EmailMessageSchema {
 module FieldUris {
@@ -36,8 +36,7 @@ module FieldUris {
     export var VotingInformation: string = "message:VotingInformation";
 }
 //}
-
-class EmailMessageSchema extends ItemSchema {
+export class EmailMessageSchema extends ItemSchema {
     static ToRecipients: PropertyDefinition = new ComplexPropertyDefinition<EmailAddressCollection>(
         "ToRecipients",
         XmlElementNames.ToRecipients,
@@ -221,12 +220,3 @@ class EmailMessageSchema extends ItemSchema {
         super.RegisterProperty(EmailMessageSchema.VotingInformation);
     }
 }
-
-
-export = EmailMessageSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

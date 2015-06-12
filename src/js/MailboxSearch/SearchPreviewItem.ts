@@ -1,8 +1,8 @@
-import ItemId = require("../ComplexProperties/ItemId");
-import PreviewItemMailbox = require("./PreviewItemMailbox");
-import Importance = require("../Enumerations/Importance");
-import ExtendedPropertyCollection = require("../ComplexProperties/ExtendedPropertyCollection");
-class SearchPreviewItem {
+﻿import {ItemId} from "../ComplexProperties/ItemId";
+import {PreviewItemMailbox} from "./PreviewItemMailbox";
+import {Importance} from "../Enumerations/Importance";
+import {ExtendedPropertyCollection} from "../ComplexProperties/ExtendedPropertyCollection";
+export class SearchPreviewItem {
     Id: ItemId;
     Mailbox: PreviewItemMailbox;
     ParentId: ItemId;
@@ -25,8 +25,9 @@ class SearchPreviewItem {
     HasAttachment: boolean;
     ExtendedProperties: ExtendedPropertyCollection;
 }
-export = SearchPreviewItem;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

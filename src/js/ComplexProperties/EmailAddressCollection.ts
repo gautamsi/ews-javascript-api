@@ -1,6 +1,6 @@
-import EmailAddress = require("./EmailAddress");
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
-class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
+﻿import {EmailAddress} from "./EmailAddress";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
     private collectionItemXmlElementName: string;
     Add(emailAddress: EmailAddress): any { throw new Error("EmailAddressCollection.ts - Add : Not implemented."); }
     //Add(smtpAddress: string): EmailAddress { throw new Error("EmailAddressCollection.ts - Add : Not implemented."); }
@@ -15,8 +15,5 @@ class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
     RemoveAt(index: number): any { throw new Error("EmailAddressCollection.ts - RemoveAt : Not implemented."); }
     ShouldWriteToRequest(): boolean { throw new Error("EmailAddressCollection.ts - ShouldWriteToRequest : Not implemented."); }
 }
-export = EmailAddressCollection;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

@@ -1,10 +1,9 @@
-import CreateRequest = require("./CreateRequest");
-import Folder = require("../ServiceObjects/Folders/Folder");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-
-class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
+﻿import {CreateRequest} from "./CreateRequest";
+import {Folder} from "../ServiceObjects/Folders/Folder";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+export class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
     Folders: Folder[];//System.Collections.Generic.IEnumerable<Folder>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("CreateFolderRequest.ts - CreateServiceResponse : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("CreateFolderRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
@@ -16,8 +15,8 @@ class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
     Validate(): any { throw new Error("CreateFolderRequest.ts - Validate : Not implemented."); }
 }
 
-export = CreateFolderRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,14 +1,14 @@
-import TimeZoneTransition = require("./TimeZoneTransition");
-import TimeZonePeriod = require("./TimeZonePeriod");
-import TimeZoneTransitionGroup = require("./TimeZoneTransitionGroup");
-import ComplexProperty = require("../ComplexProperty");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
+﻿import {TimeZoneTransition} from "./TimeZoneTransition";
+import {TimeZonePeriod} from "./TimeZonePeriod";
+import {TimeZoneTransitionGroup} from "./TimeZoneTransitionGroup";
+import {ComplexProperty} from "../ComplexProperty";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
 import {IndexerWithStringKey} from "../../AltDictionary";
-class TimeZoneDefinition extends ComplexProperty {
+export class TimeZoneDefinition extends ComplexProperty {
     private static NoIdPrefix: string = "NoId_";
     Name: string;
     Id: string;
@@ -34,8 +34,4 @@ class TimeZoneDefinition extends ComplexProperty {
         super.WriteToXml(writer, XmlElementNames.TimeZoneDefinition, this.Namespace);
     }
 }
-export = TimeZoneDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

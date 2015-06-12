@@ -1,13 +1,12 @@
-import TimeZonePeriod = require("./TimeZonePeriod");
-import TimeZoneTransitionGroup = require("./TimeZoneTransitionGroup");
-import TimeZoneDefinition = require("./TimeZoneDefinition");
-import ComplexProperty = require("../ComplexProperty");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
-class TimeZoneTransition extends ComplexProperty {
+﻿import {TimeZonePeriod} from "./TimeZonePeriod";
+import {TimeZoneTransitionGroup} from "./TimeZoneTransitionGroup";
+import {TimeZoneDefinition} from "./TimeZoneDefinition";
+import {ComplexProperty} from "../ComplexProperty";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class TimeZoneTransition extends ComplexProperty {
     private static PeriodTarget: string = "Period";
     private static GroupTarget: string = "Group";
 
@@ -28,8 +27,9 @@ class TimeZoneTransition extends ComplexProperty {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransition.ts - WriteElementsToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZoneTransition.ts - WriteToXml : Not implemented."); }
 }
-export = TimeZoneTransition;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

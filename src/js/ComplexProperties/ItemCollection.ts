@@ -1,9 +1,9 @@
-import ExchangeService = require("../Core/ExchangeService");
+﻿import {ExchangeService} from "../Core/ExchangeService";
 
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 
-import ComplexProperty = require("./ComplexProperty");
-class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJsonCollectionDeserializer
+import {ComplexProperty} from "./ComplexProperty";
+export class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJsonCollectionDeserializer
     __implements: string[] = ["ISelfValidate", "IJsonSerializable", "IEnumerable<TItem>", "IJsonCollectionDeserializer"];
 
     Count: number;
@@ -12,11 +12,12 @@ class ItemCollection<TItem> extends ComplexProperty { // IEnumerable<TItem>, IJs
     GetEnumerator(): any { throw new Error("ItemCollection.ts - GetEnumerator : Not implemented."); }//wil be implementedfor ES6 later with yield
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): any { throw new Error("ItemCollection.ts - LoadFromXmlJsObject : Not implemented."); }
 }
-export = ItemCollection;
 
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,8 +1,8 @@
-import ProtocolConnection = require("./ProtocolConnection");
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ProtocolConnection} from "./ProtocolConnection";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-class ProtocolConnectionCollection {
+export class ProtocolConnectionCollection {
     Connections: ProtocolConnection[] = [];//System.Collections.Generic.List<ProtocolConnection>;
     //private connections: ProtocolConnection[];//System.Collections.Generic.List<ProtocolConnection>;
     constructor() { }
@@ -28,10 +28,3 @@ class ProtocolConnectionCollection {
     }
 
 }
-
-export = ProtocolConnectionCollection
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

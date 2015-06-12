@@ -1,7 +1,7 @@
-import XmlElementNames = require("../../XmlElementNames");
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import Item = require("./Item");
-class Contact extends Item {
+import {Item} from "./Item";
+export class Contact extends Item {
     constructor(obj: any) { super(obj); }
     //////private static ContactPictureName: string = "ContactPicture.jpg";
     //////FileAs: string;
@@ -59,13 +59,3 @@ class Contact extends Item {
     //////SetContactPicture(fileName: string): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
     //////Validate(): any { throw new Error("Contact.ts - Validate : Not implemented."); }
 }
-
-export = Contact;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

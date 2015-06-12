@@ -1,14 +1,13 @@
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import FolderIdWrapper = require("./FolderIdWrapper");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import FolderWrapper = require("./FolderWrapper");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
-import Folder = require("../Core/ServiceObjects/Folders/Folder");
-import FolderId = require("../ComplexProperties/FolderId");
-//import FolderWrapper = require("./FolderWrapper");
-
-class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {FolderIdWrapper} from "./FolderIdWrapper";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {FolderWrapper} from "./FolderWrapper";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {AbstractFolderIdWrapper} from "./AbstractFolderIdWrapper";
+import {Folder} from "../Core/ServiceObjects/Folders/Folder";
+import {FolderId} from "../ComplexProperties/FolderId";
+//import {FolderWrapper} from "./FolderWrapper";
+export class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
     get Count(): number { return this.ids.length; }
     //Item: AbstractFolderIdWrapper;
     private ids: AbstractFolderIdWrapper[] = [];// System.Collections.Generic.List<AbstractFolderIdWrapper>;
@@ -59,13 +58,3 @@ class FolderIdWrapperList { //IEnumerable<AbstractFolderIdWrapper>
         return this.ids[index];
     }
 }
-
-export = FolderIdWrapperList;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

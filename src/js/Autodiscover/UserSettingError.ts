@@ -1,8 +1,8 @@
-import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
-import XmlElementNames = require("../Core/XmlElementNames");
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-class UserSettingError {
+export class UserSettingError {
     ErrorCode: AutodiscoverErrorCode;
     ErrorMessage: string;
     SettingName: string;
@@ -37,10 +37,3 @@ class UserSettingError {
         this.SettingName = obj[XmlElementNames.SettingName];
     }
 }
-
-export = UserSettingError;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

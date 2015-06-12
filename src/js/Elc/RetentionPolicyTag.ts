@@ -1,9 +1,8 @@
-import ElcFolderType = require("../Enumerations/ElcFolderType");
-import RetentionActionType = require("../Enumerations/RetentionActionType");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-			
- class RetentionPolicyTag {
+﻿import {ElcFolderType} from "../Enumerations/ElcFolderType";
+import {RetentionActionType} from "../Enumerations/RetentionActionType";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class RetentionPolicyTag {
 	DisplayName: string;
 	RetentionId: any /*System.Guid*/;
 	RetentionPeriod: number;
@@ -16,10 +15,11 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	LoadFromJson(jsonObject: JsonObject): RetentionPolicyTag{ throw new Error("RetentionPolicyTag.ts - LoadFromJson : Not implemented.");}
 	LoadFromXml(reader: EwsServiceXmlReader): RetentionPolicyTag{ throw new Error("RetentionPolicyTag.ts - LoadFromXml : Not implemented.");}
 }
-export = RetentionPolicyTag;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

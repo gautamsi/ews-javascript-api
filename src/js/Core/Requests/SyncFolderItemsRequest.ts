@@ -1,14 +1,13 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import PropertySet = require("../PropertySet");
-import FolderId = require("../../ComplexProperties/FolderId");
-import SyncFolderItemsScope = require("../../Enumerations/SyncFolderItemsScope");
-import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
-import ExchangeService = require("../ExchangeService");
-import SyncFolderItemsResponse = require("../Responses/SyncFolderItemsResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFolderItemsResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {PropertySet} from "../PropertySet";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {SyncFolderItemsScope} from "../../Enumerations/SyncFolderItemsScope";
+import {ItemIdWrapperList} from "../../Misc/ItemIdWrapperList";
+import {ExchangeService} from "../ExchangeService";
+import {SyncFolderItemsResponse} from "../Responses/SyncFolderItemsResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFolderItemsResponse> {
 	PropertySet: PropertySet;
 	SyncFolderId: FolderId;
 	SyncScope: SyncFolderItemsScope;
@@ -30,10 +29,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("SyncFolderItemsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SyncFolderItemsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = SyncFolderItemsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

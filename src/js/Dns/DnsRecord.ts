@@ -1,7 +1,6 @@
-import DnsRecordType = require("../Enumerations/DnsRecordType");
-import DnsRecordHeader = require("./DnsRecordHeader");
-			
- class DnsRecord {
+﻿import {DnsRecordType} from "../Enumerations/DnsRecordType";
+import {DnsRecordHeader} from "./DnsRecordHeader";
+export class DnsRecord {
 	RecordType: DnsRecordType;
 	Name: string;
 	TimeToLive: any /*System.TimeSpan*/;
@@ -9,10 +8,11 @@ import DnsRecordHeader = require("./DnsRecordHeader");
 	private timeToLive: number;
 	Load(header: DnsRecordHeader, dataPointer: number): void{ throw new Error("DnsRecord.ts - Load : Not implemented.");}
 }
-export = DnsRecord;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Dns------------
 
 
 			
+

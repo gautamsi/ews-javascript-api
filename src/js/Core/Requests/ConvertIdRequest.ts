@@ -1,11 +1,11 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import IdFormat = require("../../Enumerations/IdFormat");
-import AlternateIdBase = require("../../Misc/IdConversion/AlternateIdBase");
-import ExchangeService = require("../ExchangeService");
-import ConvertIdResponse = require("../Responses/ConvertIdResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {IdFormat} from "../../Enumerations/IdFormat";
+import {AlternateIdBase} from "../../Misc/IdConversion/AlternateIdBase";
+import {ExchangeService} from "../ExchangeService";
+import {ConvertIdResponse} from "../Responses/ConvertIdResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {//IJsonSerializable
     DestinationFormat: IdFormat;
     Ids: AlternateIdBase[];//System.Collections.Generic.List<AlternateIdBase>;
     private destinationFormat: IdFormat;
@@ -19,8 +19,9 @@ class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {/
     Validate(): any { throw new Error("ConvertIdRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ConvertIdRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ConvertIdRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

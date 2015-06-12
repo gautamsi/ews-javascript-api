@@ -1,20 +1,20 @@
+﻿
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsUtilities} from "../../Core/EwsUtilities";
 
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import EwsUtilities = require("../../Core/EwsUtilities");
-
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import DomainSettingName = require("../../Enumerations/DomainSettingName");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {DomainSettingName} from "../../Enumerations/DomainSettingName";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 
 import {IPromise} from "../../Interfaces";
 
 
-import GetDomainSettingsResponseCollection = require("../Responses/GetDomainSettingsResponseCollection");
-import AutodiscoverService = require("../AutodiscoverService");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import AutodiscoverRequest = require("./AutodiscoverRequest");
-class GetDomainSettingsRequest extends AutodiscoverRequest {
+import {GetDomainSettingsResponseCollection} from "../Responses/GetDomainSettingsResponseCollection";
+import {AutodiscoverService} from "../AutodiscoverService";
+import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
+import {AutodiscoverRequest} from "./AutodiscoverRequest";
+export class GetDomainSettingsRequest extends AutodiscoverRequest {
     private static GetDomainSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetDomainSettings";
     Domains: string[];// System.Collections.Generic.List<string>;
     Settings: DomainSettingName[];// System.Collections.Generic.List<DomainSettingName>;
@@ -59,7 +59,7 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
 
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Domains);
 
-        for (var domain of  this.Domains) {
+        for (var domain of this.Domains) {
             
             //if (!string.IsNullOrEmpty(domain)) {
             if (domain != undefined && domain !== "") {
@@ -73,7 +73,7 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
 
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.RequestedSettings);
         for (var setting of this.Settings) {
-            
+
             writer.WriteElementValue(
                 XmlNamespace.Autodiscover,
                 XmlElementNames.Setting,
@@ -91,13 +91,3 @@ class GetDomainSettingsRequest extends AutodiscoverRequest {
         writer.WriteEndElement(); //Request
     }
 }
-    //export module GetDomainSettingsRequest {
-    //    export var private static GetDomainSettingsActionUri: string = "http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetDomainSettings";
-    //}
-
-export = GetDomainSettingsRequest;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

@@ -1,11 +1,10 @@
-import TimeChange = require("./TimeChange");
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class MeetingTimeZone extends ComplexProperty {
+﻿import {TimeChange} from "./TimeChange";
+import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class MeetingTimeZone extends ComplexProperty {
     Name: string;
     BaseOffset: any /*System.TimeSpan*/;
     Standard: TimeChange;
@@ -22,8 +21,9 @@ class MeetingTimeZone extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MeetingTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }
-export = MeetingTimeZone;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

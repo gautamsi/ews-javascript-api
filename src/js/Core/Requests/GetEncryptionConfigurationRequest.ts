@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetEncryptionConfigurationResponse = require("../Responses/GetEncryptionConfigurationResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetEncryptionConfigurationResponse} from "../Responses/GetEncryptionConfigurationResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     Execute(): GetEncryptionConfigurationResponse { throw new Error("GetEncryptionConfigurationRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetEncryptionConfigurationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetResponseXmlElementName(): string { throw new Error("GetEncryptionConfigurationRequest.ts - GetResponseXmlElementName : Not implemented."); }
@@ -12,10 +12,10 @@ class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = GetEncryptionConfigurationRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,9 +1,9 @@
-import ComplexProperty = require("./ComplexProperty");
-import BodyType = require("../Enumerations/BodyType");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class UniqueBody extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {BodyType} from "../Enumerations/BodyType";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class UniqueBody extends ComplexProperty {
     BodyType: BodyType;
     Text: string;
     IsTruncated: boolean;
@@ -18,8 +18,9 @@ class UniqueBody extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("UniqueBody.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UniqueBody.ts - WriteElementsToXml : Not implemented."); }
 }
-export = UniqueBody;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

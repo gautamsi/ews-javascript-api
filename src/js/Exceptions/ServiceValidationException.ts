@@ -1,8 +1,9 @@
-import Exception = require("./Exception");
-import ServiceLocalException = require("./ServiceLocalException");
-class ServiceValidationException extends ServiceLocalException {
+﻿import {Exception} from "./Exception";
+import {ServiceLocalException} from "./ServiceLocalException";
+export class ServiceValidationException extends ServiceLocalException {
 }
-export = ServiceValidationException;
+
+
 
 
 

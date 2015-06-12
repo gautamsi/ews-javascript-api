@@ -1,12 +1,11 @@
-import HangingRequestDisconnectEventArgs = require("./HangingRequestDisconnectEventArgs");
-import ServiceRequestBase = require("./ServiceRequestBase");
-import IEwsHttpWebResponse = require("../../Interfaces/IEwsHttpWebResponse");
-import IEwsHttpWebRequest = require("../../Interfaces/IEwsHttpWebRequest");
-import HangingRequestDisconnectReason = require("../../Enumerations/HangingRequestDisconnectReason");
-import Exception = require("../../Exceptions/Exception");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-
-class HangingServiceRequestBase extends ServiceRequestBase {
+﻿import {HangingRequestDisconnectEventArgs} from "./HangingRequestDisconnectEventArgs";
+import {ServiceRequestBase} from "./ServiceRequestBase";
+import {IEwsHttpWebResponse} from "../../Interfaces/IEwsHttpWebResponse";
+import {IEwsHttpWebRequest} from "../../Interfaces/IEwsHttpWebRequest";
+import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
+import {Exception} from "../../Exceptions/Exception";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class HangingServiceRequestBase extends ServiceRequestBase {
 	private static BufferSize: number = 4096;
 	IsConnected: boolean;
 	private responseHandler: HandleResponseObject;
@@ -36,10 +35,7 @@ interface HandleResponseObject {
 
 
 
-export = HangingServiceRequestBase;
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
 
 
 			
+

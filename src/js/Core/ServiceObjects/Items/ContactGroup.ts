@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Item = require("./Item");
-class ContactGroup extends Item {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Item} from "./Item";
+export class ContactGroup extends Item {
     //////FileAs: string;
     //////DisplayName: string;
     //////Members: GroupMemberCollection;
@@ -11,11 +11,3 @@ class ContactGroup extends Item {
     GetXmlElementName(): string { return XmlElementNames.DistributionList; }
     //////SetSubject(subject: string): any { throw new Error("ContactGroup.ts - SetSubject : Not implemented."); }
 }
-
-export = ContactGroup;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

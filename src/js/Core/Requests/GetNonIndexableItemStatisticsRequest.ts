@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetNonIndexableItemStatisticsResponse = require("../Responses/GetNonIndexableItemStatisticsResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetNonIndexableItemStatisticsResponse} from "../Responses/GetNonIndexableItemStatisticsResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
     Mailboxes: string[];
     SearchArchiveOnly: boolean;
     Execute(): GetNonIndexableItemStatisticsResponse { throw new Error("GetNonIndexableItemStatisticsRequest.ts - Execute : Not implemented."); }
@@ -14,8 +14,9 @@ class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetNonIndexableItemStatisticsRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

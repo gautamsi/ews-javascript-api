@@ -1,10 +1,10 @@
-import FolderId = require("../ComplexProperties/FolderId");
+﻿import {FolderId} from "../ComplexProperties/FolderId";
 import {EwsLogging} from "../Core/EwsLogging";
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 
-import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
-class FolderIdWrapper extends AbstractFolderIdWrapper {
+import {AbstractFolderIdWrapper} from "./AbstractFolderIdWrapper";
+export class FolderIdWrapper extends AbstractFolderIdWrapper {
     private folderId: FolderId;
 
     constructor(folderId: FolderId) {
@@ -21,11 +21,3 @@ class FolderIdWrapper extends AbstractFolderIdWrapper {
     Validate(version: ExchangeVersion): void { this.folderId.Validate(version); }
     WriteToXml(writer: EwsServiceXmlWriter): void { this.folderId.WriteToXml(writer); }
 }
-export = FolderIdWrapper;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

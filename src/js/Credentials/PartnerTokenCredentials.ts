@@ -1,5 +1,5 @@
-import WSSecurityBasedCredentials = require("./WSSecurityBasedCredentials");
-class PartnerTokenCredentials extends WSSecurityBasedCredentials {
+﻿import {WSSecurityBasedCredentials} from "./WSSecurityBasedCredentials";
+export class PartnerTokenCredentials extends WSSecurityBasedCredentials {
     private static WsSecuritySymmetricKeyPathSuffix: string = "/wssecurity/symmetrickey";
     NeedSignature: boolean;
     private keyInfoNode: any;
@@ -7,8 +7,3 @@ class PartnerTokenCredentials extends WSSecurityBasedCredentials {
     //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("PartnerTokenCredentials.ts - PrepareWebRequest : Not implemented.");}
     Sign(memoryStream: any): any { throw new Error("PartnerTokenCredentials.ts - Sign : Not implemented."); }
 }
-export = PartnerTokenCredentials;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

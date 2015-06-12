@@ -1,4 +1,4 @@
-module XmlAttributeNames {
+export module XmlAttributeNames {
     export var XmlNs: string = "xmlns";
     export var Id: string = "Id";
     export var ChangeKey: string = "ChangeKey";
@@ -91,12 +91,3 @@ module XmlAttributeNames {
     export var Nil: string = "nil";
     export var Type: string = "type";
 }
-export = XmlAttributeNames;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

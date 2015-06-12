@@ -1,8 +1,8 @@
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class ByteArrayArray extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ByteArrayArray extends ComplexProperty {
     private static ItemXmlElementName: string = "Base64Binary";
     Content: any[];// System.Byte[][];
     private content: any[];// System.Byte[][];//System.Collections.Generic.List<T>;
@@ -10,8 +10,5 @@ class ByteArrayArray extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ByteArrayArray.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ByteArrayArray.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ByteArrayArray;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

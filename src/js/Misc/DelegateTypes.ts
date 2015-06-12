@@ -1,9 +1,9 @@
-import ItemAttachment = require("../ComplexProperties/ItemAttachment");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+﻿import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 
 
 //no change needed
@@ -98,7 +98,3 @@ export interface CreateServiceObjectWithAttachmentParam {
     //    Invoke(srv: ExchangeService): any{ throw new Error("DelegateTypes.ts - Invoke : Not implemented.");}
     //}
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

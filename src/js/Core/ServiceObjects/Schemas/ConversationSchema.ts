@@ -1,21 +1,21 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ConversationFlagStatus = require("../../../Enumerations/ConversationFlagStatus");
-import Importance = require("../../../Enumerations/Importance");
-import IconIndex = require("../../../Enumerations/IconIndex");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ConversationId = require("../../../ComplexProperties/ConversationId");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import StringList = require("../../../ComplexProperties/StringList");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
-import ItemIdCollection = require("../../../ComplexProperties/ItemIdCollection");
-import ByteArrayPropertyDefinition = require("../../../PropertyDefinitions/ByteArrayPropertyDefinition");
-import ServiceObjectSchema = require("./ServiceObjectSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ConversationFlagStatus} from "../../../Enumerations/ConversationFlagStatus";
+import {Importance} from "../../../Enumerations/Importance";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {ItemIdCollection} from "../../../ComplexProperties/ItemIdCollection";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 
 
@@ -59,8 +59,7 @@ module FieldUris {
     export var GlobalHasIrm: string = "conversation:GlobalHasIrm";
 }
 //}
-
-class ConversationSchema extends ServiceObjectSchema {
+export class ConversationSchema extends ServiceObjectSchema {
     
     static Id: PropertyDefinition = new ComplexPropertyDefinition<ConversationId>(
         "ConversationId", 
@@ -406,10 +405,3 @@ class ConversationSchema extends ServiceObjectSchema {
         super.RegisterProperty(ConversationSchema.GlobalHasIrm);
     }
 }
-
-export = ConversationSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,19 +1,19 @@
-import TaskMode = require("../../../Enumerations/TaskMode");
-import TaskStatus = require("../../../Enumerations/TaskStatus");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import StringList = require("../../../ComplexProperties/StringList");
-import TaskDelegationStatePropertyDefinition = require("../../../PropertyDefinitions/TaskDelegationStatePropertyDefinition");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import DoublePropertyDefinition = require("../../../PropertyDefinitions/DoublePropertyDefinition");
-import RecurrencePropertyDefinition = require("../../../PropertyDefinitions/RecurrencePropertyDefinition");
-import ItemSchema = require("./ItemSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {TaskMode} from "../../../Enumerations/TaskMode";
+import {TaskStatus} from "../../../Enumerations/TaskStatus";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {TaskDelegationStatePropertyDefinition} from "../../../PropertyDefinitions/TaskDelegationStatePropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {DoublePropertyDefinition} from "../../../PropertyDefinitions/DoublePropertyDefinition";
+import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
+import {ItemSchema} from "./ItemSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 //module TaskSchema {
 module FieldUris {
@@ -41,8 +41,7 @@ module FieldUris {
     export var TotalWork: string = "task:TotalWork";
 }
 //}
-
-class TaskSchema extends ItemSchema {
+export class TaskSchema extends ItemSchema {
     static ActualWork: PropertyDefinition = new IntPropertyDefinition(
         "ActualWork",
         "ActualWork",
@@ -254,13 +253,3 @@ class TaskSchema extends ItemSchema {
         super.RegisterProperty(TaskSchema.TotalWork);
     }
 }
-
-
-export = TaskSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
-

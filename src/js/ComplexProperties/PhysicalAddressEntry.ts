@@ -1,13 +1,12 @@
-import DictionaryEntryProperty = require("./DictionaryEntryProperty");
-import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
-import SimplePropertyBag = require("../Core/SimplePropertyBag");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-
+﻿import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
+import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
+import {SimplePropertyBag} from "../Core/SimplePropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 class PhysicalAddressSchema {
 	static Street: string = "Street";
 	static City: string = "City";
@@ -19,7 +18,7 @@ class PhysicalAddressSchema {
 /**
  * PhysicalAddressEntry class
  */
-class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
+export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
 	Street: string;
 	City: string;
 	State: string;
@@ -51,10 +50,11 @@ class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {
 //        export var /* static*/ PostalCode: string = "PostalCode";
 //    }
 //}
-export = PhysicalAddressEntry;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

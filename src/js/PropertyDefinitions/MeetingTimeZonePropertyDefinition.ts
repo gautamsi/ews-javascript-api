@@ -1,13 +1,13 @@
-import MeetingTimeZone = require("../ComplexProperties/MeetingTimeZone");
-import AppointmentSchema = require("../Core/ServiceObjects/Schemas/AppointmentSchema");
-import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
-import PropertyDefinition = require("./PropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
+﻿import {MeetingTimeZone} from "../ComplexProperties/MeetingTimeZone";
+import {AppointmentSchema} from "../Core/ServiceObjects/Schemas/AppointmentSchema";
+import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
     Type: any;//System.Type;
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
@@ -31,11 +31,3 @@ class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
         //throw new Error("MeetingTimeZonePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }
-export = MeetingTimeZonePropertyDefinition;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

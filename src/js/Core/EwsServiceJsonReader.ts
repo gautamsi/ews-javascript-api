@@ -1,12 +1,11 @@
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
-import ExchangeService = require("./ExchangeService");
-import JsonObject = require("./JsonObject");
-import PropertySet = require("./PropertySet");
+﻿import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ExchangeService} from "./ExchangeService";
+import {JsonObject} from "./JsonObject";
+import {PropertySet} from "./PropertySet";
 import {GetObjectInstanceDelegate} from "../Misc/DelegateTypes";
 import {StringHelper, TypeSystem} from "../ExtensionMethods";
-
-class EwsServiceJsonReader {
+export class EwsServiceJsonReader {
     //Service: ExchangeService;
     // constructor(service: ExchangeService){
     // 	this.Service = service;
@@ -68,10 +67,11 @@ class EwsServiceJsonReader {
         return serviceObjects;
     }
 }
-export = EwsServiceJsonReader;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

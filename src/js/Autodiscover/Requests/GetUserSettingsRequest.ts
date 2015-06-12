@@ -1,23 +1,23 @@
-import Strings = require("../../Strings");
+﻿import {Strings} from "../../Strings";
 
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import EwsUtilities = require("../../Core/EwsUtilities");
+import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsUtilities} from "../../Core/EwsUtilities";
 
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import UserSettingName = require("../../Enumerations/UserSettingName");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {UserSettingName} from "../../Enumerations/UserSettingName";
 
-import ServiceValidationException = require("../../Exceptions/ServiceValidationException");
+import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
 
 import {IPromise} from "../../Interfaces";
 
-import AutodiscoverService = require("../AutodiscoverService");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import GetUserSettingsResponseCollection = require("../Responses/GetUserSettingsResponseCollection");
+import {AutodiscoverService} from "../AutodiscoverService";
+import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
+import {GetUserSettingsResponseCollection} from "../Responses/GetUserSettingsResponseCollection";
 
-import AutodiscoverRequest = require("./AutodiscoverRequest");
-class GetUserSettingsRequest extends AutodiscoverRequest {
+import {AutodiscoverRequest} from "./AutodiscoverRequest";
+export class GetUserSettingsRequest extends AutodiscoverRequest {
     static GetUserSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetUserSettings";
 
     SmtpAddresses: string[];//System.Collections.Generic.List<string>;
@@ -153,10 +153,3 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
         }
     }
 }
-
-export = GetUserSettingsRequest;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

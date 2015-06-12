@@ -1,15 +1,15 @@
-import DictionaryProperty = require("./DictionaryProperty");
-import PhysicalAddressEntry = require("./PhysicalAddressEntry");
-import PhysicalAddressKey = require("../Enumerations/PhysicalAddressKey");
-
-class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
+﻿import {DictionaryProperty} from "./DictionaryProperty";
+import {PhysicalAddressEntry} from "./PhysicalAddressEntry";
+import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
+export class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
     Item: PhysicalAddressEntry;
     CreateEntryInstance(): PhysicalAddressEntry { throw new Error("PhysicalAddressDictionary.ts - CreateEntryInstance : Not implemented."); }
     TryGetValue(key: PhysicalAddressKey, physicalAddress: any): boolean { throw new Error("PhysicalAddressDictionary.ts - TryGetValue : Not implemented."); }
 }
-export = PhysicalAddressDictionary;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

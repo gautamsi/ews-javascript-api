@@ -1,10 +1,9 @@
-import TimeChangeRecurrence = require("./TimeChangeRecurrence");
-import ComplexProperty = require("./ComplexProperty");
-import Time = require("../Misc/Time");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class TimeChange extends ComplexProperty {
+﻿import {TimeChangeRecurrence} from "./TimeChangeRecurrence";
+import {ComplexProperty} from "./ComplexProperty";
+import {Time} from "../Misc/Time";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class TimeChange extends ComplexProperty {
     TimeZoneName: string;
     Offset: any /*System.TimeSpan*/;
     Time: Time;
@@ -20,8 +19,9 @@ class TimeChange extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChange.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChange.ts - WriteElementsToXml : Not implemented."); }
 }
-export = TimeChange;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

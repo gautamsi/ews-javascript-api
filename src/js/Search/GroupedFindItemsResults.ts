@@ -1,7 +1,6 @@
-import Item = require("../Core/ServiceObjects/Items/Item");
-import ItemGroup = require("./ItemGroup");
-
-class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup<TItem>>
+﻿import {Item} from "../Core/ServiceObjects/Items/Item";
+import {ItemGroup} from "./ItemGroup";
+export class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup<TItem>>
     TotalCount: number;
     NextPageOffset: number;
     MoreAvailable: boolean;
@@ -12,8 +11,3 @@ class GroupedFindItemsResults<TItem extends Item> {    //: IEnumerable<ItemGroup
     private itemGroups: ItemGroup<TItem>[] = [];//System.Collections.ObjectModel.Collection<ItemGroup<TItem>>;
     GetEnumerator(): any { throw new Error("GroupedFindItemsResults.ts - GetEnumerator : Not implemented."); }
 }
-export = GroupedFindItemsResults;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

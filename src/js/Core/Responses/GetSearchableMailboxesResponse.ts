@@ -1,18 +1,19 @@
-import ServiceResponse = require("./ServiceResponse");
-import SearchableMailbox = require("../../MailboxSearch/SearchableMailbox");
-import FailedSearchMailbox = require("../../MailboxSearch/FailedSearchMailbox");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-class GetSearchableMailboxesResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {SearchableMailbox} from "../../MailboxSearch/SearchableMailbox";
+import {FailedSearchMailbox} from "../../MailboxSearch/FailedSearchMailbox";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class GetSearchableMailboxesResponse extends ServiceResponse {
     SearchableMailboxes: SearchableMailbox[];
     FailedMailboxes: FailedSearchMailbox[];
     private searchableMailboxes: any[];//System.Collections.Generic.List<T>;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-export = GetSearchableMailboxesResponse;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

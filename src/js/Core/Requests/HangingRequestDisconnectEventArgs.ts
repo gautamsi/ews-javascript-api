@@ -1,6 +1,6 @@
-import HangingRequestDisconnectReason = require("../../Enumerations/HangingRequestDisconnectReason");
-import Exception = require("../../Exceptions/Exception");
-class HangingRequestDisconnectEventArgs //extends  EventArgs
+﻿import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
+import {Exception} from "../../Exceptions/Exception";
+export class HangingRequestDisconnectEventArgs //extends  EventArgs
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="HangingRequestDisconnectEventArgs"/> class.
@@ -26,4 +26,4 @@ class HangingRequestDisconnectEventArgs //extends  EventArgs
 	Exception: Exception;
 }
 
-export = HangingRequestDisconnectEventArgs;
+

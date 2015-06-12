@@ -1,8 +1,8 @@
-import UserSettingName = require("../../../Enumerations/UserSettingName");
-import GetUserSettingsResponse = require("../../Responses/GetUserSettingsResponse");
-import EwsXmlReader = require("../../../Core/EwsXmlReader");
-import LazyMember = require("../../../Core/LazyMember");
-class OutlookUser {
+﻿import {UserSettingName} from "../../../Enumerations/UserSettingName";
+import {GetUserSettingsResponse} from "../../Responses/GetUserSettingsResponse";
+import {EwsXmlReader} from "../../../Core/EwsXmlReader";
+import {LazyMember} from "../../../Core/LazyMember";
+export class OutlookUser {
     static AvailableUserSettings: UserSettingName[];
     private displayName: string;
     private legacyDN: string;
@@ -12,9 +12,3 @@ class OutlookUser {
     ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookUser.ts - ConvertToUserSettings : Not implemented."); }
     LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookUser.ts - LoadFromXml : Not implemented."); }
 }
-export = OutlookUser;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

@@ -1,11 +1,10 @@
-import GroupMember = require("./GroupMember");
-import ItemId = require("./ItemId");
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
-import Contact = require("../Core/ServiceObjects/Items/Contact");
-import EmailAddressKey = require("../Enumerations/EmailAddressKey");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-    class GroupMemberCollection extends ComplexPropertyCollection<GroupMember> {
+﻿import {GroupMember} from "./GroupMember";
+import {ItemId} from "./ItemId";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import {Contact} from "../Core/ServiceObjects/Items/Contact";
+import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class GroupMemberCollection extends ComplexPropertyCollection<GroupMember> {
         private collectionIsCleared: boolean;
         Add(member: GroupMember): any { throw new Error("GroupMemberCollection.ts - Add : Not implemented."); }
         AddContactEmailAddress(contact: Contact, emailAddressKey: EmailAddressKey): any { throw new Error("GroupMemberCollection.ts - AddContactEmailAddress : Not implemented."); }
@@ -34,8 +33,9 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         WriteDeleteMembersToXml(writer: EwsServiceXmlWriter, members: GroupMember[] /* System.Collections.Generic.List<GroupMember>*/): any { throw new Error("GroupMemberCollection.ts - WriteDeleteMembersToXml : Not implemented."); }
         WriteSetOrAppendMembersToXml(writer: EwsServiceXmlWriter, members: GroupMember[] /*System.Collections.Generic.List<GroupMember>*/, setMode: boolean): any { throw new Error("GroupMemberCollection.ts - WriteSetOrAppendMembersToXml : Not implemented."); }
     }
-export = GroupMemberCollection;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

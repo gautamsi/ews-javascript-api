@@ -1,20 +1,20 @@
-import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
+﻿import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
 //import ServiceObjectSchemaExtension = require("../Core/ServiceObjects/Schemas/ServiceObjectSchemaExtension");
-import ExchangeService = require("../Core/ExchangeService");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import PropertyBag = require("../Core/PropertyBag");
+import {ExchangeService} from "../Core/ExchangeService";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {PropertyBag} from "../Core/PropertyBag";
 
 
 import {StringHelper} from "../ExtensionMethods";
 
-import ServiceObjectPropertyDefinition = require("./ServiceObjectPropertyDefinition");
+import {ServiceObjectPropertyDefinition} from "./ServiceObjectPropertyDefinition";
 
 //should be done
-class PropertyDefinition extends ServiceObjectPropertyDefinition {
+export class PropertyDefinition extends ServiceObjectPropertyDefinition {
     get Version(): ExchangeVersion { return this.version; }
     get IsNullable(): boolean { return true; }
     get XmlElementName(): string { return this.xmlElementName; }
@@ -68,13 +68,3 @@ class PropertyDefinition extends ServiceObjectPropertyDefinition {
         throw new Error("abstract method, must implement.");
     }
 }
-
-export = PropertyDefinition;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

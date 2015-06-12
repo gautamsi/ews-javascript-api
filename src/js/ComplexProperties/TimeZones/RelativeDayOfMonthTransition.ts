@@ -1,9 +1,8 @@
-import AbsoluteMonthTransition = require("./AbsoluteMonthTransition");
-import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-			
- class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
+﻿import {AbsoluteMonthTransition} from "./AbsoluteMonthTransition";
+import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
 	DayOfTheWeek: DayOfTheWeek;
 	WeekIndex: number;
 	private dayOfTheWeek: DayOfTheWeek;
@@ -14,10 +13,11 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RelativeDayOfMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RelativeDayOfMonthTransition.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RelativeDayOfMonthTransition;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

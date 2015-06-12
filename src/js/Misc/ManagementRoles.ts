@@ -1,8 +1,8 @@
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../Core/XmlElementNames";
 //todo: json not implemented, should be done otherwise
-class ManagementRoles {
+export class ManagementRoles {
     private userRoles: string[];
     private applicationRoles: string[];
 
@@ -34,11 +34,3 @@ class ManagementRoles {
         writer.WriteEndElement();
     }
 }
-
-
-export = ManagementRoles;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

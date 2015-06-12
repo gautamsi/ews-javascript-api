@@ -1,5 +1,5 @@
 import {PropertyBagChangedDelegate} from "../Misc/DelegateTypes";			
- class SimplePropertyBag<TKey> {
+export class SimplePropertyBag<TKey> {
 	AddedItems: TKey[] /*System.Collections.Generic.IEnumerable<TKey>*/;
 	RemovedItems: TKey[] /*System.Collections.Generic.IEnumerable<TKey>*/;
 	ModifiedItems: TKey[] /*System.Collections.Generic.IEnumerable<TKey>*/;
@@ -17,10 +17,10 @@ import {PropertyBagChangedDelegate} from "../Misc/DelegateTypes";
 	InternalRemoveItem(key: TKey): void{ throw new Error("SimplePropertyBag.ts - InternalRemoveItem : Not implemented.");}
 	TryGetValue(key: TKey, value: any): boolean{ throw new Error("SimplePropertyBag.ts - TryGetValue : Not implemented.");}
 }
-export = SimplePropertyBag;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

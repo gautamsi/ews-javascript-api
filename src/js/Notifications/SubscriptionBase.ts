@@ -1,8 +1,7 @@
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-			
- class SubscriptionBase {
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class SubscriptionBase {
 	Service: ExchangeService;
 	Id: string;
 	Watermark: string;
@@ -13,10 +12,11 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	LoadFromJson(jsonResponse: JsonObject, service: ExchangeService): void{ throw new Error("SubscriptionBase.ts - LoadFromJson : Not implemented.");}
 	LoadFromXml(reader: EwsServiceXmlReader): void{ throw new Error("SubscriptionBase.ts - LoadFromXml : Not implemented.");}
 }
-export = SubscriptionBase;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

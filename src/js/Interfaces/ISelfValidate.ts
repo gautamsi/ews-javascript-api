@@ -1,4 +1,4 @@
-interface ISelfValidate {
+export interface ISelfValidate {
     Validate(): any;
 }
-export = ISelfValidate;
+

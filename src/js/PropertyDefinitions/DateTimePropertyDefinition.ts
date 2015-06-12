@@ -1,20 +1,20 @@
-import PropertyException = require("../Exceptions/PropertyException");
-import Strings = require("../Strings");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EwsUtilities = require("../Core/EwsUtilities");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
-import PropertyBag = require("../Core/PropertyBag");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {PropertyException} from "../Exceptions/PropertyException";
+import {Strings} from "../Strings";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
+import {PropertyBag} from "../Core/PropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 import {StringHelper} from "../ExtensionMethods";
 
-import PropertyDefinition = require("./PropertyDefinition");
-class DateTimePropertyDefinition extends PropertyDefinition {
+import {PropertyDefinition} from "./PropertyDefinition";
+export class DateTimePropertyDefinition extends PropertyDefinition {
     get IsNullable(): boolean { return this.isNullable; }
     Type: any;//System.Type;
     private isNullable: boolean = false;
@@ -84,12 +84,3 @@ class DateTimePropertyDefinition extends PropertyDefinition {
         }
     }
 }
-
-
-export = DateTimePropertyDefinition;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

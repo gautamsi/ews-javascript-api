@@ -1,16 +1,17 @@
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-class MailboxStatisticsItem {
+﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class MailboxStatisticsItem {
     MailboxId: string;
     DisplayName: string;
     ItemCount: number;
     Size: number;
     LoadFromXml(reader: EwsServiceXmlReader): MailboxStatisticsItem { throw new Error("MailboxStatisticsItem.ts - LoadFromXml : Not implemented."); }
 }
-export = MailboxStatisticsItem;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 
 
 

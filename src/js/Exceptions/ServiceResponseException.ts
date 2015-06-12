@@ -1,12 +1,12 @@
-import Strings = require("../Strings");
-import ServiceResponse = require("../Core/Responses/ServiceResponse");
+﻿import {Strings} from "../Strings";
+import {ServiceResponse} from "../Core/Responses/ServiceResponse";
 
-import ServiceError = require("../Enumerations/ServiceError");
+import {ServiceError} from "../Enumerations/ServiceError";
 
 import {StringHelper} from "../ExtensionMethods";
-import Exception = require("./Exception");
-import ServiceRemoteException = require("./ServiceRemoteException");
-class ServiceResponseException extends ServiceRemoteException {
+import {Exception} from "./Exception";
+import {ServiceRemoteException} from "./ServiceRemoteException";
+export class ServiceResponseException extends ServiceRemoteException {
     private static ExceptionClassKey: string = "ExceptionClass";
     private static ExceptionMessageKey: string = "ExceptionMessage";
     private static StackTraceKey: string = "StackTrace";
@@ -51,10 +51,3 @@ class ServiceResponseException extends ServiceRemoteException {
     //}
 
 }
-
-export = ServiceResponseException;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

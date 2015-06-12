@@ -1,10 +1,9 @@
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-			
- class RulePredicateDateRange extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class RulePredicateDateRange extends ComplexProperty {
 	Start: Date;
 	End: Date;
 	private start: Date;
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicateDateRange.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RulePredicateDateRange.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RulePredicateDateRange;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

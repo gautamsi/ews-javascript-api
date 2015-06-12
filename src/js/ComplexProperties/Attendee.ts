@@ -1,8 +1,8 @@
-import EmailAddress = require("./EmailAddress");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import MeetingResponseType = require("../Enumerations/MeetingResponseType");
-class Attendee extends EmailAddress {
+﻿import {EmailAddress} from "./EmailAddress";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {MeetingResponseType} from "../Enumerations/MeetingResponseType";
+export class Attendee extends EmailAddress {
     ResponseType: MeetingResponseType;
     LastResponseTime: Date;
     private responseType: MeetingResponseType;
@@ -11,11 +11,4 @@ class Attendee extends EmailAddress {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Attendee.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = Attendee;
 
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

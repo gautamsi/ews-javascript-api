@@ -1,15 +1,15 @@
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
 import {EwsLogging} from "../Core/EwsLogging";
 import {StringHelper} from "../ExtensionMethods";
 
-import PropertyDefinitionBase = require("./PropertyDefinitionBase");
+import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
 
 //should be done except JSON
-class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
+export class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     get Uri(): string { return this.uri; }
     private uri: string;
@@ -32,4 +32,4 @@ class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     }
 }
 
-export = ServiceObjectPropertyDefinition;
+

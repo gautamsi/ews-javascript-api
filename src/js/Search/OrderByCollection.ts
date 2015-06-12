@@ -1,18 +1,17 @@
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
-import IOutParam = require("../Interfaces/IOutParam");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import PropertyDefinitionBase = require("../PropertyDefinitions/PropertyDefinitionBase");
-import SortDirection = require("../Enumerations/SortDirection");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {IOutParam} from "../Interfaces/IOutParam";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
+import {SortDirection} from "../Enumerations/SortDirection";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {KeyValuePair} from "../AltDictionary";
 import {StringHelper} from "../ExtensionMethods";
-import Strings = require("../Strings");
+import {Strings} from "../Strings";
 
 type PropertyDefinitionSortDirectionPair = KeyValuePair<PropertyDefinitionBase, SortDirection>;
-
-class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair >, IJsonSerializable
+export class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair >, IJsonSerializable
     ___implementsInterface: string[] = ["IEnumerable", "IEnumerable<PropertyDefinitionSortDirectionPair>", "IJsonSerializable"];
 
     get Count(): number { return this.propDefSortOrderPairList.length; }
@@ -77,8 +76,3 @@ class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair
         }
     }
 }
-export = OrderByCollection;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

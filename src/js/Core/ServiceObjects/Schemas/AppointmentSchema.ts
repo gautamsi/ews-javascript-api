@@ -1,34 +1,34 @@
-import XmlElementNames = require("../../XmlElementNames");
-import LegacyFreeBusyStatus = require("../../../Enumerations/LegacyFreeBusyStatus");
-import AppointmentType = require("../../../Enumerations/AppointmentType");
-import MeetingResponseType = require("../../../Enumerations/MeetingResponseType");
-import Appointment = require("../Items/Appointment");
-import StartTimeZonePropertyDefinition = require("../../../PropertyDefinitions/StartTimeZonePropertyDefinition");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import TimeZonePropertyDefinition = require("../../../PropertyDefinitions/TimeZonePropertyDefinition");
-import ScopedDateTimePropertyDefinition = require("../../../PropertyDefinitions/ScopedDateTimePropertyDefinition");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import ContainedPropertyDefinition = require("../../../PropertyDefinitions/ContainedPropertyDefinition");
-import EmailAddress = require("../../../ComplexProperties/EmailAddress");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import AttendeeCollection = require("../../../ComplexProperties/AttendeeCollection");
-import IntPropertyDefinition = require("../../../PropertyDefinitions/IntPropertyDefinition");
-import ItemCollection = require("../../../ComplexProperties/ItemCollection");
-import TimeSpanPropertyDefinition = require("../../../PropertyDefinitions/TimeSpanPropertyDefinition");
-import RecurrencePropertyDefinition = require("../../../PropertyDefinitions/RecurrencePropertyDefinition");
-import OccurrenceInfo = require("../../../ComplexProperties/OccurrenceInfo");
-import OccurrenceInfoCollection = require("../../../ComplexProperties/OccurrenceInfoCollection");
-import DeletedOccurrenceInfoCollection = require("../../../ComplexProperties/DeletedOccurrenceInfoCollection");
-import MeetingTimeZonePropertyDefinition = require("../../../PropertyDefinitions/MeetingTimeZonePropertyDefinition");
-import EnhancedLocation = require("../../../ComplexProperties/EnhancedLocation");
-import OnlineMeetingSettings = require("../../../ComplexProperties/OnlineMeetingSettings");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
+import {AppointmentType} from "../../../Enumerations/AppointmentType";
+import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
+import {Appointment} from "../Items/Appointment";
+import {StartTimeZonePropertyDefinition} from "../../../PropertyDefinitions/StartTimeZonePropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {TimeZonePropertyDefinition} from "../../../PropertyDefinitions/TimeZonePropertyDefinition";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {AttendeeCollection} from "../../../ComplexProperties/AttendeeCollection";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {ItemCollection} from "../../../ComplexProperties/ItemCollection";
+import {TimeSpanPropertyDefinition} from "../../../PropertyDefinitions/TimeSpanPropertyDefinition";
+import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
+import {OccurrenceInfo} from "../../../ComplexProperties/OccurrenceInfo";
+import {OccurrenceInfoCollection} from "../../../ComplexProperties/OccurrenceInfoCollection";
+import {DeletedOccurrenceInfoCollection} from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
+import {MeetingTimeZonePropertyDefinition} from "../../../PropertyDefinitions/MeetingTimeZonePropertyDefinition";
+import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
+import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-import ItemSchema = require("./ItemSchema");
+import {ItemSchema} from "./ItemSchema";
 
 //module AppointmentSchema {
 module FieldUris {
@@ -80,8 +80,7 @@ module FieldUris {
     export var OnlineMeetingSettings: string = "calendar:OnlineMeetingSettings";
 }
 //}
-
-class AppointmentSchema extends ItemSchema {
+export class AppointmentSchema extends ItemSchema {
     StartTimeZone: PropertyDefinition = new StartTimeZonePropertyDefinition(
         "StartTimeZone",
         XmlElementNames.StartTimeZone,
@@ -918,13 +917,3 @@ class AppointmentSchema extends ItemSchema {
         );
     }
 }
-
-
-
-export = AppointmentSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

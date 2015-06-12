@@ -1,12 +1,11 @@
-import StringList = require("./StringList");
-import ComplexProperty = require("./ComplexProperty");
-import EmailAddressCollection = require("./EmailAddressCollection");
-import RulePredicateDateRange = require("./RulePredicateDateRange");
-import RulePredicateSizeRange = require("./RulePredicateSizeRange");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-			
- class RulePredicates extends ComplexProperty {
+﻿import {StringList} from "./StringList";
+import {ComplexProperty} from "./ComplexProperty";
+import {EmailAddressCollection} from "./EmailAddressCollection";
+import {RulePredicateDateRange} from "./RulePredicateDateRange";
+import {RulePredicateSizeRange} from "./RulePredicateSizeRange";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class RulePredicates extends ComplexProperty {
 	Categories: StringList;
 	ContainsBodyStrings: StringList;
 	ContainsHeaderStrings: StringList;
@@ -79,10 +78,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RulePredicates.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RulePredicates.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RulePredicates;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

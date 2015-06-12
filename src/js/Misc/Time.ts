@@ -1,5 +1,4 @@
-			
- class Time {
+export class Time {
 	Hours: number;
 	Minutes: number;
 	Seconds: number;
@@ -9,10 +8,10 @@
 	ConvertToMinutes(): number{ throw new Error("Time.ts - ConvertToMinutes : Not implemented.");}
 	ToXSTime(): string{ throw new Error("Time.ts - ToXSTime : Not implemented.");}
 }
-export = Time;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

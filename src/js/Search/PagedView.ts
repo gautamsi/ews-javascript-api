@@ -1,12 +1,12 @@
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import ViewBase = require("./ViewBase");
-import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
-import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import Strings = require("../Strings");
-import Grouping = require("./Grouping");
-class PagedView extends ViewBase {
+﻿import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {ViewBase} from "./ViewBase";
+import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
+import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {Strings} from "../Strings";
+import {Grouping} from "./Grouping";
+export class PagedView extends ViewBase {
     get PageSize(): number { return this.pageSize; }
     set PageSize(value) {
         if (value <= 0) {
@@ -52,8 +52,3 @@ class PagedView extends ViewBase {
     WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("PagedView.ts - WriteGroupingToJson : Not implemented."); }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { /* No order by for paged view*/ }
 }
-export = PagedView;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

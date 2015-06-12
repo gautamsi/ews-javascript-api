@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import UserConfiguration = require("../../Misc/UserConfiguration");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class CreateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {UserConfiguration} from "../../Misc/UserConfiguration";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class CreateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
     UserConfiguration: UserConfiguration;
     userConfiguration: UserConfiguration;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("CreateUserConfigurationRequest.ts - CreateServiceResponse : Not implemented."); }
@@ -16,8 +16,9 @@ class CreateUserConfigurationRequest extends MultiResponseServiceRequest<Service
     Validate(): any { throw new Error("CreateUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = CreateUserConfigurationRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

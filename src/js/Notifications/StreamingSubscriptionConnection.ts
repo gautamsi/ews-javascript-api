@@ -1,13 +1,12 @@
-import HangingRequestDisconnectEventArgs = require("../Core/Requests/HangingRequestDisconnectEventArgs");
-import SubscriptionErrorEventArgs = require("./SubscriptionErrorEventArgs");
-import NotificationEventArgs = require("./NotificationEventArgs");
-import StreamingSubscription = require("./StreamingSubscription");
-import ExchangeService = require("../Core/ExchangeService");
-import GetStreamingEventsRequest = require("../Core/Requests/GetStreamingEventsRequest");
-import Exception = require("../Exceptions/Exception");
-import GetStreamingEventsResponse = require("../Core/Responses/GetStreamingEventsResponse");
-
-class StreamingSubscriptionConnection {
+﻿import {HangingRequestDisconnectEventArgs} from "../Core/Requests/HangingRequestDisconnectEventArgs";
+import {SubscriptionErrorEventArgs} from "./SubscriptionErrorEventArgs";
+import {NotificationEventArgs} from "./NotificationEventArgs";
+import {StreamingSubscription} from "./StreamingSubscription";
+import {ExchangeService} from "../Core/ExchangeService";
+import {GetStreamingEventsRequest} from "../Core/Requests/GetStreamingEventsRequest";
+import {Exception} from "../Exceptions/Exception";
+import {GetStreamingEventsResponse} from "../Core/Responses/GetStreamingEventsResponse";
+export class StreamingSubscriptionConnection {
 	CurrentSubscriptions: StreamingSubscription[] /*System.Collections.Generic.IEnumerable<StreamingSubscription>*/;
 	IsOpen: boolean;
 	private subscriptions: any /*System.Collections.Generic.Dictionary<string, StreamingSubscription>*/;
@@ -42,10 +41,11 @@ interface NotificationEventDelegate {
 interface SubscriptionErrorDelegate {
 	(sender: any, args:SubscriptionErrorEventArgs): void;
 }
-export = StreamingSubscriptionConnection;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

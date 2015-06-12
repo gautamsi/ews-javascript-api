@@ -1,11 +1,11 @@
-import Folder = require("../ServiceObjects/Folders/Folder");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import MoveCopyRequest = require("./MoveCopyRequest");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Folder, TResponse> {
+﻿import {Folder} from "../ServiceObjects/Folders/Folder";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {MoveCopyRequest} from "./MoveCopyRequest";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Folder, TResponse> {
     FolderIds: FolderIdWrapperList;
     private folderIds: FolderIdWrapperList;
     AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("MoveCopyFolderRequest.ts - AddIdsToJson : Not implemented."); }
@@ -13,10 +13,11 @@ class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyR
     Validate(): any { throw new Error("MoveCopyFolderRequest.ts - Validate : Not implemented."); }
     WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MoveCopyFolderRequest.ts - WriteIdsToXml : Not implemented."); }
 }
-export = MoveCopyFolderRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

@@ -1,41 +1,41 @@
-import ServiceErrorHandling = require("../../../Enumerations/ServiceErrorHandling");
-import FindItemsResults = require("../../../Search/FindItemsResults");
-import PolicyTag = require("../../../ComplexProperties/PolicyTag");
-import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
-import ManagedFolderInformation = require("../../../ComplexProperties/ManagedFolderInformation");
-import FolderPermissionCollection = require("../../../ComplexProperties/FolderPermissionCollection");
-import SearchFilter = require("../../../Search/Filters/SearchFilter");
-import GroupedFindItemsResults = require("../../../Search/GroupedFindItemsResults");
-import ItemView = require("../../../Search/ItemView");
-import Item = require("../Items/Item");
-import ServiceResponseCollection = require("../../Responses/ServiceResponseCollection");
-import FindItemResponse = require("../../Responses/FindItemResponse");
-import Grouping = require("../../../Search/Grouping");
-import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
-import ViewBase = require("../../../Search/ViewBase");
-import ExtendedPropertyDefinition = require("../../../PropertyDefinitions/ExtendedPropertyDefinition");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import ServiceResponse = require("../../Responses/ServiceResponse");
-import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import PropertySet = require("../../PropertySet");
-import FindFoldersResults = require("../../../Search/FindFoldersResults");
-import FolderView = require("../../../Search/FolderView");
-import DeleteMode = require("../../../Enumerations/DeleteMode");
-import ExchangeService = require("../../ExchangeService");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-import EffectiveRights = require("../../../Enumerations/EffectiveRights");
-import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import FolderSchema = require("../Schemas/FolderSchema");
+﻿import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
+import {FindItemsResults} from "../../../Search/FindItemsResults";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
+import {FolderPermissionCollection} from "../../../ComplexProperties/FolderPermissionCollection";
+import {SearchFilter} from "../../../Search/Filters/SearchFilter";
+import {GroupedFindItemsResults} from "../../../Search/GroupedFindItemsResults";
+import {ItemView} from "../../../Search/ItemView";
+import {Item} from "../Items/Item";
+import {ServiceResponseCollection} from "../../Responses/ServiceResponseCollection";
+import {FindItemResponse} from "../../Responses/FindItemResponse";
+import {Grouping} from "../../../Search/Grouping";
+import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {ViewBase} from "../../../Search/ViewBase";
+import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {ServiceResponse} from "../../Responses/ServiceResponse";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {PropertySet} from "../../PropertySet";
+import {FindFoldersResults} from "../../../Search/FindFoldersResults";
+import {FolderView} from "../../../Search/FolderView";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {ExchangeService} from "../../ExchangeService";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {FolderSchema} from "../Schemas/FolderSchema";
 import {EwsLogging} from "../../EwsLogging";
 import {IPromise} from "../../../Interfaces";
 import {Promise} from "../../../PromiseFactory"
-import XmlElementNames = require("../../XmlElementNames");
+import {XmlElementNames} from "../../XmlElementNames";
 
-import ServiceObject = require("../ServiceObject");
-class Folder extends ServiceObject {
+import {ServiceObject} from "../ServiceObject";
+export class Folder extends ServiceObject {
     get Id(): FolderId { return <FolderId>this.PropertyBag._getItem(this.GetIdPropertyDefinition()); }
     get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(FolderSchema.ParentFolderId); }
     get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.ChildFolderCount); }
@@ -326,13 +326,3 @@ class Folder extends ServiceObject {
     //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
     IsFolderInstance(): boolean { return true; }//only folder instance returns true.
 }
-
-export = Folder;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export

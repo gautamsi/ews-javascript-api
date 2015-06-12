@@ -1,8 +1,7 @@
-import DnsRecordType = require("../Enumerations/DnsRecordType");
-import DnsQueryOptions = require("../Enumerations/DnsQueryOptions");
-import FreeType = require("../Enumerations/FreeType");
-			
- class DnsNativeMethods {
+﻿import {DnsRecordType} from "../Enumerations/DnsRecordType";
+import {DnsQueryOptions} from "../Enumerations/DnsQueryOptions";
+import {FreeType} from "../Enumerations/FreeType";
+export class DnsNativeMethods {
 	 private static DNSAPI: string = "dnsapi.dll";
 	AllocDnsServerList(dnsServerAddress: any /*System.Net.IPAddress*/): number{ throw new Error("DnsNativeMethods.ts - AllocDnsServerList : Not implemented.");}
 	DnsQuery(pszName: string, wType: DnsRecordType, options: DnsQueryOptions, aipServers: number, ppQueryResults: number /*System.IntPtr&*/, pReserved: number): number{ throw new Error("DnsNativeMethods.ts - DnsQuery : Not implemented.");}
@@ -10,10 +9,11 @@ import FreeType = require("../Enumerations/FreeType");
 	DnsRecordListFree(ptrRecords: number, freeType: FreeType): void{ throw new Error("DnsNativeMethods.ts - DnsRecordListFree : Not implemented.");}
 	FreeDnsQueryResults(ptrRecords: number): void{ throw new Error("DnsNativeMethods.ts - FreeDnsQueryResults : Not implemented.");}
 }
-export = DnsNativeMethods;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Dns------------
 
 
 			
+

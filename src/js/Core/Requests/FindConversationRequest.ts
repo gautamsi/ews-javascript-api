@@ -1,12 +1,12 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import ViewBase = require("../../Search/ViewBase");
-import FolderIdWrapper = require("../../Misc/FolderIdWrapper");
-import MailboxSearchLocation = require("../../Enumerations/MailboxSearchLocation");
-import FindConversationResponse = require("../Responses/FindConversationResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSerializable
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {ViewBase} from "../../Search/ViewBase";
+import {FolderIdWrapper} from "../../Misc/FolderIdWrapper";
+import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
+import {FindConversationResponse} from "../Responses/FindConversationResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSerializable
     View: ViewBase;
     FolderId: FolderIdWrapper;
     QueryString: string;
@@ -27,8 +27,9 @@ class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSerializa
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindConversationRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindConversationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = FindConversationRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

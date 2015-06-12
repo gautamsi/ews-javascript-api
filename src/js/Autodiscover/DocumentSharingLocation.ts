@@ -1,6 +1,6 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-class DocumentSharingLocation {
+export class DocumentSharingLocation {
     ServiceUrl: string;
     LocationUrl: string;
     DisplayName: string;
@@ -21,12 +21,3 @@ class DocumentSharingLocation {
     static LoadFromJson(obj: any): DocumentSharingLocation { throw new Error("this was skipped at dev time, fix this"); }
 
 }
-
-export = DocumentSharingLocation;
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

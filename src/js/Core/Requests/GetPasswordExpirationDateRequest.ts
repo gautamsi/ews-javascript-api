@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetPasswordExpirationDateResponse = require("../Responses/GetPasswordExpirationDateResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJsonSerializable
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetPasswordExpirationDateResponse} from "../Responses/GetPasswordExpirationDateResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJsonSerializable
     MailboxSmtpAddress: string;
     private mailboxSmtpAddress: string;
     Execute(): GetPasswordExpirationDateResponse { throw new Error("GetPasswordExpirationDateRequest.ts - Execute : Not implemented."); }
@@ -14,8 +14,9 @@ class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJson
     //ParseResponse(jsonBody: JsonObject): any { throw new Error("GetPasswordExpirationDateRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetPasswordExpirationDateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetPasswordExpirationDateRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

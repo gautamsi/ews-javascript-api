@@ -1,14 +1,14 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MeetingRequestType = require("../../../Enumerations/MeetingRequestType");
-import LegacyFreeBusyStatus = require("../../../Enumerations/LegacyFreeBusyStatus");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import ChangeHighlights = require("../../../ComplexProperties/ChangeHighlights");
-import AppointmentSchema = require("./AppointmentSchema");
-import MeetingMessageSchema = require("./MeetingMessageSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MeetingRequestType} from "../../../Enumerations/MeetingRequestType";
+import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {ChangeHighlights} from "../../../ComplexProperties/ChangeHighlights";
+import {AppointmentSchema} from "./AppointmentSchema";
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 //module MeetingRequestSchema {
 module FieldUris {
@@ -17,8 +17,7 @@ module FieldUris {
     export var ChangeHighlights: string = "meetingRequest:ChangeHighlights";
 }
 //}
-
-class MeetingRequestSchema extends MeetingMessageSchema {
+export class MeetingRequestSchema extends MeetingMessageSchema {
     static MeetingRequestType: PropertyDefinition = new GenericPropertyDefinition<MeetingRequestType>(
         "MeetingRequestType",
         XmlElementNames.MeetingRequestType,
@@ -131,11 +130,3 @@ class MeetingRequestSchema extends MeetingMessageSchema {
         super.RegisterProperty(MeetingRequestSchema.EnhancedLocation);
     }
 }
-
-export = MeetingRequestSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

@@ -1,25 +1,24 @@
-import XmlElementNames = require("../../XmlElementNames");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 
-import IOutParam = require("../../../Interfaces/IOutParam");
+import {IOutParam} from "../../../Interfaces/IOutParam";
 import {StringPropertyDefinitionBaseDictionary, PropDictionary, PropertyDefinitionDictionary} from "../../../AltDictionary";
 
-import AppointmentSchema = require("./AppointmentSchema");
+import {AppointmentSchema} from "./AppointmentSchema";
 
 
-import LazyMember = require("../../LazyMember");
+import {LazyMember} from "../../LazyMember";
 
-import EwsUtilities = require("../../EwsUtilities");
+import {EwsUtilities} from "../../EwsUtilities";
 import {EwsLogging} from "../../EwsLogging";
 import {StringHelper} from "../../../ExtensionMethods";
 
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
-
-class ServiceObjectSchema {
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+export class ServiceObjectSchema {
     //todo: fixing difficulties with following c# code.
     //using PropertyDefinitionDictionary = LazyMember < System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
     //type SchemaTypeList = LazyMember <string[]>;
@@ -206,13 +205,3 @@ class ServiceObjectSchema {
         return this.properties.tryGetValue(xmlElementName, propertyDefinition);
     }
 }
-
-export = ServiceObjectSchema;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,39 +1,37 @@
-import EmailMessageSchema = require("../../src/js/Core/ServiceObjects/Schemas/EmailMessageSchema");
-import ItemSchema = require("../../src/js/Core/ServiceObjects/Schemas/ItemSchema");
-import AggregateType = require("../../src/js/Enumerations/AggregateType");
-import SortDirection = require("../../src/js/Enumerations/SortDirection");
+import {EmailMessageSchema} from "../../src/js/Core/ServiceObjects/Schemas/EmailMessageSchema";
+import {ItemSchema} from "../../src/js/Core/ServiceObjects/Schemas/ItemSchema";
+import {AggregateType} from "../../src/js/Enumerations/AggregateType";
+import {SortDirection} from "../../src/js/Enumerations/SortDirection";
 ///<
-import ExchangeWebService = require("../../src/js/ExchangeWebService");
+import {AppointmentSchema} from "../../src/js/ExchangeWebService";
 
-ExchangeWebService;
-import AutodiscoverService = require("../../src/js/Autodiscover/AutodiscoverService");
-import ExchangeVersion = require("../../src/js/Enumerations/ExchangeVersion");
-import ExchangeCredentials = require("../../src/js/Credentials/ExchangeCredentials");
-import UserSettingName = require("../../src/js/Enumerations/UserSettingName");
-import DomainSettingName = require("../../src/js/Enumerations/DomainSettingName");
-import ExchangeService = require("../../src/js/Core/ExchangeService");
-import BasePropertySet = require("../../src/js/Enumerations/BasePropertySet");
-import PropertySet = require("../../src/js/Core/PropertySet");
+AppointmentSchema;
+import {AutodiscoverService} from "../../src/js/Autodiscover/AutodiscoverService";
+import {ExchangeVersion} from "../../src/js/Enumerations/ExchangeVersion";
+import {ExchangeCredentials} from "../../src/js/Credentials/ExchangeCredentials";
+import {UserSettingName} from "../../src/js/Enumerations/UserSettingName";
+import {DomainSettingName} from "../../src/js/Enumerations/DomainSettingName";
+import {ExchangeService} from "../../src/js/Core/ExchangeService";
+import {BasePropertySet} from "../../src/js/Enumerations/BasePropertySet";
+import {PropertySet} from "../../src/js/Core/PropertySet";
 
 import {EnumHelper, base64Helper, DOMParser, StringHelper} from "../../src/js/ExtensionMethods";
-import FolderId = require("../../src/js/ComplexProperties/FolderId");
-import WellKnownFolderName = require("../../src/js/Enumerations/WellKnownFolderName");
-import ext = require("../../src/js/ExtensionMethods");
+import {FolderId} from "../../src/js/ComplexProperties/FolderId";
+import {WellKnownFolderName} from "../../src/js/Enumerations/WellKnownFolderName";
+import {DOMParser as DP} from "../../src/js/ExtensionMethods";
+
+import {ItemView} from "../../src/js/Search/ItemView";
+import {Grouping} from "../../src/js/Search/Grouping";
 import {EwsLogging} from "../../src/js/Core/EwsLogging";
 
-import ItemView = require("../../src/js/Search/ItemView");
-import Grouping = require("../../src/js/Search/Grouping")
 var credentials: any = undefined;
-
 if (typeof window === 'undefined') {
     credentials = require("./credentials");
 }
 else {
     credentials = { username: "username", password: "password" }
 }
-
-
-class Greeter {
+export class Greeter {
     element: HTMLElement;
     span: HTMLElement;
     div: HTMLElement
@@ -56,7 +54,7 @@ class Greeter {
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
-        var parser = new ext.DOMParser();
+        var parser = new DP();
         //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
         //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
         //this.currentNode = this.treeWalker.root;

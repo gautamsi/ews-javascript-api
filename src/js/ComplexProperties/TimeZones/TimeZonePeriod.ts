@@ -1,10 +1,9 @@
-import ComplexProperty = require("../ComplexProperty");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
-class TimeZonePeriod extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class TimeZonePeriod extends ComplexProperty {
     static StandardPeriodId: string = "Std";
     static StandardPeriodName: string = "Standard";
     static DaylightPeriodId: string = "Dlt";
@@ -23,8 +22,9 @@ class TimeZonePeriod extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZonePeriod.ts - WriteAttributesToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeZonePeriod.ts - WriteToXml : Not implemented."); }
 }
-export = TimeZonePeriod;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

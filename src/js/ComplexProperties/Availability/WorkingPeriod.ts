@@ -1,10 +1,9 @@
-import ComplexProperty = require("../ComplexProperty");
-import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
-import JsonObject = require("../../Core/JsonObject");
-import ExchangeService = require("../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-
-class WorkingPeriod extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
+import {JsonObject} from "../../Core/JsonObject";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+export class WorkingPeriod extends ComplexProperty {
     DaysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
     StartTime: any /*System.TimeSpan*/;
     EndTime: any /*System.TimeSpan*/;
@@ -14,9 +13,10 @@ class WorkingPeriod extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("WorkingPeriod.ts - LoadFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = WorkingPeriod;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

@@ -1,18 +1,17 @@
-import XmlElementNames = require("../../XmlElementNames");
-import EmailMessageSchema = require("./EmailMessageSchema");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ItemSchema = require("./ItemSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {EmailMessageSchema} from "./EmailMessageSchema";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemSchema} from "./ItemSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 //module PostItemSchema {
 module FieldUris {
     export var PostedTime: string = "postitem:PostedTime";
 }
 //}
-
-class PostItemSchema extends ItemSchema {
+export class PostItemSchema extends ItemSchema {
     static ConversationIndex: PropertyDefinition = EmailMessageSchema.ConversationIndex;
     static ConversationTopic: PropertyDefinition = EmailMessageSchema.ConversationTopic;
     static From: PropertyDefinition = EmailMessageSchema.From;
@@ -41,11 +40,3 @@ class PostItemSchema extends ItemSchema {
         super.RegisterProperty(PostItemSchema.Sender);
     }
 }
-
-
-export = PostItemSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

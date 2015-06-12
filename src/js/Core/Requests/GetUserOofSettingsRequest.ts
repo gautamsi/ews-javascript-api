@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetUserOofSettingsResponse = require("../Responses/GetUserOofSettingsResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetUserOofSettingsResponse} from "../Responses/GetUserOofSettingsResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
     SmtpAddress: string;
     private smtpAddress: string;
     Execute(): GetUserOofSettingsResponse { throw new Error("GetUserOofSettingsRequest.ts - Execute : Not implemented."); }
@@ -14,9 +14,10 @@ class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("GetUserOofSettingsRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserOofSettingsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetUserOofSettingsRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import FolderId = require("../../ComplexProperties/FolderId");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
     Name: string;
     ParentFolderId: FolderId;
     private name: string;
@@ -18,8 +18,9 @@ class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<Service
     Validate(): any { throw new Error("DeleteUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DeleteUserConfigurationRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

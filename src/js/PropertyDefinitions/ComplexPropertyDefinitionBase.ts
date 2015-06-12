@@ -1,16 +1,16 @@
-import IOutParam = require("../Interfaces/IOutParam");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import PropertyBag = require("../Core/PropertyBag");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+﻿import {IOutParam} from "../Interfaces/IOutParam";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {PropertyBag} from "../Core/PropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
 import {TypeSystem} from "../ExtensionMethods";
 
-import PropertyDefinition = require("./PropertyDefinition");
-class ComplexPropertyDefinitionBase extends PropertyDefinition {
+import {PropertyDefinition} from "./PropertyDefinition";
+export class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
     constructor(
         propertyName: string,
@@ -73,4 +73,4 @@ class ComplexPropertyDefinitionBase extends PropertyDefinition {
         //throw new Error("ComplexPropertyDefinitionBase.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }
-export = ComplexPropertyDefinitionBase
+

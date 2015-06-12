@@ -1,14 +1,14 @@
-import FolderIdCollection = require("../../ComplexProperties/FolderIdCollection");
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ConversationRequest = require("../../ComplexProperties/ConversationRequest");
-import PropertySet = require("../PropertySet");
-import ConversationSortOrder = require("../../Enumerations/ConversationSortOrder");
-import MailboxSearchLocation = require("../../Enumerations/MailboxSearchLocation");
-import ExchangeService = require("../ExchangeService");
-import GetConversationItemsResponse = require("../Responses/GetConversationItemsResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {//IJsonSerializable
+﻿import {FolderIdCollection} from "../../ComplexProperties/FolderIdCollection";
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ConversationRequest} from "../../ComplexProperties/ConversationRequest";
+import {PropertySet} from "../PropertySet";
+import {ConversationSortOrder} from "../../Enumerations/ConversationSortOrder";
+import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
+import {ExchangeService} from "../ExchangeService";
+import {GetConversationItemsResponse} from "../Responses/GetConversationItemsResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {//IJsonSerializable
     Conversations: ConversationRequest[];//System.Collections.Generic.List<ConversationRequest>;
     ItemProperties: PropertySet;
     FoldersToIgnore: FolderIdCollection;
@@ -25,8 +25,9 @@ class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConvers
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetConversationItemsRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

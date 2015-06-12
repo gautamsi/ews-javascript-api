@@ -1,8 +1,8 @@
-import ItemSchema = require("./ItemSchema");
-import EmailMessageSchema = require("./EmailMessageSchema");
-import ResponseObjectSchema = require("./ResponseObjectSchema");
-import ServiceObjectSchema = require("./ServiceObjectSchema");
-class ResponseMessageSchema extends ServiceObjectSchema {
+﻿import {ItemSchema} from "./ItemSchema";
+import {EmailMessageSchema} from "./EmailMessageSchema";
+import {ResponseObjectSchema} from "./ResponseObjectSchema";
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+export class ResponseMessageSchema extends ServiceObjectSchema {
     static Instance: ResponseMessageSchema = new ResponseMessageSchema();
     RegisterProperties(): void {
         super.RegisterProperties();
@@ -17,11 +17,3 @@ class ResponseMessageSchema extends ServiceObjectSchema {
         super.RegisterProperty(ResponseObjectSchema.BodyPrefix);
     }
 }
-
-export = ResponseMessageSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

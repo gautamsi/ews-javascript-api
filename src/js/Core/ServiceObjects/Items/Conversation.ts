@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ServiceObject = require("../ServiceObject");
-class Conversation extends ServiceObject {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ServiceObject} from "../ServiceObject";
+export class Conversation extends ServiceObject {
     //////Id: ConversationId;
     //////Topic: string;
     //////UniqueRecipients: StringList;
@@ -67,12 +67,3 @@ class Conversation extends ServiceObject {
     //////SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): any { throw new Error("Conversation.ts - SetReadStateForItemsInConversation : Not implemented."); }
     //////SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/): any { throw new Error("Conversation.ts - SetRetentionPolicyForItemsInConversation : Not implemented."); }
 }
-
-export = Conversation;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

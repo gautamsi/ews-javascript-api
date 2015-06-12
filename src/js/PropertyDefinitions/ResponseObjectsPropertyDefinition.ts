@@ -1,13 +1,13 @@
-import ResponseActions = require("../Enumerations/ResponseActions");
-import XmlElementNames = require("../Core/XmlElementNames");
-import ExchangeService = require("../Core/ExchangeService");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
+﻿import {ResponseActions} from "../Enumerations/ResponseActions";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
 import {StringHelper} from "../ExtensionMethods";
-import PropertyDefinition = require("./PropertyDefinition");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class ResponseObjectsPropertyDefinition extends PropertyDefinition {
+import {PropertyDefinition} from "./PropertyDefinition";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
     IsNullable: boolean;
     Type: any;//System.Type;
     static GetResponseAction(responseActionString: string): ResponseActions {
@@ -71,9 +71,3 @@ class ResponseObjectsPropertyDefinition extends PropertyDefinition {
     WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
 }
-
-export = ResponseObjectsPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

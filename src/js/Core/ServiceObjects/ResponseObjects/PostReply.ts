@@ -1,18 +1,18 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import ServiceObject = require("../ServiceObject");
-import Item = require("../Items/Item");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import MessageDisposition = require("../../../Enumerations/MessageDisposition");
-import PostItem = require("../Items/PostItem");
-import DeleteMode = require("../../../Enumerations/DeleteMode");
-import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
-import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
-import PropertySet = require("../../PropertySet");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-class PostReply extends ServiceObject {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {ServiceObject} from "../ServiceObject";
+import {Item} from "../Items/Item";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {PostItem} from "../Items/PostItem";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {PropertySet} from "../../PropertySet";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+export class PostReply extends ServiceObject {
     Subject: string;
     Body: MessageBody;
     BodyPrefix: MessageBody;
@@ -28,8 +28,8 @@ class PostReply extends ServiceObject {
     Save(destinationFolderName: WellKnownFolderName): PostItem { throw new Error("PostReply.ts - Save : Not implemented."); }
 }
 
-export = PostReply;
- //module Microsoft.Exchange.WebServices.Data {
+ //
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

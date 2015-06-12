@@ -1,10 +1,10 @@
-import ComplexProperty = require("../ComplexProperty");
-import DayOfTheWeek = require("../../Enumerations/DayOfTheWeek");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class DayOfTheWeekCollection extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class DayOfTheWeekCollection extends ComplexProperty {
     Item: DayOfTheWeek;
     Count: number;
     private items: any[];// System.Collections.Generic.List<T>;
@@ -22,8 +22,9 @@ class DayOfTheWeekCollection extends ComplexProperty {
     //ToString(): string { throw new Error("DayOfTheWeekCollection.ts - ToString : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("DayOfTheWeekCollection.ts - WriteToXml : Not implemented."); }
 }
-export = DayOfTheWeekCollection;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,13 +1,12 @@
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ComplexProperty = require("./ComplexProperty");
-import StandardUser = require("../Enumerations/StandardUser");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ComplexProperty} from "./ComplexProperty";
+import {StandardUser} from "../Enumerations/StandardUser";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {StringHelper} from "../ExtensionMethods";
-
-class UserId extends ComplexProperty {
+export class UserId extends ComplexProperty {
     get SID(): string { return this.sID; }
     set SID(value) { this.SetFieldValue<string>({ getValue: () => this.sID, setValue: (data) => this.sID = data }, value); }
     get PrimarySmtpAddress(): string { return this.primarySmtpAddress; }
@@ -85,9 +84,5 @@ class UserId extends ComplexProperty {
             this.StandardUser);
     }
 }
-export = UserId;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
 

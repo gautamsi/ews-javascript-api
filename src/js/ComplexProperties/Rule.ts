@@ -1,12 +1,11 @@
-import ComplexProperty = require("./ComplexProperty");
-import RulePredicates = require("./RulePredicates");
-import RuleActions = require("./RuleActions");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-			
- class Rule extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {RulePredicates} from "./RulePredicates";
+import {RuleActions} from "./RuleActions";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class Rule extends ComplexProperty {
 	Id: string;
 	DisplayName: string;
 	Priority: number;
@@ -31,10 +30,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Rule.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("Rule.ts - WriteElementsToXml : Not implemented.");}
 }
-export = Rule;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

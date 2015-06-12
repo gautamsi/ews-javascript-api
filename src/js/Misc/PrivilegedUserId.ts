@@ -1,12 +1,12 @@
-import ConnectingIdType = require("../Enumerations/ConnectingIdType");
-import PrivilegedLogonType = require("../Enumerations/PrivilegedLogonType");
-import PrivilegedUserIdBudgetType = require("../Enumerations/PrivilegedUserIdBudgetType");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ConnectingIdType} from "../Enumerations/ConnectingIdType";
+import {PrivilegedLogonType} from "../Enumerations/PrivilegedLogonType";
+import {PrivilegedUserIdBudgetType} from "../Enumerations/PrivilegedUserIdBudgetType";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../Core/XmlElementNames";
 //todo: should be done
-class PrivilegedUserId {
+export class PrivilegedUserId {
     IdType: ConnectingIdType;
     Id: string;
     LogonType: PrivilegedLogonType;
@@ -38,11 +38,3 @@ class PrivilegedUserId {
         writer.WriteEndElement(); // OpenAsAdminOrSystemService
     }
 }
-
-export = PrivilegedUserId;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,6 +1,6 @@
-import ItemId = require("../ComplexProperties/ItemId");
-import ItemIndexError = require("../Enumerations/ItemIndexError");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+﻿import {ItemId} from "../ComplexProperties/ItemId";
+import {ItemIndexError} from "../Enumerations/ItemIndexError";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 //    public enum ItemIndexError
 //    {
 //        /// <summary>
@@ -38,9 +38,7 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 //        /// </summary>
 //        MarsWriterTruncation,
 //}
-
-
-    class NonIndexableItem {
+export class NonIndexableItem {
         ItemId: ItemId;
         ErrorCode: ItemIndexError;
         ErrorDescription: string;
@@ -52,8 +50,9 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
         SortValue: string;
         LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItem { throw new Error("NonIndexableItem.ts - LoadFromXml : Not implemented."); }
     }
-    export = NonIndexableItem;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

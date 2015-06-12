@@ -1,11 +1,11 @@
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import DelegateTypes = require("../Misc/DelegateTypes");
-import IRefParam = require("../Interfaces/IRefParam");
-import ExchangeService = require("../Core/ExchangeService");
+﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {DelegateTypes} from "../Misc/DelegateTypes";
+import {IRefParam} from "../Interfaces/IRefParam";
+import {ExchangeService} from "../Core/ExchangeService";
 
-class ComplexProperty { //ISelfValidate, IJsonSerializable
+export class ComplexProperty { //ISelfValidate, IJsonSerializable
   ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable"];
   ___typeName: string = "ComplexProperty";
   Namespace: XmlNamespace = XmlNamespace.Types;
@@ -122,11 +122,3 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
 }
 
-export = ComplexProperty;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

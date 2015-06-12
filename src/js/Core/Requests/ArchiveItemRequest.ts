@@ -1,12 +1,12 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import FolderId = require("../../ComplexProperties/FolderId");
-import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import ArchiveItemResponse = require("../Responses/ArchiveItemResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {ItemIdWrapperList} from "../../Misc/ItemIdWrapperList";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {ArchiveItemResponse} from "../Responses/ArchiveItemResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse> {//IJsonSerializable
     SourceFolderId: FolderId;
     Ids: ItemIdWrapperList;
     private sourceFolderId: FolderId;
@@ -22,8 +22,9 @@ class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ArchiveItemRequest.ts - WriteElementsToXml : Not implemented."); }
     WriteIdsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ArchiveItemRequest.ts - WriteIdsToXml : Not implemented."); }
 }
-export = ArchiveItemRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,10 +1,10 @@
-import ComplexProperty = require("../ComplexProperty");
-import ConflictType = require("../../Enumerations/ConflictType");
-import LegacyFreeBusyStatus = require("../../Enumerations/LegacyFreeBusyStatus");
-import JsonObject = require("../../Core/JsonObject");
-import ExchangeService = require("../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-class Conflict extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperty";
+import {ConflictType} from "../../Enumerations/ConflictType";
+import {LegacyFreeBusyStatus} from "../../Enumerations/LegacyFreeBusyStatus";
+import {JsonObject} from "../../Core/JsonObject";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+export class Conflict extends ComplexProperty {
     ConflictType: ConflictType;
     NumberOfMembers: number;
     NumberOfMembersAvailable: number;
@@ -20,9 +20,10 @@ class Conflict extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Conflict.ts - LoadFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Conflict.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = Conflict;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

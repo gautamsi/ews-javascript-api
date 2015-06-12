@@ -1,29 +1,27 @@
-import IOutParam = require("../../Interfaces/IOutParam");
-import Strings = require("../../Strings");
-import ServiceObjectPropertyException = require("../../Exceptions/ServiceObjectPropertyException");
-import ExtendedPropertyCollection = require("../../ComplexProperties/ExtendedPropertyCollection");
-import ServiceId = require("../../ComplexProperties/ServiceId");
-import PropertyBag = require("../PropertyBag");
-import ServiceObjectSchema = require("./Schemas/ServiceObjectSchema");
-import ExchangeService = require("../ExchangeService");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import PropertySet = require("../PropertySet");
-import DeleteMode = require("../../Enumerations/DeleteMode");
-import SendCancellationsMode = require("../../Enumerations/SendCancellationsMode");
-import AffectedTaskOccurrence = require("../../Enumerations/AffectedTaskOccurrence");
-import PropertyDefinition = require("../../PropertyDefinitions/PropertyDefinition");
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
+﻿import {IOutParam} from "../../Interfaces/IOutParam";
+import {Strings} from "../../Strings";
+import {ServiceObjectPropertyException} from "../../Exceptions/ServiceObjectPropertyException";
+import {ExtendedPropertyCollection} from "../../ComplexProperties/ExtendedPropertyCollection";
+import {ServiceId} from "../../ComplexProperties/ServiceId";
+import {PropertyBag} from "../PropertyBag";
+import {ServiceObjectSchema} from "./Schemas/ServiceObjectSchema";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {PropertySet} from "../PropertySet";
+import {DeleteMode} from "../../Enumerations/DeleteMode";
+import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
+import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
 
 
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper} from "../../ExtensionMethods";
-
-
-class ServiceObject {
+export class ServiceObject {
     get PropertyBag(): PropertyBag { return this.propertyBag; }
     get Schema(): ServiceObjectSchema { return this.GetSchema(); }
     Item: any;
@@ -232,12 +230,3 @@ class ServiceObject {
     IsItemInstance(): boolean { return false; }//only item instance would return true.
     get IsAttachment(): boolean { return false; }//only item instance would return true.
 }
-
-export = ServiceObject;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

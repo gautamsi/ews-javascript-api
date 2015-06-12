@@ -1,8 +1,8 @@
-import AlternateIdBase = require("./AlternateIdBase");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class AlternateId extends AlternateIdBase {
+﻿import {AlternateIdBase} from "./AlternateIdBase";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class AlternateId extends AlternateIdBase {
     static SchemaTypeName: string = "AlternateIdType";
     UniqueId: string;
     Mailbox: string;
@@ -14,8 +14,9 @@ class AlternateId extends AlternateIdBase {
     LoadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("AlternateId.ts - LoadAttributesFromXml : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternateId.ts - WriteAttributesToXml : Not implemented."); }
 }
-export = AlternateId;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

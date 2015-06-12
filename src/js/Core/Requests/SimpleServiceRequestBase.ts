@@ -1,15 +1,15 @@
-import TraceFlags = require("../../Enumerations/TraceFlags");
-import RenderingMode = require("../../Enumerations/RenderingMode");
-import ServiceRequestException = require("../../Exceptions/ServiceRequestException");
-import Strings = require("../../Strings");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
+﻿import {TraceFlags} from "../../Enumerations/TraceFlags";
+import {RenderingMode} from "../../Enumerations/RenderingMode";
+import {ServiceRequestException} from "../../Exceptions/ServiceRequestException";
+import {Strings} from "../../Strings";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {IPromise} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
 
-import ServiceRequestBase = require("./ServiceRequestBase");
-class SimpleServiceRequestBase extends ServiceRequestBase {
+import {ServiceRequestBase} from "./ServiceRequestBase";
+export class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
     //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - EndInternalExecute : Not implemented.");}
     InternalExecute(): IPromise<any> {
@@ -142,9 +142,4 @@ class SimpleServiceRequestBase extends ServiceRequestBase {
     }
     WebRequestAsyncCallback(webAsyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - WebRequestAsyncCallback : Not implemented."); }
 }
-export = SimpleServiceRequestBase;
-    //module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 

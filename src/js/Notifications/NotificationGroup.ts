@@ -1,4 +1,4 @@
-import NotificationEvent = require("./NotificationEvent");
+﻿import {NotificationEvent} from "./NotificationEvent";
 
 interface NotificationGroup {
     /// <summary>
@@ -11,4 +11,5 @@ interface NotificationGroup {
     /// </summary>
     Events: NotificationEvent[];//Collection<NotificationEvent>
 }
-export = NotificationGroup;
+
+

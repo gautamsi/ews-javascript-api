@@ -1,10 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import PhoneCallId = require("../../UnifiedMessaging/PhoneCallId");
-import GetPhoneCallResponse = require("../Responses/GetPhoneCallResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
- class GetPhoneCallRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {PhoneCallId} from "../../UnifiedMessaging/PhoneCallId";
+import {GetPhoneCallResponse} from "../Responses/GetPhoneCallResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetPhoneCallRequest extends SimpleServiceRequestBase {
     Id: PhoneCallId;
     private id: PhoneCallId;
     Execute(): GetPhoneCallResponse { throw new Error("GetPhoneCallRequest.ts - Execute : Not implemented."); }
@@ -14,8 +14,9 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetPhoneCallRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetPhoneCallRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

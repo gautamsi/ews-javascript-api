@@ -1,11 +1,10 @@
-import LegacyAvailabilityTimeZoneTime = require("./LegacyAvailabilityTimeZoneTime");
-import ComplexProperty = require("../../ComplexProperties/ComplexProperty");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
-class LegacyAvailabilityTimeZone extends ComplexProperty {
+﻿import {LegacyAvailabilityTimeZoneTime} from "./LegacyAvailabilityTimeZoneTime";
+import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class LegacyAvailabilityTimeZone extends ComplexProperty {
     private bias: any /*System.TimeSpan*/;
     private standardTime: LegacyAvailabilityTimeZoneTime;
     private daylightTime: LegacyAvailabilityTimeZoneTime;
@@ -15,8 +14,9 @@ class LegacyAvailabilityTimeZone extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("LegacyAvailabilityTimeZone.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("LegacyAvailabilityTimeZone.ts - WriteElementsToXml : Not implemented."); }
 }
-export = LegacyAvailabilityTimeZone;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

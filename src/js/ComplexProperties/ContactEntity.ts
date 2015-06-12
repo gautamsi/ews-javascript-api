@@ -1,9 +1,9 @@
-import ExtractedEntity = require("./ExtractedEntity");
-import ContactPhoneEntityCollection = require("./ContactPhoneEntityCollection");
-import StringList = require("./StringList");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
+﻿import {ExtractedEntity} from "./ExtractedEntity";
+import {ContactPhoneEntityCollection} from "./ContactPhoneEntityCollection";
+import {StringList} from "./StringList";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 
-class ContactEntity extends ExtractedEntity {
+export class ContactEntity extends ExtractedEntity {
     PersonName: string;
     BusinessName: string;
     PhoneNumbers: ContactPhoneEntityCollection;
@@ -13,8 +13,3 @@ class ContactEntity extends ExtractedEntity {
     ContactString: string;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ContactEntity.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = ContactEntity;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

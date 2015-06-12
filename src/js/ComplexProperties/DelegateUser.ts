@@ -1,11 +1,11 @@
-import UserId = require("./UserId");
-import ComplexProperty = require("./ComplexProperty");
-import DelegatePermissions = require("./DelegatePermissions");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class DelegateUser extends ComplexProperty {
+﻿import {UserId} from "./UserId";
+import {ComplexProperty} from "./ComplexProperty";
+import {DelegatePermissions} from "./DelegatePermissions";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class DelegateUser extends ComplexProperty {
     UserId: UserId;
     Permissions: DelegatePermissions;
     ReceiveCopiesOfMeetingMessages: boolean;
@@ -22,9 +22,5 @@ class DelegateUser extends ComplexProperty {
     ValidateUpdateDelegate(): any { throw new Error("DelegateUser.ts - ValidateUpdateDelegate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DelegateUser.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DelegateUser;
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

@@ -1,14 +1,14 @@
-import OutlookProtocol = require("./OutlookProtocol");
-import OutlookUser = require("./OutlookUser");
-import OutlookAccount = require("./OutlookAccount");
-import ConfigurationSettingsBase = require("../ConfigurationSettingsBase");
-import AutodiscoverResponseType = require("../../../Enumerations/AutodiscoverResponseType");
-import EwsXmlReader = require("../../../Core/EwsXmlReader");
-import UserSettingName = require("../../../Enumerations/UserSettingName");
-import GetUserSettingsResponse = require("../../Responses/GetUserSettingsResponse");
-import LazyMember = require("../../../Core/LazyMember");
+﻿import {OutlookProtocol} from "./OutlookProtocol";
+import {OutlookUser} from "./OutlookUser";
+import {OutlookAccount} from "./OutlookAccount";
+import {ConfigurationSettingsBase} from "../ConfigurationSettingsBase";
+import {AutodiscoverResponseType} from "../../../Enumerations/AutodiscoverResponseType";
+import {EwsXmlReader} from "../../../Core/EwsXmlReader";
+import {UserSettingName} from "../../../Enumerations/UserSettingName";
+import {GetUserSettingsResponse} from "../../Responses/GetUserSettingsResponse";
+import {LazyMember} from "../../../Core/LazyMember";
 import {ArrayHelper} from "../../../ExtensionMethods";
-class OutlookConfigurationSettings extends ConfigurationSettingsBase {
+export class OutlookConfigurationSettings extends ConfigurationSettingsBase {
     ResponseType: AutodiscoverResponseType;
     RedirectTarget: string;
     private user: OutlookUser;
@@ -28,10 +28,4 @@ class OutlookConfigurationSettings extends ConfigurationSettingsBase {
     TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("OutlookConfigurationSettings.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
 
-export = OutlookConfigurationSettings;
 
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

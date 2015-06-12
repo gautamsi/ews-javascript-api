@@ -1,10 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import DelegateFolderPermissionLevel = require("../Enumerations/DelegateFolderPermissionLevel");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-class DelegatePermissions extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {DelegateFolderPermissionLevel} from "../Enumerations/DelegateFolderPermissionLevel";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class DelegatePermissions extends ComplexProperty {
     CalendarFolderPermissionLevel: DelegateFolderPermissionLevel;
     TasksFolderPermissionLevel: DelegateFolderPermissionLevel;
     InboxFolderPermissionLevel: DelegateFolderPermissionLevel;
@@ -22,10 +22,7 @@ class DelegatePermissions extends ComplexProperty {
     WritePermissionToJson(jsonProperty: JsonObject, elementName: string): any { throw new Error("DelegatePermissions.ts - WritePermissionToJson : Not implemented."); }
     WritePermissionToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("DelegatePermissions.ts - WritePermissionToXml : Not implemented."); }
 }
-export = DelegatePermissions;
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
 

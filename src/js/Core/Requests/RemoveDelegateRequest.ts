@@ -1,9 +1,9 @@
-import UserId = require("../../ComplexProperties/UserId");
-import DelegateManagementRequestBase = require("./DelegateManagementRequestBase");
-import DelegateManagementResponse = require("../Responses/DelegateManagementResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
+﻿import {UserId} from "../../ComplexProperties/UserId";
+import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     private userIds: UserId[];//System.Collections.Generic.List<UserId>;
     CreateResponse(): DelegateManagementResponse { throw new Error("RemoveDelegateRequest.ts - CreateResponse : Not implemented."); }
@@ -13,9 +13,10 @@ class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManage
     Validate(): any { throw new Error("RemoveDelegateRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("RemoveDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = RemoveDelegateRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

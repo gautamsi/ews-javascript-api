@@ -1,12 +1,12 @@
-import Recurrence = require("../ComplexProperties/Recurrence/Patterns/Recurrence");
-import RecurrenceRange = require("../ComplexProperties/Recurrence/Ranges/RecurrenceRange");
-import PropertyDefinition = require("./PropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import PropertyBag = require("../Core/PropertyBag");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-   class RecurrencePropertyDefinition extends PropertyDefinition {
+﻿import {Recurrence} from "../ComplexProperties/Recurrence/Patterns/Recurrence";
+import {RecurrenceRange} from "../ComplexProperties/Recurrence/Ranges/RecurrenceRange";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class RecurrencePropertyDefinition extends PropertyDefinition {
         Type: any;//System.Type;
         GetRecurrenceFromString(recurranceString: string): Recurrence { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceFromString : Not implemented."); }
         GetRecurrenceRange(recurrenceRangeString: string): RecurrenceRange { throw new Error("RecurrencePropertyDefinition.ts - GetRecurrenceRange : Not implemented."); }
@@ -15,10 +15,3 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
         WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): any { throw new Error("RecurrencePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); }
 }
-
-   export = RecurrencePropertyDefinition;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

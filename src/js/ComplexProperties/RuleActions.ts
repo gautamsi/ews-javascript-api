@@ -1,15 +1,14 @@
-import StringList = require("./StringList");
-import ItemId = require("./ItemId");
-import ComplexProperty = require("./ComplexProperty");
-import FolderId = require("./FolderId");
-import EmailAddressCollection = require("./EmailAddressCollection");
-import MobilePhone = require("../Misc/MobilePhone");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-			
- class RuleActions extends ComplexProperty {
+﻿import {StringList} from "./StringList";
+import {ItemId} from "./ItemId";
+import {ComplexProperty} from "./ComplexProperty";
+import {FolderId} from "./FolderId";
+import {EmailAddressCollection} from "./EmailAddressCollection";
+import {MobilePhone} from "../Misc/MobilePhone";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class RuleActions extends ComplexProperty {
 	AssignCategories: StringList;
 	CopyToFolder: FolderId;
 	Delete: boolean;
@@ -44,10 +43,11 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RuleActions.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("RuleActions.ts - WriteElementsToXml : Not implemented.");}
 }
-export = RuleActions;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

@@ -1,15 +1,15 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import MailboxQuery = require("../../MailboxSearch/MailboxQuery");
-import SearchResultType = require("../../Enumerations/SearchResultType");
-import PreviewItemResponseShape = require("../../MailboxSearch/PreviewItemResponseShape");
-import SortDirection = require("../../Enumerations/SortDirection");
-import SearchPageDirection = require("../../Enumerations/SearchPageDirection");
-import ExchangeService = require("../ExchangeService");
-import SearchMailboxesResponse = require("../Responses/SearchMailboxesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxesResponse> {
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {MailboxQuery} from "../../MailboxSearch/MailboxQuery";
+import {SearchResultType} from "../../Enumerations/SearchResultType";
+import {PreviewItemResponseShape} from "../../MailboxSearch/PreviewItemResponseShape";
+import {SortDirection} from "../../Enumerations/SortDirection";
+import {SearchPageDirection} from "../../Enumerations/SearchPageDirection";
+import {ExchangeService} from "../ExchangeService";
+import {SearchMailboxesResponse} from "../Responses/SearchMailboxesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxesResponse> {
     SearchQueries: MailboxQuery[];//System.Collections.Generic.List<MailboxQuery>;
     ResultType: SearchResultType;
     PreviewItemResponseShape: PreviewItemResponseShape;
@@ -41,8 +41,9 @@ class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxes
     Validate(): any { throw new Error("SearchMailboxesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SearchMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SearchMailboxesRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

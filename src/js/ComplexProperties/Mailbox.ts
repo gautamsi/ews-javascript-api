@@ -1,14 +1,14 @@
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
 import {StringHelper} from "../ExtensionMethods";
 
-import ComplexProperty = require("./ComplexProperty");
-class Mailbox extends ComplexProperty {
+import {ComplexProperty} from "./ComplexProperty";
+export class Mailbox extends ComplexProperty {
     ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "GetSearchString"];
     ___typeName: string = "Mailbox";
     get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.Address); }
@@ -95,11 +95,3 @@ class Mailbox extends ComplexProperty {
         return this.Address;
     }
 }
-export = Mailbox;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

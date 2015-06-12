@@ -1,5 +1,5 @@
-import Folder = require("../Core/ServiceObjects/Folders/Folder");
-class FindFoldersResults {   //: IEnumerable<Folder>
+﻿import {Folder} from "../Core/ServiceObjects/Folders/Folder";
+export class FindFoldersResults {   //: IEnumerable<Folder>
 TotalCount: number;
 NextPageOffset: number;
 MoreAvailable: boolean;
@@ -10,8 +10,3 @@ private moreAvailable: boolean;
 private folders: Folder[];//System.Collections.ObjectModel.Collection<Folder>;
 GetEnumerator(): any { throw new Error("FindFoldersResults.ts - GetEnumerator : Not implemented."); }
 }
-export = FindFoldersResults;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

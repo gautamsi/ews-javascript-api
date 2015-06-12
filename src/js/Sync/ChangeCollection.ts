@@ -1,5 +1,4 @@
-			
- class ChangeCollection<TChange> {
+export class ChangeCollection<TChange> {
 	Count: number;
 	Item: TChange;
 	SyncState: string;
@@ -10,10 +9,10 @@
 	Add(change: TChange): void{ throw new Error("ChangeCollection.ts - Add : Not implemented.");}
 	GetEnumerator(): TChange[] /*System.Collections.Generic.IEnumerator<TChange>*/{ throw new Error("ChangeCollection.ts - GetEnumerator : Not implemented.");}
 }
-export = ChangeCollection;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

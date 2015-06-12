@@ -1,21 +1,21 @@
-import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
-import EmailAddress = require("../../../ComplexProperties/EmailAddress");
-import ApprovalRequestData = require("../../../ComplexProperties/ApprovalRequestData");
-import VotingInformation = require("../../../ComplexProperties/VotingInformation");
-import ExchangeService = require("../../ExchangeService");
-import ItemId = require("../../../ComplexProperties/ItemId");
-import PropertySet = require("../../PropertySet");
-import ResponseMessage = require("../ResponseObjects/ResponseMessage");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import EmailMessageSchema = require("../Schemas/EmailMessageSchema");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import MessageDisposition = require("../../../Enumerations/MessageDisposition");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-import XmlElementNames = require("../../XmlElementNames");
-import Item = require("./Item");
-class EmailMessage extends Item {
+﻿import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {ApprovalRequestData} from "../../../ComplexProperties/ApprovalRequestData";
+import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
+import {ExchangeService} from "../../ExchangeService";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {PropertySet} from "../../PropertySet";
+import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {EmailMessageSchema} from "../Schemas/EmailMessageSchema";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {XmlElementNames} from "../../XmlElementNames";
+import {Item} from "./Item";
+export class EmailMessage extends Item {
     ToRecipients: EmailAddressCollection;
     BccRecipients: EmailAddressCollection;
     CcRecipients: EmailAddressCollection;
@@ -55,13 +55,3 @@ class EmailMessage extends Item {
     SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): void { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
     SuppressReadReceipt(): void { throw new Error("EmailMessage.ts - SuppressReadReceipt : Not implemented."); }
 }
-
-export = EmailMessage;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,8 +1,7 @@
-import ServiceRequestBase = require("./ServiceRequestBase");
-import IEwsHttpWebRequest = require("../../Interfaces/IEwsHttpWebRequest");
-import ExchangeService = require("../ExchangeService");
-			
- class AsyncRequestResult {
+﻿import {ServiceRequestBase} from "./ServiceRequestBase";
+import {IEwsHttpWebRequest} from "../../Interfaces/IEwsHttpWebRequest";
+import {ExchangeService} from "../ExchangeService";
+export class AsyncRequestResult {
 	ServiceRequest: ServiceRequestBase;
 	WebRequest: IEwsHttpWebRequest;
 	WebAsyncResult: any /*System.IAsyncResult*/;
@@ -12,10 +11,11 @@ import ExchangeService = require("../ExchangeService");
 	IsCompleted: boolean;
 	ExtractServiceRequest<T>(exchangeService: ExchangeService, asyncResult: any /*System.IAsyncResult*/): T{ throw new Error("AsyncRequestResult.ts - ExtractServiceRequest<T> : Not implemented.");}
 }
-export = AsyncRequestResult;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

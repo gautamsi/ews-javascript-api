@@ -1,12 +1,12 @@
-import DictionaryEntryProperty = require("./DictionaryEntryProperty");
-import EmailAddressKey = require("../Enumerations/EmailAddressKey");
-import EmailAddress = require("./EmailAddress");
-import ComplexProperty = require("./ComplexProperty");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-  class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> {
+﻿import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
+import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
+import {EmailAddress} from "./EmailAddress";
+import {ComplexProperty} from "./ComplexProperty";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> {
         EmailAddress: EmailAddress;
         private emailAddress: EmailAddress;
         EmailAddressChanged(complexProperty: ComplexProperty): any { throw new Error("EmailAddressEntry.ts - EmailAddressChanged : Not implemented."); }
@@ -17,9 +17,6 @@ import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
         WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddressEntry.ts - WriteAttributesToXml : Not implemented."); }
         WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("EmailAddressEntry.ts - WriteElementsToXml : Not implemented."); }
     }
-export = EmailAddressEntry;
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

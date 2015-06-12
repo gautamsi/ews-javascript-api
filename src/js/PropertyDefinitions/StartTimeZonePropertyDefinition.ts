@@ -1,14 +1,14 @@
-import AppointmentSchema = require("../Core/ServiceObjects/Schemas/AppointmentSchema");
-import ExchangeService = require("../Core/ExchangeService");
-import MeetingTimeZone = require("../ComplexProperties/MeetingTimeZone");
-import XmlElementNames = require("../Core/XmlElementNames");
-import TimeZonePropertyDefinition = require("./TimeZonePropertyDefinition");
-import PropertyDefinition = require("./PropertyDefinition");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import PropertyBag = require("../Core/PropertyBag");
-class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition {
+﻿import {AppointmentSchema} from "../Core/ServiceObjects/Schemas/AppointmentSchema";
+import {ExchangeService} from "../Core/ExchangeService";
+import {MeetingTimeZone} from "../ComplexProperties/MeetingTimeZone";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {TimeZonePropertyDefinition} from "./TimeZonePropertyDefinition";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {PropertyBag} from "../Core/PropertyBag";
+export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition {
     HasFlag(flag: PropertyDefinitionFlags, version: ExchangeVersion): boolean {
         if (version && (version === ExchangeVersion.Exchange2007_SP1)) {
             return AppointmentSchema.MeetingTimeZone.HasFlag(flag, version);
@@ -50,8 +50,3 @@ class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition {
         }
     }
 }
-export = StartTimeZonePropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

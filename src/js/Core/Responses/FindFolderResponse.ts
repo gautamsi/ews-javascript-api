@@ -1,11 +1,11 @@
-import ServiceResponse = require("./ServiceResponse");
-import FindFoldersResults = require("../../Search/FindFoldersResults");
-import PropertySet = require("../PropertySet");
-import ExchangeService = require("../ExchangeService");
-import Folder = require("../ServiceObjects/Folders/Folder");
-import JsonObject = require("../JsonObject");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-class FindFolderResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {FindFoldersResults} from "../../Search/FindFoldersResults";
+import {PropertySet} from "../PropertySet";
+import {ExchangeService} from "../ExchangeService";
+import {Folder} from "../ServiceObjects/Folders/Folder";
+import {JsonObject} from "../JsonObject";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class FindFolderResponse extends ServiceResponse {
     Results: FindFoldersResults;
     private results: FindFoldersResults;
     private propertySet: PropertySet;
@@ -13,9 +13,10 @@ class FindFolderResponse extends ServiceResponse {
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("FindFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("FindFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-export = FindFolderResponse;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

@@ -1,4 +1,4 @@
-class MapiTypeConverterMapEntry {
+export class MapiTypeConverterMapEntry {
     Parse: /*System.Func<string, any>*/any;
     ConvertToString: /*System.Func<any, string>*/any;
     Type: /*System.Type*/any;
@@ -11,10 +11,9 @@ class MapiTypeConverterMapEntry {
     ValidateValueAsArray(value: any): any { throw new Error("MapiTypeConverterMapEntry.ts - ValidateValueAsArray : Not implemented."); }
 }
 
-export= MapiTypeConverterMapEntry;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

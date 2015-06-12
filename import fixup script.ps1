@@ -333,3 +333,26 @@ foreach($f in $fs){
         Write-Verbose $fp -Verbose
     }
 }
+
+
+
+return
+# import module = require -> to -> import {module} from file
+
+#if('import SortDirection = require("../../src/js/Enumerations/SortDirection");'  -match'^import\W(?<module>\w*)\s*=.*\((?<target>.*)\).*'){$Matches;$Matches["target"].Length}
+$pattern = '^import\W(?<module>\w*)\s*=.*\((?<target>.*)\).*'
+$alltsFiles = dir *.ts -Recurse | Select-String -Pattern $pattern
+$groups = $alltsFiles | group path
+foreach($group in $groups){
+    $content = Get-Content $group.Name -Raw
+    if($content){
+        #$lines = $group.Group.Line | %{ if($_ -match $pattern){ "Import {$($Matches['module'])} from $($Matches['target']);" }}
+        foreach($grp in $group.Group){
+            $line = $grp.Line
+            $replace = "import {$($grp.Matches[0].Groups["module"].Value)} from $($grp.Matches[0].Groups["target"].Value);"
+            $content = $content.Replace($line,$replace)
+        }
+    }
+    Write-Verbose $group.Name -Verbose
+    $content | Set-Content -Path $group.Name -Encoding UTF8
+}

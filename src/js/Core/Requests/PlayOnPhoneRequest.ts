@@ -1,10 +1,10 @@
-import ItemId = require("../../ComplexProperties/ItemId");
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import PlayOnPhoneResponse = require("../Responses/PlayOnPhoneResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
- class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSerializable
+﻿import {ItemId} from "../../ComplexProperties/ItemId";
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {PlayOnPhoneResponse} from "../Responses/PlayOnPhoneResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSerializable
     ItemId: ItemId;
     DialString: string;
     private itemId: ItemId;
@@ -17,8 +17,9 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
     //ParseResponse(jsonBody: JsonObject): any { throw new Error("PlayOnPhoneRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PlayOnPhoneRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = PlayOnPhoneRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,6 +1,6 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-class ProtocolConnection {
+export class ProtocolConnection {
     EncryptionMethod: string;
     Hostname: string;
     Port: number;
@@ -9,10 +9,3 @@ class ProtocolConnection {
     //private port: number;
     LoadFromXml(reader: EwsXmlReader): ProtocolConnection { throw new Error("ProtocolConnection.ts - LoadFromXml : Not implemented."); }
 }
-export = ProtocolConnection;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

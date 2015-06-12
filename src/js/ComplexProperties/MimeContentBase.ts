@@ -1,10 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-class MimeContentBase extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+export class MimeContentBase extends ComplexProperty {
     private characterSet: string;
     private content: any[];//byte[]
     
@@ -66,4 +66,4 @@ class MimeContentBase extends ComplexProperty {
     //        }
 }
 
-export = MimeContentBase;
+

@@ -1,16 +1,16 @@
-import Strings = require("../Strings");
-import EwsUtilities = require("../Core/EwsUtilities");
-import XmlElementNames = require("../Core/XmlElementNames");
-import ExtendedProperty = require("./ExtendedProperty");
-import ExtendedPropertyDefinition = require("../PropertyDefinitions/ExtendedPropertyDefinition");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import IOutParam = require("../Interfaces/IOutParam");
+﻿import {Strings} from "../Strings";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExtendedProperty} from "./ExtendedProperty";
+import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {IOutParam} from "../Interfaces/IOutParam";
 import {StringHelper, ArrayHelper} from "../ExtensionMethods";
 
-import ComplexPropertyCollection = require("./ComplexPropertyCollection");
-class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+export class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {
     CreateComplexProperty(xmlElementName: string): ExtendedProperty { return new ExtendedProperty(); }
     CreateDefaultComplexProperty(): ExtendedProperty { return new ExtendedProperty(); }
     GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string { return null; }
@@ -76,10 +76,4 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
         }
     }
 }
-export = ExtendedPropertyCollection;
 
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,6 +1,6 @@
-import IEwsHttpWebResponse = require("./IEwsHttpWebResponse");
+﻿ import  {IEwsHttpWebResponse} from "./IEwsHttpWebResponse";
 			
- interface IEwsHttpWebRequest {
+ export interface IEwsHttpWebRequest {
 	Accept: string;
 	AllowAutoRedirect: boolean;
 	ClientCertificates: any /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/;
@@ -25,10 +25,11 @@ import IEwsHttpWebResponse = require("./IEwsHttpWebResponse");
 	GetRequestStream(): any /*System.IO.Stream*/;
 	GetResponse(): IEwsHttpWebResponse;
 }
-export = IEwsHttpWebRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

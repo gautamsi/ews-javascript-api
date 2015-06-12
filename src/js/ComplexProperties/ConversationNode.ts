@@ -1,10 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import Item = require("../Core/ServiceObjects/Items/Item");
-import PropertySet = require("../Core/PropertySet");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-class ConversationNode extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {Item} from "../Core/ServiceObjects/Items/Item";
+import {PropertySet} from "../Core/PropertySet";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class ConversationNode extends ComplexProperty {
     InternetMessageId: string;
     ParentInternetMessageId: string;
     Items: Item[];// System.Collections.Generic.List<Item>;
@@ -14,8 +14,5 @@ class ConversationNode extends ComplexProperty {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ConversationNode.ts - LoadFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationNode.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = ConversationNode;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

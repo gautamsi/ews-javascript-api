@@ -1,8 +1,8 @@
-import AlternateMailbox = require("./AlternateMailbox");
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {AlternateMailbox} from "./AlternateMailbox";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-class AlternateMailboxCollection {
+export class AlternateMailboxCollection {
     Entries: AlternateMailbox[] = []; //System.Collections.Generic.List<AlternateMailbox>;
     static LoadFromXml(reader: EwsXmlReader): AlternateMailboxCollection { throw new Error("Not implemented. depricated use LoadFromJson"); }
     static LoadFromJson(obj: any): AlternateMailboxCollection {
@@ -25,12 +25,4 @@ class AlternateMailboxCollection {
     }
 }
 
-export = AlternateMailboxCollection;
 
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

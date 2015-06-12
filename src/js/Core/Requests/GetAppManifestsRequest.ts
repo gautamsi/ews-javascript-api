@@ -1,10 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetAppManifestsResponse = require("../Responses/GetAppManifestsResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class GetAppManifestsRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetAppManifestsResponse} from "../Responses/GetAppManifestsResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetAppManifestsRequest extends SimpleServiceRequestBase {
 	ApiVersionSupported: string;
 	SchemaVersionSupported: string;
 	Execute(): GetAppManifestsResponse{ throw new Error("GetAppManifestsRequest.ts - Execute : Not implemented.");}
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("GetAppManifestsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetAppManifestsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = GetAppManifestsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

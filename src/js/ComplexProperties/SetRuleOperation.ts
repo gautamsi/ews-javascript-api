@@ -1,11 +1,10 @@
-import RuleOperation = require("./RuleOperation");
-import Rule = require("./Rule");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class SetRuleOperation extends RuleOperation {
+﻿import {RuleOperation} from "./RuleOperation";
+import {Rule} from "./Rule";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class SetRuleOperation extends RuleOperation {
     Rule: Rule;
     XmlElementName: string;
     private rule: Rule;
@@ -15,9 +14,10 @@ class SetRuleOperation extends RuleOperation {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("SetRuleOperation.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetRuleOperation.ts - WriteElementsToXml : Not implemented."); }
 }
-export = SetRuleOperation;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

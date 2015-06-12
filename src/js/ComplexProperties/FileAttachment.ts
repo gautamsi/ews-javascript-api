@@ -1,9 +1,8 @@
-import Attachment = require("./Attachment");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class FileAttachment extends Attachment {
+﻿import {Attachment} from "./Attachment";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class FileAttachment extends Attachment {
     FileName: string;
     ContentStream: any;//System.IO.Stream;
     Content: any[];//System.Byte[];
@@ -23,8 +22,9 @@ class FileAttachment extends Attachment {
     //Validate(attachmentIndex: number): any { throw new Error("FileAttachment.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FileAttachment.ts - WriteElementsToXml : Not implemented."); }
 }
-export = FileAttachment;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

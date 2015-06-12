@@ -1,10 +1,9 @@
-import PropertyBasedFilter = require("./SearchFilter_PropertyBasedFilter");
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-
- class ExcludesBitmask extends PropertyBasedFilter {
+﻿import {PropertyBasedFilter} from "./SearchFilter_PropertyBasedFilter";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class ExcludesBitmask extends PropertyBasedFilter {
 	Bitmask: number;
 	private bitmask: number;
 	GetXmlElementName(): string{ throw new Error("SearchFilter_ExcludesBitmask.ts - GetXmlElementName : Not implemented.");}
@@ -13,7 +12,8 @@ import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_ExcludesBitmask.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_ExcludesBitmask.ts - WriteElementsToXml : Not implemented.");}
 }
-export = ExcludesBitmask;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
+

@@ -1,17 +1,17 @@
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
-import OffsetBasePoint = require("../Enumerations/OffsetBasePoint");
-import XmlElementNames = require("../Core/XmlElementNames");
-import EwsUtilities = require("../Core/EwsUtilities");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import PagedView = require("./PagedView");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import OrderByCollection = require("./OrderByCollection");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import Grouping = require("./Grouping");
-class ItemView extends PagedView {
+﻿import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {PagedView} from "./PagedView";
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {OrderByCollection} from "./OrderByCollection";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
+import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {Grouping} from "./Grouping";
+export class ItemView extends PagedView {
     Traversal: ItemTraversal = ItemTraversal.Shallow;
     get OrderBy(): OrderByCollection { return this.orderBy; }
     //private traversal: ItemTraversal; - not needed 
@@ -36,8 +36,3 @@ class ItemView extends PagedView {
     }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { this.orderBy.WriteToXml(writer, XmlElementNames.SortOrder); }
 }
-export = ItemView;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

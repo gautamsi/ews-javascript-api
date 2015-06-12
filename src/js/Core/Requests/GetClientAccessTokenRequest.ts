@@ -1,11 +1,10 @@
-import ClientAccessTokenRequest = require("../../ComplexProperties/ClientAccessTokenRequest");
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ExchangeService = require("../ExchangeService");
-import GetClientAccessTokenResponse = require("../Responses/GetClientAccessTokenResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
+﻿import {ClientAccessTokenRequest} from "../../ComplexProperties/ClientAccessTokenRequest";
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ExchangeService} from "../ExchangeService";
+import {GetClientAccessTokenResponse} from "../Responses/GetClientAccessTokenResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
 	TokenRequests: ClientAccessTokenRequest[];
 	CreateServiceResponse(service: ExchangeService, responseIndex: number): GetClientAccessTokenResponse{ throw new Error("GetClientAccessTokenRequest.ts - CreateServiceResponse : Not implemented.");}
 	GetExpectedResponseMessageCount(): number{ throw new Error("GetClientAccessTokenRequest.ts - GetExpectedResponseMessageCount : Not implemented.");}
@@ -16,10 +15,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("GetClientAccessTokenRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetClientAccessTokenRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = GetClientAccessTokenRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

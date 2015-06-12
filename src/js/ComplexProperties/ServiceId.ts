@@ -1,14 +1,14 @@
-import ExchangeService = require("../Core/ExchangeService");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import EwsUtilities = require("../Core/EwsUtilities");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 
 import {StringHelper} from "../ExtensionMethods";
 
-import ComplexProperty = require("./ComplexProperty");
-class ServiceId extends ComplexProperty {
+import {ComplexProperty} from "./ComplexProperty";
+export class ServiceId extends ComplexProperty {
     public get IsValid(): boolean { return this.IsValidProxy(); }
     protected IsValidProxy(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); } //proxy to be able to call super. from inherited child
     UniqueId: string;
@@ -87,4 +87,5 @@ class ServiceId extends ComplexProperty {
         super.WriteToXml(writer, this.GetXmlElementName());
     }
 }
-export = ServiceId;
+
+

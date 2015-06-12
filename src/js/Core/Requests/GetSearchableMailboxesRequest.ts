@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetSearchableMailboxesResponse = require("../Responses/GetSearchableMailboxesResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetSearchableMailboxesResponse} from "../Responses/GetSearchableMailboxesResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     SearchFilter: string;
     ExpandGroupMembership: boolean;
     Execute(): GetSearchableMailboxesResponse { throw new Error("GetSearchableMailboxesRequest.ts - Execute : Not implemented."); }
@@ -13,8 +13,9 @@ class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetSearchableMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetSearchableMailboxesRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

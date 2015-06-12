@@ -1,9 +1,8 @@
-import ServiceResponse = require("./ServiceResponse");
-import GetStreamingEventsResults = require("../../Notifications/GetStreamingEventsResults");
-import HangingServiceRequestBase = require("../Requests/HangingServiceRequestBase");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-			
- class GetStreamingEventsResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {GetStreamingEventsResults} from "../../Notifications/GetStreamingEventsResults";
+import {HangingServiceRequestBase} from "../Requests/HangingServiceRequestBase";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class GetStreamingEventsResponse extends ServiceResponse {
 	Results: GetStreamingEventsResults;
 	ErrorSubscriptionIds: string[] /*System.Collections.Generic.List<string>*/;
 	private results: GetStreamingEventsResults;
@@ -11,10 +10,11 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	LoadExtraErrorDetailsFromXml(reader: EwsServiceXmlReader, xmlElementName: string): boolean{ throw new Error("GetStreamingEventsResponse.ts - LoadExtraErrorDetailsFromXml : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetStreamingEventsResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
-export = GetStreamingEventsResponse;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

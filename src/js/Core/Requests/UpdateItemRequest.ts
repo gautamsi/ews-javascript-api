@@ -1,14 +1,14 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import MessageDisposition = require("../../Enumerations/MessageDisposition");
-import ConflictResolutionMode = require("../../Enumerations/ConflictResolutionMode");
-import SendInvitationsOrCancellationsMode = require("../../Enumerations/SendInvitationsOrCancellationsMode");
-import Item = require("../ServiceObjects/Items/Item");
-import FolderId = require("../../ComplexProperties/FolderId");
-import ExchangeService = require("../ExchangeService");
-import UpdateItemResponse = require("../Responses/UpdateItemResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {MessageDisposition} from "../../Enumerations/MessageDisposition";
+import {ConflictResolutionMode} from "../../Enumerations/ConflictResolutionMode";
+import {SendInvitationsOrCancellationsMode} from "../../Enumerations/SendInvitationsOrCancellationsMode";
+import {Item} from "../ServiceObjects/Items/Item";
+import {FolderId} from "../../ComplexProperties/FolderId";
+import {ExchangeService} from "../ExchangeService";
+import {UpdateItemResponse} from "../Responses/UpdateItemResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;
     MessageDisposition: MessageDisposition;
     ConflictResolutionMode: ConflictResolutionMode;
@@ -31,8 +31,9 @@ class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> 
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateItemRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateItemRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = UpdateItemRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

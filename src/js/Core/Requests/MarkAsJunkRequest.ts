@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ItemIdWrapperList = require("../../Misc/ItemIdWrapperList");
-import ExchangeService = require("../ExchangeService");
-import MarkAsJunkResponse = require("../Responses/MarkAsJunkResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ItemIdWrapperList} from "../../Misc/ItemIdWrapperList";
+import {ExchangeService} from "../ExchangeService";
+import {MarkAsJunkResponse} from "../Responses/MarkAsJunkResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> {//IJsonSerializable
     ItemIds: ItemIdWrapperList;
     IsJunk: boolean;
     MoveItem: boolean;
@@ -19,8 +19,9 @@ class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> 
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("MarkAsJunkRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MarkAsJunkRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = MarkAsJunkRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

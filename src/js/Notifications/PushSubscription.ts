@@ -1,11 +1,11 @@
-import SubscriptionBase = require("./SubscriptionBase");
-			
- class PushSubscription extends SubscriptionBase {
+﻿import {SubscriptionBase} from "./SubscriptionBase";
+export class PushSubscription extends SubscriptionBase {
 }
-export = PushSubscription;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

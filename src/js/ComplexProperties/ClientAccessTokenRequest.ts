@@ -1,6 +1,6 @@
-import ComplexProperty = require("./ComplexProperty");
-import ClientAccessTokenType = require("../Enumerations/ClientAccessTokenType");
-class ClientAccessTokenRequest extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
+export class ClientAccessTokenRequest extends ComplexProperty {
     Id: string;
     TokenType: ClientAccessTokenType;
     Scope: string;
@@ -8,8 +8,5 @@ class ClientAccessTokenRequest extends ComplexProperty {
     private tokenType: ClientAccessTokenType;
     private scope: string;
 }
-export = ClientAccessTokenRequest;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+

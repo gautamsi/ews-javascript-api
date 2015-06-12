@@ -1,12 +1,11 @@
-import PushSubscription = require("../../Notifications/PushSubscription");
-import SubscribeRequest = require("./SubscribeRequest");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import SubscribeResponse = require("../Responses/SubscribeResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSubscription> {
+﻿import {PushSubscription} from "../../Notifications/PushSubscription";
+import {SubscribeRequest} from "./SubscribeRequest";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {SubscribeResponse} from "../Responses/SubscribeResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSubscription> {
 	Frequency: number;
 	Url: string /*Uri*/;
 	CallerData: string;
@@ -20,10 +19,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
 	Validate(): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - Validate : Not implemented.");}
 }
-export = SubscribeToPushNotificationsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

@@ -1,8 +1,8 @@
-import WebClientUrl = require("./WebClientUrl");
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {WebClientUrl} from "./WebClientUrl";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-class WebClientUrlCollection {
+export class WebClientUrlCollection {
     Urls: WebClientUrl[] = [];// new Array<WebClientUrl>();// System.Collections.Generic.List<WebClientUrl>;
     //private urls: WebClientUrl[];// System.Collections.Generic.List<WebClientUrl>;
     static LoadFromJson(obj: any): WebClientUrlCollection {
@@ -41,10 +41,4 @@ class WebClientUrlCollection {
     }
 }
 
-export = WebClientUrlCollection;
 
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

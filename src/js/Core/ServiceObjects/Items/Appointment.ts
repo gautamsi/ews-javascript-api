@@ -1,7 +1,7 @@
-import XmlElementNames = require("../../XmlElementNames");
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import Item = require("./Item");
-class Appointment extends Item {
+import {Item} from "./Item";
+export class Appointment extends Item {
     //fix constructor
     constructor(x: any, y?: any) { super(null); }
     ////////DefaultSendCancellationsMode: SendCancellationsMode;
@@ -100,12 +100,3 @@ class Appointment extends Item {
     ////////Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): any { throw new Error("Appointment.ts - Update : Not implemented."); }
     ////////Validate(): any { throw new Error("Appointment.ts - Validate : Not implemented."); }
 }
-export = Appointment;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export

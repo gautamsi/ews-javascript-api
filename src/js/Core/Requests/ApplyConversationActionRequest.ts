@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import ConversationAction = require("../../Misc/ConversationAction");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {ConversationAction} from "../../Misc/ConversationAction";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     ConversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
     private conversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("ApplyConversationActionRequest.ts - CreateServiceResponse : Not implemented."); }
@@ -16,8 +16,9 @@ class ApplyConversationActionRequest extends MultiResponseServiceRequest<Service
     Validate(): any { throw new Error("ApplyConversationActionRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ApplyConversationActionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ApplyConversationActionRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

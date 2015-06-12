@@ -1,11 +1,11 @@
-import JsonObject = require("../Core/JsonObject");
-import PropertyBag = require("../Core/PropertyBag");
-import ExchangeService = require("../Core/ExchangeService");
+﻿import {JsonObject} from "../Core/JsonObject";
+import {PropertyBag} from "../Core/PropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
 
 import {base64Helper} from "../ExtensionMethods";
 
-import TypedPropertyDefinition = require("./TypedPropertyDefinition");
-class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
+import {TypedPropertyDefinition} from "./TypedPropertyDefinition";
+export class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
     get IsNullable(): boolean{return true;}
     Type: any;//System.Type;
     Parse(value: string): any { return base64Helper.atob(value); }
@@ -17,8 +17,3 @@ class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
     }
     WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ByteArrayPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
 }
-export = ByteArrayPropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,31 +1,31 @@
-import ServiceObject = require("../ServiceObject");
+﻿import {ServiceObject} from "../ServiceObject";
 import {IndexerWithStringKey} from "../../../AltDictionary";
 
 import {CreateServiceObjectWithServiceParam} from "../../../Misc/DelegateTypes";
 
-import XmlElementNames = require("../../XmlElementNames");
-import ExchangeService = require("../../ExchangeService");
+import {XmlElementNames} from "../../XmlElementNames";
+import {ExchangeService} from "../../ExchangeService";
 
 
-import Appointment = require("./Appointment");
-import Contact = require("./Contact");
-import ContactGroup = require("./ContactGroup");
-import Conversation = require("./Conversation");
-import EmailMessage = require("./EmailMessage");
-import Item = require("./Item");
-import MeetingCancellation = require("./MeetingCancellation");
-import MeetingMessage = require("./MeetingMessage");
-import MeetingRequest = require("./MeetingRequest");
-import MeetingResponse = require("./MeetingResponse");
-import PostItem = require("./PostItem");
-import Task = require("./Task");
+import {Appointment} from "./Appointment";
+import {Contact} from "./Contact";
+import {ContactGroup} from "./ContactGroup";
+import {Conversation} from "./Conversation";
+import {EmailMessage} from "./EmailMessage";
+import {Item} from "./Item";
+import {MeetingCancellation} from "./MeetingCancellation";
+import {MeetingMessage} from "./MeetingMessage";
+import {MeetingRequest} from "./MeetingRequest";
+import {MeetingResponse} from "./MeetingResponse";
+import {PostItem} from "./PostItem";
+import {Task} from "./Task";
 
-import ServiceObjectInfo = require("../ServiceObjectInfo");
+import {ServiceObjectInfo} from "../ServiceObjectInfo";
 /**
  ** this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like folderinfo etc. 
  * this to is to avoid circular referencing with requirejs/commonjs/nodejs
  */
-class ItemInfo extends ServiceObjectInfo {
+export class ItemInfo extends ServiceObjectInfo {
 
     InitializeServiceObjectClassMap(): any {
         // Appointment
@@ -115,15 +115,3 @@ class ItemInfo extends ServiceObjectInfo {
 
     }
 }
-
-
-export = ItemInfo;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

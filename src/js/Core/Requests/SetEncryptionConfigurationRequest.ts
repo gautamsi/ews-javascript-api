@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     ImageBase64: string;
     EmailText: string;
     PortalText: string;
@@ -20,10 +20,10 @@ class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = SetEncryptionConfigurationRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

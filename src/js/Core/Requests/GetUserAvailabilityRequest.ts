@@ -1,13 +1,13 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import AttendeeInfo = require("../../Misc/Availability/AttendeeInfo");
-import TimeWindow = require("../../Misc/Availability/TimeWindow");
-import AvailabilityData = require("../../Enumerations/AvailabilityData");
-import AvailabilityOptions = require("../../Misc/Availability/AvailabilityOptions");
-import GetUserAvailabilityResults = require("../../Misc/Availability/GetUserAvailabilityResults");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {AttendeeInfo} from "../../Misc/Availability/AttendeeInfo";
+import {TimeWindow} from "../../Misc/Availability/TimeWindow";
+import {AvailabilityData} from "../../Enumerations/AvailabilityData";
+import {AvailabilityOptions} from "../../Misc/Availability/AvailabilityOptions";
+import {GetUserAvailabilityResults} from "../../Misc/Availability/GetUserAvailabilityResults";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     EmitTimeZoneHeader: boolean;
     IsFreeBusyViewRequested: boolean;
     IsSuggestionsViewRequested: boolean;
@@ -27,9 +27,10 @@ class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("GetUserAvailabilityRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserAvailabilityRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetUserAvailabilityRequest;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

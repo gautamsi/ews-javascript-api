@@ -1,10 +1,10 @@
-import EmailAddress = require("../ComplexProperties/EmailAddress");
-import Contact = require("../Core/ServiceObjects/Items/Contact");
-import NameResolutionCollection = require("./NameResolutionCollection");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-class NameResolution {
+﻿import {EmailAddress} from "../ComplexProperties/EmailAddress";
+import {Contact} from "../Core/ServiceObjects/Items/Contact";
+import {NameResolutionCollection} from "./NameResolutionCollection";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class NameResolution {
     Mailbox: EmailAddress;
     Contact: Contact;
     private owner: NameResolutionCollection;
@@ -13,8 +13,9 @@ class NameResolution {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("NameResolution.ts - LoadFromJson : Not implemented."); }
     LoadFromXml(reader: EwsServiceXmlReader): any { throw new Error("NameResolution.ts - LoadFromXml : Not implemented."); }
 }
-export = NameResolution;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

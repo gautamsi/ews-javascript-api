@@ -1,6 +1,6 @@
-import {EwsLogging} from "../Core/EwsLogging"
-import Item = require("../Core/ServiceObjects/Items/Item");
-class ItemGroup<TItem extends Item> {
+﻿import {EwsLogging} from "../Core/EwsLogging"
+import {Item} from "../Core/ServiceObjects/Items/Item";
+export class ItemGroup<TItem extends Item> {
     GroupIndex: string;
     Items: TItem[] = [];//System.Collections.ObjectModel.Collection<TItem>;
     constructor(groupIndex: string, items: TItem[]) {
@@ -13,8 +13,3 @@ class ItemGroup<TItem extends Item> {
         this.Items = items; //new Collection<TItem>(items);
     }
 }
-export = ItemGroup;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

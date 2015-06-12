@@ -1,14 +1,14 @@
-import IOwnedProperty = require("../Interfaces/IOwnedProperty");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
+﻿import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {EwsLogging} from "../Core/EwsLogging";
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
 import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
 
-import ComplexPropertyDefinitionBase = require("./ComplexPropertyDefinitionBase");
-class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
+import {ComplexPropertyDefinitionBase} from "./ComplexPropertyDefinitionBase";
+export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
     Type: any;// System.Type;
     private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
     constructor(
@@ -42,11 +42,3 @@ class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extend
             return complexProperty;
     }
 }
-
-export = ComplexPropertyDefinition;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

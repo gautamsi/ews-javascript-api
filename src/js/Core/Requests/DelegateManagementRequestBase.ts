@@ -1,8 +1,8 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import Mailbox = require("../../ComplexProperties/Mailbox");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {Mailbox} from "../../ComplexProperties/Mailbox";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
     Mailbox: Mailbox;
     private mailbox: Mailbox;
     CreateResponse(): TResponse { throw new Error("DelegateManagementRequestBase.ts - CreateResponse : Not implemented."); }
@@ -11,9 +11,10 @@ class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase 
     Validate(): any { throw new Error("DelegateManagementRequestBase.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DelegateManagementRequestBase.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DelegateManagementRequestBase;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

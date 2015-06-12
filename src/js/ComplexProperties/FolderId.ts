@@ -1,18 +1,18 @@
-import EwsUtilities = require("../Core/EwsUtilities");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {EwsUtilities} from "../Core/EwsUtilities";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
 import {StringHelper} from "../ExtensionMethods";
 
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
 
-import Mailbox = require("./Mailbox");
+import {Mailbox} from "./Mailbox";
 
-import ServiceId = require("./ServiceId");
-class FolderId extends ServiceId {
+import {ServiceId} from "./ServiceId";
+export class FolderId extends ServiceId {
     get FolderName(): WellKnownFolderName { return this.folderName; }
     get Mailbox(): Mailbox { return this.mailbox; }
     public get IsValid(): boolean {
@@ -113,13 +113,3 @@ class FolderId extends ServiceId {
         }
     }
 }
-
-export = FolderId;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

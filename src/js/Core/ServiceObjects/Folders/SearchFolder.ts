@@ -1,6 +1,6 @@
-import XmlElementNames = require("../../XmlElementNames");
-import Folder = require("./Folder");
-class SearchFolder extends Folder {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Folder} from "./Folder";
+export class SearchFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
@@ -16,12 +16,3 @@ class SearchFolder extends Folder {
     GetXmlElementName(): string { return XmlElementNames.SearchFolder; }
     //////Validate(): any { throw new Error("SearchFolder.ts - Validate : Not implemented."); }
 }
-export = SearchFolder;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export

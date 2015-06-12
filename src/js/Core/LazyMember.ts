@@ -1,4 +1,4 @@
-class LazyMember<T> {
+export class LazyMember<T> {
     get Member(): T {
         if (!this.initialized) {
             //lock(this.lockObject)
@@ -26,7 +26,6 @@ class LazyMember<T> {
     }
 }
 
-export = LazyMember;
 
 interface InitializeLazyMember<T> {
     (): T;

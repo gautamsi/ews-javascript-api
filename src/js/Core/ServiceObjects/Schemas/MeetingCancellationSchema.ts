@@ -1,7 +1,7 @@
-import AppointmentSchema = require("./AppointmentSchema");
-import MeetingMessageSchema = require("./MeetingMessageSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-class MeetingCancellationSchema extends MeetingMessageSchema {
+﻿import {AppointmentSchema} from "./AppointmentSchema";
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+export class MeetingCancellationSchema extends MeetingMessageSchema {
     static Start: PropertyDefinition = AppointmentSchema.Start;
         static End: PropertyDefinition = AppointmentSchema.End;
         static Location: PropertyDefinition = AppointmentSchema.Location;
@@ -19,14 +19,4 @@ class MeetingCancellationSchema extends MeetingMessageSchema {
             super.RegisterProperty(MeetingCancellationSchema.EnhancedLocation);
         }
 }
-
-
-export = MeetingCancellationSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
 

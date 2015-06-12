@@ -1,13 +1,12 @@
-import PagedView = require("./PagedView");
-import OrderByCollection = require("./OrderByCollection");
-import JsonObject = require("../Core/JsonObject");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObjectType = require("../Enumerations/ServiceObjectType");
-import ServiceRequestBase = require("../Core/Requests/ServiceRequestBase");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import Grouping = require("./Grouping");
-			
- class ConversationIndexedItemView extends PagedView {
+﻿import {PagedView} from "./PagedView";
+import {OrderByCollection} from "./OrderByCollection";
+import {JsonObject} from "../Core/JsonObject";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
+import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {Grouping} from "./Grouping";
+export class ConversationIndexedItemView extends PagedView {
 	OrderBy: OrderByCollection;
 	Traversal: any /*Nullable<ConversationQueryTraversal>*/;
 	ViewFilter: any /*Nullable<ViewFilter>*/;
@@ -24,10 +23,11 @@ import Grouping = require("./Grouping");
 	WriteOrderByToXml(writer: EwsServiceXmlWriter): void{ throw new Error("ConversationIndexedItemView.ts - WriteOrderByToXml : Not implemented.");}
 	WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("ConversationIndexedItemView.ts - WriteToXml : Not implemented.");}
 }
-export = ConversationIndexedItemView;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

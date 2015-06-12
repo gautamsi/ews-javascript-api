@@ -1,12 +1,12 @@
-import StringList = require("./StringList");
-import ComplexProperty = require("./ComplexProperty");
-import ExtensionType = require("../Enumerations/ExtensionType");
-import ExtensionInstallScope = require("../Enumerations/ExtensionInstallScope");
-import ClientExtensionProvidedTo = require("../Enumerations/ClientExtensionProvidedTo");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {StringList} from "./StringList";
+import {ComplexProperty} from "./ComplexProperty";
+import {ExtensionType} from "../Enumerations/ExtensionType";
+import {ExtensionInstallScope} from "../Enumerations/ExtensionInstallScope";
+import {ClientExtensionProvidedTo} from "../Enumerations/ClientExtensionProvidedTo";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 
-class ClientExtension extends ComplexProperty {
+export class ClientExtension extends ComplexProperty {
     Type: ExtensionType;
     Scope: ExtensionInstallScope;
     ManifestStream: any;// System.IO.Stream;
@@ -24,8 +24,4 @@ class ClientExtension extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ClientExtension;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

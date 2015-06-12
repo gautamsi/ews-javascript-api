@@ -1,10 +1,10 @@
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import ExchangeService = require("../ExchangeService");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
+﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     FolderIds: FolderIdWrapperList;
     ReadFlag: boolean;
     SuppressReadReceipts: boolean;
@@ -18,8 +18,9 @@ class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceRespo
     Validate(): any { throw new Error("MarkAllItemsAsReadRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("MarkAllItemsAsReadRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = MarkAllItemsAsReadRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

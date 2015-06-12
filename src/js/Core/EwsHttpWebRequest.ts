@@ -1,6 +1,5 @@
-import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
-			
- class EwsHttpWebRequest implements  IEwsHttpWebRequest{
+﻿import {IEwsHttpWebRequest} from "../Interfaces/IEwsHttpWebRequest";
+export class EwsHttpWebRequest implements  IEwsHttpWebRequest{
 	private Accept: string;
 	private AllowAutoRedirect: boolean;
 	private ClientCertificates: any /*System.Security.Cryptography.X509Certificates.X509CertificateCollection*/;
@@ -19,10 +18,11 @@ import IEwsHttpWebRequest = require("../Interfaces/IEwsHttpWebRequest");
 	ConnectionGroupName: string;
 	private request: any /*System.Net.HttpWebRequest*/;
 }
-export = EwsHttpWebRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

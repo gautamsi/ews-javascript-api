@@ -1,8 +1,7 @@
-import ComplexProperty = require("./ComplexProperty");
-import Rule = require("./Rule");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-			
- class RuleCollection extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {Rule} from "./Rule";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class RuleCollection extends ComplexProperty {
 	OutlookRuleBlobExists: boolean;
 	Count: number;
 	Item: Rule;
@@ -11,10 +10,11 @@ import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
 	GetEnumerator(): Rule[] /*System.Collections.Generic.IEnumerator<Rule>*/{ throw new Error("RuleCollection.ts - GetEnumerator : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("RuleCollection.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
-export = RuleCollection;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

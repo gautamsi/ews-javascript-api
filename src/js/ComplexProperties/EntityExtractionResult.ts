@@ -1,15 +1,13 @@
-import AddressEntityCollection = require("./AddressEntityCollection");
-import MeetingSuggestionCollection = require("./MeetingSuggestionCollection");
-import TaskSuggestionCollection = require("./TaskSuggestionCollection");
-import EmailAddressEntityCollection = require("./EmailAddressEntityCollection");
-import ContactEntityCollection = require("./ContactEntityCollection");
-import UrlEntityCollection = require("./UrlEntityCollection");
-import PhoneEntityCollection = require("./PhoneEntityCollection");
-import ComplexProperty = require("./ComplexProperty");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-
-
-class EntityExtractionResult extends ComplexProperty {
+﻿import {AddressEntityCollection} from "./AddressEntityCollection";
+import {MeetingSuggestionCollection} from "./MeetingSuggestionCollection";
+import {TaskSuggestionCollection} from "./TaskSuggestionCollection";
+import {EmailAddressEntityCollection} from "./EmailAddressEntityCollection";
+import {ContactEntityCollection} from "./ContactEntityCollection";
+import {UrlEntityCollection} from "./UrlEntityCollection";
+import {PhoneEntityCollection} from "./PhoneEntityCollection";
+import {ComplexProperty} from "./ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class EntityExtractionResult extends ComplexProperty {
     Addresses: AddressEntityCollection;
     MeetingSuggestions: MeetingSuggestionCollection;
     TaskSuggestions: TaskSuggestionCollection;
@@ -19,8 +17,9 @@ class EntityExtractionResult extends ComplexProperty {
     PhoneNumbers: PhoneEntityCollection;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("EntityExtractionResult.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = EntityExtractionResult;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

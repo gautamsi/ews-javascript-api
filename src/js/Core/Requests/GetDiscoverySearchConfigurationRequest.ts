@@ -1,9 +1,9 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import GetDiscoverySearchConfigurationResponse = require("../Responses/GetDiscoverySearchConfigurationResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {GetDiscoverySearchConfigurationResponse} from "../Responses/GetDiscoverySearchConfigurationResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
     SearchId: string;
     ExpandGroupMembership: boolean;
     InPlaceHoldConfigurationOnly: boolean;
@@ -14,8 +14,9 @@ class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GetDiscoverySearchConfigurationRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

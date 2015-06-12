@@ -1,12 +1,12 @@
-import ComplexProperty = require("../../ComplexProperty");
-import EwsServiceXmlWriter = require("../../../Core/EwsServiceXmlWriter");
-import JsonObject = require("../../../Core/JsonObject");
-import ExchangeService = require("../../../Core/ExchangeService");
-import EwsServiceXmlReader = require("../../../Core/EwsServiceXmlReader");
-import DayOfTheWeekCollection = require("../DayOfTheWeekCollection");						
+﻿import {ComplexProperty} from "../../ComplexProperty";
+import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
+import {JsonObject} from "../../../Core/JsonObject";
+import {ExchangeService} from "../../../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
+import {DayOfTheWeekCollection} from "../DayOfTheWeekCollection";
 			
-import IntervalPattern = require("./Recurrence_IntervalPattern");						
-class WeeklyPattern extends IntervalPattern {
+import {IntervalPattern} from "./Recurrence_IntervalPattern";
+export class WeeklyPattern extends IntervalPattern {
 	XmlElementName: string;
 	DaysOfTheWeek: DayOfTheWeekCollection;
 	FirstDayOfWeek: any /*System.DayOfWeek*/;
@@ -19,10 +19,11 @@ class WeeklyPattern extends IntervalPattern {
 	PatternToJson(service: ExchangeService): JsonObject{ throw new Error("Recurrence_WeeklyPattern.ts - PatternToJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("Recurrence_WeeklyPattern.ts - TryReadElementFromXmlJsObject : Not implemented.");}
 }
-export = WeeklyPattern;
+
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data.Recurrence------------
 
 
 			
+

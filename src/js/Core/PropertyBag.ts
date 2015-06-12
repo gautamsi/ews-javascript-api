@@ -1,30 +1,30 @@
-import ExchangeService = require("./ExchangeService");
-import Strings = require("../Strings");
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-import ServiceObjectPropertyException = require("../Exceptions/ServiceObjectPropertyException");
-import ServiceLocalException = require("../Exceptions/ServiceLocalException");
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import PropertySet = require("./PropertySet");
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import IOutParam = require("../Interfaces/IOutParam");
-import Folder = require("./ServiceObjects/Folders/Folder");
-import ComplexPropertyDefinitionBase = require("../PropertyDefinitions/ComplexPropertyDefinitionBase");
-import IOwnedProperty = require("../Interfaces/IOwnedProperty");
-import BasePropertySet = require("../Enumerations/BasePropertySet");
-import EwsServiceXmlReader = require("./EwsServiceXmlReader");
-import ISelfValidate = require("../Interfaces/ISelfValidate");
+﻿import {ExchangeService} from "./ExchangeService";
+import {Strings} from "../Strings";
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ServiceObjectPropertyException} from "../Exceptions/ServiceObjectPropertyException";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {PropertySet} from "./PropertySet";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {IOutParam} from "../Interfaces/IOutParam";
+import {Folder} from "./ServiceObjects/Folders/Folder";
+import {ComplexPropertyDefinitionBase} from "../PropertyDefinitions/ComplexPropertyDefinitionBase";
+import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
+import {BasePropertySet} from "../Enumerations/BasePropertySet";
+import {EwsServiceXmlReader} from "./EwsServiceXmlReader";
+import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
-import EwsUtilities = require("./EwsUtilities");
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {EwsServiceXmlWriter} from "./EwsServiceXmlWriter";
+import {EwsUtilities} from "./EwsUtilities";
 import {EwsLogging} from "./EwsLogging";
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import ICustomUpdateSerializer = require("../Interfaces/ICustomXmlUpdateSerializer");
+import {ICustomUpdateSerializer} from "../Interfaces/ICustomXmlUpdateSerializer";
 
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 
 import {PropDictionary, KeyValuePair} from "../AltDictionary";
 
@@ -32,7 +32,7 @@ import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 
 //todo: should be done
-class PropertyBag {
+export class PropertyBag {
     get Properties(): PropDictionary<PropertyDefinition, any> { return this.properties; }//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     get Owner(): ServiceObject { return this.owner; }
     get IsDirty(): boolean {
@@ -562,12 +562,3 @@ class PropertyBag {
         writer.WriteEndElement();
     }
 }
-
-
-export = PropertyBag;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,12 +1,11 @@
-import ComplexProperty = require("../ComplexProperties/ComplexProperty");
-import PhoneCallState = require("../Enumerations/PhoneCallState");
-import ConnectionFailureCause = require("../Enumerations/ConnectionFailureCause");
-import ExchangeService = require("../Core/ExchangeService");
-import PhoneCallId = require("./PhoneCallId");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-
-class PhoneCall extends ComplexProperty {
+﻿import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {PhoneCallState} from "../Enumerations/PhoneCallState";
+import {ConnectionFailureCause} from "../Enumerations/ConnectionFailureCause";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PhoneCallId} from "./PhoneCallId";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+export class PhoneCall extends ComplexProperty {
     private static SuccessfulResponseText: string = "OK";
     private static SuccessfulResponseCode: number = 200;
     State: PhoneCallState;
@@ -24,8 +23,9 @@ class PhoneCall extends ComplexProperty {
     Refresh(): any { throw new Error("PhoneCall.ts - Refresh : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhoneCall.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
-export = PhoneCall;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

@@ -1,13 +1,13 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ItemId = require("../../../ComplexProperties/ItemId");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-import ServiceObjectSchema = require("./ServiceObjectSchema");
-class ResponseObjectSchema extends ServiceObjectSchema {
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+export class ResponseObjectSchema extends ServiceObjectSchema {
     static ReferenceItemId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
         "ReferenceItemId",
         XmlElementNames.ReferenceItemId,
@@ -32,11 +32,3 @@ class ResponseObjectSchema extends ServiceObjectSchema {
         super.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
     }
 }
-
-export = ResponseObjectSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,28 +1,28 @@
-import XmlElementNames = require("../../XmlElementNames");
-import FileAsMapping = require("../../../Enumerations/FileAsMapping");
-import ContactSource = require("../../../Enumerations/ContactSource");
-import PhysicalAddressIndex = require("../../../Enumerations/PhysicalAddressIndex");
-import StringPropertyDefinition = require("../../../PropertyDefinitions/StringPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import CompleteName = require("../../../ComplexProperties/CompleteName");
-import EmailAddressDictionary = require("../../../ComplexProperties/EmailAddressDictionary");
-import PhysicalAddressDictionary = require("../../../ComplexProperties/PhysicalAddressDictionary");
-import PhoneNumberDictionary = require("../../../ComplexProperties/PhoneNumberDictionary");
-import DateTimePropertyDefinition = require("../../../PropertyDefinitions/DateTimePropertyDefinition");
-import StringList = require("../../../ComplexProperties/StringList");
-import ImAddressDictionary = require("../../../ComplexProperties/ImAddressDictionary");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import ByteArrayPropertyDefinition = require("../../../PropertyDefinitions/ByteArrayPropertyDefinition");
-import ByteArrayArray = require("../../../ComplexProperties/ByteArrayArray");
-import ContainedPropertyDefinition = require("../../../PropertyDefinitions/ContainedPropertyDefinition");
-import EmailAddress = require("../../../ComplexProperties/EmailAddress");
-import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
-import ItemSchema = require("./ItemSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import IndexedPropertyDefinition = require("../../../PropertyDefinitions/IndexedPropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {FileAsMapping} from "../../../Enumerations/FileAsMapping";
+import {ContactSource} from "../../../Enumerations/ContactSource";
+import {PhysicalAddressIndex} from "../../../Enumerations/PhysicalAddressIndex";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {CompleteName} from "../../../ComplexProperties/CompleteName";
+import {EmailAddressDictionary} from "../../../ComplexProperties/EmailAddressDictionary";
+import {PhysicalAddressDictionary} from "../../../ComplexProperties/PhysicalAddressDictionary";
+import {PhoneNumberDictionary} from "../../../ComplexProperties/PhoneNumberDictionary";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {ImAddressDictionary} from "../../../ComplexProperties/ImAddressDictionary";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {ByteArrayArray} from "../../../ComplexProperties/ByteArrayArray";
+import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {ItemSchema} from "./ItemSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
 
 
 //module ContactSchema {
@@ -79,8 +79,7 @@ module FieldUris {
     export var DirectReports: string = "contacts:DirectReports";
 }
 //}
-
-class ContactSchema extends ItemSchema {
+export class ContactSchema extends ItemSchema {
     static FileAs: PropertyDefinition = new StringPropertyDefinition(
         "FileAs", 
         XmlElementNames.FileAs, 
@@ -715,10 +714,3 @@ class ContactSchema extends ItemSchema {
         super.RegisterIndexedProperty(ContactSchema.OtherAddressPostalCode);
     }
 }
-
-
-export = ContactSchema;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

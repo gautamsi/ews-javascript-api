@@ -1,15 +1,15 @@
-import EwsServiceJsonReader = require("../EwsServiceJsonReader");
-import Folder = require("../ServiceObjects/Folders/Folder");
-import FolderInfo = require("../ServiceObjects/Folders/FolderInfo");
-import PropertySet = require("../PropertySet");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import ExchangeService = require("../ExchangeService");
-import EwsUtilities = require("../EwsUtilities");
+﻿import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {Folder} from "../ServiceObjects/Folders/Folder";
+import {FolderInfo} from "../ServiceObjects/Folders/FolderInfo";
+import {PropertySet} from "../PropertySet";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {ExchangeService} from "../ExchangeService";
+import {EwsUtilities} from "../EwsUtilities";
 import {EwsLogging} from "../EwsLogging";
-import XmlElementNames = require("../XmlElementNames");
+import {XmlElementNames} from "../XmlElementNames";
 import {TypeSystem} from "../../ExtensionMethods";
-import ServiceResponse = require("./ServiceResponse");
-class GetFolderResponse extends ServiceResponse {
+import {ServiceResponse} from "./ServiceResponse";
+export class GetFolderResponse extends ServiceResponse {
     get Folder(): Folder { return this.folder; }
     private folder: Folder;
     private propertySet: PropertySet;
@@ -78,10 +78,3 @@ class GetFolderResponse extends ServiceResponse {
     }
 
 }
-
-export = GetFolderResponse;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

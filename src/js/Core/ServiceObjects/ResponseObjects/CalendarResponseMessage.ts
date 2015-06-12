@@ -1,12 +1,12 @@
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import InternetMessageHeaderCollection = require("../../../ComplexProperties/InternetMessageHeaderCollection");
-import CalendarResponseMessageBase = require("./CalendarResponseMessageBase");
-import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
-import Sensitivity = require("../../../Enumerations/Sensitivity");
-import AttachmentCollection = require("../../../ComplexProperties/AttachmentCollection");
-import EmailAddress = require("../../../ComplexProperties/EmailAddress");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-   class CalendarResponseMessage<TMessage> extends CalendarResponseMessageBase<TMessage> {
+﻿import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import {CalendarResponseMessageBase} from "./CalendarResponseMessageBase";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+export class CalendarResponseMessage<TMessage> extends CalendarResponseMessageBase<TMessage> {
         Body: MessageBody;
         ToRecipients: EmailAddressCollection;
         CcRecipients: EmailAddressCollection;
@@ -18,12 +18,3 @@ import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
         Sender: EmailAddress;
         GetSchema(): ServiceObjectSchema { throw new Error("CalendarResponseMessage.ts - GetSchema : Not implemented."); }
 }
-
-   export = CalendarResponseMessage;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

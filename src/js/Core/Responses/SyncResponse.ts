@@ -1,11 +1,10 @@
-import ServiceResponse = require("./ServiceResponse");
-import ChangeCollection = require("../../Sync/ChangeCollection");
-import PropertySet = require("../PropertySet");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-			
- class SyncResponse<TServiceObject, TChange> extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {ChangeCollection} from "../../Sync/ChangeCollection";
+import {PropertySet} from "../PropertySet";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class SyncResponse<TServiceObject, TChange> extends ServiceResponse {
 	Changes: ChangeCollection<TChange>;
 	SummaryPropertiesOnly: boolean;
 	private changes: ChangeCollection<TChange>;
@@ -17,10 +16,11 @@ import EwsServiceXmlReader = require("../EwsServiceXmlReader");
 	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("SyncResponse.ts - ReadElementsFromJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("SyncResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
-export = SyncResponse;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

@@ -1,10 +1,10 @@
-import XmlElementNames = require("../../XmlElementNames");
-import AppointmentSchema = require("./AppointmentSchema");
-import ScopedDateTimePropertyDefinition = require("../../../PropertyDefinitions/ScopedDateTimePropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import MeetingMessageSchema = require("./MeetingMessageSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AppointmentSchema} from "./AppointmentSchema";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 
 //module MeetingResponseSchema {
@@ -13,9 +13,7 @@ module FieldUris {
     export var ProposedEnd: string = "meeting:ProposedEnd";
 }
 //}
-
-
-class MeetingResponseSchema extends MeetingMessageSchema {
+export class MeetingResponseSchema extends MeetingMessageSchema {
     static Start: PropertyDefinition = AppointmentSchema.Start;
     static End: PropertyDefinition = AppointmentSchema.End;
     static Location: PropertyDefinition = AppointmentSchema.Location;
@@ -53,12 +51,3 @@ class MeetingResponseSchema extends MeetingMessageSchema {
         super.RegisterProperty(MeetingResponseSchema.EnhancedLocation);
     }
 }
-
-
-export = MeetingResponseSchema;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

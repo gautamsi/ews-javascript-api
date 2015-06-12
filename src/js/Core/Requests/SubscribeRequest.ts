@@ -1,12 +1,11 @@
-import SubscribeResponse = require("../Responses/SubscribeResponse");
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
-import EventType = require("../../Enumerations/EventType");
-import JsonObject = require("../JsonObject");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SubscribeRequest<TSubscription> extends MultiResponseServiceRequest<SubscribeResponse<TSubscription>> {
+﻿import {SubscribeResponse} from "../Responses/SubscribeResponse";
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {EventType} from "../../Enumerations/EventType";
+import {JsonObject} from "../JsonObject";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SubscribeRequest<TSubscription> extends MultiResponseServiceRequest<SubscribeResponse<TSubscription>> {
 	FolderIds: FolderIdWrapperList;
 	EventTypes: EventType[] /*System.Collections.Generic.List<EventType>*/;
 	Watermark: string;
@@ -20,10 +19,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("SubscribeRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = SubscribeRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

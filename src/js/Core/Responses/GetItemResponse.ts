@@ -1,10 +1,10 @@
-import ServiceResponse = require("./ServiceResponse");
-import Item = require("../ServiceObjects/Items/Item");
-import PropertySet = require("../PropertySet");
-import ExchangeService = require("../ExchangeService");
-import JsonObject = require("../JsonObject");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-class GetItemResponse extends ServiceResponse {
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {Item} from "../ServiceObjects/Items/Item";
+import {PropertySet} from "../PropertySet";
+import {ExchangeService} from "../ExchangeService";
+import {JsonObject} from "../JsonObject";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+export class GetItemResponse extends ServiceResponse {
     Item: Item;
     private item: Item;
     private propertySet: PropertySet;
@@ -12,8 +12,9 @@ class GetItemResponse extends ServiceResponse {
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetItemResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-export = GetItemResponse;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

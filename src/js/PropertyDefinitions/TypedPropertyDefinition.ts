@@ -1,13 +1,13 @@
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import PropertyBag = require("../Core/PropertyBag");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {PropertyBag} from "../Core/PropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 
-import PropertyDefinition = require("./PropertyDefinition");
-class TypedPropertyDefinition extends PropertyDefinition {
+import {PropertyDefinition} from "./PropertyDefinition";
+export class TypedPropertyDefinition extends PropertyDefinition {
     get IsNullable(): boolean { return this.isNullable; };
     private isNullable: boolean;
 
@@ -48,10 +48,3 @@ class TypedPropertyDefinition extends PropertyDefinition {
             }
     }
 }
-
-export = TypedPropertyDefinition;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

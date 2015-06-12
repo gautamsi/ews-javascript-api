@@ -1,10 +1,10 @@
-import EwsServiceXmlReader = require("./EwsServiceXmlReader");
+﻿import {EwsServiceXmlReader} from "./EwsServiceXmlReader";
 import {EwsLogging} from "../Core/EwsLogging";
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
 import {StringHelper, Convert} from "../ExtensionMethods";
 // todo: should be done
-class ExchangeServerInfo {
+export class ExchangeServerInfo {
     MajorVersion: number;
     MinorVersion: number;
     MajorBuildNumber: number;
@@ -48,9 +48,3 @@ class ExchangeServerInfo {
     }
 }
 
-export = ExchangeServerInfo;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

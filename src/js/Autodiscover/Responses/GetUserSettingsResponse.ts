@@ -1,21 +1,21 @@
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import XmlAttributeNames = require("../../Core/XmlAttributeNames");
+﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
 
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import UserSettingName = require("../../Enumerations/UserSettingName");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {UserSettingName} from "../../Enumerations/UserSettingName";
 
-import UserSettingError = require("../UserSettingError");
-import WebClientUrlCollection = require("../WebClientUrlCollection");
-import ProtocolConnectionCollection = require("../ProtocolConnectionCollection");
-import AlternateMailboxCollection = require("../AlternateMailboxCollection");
-import DocumentSharingLocationCollection = require("../DocumentSharingLocationCollection");
+import {UserSettingError} from "../UserSettingError";
+import {WebClientUrlCollection} from "../WebClientUrlCollection";
+import {ProtocolConnectionCollection} from "../ProtocolConnectionCollection";
+import {AlternateMailboxCollection} from "../AlternateMailboxCollection";
+import {DocumentSharingLocationCollection} from "../DocumentSharingLocationCollection";
 
 import {EwsLogging} from "../../Core/EwsLogging";
 import {StringHelper} from "../../ExtensionMethods";
 
-import AutodiscoverResponse = require("./AutodiscoverResponse");
-class GetUserSettingsResponse extends AutodiscoverResponse {
+import {AutodiscoverResponse} from "./AutodiscoverResponse";
+export class GetUserSettingsResponse extends AutodiscoverResponse {
     SmtpAddress: string;
     RedirectTarget: string;
     Settings: { [index: number]: any }; //System.Collections.Generic.IDictionary<UserSettingName, any>;
@@ -281,11 +281,3 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
         return this.Settings[setting];
     }
 }
-export = GetUserSettingsResponse;
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

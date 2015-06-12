@@ -1,11 +1,11 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import EmailAddress = require("../../ComplexProperties/EmailAddress");
-import TeamMailboxLifecycleState = require("../../Enumerations/TeamMailboxLifecycleState");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class SetTeamMailboxRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {EmailAddress} from "../../ComplexProperties/EmailAddress";
+import {TeamMailboxLifecycleState} from "../../Enumerations/TeamMailboxLifecycleState";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SetTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     private sharePointSiteUrl: string/*System.Uri*/;
     private state: TeamMailboxLifecycleState;
@@ -17,10 +17,10 @@ class SetTeamMailboxRequest extends SimpleServiceRequestBase {
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetTeamMailboxRequest.ts - WriteElementsToXml : Not implemented."); }
 }
 
-export = SetTeamMailboxRequest;
 
 
-//module Microsoft.Exchange.WebServices.Data {
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

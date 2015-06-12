@@ -1,5 +1,5 @@
 			
- interface IEwsHttpWebResponse {
+ export interface IEwsHttpWebResponse {
 	ContentEncoding: string;
 	ContentType: string;
 	Headers: any /*System.Net.WebHeaderCollection*/;
@@ -10,10 +10,10 @@
 	Close(): void;
 	GetResponseStream(): any /*System.IO.Stream*/;
 }
-export = IEwsHttpWebResponse;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			

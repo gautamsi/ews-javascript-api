@@ -1,10 +1,10 @@
-import ComplexProperty = require("./ComplexProperty");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import ExchangeService = require("../Core/ExchangeService");
-import ServiceObject = require("../Core/ServiceObjects/ServiceObject");
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
-class DictionaryEntryProperty<TKey> extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../Core/ExchangeService";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
+export class DictionaryEntryProperty<TKey> extends ComplexProperty {
     Key: TKey;
     private key: TKey;
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("DictionaryEntryProperty.ts - ReadAttributesFromXml : Not implemented."); }
@@ -14,8 +14,4 @@ class DictionaryEntryProperty<TKey> extends ComplexProperty {
     WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]/*System.Collections.Generic.List<T>*/): boolean { throw new Error("DictionaryEntryProperty.ts - WriteSetUpdateToJson : Not implemented."); }
     WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean { throw new Error("DictionaryEntryProperty.ts - WriteSetUpdateToXml : Not implemented."); }
 }
-export = DictionaryEntryProperty;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+

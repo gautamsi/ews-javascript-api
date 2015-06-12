@@ -1,8 +1,8 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-import AutodiscoverResponse = require("./Responses/AutodiscoverResponse");
+import {AutodiscoverResponse} from "./Responses/AutodiscoverResponse";
 
-class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
+export class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
     get Count(): number{return this.Responses.length};
     Item: TResponse;
     Responses: TResponse[] = [];//System.Collections.Generic.List<TResponse>;
@@ -74,10 +74,3 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
     }
 }
 
-export = AutodiscoverResponseCollection;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

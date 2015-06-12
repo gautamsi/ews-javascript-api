@@ -1,25 +1,25 @@
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import EwsUtilities = require("../../Core/EwsUtilities");
-import ExchangeServerInfo = require("../../Core/ExchangeServerInfo");
+﻿import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {EwsUtilities} from "../../Core/EwsUtilities";
+import {ExchangeServerInfo} from "../../Core/ExchangeServerInfo";
 
-import AutodiscoverErrorCode = require("../../Enumerations/AutodiscoverErrorCode");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 
-import AutodiscoverService = require("../AutodiscoverService");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import ServiceResponse = require("../../Core/Responses/ServiceResponse");
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
+import {AutodiscoverService} from "../AutodiscoverService";
+import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
+import {ServiceResponse} from "../../Core/Responses/ServiceResponse";
+import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
 
 import {EwsLogging} from "../../Core/EwsLogging";
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {XHR} from "../../XHRFactory"
 
-class AutodiscoverRequest {
+export class AutodiscoverRequest {
 
     get Service(): AutodiscoverService {
         return this.service;
@@ -411,11 +411,3 @@ class AutodiscoverRequest {
         writer.Flush();
     }
 }
-
-export = AutodiscoverRequest;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

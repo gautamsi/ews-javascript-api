@@ -1,11 +1,11 @@
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinition = require("./PropertyDefinition");
-import ExchangeServiceBase = require("../Core/ExchangeServiceBase");
-import PropertyBag = require("../Core/PropertyBag");
+﻿import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
+import {PropertyBag} from "../Core/PropertyBag";
 
-import DateTimePropertyDefinition = require("./DateTimePropertyDefinition");
-class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
+import {DateTimePropertyDefinition} from "./DateTimePropertyDefinition";
+export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
     private getPropertyDefinitionCallback: GetPropertyDefinitionCallback;
     constructor(
         propertyName: string,
@@ -26,9 +26,3 @@ class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
 interface GetPropertyDefinitionCallback {
     (version: ExchangeVersion): PropertyDefinition
 }
-
-export = ScopedDateTimePropertyDefinition;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

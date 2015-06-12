@@ -1,21 +1,21 @@
-import XmlElementNames = require("../XmlElementNames");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import ItemGroup = require("../../Search/ItemGroup");
-import HighlightTerm = require("../../ComplexProperties/HighlightTerm");
-import EwsUtilities = require("../EwsUtilities");
-import Item = require("../ServiceObjects/Items/Item");
-import ItemInfo = require("../ServiceObjects/Items/ItemInfo");
-import GroupedFindItemsResults = require("../../Search/GroupedFindItemsResults");
-import FindItemsResults = require("../../Search/FindItemsResults");
-import PropertySet = require("../PropertySet");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceJsonReader = require("../EwsServiceJsonReader");
+﻿import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {ItemGroup} from "../../Search/ItemGroup";
+import {HighlightTerm} from "../../ComplexProperties/HighlightTerm";
+import {EwsUtilities} from "../EwsUtilities";
+import {Item} from "../ServiceObjects/Items/Item";
+import {ItemInfo} from "../ServiceObjects/Items/ItemInfo";
+import {GroupedFindItemsResults} from "../../Search/GroupedFindItemsResults";
+import {FindItemsResults} from "../../Search/FindItemsResults";
+import {PropertySet} from "../PropertySet";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {EwsLogging} from "../EwsLogging";
 import {Convert} from "../../ExtensionMethods"
 
-import ServiceResponse = require("./ServiceResponse");
-class FindItemResponse<TItem extends Item> extends ServiceResponse {
+import {ServiceResponse} from "./ServiceResponse";
+export class FindItemResponse<TItem extends Item> extends ServiceResponse {
     get GroupedFindResults(): GroupedFindItemsResults<TItem> { return this.groupedFindResults; }
     get Results(): FindItemsResults<TItem> { return this.results; }
     private results: FindItemsResults<TItem>;
@@ -132,8 +132,3 @@ class FindItemResponse<TItem extends Item> extends ServiceResponse {
         }
     }
 }
-export = FindItemResponse;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

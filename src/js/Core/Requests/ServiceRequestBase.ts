@@ -1,26 +1,25 @@
-import ServiceResponse = require("../Responses/ServiceResponse");
-import Strings = require("../../Strings");
-import ExchangeService = require("../ExchangeService");
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import EwsUtilities = require("../EwsUtilities");
-import ExchangeServerInfo = require("../ExchangeServerInfo");
-import DateTimePrecision = require("../../Enumerations/DateTimePrecision");
-import ServiceVersionException = require("../../Exceptions/ServiceVersionException");
-import RenderingMode = require("../../Enumerations/RenderingMode");
+﻿import {ServiceResponse} from "../Responses/ServiceResponse";
+import {Strings} from "../../Strings";
+import {ExchangeService} from "../ExchangeService";
+import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {EwsUtilities} from "../EwsUtilities";
+import {ExchangeServerInfo} from "../ExchangeServerInfo";
+import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
+import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
+import {RenderingMode} from "../../Enumerations/RenderingMode";
 
 import {StringHelper} from "../../ExtensionMethods";
 
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {XHR} from "../../XHRFactory"
-
-class ServiceRequestBase {
+export class ServiceRequestBase {
 
     //#region private static and const
     private static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
@@ -534,11 +533,3 @@ class ServiceRequestBase {
 
     //#endregion
 }
-
-export = ServiceRequestBase;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

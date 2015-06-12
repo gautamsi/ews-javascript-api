@@ -1,8 +1,8 @@
-import ExchangeService = require("../../Core/ExchangeService");
-import JsonObject = require("../../Core/JsonObject");
-import EwsServiceXmlReader = require("../../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-class OofReply {
+﻿import {ExchangeService} from "../../Core/ExchangeService";
+import {JsonObject} from "../../Core/JsonObject";
+import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+export class OofReply {
     Culture: string;
     Message: string;
     private culture: string;
@@ -14,9 +14,10 @@ class OofReply {
     WriteEmptyReplyToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("OofReply.ts - WriteEmptyReplyToXml : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("OofReply.ts - WriteToXml : Not implemented."); }
 }
-export = OofReply;
 
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

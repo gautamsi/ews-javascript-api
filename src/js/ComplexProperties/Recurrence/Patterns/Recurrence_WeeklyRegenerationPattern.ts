@@ -1,13 +1,9 @@
-			
-import IntervalPattern = require("./Recurrence_IntervalPattern");						
- class WeeklyRegenerationPattern extends IntervalPattern {
+﻿			
+import {IntervalPattern} from "./Recurrence_IntervalPattern";
+export class WeeklyRegenerationPattern extends IntervalPattern {
 	XmlElementName: string;
 	IsRegenerationPattern: boolean;
 }
-export = WeeklyRegenerationPattern;
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data.Recurrence------------
-
 
 			
+

@@ -1,5 +1,5 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
- class AutodiscoverError {
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
+export class AutodiscoverError {
     Time: string;
     Id: string;
     ErrorCode: number;
@@ -12,9 +12,3 @@ import EwsXmlReader = require("../Core/EwsXmlReader");
     private debugData: string;
     Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("AutodiscoverError.ts - Parse : Not implemented."); }
 }
-export = AutodiscoverError;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

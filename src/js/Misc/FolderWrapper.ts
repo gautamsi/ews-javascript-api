@@ -1,9 +1,9 @@
-import Folder = require("../Core/ServiceObjects/Folders/Folder");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {Folder} from "../Core/ServiceObjects/Folders/Folder";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {EwsLogging} from "../Core/EwsLogging";
 
-import AbstractFolderIdWrapper = require("./AbstractFolderIdWrapper");
-class FolderWrapper extends AbstractFolderIdWrapper {
+import {AbstractFolderIdWrapper} from "./AbstractFolderIdWrapper";
+export class FolderWrapper extends AbstractFolderIdWrapper {
     private folder: Folder;
 
     constructor(folder: Folder) {
@@ -24,9 +24,3 @@ class FolderWrapper extends AbstractFolderIdWrapper {
     //InternalToJson(service: ExchangeService): void{ throw new Error("FolderWrapper.ts - InternalToJson : Not implemented.");}
     WriteToXml(writer: EwsServiceXmlWriter): void { this.folder.Id.WriteToXml(writer); }
 }
-export = FolderWrapper;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

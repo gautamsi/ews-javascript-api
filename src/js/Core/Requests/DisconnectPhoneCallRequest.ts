@@ -1,10 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import PhoneCallId = require("../../UnifiedMessaging/PhoneCallId");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {PhoneCallId} from "../../UnifiedMessaging/PhoneCallId";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     Id: PhoneCallId;
     private id: PhoneCallId;
     Execute(): ServiceResponse { throw new Error("DisconnectPhoneCallRequest.ts - Execute : Not implemented."); }
@@ -14,8 +14,9 @@ class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("DisconnectPhoneCallRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DisconnectPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-export = DisconnectPhoneCallRequest;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

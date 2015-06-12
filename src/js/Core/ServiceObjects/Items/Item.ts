@@ -1,50 +1,50 @@
-import XmlElementNames = require("../../XmlElementNames");
-import ServiceErrorHandling = require("../../../Enumerations/ServiceErrorHandling");
-import Strings = require("../../../Strings");
-import ServiceVersionException = require("../../../Exceptions/ServiceVersionException");
-import ItemAttachment = require("../../../ComplexProperties/ItemAttachment");
-import ItemId = require("../../../ComplexProperties/ItemId");
-import MimeContent = require("../../../ComplexProperties/MimeContent");
-import FolderId = require("../../../ComplexProperties/FolderId");
-import Sensitivity = require("../../../Enumerations/Sensitivity");
-import AttachmentCollection = require("../../../ComplexProperties/AttachmentCollection");
-import StringList = require("../../../ComplexProperties/StringList");
-import Importance = require("../../../Enumerations/Importance");
-import InternetMessageHeaderCollection = require("../../../ComplexProperties/InternetMessageHeaderCollection");
-import ResponseActions = require("../../../Enumerations/ResponseActions");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import ExtendedPropertyCollection = require("../../../ComplexProperties/ExtendedPropertyCollection");
-import EffectiveRights = require("../../../Enumerations/EffectiveRights");
-import ConversationId = require("../../../ComplexProperties/ConversationId");
-import UniqueBody = require("../../../ComplexProperties/UniqueBody");
-import Flag = require("../../../ComplexProperties/Flag");
-import NormalizedBody = require("../../../ComplexProperties/NormalizedBody");
-import EntityExtractionResult = require("../../../ComplexProperties/EntityExtractionResult");
-import PolicyTag = require("../../../ComplexProperties/PolicyTag");
-import ArchiveTag = require("../../../ComplexProperties/ArchiveTag");
-import TextBody = require("../../../ComplexProperties/TextBody");
-import IconIndex = require("../../../Enumerations/IconIndex");
-import AffectedTaskOccurrence = require("../../../Enumerations/AffectedTaskOccurrence");
-import SendCancellationsMode = require("../../../Enumerations/SendCancellationsMode");
-import SendInvitationsMode = require("../../../Enumerations/SendInvitationsMode");
-import SendInvitationsOrCancellationsMode = require("../../../Enumerations/SendInvitationsOrCancellationsMode");
-import ExchangeService = require("../../ExchangeService");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
+import {Strings} from "../../../Strings";
+import {ServiceVersionException} from "../../../Exceptions/ServiceVersionException";
+import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MimeContent} from "../../../ComplexProperties/MimeContent";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {Importance} from "../../../Enumerations/Importance";
+import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import {ResponseActions} from "../../../Enumerations/ResponseActions";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
+import {Flag} from "../../../ComplexProperties/Flag";
+import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
+import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {TextBody} from "../../../ComplexProperties/TextBody";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {SendInvitationsMode} from "../../../Enumerations/SendInvitationsMode";
+import {SendInvitationsOrCancellationsMode} from "../../../Enumerations/SendInvitationsOrCancellationsMode";
+import {ExchangeService} from "../../ExchangeService";
 import {EwsLogging} from "../../EwsLogging";
-import PropertySet = require("../../PropertySet");
-import WellKnownFolderName = require("../../../Enumerations/WellKnownFolderName");
-import DeleteMode = require("../../../Enumerations/DeleteMode");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-import MessageDisposition = require("../../../Enumerations/MessageDisposition");
-import ConflictResolutionMode = require("../../../Enumerations/ConflictResolutionMode");
-import ExtendedPropertyDefinition = require("../../../PropertyDefinitions/ExtendedPropertyDefinition");
-import ItemSchema = require("../Schemas/ItemSchema");
-import IOutParam = require("../../../Interfaces/IOutParam");
+import {PropertySet} from "../../PropertySet";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
+import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {ItemSchema} from "../Schemas/ItemSchema";
+import {IOutParam} from "../../../Interfaces/IOutParam";
 import {StringHelper} from "../../../ExtensionMethods";
 
-import ServiceObject = require("../ServiceObject");
-class Item extends ServiceObject {
+import {ServiceObject} from "../ServiceObject";
+export class Item extends ServiceObject {
     //    constructor(obj: any) { super(obj); }
 
 
@@ -521,13 +521,3 @@ class Item extends ServiceObject {
     IsItemInstance(): boolean { return true; }//only item instance would return true.
 
 }
-
-export = Item;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

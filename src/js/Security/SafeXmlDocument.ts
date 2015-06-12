@@ -7,10 +7,9 @@
 //	//Load(reader: any /*System.Xml.XmlReader*/): void{ throw new Error("SafeXmlDocument.ts - Load : Not implemented.");}
 //	LoadXml(xml: string): void{ throw new Error("SafeXmlDocument.ts - LoadXml : Not implemented.");}
 //}
-//export = SafeXmlDocument;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
 
 
 			

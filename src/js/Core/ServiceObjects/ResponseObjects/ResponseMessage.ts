@@ -1,11 +1,11 @@
-import EmailMessage = require("../Items/EmailMessage");
-import MessageBody = require("../../../ComplexProperties/MessageBody");
-import ResponseObject = require("./ResponseObject");
-import ResponseMessageType = require("../../../Enumerations/ResponseMessageType");
-import EmailAddressCollection = require("../../../ComplexProperties/EmailAddressCollection");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ServiceObjectSchema = require("../Schemas/ServiceObjectSchema");
-class ResponseMessage extends ResponseObject<EmailMessage> {
+﻿import {EmailMessage} from "../Items/EmailMessage";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {ResponseObject} from "./ResponseObject";
+import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+export class ResponseMessage extends ResponseObject<EmailMessage> {
     ResponseType: ResponseMessageType;
     Body: MessageBody;
     ToRecipients: EmailAddressCollection;
@@ -19,14 +19,3 @@ class ResponseMessage extends ResponseObject<EmailMessage> {
     GetXmlElementName(): string { return this.GetXmlElementNameOverride(); }
     GetXmlElementNameOverride(): string { throw new Error("ResponseMessage.ts - GetXmlElementNameOverride : Not implemented."); }
 }
-
-
-export = ResponseMessage;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
-

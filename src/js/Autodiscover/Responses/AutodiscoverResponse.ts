@@ -1,8 +1,8 @@
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import AutodiscoverErrorCode = require("../../Enumerations/AutodiscoverErrorCode");
-import XmlElementNames = require("../../Core/XmlElementNames");
+﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
+import {XmlElementNames} from "../../Core/XmlElementNames";
 
-class AutodiscoverResponse {
+export class AutodiscoverResponse {
     ErrorCode: AutodiscoverErrorCode;
     ErrorMessage: string;
     RedirectionUrl: string;//System.Uri;
@@ -32,9 +32,3 @@ class AutodiscoverResponse {
 
     }
 }
-export = AutodiscoverResponse;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

@@ -1,11 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import OofSettings = require("../../ComplexProperties/Availability/OofSettings");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {OofSettings} from "../../ComplexProperties/Availability/OofSettings";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
 	SmtpAddress: string;
 	OofSettings: OofSettings;
 	private smtpAddress: string;
@@ -18,10 +17,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	Validate(): void{ throw new Error("SetUserOofSettingsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SetUserOofSettingsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = SetUserOofSettingsRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

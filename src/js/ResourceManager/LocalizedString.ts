@@ -1,6 +1,5 @@
-import ExchangeResourceManager = require("./ExchangeResourceManager");
-
-class LocalizedString implements ILocalizedString {
+﻿import {ExchangeResourceManager} from "./ExchangeResourceManager";
+export class LocalizedString implements ILocalizedString {
 	LocalizedString: LocalizedString;
 	IsEmpty: boolean;
 	BaseId: number;
@@ -21,10 +20,9 @@ interface ILocalizedString {
 }
 
 
-export = LocalizedString;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
 
 
 			
+

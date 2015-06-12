@@ -1,12 +1,11 @@
-import ComplexProperty = require("./ComplexProperty");
-import EmailAddress = require("./EmailAddress");
-import MemberStatus = require("../Enumerations/MemberStatus");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class GroupMember extends ComplexProperty {
+﻿import {ComplexProperty} from "./ComplexProperty";
+import {EmailAddress} from "./EmailAddress";
+import {MemberStatus} from "../Enumerations/MemberStatus";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class GroupMember extends ComplexProperty {
     Key: string;
     AddressInformation: EmailAddress;
     Status: MemberStatus;
@@ -21,9 +20,10 @@ class GroupMember extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GroupMember.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GroupMember.ts - WriteElementsToXml : Not implemented."); }
 }
-export = GroupMember;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+
 

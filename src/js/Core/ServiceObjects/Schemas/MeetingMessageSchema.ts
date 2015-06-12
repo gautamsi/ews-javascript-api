@@ -1,14 +1,14 @@
-import XmlElementNames = require("../../XmlElementNames");
-import MeetingResponseType = require("../../../Enumerations/MeetingResponseType");
-import ComplexPropertyDefinition = require("../../../PropertyDefinitions/ComplexPropertyDefinition");
-import ExchangeVersion = require("../../../Enumerations/ExchangeVersion");
-import ItemId = require("../../../ComplexProperties/ItemId");
-import BoolPropertyDefinition = require("../../../PropertyDefinitions/BoolPropertyDefinition");
-import PropertyDefinitionFlags = require("../../../Enumerations/PropertyDefinitionFlags");
-import GenericPropertyDefinition = require("../../../PropertyDefinitions/GenericPropertyDefinition");
-import AppointmentSchema = require("./AppointmentSchema");
-import EmailMessageSchema = require("./EmailMessageSchema");
-import PropertyDefinition = require("../../../PropertyDefinitions/PropertyDefinition");
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {AppointmentSchema} from "./AppointmentSchema";
+import {EmailMessageSchema} from "./EmailMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
 
 //module MeetingMessageSchema {
@@ -21,8 +21,7 @@ module FieldUris {
     export var IsOrganizer: string = "cal:IsOrganizer";
 }
 //}
-
-class MeetingMessageSchema extends EmailMessageSchema {
+export class MeetingMessageSchema extends EmailMessageSchema {
     static AssociatedAppointmentId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
         "AssociatedCalendarItemId",
         XmlElementNames.AssociatedCalendarItemId,
@@ -92,11 +91,3 @@ class MeetingMessageSchema extends EmailMessageSchema {
         super.RegisterProperty(MeetingMessageSchema.IsOrganizer);
     }
 }
-
-export = MeetingMessageSchema;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

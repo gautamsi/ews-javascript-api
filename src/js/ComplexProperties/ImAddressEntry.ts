@@ -1,11 +1,10 @@
-import DictionaryEntryProperty = require("./DictionaryEntryProperty");
-import ImAddressKey = require("../Enumerations/ImAddressKey");
-import ExchangeService = require("../Core/ExchangeService");
-import JsonObject = require("../Core/JsonObject");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-
-class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
+﻿import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
+import {ImAddressKey} from "../Enumerations/ImAddressKey";
+import {ExchangeService} from "../Core/ExchangeService";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     ImAddress: string;
     private imAddress: string;
     InternalToJson(service: ExchangeService): any { throw new Error("ImAddressEntry.ts - InternalToJson : Not implemented."); }
@@ -13,8 +12,9 @@ class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("ImAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ImAddressEntry.ts - WriteElementsToXml : Not implemented."); }
 }
-export = ImAddressEntry;
-//module Microsoft.Exchange.WebServices.Data {
+
+
 //}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
+
+
+

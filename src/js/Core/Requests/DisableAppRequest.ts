@@ -1,11 +1,10 @@
-import SimpleServiceRequestBase = require("./SimpleServiceRequestBase");
-import DisableReasonType = require("../../Enumerations/DisableReasonType");
-import DisableAppResponse = require("../Responses/DisableAppResponse");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-			
- class DisableAppRequest extends SimpleServiceRequestBase {
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {DisableReasonType} from "../../Enumerations/DisableReasonType";
+import {DisableAppResponse} from "../Responses/DisableAppResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DisableAppRequest extends SimpleServiceRequestBase {
 	private Id: string;
 	private DisableReason: DisableReasonType;
 	Execute(): DisableAppResponse{ throw new Error("DisableAppRequest.ts - Execute : Not implemented.");}
@@ -15,10 +14,11 @@ import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("DisableAppRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("DisableAppRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-export = DisableAppRequest;
 
 
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
+
+
 
 
 			
+

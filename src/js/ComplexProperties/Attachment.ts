@@ -1,12 +1,12 @@
-import Item = require("../Core/ServiceObjects/Items/Item");
-import ExchangeService = require("../Core/ExchangeService");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
+﻿import {Item} from "../Core/ServiceObjects/Items/Item";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 
-import BodyType = require("../Enumerations/BodyType");
+import {BodyType} from "../Enumerations/BodyType";
 
-import ComplexProperty = require("./ComplexProperty");
-class Attachment extends ComplexProperty {
+import {ComplexProperty} from "./ComplexProperty";
+export class Attachment extends ComplexProperty {
     Id: string;
     Name: string;
     ContentType: string;
@@ -40,12 +40,4 @@ class Attachment extends ComplexProperty {
     //Validate(attachmentIndex: number): any { throw new Error("Attachment.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Attachment.ts - WriteElementsToXml : Not implemented."); }
 }
-export = Attachment;
 
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

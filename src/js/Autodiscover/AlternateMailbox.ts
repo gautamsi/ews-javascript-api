@@ -1,10 +1,10 @@
-//todo: fix this - import Xml = require("System.Xml");
+﻿//todo: fix this - import Xml = require("System.Xml");
 
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-class AlternateMailbox {
+export class AlternateMailbox {
     Type: string;
     DisplayName: string;
     LegacyDN: string;
@@ -56,11 +56,3 @@ class AlternateMailbox {
 }
 
 
-export = AlternateMailbox;
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;
