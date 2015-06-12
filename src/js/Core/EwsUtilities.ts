@@ -234,7 +234,7 @@ class EwsUtilities {
         //     //}
     }
     //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
-    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment<any>, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
+    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
     static DateTimeToXSDate(date: DateTime): string { return DateTime.DateTimeToXSDate(date); }
     static DateTimeToXSDateTime(dateTime: DateTime): string { return DateTime.DateTimeToXSDateTime(dateTime); }
     static DomainFromEmailAddress(emailAddress: string): string {
@@ -247,7 +247,13 @@ class EwsUtilities {
         return emailAddressParts[1];
     }
     static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("EwsUtilities.ts - static EwsToSystemDayOfWeek : Not implemented."); }
-    //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("EwsUtilities.ts - static FindFirstItemOfType : Not implemented.");}
+    static FindFirstItemOfType<T extends Item>(items: Item[], type:any): T{
+        for(var item of items){
+            if(item instanceof type){
+                return <T>item;
+            }
+        }
+    }
     //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("EwsUtilities.ts - static ForEach : Not implemented.");}
     //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
     //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
@@ -433,7 +439,15 @@ class EwsUtilities {
         ////    }
         ////}
     }
-    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): any { throw new Error("EwsUtilities.ts - static ValidateMethodVersion : Not implemented."); }
+    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): void {
+        if (service.RequestedServerVersion < minimumServerVersion) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.MethodIncompatibleWithRequestVersion,
+                    methodName,
+                    minimumServerVersion));
+        }
+    }
     static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
         if (param != null) {

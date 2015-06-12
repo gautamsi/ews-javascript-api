@@ -20,7 +20,7 @@ class EmailMessage extends Item {
     BccRecipients: EmailAddressCollection;
     CcRecipients: EmailAddressCollection;
     ConversationTopic: string;
-    ConversationIndex: System.Byte[];
+    ConversationIndex: any[];//System.Byte[];
     From: EmailAddress;
     IsAssociated: boolean;
     IsDeliveryReceiptRequested: boolean;
@@ -49,11 +49,11 @@ class EmailMessage extends Item {
     InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): any { throw new Error("EmailMessage.ts - InternalSend : Not implemented."); }
     Reply(bodyPrefix: MessageBody, replyAll: boolean): any { throw new Error("EmailMessage.ts - Reply : Not implemented."); }
     Send(): any { throw new Error("EmailMessage.ts - Send : Not implemented."); }
-    // SendAndSaveCopy(destinationFolderId: FolderId): any { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
-    // SendAndSaveCopy(destinationFolderName: WellKnownFolderName): any { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
-    // SendAndSaveCopy(): any { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
-    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): any { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
-    SuppressReadReceipt(): any { throw new Error("EmailMessage.ts - SuppressReadReceipt : Not implemented."); }
+    SendAndSaveCopy(destinationFolderId: FolderId): void;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): void;
+    SendAndSaveCopy(): void;
+    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): void { throw new Error("EmailMessage.ts - SendAndSaveCopy : Not implemented."); }
+    SuppressReadReceipt(): void { throw new Error("EmailMessage.ts - SuppressReadReceipt : Not implemented."); }
 }
 
 export = EmailMessage;

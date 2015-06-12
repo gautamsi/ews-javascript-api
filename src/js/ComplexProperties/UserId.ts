@@ -9,18 +9,22 @@ import {StringHelper} from "../ExtensionMethods";
 
 class UserId extends ComplexProperty {
     get SID(): string { return this.sID; }
-    set SID(value) { this.SetFieldValue<string>({ refValue: this.sID }, value); }
+    set SID(value) { this.SetFieldValue<string>({ getValue: () => this.sID, setValue: (data) => this.sID = data }, value); }
     get PrimarySmtpAddress(): string { return this.primarySmtpAddress; }
-    set PrimarySmtpAddress(value) { this.SetFieldValue<string>({ refValue: this.primarySmtpAddress }, value); }
+    set PrimarySmtpAddress(value) { this.SetFieldValue<string>({ getValue: () => this.primarySmtpAddress, setValue: (data) => this.primarySmtpAddress = data }, value); }
     get DisplayName(): string { return this.displayName; }
-    set DisplayName(value) { this.SetFieldValue<string>({ refValue: this.displayName }, value); }
+    set DisplayName(value) { this.SetFieldValue<string>({ getValue: () => this.displayName, setValue: (data) => this.displayName = data }, value); }
     get StandardUser(): StandardUser { return this.standardUser; }
-    set StandardUser(value) { this.SetFieldValue<StandardUser>({ refValue: this.standardUser }, value); }
+    set StandardUser(value) { this.SetFieldValue<StandardUser>({ getValue: () => this.standardUser, setValue: (data) => this.standardUser = data }, value); }
     private sID: string;
     private primarySmtpAddress: string;
     private displayName: string;
     private standardUser: StandardUser;
-
+    constructor();
+    constructor(standardUser: StandardUser);
+    constructor(primarySmtpAddress: string);
+    /**this is to shim constructor with easy use within file/module. */
+    constructor(primarySmtpAddressOrStandardUser?: string | StandardUser);
     constructor(primarySmtpAddressOrStandardUser?: string | StandardUser) {
         super();
         if (typeof primarySmtpAddressOrStandardUser !== 'undefined') {

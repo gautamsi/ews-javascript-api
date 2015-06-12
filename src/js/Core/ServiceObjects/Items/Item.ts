@@ -326,8 +326,8 @@ class Item extends ServiceObject {
     // DefaultSendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode;
     // private parentAttachment: ItemAttachment;
 
-    //constructor(svc: ExchangeService);
-    //constructor(parentAttachment: ItemAttachment);
+    constructor(svc: ExchangeService);
+    constructor(parentAttachment: ItemAttachment);
     constructor(obj: ExchangeService | ItemAttachment) {
         //constructor(obj: any) {
         //super(obj instanceof ExchangeService ? obj : (obj instanceof ItemAttachment ? obj.Service : null));

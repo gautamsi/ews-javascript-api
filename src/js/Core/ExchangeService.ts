@@ -1,10 +1,14 @@
 import GroupedFindItemsResults = require("../Search/GroupedFindItemsResults");
 import FindItemsResults = require("../Search/FindItemsResults");
 import FindItemRequest = require("./Requests/FindItemRequest");
+import FindFolderRequest = require("./Requests/FindFolderRequest");
+import CopyFolderRequest = require("./Requests/CopyFolderRequest");
 import Item = require("./ServiceObjects/Items/Item");
 import ViewBase = require("../Search/ViewBase");
 import Grouping = require("../Search/Grouping");
 import FindItemResponse = require("./Responses/FindItemResponse");
+import FindFolderResponse = require("./Responses/FindFolderResponse");
+import MoveCopyFolderResponse = require("./Responses/MoveCopyFolderResponse");
 import Strings = require("../Strings");
 import ManagementRoles = require("../Misc/ManagementRoles");
 import ImpersonatedUserId = require("../Misc/ImpersonatedUserId");
@@ -307,7 +311,6 @@ class ExchangeService extends ExchangeServiceBase {
     //InternalCreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCreateItems : Not implemented."); }
     //InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): System.Collections.Generic.List<Item> { throw new Error("ExchangeService.ts - InternalCreateResponseObject : Not implemented."); }
     //InternalDeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalDeleteItems : Not implemented."); }
-    //InternalFindFolders(parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalFindFolders : Not implemented."); }
     //InternalGetAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetAttachments : Not implemented."); }
     //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
     //InternalMoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalMoveItems : Not implemented."); }
@@ -400,7 +403,7 @@ class ExchangeService extends ExchangeServiceBase {
     //Validate(): any { throw new Error("ExchangeService.ts - Validate : Not implemented."); }
     //ValidateTargetVersion(version: string): any { throw new Error("ExchangeService.ts - ValidateTargetVersion : Not implemented."); }
     
-    // Folder Operations
+    /* ------------------  Folder Operations ---------------------- */
     CreateFolder(folder: Folder, parentFolderId: FolderId): any { throw new Error("ExchangeService.ts - CreateFolder : Not implemented."); }
     BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
         // debugger;
@@ -433,21 +436,86 @@ class ExchangeService extends ExchangeServiceBase {
 
 
     }
-    CopyFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> { throw new Error("ExchangeService.ts - CopyFolder : Not implemented."); }
+    CopyFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> {
+        var request: CopyFolderRequest = new CopyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+
+        request.DestinationFolderId = destinationFolderId;
+        request.FolderIds.Add(folderId);
+
+        return request.Execute().then((responses) => {
+            return responses.__thisIndexer(0).Folder;
+        });
+    }
     DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): IPromise<void> { throw new Error("ExchangeService.ts - DeleteFolder : Not implemented."); }
     EmptyFolder(folderId: FolderId, deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> { throw new Error("ExchangeService.ts - EmptyFolder : Not implemented."); }
-    //FindFolders(parentFolderId: FolderId, searchFilter: SearchFilter, view: FolderView): FindFoldersResults { throw new Error("ExchangeService.ts - FindFolders : Not implemented."); }
-    //FindFolders(parentFolderId: FolderId, view: FolderView): FindFoldersResults { throw new Error("ExchangeService.ts - FindFolders : Not implemented."); }
-    //FindFolders(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: FolderView): FindFoldersResults { throw new Error("ExchangeService.ts - FindFolders : Not implemented."); }
-    //FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): FindFoldersResults { throw new Error("ExchangeService.ts - FindFolders : Not implemented."); }
-    FindFolders(parentFolderIdOrName: FolderId | WellKnownFolderName, view: FolderView, searchFilter?: SearchFilter): IPromise<FindFoldersResults> { throw new Error("ExchangeService.ts - FindFolders : Not implemented."); }
+
+    FindFolders(parentFolderId: FolderId, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderId: FolderId, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
+
+    FindFolders(
+        parentFolderIdOrName: FolderId | WellKnownFolderName,
+        viewOrSearchFilter: FolderView | SearchFilter,
+        folderView?: FolderView): IPromise<FindFoldersResults> {
+        //todo: better argument check with ewsutilities
+        //EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
+        //EwsUtilities.ValidateParam(view, "view");
+        //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
+        var argsLength = arguments.length;
+        if (argsLength < 2 && argsLength > 3) {
+            throw new Error("invalid arguments, check documentation and try again.");
+        }
+        
+        //position 1 - parentFolderIdOrName
+        var parentFolderIds: FolderId[] = []
+        if (typeof parentFolderIdOrName === 'number') {
+            parentFolderIds.push(new FolderId(parentFolderIdOrName));
+        }
+        else if (parentFolderIdOrName instanceof FolderId) {
+            parentFolderIds.push(parentFolderIdOrName);
+        }
+        else {
+            throw new Error("ExchangeService.ts - FindFolders - incorrect use of parameters, 1st argument must be Folder ID or WellKnownFolderName");
+        }
+
+        var searchFilter: SearchFilter = null;
+        var view: FolderView = null;
+        
+        //position 2 - viewOrSearchFilter
+        if (viewOrSearchFilter instanceof SearchFilter) {
+            if (!(folderView instanceof FolderView)) {
+                throw new Error("ExchangeService.ts - FindFolders with " + argsLength + " parameters - incorrect uses of parameter at 3nd position, it must be FolderView when using SearchFilter at 2nd place");
+            }
+            searchFilter = viewOrSearchFilter;
+        }
+        else if (viewOrSearchFilter instanceof FolderView) {
+            view = viewOrSearchFilter;
+        }
+        else {
+            throw new Error("ExchangeService.ts - FindFolders - incorrect uses of parameters at 2nd position, must be FolderView or SearchFilter");
+        }
+
+        //position 3 - folderView
+        if (argsLength == 3) {
+            view = folderView;
+        }
+
+        return this.InternalFindFolders(
+            parentFolderIds,
+            searchFilter, /* searchFilter */
+            view,
+            ServiceErrorHandling.ThrowOnError).then((responses) => {
+                return responses.__thisIndexer(0).Results;
+            });
+    }
 
     LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> { throw new Error("ExchangeService.ts - LoadPropertiesForFolder : Not implemented."); }
     MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): IPromise<any> { throw new Error("ExchangeService.ts - MarkAllItemsAsRead : Not implemented."); }
     MoveFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> { throw new Error("ExchangeService.ts - MoveFolder : Not implemented."); }
     UpdateFolder(folder: Folder): IPromise<void> { throw new Error("ExchangeService.ts - UpdateFolder : Not implemented."); }
 
-    // Item Operations
+    /* -----------  Item Operations  ----------   */
     //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
     ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
     //BindToItems(itemIds: TResponse[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - BindToItems : Not implemented."); }
@@ -466,22 +534,21 @@ class ExchangeService extends ExchangeServiceBase {
     
     
     
-                        FindItems(parentFolderName: WellKnownFolderName,    view: ViewBase                                                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 view: ViewBase                                                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 view: ViewBase,                 groupBy: Grouping                                                                                                               ): IPromise<GroupedFindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 queryString: string,            view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderName: WellKnownFolderName,    queryString: string,            view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderName: WellKnownFolderName,    searchFilter: SearchFilter,     view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase                                                                                                                  ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 queryString: string,            view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
-                        FindItems(parentFolderName: WellKnownFolderName,    searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
-                        FindItems(parentFolderName: WellKnownFolderName,    queryString: string,            view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<GroupedFindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 queryString: string,            returnHighlightTerms: boolean,      view: ViewBase                                                                              ): IPromise<FindItemsResults<Item>>;
-                        FindItems(parentFolderId: FolderId,                 queryString: string,            returnHighlightTerms: boolean,      view: ViewBase,         groupBy: Grouping                                                   ): IPromise<GroupedFindItemsResults<Item>>;
-    FindItems<TItem extends Item>(parentFolderIds: FolderId[] ,             searchFilter: SearchFilter,     queryString: string,                view: ViewBase,         groupBy: Grouping,          errorHandlingMode: ServiceErrorHandling ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
-    
-    // not needed, no calls coming in to this internal function in ews managed api c3 library, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems<TItem extends Item>(parentFolderIds: FolderId[], searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;    
+    //skipped: not needed, no calls coming in to this internal function in ews managed api, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     FindItems<TItem extends Item>(
         nameIdOrIds: WellKnownFolderName | FolderId | FolderId[],
         viewQueryStringOrSearchFilter: ViewBase | string| SearchFilter,
@@ -490,7 +557,19 @@ class ExchangeService extends ExchangeServiceBase {
         groupBy?: Grouping,
         errorHandlingMode: ServiceErrorHandling = ServiceErrorHandling.ThrowOnError
         ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item> | ServiceResponseCollection<FindItemResponse<TItem>>> {
-            
+        
+        //todo: better argument check with ewsutilities
+
+        //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
+        //EwsUtilities.ValidateParam(groupBy, "groupBy");
+        //EwsUtilities.ValidateParamAllowNull(queryString, "queryString");
+        //EwsUtilities.ValidateParamCollection(parentFolderIds, "parentFolderIds");
+        //EwsUtilities.ValidateParam(view, "view");
+        //EwsUtilities.ValidateParam(groupBy, "groupBy");
+        //EwsUtilities.ValidateParamAllowNull(queryString, "queryString");
+        //EwsUtilities.ValidateParamAllowNull(returnHighlightTerms, "returnHighlightTerms");
+        //EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "FindItems");
+
         var argsLength = arguments.length;
         if (argsLength < 2 && argsLength > 6) {
             throw new Error("invalid arguments, check documentation and try again.");
@@ -547,6 +626,7 @@ class ExchangeService extends ExchangeServiceBase {
             }
             else if (typeof groupByViewRHTOrQueryString === 'boolean') {
                 returnHighlightTerms = groupByViewRHTOrQueryString;
+                EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "FindItems");
             }
             else {
                 throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, must be string, boolean, ViewBase or Grouping");
@@ -607,6 +687,16 @@ class ExchangeService extends ExchangeServiceBase {
             return
         });
 
+    }
+    private InternalFindFolders(parentFolderIds: FolderId[], searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindFolderResponse>> {
+
+        var request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
+
+        request.ParentFolderIds.AddRange(parentFolderIds);
+        request.SearchFilter = searchFilter;
+        request.View = view;
+
+        return request.Execute();
     }
 
     InternalLoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<ServiceResponse> { throw new Error("ExchangeService.ts - InternalLoadPropertiesForItems : Not implemented."); }

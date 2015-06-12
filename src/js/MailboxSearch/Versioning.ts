@@ -27,8 +27,8 @@ export module DiscoverySchemaChanges {
         /// Initializes a new instance of the <see cref="SchemaChange"/> class.
         /// </summary>
         /// <param name="serverBuild">The server build.</param>
-        //constructor(serverVersion:number); //serververion:long
-        //constructor(serverBuild:string);
+        constructor(serverVersion:number); //serververion:long
+        constructor(serverBuild:string);
         constructor(serverVersionOrserverBuild: number | string) //serververion:long
         {
             if (typeof serverVersionOrserverBuild === 'number')

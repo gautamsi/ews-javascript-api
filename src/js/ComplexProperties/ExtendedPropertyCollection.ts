@@ -25,7 +25,7 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
     InternalToJson(service: ExchangeService): any { throw new Error("ExtendedPropertyCollection.ts - InternalToJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any,service:ExchangeService ): void {//localElementName: string
         var extendedProperty = new ExtendedProperty();
-        debugger; //todo: check for need of localelementnot tested
+        debugger; //todo: check for need of local elementnot tested
         extendedProperty.LoadFromXmlJsObject(jsObject, service);
         this.InternalAdd(extendedProperty);
     }
@@ -51,9 +51,9 @@ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedPrope
     TryGetValue<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean {
         var extendedProperty: IOutParam<ExtendedProperty> = { outValue: null };
         if (this.TryGetProperty(propertyDefinition, extendedProperty)) {
-            // Verify that the type parameter and property definition's type are compatible.
-            debugger;
-            throw new Error("some type of implementation needed for TypeSystem - ExtendedPropertyCollection.ts - TryGetValue");
+            //debug: Verify that the type parameter and property definition's type are compatible.
+            //debugger;
+            throw new Error("ExtendedPropertyCollection.ts - TryGetValue - some type of implementation needed for TypeSystem - ExtendedPropertyCollection.ts - TryGetValue");
             //if (!typeof (T).IsAssignableFrom(propertyDefinition.Type)) {
             var errorMessage = StringHelper.Format(
                 Strings.PropertyDefinitionTypeMismatch,

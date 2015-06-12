@@ -1,4 +1,6 @@
 ﻿interface IRefParam<T> {
-    refValue: T;
+    getValue: () => T;
+    //refGet:()=>T;
+    setValue?: (value: T) => void;
 }
 export = IRefParam;

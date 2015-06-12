@@ -24,55 +24,49 @@ class FolderPermission extends ComplexProperty {
             var index = this.userId.OnChange.indexOf(this.PropertyChanged);
             if (index >= 0) this.userId.OnChange.splice(index, 1);
         }
-        debugger;//check if this works
-        this.SetFieldValue<UserId>({ refValue: this.userId }, value);
+        this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
         if (this.userId != null) {
             this.userId.OnChange.push(this.PropertyChanged);
         }
     }
     get CanCreateItems(): boolean { return this.canCreateItems; }
     set CanCreateItems(value) {
-        debugger;//check if this works
-        this.SetFieldValue<boolean>({ refValue: this.canCreateItems }, value);
+        this.SetFieldValue<boolean>({ getValue: () => this.canCreateItems, setValue: (data) => this.canCreateItems = data }, value);
         this.AdjustPermissionLevel();
     }
     get CanCreateSubFolders(): boolean { return this.canCreateSubFolders; }
     set CanCreateSubFolders(value) {
-        debugger;//check if this works
-        this.SetFieldValue<boolean>({ refValue: this.canCreateSubFolders }, value);
+        this.SetFieldValue<boolean>({ getValue: () => this.canCreateSubFolders, setValue: (data) => this.canCreateSubFolders = data }, value);
         this.AdjustPermissionLevel();
     }
     get IsFolderOwner(): boolean { return this.isFolderOwner; }
     set IsFolderOwner(value) {
-        debugger;//check if this works
-        this.SetFieldValue<boolean>({ refValue: this.isFolderOwner }, value);
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderOwner, setValue: (data) => this.isFolderOwner = data }, value);
         this.AdjustPermissionLevel();
     }
     get IsFolderVisible(): boolean { return this.isFolderVisible; }
     set IsFolderVisible(value) {
-        debugger;//check if this works
-        this.SetFieldValue<boolean>({ refValue: this.isFolderVisible }, value);
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderVisible, setValue: (data) => this.isFolderVisible = data }, value);
         this.AdjustPermissionLevel();
     }
     get IsFolderContact(): boolean { return this.isFolderContact; }
     set IsFolderContact(value) {
-        debugger;//check if this works
-        this.SetFieldValue<boolean>({ refValue: this.isFolderContact }, value);
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderContact, setValue: (data) => this.isFolderContact = data }, value);
         this.AdjustPermissionLevel();
     }
     get EditItems(): PermissionScope { return this.editItems; }
     set EditItems(value) {
-        this.SetFieldValue<PermissionScope>({ refValue: this.editItems }, value);
+        this.SetFieldValue<PermissionScope>({ getValue: () => this.editItems, setValue: (data) => this.editItems = data }, value);
         this.AdjustPermissionLevel();
     }
     get DeleteItems(): PermissionScope { return this.deleteItems; }
     set DeleteItems(value) {
-        this.SetFieldValue<PermissionScope>({ refValue: this.deleteItems }, value);
+        this.SetFieldValue<PermissionScope>({ getValue: () => this.deleteItems, setValue: (data) => this.deleteItems = data }, value);
         this.AdjustPermissionLevel();
     }
     get ReadItems(): FolderPermissionReadAccess { return this.readItems; }
     set ReadItems(value) {
-        this.SetFieldValue<FolderPermissionReadAccess>({ refValue: this.readItems }, value);
+        this.SetFieldValue<FolderPermissionReadAccess>({ getValue: () => this.readItems, setValue: (data) => this.readItems = data }, value);
         this.AdjustPermissionLevel();
     }
     get PermissionLevel(): FolderPermissionLevel { return this.permissionLevel; }
@@ -82,7 +76,7 @@ class FolderPermission extends ComplexProperty {
                 throw new ServiceLocalException(Strings.CannotSetPermissionLevelToCustom);
             }
             this.AssignIndividualPermissions(FolderPermission.defaultPermissions.Member[value]);
-            this.SetFieldValue<FolderPermissionLevel>({ refValue: this.permissionLevel }, value);
+            this.SetFieldValue<FolderPermissionLevel>({ getValue: () => this.permissionLevel, setValue: (data) => this.permissionLevel = data }, value);
         }
     }
     get DisplayPermissionLevel(): FolderPermissionLevel { 
@@ -276,7 +270,10 @@ class FolderPermission extends ComplexProperty {
             return results;
         });
 
-
+    constructor();
+    constructor(userId: UserId, permissionLevel: FolderPermissionLevel);
+    constructor(primarySmtpAddress: string, permissionLevel: FolderPermissionLevel);
+    constructor(standardUser: StandardUser, permissionLevel: FolderPermissionLevel);
     constructor(userIdOrStandardUserOrSmtpAddress?: UserId | StandardUser | string, permissionLevel?: FolderPermissionLevel) {
         super();
         if (typeof userIdOrStandardUserOrSmtpAddress !== 'undefined' && typeof permissionLevel === 'undefined')

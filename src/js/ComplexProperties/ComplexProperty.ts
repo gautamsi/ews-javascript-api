@@ -69,11 +69,11 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
   SetFieldValue<T>(field: IRefParam<T>, value: T): void {  //irefparam to workaround ref parameters irefparam.value is actual value;
     var applyChange: boolean = false;
 
-    if (field.refValue == null) {
+    if (field.getValue() == null) {
       applyChange = value != null;
     }
     else {
-      var fieldAny = <any>field.refValue;
+      var fieldAny = <any>field.getValue();
       if (fieldAny.CompareTo) //todo: fix this if find new ways to check if it implements certain interface - if( field is IComparable)
       {
         applyChange = fieldAny.CompareTo(value) != 0; //todo: until fix the interface check (field as IComparable).CompareTo(value) != 0;
@@ -84,7 +84,8 @@ class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
 
     if (applyChange) {
-      field.refValue = value;
+      debugger;//debug; check; check for ref value setting. 
+      field.setValue(value);
       this.Changed();
     }
   }

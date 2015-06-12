@@ -20,7 +20,7 @@ import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 import ServiceLocalException = require("../Exceptions/ServiceLocalException");
 
 class ExchangeServiceBase {
-    static AccountIsLocked: /*System.Net.*/systemnet.HttpStatusCode = 456;
+    static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
     AcceptGzipEncoding: boolean;
     ClientRequestId: string;

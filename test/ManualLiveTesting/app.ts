@@ -4,6 +4,7 @@ import AggregateType = require("../../src/js/Enumerations/AggregateType");
 import SortDirection = require("../../src/js/Enumerations/SortDirection");
 ///<
 import ExchangeWebService = require("../../src/js/ExchangeWebService");
+
 ExchangeWebService;
 import AutodiscoverService = require("../../src/js/Autodiscover/AutodiscoverService");
 import ExchangeVersion = require("../../src/js/Enumerations/ExchangeVersion");
@@ -42,6 +43,7 @@ class Greeter {
 
 
     start() {
+        
         
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
