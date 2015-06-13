@@ -9,6 +9,7 @@ import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {FindFolderRequest} from "./Requests/FindFolderRequest";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
+import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
 import {Item} from "./ServiceObjects/Items/Item";
 import {ViewBase} from "../Search/ViewBase";
 import {Grouping} from "../Search/Grouping";
@@ -35,10 +36,12 @@ import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/Auto
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {RenderingMode} from "../Enumerations/RenderingMode";
+import {MessageDisposition} from "../Enumerations/MessageDisposition";
 import {UserSettingName} from "../Enumerations/UserSettingName";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
+import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
 import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
@@ -315,7 +318,15 @@ export class ExchangeService extends ExchangeServiceBase {
     //InternalConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalConvertIds : Not implemented."); }
     //InternalCopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCopyItems : Not implemented."); }
     //InternalCreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCreateItems : Not implemented."); }
-    //InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): System.Collections.Generic.List<Item> { throw new Error("ExchangeService.ts - InternalCreateResponseObject : Not implemented."); }
+    InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
+        var request: CreateResponseObjectRequest = new CreateResponseObjectRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.ParentFolderId = parentFolderId;
+        request.Items = [responseObject];
+        request.MessageDisposition = messageDisposition;
+        return request.Execute().then((responses) => {
+            return responses.__thisIndexer(0).Items;
+        });
+    }
     //InternalDeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalDeleteItems : Not implemented."); }
     //InternalGetAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetAttachments : Not implemented."); }
     //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
@@ -550,10 +561,22 @@ export class ExchangeService extends ExchangeServiceBase {
         return request.Execute();
     }
 
-    LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> { throw new Error("ExchangeService.ts - LoadPropertiesForFolder : Not implemented."); }
+    LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> {
+        EwsUtilities.ValidateParam(folder, "folder");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        var request: GetFolderRequestForLoad = new GetFolderRequestForLoad(this, ServiceErrorHandling.ThrowOnError);
+
+        request.FolderIds.Add(folder);
+        request.PropertySet = propertySet;
+
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
     MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): IPromise<void> {
-        //EwsUtilities.ValidateParam(folderId, "folderId");
-        //EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "MarkAllItemsAsRead");
+        EwsUtilities.ValidateParam(folderId, "folderId");
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "MarkAllItemsAsRead");
         var request: MarkAllItemsAsReadRequest = new MarkAllItemsAsReadRequest(this, ServiceErrorHandling.ThrowOnError);
         request.FolderIds.Add(folderId);
         request.ReadFlag = readFlag;

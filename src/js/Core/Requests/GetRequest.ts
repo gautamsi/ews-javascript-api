@@ -25,7 +25,6 @@ export class GetRequest<TServiceObject extends ServiceObject, TResponse extends 
     GetServiceObjectType(): ServiceObjectType { throw new Error("Abstract; must implemented."); }
     Validate(): void {
         super.Validate();
-        debugger;
         //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
         this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
     }

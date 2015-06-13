@@ -1,6 +1,13 @@
-﻿import {GetFolderRequestBase} from "./GetFolderRequestBase";
+﻿import {GetFolderResponse} from "../Responses/GetFolderResponse";
 import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ServiceResponse} from "../Responses/ServiceResponse";
+import {GetFolderRequestBase} from "./GetFolderRequestBase";
 export class GetFolderRequestForLoad extends GetFolderRequestBase<ServiceResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("GetFolderRequestForLoad.ts - CreateServiceResponse : Not implemented."); }
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse {
+        return new GetFolderResponse(this.FolderIds.__thisIndexer(responseIndex).GetFolder(), this.PropertySet);
+    }
 }

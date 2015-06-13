@@ -42,12 +42,12 @@ export class Grouping { //: ISelfValidate, IJsonSerializable
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.GroupBy);
-        writer.WriteAttributeValue(null, XmlAttributeNames.Order, this.SortDirection);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Order, SortDirection[this.SortDirection]);
 
         this.GroupOn.WriteToXml(writer);
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AggregateOn);
-        writer.WriteAttributeValue(null, XmlAttributeNames.Aggregate, this.AggregateType);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Aggregate, AggregateType[this.AggregateType]);
 
         this.AggregateOn.WriteToXml(writer);
 
