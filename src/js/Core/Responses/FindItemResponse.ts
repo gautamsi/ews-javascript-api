@@ -9,7 +9,6 @@ import {GroupedFindItemsResults} from "../../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../../Search/FindItemsResults";
 import {PropertySet} from "../PropertySet";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {EwsLogging} from "../EwsLogging";
 import {Convert} from "../../ExtensionMethods"

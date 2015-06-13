@@ -1,11 +1,16 @@
-﻿import {FindRequest} from "./FindRequest";
+﻿import {FindFolderResponse} from "../Responses/FindFolderResponse";
 import {ExchangeService} from "../ExchangeService";
-import {FindFolderResponse} from "../Responses/FindFolderResponse";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {FindRequest} from "./FindRequest";
 export class FindFolderRequest extends FindRequest<FindFolderResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse { throw new Error("FindFolderRequest.ts - CreateServiceResponse : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("FindFolderRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("FindFolderRequest.ts - GetXmlElementName : Not implemented."); }
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): FindFolderResponse { return new FindFolderResponse(this.View.GetPropertySetOrDefault()); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetResponseMessageXmlElementName(): string { return XmlElementNames.FindFolderResponseMessage; }
+    GetResponseXmlElementName(): string { return XmlElementNames.FindFolderResponse; }
+    GetXmlElementName(): string { return XmlElementNames.FindFolder; }
 }

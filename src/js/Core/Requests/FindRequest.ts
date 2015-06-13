@@ -8,6 +8,8 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {SearchFilter} from "../../Search/Filters/SearchFilter";
 import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
 import {ViewBase} from "../../Search/ViewBase";
 import {Grouping} from "../../Search/Grouping";
@@ -17,15 +19,19 @@ import {StringHelper} from "../../ExtensionMethods";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
 export class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     get ParentFolderIds(): FolderIdWrapperList { return this.parentFolderIds; }
-    SearchFilter: SearchFilter;
-    QueryString: string;
-    ReturnHighlightTerms: boolean;
-    View: ViewBase;
+    SearchFilter: SearchFilter = null;
+    QueryString: string = null;
+    ReturnHighlightTerms: boolean = null;
+    View: ViewBase = null;
     private parentFolderIds: FolderIdWrapperList = new FolderIdWrapperList();
-    //private searchFilter: SearchFilter;
+    //private searchFilter: SearchFilter;  - no backing property needed
     //private queryString: string;
     //private returnHighlightTerms: boolean;
     //private view: ViewBase;
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    
     GetExpectedResponseMessageCount(): number { return this.ParentFolderIds.Count; }
     GetGroupBy(): Grouping { return null; }
     Validate(): void {
