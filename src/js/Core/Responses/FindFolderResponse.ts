@@ -14,9 +14,3 @@ export class FindFolderResponse extends ServiceResponse {
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("FindFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
 
-
-//}
-
-
-
-

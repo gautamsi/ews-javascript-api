@@ -1,28 +1,7 @@
-import {EmailMessageSchema} from "../../src/js/Core/ServiceObjects/Schemas/EmailMessageSchema";
-import {ItemSchema} from "../../src/js/Core/ServiceObjects/Schemas/ItemSchema";
-import {AggregateType} from "../../src/js/Enumerations/AggregateType";
-import {SortDirection} from "../../src/js/Enumerations/SortDirection";
-///<
-import {AppointmentSchema} from "../../src/js/ExchangeWebService";
+import {EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+    UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, 
+    EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item} from "../../src/js/ExchangeWebService";
 
-AppointmentSchema;
-import {AutodiscoverService} from "../../src/js/Autodiscover/AutodiscoverService";
-import {ExchangeVersion} from "../../src/js/Enumerations/ExchangeVersion";
-import {ExchangeCredentials} from "../../src/js/Credentials/ExchangeCredentials";
-import {UserSettingName} from "../../src/js/Enumerations/UserSettingName";
-import {DomainSettingName} from "../../src/js/Enumerations/DomainSettingName";
-import {ExchangeService} from "../../src/js/Core/ExchangeService";
-import {BasePropertySet} from "../../src/js/Enumerations/BasePropertySet";
-import {PropertySet} from "../../src/js/Core/PropertySet";
-
-import {EnumHelper, base64Helper, DOMParser, StringHelper} from "../../src/js/ExtensionMethods";
-import {FolderId} from "../../src/js/ComplexProperties/FolderId";
-import {WellKnownFolderName} from "../../src/js/Enumerations/WellKnownFolderName";
-import {DOMParser as DP} from "../../src/js/ExtensionMethods";
-
-import {ItemView} from "../../src/js/Search/ItemView";
-import {Grouping} from "../../src/js/Search/Grouping";
-import {EwsLogging} from "../../src/js/Core/EwsLogging";
 
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
@@ -42,6 +21,13 @@ export class Greeter {
 
     start() {
         
+        // var calvv:Item[] = [];
+        // calvv.push(new Appointment("",""));
+        // calvv.push(new MeetingCancellation(null));
+        // calvv.push(new MeetingRequest(null));
+        // calvv.push(new MeetingResponse(null));
+        
+        // var calev = new CalendarActionResults(calvv);
         
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
@@ -54,7 +40,7 @@ export class Greeter {
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
-        var parser = new DP();
+        var parser = new DOMParser();
         //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
         //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
         //this.currentNode = this.treeWalker.root;

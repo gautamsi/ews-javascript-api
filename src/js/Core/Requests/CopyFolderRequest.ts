@@ -1,19 +1,16 @@
-﻿import {MoveCopyFolderRequest} from "./MoveCopyFolderRequest";
-import {ExchangeService} from "../ExchangeService";
+﻿import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {MoveCopyFolderResponse} from "../Responses/MoveCopyFolderResponse";
+import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {MoveCopyFolderRequest} from "./MoveCopyFolderRequest";
 export class CopyFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse { throw new Error("CopyFolderRequest.ts - CreateServiceResponse : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("CopyFolderRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("CopyFolderRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("CopyFolderRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("CopyFolderRequest.ts - GetXmlElementName : Not implemented."); }
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse { return new MoveCopyFolderResponse(); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetResponseMessageXmlElementName(): string { return XmlElementNames.CopyFolderResponseMessage; }
+    GetResponseXmlElementName(): string { return XmlElementNames.CopyFolderResponse; }
+    GetXmlElementName(): string { return XmlElementNames.CopyFolder; }
 }
-
-
-
-//}
-
-
-
-

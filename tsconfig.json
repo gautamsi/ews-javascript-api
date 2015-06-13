@@ -457,7 +457,6 @@
         "./src/js/Credentials/WebCredentials.ts",
         "./src/js/Credentials/WindowsLiveCredentials.ts",
         "./src/js/Credentials/X509CertificateCredentials.ts",
-        "./src/js/Data1.ts",
         "./src/js/DateTime.ts",
         "./src/js/Dns/DnsClient.ts",
         "./src/js/Dns/DnsNativeMethods.ts",

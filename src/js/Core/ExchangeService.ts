@@ -1,6 +1,9 @@
 ﻿import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
+import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
+import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
+import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {FindFolderRequest} from "./Requests/FindFolderRequest";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
 import {Item} from "./ServiceObjects/Items/Item";
@@ -404,7 +407,14 @@ export class ExchangeService extends ExchangeServiceBase {
     //ValidateTargetVersion(version: string): any { throw new Error("ExchangeService.ts - ValidateTargetVersion : Not implemented."); }
     
     /* ------------------  Folder Operations ---------------------- */
-    CreateFolder(folder: Folder, parentFolderId: FolderId): any { throw new Error("ExchangeService.ts - CreateFolder : Not implemented."); }
+    CreateFolder(folder: Folder, parentFolderId: FolderId): IPromise<void> {
+        var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.Folders = [folder];
+        request.ParentFolderId = parentFolderId;
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
     BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
         // debugger;
         return this.BindToFolder(folderId, propertySet);
@@ -446,8 +456,25 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Folder;
         });
     }
-    DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): IPromise<void> { throw new Error("ExchangeService.ts - DeleteFolder : Not implemented."); }
-    EmptyFolder(folderId: FolderId, deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> { throw new Error("ExchangeService.ts - EmptyFolder : Not implemented."); }
+    DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): IPromise<void> {
+        EwsUtilities.ValidateParam(folderId, "folderId");
+        var request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.FolderIds.Add(folderId);
+        request.DeleteMode = deleteMode;
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
+    EmptyFolder(folderId: FolderId, deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> {
+        EwsUtilities.ValidateParam(folderId, "folderId");
+        var request: EmptyFolderRequest = new EmptyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.FolderIds.Add(folderId);
+        request.DeleteMode = deleteMode;
+        request.DeleteSubFolders = deleteSubFolders;
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
 
     FindFolders(parentFolderId: FolderId, view: FolderView): IPromise<FindFoldersResults>;
     FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): IPromise<FindFoldersResults>;
@@ -508,6 +535,16 @@ export class ExchangeService extends ExchangeServiceBase {
             ServiceErrorHandling.ThrowOnError).then((responses) => {
                 return responses.__thisIndexer(0).Results;
             });
+    }
+    private InternalFindFolders(parentFolderIds: FolderId[], searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindFolderResponse>> {
+
+        var request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
+
+        request.ParentFolderIds.AddRange(parentFolderIds);
+        request.SearchFilter = searchFilter;
+        request.View = view;
+
+        return request.Execute();
     }
 
     LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> { throw new Error("ExchangeService.ts - LoadPropertiesForFolder : Not implemented."); }
@@ -688,16 +725,7 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-    private InternalFindFolders(parentFolderIds: FolderId[], searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindFolderResponse>> {
 
-        var request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
-
-        request.ParentFolderIds.AddRange(parentFolderIds);
-        request.SearchFilter = searchFilter;
-        request.View = view;
-
-        return request.Execute();
-    }
 
     InternalLoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<ServiceResponse> { throw new Error("ExchangeService.ts - InternalLoadPropertiesForItems : Not implemented."); }
     

@@ -2,7 +2,6 @@
 import {Folder} from "../ServiceObjects/Folders/Folder";
 import {FolderInfo} from "../ServiceObjects/Folders/FolderInfo";
 import {PropertySet} from "../PropertySet";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {ExchangeService} from "../ExchangeService";
 import {EwsUtilities} from "../EwsUtilities";
 import {EwsLogging} from "../EwsLogging";
@@ -49,32 +48,21 @@ export class GetFolderResponse extends ServiceResponse {
 
         this.folder = folders[0];
     }
-    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(jsObject, service);
-        jsObject = jsObject[XmlElementNames.Folders];
-        var folders: Folder[] = [];
-        var responseFolders: any[] = jsObject;
-        if (!Array.isArray(responseFolders))
-            responseFolders = [responseFolders];
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
-        for (var responseFolder of responseFolders) {
-            var folderTypeName = TypeSystem.GetJsObjectTypeName(responseFolder);
-            if (folderTypeName) {
-                var instance: Folder = this.GetObjectInstance(service, folderTypeName);
-                instance.LoadFromXmlJsObject(responseFolder[folderTypeName], service, true, this.propertySet, false);
-                var v = instance;
-                folders.push(instance);
-                debugger;
-            } else throw new Error("error determining typename");
+        if (responseObject[XmlElementNames.Folders]) {
+            var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
+                responseObject,
+                service,
+                XmlElementNames.Folders,
+                this.GetObjectInstance,
+                true,               /* clearPropertyBag */
+                this.propertySet,   /* requestedPropertySet */
+                false);              /* summaryPropertiesOnly */
+
+            this.folder = folders[0];
         }
-        //         = reader.ReadServiceObjectsCollectionFromXml<Folder>(
-        //            XmlElementNames.Folders,
-        //            this.GetObjectInstance,
-        //            true,               /* clearPropertyBag */
-        //            this.propertySet,   /* requestedPropertySet */
-        //            false);             /* summaryPropertiesOnly */
-
-        this.folder = folders[0];
     }
 
 }

@@ -8,6 +8,8 @@ import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema
 ServiceObjectSchema.AppointmentSchema = AppointmentSchema.Instance;
 
 export { ServiceObjectSchema, AppointmentSchema};
+
+
 // import {OutlookAccount} from "./Autodiscover/ConfigurationSettings/Outlook/OutlookAccount";
 // import {OutlookConfigurationSettings} from "./Autodiscover/ConfigurationSettings/Outlook/OutlookConfigurationSettings";
 // import {OutlookProtocol} from "./Autodiscover/ConfigurationSettings/Outlook/OutlookProtocol";
@@ -26,7 +28,7 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {AutodiscoverDnsClient} from "./Autodiscover/AutodiscoverDnsClient";
 // import {AutodiscoverError} from "./Autodiscover/AutodiscoverError";
 // import {AutodiscoverResponseCollection} from "./Autodiscover/AutodiscoverResponseCollection";
-// import {AutodiscoverService} from "./Autodiscover/AutodiscoverService";
+import {AutodiscoverService} from "./Autodiscover/AutodiscoverService";
 // import {AutodiscoverServiceDelegates} from "./Autodiscover/AutodiscoverServiceDelegates";
 // import {ComparisonHelpers} from "./Autodiscover/ComparisonHelpers";
 // import {DirectoryHelper} from "./Autodiscover/DirectoryHelper";
@@ -121,7 +123,7 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {ExtractedEntity} from "./ComplexProperties/ExtractedEntity";
 // import {FileAttachment} from "./ComplexProperties/FileAttachment";
 // import {Flag} from "./ComplexProperties/Flag";
-// import {FolderId} from "./ComplexProperties/FolderId";
+import {FolderId} from "./ComplexProperties/FolderId";
 // import {FolderIdCollection} from "./ComplexProperties/FolderIdCollection";
 // import {FolderPermission} from "./ComplexProperties/FolderPermission";
 // import {FolderPermissionCollection} from "./ComplexProperties/FolderPermissionCollection";
@@ -355,17 +357,17 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {FolderInfo} from "./Core/ServiceObjects/Folders/FolderInfo";
 // import {SearchFolder} from "./Core/ServiceObjects/Folders/SearchFolder";
 // import {TasksFolder} from "./Core/ServiceObjects/Folders/TasksFolder";
-// import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
+import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
 // import {Contact} from "./Core/ServiceObjects/Items/Contact";
 // import {ContactGroup} from "./Core/ServiceObjects/Items/ContactGroup";
 // import {Conversation} from "./Core/ServiceObjects/Items/Conversation";
 // import {EmailMessage} from "./Core/ServiceObjects/Items/EmailMessage";
-// import {Item} from "./Core/ServiceObjects/Items/Item";
+import {Item} from "./Core/ServiceObjects/Items/Item";
 // import {ItemInfo} from "./Core/ServiceObjects/Items/ItemInfo";
-// import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
+import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
 // import {MeetingMessage} from "./Core/ServiceObjects/Items/MeetingMessage";
-// import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
-// import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
+import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
+import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 // import {PostItem} from "./Core/ServiceObjects/Items/PostItem";
 // import {Task} from "./Core/ServiceObjects/Items/Task";
 // import {AcceptMeetingInvitationMessage} from "./Core/ServiceObjects/ResponseObjects/AcceptMeetingInvitationMessage";
@@ -384,9 +386,9 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {ContactGroupSchema} from "./Core/ServiceObjects/Schemas/ContactGroupSchema";
 // import {ContactSchema} from "./Core/ServiceObjects/Schemas/ContactSchema";
 // import {ConversationSchema} from "./Core/ServiceObjects/Schemas/ConversationSchema";
-// import {EmailMessageSchema} from "./Core/ServiceObjects/Schemas/EmailMessageSchema";
+import {EmailMessageSchema} from "./Core/ServiceObjects/Schemas/EmailMessageSchema";
 // import {FolderSchema} from "./Core/ServiceObjects/Schemas/FolderSchema";
-// import {ItemSchema} from "./Core/ServiceObjects/Schemas/ItemSchema";
+import {ItemSchema} from "./Core/ServiceObjects/Schemas/ItemSchema";
 // import {MeetingCancellationSchema} from "./Core/ServiceObjects/Schemas/MeetingCancellationSchema";
 // import {MeetingMessageSchema} from "./Core/ServiceObjects/Schemas/MeetingMessageSchema";
 // import {MeetingRequestSchema} from "./Core/ServiceObjects/Schemas/MeetingRequestSchema";
@@ -404,15 +406,15 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {EwsHttpWebRequest} from "./Core/EwsHttpWebRequest";
 // import {EwsHttpWebRequestFactory} from "./Core/EwsHttpWebRequestFactory";
 // import {EwsHttpWebResponse} from "./Core/EwsHttpWebResponse";
-// import {EwsLogging} from "./Core/EwsLogging";
+import {EwsLogging} from "./Core/EwsLogging";
 // import {EwsServiceJsonReader} from "./Core/EwsServiceJsonReader";
 // import {EwsServiceMultiResponseXmlReader} from "./Core/EwsServiceMultiResponseXmlReader";
 // import {EwsServiceXmlReader} from "./Core/EwsServiceXmlReader";
 // import {EwsServiceXmlWriter} from "./Core/EwsServiceXmlWriter";
-// import {EwsUtilities} from "./Core/EwsUtilities";
+import {EwsUtilities} from "./Core/EwsUtilities";
 // import {EwsXmlReader} from "./Core/EwsXmlReader";
 // import {ExchangeServerInfo} from "./Core/ExchangeServerInfo";
-// import {ExchangeService} from "./Core/ExchangeService";
+import {ExchangeService} from "./Core/ExchangeService";
 // import {ExchangeServiceBase} from "./Core/ExchangeServiceBase";
 // import {JsonNames} from "./Core/JsonNames";
 // import {JsonObject} from "./Core/JsonObject";
@@ -421,13 +423,13 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {JsonWriter} from "./Core/JsonWriter";
 // import {LazyMember} from "./Core/LazyMember";
 // import {PropertyBag} from "./Core/PropertyBag";
-// import {PropertySet} from "./Core/PropertySet";
+import {PropertySet} from "./Core/PropertySet";
 // import {SimplePropertyBag} from "./Core/SimplePropertyBag";
 // import {XmlAttributeNames} from "./Core/XmlAttributeNames";
 // import {XmlElementNames} from "./Core/XmlElementNames";
 // import {BasicAuthModuleForUTF8} from "./Credentials/BasicAuthModuleForUTF8";
 // import {ClientCertificateCredentials} from "./Credentials/ClientCertificateCredentials";
-// import {ExchangeCredentials} from "./Credentials/ExchangeCredentials";
+import {ExchangeCredentials} from "./Credentials/ExchangeCredentials";
 // import {OAuthCredentials} from "./Credentials/OAuthCredentials";
 // import {PartnerTokenCredentials} from "./Credentials/PartnerTokenCredentials";
 // import {TokenCredentials} from "./Credentials/TokenCredentials";
@@ -444,13 +446,13 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {AddressEntity} from "./ComplexProperties/AddressEntity";
 // import {RetentionPolicyTag} from "./Elc/RetentionPolicyTag";
 // import {AffectedTaskOccurrence} from "./Enumerations/AffectedTaskOccurrence";
-// import {AggregateType} from "./Enumerations/AggregateType";
+import {AggregateType} from "./Enumerations/AggregateType";
 // import {AppointmentType} from "./Enumerations/AppointmentType";
 // import {AutodiscoverEndpoints} from "./Enumerations/AutodiscoverEndpoints";
 // import {AutodiscoverErrorCode} from "./Enumerations/AutodiscoverErrorCode";
 // import {AutodiscoverResponseType} from "./Enumerations/AutodiscoverResponseType";
 // import {AvailabilityData} from "./Enumerations/AvailabilityData";
-// import {BasePropertySet} from "./Enumerations/BasePropertySet";
+import {BasePropertySet} from "./Enumerations/BasePropertySet";
 // import {BodyType} from "./Enumerations/BodyType";
 // import {ChangeType} from "./Enumerations/ChangeType";
 // import {ClientAccessTokenType} from "./Enumerations/ClientAccessTokenType";
@@ -476,14 +478,14 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {DisableReasonType} from "./Enumerations/DisableReasonType";
 // import {DnsQueryOptions} from "./Enumerations/DnsQueryOptions";
 // import {DnsRecordType} from "./Enumerations/DnsRecordType";
-// import {DomainSettingName} from "./Enumerations/DomainSettingName";
+import {DomainSettingName} from "./Enumerations/DomainSettingName";
 // import {EffectiveRights} from "./Enumerations/EffectiveRights";
 // import {ElcFolderType} from "./Enumerations/ElcFolderType";
 // import {EmailAddressKey} from "./Enumerations/EmailAddressKey";
 // import {EmailPosition} from "./Enumerations/EmailPosition";
 // import {EnumToExchangeVersionMappingHelper} from "./Enumerations/EnumToExchangeVersionMappingHelper";
 // import {EventType} from "./Enumerations/EventType";
-// import {ExchangeVersion} from "./Enumerations/ExchangeVersion";
+import {ExchangeVersion} from "./Enumerations/ExchangeVersion";
 // import {ExtensionInstallScope} from "./Enumerations/ExtensionInstallScope";
 // import {ExtensionType} from "./Enumerations/ExtensionType";
 // import {FileAsMapping} from "./Enumerations/FileAsMapping";
@@ -556,7 +558,7 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {ServiceObjectType} from "./Enumerations/ServiceObjectType";
 // import {ServiceResult} from "./Enumerations/ServiceResult";
 // import {SetClientExtensionActionId} from "./Enumerations/SetClientExtensionActionId";
-// import {SortDirection} from "./Enumerations/SortDirection";
+import {SortDirection} from "./Enumerations/SortDirection";
 // import {StandardUser} from "./Enumerations/StandardUser";
 // import {SuggestionQuality} from "./Enumerations/SuggestionQuality";
 // import {SyncFolderItemsScope} from "./Enumerations/SyncFolderItemsScope";
@@ -567,9 +569,9 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {TraceFlags} from "./Enumerations/TraceFlags";
 // import {UserConfigurationDictionaryObjectType} from "./Enumerations/UserConfigurationDictionaryObjectType";
 // import {UserConfigurationProperties} from "./Enumerations/UserConfigurationProperties";
-// import {UserSettingName} from "./Enumerations/UserSettingName";
+import {UserSettingName} from "./Enumerations/UserSettingName";
 // import {ViewFilter} from "./Enumerations/ViewFilter";
-// import {WellKnownFolderName} from "./Enumerations/WellKnownFolderName";
+import {WellKnownFolderName} from "./Enumerations/WellKnownFolderName";
 // import {XmlNamespace} from "./Enumerations/XmlNamespace";
 // import {AccountIsLockedException} from "./Exceptions/AccountIsLockedException";
 // import {AutodiscoverLocalException} from "./Exceptions/AutodiscoverLocalException";
@@ -645,7 +647,7 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {AlternatePublicFolderItemId} from "./Misc/IdConversion/AlternatePublicFolderItemId";
 // import {AbstractFolderIdWrapper} from "./Misc/AbstractFolderIdWrapper";
 // import {AbstractItemIdWrapper} from "./Misc/AbstractItemIdWrapper";
-// import {CalendarActionResults} from "./Misc/CalendarActionResults";
+import {CalendarActionResults} from "./Misc/CalendarActionResults";
 // import {ConversationAction} from "./Misc/ConversationAction";
 // import {DelegateInformation} from "./Misc/DelegateInformation";
 // import {DelegateTypes} from "./Misc/DelegateTypes";
@@ -744,9 +746,9 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {FindItemsResults} from "./Search/FindItemsResults";
 // import {FolderView} from "./Search/FolderView";
 // import {GroupedFindItemsResults} from "./Search/GroupedFindItemsResults";
-// import {Grouping} from "./Search/Grouping";
+import {Grouping} from "./Search/Grouping";
 // import {ItemGroup} from "./Search/ItemGroup";
-// import {ItemView} from "./Search/ItemView";
+import {ItemView} from "./Search/ItemView";
 // import {OrderByCollection} from "./Search/OrderByCollection";
 // import {PagedView} from "./Search/PagedView";
 // import {SeekToConditionItemView} from "./Search/SeekToConditionItemView";
@@ -767,8 +769,7 @@ export { ServiceObjectSchema, AppointmentSchema};
 // import {Constants} from "./Constants";
 // import {Data1} from "./Data1";
 // import {DateTime} from "./DateTime";
-// import {ExchangeWebService} from "./";
-// import {ExtensionMethods} from "./ExtensionMethods";
+import {DOMParser, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper} from "./ExtensionMethods";
 // import {Interfaces} from "./Interfaces";
 // import {Microsoft.Exchange.WebServices.d__} from "./Microsoft.Exchange.WebServices.d__";
 // import {PromiseFactory} from "./PromiseFactory";
@@ -802,7 +803,7 @@ export {
 // AutodiscoverDnsClient,
 // AutodiscoverError,
 // AutodiscoverResponseCollection,
-// AutodiscoverService,
+AutodiscoverService,
 // AutodiscoverServiceDelegates,
 // ComparisonHelpers,
 // DirectoryHelper,
@@ -897,7 +898,7 @@ export {
 // ExtractedEntity,
 // FileAttachment,
 // Flag,
-// FolderId,
+FolderId,
 // FolderIdCollection,
 // FolderPermission,
 // FolderPermissionCollection,
@@ -1131,17 +1132,17 @@ export {
 // FolderInfo,
 // SearchFolder,
 // TasksFolder,
-// Appointment,
+Appointment,
 // Contact,
 // ContactGroup,
 // Conversation,
 // EmailMessage,
-// Item,
+Item,
 // ItemInfo,
-// MeetingCancellation,
+MeetingCancellation,
 // MeetingMessage,
-// MeetingRequest,
-// MeetingResponse,
+MeetingRequest,
+MeetingResponse,
 // PostItem,
 // Task,
 // AcceptMeetingInvitationMessage,
@@ -1160,9 +1161,9 @@ export {
 // ContactGroupSchema,
 // ContactSchema,
 // ConversationSchema,
-// EmailMessageSchema,
+EmailMessageSchema,
 // FolderSchema,
-// ItemSchema,
+ItemSchema,
 // MeetingCancellationSchema,
 // MeetingMessageSchema,
 // MeetingRequestSchema,
@@ -1180,15 +1181,15 @@ export {
 // EwsHttpWebRequest,
 // EwsHttpWebRequestFactory,
 // EwsHttpWebResponse,
-// EwsLogging,
+EwsLogging,
 // EwsServiceJsonReader,
 // EwsServiceMultiResponseXmlReader,
 // EwsServiceXmlReader,
 // EwsServiceXmlWriter,
-// EwsUtilities,
+EwsUtilities,
 // EwsXmlReader,
 // ExchangeServerInfo,
-// ExchangeService,
+ExchangeService,
 // ExchangeServiceBase,
 // JsonNames,
 // JsonObject,
@@ -1197,13 +1198,13 @@ export {
 // JsonWriter,
 // LazyMember,
 // PropertyBag,
-// PropertySet,
+PropertySet,
 // SimplePropertyBag,
 // XmlAttributeNames,
 // XmlElementNames,
 // BasicAuthModuleForUTF8,
 // ClientCertificateCredentials,
-// ExchangeCredentials,
+ExchangeCredentials,
 // OAuthCredentials,
 // PartnerTokenCredentials,
 // TokenCredentials,
@@ -1220,13 +1221,13 @@ export {
 // AddressEntity,
 // RetentionPolicyTag,
 // AffectedTaskOccurrence,
-// AggregateType,
+AggregateType,
 // AppointmentType,
 // AutodiscoverEndpoints,
 // AutodiscoverErrorCode,
 // AutodiscoverResponseType,
 // AvailabilityData,
-// BasePropertySet,
+BasePropertySet,
 // BodyType,
 // ChangeType,
 // ClientAccessTokenType,
@@ -1252,14 +1253,14 @@ export {
 // DisableReasonType,
 // DnsQueryOptions,
 // DnsRecordType,
-// DomainSettingName,
+DomainSettingName,
 // EffectiveRights,
 // ElcFolderType,
 // EmailAddressKey,
 // EmailPosition,
 // EnumToExchangeVersionMappingHelper,
 // EventType,
-// ExchangeVersion,
+ExchangeVersion,
 // ExtensionInstallScope,
 // ExtensionType,
 // FileAsMapping,
@@ -1332,7 +1333,7 @@ export {
 // ServiceObjectType,
 // ServiceResult,
 // SetClientExtensionActionId,
-// SortDirection,
+SortDirection,
 // StandardUser,
 // SuggestionQuality,
 // SyncFolderItemsScope,
@@ -1343,9 +1344,9 @@ export {
 // TraceFlags,
 // UserConfigurationDictionaryObjectType,
 // UserConfigurationProperties,
-// UserSettingName,
+UserSettingName,
 // ViewFilter,
-// WellKnownFolderName,
+WellKnownFolderName,
 // XmlNamespace,
 // AccountIsLockedException,
 // AutodiscoverLocalException,
@@ -1421,7 +1422,7 @@ export {
 // AlternatePublicFolderItemId,
 // AbstractFolderIdWrapper,
 // AbstractItemIdWrapper,
-// CalendarActionResults,
+CalendarActionResults,
 // ConversationAction,
 // DelegateInformation,
 // DelegateTypes,
@@ -1520,9 +1521,9 @@ export {
 // FindItemsResults,
 // FolderView,
 // GroupedFindItemsResults,
-// Grouping,
+Grouping,
 // ItemGroup,
-// ItemView,
+ItemView,
 // OrderByCollection,
 // PagedView,
 // SeekToConditionItemView,
@@ -1544,18 +1545,12 @@ export {
 // Data1,
 // DateTime,
 // ExchangeWebService,
-// ExtensionMethods,
+DOMParser, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper, // ExtensionMethods,
 // Interfaces,
-// Microsoft.Exchange.WebServices.d__,
 // PromiseFactory,
 // Promise_Q,
 // Promise_WinJS,
 // Strings,
-// System.Constants.d,
-// System.d,
-// System.Enums.d,
-// WebService.Extra,
-// WebServices.Data.Extra.d,
 // XHRFactory,
 // XHRFactory_WinJS,
 };

@@ -356,3 +356,39 @@ foreach($group in $groups){
     Write-Verbose $group.Name -Verbose
     $content | Set-Content -Path $group.Name -Encoding UTF8
 }
+
+
+
+return
+$filetofix = dir .\ExchangeWebService.ts
+$uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
+if($filetofix -ne $null){
+    $insercontent = @()
+    $allfiles = dir *.ts -Recurse;
+    $allfiles.BaseName | %{      
+            
+        #Write-Verbose $_.symbol -Verbose
+        $symfile = dir ($_ + ".ts") -Recurse
+        if($symfile){
+                
+            #Write-Verbose $uri1 -Verbose
+            #Write-Verbose $uri2 -Verbose
+            $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
+            $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
+            if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
+            $importstatement = "// import {" + $_ + "} from """ + $importfile + """;"
+            #Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
+            #Write-Verbose ($importstatement) -Verbose
+            $insercontent += $importstatement
+        }
+        else
+        {
+            Write-Verbose ($filetofix.FullName + " | " +  $_.symbol) -Verbose
+        }
+    }
+}
+
+
+$exports = "export {"
+$allfiles.BaseName | %{$exports += "`r`n// $_,"}
+$exports += "`r`n};"
