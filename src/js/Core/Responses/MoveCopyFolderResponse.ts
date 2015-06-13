@@ -1,19 +1,37 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
+﻿import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {Folder} from "../ServiceObjects/Folders/Folder";
+import {FolderInfo} from "../ServiceObjects/Folders/FolderInfo";
 import {ExchangeService} from "../ExchangeService";
-import {JsonObject} from "../JsonObject";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {ServiceResponse} from "./ServiceResponse";
 export class MoveCopyFolderResponse extends ServiceResponse {
-    Folder: Folder;
-    private folder: Folder;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder { throw new Error("MoveCopyFolderResponse.ts - GetObjectInstance : Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("MoveCopyFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("MoveCopyFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+    private folder: Folder = null;
+    get Folder(): Folder {
+        return this.folder;
+    }
+    constructor() {
+        super();
+    }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder {
+        var flinfo: FolderInfo = new FolderInfo();
+        return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
+    }
+    ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("MoveCopyFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        if (responseObject[XmlElementNames.Folders]) {
+            //debug: check if this works
+            var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
+                responseObject,
+                service,
+                XmlElementNames.Folders,
+                this.GetObjectInstance,
+                false,      /* clearPropertyBag */
+                null,       /* requestedPropertySet */
+                false);     /* summaryPropertiesOnly */
+
+            this.folder = folders[0];
+        }
+    }
 }
-
-
-//}
-
-
 
 

@@ -2,6 +2,9 @@
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
+import {MoveFolderRequest} from "./Requests/MoveFolderRequest";
+import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
+import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
 import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {FindFolderRequest} from "./Requests/FindFolderRequest";
@@ -548,9 +551,32 @@ export class ExchangeService extends ExchangeServiceBase {
     }
 
     LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> { throw new Error("ExchangeService.ts - LoadPropertiesForFolder : Not implemented."); }
-    MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): IPromise<any> { throw new Error("ExchangeService.ts - MarkAllItemsAsRead : Not implemented."); }
-    MoveFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> { throw new Error("ExchangeService.ts - MoveFolder : Not implemented."); }
-    UpdateFolder(folder: Folder): IPromise<void> { throw new Error("ExchangeService.ts - UpdateFolder : Not implemented."); }
+    MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): IPromise<void> {
+        //EwsUtilities.ValidateParam(folderId, "folderId");
+        //EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "MarkAllItemsAsRead");
+        var request: MarkAllItemsAsReadRequest = new MarkAllItemsAsReadRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.FolderIds.Add(folderId);
+        request.ReadFlag = readFlag;
+        request.SuppressReadReceipts = suppressReadReceipts;
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
+    MoveFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> {
+        var request: MoveFolderRequest = new MoveFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.DestinationFolderId = destinationFolderId;
+        request.FolderIds.Add(folderId);
+        return request.Execute().then((responses) => {
+            return responses.__thisIndexer(0).Folder;
+        });
+    }
+    UpdateFolder(folder: Folder): IPromise<void> {
+        var request: UpdateFolderRequest = new UpdateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.Folders.push(folder);
+        return request.Execute().then((value) => {
+            return null;
+        });
+    }
 
     /* -----------  Item Operations  ----------   */
     //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }

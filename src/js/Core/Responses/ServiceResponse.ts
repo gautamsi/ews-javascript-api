@@ -28,21 +28,41 @@ export class ServiceResponse {
     //private errorMessage: string;
     private errorDetails: { [index: string]: string; } = {}; /*System.Collections.Generic.Dictionary<string, string>*/
     private errorProperties: PropertyDefinitionBase[] = [];// System.Collections.ObjectModel.Collection<PropertyDefinitionBase>;
+    /**
+     * Initializes a new instance of the @see {@link ServiceResponse} class.
+     * @constructor
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the <see cref="ServiceResponse"/> class.
+     * @constructor
+     * @param {SoapFaultDetails} soapFaultDetails The SOAP fault details.
+     */
+    constructor(soapFaultDetails: SoapFaultDetails);
+    /**
+     * Initializes a new instance of the <see cref="ServiceResponse"/> class.
+     * This is intended to be used by unit tests to create a fake service error response
+     * @constructor
+     * @param {ServiceError} responseCode Response code
+     * @param {string} errorMessage Detailed error message
+     */
+    constructor(responseCode: ServiceError, errorMessage: string);
 
-    constructor(soapFaultDetails?: SoapFaultDetails, responseCode?: ServiceError, errorMessage?: string) {
+    constructor(soapFaultDetailsOrResponseCode?: SoapFaultDetails | ServiceError, errorMessage?: string) {
+        var argsLength = arguments.length;
+        if (argsLength == 0) return;
 
-        if (soapFaultDetails) {
+        if (typeof soapFaultDetailsOrResponseCode === 'number') {//(responseCode: ServiceError, errorMessage: string)
             this.result = ServiceResult.Error;
-            this.errorCode = soapFaultDetails.ResponseCode;
-            this.ErrorMessage = soapFaultDetails.FaultString;
-            this.errorDetails = soapFaultDetails.ErrorDetails;
-        }
-
-        if (responseCode) {
-            this.result = ServiceResult.Error;
-            this.errorCode = responseCode;
+            this.errorCode = soapFaultDetailsOrResponseCode;
             this.ErrorMessage = errorMessage;
             this.errorDetails = null;
+        }
+        else {//(soapFaultDetails: SoapFaultDetails)
+            this.result = ServiceResult.Error;
+            this.errorCode = soapFaultDetailsOrResponseCode.ResponseCode;
+            this.ErrorMessage = soapFaultDetailsOrResponseCode.FaultString;
+            this.errorDetails = soapFaultDetailsOrResponseCode.ErrorDetails;
         }
     }
 
@@ -62,7 +82,7 @@ export class ServiceResponse {
             return false;
         }
     }
-    LoadFromXmlJsObject(responseObject: any /*JsonObject*/, service: ExchangeService): any {
+    LoadFromXmlJsObject(responseObject: any, service: ExchangeService): any {
 
         this.result = <any>ServiceResult[responseObject[XmlAttributeNames.ResponseClass]];
         this.errorCode = <any>ServiceError[responseObject[XmlElementNames.ResponseCode]];
@@ -83,7 +103,7 @@ export class ServiceResponse {
         this.Loaded();
 
     }
-    LoadFromXmlJsObject_old(jsObject: any, xmlElementName: string, service:ExchangeService): void {
+    LoadFromXmlJsObject_old(jsObject: any, xmlElementName: string, service: ExchangeService): void {
         //set contecxt to xmlelementname 
         jsObject = jsObject[xmlElementName];
 
@@ -113,34 +133,34 @@ export class ServiceResponse {
             // If batch processing stopped, EWS returns an empty element. Skip over it.
             if (this.BatchProcessingStopped) {
                 debugger;
-//                do {
-//                    reader.Read();
-//                }
-//                while (!reader.HasRecursiveParent(xmlElementName));
+                //                do {
+                //                    reader.Read();
+                //                }
+                //                while (!reader.HasRecursiveParent(xmlElementName));
             }
             else {
                 this.ReadElementsFromXmlJsObject(jsObject, service);
             }
         }
         else {
-//todo: check what  is missing   
-debugger;         
-//            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
-//            reader.Read();
-//            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
-//
-//            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
-//
-//            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
-//                reader.Read();
-//
-//                //if (reader.IsStartElement()) {
-//                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
-//                    reader.SkipCurrentElement();
-//                }
-//                //}
-//            }
-//            reader.SeekLast();
+            //todo: check what  is missing   
+            debugger;         
+            //            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
+            //            reader.Read();
+            //            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
+            //
+            //            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
+            //
+            //            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
+            //                reader.Read();
+            //
+            //                //if (reader.IsStartElement()) {
+            //                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
+            //                    reader.SkipCurrentElement();
+            //                }
+            //                //}
+            //            }
+            //            reader.SeekLast();
         }
 
         this.MapErrorCodeToErrorMessage();
@@ -194,6 +214,6 @@ debugger;
     ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
         //virtual void
     }
-    ReadElementsFromXmlJsObject(jsObject: any, service:ExchangeService): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
     ThrowIfNecessary(): void { this.InternalThrowIfNecessary(); }
 }
