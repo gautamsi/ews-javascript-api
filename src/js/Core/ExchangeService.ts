@@ -47,6 +47,7 @@ import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
 import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
 import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
 import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {SearchFilter} from "../Search/Filters/SearchFilter";
@@ -68,34 +69,57 @@ import {XHR} from "../XHRFactory"
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {
+    
+    /* #region Constants */
     private static TargetServerVersionHeaderName: string = "X-EWS-TargetVersion";
-    Url: string;//System.Uri;
-    ImpersonatedUserId: ImpersonatedUserId;
-    PrivilegedUserId: PrivilegedUserId;
-    ManagementRoles: ManagementRoles;
-    PreferredCulture: any;//System.Globalization.CultureInfo;
-    DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
-    FileAttachmentContentHandler: IFileAttachmentContentHandler;
-    TimeZone: any;// System.TimeZoneInfo;
-    UnifiedMessaging: UnifiedMessaging;
-    EnableScpLookup: boolean;
-    Exchange2007CompatibilityMode: boolean;
-    get RenderingMethod(): RenderingMode { return this.renderingMode; }
-    TraceEnablePrettyPrinting: boolean;
-    TargetServerVersion: string;
-    private url: string;//System.Uri;
-    private preferredCulture: any;// System.Globalization.CultureInfo;
-    private dateTimePrecision: DateTimePrecision;
-    private impersonatedUserId: ImpersonatedUserId;
-    private privilegedUserId: PrivilegedUserId;
-    private managementRoles: ManagementRoles;
-    private fileAttachmentContentHandler: IFileAttachmentContentHandler;
-    private unifiedMessaging: UnifiedMessaging;
-    private enableScpLookup: boolean;
+    /* #endregion Constants */
+    
+    /* #region Fields */
+    private url: string = null;//System.Uri;
+    //private preferredCulture: any = null;// System.Globalization.CultureInfo;
+    //private dateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
+    //private impersonatedUserId: ImpersonatedUserId = null;
+    //private privilegedUserId: PrivilegedUserId = null;
+    //private managementRoles: ManagementRoles = null;
+    //private fileAttachmentContentHandler: IFileAttachmentContentHandler = null;
+    private unifiedMessaging: UnifiedMessaging = null;
+    //private enableScpLookup: boolean = false; //false for javascript, AD Lookup not implemented 
     private renderingMode: RenderingMode = RenderingMode.Xml;
-    private traceEnablePrettyPrinting: boolean;
-    private targetServerVersion: string;
-    private exchange2007CompatibilityMode: boolean;
+    //private traceEnablePrettyPrinting: boolean = true;
+    private targetServerVersion: string = null;
+    //private exchange2007CompatibilityMode: boolean = false;
+    /* #endregion Fields */
+    
+    /* #region Properties */
+    Url: string;//System.Uri;
+    ImpersonatedUserId: ImpersonatedUserId = null;
+    PrivilegedUserId: PrivilegedUserId = null;
+    ManagementRoles: ManagementRoles = null;
+    PreferredCulture: any = null;//System.Globalization.CultureInfo;
+    DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
+    FileAttachmentContentHandler: IFileAttachmentContentHandler = null;
+    get TimeZone(): any {// System.TimeZoneInfo;
+        return this.TimeZone;
+    }
+    get UnifiedMessaging(): UnifiedMessaging {
+        if (this.unifiedMessaging === null) {
+            this.unifiedMessaging = new UnifiedMessaging(this);
+        }
+        return this.unifiedMessaging;
+    }
+    get EnableScpLookup(): boolean { return false; } //false for javascript, AD Lookup not implemented
+    Exchange2007CompatibilityMode: boolean = false;
+    get RenderingMethod(): RenderingMode { return this.renderingMode; }
+    TraceEnablePrettyPrinting: boolean = true;
+    get TargetServerVersion(): string {
+        return this.targetServerVersion;
+    }
+    set TargetServerVersion(value: string) {
+        ExchangeService.ValidateTargetVersion(value);
+        this.targetServerVersion = value;
+    }
+    /* #region Properties */
+    
     // AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
     // //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
     AdjustServiceUriFromCredentials(uri: string /*System.Uri*/): string/*System.Uri*/ {
@@ -318,6 +342,7 @@ export class ExchangeService extends ExchangeServiceBase {
     //InternalConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalConvertIds : Not implemented."); }
     //InternalCopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCopyItems : Not implemented."); }
     //InternalCreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCreateItems : Not implemented."); }
+    /* #region Response object operations */
     InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
         var request: CreateResponseObjectRequest = new CreateResponseObjectRequest(this, ServiceErrorHandling.ThrowOnError);
         request.ParentFolderId = parentFolderId;
@@ -327,12 +352,13 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Items;
         });
     }
+    /* #endregion Response object operations */
+    
     //InternalDeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalDeleteItems : Not implemented."); }
     //InternalGetAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetAttachments : Not implemented."); }
     //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
     //InternalMoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalMoveItems : Not implemented."); }
     //InternalUpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalUpdateItems : Not implemented."); }
-    //IsMajorMinor(versionPart: string): boolean { throw new Error("ExchangeService.ts - IsMajorMinor : Not implemented."); }
     //LoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - LoadPropertiesForItems : Not implemented."); }
     //LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): any { throw new Error("ExchangeService.ts - LoadPropertiesForUserConfiguration : Not implemented."); }
     //MarkAsJunk(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, isJunk: boolean, moveItem: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MarkAsJunk : Not implemented."); }
@@ -417,10 +443,87 @@ export class ExchangeService extends ExchangeServiceBase {
     //UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
     ////UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
     //UpdateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - UpdateUserConfiguration : Not implemented."); }
-    //Validate(): any { throw new Error("ExchangeService.ts - Validate : Not implemented."); }
-    //ValidateTargetVersion(version: string): any { throw new Error("ExchangeService.ts - ValidateTargetVersion : Not implemented."); }
     
-    /* ------------------  Folder Operations ---------------------- */
+    /* #region Validation */
+    static IsMajorMinor(versionPart: string): boolean {
+        var MajorMinorSeparator: string = '.';//char
+
+        var parts: string[] = versionPart.split(MajorMinorSeparator);
+        if (parts.length != 2) {
+            return false;
+        }
+
+        for (var s of parts) {
+            for (var c of s.split('')) {
+                if (isNaN(<any>c)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    Validate(): void {
+        super.Validate();
+
+        if (this.Url == null) {
+            throw new ServiceLocalException(Strings.ServiceUrlMustBeSet);
+        }
+
+        if (this.PrivilegedUserId != null && this.ImpersonatedUserId != null) {
+            throw new ServiceLocalException(Strings.CannotSetBothImpersonatedAndPrivilegedUser);
+        }
+
+        // only one of PrivilegedUserId|ImpersonatedUserId|ManagementRoles can be set.
+    }
+    static ValidateTargetVersion(version: string): void {
+        var ParameterSeparator: string = ';'; //char
+        var LegacyVersionPrefix: string = "Exchange20";
+        var ParameterValueSeparator: string = '='; //char
+        var ParameterName: string = "minimum";
+
+        if (StringHelper.IsNullOrEmpty(version)) {
+            throw new Error("Target version must not be empty."); //ArgumentException
+        }
+
+        var parts: string[] = version.trim().split(ParameterSeparator);
+
+        if (parts.length > 2) {
+            throw new Error("Target version should have the form.");//ArgumentException            
+        }
+
+        var skipPart1: boolean = true;
+        if (parts.length === 2) {
+            // Validate the optional minimum version parameter, "minimum=X.Y"
+            var part2: string = parts[1].trim();
+            var minParts: string[] = part2.split(ParameterValueSeparator);
+            if (minParts.length == 2 &&
+                minParts[0].trim().toUpperCase() === ParameterName.toUpperCase() &&
+                ExchangeService.IsMajorMinor(minParts[1].trim())) {
+                skipPart1 = false;
+            }
+            else {
+                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+            }
+        }
+
+        if (parts.length >= 0 && !skipPart1) {
+            // Validate the header value. We allow X.Y or Exchange20XX.
+            var part1: string = parts[0].trim();
+            if (parts[0].indexOf(LegacyVersionPrefix) === 0) {
+                // Close enough; misses corner cases like "Exchange2001". Server will do complete validation.
+            }
+            else if (ExchangeService.IsMajorMinor(part1)) {
+                // Also close enough; misses corner cases like ".5".
+            }
+            else {
+                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+            }
+        }
+    }
+    /* #endregion Validation */
+    
+    /* #region Folder operations */
     CreateFolder(folder: Folder, parentFolderId: FolderId): IPromise<void> {
         var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Folders = [folder];
@@ -600,7 +703,7 @@ export class ExchangeService extends ExchangeServiceBase {
             return null;
         });
     }
-
+    /* #endregion Folder operations */
     /* -----------  Item Operations  ----------   */
     //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
     ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
@@ -637,7 +740,7 @@ export class ExchangeService extends ExchangeServiceBase {
     //skipped: not needed, no calls coming in to this internal function in ews managed api, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     FindItems<TItem extends Item>(
         nameIdOrIds: WellKnownFolderName | FolderId | FolderId[],
-        viewQueryStringOrSearchFilter: ViewBase | string| SearchFilter,
+        viewQueryStringOrSearchFilter: ViewBase | string | SearchFilter,
         groupByViewRHTOrQueryString?: Grouping | ViewBase | boolean | string,
         groupByOrView?: Grouping | ViewBase,
         groupBy?: Grouping,
