@@ -1,21 +1,44 @@
-﻿import {ComplexProperty} from "../ComplexProperty";
-import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {JsonObject} from "../../Core/JsonObject";
+﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
 import {ExchangeService} from "../../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsUtilities} from "../../Core/EwsUtilities";
+import {TimeSpan} from "../../DateTime";
+
+import {ComplexProperty} from "../ComplexProperty";
 export class WorkingPeriod extends ComplexProperty {
-    DaysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
-    StartTime: any /*System.TimeSpan*/;
-    EndTime: any /*System.TimeSpan*/;
-    private daysOfWeek: DayOfTheWeek /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
-    private startTime: any /*System.TimeSpan*/;
-    private endTime: any /*System.TimeSpan*/;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("WorkingPeriod.ts - LoadFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    get DaysOfWeek(): DayOfTheWeek[] { return this.daysOfWeek; } /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/
+    get StartTime(): TimeSpan { return this.startTime; } /*System.TimeSpan*/
+    get EndTime(): TimeSpan { return this.endTime; } /*System.TimeSpan*/
+    private daysOfWeek: DayOfTheWeek[] = [] /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+    private startTime: TimeSpan = null /*System.TimeSpan*/;
+    private endTime: TimeSpan = null/*System.TimeSpan*/;
+    constructor() {
+        super();
+    }
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("WorkingPeriod.ts - LoadFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        for (var key in jsonProperty) {
+            switch (key) {
+                case XmlElementNames.DayOfWeek:
+                    EwsUtilities.ParseEnumValueList<DayOfTheWeek>(
+                        this.daysOfWeek,
+                        jsonProperty[key],
+                        ' ',
+                        DayOfTheWeek);
+                    break;
+                case XmlElementNames.StartTimeInMinutes:
+                    this.startTime = TimeSpan.FromMinutes(Number(jsonProperty[key]));
+                    break;
+                case XmlElementNames.EndTimeInMinutes:
+                    this.endTime = TimeSpan.FromMinutes(Number(jsonProperty[key]));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
-
-
-//}
 
 
 

@@ -1,4 +1,4 @@
-﻿import {Strings} from "../Strings";
+import {Strings} from "../Strings";
 import {TimeZoneDefinition} from "../ComplexProperties/TimeZones/TimeZoneDefinition";
 import {IEwsHttpWebRequestFactory} from "../Interfaces/IEwsHttpWebRequestFactory";
 import {ITraceListener} from "../Interfaces/ITraceListener";
@@ -245,7 +245,7 @@ export class ExchangeServiceBase {
         request.headers["Accept"] = "text/xml";
     }
     SetCustomUserAgent(userAgent: string): any { /*this.userAgent = userAgent;*/ }
-    TraceHttpRequestHeaders(traceType: TraceFlags, request: IEwsHttpWebRequest): any { throw new Error("ExchangeServiceBase.ts - TraceHttpRequestHeaders : Not implemented."); }
+    TraceHttpRequestHeaders(traceType: TraceFlags, request: any): any { throw new Error("ExchangeServiceBase.ts - TraceHttpRequestHeaders : Not implemented."); }
     TraceHttpResponseHeaders(traceType: TraceFlags, response: any): any { throw new Error("ExchangeServiceBase.ts - TraceHttpResponseHeaders : Not implemented."); }
     TraceMessage(traceType: TraceFlags, logEntry: string): any { EwsLogging.Log(logEntry); /*throw new Error("Not implemented."); */ }
     TraceXml(traceType: TraceFlags, stream: any): any { throw new Error("ExchangeServiceBase.ts - TraceXml : Not implemented."); }

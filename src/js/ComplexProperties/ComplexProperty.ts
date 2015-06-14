@@ -1,7 +1,7 @@
 ﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {DelegateTypes} from "../Misc/DelegateTypes";
+import {ComplexPropertyChangedDelegate} from "../Misc/DelegateTypes";
 import {IRefParam} from "../Interfaces/IRefParam";
 import {ExchangeService} from "../Core/ExchangeService";
 
@@ -10,7 +10,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   ___typeName: string = "ComplexProperty";
   Namespace: XmlNamespace = XmlNamespace.Types;
   //private xmlNamespace: XmlNamespace; ^ no need for pivate property
-  OnChange: DelegateTypes.ComplexPropertyChangedDelegate[] = [];
+  OnChange: ComplexPropertyChangedDelegate[] = [];
 
   constructor() {
 

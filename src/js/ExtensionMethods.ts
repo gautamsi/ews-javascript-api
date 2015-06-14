@@ -225,8 +225,10 @@ export class xml2JsObject {
                             obj[attr.localName] = attr.value;
                         else
                             obj[attr.name] = attr.value;
-                    else if (attr.localName === 'xmlns' && xmlNode.namespaceURI !== attr.value) {
-                        if (typeof obj[TYPE_STR] === 'undefiend') obj[TYPE_STR] = attr.value;
+                    else if (attr.localName === 'xmlns' ) {
+                        if (xmlNode.namespaceURI !== attr.value && typeof obj[TYPE_STR] === 'undefiend'){ 
+                            obj[TYPE_STR] = attr.value;
+                        }
                         nonGenericAttributeCount--;
                     }
                     else

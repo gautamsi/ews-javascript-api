@@ -1,24 +1,48 @@
 ﻿import {CalendarEvent} from "../../ComplexProperties/Availability/CalendarEvent";
 import {WorkingHours} from "../../ComplexProperties/Availability/WorkingHours";
-import {ServiceResponse} from "./ServiceResponse";
 import {FreeBusyViewType} from "../../Enumerations/FreeBusyViewType";
 import {LegacyFreeBusyStatus} from "../../Enumerations/LegacyFreeBusyStatus";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceResponse} from "./ServiceResponse";
 export class AttendeeAvailability extends ServiceResponse {
-    CalendarEvents: CalendarEvent[];//System.Collections.ObjectModel.Collection<CalendarEvent>;
-    ViewType: FreeBusyViewType;
-    MergedFreeBusyStatus: LegacyFreeBusyStatus[];//System.Collections.ObjectModel.Collection<LegacyFreeBusyStatus>;
-    WorkingHours: WorkingHours;
-    private calendarEvents: CalendarEvent[];//System.Collections.ObjectModel.Collection<CalendarEvent>;
-    private mergedFreeBusyStatus: LegacyFreeBusyStatus[];//System.Collections.ObjectModel.Collection<LegacyFreeBusyStatus>;
-    private viewType: FreeBusyViewType;
-    private workingHours: WorkingHours;
-    LoadFreeBusyViewFromXml(reader: EwsServiceXmlReader, viewType: FreeBusyViewType): any { throw new Error("AttendeeAvailability.ts - LoadFreeBusyViewFromXml : Not implemented."); }
+    get CalendarEvents(): CalendarEvent[] { return this.calendarEvents; }
+    get ViewType(): FreeBusyViewType { return this.viewType; }
+    get MergedFreeBusyStatus(): LegacyFreeBusyStatus[] { return this.mergedFreeBusyStatus; }
+    get WorkingHours(): WorkingHours { return this.workingHours; }
+    private calendarEvents: CalendarEvent[] = [];
+    private mergedFreeBusyStatus: LegacyFreeBusyStatus[] = [];
+    private viewType: FreeBusyViewType = FreeBusyViewType.None;
+    private workingHours: WorkingHours = null;
+    LoadFreeBusyViewFromXmlJsObject(jsObject: any, viewType: FreeBusyViewType, service: ExchangeService): void {
+        var viewTypeString = jsObject[XmlElementNames.FreeBusyViewType];
+        this.viewType = <FreeBusyViewType><any>FreeBusyViewType[viewTypeString];
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlElementNames.MergedFreeBusy:
+                    var mergedFreeBusy: string = jsObject[key];
+
+                    for (var status of mergedFreeBusy.split('')) {
+                        this.mergedFreeBusyStatus.push(<LegacyFreeBusyStatus>Number(status));
+                    }
+                    break;
+                case XmlElementNames.CalendarEventArray:
+                    var calendarEventArray = jsObject[key];
+                    var calendarEvents = calendarEventArray[XmlElementNames.CalendarEvent];
+                    if (!Array.isArray(calendarEvents)) {
+                        calendarEvents = [calendarEvents]
+                    }
+                    for (var calendarEventObj in calendarEvents) {
+                        var calendarEvent: CalendarEvent = new CalendarEvent();
+                        calendarEvent.LoadFromXmlJsObject(calendarEventObj, service);
+                        this.calendarEvents.push(calendarEvent);
+                    }
+                    break;
+                case XmlElementNames.WorkingHours:
+                    this.workingHours = new WorkingHours();
+                    this.workingHours.LoadFromXmlJsObject(jsObject[key], service);
+                    break;
+            }
+        }
+    }
 }
-
-
-
-//}
-
-
-

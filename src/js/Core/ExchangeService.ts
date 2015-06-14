@@ -1,4 +1,10 @@
-﻿import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
+import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
+import {TimeWindow} from "../Misc/Availability/TimeWindow";
+import {AvailabilityData} from "../Enumerations/AvailabilityData";
+import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
+import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
+import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
+import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
@@ -599,8 +605,24 @@ export class ExchangeService extends ExchangeServiceBase {
     
     //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
     //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
-    //GetUserAvailability(attendees: System.Collections.Generic.IEnumerable<AttendeeInfo>, timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): GetUserAvailabilityResults { throw new Error("ExchangeService.ts - GetUserAvailability : Not implemented."); }
-    ////GetUserAvailability(attendees: System.Collections.Generic.IEnumerable<AttendeeInfo>, timeWindow: TimeWindow, requestedData: AvailabilityData): GetUserAvailabilityResults { throw new Error("ExchangeService.ts - GetUserAvailability : Not implemented."); }
+    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData): IPromise<GetUserAvailabilityResults>;
+    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): IPromise<GetUserAvailabilityResults>;
+    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): IPromise<GetUserAvailabilityResults> {
+        EwsUtilities.ValidateParamCollection(attendees, "attendees");
+        EwsUtilities.ValidateParam(timeWindow, "timeWindow");
+        EwsUtilities.ValidateParam(options, "options");
+        var request = new GetUserAvailabilityRequest(this);
+
+            request.Attendees = attendees;
+            request.TimeWindow = timeWindow;
+            request.RequestedData = requestedData;
+            request.Options = options;
+            
+            return request.Execute().then((responses) => {
+            return responses;
+        });
+            
+    }
     //GetUserOofSettings(smtpAddress: string): OofSettings { throw new Error("ExchangeService.ts - GetUserOofSettings : Not implemented."); }
     //SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): any { throw new Error("ExchangeService.ts - SetUserOofSettings : Not implemented."); }
     /* #endregion Availability operations */

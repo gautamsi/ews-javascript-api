@@ -6,10 +6,12 @@ import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
 import {Item} from "./ServiceObjects/Items/Item";
 
 import {ExchangeService} from "./ExchangeService";
+import {TimeSpan, moment} from "../DateTime";
 
 import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsLogging} from "./EwsLogging";
 import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {ItemTraversal} from "../Enumerations/ItemTraversal";
@@ -246,9 +248,9 @@ export class EwsUtilities {
         return emailAddressParts[1];
     }
     static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("EwsUtilities.ts - static EwsToSystemDayOfWeek : Not implemented."); }
-    static FindFirstItemOfType<T extends Item>(items: Item[], type:any): T{
-        for(var item of items){
-            if(item instanceof type){
+    static FindFirstItemOfType<T extends Item>(items: Item[], type: any): T {
+        for (var item of items) {
+            if (item instanceof type) {
                 return <T>item;
             }
         }
@@ -387,11 +389,58 @@ export class EwsUtilities {
     static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
     //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("EwsUtilities.ts - static ParseAsUnbiasedDatetimescopedToServicetimeZone : Not implemented.");}
-    //static ParseEnumValueList(list: System.Collections.Generic.IList<T>, value: string, separators: any): any{ throw new Error("EwsUtilities.ts - static ParseEnumValueList : Not implemented.");}
+    static ParseEnumValueList<T>(list: any[], value: string, separators: string, enumType: any): void {
+        // EwsLogging.Assert(
+        //         typeof(T).IsEnum,
+        //         "EwsUtilities.ParseEnumValueList",
+        //         "T is not an enum type.");
+
+        var enumValues: string[] = value.split(separators);
+
+        for (var enumValue of enumValues) {
+            var enumValueParsed = enumType[enumValue];
+            if (typeof enumValueParsed !== 'undefined')
+                list.push(enumValueParsed);
+        }
+    }
     //static SerializeEnum(value: any): string{ throw new Error("EwsUtilities.ts - static SerializeEnum : Not implemented.");}
     //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("EwsUtilities.ts - static SystemToEwsDayOfTheWeek : Not implemented.");}
-    //static TimeSpanToXSDuration(timeSpan: System.TimeSpan): string{ throw new Error("EwsUtilities.ts - static TimeSpanToXSDuration : Not implemented.");}
-    //static TimeSpanToXSTime(timeSpan: System.TimeSpan): string{ throw new Error("EwsUtilities.ts - static TimeSpanToXSTime : Not implemented.");}
+    static TimeSpanToXSDuration(timeSpan: TimeSpan): string {
+        // Optional '-' offset
+        var offsetStr: string = (timeSpan.TotalSeconds < 0) ? "-" : StringHelper.Empty;
+
+        // The TimeSpan structure does not have a Year or Month 
+        // property, therefore we wouldn't be able to return an xs:duration
+        // string from a TimeSpan that included the nY or nM components.
+        return StringHelper.Format(
+            "{0}P{1}DT{2}H{3}M{4}S",
+            offsetStr,
+            Math.abs(timeSpan.days()),
+            Math.abs(timeSpan.hours()),
+            Math.abs(timeSpan.minutes()),
+            Math.abs(timeSpan.seconds()) + "." + Math.abs(timeSpan.milliseconds()));
+    }
+    private static numPad(num: number, length: number) {
+        var str = num.toString();
+        while (str.length < length)
+            str += "0";
+        return str;
+    }
+    static TimeSpanToXSTime(timeSpan: TimeSpan): string {
+        return StringHelper.Format(
+            "{0}:{1}:{2}",
+            this.numPad(timeSpan.hours(), 2),
+            this.numPad(timeSpan.minutes(), 2),
+            this.numPad(timeSpan.seconds(), 2));
+    }
+    static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
+        var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+        if (xsDuration.match(regex) === null) {
+            throw new Error(Strings.XsDurationCouldNotBeParsed);//ArgumentException
+        }
+        return new TimeSpan(xsDuration);//using moment, it recognize the format.
+        
+    }
     //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("EwsUtilities.ts - static TrueForAll : Not implemented.");}
     static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("EwsUtilities.ts - static ValidateClassVersion : Not implemented."); }
     static ValidateDomainNameAllowNull(domainName: string, paramName: string): void {
@@ -503,7 +552,6 @@ export class EwsUtilities {
     static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }
     static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }
     //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("EwsUtilities.ts - static WriteTraceStartElement : Not implemented.");}
-    //static XSDurationToTimeSpan(xsDuration: string): System.TimeSpan{ throw new Error("EwsUtilities.ts - static XSDurationToTimeSpan : Not implemented.");}
 }
 
 

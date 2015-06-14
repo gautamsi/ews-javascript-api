@@ -41,7 +41,7 @@ $fixes  | group filetofix |  %{ ############## - use this to fix TS2304
                $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
                $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
                if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
-               $importstatement = "import " + $_.symbol + " = require(""" + $importfile + """);"
+               $importstatement = "import {" + $_.symbol + "} from """ + $importfile + """;"
                Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
                $insercontent += $importstatement
             }
@@ -360,23 +360,24 @@ foreach($group in $groups){
 
 
 return
-$filetofix = dir .\ExchangeWebService.ts
+#$filetofix = dir .\ExchangeWebService.ts
 $uri1 = New-Object System.Uri -ArgumentList $filetofix.FullName
 if($filetofix -ne $null){
     $insercontent = @()
     $allfiles = dir *.ts -Recurse;
-    $allfiles.BaseName | %{      
+    $allfiles | ?{!$_.FullName.EndsWith(".d.ts")} | ?{!$_.BaseName.endsWith("Attribute")} | sort BaseName | %{      
             
         #Write-Verbose $_.symbol -Verbose
-        $symfile = dir ($_ + ".ts") -Recurse
+        $symfile = $_.BaseName # dir ($_ + ".ts") -Recurse
         if($symfile){
                 
             #Write-Verbose $uri1 -Verbose
             #Write-Verbose $uri2 -Verbose
-            $uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
-            $importfile = $uri1.MakeRelative($uri2).replace(".ts","")
-            if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
-            $importstatement = "// import {" + $_ + "} from """ + $importfile + """;"
+            #$uri2 = New-Object System.Uri -ArgumentList $symfile.FullName
+            $importfile = $_.FullName.Replace("\","/").Replace("D:/dr/lgh/ews-javascript-api/src/js",".") #  $uri1.MakeRelative($uri2).replace(".ts","")
+            #if(!$importfile.StartsWith(".")){$importfile = "./" + $importfile}
+            $importstatement = "// import {" + $symfile + "} from """ + $importfile.Replace(".ts","") + """;"
+            $importstatement += "`r`n// export {" + $symfile + "}"
             #Write-Verbose ($filetofix.FullName + " | " + $importstatement) -Verbose
             #Write-Verbose ($importstatement) -Verbose
             $insercontent += $importstatement
