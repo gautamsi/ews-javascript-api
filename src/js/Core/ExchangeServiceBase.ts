@@ -38,7 +38,7 @@ export class ExchangeServiceBase {
     static SessionKey: any[];//System.Byte[];
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
-    TimeZone: TimeZoneInfo = TimeZoneInfo.Local;//System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo { return this.timeZone; }//System.TimeZoneInfo;
     TimeZoneDefinition: TimeZoneDefinition;
     TraceEnabled: boolean;
     TraceFlags: TraceFlags;
@@ -64,7 +64,7 @@ export class ExchangeServiceBase {
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
-    private timeZone: any;//System.TimeZoneInfo;
+    protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;//System.TimeZoneInfo;
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;

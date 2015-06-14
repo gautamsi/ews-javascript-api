@@ -17,7 +17,7 @@ export class DateTime {
 	get Date(): moment.Moment { return this.momentDate; }
 	get currentUtcOffset(): number { return this.momentDate.utcOffset(); }
 	private momentDate: moment.Moment;
-	momentInstance: any = moment()
+	private momentInstance: any = moment()
 	get TotalMilliSeconds(): number { return this.momentDate.valueOf() }
 	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Unspecified) {
 		if (date instanceof DateTime) {
@@ -29,6 +29,12 @@ export class DateTime {
 		this.kind = kind;
 
 	}
+	static Compare(x: DateTime, y: DateTime): number {
+		var diff: number = x.momentDate.diff(y.momentDate);
+		if (diff === 0) return 0;
+		if (diff < 0) return -1;
+		return 1;
+	}
 	Format(formatting: string): string {
 		return this.momentDate.format(formatting);
 	}
@@ -38,6 +44,9 @@ export class DateTime {
 	}
 	ToISOString(): string { return this.momentDate.toISOString(); }
 	utcOffset(value: number) { this.momentDate.utcOffset(value); }
+
+
+
 	static DateTimeToXSDateTime(dateTime: DateTime): string {
 		var format = 'YYYY-MM-DDTHH:mm:ss.SSSZ';//using moment format for c#->"yyyy-MM-ddTHH:mm:ss.fff";
 

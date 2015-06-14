@@ -5,7 +5,7 @@ import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPro
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 
 import {IOutParam} from "../../../Interfaces/IOutParam";
-import {StringPropertyDefinitionBaseDictionary, PropDictionary, PropertyDefinitionDictionary} from "../../../AltDictionary";
+import {Dictionary, DictionaryWithPropertyDefitionKey, PropertyDefinitionDictionary} from "../../../AltDictionary";
 
 import {AppointmentSchema} from "./AppointmentSchema";
 
@@ -25,7 +25,7 @@ export class ServiceObjectSchema {
     get FirstClassProperties(): PropertyDefinition[] { return this.firstClassProperties; }//System.Collections.Generic.List<PropertyDefinition>;
     get FirstClassSummaryProperties(): PropertyDefinition[] { return this.firstClassSummaryProperties; }//System.Collections.Generic.List<PropertyDefinition>;
     get IndexedProperties(): IndexedPropertyDefinition[] { return this.indexedProperties; }//System.Collections.Generic.List<IndexedPropertyDefinition>;
-    private properties: StringPropertyDefinitionBaseDictionary<string, PropertyDefinition> = new StringPropertyDefinitionBaseDictionary<string, PropertyDefinition>();// System.Collections.Generic.Dictionary<TKey, TValue>;
+    private properties: Dictionary<string, PropertyDefinition> = new Dictionary<string,PropertyDefinition>((key)=>key);// System.Collections.Generic.Dictionary<TKey, TValue>;
     private visibleProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
@@ -184,7 +184,7 @@ export class ServiceObjectSchema {
     RegisterProperties(): void { /*virtual void for derived class to implement if needed*/ }
     //RegisterProperty(property: PropertyDefinition): any { throw new Error("ServiceObjectSchema.ts - RegisterProperty : Not implemented."); }
     RegisterProperty(property: PropertyDefinition, isInternal: boolean = false): void {
-        this.properties.add(property.XmlElementName, property);
+        this.properties.addUpdate(property.XmlElementName, property);
 
         if (!isInternal) {
             this.visibleProperties.push(property);

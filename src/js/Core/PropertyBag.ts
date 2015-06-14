@@ -26,14 +26,14 @@ import {ICustomUpdateSerializer} from "../Interfaces/ICustomXmlUpdateSerializer"
 
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 
-import {PropDictionary, KeyValuePair} from "../AltDictionary";
+import {DictionaryWithPropertyDefitionKey, KeyValuePair} from "../AltDictionary";
 
 import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 
 //todo: should be done
 export class PropertyBag {
-    get Properties(): PropDictionary<PropertyDefinition, any> { return this.properties; }//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    get Properties(): DictionaryWithPropertyDefitionKey<PropertyDefinition, any> { return this.properties; }//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     get Owner(): ServiceObject { return this.owner; }
     get IsDirty(): boolean {
         var changes = this.modifiedProperties.length + this.deletedProperties.length + this.addedProperties.length;
@@ -45,8 +45,8 @@ export class PropertyBag {
     private loading: boolean;
     private onlySummaryPropertiesRequested: boolean;
     private loadedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
-    private properties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
-    private deletedProperties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();// System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    private properties: DictionaryWithPropertyDefitionKey<PropertyDefinition, any> = new DictionaryWithPropertyDefitionKey<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    private deletedProperties: DictionaryWithPropertyDefitionKey<PropertyDefinition, any> = new DictionaryWithPropertyDefitionKey<PropertyDefinition, any>();// System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     private modifiedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private addedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private requestedPropertySet: PropertySet;
@@ -100,14 +100,14 @@ export class PropertyBag {
         if (!this.deletedProperties.containsKey(propertyDefinition)) {
             var propertyValue: IOutParam<any> = { outValue: null };
 
-            this.properties.tryGet(propertyDefinition, propertyValue);
+            this.properties.tryGetValue(propertyDefinition, propertyValue);
 
             this.properties.remove(propertyDefinition);
             var modifiedIndex = this.modifiedProperties.indexOf(propertyDefinition);
             if (modifiedIndex >= 0)
                 this.modifiedProperties.splice(modifiedIndex, 1);
 
-            this.deletedProperties.add(propertyDefinition, propertyValue);
+            this.deletedProperties.addUpdate(propertyDefinition, propertyValue);
 
             var complexProperty = <ComplexProperty>propertyValue;
 
@@ -379,7 +379,7 @@ export class PropertyBag {
             }
             else {
                 // If the property value was not set, we have a newly set property.
-                if (this.properties.KeyNames.indexOf(propertyDefinition.Name) == -1 /*.ContainsKey(propertyDefinition)*/) {
+                if (this.properties.getStringKeys().indexOf(propertyDefinition.Name) == -1 /*.ContainsKey(propertyDefinition)*/) {
                     PropertyBag.AddToChangeList(propertyDefinition, this.addedProperties);
                 }
                 else {
@@ -425,7 +425,7 @@ export class PropertyBag {
 
         return result;
     }
-    TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean { return this.properties.tryGet(propertyDefinition, propertyValue); }
+    TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean { return this.properties.tryGetValue(propertyDefinition, propertyValue); }
     Validate(): void {
         for (var item of this.addedProperties) {
             var propertyDefinition: PropertyDefinition = item;

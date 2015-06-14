@@ -107,7 +107,7 @@ export class ExchangeService extends ExchangeServiceBase {
     DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
     FileAttachmentContentHandler: IFileAttachmentContentHandler = null;
     get TimeZone(): any {// System.TimeZoneInfo;
-        return this.TimeZone;
+        return this.timeZone;
     }
     get UnifiedMessaging(): UnifiedMessaging {
         if (this.unifiedMessaging === null) {
@@ -613,15 +613,15 @@ export class ExchangeService extends ExchangeServiceBase {
         EwsUtilities.ValidateParam(options, "options");
         var request = new GetUserAvailabilityRequest(this);
 
-            request.Attendees = attendees;
-            request.TimeWindow = timeWindow;
-            request.RequestedData = requestedData;
-            request.Options = options;
-            
-            return request.Execute().then((responses) => {
+        request.Attendees = attendees;
+        request.TimeWindow = timeWindow;
+        request.RequestedData = requestedData;
+        request.Options = options;
+
+        return request.Execute().then((responses) => {
             return responses;
         });
-            
+
     }
     //GetUserOofSettings(smtpAddress: string): OofSettings { throw new Error("ExchangeService.ts - GetUserOofSettings : Not implemented."); }
     //SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): any { throw new Error("ExchangeService.ts - SetUserOofSettings : Not implemented."); }
