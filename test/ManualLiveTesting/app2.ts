@@ -1,49 +1,11 @@
-///<reference path="..\..\node_modules\reflect-metadata\reflect-metadata.d.ts"/>
+import {xml2JsObject, DOMParser, EwsLogging} from "../../src/js/ExchangeWebService";
 
-import "reflect-metadata";
+var raw = '<?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Header><h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="190" MinorBuildNumber="19" Version="V2_44" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/></s:Header><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><GetUserAvailabilityResponse xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"><FreeBusyResponseArray><FreeBusyResponse><ResponseMessage ResponseClass="Success"><ResponseCode>NoError</ResponseCode></ResponseMessage><FreeBusyView><FreeBusyViewType xmlns="http://schemas.microsoft.com/exchange/services/2006/types">Detailed</FreeBusyViewType><WorkingHours xmlns="http://schemas.microsoft.com/exchange/services/2006/types"><TimeZone><Bias>300</Bias><StandardTime><Bias>0</Bias><Time>02:00:00</Time><DayOrder>1</DayOrder><Month>11</Month><DayOfWeek>Sunday</DayOfWeek></StandardTime><DaylightTime><Bias>-60</Bias><Time>02:00:00</Time><DayOrder>2</DayOrder><Month>3</Month><DayOfWeek>Sunday</DayOfWeek></DaylightTime></TimeZone><WorkingPeriodArray><WorkingPeriod><DayOfWeek>Monday Tuesday Wednesday Thursday Friday</DayOfWeek><StartTimeInMinutes>480</StartTimeInMinutes><EndTimeInMinutes>1020</EndTimeInMinutes></WorkingPeriod></WorkingPeriodArray></WorkingHours></FreeBusyView></FreeBusyResponse><FreeBusyResponse><ResponseMessage ResponseClass="Success"><ResponseCode>NoError</ResponseCode></ResponseMessage><FreeBusyView><FreeBusyViewType xmlns="http://schemas.microsoft.com/exchange/services/2006/types">FreeBusy</FreeBusyViewType><WorkingHours xmlns="http://schemas.microsoft.com/exchange/services/2006/types"><TimeZone><Bias>480</Bias><StandardTime><Bias>0</Bias><Time>02:00:00</Time><DayOrder>1</DayOrder><Month>11</Month><DayOfWeek>Sunday</DayOfWeek></StandardTime><DaylightTime><Bias>-60</Bias><Time>02:00:00</Time><DayOrder>2</DayOrder><Month>3</Month><DayOfWeek>Sunday</DayOfWeek></DaylightTime></TimeZone><WorkingPeriodArray><WorkingPeriod><DayOfWeek>Monday Tuesday Wednesday Thursday Friday</DayOfWeek><StartTimeInMinutes>480</StartTimeInMinutes><EndTimeInMinutes>1020</EndTimeInMinutes></WorkingPeriod></WorkingPeriodArray></WorkingHours></FreeBusyView></FreeBusyResponse></FreeBusyResponseArray><SuggestionsResponse><ResponseMessage ResponseClass="Success"><ResponseCode>NoError</ResponseCode></ResponseMessage><SuggestionDayResultArray><SuggestionDayResult xmlns="http://schemas.microsoft.com/exchange/services/2006/types"><Date>2015-06-16T00:00:00</Date><DayQuality>Poor</DayQuality><SuggestionArray/></SuggestionDayResult></SuggestionDayResultArray></SuggestionsResponse></GetUserAvailabilityResponse></s:Body></s:Envelope>';
 
-function MyClassDecorator(value: Function) {
-  return function (target: Function) {
-      Reflect.defineMetadata("MyClassDecorator", value, target);
-  }
-}
 
-@MyClassDecorator((name:string)=>{return "something" + name;})
-export class testcl{
-	test:ts[] = [];
+var dp = new DOMParser()
+var domdata = dp.parseFromString(raw, "text/xml");
+var xml2js = new xml2JsObject();
+var objdata = xml2js.parseXMLNode(domdata.documentElement, true);
 
-	constructor(){
-		this.test.push({test:"1test",test2:"1test2"});
-		this.test.push({test:"1test",test2:"1test2"});
-		//testenum.fail();
-	}
-
-	__this(index:number):ts{ return this.test[index];}
-}
-
-export interface ts{
-	test:string;
-	test2:string;
-}
-
-export enum testenum{
-	c,f,t
-}
-
-export module testenum{
-	export function fail():void{
-		//throw "asdafda";
-		var testcl1:testcl = new testcl();
-		let value: Function = Reflect.getMetadata("MyClassDecorator", testcl1.constructor);
-		console.log(value("test")); // outputs "my metadata"
-		
-	}
-}
-//
-//import ed = require("./ExtensionMethods");
-//
-//var d = ed.DOMParser;
-//
-//console.log(JSON.stringify(d));
-//
-//console.log(ed.btoa("names"));
+EwsLogging.DebugLog(objdata, true);

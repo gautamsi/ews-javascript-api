@@ -64,7 +64,7 @@ export class ExchangeServiceBase {
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
-    protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;//System.TimeZoneInfo;
+    protected timeZone: TimeZoneInfo = TimeZoneInfo.Utc;//System.TimeZoneInfo;
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;

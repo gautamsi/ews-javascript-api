@@ -13,6 +13,7 @@ import {ExchangeServerInfo} from "../ExchangeServerInfo";
 import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
 import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
 import {RenderingMode} from "../../Enumerations/RenderingMode";
+import {EwsLogging} from "../EwsLogging";
 
 import {StringHelper} from "../../ExtensionMethods";
 
@@ -51,7 +52,7 @@ export class ServiceRequestBase {
     //ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
     ParseResponse(jsonBody: any/*JsonObject*/): any {
         var serviceResponse: ServiceResponse = new ServiceResponse();
-        serviceResponse.LoadFromXmlJsObject (jsonBody, this.Service);
+        serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
         return serviceResponse;
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
@@ -109,7 +110,7 @@ export class ServiceRequestBase {
     EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         if (this.Service.RenderingMethod === RenderingMode.Xml) {
 
-            var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter();//writer.Service
+            var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter(this.service);//writer.Service
             this.WriteToXml(writer);
             request.data = writer.GetXML();
 
@@ -255,17 +256,17 @@ export class ServiceRequestBase {
         if (jsObject[XmlElementNames.SOAPHeaderElementName]) {
             this.ReadSoapHeader(jsObject[XmlElementNames.SOAPHeaderElementName]);
         }
-        
+
         if (!jsObject[XmlElementNames.SOAPBodyElementName]) {
-            throw new Error("invalid soap message");            
+            throw new Error("invalid soap message");
         }
         var serviceResponse: any;
         jsObject = jsObject[XmlElementNames.SOAPBodyElementName]
         jsObject = jsObject[this.GetResponseXmlElementName()];
-        serviceResponse = this.ParseResponse(jsObject);        
+        serviceResponse = this.ParseResponse(jsObject);
         return serviceResponse;
     }
-    
+
     ReadSoapFault(reader: EwsServiceXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = null;
         debugger;
@@ -325,7 +326,7 @@ export class ServiceRequestBase {
 
         return soapFaultDetails;
     }
-    
+
     ReadSoapHeader(jsObject: any): any {
         if (jsObject[XmlElementNames.ServerVersionInfo]) {
             this.Service.ServerInfo = ExchangeServerInfo.Parse(jsObject[XmlElementNames.ServerVersionInfo]);
@@ -377,6 +378,9 @@ export class ServiceRequestBase {
 
         //var startTime = Date.now();// DateTime.UtcNow;
         //var response = XHR(request);
+        EwsLogging.DebugLog("sending ews request");
+        EwsLogging.DebugLog(request, true);
+                
         return XHR(request);
 
         //try

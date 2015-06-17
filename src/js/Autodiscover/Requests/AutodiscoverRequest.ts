@@ -85,7 +85,7 @@ export class AutodiscoverRequest {
     GetResponseXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetWsAddressingActionName(): string { throw new Error("AutodiscoverRequest.ts - GetWsAddressingActionName : Not implemented."); }
     InternalExecute(): IPromise<AutodiscoverResponse> {
-        var writer = new EwsServiceXmlWriter();
+        var writer = new EwsServiceXmlWriter(this.service);
         this.WriteSoapRequest(this.url, writer);
 
         if (!this.service && !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
@@ -108,45 +108,45 @@ export class AutodiscoverRequest {
         return Promise((successDelegate, errorDelegate, progressDelegate) => {
             XHR(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
-                var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                //Ewslogging.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
-                if (xhrResponse.status == 200) {
+                    var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
+                    //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
+                    //Ewslogging.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
+                    if (xhrResponse.status == 200) {
 
-                    //ewsXmlReader.Read();
-                    //if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
-                    //    ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
-                    //}
-                    //else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != EwsUtilities.GetNamespaceUri(XmlNamespace.Soap))) {
-                    //    throw new Error(Strings.InvalidAutodiscoverServiceResponse);
-                    //}
+                        //ewsXmlReader.Read();
+                        //if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
+                        //    ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+                        //}
+                        //else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != EwsUtilities.GetNamespaceUri(XmlNamespace.Soap))) {
+                        //    throw new Error(Strings.InvalidAutodiscoverServiceResponse);
+                        //}
 
-                    this.ReadSoapHeaders(ewsXmlReader);
+                        this.ReadSoapHeaders(ewsXmlReader);
 
-                    var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
+                        var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
 
-                    //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+                        //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
 
-                    if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
-                        //todo: passon to successDelegate
-                        //return response;
+                        if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
+                            //todo: passon to successDelegate
+                            //return response;
+                        }
+                        else {
+                            throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
+                        }
+
                     }
                     else {
-                        throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
+                        EwsLogging.Log("status !== 200", true, true);
+                        EwsLogging.Log(xhrResponse.response, true, true);
+                        EwsLogging.Log(ewsXmlReader, true, true);
+
                     }
 
-                }
-                else {
-                    EwsLogging.Log("status !== 200", true, true);
-                    EwsLogging.Log(xhrResponse.response, true, true);
-                    EwsLogging.Log(ewsXmlReader, true, true);
+                    if (successDelegate)
+                        successDelegate(response || xhrResponse.responseText || xhrResponse.response);
 
-                }
-
-                if (successDelegate)
-                    successDelegate(response || xhrResponse.responseText || xhrResponse.response);
-
-            }, (resperr: XMLHttpRequest) => {
+                }, (resperr: XMLHttpRequest) => {
                     var exception: any;
                     try {
                         this.ProcessWebException(resperr);

@@ -10,9 +10,10 @@ export class EwsServiceJsonReader {
     // constructor(service: ExchangeService){
     // 	this.Service = service;
     // }
-    static ReadAsArray(jsObject: any, xmlElementName: string) {
+    static ReadAsArray(jsObject: any, xmlElementName: string):any[] {
         if (!jsObject || !jsObject[xmlElementName]) {
-            throw new Error("EwsServiceJsonReader - ReadAsArray - json property not found");
+            return [];
+            //throw new Error("EwsServiceJsonReader - ReadAsArray - json property not found");
         }
         var collectionItems: any[] = jsObject[xmlElementName];
         if (!Array.isArray(collectionItems)) {

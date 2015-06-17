@@ -6,18 +6,18 @@ import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
 import {Strings} from "../../Strings";
 import {DateTime} from "../../DateTime";
 import {ExchangeService} from "../../Core/ExchangeService";
-import {JsonObject} from "../../Core/JsonObject";
 import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 import {XmlElementNames} from "../../Core/XmlElementNames";
 import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
+import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {DictionaryWithStringKey} from "../../AltDictionary";
 import {ComplexProperty} from "../ComplexProperty";
 export class TimeZoneDefinition extends ComplexProperty {
     private static NoIdPrefix: string = "NoId_";
-    Name: string = null;
-    Id: string = null;
+    Name: string = "UTC";//check:utc by default
+    Id: string = "UTC";//check:utc by default
     get Periods(): DictionaryWithStringKey<TimeZonePeriod> { return this.periods; }// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
     get TransitionGroups(): DictionaryWithStringKey<TimeZoneTransitionGroup> { return this.transitionGroups; }// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
     //private name: string; backing property not needed
@@ -59,7 +59,7 @@ export class TimeZoneDefinition extends ComplexProperty {
     CreateTransitionGroupToPeriod(timeZonePeriod: TimeZonePeriod): TimeZoneTransitionGroup {
         var transitionToPeriod: TimeZoneTransition = new TimeZoneTransition(this, timeZonePeriod);
 
-        var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.ToString());
+        var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
         transitionGroup.Transitions.push(transitionToPeriod);
         
         this.transitionGroups.addUpdate(transitionGroup.Id, transitionGroup);
@@ -69,7 +69,65 @@ export class TimeZoneDefinition extends ComplexProperty {
     
     //InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - InternalToJson : Not implemented."); }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        throw new Error("TimeZoneDefinition.ts - LoadFromXmlJsObject : Not implemented.");
+        // for (var key in jsonProperty) {
+        //     switch (key) {
+        //         case XmlAttributeNames.Name:
+        //             this.Name = jsonProperty[key];
+        //             break;
+        //         case XmlAttributeNames.Id:
+        //             this.Id = jsonProperty[key];
+        //             break;
+        //         case XmlElementNames.Periods:
+        //             var jsonperiods: any[] = EwsServiceJsonReader.ReadAsArray(jsonProperty[key], XmlElementNames.Period);
+        //             for (var jsonPeriod of jsonperiods) {
+        //                 var period: TimeZonePeriod = new TimeZonePeriod();
+        //                 period.LoadFromXmlJsObject(jsonPeriod, service);
+
+        //                 this.periods.addUpdate(period.Id, period);
+        //             }
+
+        //             break;
+
+        //         case XmlElementNames.TransitionsGroups:
+        //             var arrayOfTransitionsType: any[] = EwsServiceJsonReader.ReadAsArray(jsonProperty[key], XmlElementNames.TransitionsGroup);
+        //             for (var arrayOfTransitionsTypeInstance of arrayOfTransitionsType) {
+        //                 var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this);
+        //                 transitionGroup.LoadFromXmlJsObject(arrayOfTransitionsTypeInstance, service);
+
+        //                 this.transitionGroups.addUpdate(transitionGroup.Id, transitionGroup);
+        //             }
+
+        //             break;
+
+        //         case XmlElementNames.Transitions:
+        //             JsonObject arrayOfTransitionsType = jsonProperty.ReadAsJsonObject(key);
+
+        //             foreach(object uncastJsonTransition in arrayOfTransitionsType.ReadAsArray(XmlElementNames.Transition))
+        //             {
+        //                 JsonObject jsonTransition = uncastJsonTransition as JsonObject;
+        //                 TimeZoneTransition transition = TimeZoneTransition.Create(this, jsonTransition.ReadTypeString());
+
+        //                 transition.LoadFromJson(jsonTransition, service);
+
+        //                 this.transitions.Add(transition);
+        //             }
+
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
+
+        // // EWS can return a TimeZone definition with no Id. Generate a new Id in this case.
+        // if (string.IsNullOrEmpty(this.id)) {
+        //     string nameValue = string.IsNullOrEmpty(this.Name) ? string.Empty : this.Name;
+        //     this.Id = NoIdPrefix + Math.Abs(nameValue.GetHashCode()).ToString();
+        // }
+
+        // this.transitions.Sort(this.CompareTransitions);
+    }
     //ReadAttributesFromXmlJsObject(reader: any): any { throw new Error("TimeZoneDefinition.ts - ReadAttributesFromXml : Not implemented."); }
     ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("TimeZoneDefinition.ts - ToTimeZoneInfo : Not implemented."); }
     //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("TimeZoneDefinition.ts - TryReadElementFromXmlJsObject : Not implemented."); }

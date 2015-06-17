@@ -1,29 +1,61 @@
-﻿import {ComplexProperty} from "../ComplexProperty";
+﻿import {XmlElementNames} from "../../Core/XmlElementNames";
 import {ConflictType} from "../../Enumerations/ConflictType";
 import {LegacyFreeBusyStatus} from "../../Enumerations/LegacyFreeBusyStatus";
-import {JsonObject} from "../../Core/JsonObject";
 import {ExchangeService} from "../../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
+import {ComplexProperty} from "../ComplexProperty";
 export class Conflict extends ComplexProperty {
-    ConflictType: ConflictType;
-    NumberOfMembers: number;
-    NumberOfMembersAvailable: number;
-    NumberOfMembersWithConflict: number;
-    NumberOfMembersWithNoData: number;
-    FreeBusyStatus: LegacyFreeBusyStatus;
-    private conflictType: ConflictType;
-    private numberOfMembers: number;
-    private numberOfMembersAvailable: number;
-    private numberOfMembersWithConflict: number;
-    private numberOfMembersWithNoData: number;
-    private freeBusyStatus: LegacyFreeBusyStatus;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Conflict.ts - LoadFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("Conflict.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    private conflictType: ConflictType = ConflictType.IndividualAttendeeConflict;
+    private numberOfMembers: number = 0;
+    private numberOfMembersAvailable: number = 0;
+    private numberOfMembersWithConflict: number = 0;
+    private numberOfMembersWithNoData: number = 0;
+    private freeBusyStatus: LegacyFreeBusyStatus = LegacyFreeBusyStatus.Free;
+    get ConflictType(): ConflictType {
+        return this.conflictType;
+    }
+    get NumberOfMembers(): number {
+        return this.numberOfMembers;
+    }
+    get NumberOfMembersAvailable(): number {
+        return this.numberOfMembersAvailable;
+    }
+    get NumberOfMembersWithConflict(): number {
+        return this.numberOfMembersWithConflict;
+    }
+    get NumberOfMembersWithNoData(): number {
+        return this.numberOfMembersWithNoData;
+    }
+    get FreeBusyStatus(): LegacyFreeBusyStatus {
+        return this.freeBusyStatus;
+    }
+    constructor(conflictType: ConflictType) {
+        super();
+        this.conflictType = conflictType;
+    }
+    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Conflict.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        for (var key in jsonProperty) {
+            switch (key) {
+                case XmlElementNames.NumberOfMembers:
+                    this.numberOfMembers = Number(jsonProperty[key]);
+                    break;
+                case XmlElementNames.NumberOfMembersAvailable:
+                    this.numberOfMembersAvailable = Number(jsonProperty[key]);
+                    break;
+                case XmlElementNames.NumberOfMembersWithConflict:
+                    this.numberOfMembersWithConflict = Number(jsonProperty[key]);
+                    break;
+                case XmlElementNames.NumberOfMembersWithNoData:
+                    this.numberOfMembersWithNoData = Number(jsonProperty[key]);
+                    break;
+                case XmlElementNames.BusyType:
+                    this.freeBusyStatus = <LegacyFreeBusyStatus><any>LegacyFreeBusyStatus[jsonProperty[key]];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
-
-
-
-//}
-
 
 

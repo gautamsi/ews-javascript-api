@@ -1,4 +1,5 @@
 ﻿import {Strings} from "../Strings";
+import {EwsLogging} from "./EwsLogging";
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 import {EwsUtilities} from "./EwsUtilities";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
@@ -60,10 +61,16 @@ export class EwsServiceXmlWriter {
     }
 
     //#endregion
+    
+    constructor(service: ExchangeServiceBase){
+        this.service = service;
+    }
 
     //TryConvertObjectToString(value: any, strValue: any): boolean { throw new Error("EwsServiceXmlWriter.ts - TryConvertObjectToString : Not implemented."); }
     ConvertObjectToString(value: any): string {
         var strValue: string = null;
+        
+        if(value ===null) return null;
         if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) throw new Error("value can not be of type object");
 
         if (value != null) {
@@ -80,7 +87,7 @@ export class EwsServiceXmlWriter {
                     return value;
                 default:
                     try {
-                        if (value.GetSearchString) // checking - ISearchStringProvider
+                        if (typeof value.GetSearchString !== 'undefined') // checking - ISearchStringProvider
                             strValue = value.GetSearchString();
                     }
                     catch (e) {
@@ -139,9 +146,13 @@ export class EwsServiceXmlWriter {
             this.WriteEndElement();
         }
         else {
-            throw new Error(StringHelper.Format(
+            EwsLogging.Assert(stringValue !== 'undefined','WriteElementValue',StringHelper.Format(
                 Strings.ElementValueCannotBeSerialized,
                 typeof (value), localName));
+                
+            // throw new Error(StringHelper.Format(
+            //     Strings.ElementValueCannotBeSerialized,
+            //     typeof (value), localName));
         }
     }
 

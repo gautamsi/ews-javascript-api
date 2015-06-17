@@ -27,7 +27,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
   ClearChangeLog(): void { /*virtual method for derived class to implement if needed*/ }
   InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, //xmlNamespace: XmlNamespace, xmlElementName: string,
-    readAction: (jsObject: any) => void /*System.Func<T, TResult>*/): void {
+    readAction: (jsonProperty: any, service: ExchangeService) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
     debugger;//check how to implement with jsobject.
     throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
@@ -89,8 +89,8 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
       this.Changed();
     }
   }
-  ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
-  ReadElementsFromXmlJsObjectToPatch(reader: EwsServiceXmlReader): void { debugger; /* abstract method - should implement*/ }
+  ReadElementsFromXmlJsObject(jsonProperty: any, service: ExchangeService): void { debugger; /* abstract method - should implement*/ }
+  ReadElementsFromXmlJsObjectToPatch(jsonProperty: any, service: ExchangeService): void { debugger; /* abstract method - should implement*/ }
   //UpdateFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("ComplexProperty.ts - UpdateFromXml : Not implemented."); }
   UpdateFromXmlJsObject(jsObject: any, service: ExchangeService /*, xmlElementName: string, xmlNamespace?: XmlNamespace*/): void {
 

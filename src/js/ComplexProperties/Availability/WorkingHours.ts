@@ -1,7 +1,4 @@
-﻿/// <reference path="../../../../typings/moment-timezone/moment-timezone.d.ts" />
-/// <reference path="../../../../typings/moment/moment-node.d.ts" />
-
-import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
+﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
 import {XmlElementNames} from "../../Core/XmlElementNames";
 import {ExchangeService} from "../../Core/ExchangeService";
 import {LegacyAvailabilityTimeZone} from "../../Misc/Availability/LegacyAvailabilityTimeZone";
@@ -33,17 +30,17 @@ export class WorkingHours extends ComplexProperty {
                 case XmlElementNames.WorkingPeriodArray:
                     var workingPeriods: WorkingPeriod[] = [];// new List<WorkingPeriod>();
 
-                    var workingPeriodsArray: any[] = jsonProperty[key];
-                    var workingPeriods: WorkingPeriod[] = workingPeriodsArray[XmlElementNames.WorkingPeriod];
-                    if (!Array.isArray(workingPeriods)) {
-                        workingPeriods = <any>[workingPeriods];
+                    var workingPeriodsArrayObject: any[] = jsonProperty[key];
+                    var workingPeriodsArray: any[] = workingPeriodsArrayObject[XmlElementNames.WorkingPeriod];
+                    if (!Array.isArray(workingPeriodsArray)) {
+                        workingPeriodsArray = <any>[workingPeriodsArray];
                     }
-                    for (var workingPeriodEntry in workingPeriods) {
+                    for (var workingPeriodEntry of workingPeriodsArray) {
                         var workingPeriod: WorkingPeriod = new WorkingPeriod();
 
                         workingPeriod.LoadFromXmlJsObject(workingPeriodEntry, service);
 
-                        workingPeriods.push(workingPeriod);
+                         workingPeriods.push(workingPeriod);
                     }
 
                     // Availability supports a structure that can technically represent different working

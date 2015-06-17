@@ -18,8 +18,9 @@ export class DateTime {
 	get currentUtcOffset(): number { return this.momentDate.utcOffset(); }
 	private momentDate: moment.Moment;
 	private momentInstance: any = moment()
+	static get Now(): DateTime { return new DateTime(moment()); }
 	get TotalMilliSeconds(): number { return this.momentDate.valueOf() }
-	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Unspecified) {
+	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Utc) {
 		if (date instanceof DateTime) {
 			this.momentDate = date.Date.clone();
 		}
@@ -34,6 +35,12 @@ export class DateTime {
 		if (diff === 0) return 0;
 		if (diff < 0) return -1;
 		return 1;
+	}
+	CompareTo(toDate: DateTime): number {
+		return DateTime.Compare(this, toDate);
+	}
+	Difference(toDate: DateTime): TimeSpan {
+		return new TimeSpan(this.momentDate.diff(toDate.momentDate));
 	}
 	Format(formatting: string): string {
 		return this.momentDate.format(formatting);
@@ -125,7 +132,7 @@ export {moment};
 
 export class TimeSpan implements moment.Duration {
 	private duration: moment.Duration;
-	constructor(...args: any[]) {
+	constructor(args: any) {
 		this.duration = moment.duration(args);
 	}
 	humanize(withSuffix?: boolean): string { return this.duration.humanize(withSuffix); }
@@ -160,26 +167,26 @@ export class TimeSpan implements moment.Duration {
 	asYears(): number { return this.duration.asYears(); }
 	get TotalYears(): number { return this.duration.asYears(); }
 
-	add(n: number, p: string): moment.Duration;
-	add(n: number): moment.Duration;
-	add(d: moment.Duration): moment.Duration;
-	add(a: any, p?: any): moment.Duration {
+	add(n: number, p: string): TimeSpan;
+	add(n: number): TimeSpan;
+	add(d: TimeSpan): TimeSpan;
+	add(a: any, p?: any): TimeSpan {
 		if (arguments.length === 1) {
-			return this.duration.add(a);
+			return new TimeSpan(this.duration.add(a));
 		}
 		else {
-			return this.duration.add(a, p);
+			return new TimeSpan(this.duration.add(a, p));
 		}
 	}
-	subtract(n: number, p: string): moment.Duration;
-	subtract(n: number): moment.Duration;
-	subtract(d: moment.Duration): moment.Duration;
-	subtract(a: any, p?: string): moment.Duration {
+	subtract(n: number, p: string): TimeSpan;
+	subtract(n: number): TimeSpan;
+	subtract(d: TimeSpan): TimeSpan;
+	subtract(a: any, p?: string): TimeSpan {
 		if (arguments.length === 1) {
-			return this.duration.subtract(a);
+			return new TimeSpan(this.duration.subtract(a));
 		}
 		else {
-			return this.duration.subtract(a, p);
+			return new TimeSpan(this.duration.subtract(a, p));
 		}
 	}
 

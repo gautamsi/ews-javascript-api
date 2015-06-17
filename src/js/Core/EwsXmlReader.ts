@@ -38,9 +38,9 @@ export class EwsXmlReader {
         this.xmlDoc = parser.parseFromString(rawXML, "text/xml");
         //this.treeWalker = this.xmlDoc.createTreeWalker(this.xmlDoc, NodeFilter.SHOW_ELEMENT, null, false);
         //this.currentNode = this.treeWalker.root;
-
-        this.jsObject = xml2JsObject.parseXMLNode(this.xmlDoc.documentElement, true);
-        EwsLogging.DebugLog(this.JsObject,true);
+        var xml2js = new xml2JsObject();
+        this.jsObject = xml2js.parseXMLNode(this.xmlDoc.documentElement, true);
+        EwsLogging.DebugLog(this.JsObject, true);
 
     }
     //#endregion

@@ -41,7 +41,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
             serviceResponse.AttendeesAvailability = new ServiceResponseCollection<AttendeeAvailability>();
             var responseArray: any = jsonBody[XmlElementNames.FreeBusyResponseArray];
             var responseMessages: any[] = responseArray[XmlElementNames.FreeBusyResponse];
-            if (!Array.isArray(responseArray)) {
+            if (!Array.isArray(responseMessages)) {
                 responseMessages = [responseMessages];
             }
             for (var responseMessage of responseMessages) {
@@ -61,7 +61,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
             serviceResponse.SuggestionsResponse.LoadFromXmlJsObject(suggestionResponse[XmlElementNames.ResponseMessage], this.Service);
 
             if (serviceResponse.SuggestionsResponse.ErrorCode == ServiceError.NoError) {
-                serviceResponse.SuggestionsResponse.LoadSuggestedDaysFromXml(reader);
+                serviceResponse.SuggestionsResponse.LoadSuggestedDaysFromXml(suggestionResponse, this.Service);
             }
         }
 
@@ -83,7 +83,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
 
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.MailboxDataArray);
 
-        for (var attendee in this.Attendees) {
+        for (var attendee of this.Attendees) {
             attendee.WriteToXml(writer);
         }
 

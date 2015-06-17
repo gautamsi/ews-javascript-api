@@ -388,7 +388,21 @@ export class EwsUtilities {
     //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
     static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
-    //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("EwsUtilities.ts - static ParseAsUnbiasedDatetimescopedToServicetimeZone : Not implemented.");}
+    static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): DateTime {
+        // Convert the element's value to a DateTime with no adjustment.
+        var tempDate: DateTime = DateTime.Parse(dateString);
+
+        // Set the kind according to the service's time zone
+        if (service.TimeZone == TimeZoneInfo.Utc) {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Utc);
+        }
+        else if (EwsUtilities.IsLocalTimeZone(service.TimeZone)) {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Local);
+        }
+        else {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Unspecified);
+        }
+    }
     static ParseEnumValueList<T>(list: any[], value: string, separators: string, enumType: any): void {
         // EwsLogging.Assert(
         //         typeof(T).IsEnum,
@@ -548,7 +562,7 @@ export class EwsUtilities {
         //            }
         //        }
     }
-    static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
+    static ValidateParamCollection(collection: any, paramName: string): void { return; throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
     static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }
     static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }
     //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("EwsUtilities.ts - static WriteTraceStartElement : Not implemented.");}
