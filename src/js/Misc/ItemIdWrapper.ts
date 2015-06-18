@@ -1,8 +1,8 @@
 ﻿import {ItemId} from "../ComplexProperties/ItemId";
-import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsLogging} from "../Core/EwsLogging";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
 export class ItemIdWrapper extends AbstractItemIdWrapper {
     private itemId: ItemId;
     constructor(itemId: ItemId) {

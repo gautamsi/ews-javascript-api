@@ -3,7 +3,7 @@ import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
 import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
 import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 import {Item} from "../Core/ServiceObjects/Items/Item";
-import {ItemAttachment} from "./ItemAttachment";
+import {GenericItemAttachment} from "./GenericItemAttachment";
 import {Attachment} from "./Attachment";
 import {EwsLogging} from "../Core/EwsLogging";
 
@@ -25,7 +25,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
 	//AddFileAttachment(name: string, fileName: string): FileAttachment{ throw new Error("AttachmentCollection.ts - AddFileAttachment : Not implemented.");}
 	//AddFileAttachment(name: string, contentStream: any /*System.IO.Stream*/): FileAttachment{ throw new Error("AttachmentCollection.ts - AddFileAttachment : Not implemented.");}
 	//AddFileAttachment(name: string, content: any /*System.Byte[]*/): FileAttachment{ throw new Error("AttachmentCollection.ts - AddFileAttachment : Not implemented.");}
-	AddItemAttachment<TItem extends Item>(): ItemAttachment<TItem> { throw new Error("AttachmentCollection.ts - AddItemAttachment<TItem extends Item> : Not implemented."); }
+	AddItemAttachment<TItem extends Item>(): GenericItemAttachment<TItem> { throw new Error("AttachmentCollection.ts - AddItemAttachment<TItem extends Item> : Not implemented."); }
 	Clear(): void { throw new Error("AttachmentCollection.ts - Clear : Not implemented."); }
 	ClearChangeLog(): void { throw new Error("AttachmentCollection.ts - ClearChangeLog : Not implemented."); }
 	CreateComplexProperty(xmlElementName: string): Attachment { throw new Error("AttachmentCollection.ts - CreateComplexProperty : Not implemented."); }
@@ -39,11 +39,3 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
 	Save(): void { throw new Error("AttachmentCollection.ts - Save : Not implemented."); }
 	Validate(): void { throw new Error("AttachmentCollection.ts - Validate : Not implemented."); }
 }
-
-
-
-
-
-
-			
-

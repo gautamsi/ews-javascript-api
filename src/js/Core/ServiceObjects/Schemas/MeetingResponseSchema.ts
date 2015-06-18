@@ -14,18 +14,18 @@ module FieldUris {
 }
 //}
 export class MeetingResponseSchema extends MeetingMessageSchema {
-    static Start: PropertyDefinition = AppointmentSchema.Start;
-    static End: PropertyDefinition = AppointmentSchema.End;
-    static Location: PropertyDefinition = AppointmentSchema.Location;
-    static AppointmentType: PropertyDefinition = AppointmentSchema.AppointmentType;
-    static Recurrence: PropertyDefinition = AppointmentSchema.Recurrence;
+    static Start: PropertyDefinition = AppointmentSchema.Instance.Start;
+    static End: PropertyDefinition = AppointmentSchema.Instance.End;
+    static Location: PropertyDefinition = AppointmentSchema.Instance.Location;
+    static AppointmentType: PropertyDefinition = AppointmentSchema.Instance.AppointmentType;
+    static Recurrence: PropertyDefinition = AppointmentSchema.Instance.Recurrence;
     static ProposedStart: PropertyDefinition = new ScopedDateTimePropertyDefinition(
         "ProposedStart",
         XmlElementNames.ProposedStart,
         ExchangeVersion.Exchange2013,
         FieldUris.ProposedStart,
         PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { return AppointmentSchema.StartTimeZone; }
+        (version: ExchangeVersion) => { return AppointmentSchema.Instance.StartTimeZone; }
         );
 
     static ProposedEnd: PropertyDefinition = new ScopedDateTimePropertyDefinition(
@@ -34,10 +34,10 @@ export class MeetingResponseSchema extends MeetingMessageSchema {
         ExchangeVersion.Exchange2013,
         FieldUris.ProposedEnd,
         PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { return AppointmentSchema.EndTimeZone; }
+        (version: ExchangeVersion) => { return AppointmentSchema.Instance.EndTimeZone; }
         );
 
-    static EnhancedLocation: PropertyDefinition = AppointmentSchema.EnhancedLocation;
+    static EnhancedLocation: PropertyDefinition = AppointmentSchema.Instance.EnhancedLocation;
     static Instance: MeetingResponseSchema = new MeetingResponseSchema();
     RegisterProperties(): void {
         super.RegisterProperties();

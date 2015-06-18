@@ -62,11 +62,11 @@ export class MeetingMessageSchema extends EmailMessageSchema {
         PropertyDefinitionFlags.CanFind
         );
 
-    static ICalUid: PropertyDefinition = AppointmentSchema.ICalUid;
+    static ICalUid: PropertyDefinition = AppointmentSchema.Instance.ICalUid;
 
-    static ICalRecurrenceId: PropertyDefinition = AppointmentSchema.ICalRecurrenceId;
+    static ICalRecurrenceId: PropertyDefinition = AppointmentSchema.Instance.ICalRecurrenceId;
 
-    static ICalDateTimeStamp: PropertyDefinition = AppointmentSchema.ICalDateTimeStamp;
+    static ICalDateTimeStamp: PropertyDefinition = AppointmentSchema.Instance.ICalDateTimeStamp;
 
     static IsOrganizer: PropertyDefinition = new GenericPropertyDefinition<boolean>(
         "IsOrganizer",

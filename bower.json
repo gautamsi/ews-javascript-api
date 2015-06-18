@@ -1,0 +1,32 @@
+{
+  "name": "ews-javascript-api",
+  "version": "0.1.0",
+  "homepage": "https://github.com/gautamsi/ews-javascript-api",
+  "authors": [
+    "Gautam Singh <mailtosinghs@gmail.com>"
+  ],
+  "description": "javascript api for EWS",
+  "main": ".",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "EWS",
+    "ews-javascript-api",
+    "ews",
+    "api"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.18",
+    "winjs": "~4.0.1"
+  }
+}

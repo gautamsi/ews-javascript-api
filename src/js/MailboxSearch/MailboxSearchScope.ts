@@ -9,9 +9,3 @@ export class MailboxSearchScope {
     private searchScope: MailboxSearchLocation;
     private scopeType: MailboxSearchScopeType;
 }
-
-
-//}
-
-
-

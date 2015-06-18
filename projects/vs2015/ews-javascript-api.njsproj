@@ -14,7 +14,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9d8ec532-6b85-4c0d-a584-2389795a3df2</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>build\output\test\ManualLiveTesting\app.js</StartupFile>
+    <StartupFile>build\output\node\test\ManualLiveTesting\app.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -131,7 +131,10 @@
     <Folder Include="test\" />
     <Folder Include="test\ManualLiveTesting\" />
     <Folder Include="typings\" />
+    <Folder Include="typings\chai-as-promised\" />
+    <Folder Include="typings\chai\" />
     <Folder Include="typings\gulp\" />
+    <Folder Include="typings\mocha\" />
     <Folder Include="typings\moment-timezone\" />
     <Folder Include="typings\moment\" />
     <Folder Include="typings\node\" />

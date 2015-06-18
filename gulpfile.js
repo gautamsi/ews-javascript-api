@@ -6,10 +6,15 @@ var config = require('./gulp.config')();
 var gulp = require('gulp');
 var path = require('path');
 var cp = require('child_process');
-var $ = require('gulp-load-plugins')({lazy: true});
+var $ = require('gulp-load-plugins')({ lazy: true });
+
+var mocha = require("gulp-mocha");
+var gutil = require("gulp-util");
 
 var colors = $.util.colors;
 var envenv = $.util.env;
+
+
 
 /**
  * yargs variables can be passed in to alter the behavior, when present.
@@ -27,6 +32,9 @@ var envenv = $.util.env;
  */
 gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
+
+gulp.task('build',['ts-compile', 'ts-compile-tests']);
+gulp.task('build-all',['ts-compile','ts-compile-amd', 'ts-compile-tests', 'ts-compile-amd-tests']);
 
 //gulp.task('ts-clean', function(done) {
 //    clean(config.ts.output, done);
@@ -67,23 +75,27 @@ gulp.task('default', ['help']);
 /**
  * Watch TypeScript and recompile and create refs
  */
-gulp.task('ts-watcher', function(){
-    gulp.watch(config.ts.files,['ts-compile']);
+gulp.task('ts-watcher', function () {
+    gulp.watch(config.ts.files, ['ts-compile']);
 });
 
 /**
  * Compiles *.js files, sourcemaps, 
  * and optionally d.ts files (if passed --dts)
  */
-gulp.task('ts-compile', function(done) {    
-    runTSC('.', done);
+gulp.task('ts-compile', function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/node');
+    runTSC('.', outdir, [], done);
 });
 
 
-function runTSC(directory, done) {
+function runTSC(inputDir, outputDir, tsArgs, done) {
     var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
-    var outdir = path.join(process.cwd(),'projects/vs2015/build/output');
-    var childProcess = cp.spawn('node', [tscjs, '-p', directory, '--outDir',outdir], { cwd: process.cwd() });
+    var tsArguments = [tscjs, '-p', inputDir, '--outDir', outputDir];
+    tsArgs.forEach(function (arg) {
+        tsArguments.push(arg);
+    });
+    var childProcess = cp.spawn('node', tsArguments, { cwd: process.cwd() });
     childProcess.stdout.on('data', function (data) {
         // Ticino will read the output
         console.log(data.toString());
@@ -101,26 +113,75 @@ function runTSC(directory, done) {
  * Compiles *.js files, sourcemaps, 
  * and optionally d.ts files (if passed --dts)
  */
-gulp.task('ts-compile-amd', function(done) {    
-    runTSCAmd('.', done);
+gulp.task('ts-compile-amd', function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/amd');
+    runTSC('.', outdir, ["--module", "amd"], done);
 });
 
-function runTSCAmd(directory, done) {
-    var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
-    var outdir = path.join(process.cwd(),'projects/vs2015/build/output/amd');
-    var childProcessAmd = cp.spawn('node', [tscjs, '-p', directory, '--outDir', outdir, "--module", "amd"], { cwd: process.cwd() });
-        childProcessAmd.stdout.on('data', function (data) {
-            // Ticino will read the output
-            console.log(data.toString());
-        });
-        childProcessAmd.stderr.on('data', function (data) {
-            // Ticino will read the output
-            console.log(data.toString());
-        });
-        childProcessAmd.on('close', function () {
-            done();
-        });
-}
+// function runTSCAmd(directory, done) {
+//     var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
+//     var outdir = path.join(process.cwd(), 'build/output/amd');
+//     var childProcessAmd = cp.spawn('node', [tscjs, '-p', directory, '--outDir', outdir, "--module", "amd"], { cwd: process.cwd() });
+//     childProcessAmd.stdout.on('data', function (data) {
+//         // Ticino will read the output
+//         console.log(data.toString());
+//     });
+//     childProcessAmd.stderr.on('data', function (data) {
+//         // Ticino will read the output
+//         console.log(data.toString());
+//     });
+//     childProcessAmd.on('close', function () {
+//         done();
+//     });
+// }
+
+/**
+ * Compiles *.js files, sourcemaps, 
+ * and optionally d.ts files (if passed --dts)
+ */
+gulp.task('ts-compile-tests', function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/node/test/mocha');
+    runTSC('./test',outdir,[], done);
+});
+
+
+gulp.task('tests', ['ts-compile-tests'], function (done) {
+    return gulp.src(['./build/output/node/test/mocha/*.js'], { read: false })
+        .pipe(mocha({ reporter: 'spec' }))
+        .on('error', gutil.log);
+});
+
+
+
+gulp.task('ts-compile-amd-tests', function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/amd/test/mocha');
+    runTSC('./test',outdir, ["--module", "amd"], done);
+});
+
+gulp.task('amd-tests', ['ts-compile-amd-tests'], function (done) {
+    return gulp.src(['./build/output/amd/test/mocha/*.js'], { read: false })
+        .pipe(mocha({ reporter: 'spec' }))
+        .on('error', gutil.log);
+});
+
+
+
+gulp.task('serve-dev',function(done){
+    var childProcess = cp.spawn('http-server', ['./build/output/amd'], { cwd: process.cwd() });
+    childProcess.stdout.on('data', function (data) {
+        // Ticino will read the output
+        console.log(data.toString());
+    });
+    childProcess.stderr.on('data', function (data) {
+        // Ticino will read the output
+        console.log(data.toString());
+    });
+    childProcess.on('close', function () {
+        done();
+    });
+    
+});
+
 
 
 /**
@@ -137,7 +198,7 @@ function changeEvent(event) {
  * Can pass in a string, object or array.
  */
 function log(msg) {
-    if (typeof(msg) === 'object') {
+    if (typeof (msg) === 'object') {
         for (var item in msg) {
             if (msg.hasOwnProperty(item)) {
                 $.util.log($.util.colors.blue(msg[item]));

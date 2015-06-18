@@ -5,7 +5,7 @@ import {JsonObject} from "../../../Core/JsonObject";
 import {ExchangeService} from "../../../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
 			
- import IntervalPattern = require("./Recurrence_IntervalPattern");						
+ import {IntervalPattern} from "./Recurrence_IntervalPattern";						
 export class RelativeMonthlyPattern extends IntervalPattern {
 	XmlElementName: string;
 	DayOfTheWeekIndex: DayOfTheWeekIndex;

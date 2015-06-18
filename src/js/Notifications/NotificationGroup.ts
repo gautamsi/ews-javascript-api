@@ -1,6 +1,6 @@
 ﻿import {NotificationEvent} from "./NotificationEvent";
 
-interface NotificationGroup {
+export interface NotificationGroup {
     /// <summary>
     /// Subscription Id
     /// </summary>

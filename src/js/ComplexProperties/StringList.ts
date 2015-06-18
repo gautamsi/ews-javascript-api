@@ -84,7 +84,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
         this.Changed();
     }
     ToString(): string { return this.items.join(","); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); return null;}
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var item of this.items) {
             writer.WriteStartElement(XmlNamespace.Types, this.itemXmlElementName);

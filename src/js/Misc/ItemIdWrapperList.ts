@@ -1,6 +1,7 @@
 ﻿import {ItemId} from "../ComplexProperties/ItemId";
 import {Item} from "../Core/ServiceObjects/Items/Item";
 import {ItemIdWrapper} from "./ItemIdWrapper";
+import {ItemWrapper} from "./ItemWrapper";
 import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
@@ -15,7 +16,7 @@ export class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
     Add(itemOrId: Item | ItemId): void;
     Add(itemOrId: Item | ItemId): void {
         if (itemOrId instanceof Item)
-            this.itemIds.push(new ItemIdWrapper(itemOrId))
+            this.itemIds.push(new ItemWrapper(itemOrId))
         else if (itemOrId instanceof ItemId)
             this.itemIds.push(new ItemIdWrapper(itemOrId));
         else

@@ -13,6 +13,7 @@ export class MeetingTimeZone extends ComplexProperty {
     private baseOffset: any /*System.TimeSpan*/;
     private standard: TimeChange;
     private daylight: TimeChange;
+    /*fix constructor in StartTimeZonePropertyDefinition - <TimeZoneInfo>value*/
     InternalToJson(service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("MeetingTimeZone.ts - LoadFromJson : Not implemented."); }
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("MeetingTimeZone.ts - ReadAttributesFromXml : Not implemented."); }

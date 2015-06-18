@@ -21,9 +21,13 @@
             "taskName": "ts-wather",
             "problemMatcher": "$tsc"
         },{
-            "taskName": "test",
+            "taskName": "tests",
             "args": [],
             "isTestCommand": true
+        },{
+            "taskName": "build",
+            "args": [],
+            "isBuildCommand": true
         }
     ]
 }

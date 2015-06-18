@@ -6,7 +6,8 @@ import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 export class ItemAttachment extends Attachment {
     Item: Item;
-    private item: Item;
+    protected item: Item;
+    /*fix generic item attachment ctor*/
     GetXmlElementName(): string { throw new Error("ItemAttachment.ts - GetXmlElementName : Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("ItemAttachment.ts - InternalToJson : Not implemented."); }
     ItemChanged(serviceObject: ServiceObject): any { throw new Error("ItemAttachment.ts - ItemChanged : Not implemented."); }
@@ -20,13 +21,3 @@ export class ItemAttachment extends Attachment {
     //Validate(attachmentIndex: number): any { throw new Error("ItemAttachment.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ItemAttachment.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-
-
-//}
-
-
-

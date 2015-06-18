@@ -11,7 +11,7 @@ import {PropertyBag} from "../Core/PropertyBag";
 export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition {
     HasFlag(flag: PropertyDefinitionFlags, version: ExchangeVersion): boolean {
         if (version && (version === ExchangeVersion.Exchange2007_SP1)) {
-            return AppointmentSchema.MeetingTimeZone.HasFlag(flag, version);
+            return AppointmentSchema.Instance.MeetingTimeZone.HasFlag(flag, version);
         }
         else {
             return super.HasFlag(flag, version);
@@ -20,7 +20,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]): void {
         super.RegisterAssociatedInternalProperties(properties);
 
-        properties.push(AppointmentSchema.MeetingTimeZone);
+        properties.push(AppointmentSchema.Instance.MeetingTimeZone);
     }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
@@ -29,7 +29,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
             if (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
                 var service = <ExchangeService>writer.Service;
                 if (service != null && service.Exchange2007CompatibilityMode == false) {
-                    var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone(<TimeZoneInfo>value);
+                    var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone(/*<TimeZoneInfo>value*/);
                     meetingTimeZone.WriteToXml(writer, XmlElementNames.MeetingTimeZone);
                 }
             }
@@ -43,7 +43,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         if (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
-            AppointmentSchema.MeetingTimeZone.WriteToXml(writer);
+            AppointmentSchema.Instance.MeetingTimeZone.WriteToXml(writer);
         }
         else {
             super.WriteToXml(writer);
