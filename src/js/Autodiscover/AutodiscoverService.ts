@@ -14,6 +14,7 @@ import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
 import {AutodiscoverRequest} from "./Requests/AutodiscoverRequest";
 import {GetDomainSettingsRequest} from "./Requests/GetDomainSettingsRequest";
 import {GetDomainSettingsResponse} from "./Responses/GetDomainSettingsResponse";
+import {GetDomainSettingsResponseCollection} from "./Responses/GetDomainSettingsResponseCollection";
 import {GetUserSettingsResponse} from "./Responses/GetUserSettingsResponse";
 import {GetUserSettingsRequest} from "./Requests/GetUserSettingsRequest";
 //import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
@@ -218,15 +219,68 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         return urls;
     }
-    //GetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - GetDomainSettings : Not implemented.");}
-    //GetDomainSettings(domains: System.Collections.Generic.IEnumerable<string>, requestedVersion: Data.ExchangeVersion, domainSettingNames: any): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - GetDomainSettings : Not implemented.");}
-    //GetDomainSettings(domain: string, requestedVersion: Data.ExchangeVersion, domainSettingNames: DomainSettingName[]): GetDomainSettingsResponse{
-    GetDomainSettings(domain: string, domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponse> {
-        var request = new GetDomainSettingsRequest(this, this.url);
-        request.Settings = domainSettingNames;
-        request.Domains = [domain];
-        var response = request.Execute();
-        return <any>response;
+    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): IPromise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponse>
+
+    GetDomainSettings(
+        domainOrDomainNames: string | string[],
+        settingsOrVersion: ExchangeVersion|DomainSettingName[],
+        versionOrSettingNames: ExchangeVersion | any //...params DomainSettingName[]
+        ): IPromise<GetDomainSettingsResponse | GetDomainSettingsResponseCollection> {
+        
+        // EwsUtilities.ValidateParam(domains, "domains");
+        // EwsUtilities.ValidateParam(settings, "settings");
+        
+        var requestedVersion: ExchangeVersion = null;
+        var settings: DomainSettingName[] = [];
+        if (arguments.length <= 3) {
+            if (Array.isArray(settingsOrVersion)) {
+                settings = <DomainSettingName[]>settingsOrVersion;
+                requestedVersion = versionOrSettingNames;
+            }
+            else {
+                settings.push(arguments[2]);
+            }
+        }
+        else {
+            if (settingsOrVersion !== null && typeof settingsOrVersion !== 'number') {
+                throw new Error("AutodiscoverService.ts - GetDomainSettings with " + arguments.length + " incorrect uses of parameter at 2nd position, it must be ExchangeVersion or null when using DomainSettingName[] ...params at 3rd place");
+            }
+            for (var _i = 2; _i < arguments.length; _i++) {
+                settings[_i - 2] = arguments[_i];
+            }
+            requestedVersion = <ExchangeVersion>settingsOrVersion;
+        }
+        var isCollection: boolean = true;
+        var domains: string[] = <string[]>domainOrDomainNames;
+        if (!Array.isArray(domainOrDomainNames)) {
+            domains = [<string>domainOrDomainNames]
+            isCollection = false;
+        }
+
+
+        return this.GetSettings<GetDomainSettingsResponseCollection, DomainSettingName>(
+            domains,
+            settings,
+            requestedVersion,
+            this.InternalGetDomainSettings,
+            () => { return domains[0]; }).then((value: GetDomainSettingsResponseCollection) => {
+                if (isCollection) {
+                    return value;
+                }
+                else {
+                    return value.__thisIndexer(0);
+                }
+            },(error)=>{
+                throw error;
+            });
+
+        // var request = new GetDomainSettingsRequest(this, this.url);
+        // request.Settings = domainSettingNames;
+        // request.Domains = [domain];
+        // var response = request.Execute();
+        // return <any>response;
     }
 
     //previous name - GetEndpointsFromHttpWebResponse
@@ -346,8 +400,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
                 identities,
                 settings,
                 requestedVersion,
-                autodiscoverUrlRef, this
-                )
+                autodiscoverUrlRef, this)
                 .then((response) => {
                     this.Url = autodiscoverUrlRef.getValue();
                     return response;
@@ -508,9 +561,8 @@ export class AutodiscoverService extends ExchangeServiceBase {
     public GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): IPromise<GetUserSettingsResponseCollection>;
     public GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
     public GetUserSettings(smtpAddresses: string | string[], userSettings: any): IPromise<GetUserSettingsResponse | GetUserSettingsResponseCollection> {
-        var isCollection = false;
         var userSettingNames: UserSettingName[] = [];
-        if (arguments.length <= 2) {
+        if (arguments.length === 2) {
             if (Array.isArray(userSettings)) {
                 userSettingNames = userSettings;
             }
@@ -574,7 +626,43 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         return this.GetUserSettingsInternal(userSmtpAddresses, userSettingNames); //calls getsettings
     }
-    //InternalGetDomainSettings(domains: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<DomainSettingName>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any): GetDomainSettingsResponseCollection{ throw new Error("AutodiscoverService.ts - InternalGetDomainSettings : Not implemented.");}
+    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): IPromise<GetDomainSettingsResponseCollection> {
+
+        // The response to GetDomainSettings can be a redirection. Execute GetDomainSettings until we get back 
+        // a valid response or we've followed too many redirections.
+        currentHop++;
+        if (currentHop > AutodiscoverService.AutodiscoverMaxRedirections) {
+            this.TraceMessage(
+                TraceFlags.AutodiscoverConfiguration,
+                StringHelper.Format("Maximum number of redirection hops {0} exceeded", AutodiscoverService.AutodiscoverMaxRedirections));
+
+            throw new AutodiscoverLocalException(Strings.AutodiscoverCouldNotBeLocated);
+        }
+        //BUG  - Typescript bug, reference for "this" inside multiple layers of IPromise points to global this object;
+        //(may be not) - this functional is called as delegate under Promise chaining, loss poiters to this.
+        //var request: GetUserSettingsRequest = new GetUserSettingsRequest(this, autodiscoverUrlRef.refvalue);
+        var request = new GetDomainSettingsRequest(thisref, autodiscoverUrlRef.getValue());
+        request.Settings = settings;
+        request.Domains = domains;
+        return request.Execute().then((response) => {
+            // Did we get redirected?
+            if (response.ErrorCode == AutodiscoverErrorCode.RedirectUrl && response.RedirectionUrl != null) {
+                this.TraceMessage(
+                    TraceFlags.AutodiscoverConfiguration,
+                    StringHelper.Format("Request to {0} returned redirection to {1}", autodiscoverUrlRef.getValue().ToString(), response.RedirectionUrl.ToString()));
+
+                // this url need be brought back to the caller.
+                //
+                autodiscoverUrlRef.setValue(response.RedirectionUrl);
+                return this.InternalGetDomainSettings(domains, settings, requestedVersion, autodiscoverUrlRef, thisref, currentHop);
+            }
+            else {
+                return response;
+            }
+        }, (err) => {
+
+        });
+    }
     private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
         throw new Error("Not implemented.");
     }

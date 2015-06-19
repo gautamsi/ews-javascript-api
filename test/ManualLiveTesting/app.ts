@@ -21,38 +21,25 @@ export class Greeter {
 
     start() {
 
-        var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
-        autod.RedirectionUrlValidationCallback = (val) => { return true };      
+        var autod = new AutodiscoverService(new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
+        autod.RedirectionUrlValidationCallback = (val) => { return true };
         autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        var s: UserSettingName[] = [];
-        s.push(UserSettingName.InternalEwsUrl);
-        s.push(UserSettingName.ExternalEwsUrl);
+        var d: DomainSettingName[] = [];
+        //return;
+        d.push(DomainSettingName.ExternalEwsUrl);
+        d.push(DomainSettingName.ExternalEwsVersion);
+        autod.GetDomainSettings(["singhspro.onmicrosoft.com"], d,null)
+        //autod.GetDomainSettings("singhspro.onmicrosoft.com", null, d[0], d[1])
 
-        s.push(UserSettingName.UserDisplayName);
-        s.push(UserSettingName.UserDN);
-        s.push(UserSettingName.EwsPartnerUrl);
-        s.push(UserSettingName.DocumentSharingLocations);
-        s.push(UserSettingName.MailboxDN);
-        s.push(UserSettingName.ActiveDirectoryServer);
-        s.push(UserSettingName.CasVersion);
-        s.push(UserSettingName.ExternalWebClientUrls);
-        s.push(UserSettingName.ExternalImap4Connections);
-        s.push(UserSettingName.AlternateMailboxes);
-        autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
-        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
-        //    UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-            .then((sr) => {
+            .then((dr) => {
                 var util = require('util');
-                console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-                console.log(autod.Url.ToString());
-                //console.log(sr);
+                console.log(util.inspect(dr, { showHidden: false, depth: null, colors: true }));
                 console.log("------------");
             }, (e: any) => {
-                var util = require('util');
-                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+                console.log(e);
                 console.log("------------");
             });
-        return;
+        return
         
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
@@ -167,35 +154,37 @@ export class Greeter {
         //
         //        return;
 
-        var s: UserSettingName[] = [];
-        s.push(UserSettingName.InternalEwsUrl);
-        s.push(UserSettingName.ExternalEwsUrl);
+        // var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
+        // autod.RedirectionUrlValidationCallback = (val) => { return true };      
+        // autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        // var s: UserSettingName[] = [];
+        // s.push(UserSettingName.InternalEwsUrl);
+        // s.push(UserSettingName.ExternalEwsUrl);
 
-        //        s.push(UserSettingName.UserDisplayName);
-        //        s.push(UserSettingName.UserDN);
-        //        s.push(UserSettingName.EwsPartnerUrl);
-        //        s.push(UserSettingName.DocumentSharingLocations);
-        //        s.push(UserSettingName.MailboxDN);
-        //        s.push(UserSettingName.ActiveDirectoryServer);
-        //        s.push(UserSettingName.CasVersion);
-        //        s.push(UserSettingName.ExternalWebClientUrls);
-        //        s.push(UserSettingName.ExternalImap4Connections );
-        //        s.push(UserSettingName.AlternateMailboxes);
-        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", "Thament@Singhs.pro"], s).then((sr) => {
-        //        autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
-        //            UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-        //            .then((sr) => {
-        //            var util = require('util');
-        //            console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-        //            console.log(autod.Url);
-        //            //console.log(sr);
-        //            console.log("------------");
-        //        }, (e: any) => {
-        //                var util = require('util');
-        //                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
-        //                console.log("------------");
-        //            });
-        //return;
+        // s.push(UserSettingName.UserDisplayName);
+        // s.push(UserSettingName.UserDN);
+        // s.push(UserSettingName.EwsPartnerUrl);
+        // s.push(UserSettingName.DocumentSharingLocations);
+        // s.push(UserSettingName.MailboxDN);
+        // s.push(UserSettingName.ActiveDirectoryServer);
+        // s.push(UserSettingName.CasVersion);
+        // s.push(UserSettingName.ExternalWebClientUrls);
+        // s.push(UserSettingName.ExternalImap4Connections);
+        // s.push(UserSettingName.AlternateMailboxes);
+        // //autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
+        // autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes, UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
+        //     .then((sr) => {
+        //         var util = require('util');
+        //         console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
+        //         console.log(autod.Url.ToString());
+        //         //console.log(sr);
+        //         console.log("------------");
+        //     }, (e: any) => {
+        //         var util = require('util');
+        //         console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+        //         console.log("------------");
+        //     });
+        // return;
         ////var d: DomainSettingName[] = [];
         //////return;
         ////d.push(DomainSettingName.ExternalEwsUrl);
