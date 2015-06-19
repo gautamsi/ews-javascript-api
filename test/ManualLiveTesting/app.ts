@@ -1,4 +1,4 @@
-import { AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+import {Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
 EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item} from "../../src/js/ExchangeWebService";
 
@@ -20,14 +20,39 @@ export class Greeter {
 
 
     start() {
-        
-        // var calvv:Item[] = [];
-        // calvv.push(new Appointment("",""));
-        // calvv.push(new MeetingCancellation(null));
-        // calvv.push(new MeetingRequest(null));
-        // calvv.push(new MeetingResponse(null));
-        
-        // var calev = new CalendarActionResults(calvv);
+
+        var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
+        autod.RedirectionUrlValidationCallback = (val) => { return true };      
+        autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        var s: UserSettingName[] = [];
+        s.push(UserSettingName.InternalEwsUrl);
+        s.push(UserSettingName.ExternalEwsUrl);
+
+        s.push(UserSettingName.UserDisplayName);
+        s.push(UserSettingName.UserDN);
+        s.push(UserSettingName.EwsPartnerUrl);
+        s.push(UserSettingName.DocumentSharingLocations);
+        s.push(UserSettingName.MailboxDN);
+        s.push(UserSettingName.ActiveDirectoryServer);
+        s.push(UserSettingName.CasVersion);
+        s.push(UserSettingName.ExternalWebClientUrls);
+        s.push(UserSettingName.ExternalImap4Connections);
+        s.push(UserSettingName.AlternateMailboxes);
+        autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
+        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes,
+        //    UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
+            .then((sr) => {
+                var util = require('util');
+                console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
+                console.log(autod.Url.ToString());
+                //console.log(sr);
+                console.log("------------");
+            }, (e: any) => {
+                var util = require('util');
+                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+                console.log("------------");
+            });
+        return;
         
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
@@ -58,7 +83,7 @@ export class Greeter {
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
         exch.TimeZoneDefinition = new TimeZoneDefinition();
-        exch.Url = "https://outlook.office365.com/Ews/Exchange.asmx";
+        exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
 
 
         // var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");

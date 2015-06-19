@@ -16,6 +16,7 @@ import {IXHROptions} from "../Interfaces";
 
 import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
+import {Uri} from "../Uri";
 
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
 export class ExchangeServiceBase {
@@ -64,7 +65,7 @@ export class ExchangeServiceBase {
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
-    protected timeZone: TimeZoneInfo = TimeZoneInfo.Utc;//System.TimeZoneInfo;
+    protected timeZone: TimeZoneInfo = TimeZoneInfo.Utc;//System.TimeZoneInfo;//ref: switching to utc instead of local in c# version. 
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;
@@ -77,8 +78,76 @@ export class ExchangeServiceBase {
     private static binarySecret: any;//System.Byte[];
     private static defaultUserAgent: string;
 
-    constructor(requestedServerVersion: ExchangeVersion) {
+    constructor();
+    constructor(timeZone:                   TimeZoneInfo                                                            );
+    constructor(requestedServerVersion:     ExchangeVersion                                                         );
+    constructor(requestedServerVersion:     ExchangeVersion,        timeZone:                   TimeZoneInfo        );
+    constructor(service:                    ExchangeServiceBase                                                     );
+    constructor(service:                    ExchangeServiceBase,    requestedServerVersion:     ExchangeVersion     );
+
+    constructor(
+        versionServiceorTZ?: ExchangeVersion | ExchangeServiceBase | TimeZoneInfo,
+        versionOrTZ?: ExchangeVersion | TimeZoneInfo
+        ) {
+            var argsLength = arguments.length;
+            if (argsLength > 2) {
+            throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
+            }
+            var timeZone:TimeZoneInfo = null;
+            var requestedServerVersion:ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
+            var service:ExchangeServiceBase = null;
+            
+            if(argsLength>=1){
+                if(versionServiceorTZ instanceof TimeZoneInfo){
+                    timeZone = versionServiceorTZ;
+                }
+                else if(versionServiceorTZ instanceof ExchangeServiceBase){
+                    service = versionServiceorTZ;                    
+                }
+                else if(typeof versionServiceorTZ === 'number'){
+                    requestedServerVersion = versionServiceorTZ;
+                }
+            }
+            if(argsLength==2){
+                if(versionOrTZ instanceof TimeZoneInfo){
+                    if (typeof versionServiceorTZ !== 'number') {
+                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
+                    }
+                    timeZone = versionOrTZ;
+                }
+                else if(typeof versionOrTZ === 'number'){
+                    if (!(versionServiceorTZ instanceof ExchangeServiceBase)) {
+                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeServiceBase when using ExchangeVersion at 2nd place");
+                    }
+                    requestedServerVersion = versionOrTZ;
+                }
+            }
+            
+            
+            
         this.requestedServerVersion = requestedServerVersion;
+        
+        if(service !== null && typeof service !== 'undefined'){
+            this.useDefaultCredentials = service.useDefaultCredentials;
+            this.credentials = service.credentials;
+            this.traceEnabled = service.traceEnabled;
+            this.traceListener = service.traceListener;
+            this.traceFlags = service.traceFlags;
+            this.timeout = service.timeout;
+            this.preAuthenticate = service.preAuthenticate;
+            this.userAgent = service.userAgent;
+            //this.acceptGzipEncoding = service.acceptGzipEncoding;
+            this.keepAlive = service.keepAlive;
+            this.connectionGroupName = service.connectionGroupName;
+            this.timeZone = service.timeZone;
+            this.httpHeaders = service.httpHeaders;
+            this.ewsHttpWebRequestFactory = service.ewsHttpWebRequestFactory;
+        }
+        
+        if(timeZone !== null && typeof timeZone  !== 'undefined'){
+            this.timeZone = timeZone;
+            //this.useDefaultCredentials = true; //ref: no default credential in node.js
+        }
     }
 
 
@@ -155,12 +224,12 @@ export class ExchangeServiceBase {
     }
     InternalProcessHttpErrorResponse(httpWebResponse: any, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("ExchangeServiceBase.ts - InternalProcessHttpErrorResponse : Not implemented."); }
     IsTraceEnabledFor(traceFlags: TraceFlags): boolean { return this.TraceEnabled && ((this.TraceFlags & traceFlags) != 0); }
-    PrepareHttpWebRequestForUrl(url: string/*System.Uri*/, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
+    PrepareHttpWebRequestForUrl(url: Uri, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
         // Verify that the protocol is something that we can handle
-        if (url.toLowerCase().indexOf("https") != 0)// .Scheme != Uri.UriSchemeHttp) && (url.Scheme != Uri.UriSchemeHttps)) {
+        if ((url.Scheme != Uri.UriSchemeHttp) && (url.Scheme != Uri.UriSchemeHttps)) {
             throw new ServiceLocalException("unsupported web protocol" + url);//string.Format(Strings.UnsupportedWebProtocol, url.Scheme));
-
-        var request: IXHROptions = { url: url };
+        }
+        var request: IXHROptions = { url: url.ToString() };
         request.headers = {};
 
 

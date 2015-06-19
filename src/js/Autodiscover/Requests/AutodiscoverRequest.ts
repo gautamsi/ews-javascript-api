@@ -15,6 +15,7 @@ import {ServiceResponse} from "../../Core/Responses/ServiceResponse";
 import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
 
 import {EwsLogging} from "../../Core/EwsLogging";
+import {Uri} from "../../Uri";
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {Promise} from "../../PromiseFactory"
 import {XHR} from "../../XHRFactory"
@@ -24,14 +25,14 @@ export class AutodiscoverRequest {
     get Service(): AutodiscoverService {
         return this.service;
     }
-    get Url(): string { //System.Uri;
+    get Url(): Uri { 
         return this.url;
     }
 
     private service: AutodiscoverService;
-    private url: string;//System.Uri;
+    private url: Uri = null;
 
-    constructor(service: AutodiscoverService, url: string) {
+    constructor(service: AutodiscoverService, url: Uri) {
         this.service = service;
         this.url = url;
     }
@@ -88,7 +89,7 @@ export class AutodiscoverRequest {
         var writer = new EwsServiceXmlWriter(this.service);
         this.WriteSoapRequest(this.url, writer);
 
-        if (!this.service && !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
+        if (!this.service || !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
             throw new Error("missing credential");
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
@@ -97,7 +98,7 @@ export class AutodiscoverRequest {
             type: "POST",
             data: cc,
             //url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
-            url: this.url,
+            url: this.url.ToString(),
             //headers: { "Content-Type": "text/xml", "Authorization": cred },
             headers: { "Content-Type": "text/xml" },
             //customRequestInitializer: function (x) {
@@ -359,7 +360,7 @@ export class AutodiscoverRequest {
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented. overridden"); }
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void { }
-    WriteSoapRequest(requestUrl: string, //System.Uri,
+    WriteSoapRequest(requestUrl: Uri,
         writer: EwsServiceXmlWriter): void {
 
         writer.WriteStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
@@ -390,7 +391,7 @@ export class AutodiscoverRequest {
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,
             XmlElementNames.To,
-            requestUrl);//.AbsoluteUri);
+            requestUrl.ToString());//.AbsoluteUri);
 
         this.WriteExtraCustomSoapHeadersToXml(writer);
 

@@ -786,6 +786,7 @@ export {TimeWindow} from "./Misc/Availability/TimeWindow";
 // export {UpdateItemRequest} from "./Core/Requests/UpdateItemRequest";
 // export {UpdateItemResponse} from "./Core/Responses/UpdateItemResponse";
 // export {UpdateUserConfigurationRequest} from "./Core/Requests/UpdateUserConfigurationRequest";
+export {Uri} from "./Uri";
 // export {UrlEntity} from "./ComplexProperties/UrlEntity";
 // export {UrlEntityCollection} from "./ComplexProperties/UrlEntityCollection";
 // export {UserConfiguration} from "./Misc/UserConfiguration";

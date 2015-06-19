@@ -8,6 +8,7 @@ import {DomainSettingName} from "../../Enumerations/DomainSettingName";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 
 import {IPromise} from "../../Interfaces";
+import {Uri} from "../../Uri";
 
 
 import {GetDomainSettingsResponseCollection} from "../Responses/GetDomainSettingsResponseCollection";
@@ -23,7 +24,7 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
     private settings: DomainSettingName[];// System.Collections.Generic.List<DomainSettingName>;
     private requestedVersion: ExchangeVersion;
 
-    constructor(service: AutodiscoverService, url: string) {
+    constructor(service: AutodiscoverService, url: Uri) {
         super(service, url);
     }
 

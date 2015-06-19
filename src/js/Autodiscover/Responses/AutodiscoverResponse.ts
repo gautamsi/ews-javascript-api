@@ -1,14 +1,15 @@
 ﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {Uri} from "../../Uri";
 import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
 import {XmlElementNames} from "../../Core/XmlElementNames";
 
 export class AutodiscoverResponse {
     ErrorCode: AutodiscoverErrorCode;
     ErrorMessage: string;
-    RedirectionUrl: string;//System.Uri;
+    RedirectionUrl: Uri;
     //private errorCode: AutodiscoverErrorCode;
     //private errorMessage: string;
-    //private redirectionUrl: string;//System.Uri;
+    //private redirectionUrl: Uri;
     LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
         switch (reader.LocalName) {
             case XmlElementNames.ErrorCode:

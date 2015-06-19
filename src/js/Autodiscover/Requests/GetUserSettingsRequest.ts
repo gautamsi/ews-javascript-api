@@ -4,6 +4,7 @@ import {EwsXmlReader} from "../../Core/EwsXmlReader";
 import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 import {XmlElementNames} from "../../Core/XmlElementNames";
 import {EwsUtilities} from "../../Core/EwsUtilities";
+import {Uri} from "../../Uri";
 
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {UserSettingName} from "../../Enumerations/UserSettingName";
@@ -26,7 +27,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
     PartnerTokenReference: string;
     private expectPartnerToken: boolean;
 
-    constructor(service: AutodiscoverService, url: string) {
+    constructor(service: AutodiscoverService, url: Uri) {
         super(service, url);
         this.expectPartnerToken = false;
     }
@@ -38,7 +39,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
             this.PostProcessResponses(adr)
             return adr;
         });
-        //<IPromise<>> 
+        //<IPromise<>> v
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);

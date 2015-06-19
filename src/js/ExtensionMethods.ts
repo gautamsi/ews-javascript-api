@@ -307,7 +307,13 @@ export class xml2JsObject {
 module Parsers {
 
 }
-
+interface ParsedUrl {
+    scheme: string;
+    authority: string;
+    path: string;
+    query: string;
+    fragment: string;
+}
 export class UriHelper {
     //RFC Appendix B - http://www.ietf.org/rfc/rfc3986.txt 
     /*    Appendix B.  Parsing a URI Reference with a Regular Expression
@@ -362,7 +368,7 @@ export class UriHelper {
        Going in the opposite direction, we can recreate a URI reference from
        its components by using the algorithm of Section 5.3.
     */
-    static parseString(url: string) {
+    static parseString(url: string): ParsedUrl {
         var regex = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
         var parts = url.match(regex);
         return {

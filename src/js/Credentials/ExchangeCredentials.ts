@@ -1,4 +1,5 @@
 import {base64Helper} from "../ExtensionMethods";
+import {Uri} from "../Uri";
 import {IXHROptions} from "../Interfaces";
 export class ExchangeCredentials {
     //NeedSignature: boolean;
@@ -8,15 +9,17 @@ export class ExchangeCredentials {
 
     }
 
-    AdjustUrl(url: string /*System.Uri*/): string /*System.Uri*/ { return ExchangeCredentials.GetUriWithoutSuffix(url); }
+    AdjustUrl(url: Uri): Uri { return new Uri(ExchangeCredentials.GetUriWithoutSuffix(url)); }
     EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): void { /*implemented by derived classes*/ }
-    static GetUriWithoutSuffix(url: string/*System.Uri*/): string /*System.Uri*/ {
-        var index = url.toUpperCase().indexOf(/*WSSecurityBasedCredentials*/ExchangeCredentials.WsSecurityPathSuffix.toUpperCase());//, StringComparison.OrdinalIgnoreCase);
+    static GetUriWithoutSuffix(url: Uri): string {
+        var absoluteUri: string = url.AbsoluteUri;
+        //ref: can not use WSSecurityBasedCredentials.WsSecurityPathSuffix, creates circular reference.
+        var index = absoluteUri.toUpperCase().indexOf(/*WSSecurityBasedCredentials*/ExchangeCredentials.WsSecurityPathSuffix.toUpperCase());//, StringComparison.OrdinalIgnoreCase);
         if (index != -1) {
-            return url.substring(0, index);
+            return absoluteUri.substring(0, index);
         }
 
-        return url;
+        return absoluteUri;
     }
     //PreAuthenticate(): any{ throw new Error("ExchangeCredentials.ts - PreAuthenticate : Not implemented.");}
     PrepareWebRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {

@@ -59,7 +59,7 @@ import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {SearchFilter} from "../Search/Filters/SearchFilter";
 import {FindFoldersResults} from "../Search/FindFoldersResults";
 import {FolderView} from "../Search/FolderView";
-
+import {Uri} from "../Uri";
 import {Folder} from "./ServiceObjects/Folders/Folder";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {PropertySet} from "./PropertySet";
@@ -82,7 +82,7 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Fields */
-    private url: string = null;//System.Uri;
+    private url: Uri = null;
     //private preferredCulture: any = null;// System.Globalization.CultureInfo;
     //private dateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
     //private impersonatedUserId: ImpersonatedUserId = null;
@@ -99,7 +99,7 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Properties */
-    Url: string;//System.Uri;
+    Url: Uri;
     ImpersonatedUserId: ImpersonatedUserId = null;
     PrivilegedUserId: PrivilegedUserId = null;
     ManagementRoles: ManagementRoles = null;
@@ -229,7 +229,7 @@ export class ExchangeService extends ExchangeServiceBase {
         //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
         var argsLength = arguments.length;
         if (argsLength < 2 && argsLength > 3) {
-            throw new Error("invalid arguments, check documentation and try again.");
+            throw new Error("ExchangeService.ts - FindFolders - invalid number of arguments, check documentation and try again.");
         }
         
         //position 1 - parentFolderIdOrName
@@ -383,7 +383,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
         var argsLength = arguments.length;
         if (argsLength < 2 && argsLength > 6) {
-            throw new Error("invalid arguments, check documentation and try again.");
+            throw new Error("ExchangeService.ts - FindItems - invalid number of arguments, check documentation and try again.");
         }
         
         //position 1 - nameIdOrIds
@@ -551,16 +551,16 @@ export class ExchangeService extends ExchangeServiceBase {
     // BeginGetEvents(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string, watermark: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetEvents : Not implemented."); }
     // BeginSubscribeToPullNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPullNotifications : Not implemented."); }
     // BeginSubscribeToPullNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPullNotificationsOnAllFolders : Not implemented."); }
-    // BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotifications : Not implemented."); }
-    // //BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotifications : Not implemented."); }
-    // BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    // //BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotificationsOnAllFolders : Not implemented."); }
+    // BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotifications : Not implemented."); }
+    // //BeginSubscribeToPushNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotifications : Not implemented."); }
+    // BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: Uri, frequency: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotificationsOnAllFolders : Not implemented."); }
+    // //BeginSubscribeToPushNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPushNotificationsOnAllFolders : Not implemented."); }
     // BeginSubscribeToStreamingNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotifications : Not implemented."); }
     // BeginSubscribeToStreamingNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
     // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginUnsubscribe : Not implemented."); }
     //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
     //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
-    //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
+    //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
     //BuildSubscribeToStreamingNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): SubscribeToStreamingNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToStreamingNotificationsRequest : Not implemented."); }
     //BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest { throw new Error("ExchangeService.ts - BuildUnsubscribeRequest : Not implemented."); }
     //EndGetEvents(asyncResult: Function /*System.IAsyncResult*/): GetEventsResults { throw new Error("ExchangeService.ts - EndGetEvents : Not implemented."); }
@@ -569,13 +569,13 @@ export class ExchangeService extends ExchangeServiceBase {
     //EndSubscribeToStreamingNotifications(asyncResult: Function /*System.IAsyncResult*/): StreamingSubscription { throw new Error("ExchangeService.ts - EndSubscribeToStreamingNotifications : Not implemented."); }
     //EndUnsubscribe(asyncResult: Function /*System.IAsyncResult*/): any { throw new Error("ExchangeService.ts - EndUnsubscribe : Not implemented."); }
     //GetEvents(subscriptionId: string, watermark: string): GetEventsResults { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
-    //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: string /*System.Uri*/, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
+    //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
     //SubscribeToPullNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotifications : Not implemented."); }
     //SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotificationsOnAllFolders : Not implemented."); }
-    //SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    //SubscribeToPushNotificationsOnAllFolders(url: string /*System.Uri*/, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    ////SubscribeToPushNotificationsOnAllFolders(url: string /*System.Uri*/, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
+    //SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
+    ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
+    //SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
+    ////SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
     //SubscribeToStreamingNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotifications : Not implemented."); }
     //SubscribeToStreamingNotificationsOnAllFolders(eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
     //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
@@ -735,16 +735,17 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region Autodiscover */
 
-    AdjustServiceUriFromCredentials(uri: string /*System.Uri*/): string/*System.Uri*/ {
+    private AdjustServiceUriFromCredentials(uri: Uri): Uri {
         return (this.Credentials != null)
             ? this.Credentials.AdjustUrl(uri)
             : uri;
     }
-    // //AutodiscoverUrl(emailAddress: string): any { throw new Error("ExchangeService.ts - AutodiscoverUrl : Not implemented."); }
-    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback?: AutodiscoverRedirectionUrlValidationCallback/*Microsoft.Exchange.WebServices.Autodiscover.AutodiscoverRedirectionUrlValidationCallback*/): IPromise<any> {
-        validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
+    AutodiscoverUrl(emailAddress: string): IPromise<void>;
+    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<void>;
+    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): IPromise<void> {
+        //validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
-        var exchangeServiceUrl: string;
+        var exchangeServiceUrl: Uri = null;
 
         if (this.RequestedServerVersion > ExchangeVersion.Exchange2007_SP1) {
 
@@ -793,11 +794,11 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     }
-    DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
+    private DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
 
         throw new AutodiscoverLocalException(StringHelper.Format(Strings.AutodiscoverRedirectBlocked, redirectionUrl));
     }
-    GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<string> /*System.Uri*/ {
+    private GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<Uri> {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
         autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
@@ -831,7 +832,7 @@ export class ExchangeService extends ExchangeServiceBase {
             });
 
     }
-    GetEwsUrlFromResponse(response: GetUserSettingsResponse, isExternal: boolean): string /*System.Uri*/ {
+    private GetEwsUrlFromResponse(response: GetUserSettingsResponse, isExternal: boolean): Uri {
 
         var uriString = response.GetSettingValue<string>(UserSettingName.ExternalEwsUrl)
 
@@ -841,12 +842,12 @@ export class ExchangeService extends ExchangeServiceBase {
         if ((isExternal &&
             uriString) &&
             !StringHelper.IsNullOrEmpty(uriString)) {
-            return uriString;
+            return new Uri(uriString);
         }
         else {
             uriString = response.GetSettingValue<string>(UserSettingName.InternalEwsUrl) || uriString;
             if (!StringHelper.IsNullOrEmpty(uriString)) {
-                return uriString;
+                return new Uri(uriString);
             }
         }
         // If Autodiscover doesn't return an internal or external EWS URL, throw an exception.

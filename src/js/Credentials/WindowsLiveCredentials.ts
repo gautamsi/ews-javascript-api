@@ -1,4 +1,5 @@
-﻿import {ITraceListener} from "../Interfaces/ITraceListener";
+﻿import {Uri} from "../Uri";
+import {ITraceListener} from "../Interfaces/ITraceListener";
 import {EwsXmlReader} from "../Core/EwsXmlReader";
 import {WSSecurityBasedCredentials} from "./WSSecurityBasedCredentials";
 export class WindowsLiveCredentials extends WSSecurityBasedCredentials {
@@ -13,17 +14,17 @@ export class WindowsLiveCredentials extends WSSecurityBasedCredentials {
     static XmlSignatureReference: string = "_EWSTKREF";
     TraceEnabled: boolean;
     TraceListener: ITraceListener;
-    WindowsLiveUrl: /*System.Uri*/string;
+    WindowsLiveUrl: Uri;
     IsAuthenticated: boolean;
     private windowsLiveId: string;
     private password: string;
-    private windowsLiveUrl: /*System.Uri*/string;
+    private windowsLiveUrl: Uri;
     private isAuthenticated: boolean;
     private traceEnabled: boolean;
     private traceListener: ITraceListener;
-    static DefaultWindowsLiveUrl: /*System.Uri*/string;
-    EmitTokenRequest(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("WindowsLiveCredentials.ts - EmitTokenRequest : Not implemented."); }
-    MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: /*System.Uri*/string): any { throw new Error("WindowsLiveCredentials.ts - MakeTokenRequestToWindowsLive : Not implemented."); }
+    static DefaultWindowsLiveUrl: Uri;
+    EmitTokenRequest(uriForTokenEndpointReference: Uri): any { throw new Error("WindowsLiveCredentials.ts - EmitTokenRequest : Not implemented."); }
+    MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: Uri): any { throw new Error("WindowsLiveCredentials.ts - MakeTokenRequestToWindowsLive : Not implemented."); }
     ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ParseWindowsLiveRSTResponseBody : Not implemented."); }
     //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("WindowsLiveCredentials.ts - PrepareWebRequest : Not implemented.");}
     ProcessTokenResponse(response: any): any { throw new Error("WindowsLiveCredentials.ts - ProcessTokenResponse : Not implemented."); }
