@@ -170,6 +170,7 @@ gulp.task("npm-prep", function(){
     return gulp.src([
         "./README.md",
         "./LICENSE",
+        "./COPYRIGHT",
         "./package.json"
         ])
     .pipe(gulp.dest("./build/output/node/src"));

@@ -21,7 +21,7 @@ more documents available in wiki (publishig soon)
 //import ews module
 var ews = require('ews-javascript-api');
 //create AutodiscoverService object
-var autod = new ews.AutodiscoverService(new ews.Uri("https://autodiscover-.outlook.com/autodiscover/autodiscover.svc"), ews.ExchangeVersion.Exchange2010);
+var autod = new ews.AutodiscoverService(new ews.Uri("https://autodiscover-s.outlook.com/autodiscover/autodiscover.svc"), ews.ExchangeVersion.Exchange2010);
 //you can omit url and it will autodiscover the url, version helps throw error on client side for unsupported operations.example - //var autod = new ews.AutodiscoverService(ews.ExchangeVersion.Exchange2010);
 //set credential for service
 autod.Credentials = new ews.ExchangeCredentials("userName", "password");
@@ -73,7 +73,7 @@ exch.Credentials = new ews.ExchangeCredentials("userName", "password");
 //set ews endpoint url to use
 exch.Url = new ews.Uri("https://outlook.office365.com/Ews/Exchange.asmx"); // you can also use exch.AutodiscoverUrl
 
-var attendee =[ new ews.AttendeeInfo("gs@singhspro.onmicrosoft.com"), new ews.AttendeeInfo("gstest@singhspro.onmicrosoft.com")];
+var attendee =[ new ews.AttendeeInfo("email1@domain.com"), new ews.AttendeeInfo("email2@domain.com")];
 //create timewindow object o request avaiability suggestions for next 48 hours, DateTime and TimeSpan object is created to mimic portion of .net datetime/timespan object using momentjs
 var timeWindow = new ews.TimeWindow(ews.DateTime.Now, new ews.DateTime(ews.DateTime.Now.TotalMilliSeconds + ews.TimeSpan.FromHours(48).asMilliseconds())); 
 exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndSuggestions)
