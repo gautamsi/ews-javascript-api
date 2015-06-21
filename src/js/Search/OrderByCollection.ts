@@ -10,7 +10,7 @@ import {KeyValuePair} from "../AltDictionary";
 import {StringHelper} from "../ExtensionMethods";
 import {Strings} from "../Strings";
 
-type PropertyDefinitionSortDirectionPair = KeyValuePair<PropertyDefinitionBase, SortDirection>;
+export type PropertyDefinitionSortDirectionPair = KeyValuePair<PropertyDefinitionBase, SortDirection>;
 export class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirectionPair >, IJsonSerializable
     ___implementsInterface: string[] = ["IEnumerable", "IEnumerable<PropertyDefinitionSortDirectionPair>", "IJsonSerializable"];
 

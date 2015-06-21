@@ -569,11 +569,11 @@ export class EwsUtilities {
 }
 
 
-interface EnumToExhcangeVersionDelegateDictionary {
+export interface EnumToExhcangeVersionDelegateDictionary {
     [index: string]: EnumVersionDelegate;
 }
 
-interface EnumVersionDelegate {
+export interface EnumVersionDelegate {
     (value: number): ExchangeVersion;
 }
 

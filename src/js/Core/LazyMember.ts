@@ -27,7 +27,7 @@ export class LazyMember<T> {
 }
 
 
-interface InitializeLazyMember<T> {
+export interface InitializeLazyMember<T> {
     (): T;
 
     //export class InitializeLazyMember<T> extends System.MulticastDelegate {

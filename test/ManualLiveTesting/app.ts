@@ -1,6 +1,6 @@
 import {Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
-EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item} from "../../src/js/ExchangeWebService";
+EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper} from "../../src/js/ExchangeWebService";
 
 
 var credentials: any = undefined;
@@ -21,26 +21,47 @@ export class Greeter {
 
     start() {
 
-        var autod = new AutodiscoverService(new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
+        var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
         autod.RedirectionUrlValidationCallback = (val) => { return true };
         autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        var d: DomainSettingName[] = [];
-        //return;
-        d.push(DomainSettingName.ExternalEwsUrl);
-        d.push(DomainSettingName.ExternalEwsVersion);
-        autod.GetDomainSettings(["singhspro.onmicrosoft.com"], d,null)
-        //autod.GetDomainSettings("singhspro.onmicrosoft.com", null, d[0], d[1])
+        var s: UserSettingName[] = [];
+        s.push(UserSettingName.InternalEwsUrl);
+        s.push(UserSettingName.ExternalEwsUrl);
 
-            .then((dr) => {
+        s.push(UserSettingName.UserDisplayName);
+        s.push(UserSettingName.UserDN);
+        s.push(UserSettingName.EwsPartnerUrl);
+        s.push(UserSettingName.DocumentSharingLocations);
+        s.push(UserSettingName.MailboxDN);
+        s.push(UserSettingName.ActiveDirectoryServer);
+        s.push(UserSettingName.CasVersion);
+        s.push(UserSettingName.ExternalWebClientUrls);
+        s.push(UserSettingName.ExternalImap4Connections);
+        s.push(UserSettingName.AlternateMailboxes);
+        autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
+        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes, UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
+            .then((sr) => {
+                var tabcount = 0;
+                var tabs = ()=>{return StringHelper.Repeat("\t",tabcount);}
                 var util = require('util');
-                console.log(util.inspect(dr, { showHidden: false, depth: null, colors: true }));
+                //console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
+                console.log(autod.Url.ToString());
+                for(var resp of sr.Responses){
+                    console.log(StringHelper.Format("{0}settings for email: {1}",tabs(), resp.SmtpAddress));
+                    tabcount++;
+                    for (var setting in resp.Settings){
+                        console.log(StringHelper.Format("{0}{1} = {2}" , tabs(), UserSettingName[setting], resp.Settings[setting]));
+                    }
+                    tabcount--;                    
+                }
+                //console.log(sr);
                 console.log("------------");
             }, (e: any) => {
-                console.log(e);
+                var util = require('util');
+                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
                 console.log("------------");
             });
-        return
-        
+        return;
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
         //var domdata = dd.parseFromString('<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <soap:Fault> <faultcode>soap:Client</faultcode> <faultstring>Invalid input</faultstring> <faultactor >http://sseely2/AYS17Sept2002/Service1.asmx</faultactor> <detail> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError TextValue="FirstError"></ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>LastName</ItemInError> <CorrectRegularExpression >^([A-Z])([a-z])+</CorrectRegularExpression> </PersonErrorInfo> <PersonErrorInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <ItemInError>EmailAddress</ItemInError> <CorrectRegularExpression >^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$</CorrectRegularExpression> </PersonErrorInfo> </detail> </soap:Fault> </soap:Body></soap:Envelope>', "text/xml");
@@ -73,15 +94,15 @@ export class Greeter {
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
 
 
-        // var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
-        // var att2 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
-        var att1 = new AttendeeInfo("gautamsi@microsoft.com");
-        var att2 = new AttendeeInfo("abhijitp@microsoft.com");
-        var att3 = new AttendeeInfo("pardeb@microsoft.com");
-        var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
+        var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
+        var att2 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
+        // var att1 = new AttendeeInfo("gautamsi@microsoft.com");
+        // var att2 = new AttendeeInfo("abhijitp@microsoft.com");
+        // var att3 = new AttendeeInfo("pardeb@microsoft.com");
+        // var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
         var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).asMilliseconds()));
-
-        exch.GetUserAvailability([att1, att2, att3, att4], tmw, AvailabilityData.FreeBusyAndSuggestions)
+        var ats = [att1, att2];//, att3, att4];
+        exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
                 EwsLogging.Log(fi, true, true);

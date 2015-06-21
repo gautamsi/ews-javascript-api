@@ -11,7 +11,7 @@ import {StringHelper} from "../../ExtensionMethods";
 import {Strings} from "../../Strings";
 import {ComplexProperty} from "../ComplexProperty";
 
-class CustomTimeZoneCreateParams {
+export class CustomTimeZoneCreateParams {
     private baseOffsetToUtc: TimeSpan = null;//TimeSpan = null;
     private standardDisplayName: string = null;
     private daylightDisplayName: string = null;

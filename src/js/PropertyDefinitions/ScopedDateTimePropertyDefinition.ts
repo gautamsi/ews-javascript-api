@@ -24,6 +24,6 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: DateTime, propertyBag: PropertyBag, isUpdateOperation: boolean): DateTime { throw new Error("ScopedDateTimePropertyDefinition.ts - ScopeToTimeZone : Not implemented."); }
 }
 
-interface GetPropertyDefinitionCallback {
+export interface GetPropertyDefinitionCallback {
     (version: ExchangeVersion): PropertyDefinition
 }

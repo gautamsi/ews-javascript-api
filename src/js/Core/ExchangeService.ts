@@ -145,14 +145,6 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region Folder operations */
 
-    CreateFolder(folder: Folder, parentFolderId: FolderId): IPromise<void> {
-        var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
-        request.Folders = [folder];
-        request.ParentFolderId = parentFolderId;
-        return request.Execute().then((value) => {
-            return null;
-        });
-    }
     BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
         // debugger;
         return this.BindToFolder(folderId, propertySet);
@@ -192,6 +184,14 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute().then((responses) => {
             return responses.__thisIndexer(0).Folder;
+        });
+    }
+    CreateFolder(folder: Folder, parentFolderId: FolderId): IPromise<void> {
+        var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.Folders = [folder];
+        request.ParentFolderId = parentFolderId;
+        return request.Execute().then((value) => {
+            return null;
         });
     }
     DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): IPromise<void> {

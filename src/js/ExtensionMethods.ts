@@ -17,6 +17,13 @@ export module StringHelper {
     }
 
     export var Empty = "";
+
+    export function Repeat(str: string = "", times: number = 1): string {
+        return new Array(times + 1).join(str);
+    }
+    export function Tabs(times: number = 0): string {
+        return Repeat("\t", times);
+    }
 }
 
 export module EnumHelper {
@@ -26,7 +33,7 @@ export module EnumHelper {
     export function ToString(enumObj: any, checkFlag: number, includeZero: boolean = false): string {
         if ((checkFlag & (checkFlag - 1)) == 0)
             return enumObj[checkFlag];
-        var ret: string[] = [];
+        var result: string[] = [];
         var diff = checkFlag;
 
         var largestFlag = 0;// = Math.pow(2, Math.floor(Math.pow(checkFlag, (1 / 2))));
@@ -35,13 +42,13 @@ export module EnumHelper {
             diff = diff - largestFlag;
             var largestValue = enumObj[largestFlag];
             if (largestValue === undefined) return undefined;
-            ret.push(largestValue);
+            result.push(largestValue);
         }
-        if (diff == 1) ret.push(enumObj[1]);
-        if (includeZero && enumObj[0]) ret.push(enumObj[0]);
+        if (diff == 1) result.push(enumObj[1]);
+        if (includeZero && enumObj[0]) result.push(enumObj[0]);
 
-        ret.reverse();
-        return ret.join(",");
+        result.reverse();
+        return result.join(",");
     }
 }
 
@@ -307,7 +314,7 @@ export class xml2JsObject {
 module Parsers {
 
 }
-interface ParsedUrl {
+export interface ParsedUrl {
     scheme: string;
     authority: string;
     path: string;

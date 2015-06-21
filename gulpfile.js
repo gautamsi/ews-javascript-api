@@ -118,22 +118,6 @@ gulp.task('ts-compile-amd', function (done) {
     runTSC('.', outdir, ["--module", "amd"], done);
 });
 
-// function runTSCAmd(directory, done) {
-//     var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
-//     var outdir = path.join(process.cwd(), 'build/output/amd');
-//     var childProcessAmd = cp.spawn('node', [tscjs, '-p', directory, '--outDir', outdir, "--module", "amd"], { cwd: process.cwd() });
-//     childProcessAmd.stdout.on('data', function (data) {
-//         // Ticino will read the output
-//         console.log(data.toString());
-//     });
-//     childProcessAmd.stderr.on('data', function (data) {
-//         // Ticino will read the output
-//         console.log(data.toString());
-//     });
-//     childProcessAmd.on('close', function () {
-//         done();
-//     });
-// }
 
 /**
  * Compiles *.js files, sourcemaps, 
@@ -182,6 +166,14 @@ gulp.task('serve-dev',function(done){
     
 });
 
+gulp.task("npm-prep", function(){
+    return gulp.src([
+        "./README.md",
+        "./LICENSE",
+        "./package.json"
+        ])
+    .pipe(gulp.dest("./build/output/node/src"));
+});
 
 
 /**

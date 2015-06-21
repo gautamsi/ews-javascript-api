@@ -8968,6 +8968,6 @@ declare module WinJS.Utilities.Scheduler {
 
 }
 
-declare module "WinJS" {
+declare module "winjs-node" {
     export = WinJS;
 }

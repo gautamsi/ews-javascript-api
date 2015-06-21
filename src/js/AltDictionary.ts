@@ -16,7 +16,7 @@ export interface KeyValuePair<TKey, TValue> {
 interface StringPropertyDefinitionArray<TKey, TValue> {
     [index: string]: TValue;
 }
-interface StringKeyPicker<TValue> {
+export interface StringKeyPicker<TValue> {
     (value: TValue): string;
 }
 export class Dictionary<TKey, TValue>{

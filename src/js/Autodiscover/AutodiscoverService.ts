@@ -1007,7 +1007,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 }
 
 //ref: converted to delegate type interface
-interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
+export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
     (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): IPromise<TGetSettingsResponseCollection>
 }
 //class GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> extends System.MulticastDelegate {

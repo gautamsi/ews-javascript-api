@@ -1,4 +1,4 @@
-import {StringHelper, UriHelper} from "./Extensionmethods";
+import {StringHelper, UriHelper, ParsedUrl} from "./Extensionmethods";
 /**
 * Uri: c# uri shim for js
 */
