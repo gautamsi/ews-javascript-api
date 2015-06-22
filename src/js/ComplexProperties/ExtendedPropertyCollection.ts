@@ -1,305 +1,79 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ExtendedPropertyCollection.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {Strings} from "../Strings";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExtendedProperty} from "./ExtendedProperty";
+import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {IOutParam} from "../Interfaces/IOutParam";
+import {StringHelper, ArrayHelper} from "../ExtensionMethods";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ExtendedPropertyCollection class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-
-    /// <summary>
-    /// Represents a collection of extended properties.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public sealed class ExtendedPropertyCollection : ComplexPropertyCollection<ExtendedProperty>, ICustomUpdateSerializer
-    {
-        /// <summary>
-        /// Creates the complex property.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <returns>Complex property instance.</returns>
-        internal override ExtendedProperty CreateComplexProperty(string xmlElementName)
-        {
-            return new ExtendedProperty();
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+export class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {
+    CreateComplexProperty(xmlElementName: string): ExtendedProperty { return new ExtendedProperty(); }
+    CreateDefaultComplexProperty(): ExtendedProperty { return new ExtendedProperty(); }
+    GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string { return null; }
+    GetOrAddExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): ExtendedProperty {
+        var extendedProperty: IOutParam<ExtendedProperty> = { outValue: null };
+        if (!this.TryGetProperty(propertyDefinition, extendedProperty)) {
+            extendedProperty.outValue = new ExtendedProperty(propertyDefinition);
+            this.InternalAdd(extendedProperty.outValue);
         }
+        return extendedProperty.outValue;
+    }
+    InternalToJson(service: ExchangeService): any { throw new Error("ExtendedPropertyCollection.ts - InternalToJson : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any,service:ExchangeService ): void {//localElementName: string
+        var extendedProperty = new ExtendedProperty();
+        debugger; //todo: check for need of local elementnot tested
+        extendedProperty.LoadFromXmlJsObject(jsObject, service);
+        this.InternalAdd(extendedProperty);
+    }
+    RemoveExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): boolean {
+        //EwsUtilities.ValidateParam(propertyDefinition, "propertyDefinition");
 
-        /// <summary>
-        /// Creates the default complex property.
-        /// </summary>
-        /// <returns></returns>
-        internal override ExtendedProperty CreateDefaultComplexProperty()
-        {
-            return new ExtendedProperty();
+        var extendedProperty: ExtendedProperty = null;
+        if (this.TryGetProperty(propertyDefinition, extendedProperty)) {
+            return this.InternalRemove(extendedProperty);
         }
-
-        /// <summary>
-        /// Gets the name of the collection item XML element.
-        /// </summary>
-        /// <param name="complexProperty">The complex property.</param>
-        /// <returns>XML element name.</returns>
-        internal override string GetCollectionItemXmlElementName(ExtendedProperty complexProperty)
-        {
-            // This method is unused in this class, so just return null.
-            return null;
+        else {
+            return false;
         }
+    }
+    SetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, value: any): void {
+        var extendedProperty = this.GetOrAddExtendedProperty(propertyDefinition);
+        extendedProperty.Value = value;
+    }
+    TryGetProperty(propertyDefinition: ExtendedPropertyDefinition, extendedProperty: IOutParam<ExtendedProperty>): boolean {
+        extendedProperty.outValue = ArrayHelper.Find(this.Items, (prop) => prop.PropertyDefinition.Equals(propertyDefinition));
+        return extendedProperty.outValue != null;
+    }
+    TryGetValue<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean {
+        var extendedProperty: IOutParam<ExtendedProperty> = { outValue: null };
+        if (this.TryGetProperty(propertyDefinition, extendedProperty)) {
+            //debug: Verify that the type parameter and property definition's type are compatible.
+            //debugger;
+            throw new Error("ExtendedPropertyCollection.ts - TryGetValue - some type of implementation needed for TypeSystem - ExtendedPropertyCollection.ts - TryGetValue");
+            //if (!typeof (T).IsAssignableFrom(propertyDefinition.Type)) {
+            var errorMessage = StringHelper.Format(
+                Strings.PropertyDefinitionTypeMismatch,
+                EwsUtilities.GetPrintableTypeName(propertyDefinition.Type),
+                EwsUtilities.GetPrintableTypeName("Y"));
+            throw new Error(errorMessage +  " - propertyDefinition");//ArgumentException
+            //}
 
-        /// <summary>
-        /// Loads from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="localElementName">Name of the local element.</param>
-        internal override void LoadFromXml(EwsServiceXmlReader reader, string localElementName)
-        {
-            ExtendedProperty extendedProperty = new ExtendedProperty();
-
-            extendedProperty.LoadFromXml(reader, reader.LocalName);
-            this.InternalAdd(extendedProperty);
+            propertyValue = <T>extendedProperty.outValue.Value;
+            return true
         }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        internal override void WriteToXml(EwsServiceXmlWriter writer, string xmlElementName)
-        {
-            foreach (ExtendedProperty extendedProperty in this)
-            {
-                extendedProperty.WriteToXml(writer, XmlElementNames.ExtendedProperty);
-            }
+        else {
+            propertyValue = null;// default(T);
+            return false;
         }
-
-        /// <summary>
-        /// Internals to json.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns></returns>
-        internal override object InternalToJson(ExchangeService service)
-        {
-            List<object> values = new List<object>();
-
-            foreach (ExtendedProperty extendedProperty in this)
-            {
-                values.Add(extendedProperty.InternalToJson(service));
-            }
-
-            return values.ToArray();
+    }
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
+        for (var extendedProperty of this.Items) {
+            extendedProperty.WriteToXml(writer, XmlElementNames.ExtendedProperty);
         }
-
-        /// <summary>
-        /// Gets existing or adds new extended property.
-        /// </summary>
-        /// <param name="propertyDefinition">The property definition.</param>
-        /// <returns>ExtendedProperty.</returns>
-        private ExtendedProperty GetOrAddExtendedProperty(ExtendedPropertyDefinition propertyDefinition)
-        {
-            ExtendedProperty extendedProperty;
-            if (!this.TryGetProperty(propertyDefinition, out extendedProperty))
-            {
-                extendedProperty = new ExtendedProperty(propertyDefinition);
-                this.InternalAdd(extendedProperty);
-            }
-            return extendedProperty;
-        }
-
-        /// <summary>
-        /// Sets an extended property.
-        /// </summary>
-        /// <param name="propertyDefinition">The property definition.</param>
-        /// <param name="value">The value.</param>
-        internal void SetExtendedProperty(ExtendedPropertyDefinition propertyDefinition, object value)
-        {
-            ExtendedProperty extendedProperty = this.GetOrAddExtendedProperty(propertyDefinition);
-            extendedProperty.Value = value;
-        }
-
-        /// <summary>
-        /// Removes a specific extended property definition from the collection. 
-        /// </summary>
-        /// <param name="propertyDefinition">The definition of the extended property to remove.</param>
-        /// <returns>True if the property matching the extended property definition was successfully removed from the collection, false otherwise.</returns>
-        internal bool RemoveExtendedProperty(ExtendedPropertyDefinition propertyDefinition)
-        {
-            EwsUtilities.ValidateParam(propertyDefinition, "propertyDefinition");
-
-            ExtendedProperty extendedProperty;
-            if (this.TryGetProperty(propertyDefinition, out extendedProperty))
-            {
-                return this.InternalRemove(extendedProperty);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Tries to get property.
-        /// </summary>
-        /// <param name="propertyDefinition">The property definition.</param>
-        /// <param name="extendedProperty">The extended property.</param>
-        /// <returns>True of property exists in collection.</returns>
-        private bool TryGetProperty(ExtendedPropertyDefinition propertyDefinition, out ExtendedProperty extendedProperty)
-        {
-            extendedProperty = this.Items.Find((prop) => prop.PropertyDefinition.Equals(propertyDefinition));
-            return extendedProperty != null;
-        }
-
-        /// <summary>
-        /// Tries to get property value.
-        /// </summary>
-        /// <param name="propertyDefinition">The property definition.</param>
-        /// <param name="propertyValue">The property value.</param>
-        /// <typeparam name="T">Type of expected property value.</typeparam>
-        /// <returns>True if property exists in collection.</returns>
-        internal bool TryGetValue<T>(ExtendedPropertyDefinition propertyDefinition, out T propertyValue)
-        {
-            ExtendedProperty extendedProperty;
-            if (this.TryGetProperty(propertyDefinition, out extendedProperty))
-            {
-                // Verify that the type parameter and property definition's type are compatible.
-                if (!typeof(T).IsAssignableFrom(propertyDefinition.Type))
-                {
-                    string errorMessage = string.Format(
-                        Strings.PropertyDefinitionTypeMismatch,
-                        EwsUtilities.GetPrintableTypeName(propertyDefinition.Type),
-                        EwsUtilities.GetPrintableTypeName(typeof(T)));
-                    throw new ArgumentException(errorMessage, "propertyDefinition");
-                }
-
-                propertyValue = (T)extendedProperty.Value;
-                return true;
-            }
-            else
-            {
-                propertyValue = default(T);
-                return false;
-            }
-        }
-
-        #region ICustomXmlUpdateSerializer Members
-
-        /// <summary>
-        /// Writes the update to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="ewsObject">The ews object.</param>
-        /// <param name="propertyDefinition">Property definition.</param>
-        /// <returns>
-        /// True if property generated serialization.
-        /// </returns>
-        bool ICustomUpdateSerializer.WriteSetUpdateToXml(
-            EwsServiceXmlWriter writer,
-            ServiceObject ewsObject,
-            PropertyDefinition propertyDefinition)
-        {
-            List<ExtendedProperty> propertiesToSet = new List<ExtendedProperty>();
-
-            propertiesToSet.AddRange(this.AddedItems);
-            propertiesToSet.AddRange(this.ModifiedItems);
-
-            foreach (ExtendedProperty extendedProperty in propertiesToSet)
-            {
-                writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetSetFieldXmlElementName());
-                extendedProperty.PropertyDefinition.WriteToXml(writer);
-
-                writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetXmlElementName());
-                extendedProperty.WriteToXml(writer, XmlElementNames.ExtendedProperty);
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-            }
-
-            foreach (ExtendedProperty extendedProperty in this.RemovedItems)
-            {
-                writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
-                extendedProperty.PropertyDefinition.WriteToXml(writer);
-                writer.WriteEndElement();
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Writes the set update to json.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <param name="ewsObject">The ews object.</param>
-        /// <param name="propertyDefinition">The property definition.</param>
-        /// <param name="updates">The updates.</param>
-        /// <returns></returns>
-        bool ICustomUpdateSerializer.WriteSetUpdateToJson(
-             ExchangeService service,
-             ServiceObject ewsObject,
-             PropertyDefinition propertyDefinition,
-             List<JsonObject> updates)
-        {
-            List<ExtendedProperty> propertiesToSet = new List<ExtendedProperty>();
-
-            propertiesToSet.AddRange(this.AddedItems);
-            propertiesToSet.AddRange(this.ModifiedItems);
-
-            foreach (ExtendedProperty extendedProperty in propertiesToSet)
-            {
-                updates.Add(
-                    PropertyBag.CreateJsonSetUpdate(
-                    extendedProperty,
-                    service,
-                    ewsObject));
-            }
-
-            foreach (ExtendedProperty extendedProperty in this.RemovedItems)
-            {
-                updates.Add(PropertyBag.CreateJsonDeleteUpdate(extendedProperty.PropertyDefinition, service, ewsObject));
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Writes the deletion update to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="ewsObject">The ews object.</param>
-        /// <returns>
-        /// True if property generated serialization.
-        /// </returns>
-        bool ICustomUpdateSerializer.WriteDeleteUpdateToXml(EwsServiceXmlWriter writer, ServiceObject ewsObject)
-        {
-            foreach (ExtendedProperty extendedProperty in this.Items)
-            {
-                writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
-                extendedProperty.PropertyDefinition.WriteToXml(writer);
-                writer.WriteEndElement();
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Writes the delete update to json.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <param name="ewsObject">The ews object.</param>
-        /// <param name="updates">The updates.</param>
-        /// <returns></returns>
-        bool ICustomUpdateSerializer.WriteDeleteUpdateToJson(ExchangeService service, ServiceObject ewsObject, List<JsonObject> updates)
-        {
-            foreach (ExtendedProperty extendedProperty in this.Items)
-            {
-                updates.Add(PropertyBag.CreateJsonDeleteUpdate(extendedProperty.PropertyDefinition, service, ewsObject));
-            }
-
-            return true;
-        }
-
-        #endregion
     }
 }
+

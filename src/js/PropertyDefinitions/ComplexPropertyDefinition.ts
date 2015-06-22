@@ -1,125 +1,44 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ComplexPropertyDefinition.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsLogging} from "../Core/EwsLogging";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ComplexPropertyDefinition class.</summary>
-//-----------------------------------------------------------------------
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
+import {ComplexPropertyDefinitionBase} from "./ComplexPropertyDefinitionBase";
+export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
+    Type: any;// System.Type;
+    private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
+    constructor(
+        propertyName: string,
+        xmlElementName: string,
+        version: ExchangeVersion,
+        uri?: string,
+        flags?: PropertyDefinitionFlags,
+        propertyCreationDelegate?: CreateComplexPropertyDelegate<TComplexProperty>) {
+        super(propertyName, xmlElementName, version, uri, flags);
 
-    /// <summary>
-    /// Delegate used to create instances of ComplexProperty
-    /// </summary>
-    /// <typeparam name="TComplexProperty">Type of complex property.</typeparam>
-    internal delegate TComplexProperty CreateComplexPropertyDelegate<TComplexProperty>()
-        where TComplexProperty : ComplexProperty;
+        EwsLogging.Assert(
+            propertyCreationDelegate != null,
+            "ComplexPropertyDefinition ctor",
+            "CreateComplexPropertyDelegate cannot be null");
 
-    /// <summary>
-    /// Represents base complex property type.
-    /// </summary>
-    /// <typeparam name="TComplexProperty">The type of the complex property.</typeparam>
-    internal class ComplexPropertyDefinition<TComplexProperty> : ComplexPropertyDefinitionBase
-        where TComplexProperty : ComplexProperty
-    {
-        private CreateComplexPropertyDelegate<TComplexProperty> propertyCreationDelegate;
+        this.propertyCreationDelegate = propertyCreationDelegate;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ComplexPropertyDefinition&lt;TComplexProperty&gt;"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="propertyCreationDelegate">Delegate used to create instances of ComplexProperty.</param>
-        internal ComplexPropertyDefinition(
-            string xmlElementName,
-            PropertyDefinitionFlags flags,
-            ExchangeVersion version,
-            CreateComplexPropertyDelegate<TComplexProperty> propertyCreationDelegate)
-            : base(
-                xmlElementName,
-                flags,
-                version)
-        {
-            EwsUtilities.Assert(
-                propertyCreationDelegate != null,
-                "ComplexPropertyDefinition ctor",
-                "CreateComplexPropertyDelegate cannot be null");
+    CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
 
-            this.propertyCreationDelegate = propertyCreationDelegate;
+        var complexProperty: TComplexProperty = this.propertyCreationDelegate();
+        //info: Implementation check is implemented in complexproperty by using ___ImplementsInterface array property
+        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
+        if (isIOwnedProperty) {
+            var ownedProperty: IOwnedProperty = <any>complexProperty;
+            ownedProperty.Owner = owner;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ComplexPropertyDefinition&lt;TComplexProperty&gt;"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="propertyCreationDelegate">Delegate used to create instances of ComplexProperty.</param>
-        internal ComplexPropertyDefinition(
-            string xmlElementName,
-            string uri,
-            ExchangeVersion version,
-            CreateComplexPropertyDelegate<TComplexProperty> propertyCreationDelegate)
-            : base(
-                xmlElementName,
-                uri,
-                version)
-        {
-            this.propertyCreationDelegate = propertyCreationDelegate;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ComplexPropertyDefinition&lt;TComplexProperty&gt;"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="propertyCreationDelegate">Delegate used to create instances of ComplexProperty.</param>
-        internal ComplexPropertyDefinition(
-            string xmlElementName,
-            string uri,
-            PropertyDefinitionFlags flags,
-            ExchangeVersion version,
-            CreateComplexPropertyDelegate<TComplexProperty> propertyCreationDelegate)
-            : base(
-                xmlElementName,
-                uri,
-                flags,
-                version)
-        {
-            this.propertyCreationDelegate = propertyCreationDelegate;
-        }
-
-        /// <summary>
-        /// Creates the property instance.
-        /// </summary>
-        /// <param name="owner">The owner.</param>
-        /// <returns>ComplexProperty instance.</returns>
-        internal override ComplexProperty CreatePropertyInstance(ServiceObject owner)
-        {
-            TComplexProperty complexProperty = this.propertyCreationDelegate();
-            IOwnedProperty ownedProperty = complexProperty as IOwnedProperty;
-
-            if (ownedProperty != null)
-            {
-                ownedProperty.Owner = owner;
-            }
-            
+        if (complexProperty)
             return complexProperty;
-        }
-
-        /// <summary>
-        /// Gets the property type.
-        /// </summary>
-        public override Type Type
-        {
-            get { return typeof(TComplexProperty); }
-        }
     }
 }

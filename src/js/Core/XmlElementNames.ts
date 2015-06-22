@@ -1,4 +1,4 @@
-module XmlElementNames {
+export module XmlElementNames {
     export var AllProperties: string = "AllProperties";
     export var ParentFolderIds: string = "ParentFolderIds";
     export var DistinguishedFolderId: string = "DistinguishedFolderId";
@@ -1243,10 +1243,3 @@ module XmlElementNames {
     export var EwsErrorCodeElementName: string = "ErrorCode";
     export var EwsExceptionTypeElementName: string = "ExceptionType";
 }
-
-export = XmlElementNames;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

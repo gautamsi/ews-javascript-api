@@ -1,6 +1,6 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-class DocumentSharingLocation {
+export class DocumentSharingLocation {
     ServiceUrl: string;
     LocationUrl: string;
     DisplayName: string;
@@ -17,16 +17,7 @@ class DocumentSharingLocation {
     private anonymousAccessAllowed: boolean;
     private canModifyPermissions: boolean;
     private isDefault: boolean;
-    LoadFromXml(reader: EwsXmlReader): DocumentSharingLocation { throw new Error("Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): DocumentSharingLocation { throw new Error("DocumentSharingLocation.ts - LoadFromXml : Not implemented."); }
     static LoadFromJson(obj: any): DocumentSharingLocation { throw new Error("this was skipped at dev time, fix this"); }
 
 }
-
-export = DocumentSharingLocation;
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

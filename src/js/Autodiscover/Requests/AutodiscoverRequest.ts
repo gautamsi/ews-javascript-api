@@ -1,37 +1,38 @@
-/// <reference path="../../scripts/typings/winjs/winjs.d.ts" />
+﻿import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {EwsUtilities} from "../../Core/EwsUtilities";
+import {ExchangeServerInfo} from "../../Core/ExchangeServerInfo";
 
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import EwsUtilities = require("../../Core/EwsUtilities");
-import ExchangeServerInfo = require("../../Core/ExchangeServerInfo");
+import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 
-import AutodiscoverErrorCode = require("../../Enumerations/AutodiscoverErrorCode");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
+import {AutodiscoverService} from "../AutodiscoverService";
+import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
+import {ServiceResponse} from "../../Core/Responses/ServiceResponse";
+import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
 
-import AutodiscoverService = require("../AutodiscoverService");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import ServiceResponse = require("../../Core/Responses/ServiceResponse");
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
+import {EwsLogging} from "../../Core/EwsLogging";
+import {Uri} from "../../Uri";
+import {IPromise, IXHROptions} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
+import {XHR} from "../../XHRFactory"
 
-var WinJS = require('winjs');
-
-
-class AutodiscoverRequest {
+export class AutodiscoverRequest {
 
     get Service(): AutodiscoverService {
         return this.service;
     }
-    get Url(): string { //System.Uri;
+    get Url(): Uri { 
         return this.url;
     }
 
     private service: AutodiscoverService;
-    private url: string;//System.Uri;
+    private url: Uri = null;
 
-    constructor(service: AutodiscoverService, url: string) {
+    constructor(service: AutodiscoverService, url: Uri) {
         this.service = service;
         this.url = url;
     }
@@ -66,8 +67,8 @@ class AutodiscoverRequest {
 
         return null;
     }
-    CreateServiceResponse(): AutodiscoverResponse { throw new Error("Not implemented."); }
-    GetRequestXmlElementName(): string { throw new Error("Not implemented."); }
+    CreateServiceResponse(): AutodiscoverResponse { throw new Error("AutodiscoverRequest.ts - CreateServiceResponse : Not implemented."); }
+    GetRequestXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetRequestXmlElementName : Not implemented."); }
     GetResponseStream(response: any /*IEwsHttpWebResponse*/): any { //System.IO.Stream{
         //string contentEncoding = response.ContentEncoding;
         //Stream responseStream = response.GetResponseStream();
@@ -82,22 +83,22 @@ class AutodiscoverRequest {
         //    return responseStream;
         //}
     }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetWsAddressingActionName(): string { throw new Error("Not implemented."); }
-    InternalExecute(): WinJS.Promise<AutodiscoverResponse> {
-        var writer = new EwsServiceXmlWriter();
+    GetResponseXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetWsAddressingActionName(): string { throw new Error("AutodiscoverRequest.ts - GetWsAddressingActionName : Not implemented."); }
+    InternalExecute(): IPromise<AutodiscoverResponse> {
+        var writer = new EwsServiceXmlWriter(this.service);
         this.WriteSoapRequest(this.url, writer);
 
-        if (!this.service && !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
+        if (!this.service || !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
             throw new Error("missing credential");
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
         var cc = writer.GetXML();
-        var xhrOptions: WinJS.IXHROptions = {
+        var xhrOptions: IXHROptions = {
             type: "POST",
             data: cc,
             //url: "https://pod51045.outlook.com/autodiscover/autodiscover.svc",
-            url: this.url,
+            url: this.url.ToString(),
             //headers: { "Content-Type": "text/xml", "Authorization": cred },
             headers: { "Content-Type": "text/xml" },
             //customRequestInitializer: function (x) {
@@ -105,56 +106,49 @@ class AutodiscoverRequest {
             //}
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
-        return new WinJS.Promise((successDelegate, errorDelegate, progressDelegate) => {
-            WinJS.xhr(xhrOptions)
+        return Promise((successDelegate, errorDelegate, progressDelegate) => {
+            XHR(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
-                var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
-                var util = require('util');
-                //console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                //console.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
-                if (xhrResponse.status == 200) {
+                    var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
+                    //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
+                    //Ewslogging.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
+                    if (xhrResponse.status == 200) {
 
-                    //ewsXmlReader.Read();
-                    //if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
-                    //    ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
-                    //}
-                    //else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != EwsUtilities.GetNamespaceUri(XmlNamespace.Soap))) {
-                    //    throw new Error("Invalid autodiscover service response");//Strings.InvalidAutodiscoverServiceResponse);
-                    //}
+                        //ewsXmlReader.Read();
+                        //if (ewsXmlReader.NodeType == Node.DOCUMENT_NODE /*System.Xml.XmlNodeType.Document*/) {
+                        //    ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+                        //}
+                        //else if ((ewsXmlReader.NodeType != Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) || (ewsXmlReader.LocalName != XmlElementNames.SOAPEnvelopeElementName) || (ewsXmlReader.NamespaceUri != EwsUtilities.GetNamespaceUri(XmlNamespace.Soap))) {
+                        //    throw new Error(Strings.InvalidAutodiscoverServiceResponse);
+                        //}
 
-                    this.ReadSoapHeaders(ewsXmlReader);
+                        this.ReadSoapHeaders(ewsXmlReader);
 
-                    var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
+                        var response: AutodiscoverResponse = this.ReadSoapBody(ewsXmlReader);
 
-                    //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+                        //ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
 
-                    if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
-                        //todo: passon to successDelegate
-                        //return response;
+                        if (response.ErrorCode == AutodiscoverErrorCode.NoError) {
+                            //todo: passon to successDelegate
+                            //return response;
+                        }
+                        else {
+                            throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
+                        }
+
                     }
                     else {
-                        throw new Error("response error " + response.ErrorCode + response.ErrorMessage);// new AutodiscoverResponseException(response.ErrorCode, response.ErrorMessage);
+                        EwsLogging.Log("status !== 200", true, true);
+                        EwsLogging.Log(xhrResponse.response, true, true);
+                        EwsLogging.Log(ewsXmlReader, true, true);
+
                     }
 
-                }
-                else {
-                    console.log("status !== 200" + xhrResponse);
-                    console.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                    console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
+                    if (successDelegate)
+                        successDelegate(response || xhrResponse.responseText || xhrResponse.response);
 
-                }
-
-                if (successDelegate)
-                    successDelegate(response || xhrResponse.responseText || xhrResponse.response);
-
-            },(resperr: XMLHttpRequest) => {
-                    //var ewsXmlReader = new EwsXmlReader(resperr.responseText || resperr.response);
-                    //var util = require('util');
-                    //console.log("request error");
-                    //console.log(util.inspect(resperr, { showHidden: false, depth: null, colors: true }));
-                    ////console.log(util.inspect(resperr.response, { showHidden: false, depth: null, colors: true }));
-                    //console.log(util.inspect(ewsXmlReader.JsonObject, { showHidden: false, depth: null, colors: true }));
-                    var exception;
+                }, (resperr: XMLHttpRequest) => {
+                    var exception: any;
                     try {
                         this.ProcessWebException(resperr);
                     }
@@ -266,7 +260,7 @@ class AutodiscoverRequest {
         return serverInfo;
     }
     ReadSoapBody(reader: EwsXmlReader): AutodiscoverResponse {
-        var responses = this.LoadFromObject(reader.JsonObject);
+        var responses = this.LoadFromObject(reader.JsObject);
         return responses
 
         reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
@@ -276,10 +270,9 @@ class AutodiscoverRequest {
     }
     ReadSoapFault(reader: EwsXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = undefined;
-        if (reader.JsonObject && reader.JsonObject[XmlElementNames.SOAPBodyElementName])
-        {
-            var obj = reader.JsonObject[XmlElementNames.SOAPBodyElementName];
-            if(obj[XmlElementNames.SOAPFaultElementName])
+        if (reader.JsObject && reader.JsObject[XmlElementNames.SOAPBodyElementName]) {
+            var obj = reader.JsObject[XmlElementNames.SOAPBodyElementName];
+            if (obj[XmlElementNames.SOAPFaultElementName])
                 soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
         }
 
@@ -344,7 +337,7 @@ class AutodiscoverRequest {
     }
     ReadSoapHeaders(reader: EwsXmlReader): void {
 
-        this.service.ServerInfo = reader.JsonObject.Header.ServerVersionInfo;
+        this.service.ServerInfo = reader.JsObject.Header.ServerVersionInfo;
         //return;
         //reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
         //do {
@@ -367,7 +360,7 @@ class AutodiscoverRequest {
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented. overridden"); }
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void { }
-    WriteSoapRequest(requestUrl: string, //System.Uri,
+    WriteSoapRequest(requestUrl: Uri,
         writer: EwsServiceXmlWriter): void {
 
         writer.WriteStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
@@ -386,22 +379,19 @@ class AutodiscoverRequest {
 
         writer.WriteElementValue(
             XmlNamespace.Autodiscover,
-            XmlElementNames.RequestedServerVersion, //LocalName
-            XmlElementNames.RequestedServerVersion, // displayName
+            XmlElementNames.RequestedServerVersion,
             ExchangeVersion[this.Service.RequestedServerVersion]
             );
 
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,
             XmlElementNames.Action,
-            XmlElementNames.Action,
             this.GetWsAddressingActionName());
 
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,
             XmlElementNames.To,
-            XmlElementNames.To,
-            requestUrl);//.AbsoluteUri);
+            requestUrl.ToString());//.AbsoluteUri);
 
         this.WriteExtraCustomSoapHeadersToXml(writer);
 
@@ -422,11 +412,3 @@ class AutodiscoverRequest {
         writer.Flush();
     }
 }
-
-export = AutodiscoverRequest;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

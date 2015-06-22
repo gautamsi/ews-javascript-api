@@ -1,21 +1,39 @@
+﻿import {ExchangeService} from "./ExchangeService";
+import {Strings} from "../Strings";
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ServiceObjectPropertyException} from "../Exceptions/ServiceObjectPropertyException";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {PropertySet} from "./PropertySet";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {IOutParam} from "../Interfaces/IOutParam";
+import {Folder} from "./ServiceObjects/Folders/Folder";
+import {ComplexPropertyDefinitionBase} from "../PropertyDefinitions/ComplexPropertyDefinitionBase";
+import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
+import {BasePropertySet} from "../Enumerations/BasePropertySet";
+import {EwsServiceXmlReader} from "./EwsServiceXmlReader";
+import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import EwsServiceXmlWriter = require("./EwsServiceXmlWriter");
-import EwsUtilities = require("./EwsUtilities");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {EwsServiceXmlWriter} from "./EwsServiceXmlWriter";
+import {EwsUtilities} from "./EwsUtilities";
+import {EwsLogging} from "./EwsLogging";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
+import {ICustomUpdateSerializer} from "../Interfaces/ICustomXmlUpdateSerializer";
 
-import PropertyDefinition = require("../PropertyDefinitions/PropertyDefinition");
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 
+import {DictionaryWithPropertyDefitionKey, KeyValuePair} from "../AltDictionary";
 
-import ExtensionMethods = require("../ExtensionMethods");
+import {StringHelper, TypeSystem} from "../ExtensionMethods";
 
 
 //todo: should be done
-class PropertyBag {
-    //Properties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+export class PropertyBag {
+    get Properties(): DictionaryWithPropertyDefitionKey<PropertyDefinition, any> { return this.properties; }//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     get Owner(): ServiceObject { return this.owner; }
     get IsDirty(): boolean {
         var changes = this.modifiedProperties.length + this.deletedProperties.length + this.addedProperties.length;
@@ -27,14 +45,19 @@ class PropertyBag {
     private loading: boolean;
     private onlySummaryPropertiesRequested: boolean;
     private loadedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
-    private properties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
-    private deletedProperties: PropDictionary<PropertyDefinition, any> = new PropDictionary<PropertyDefinition, any>();// System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    private properties: DictionaryWithPropertyDefitionKey<PropertyDefinition, any> = new DictionaryWithPropertyDefitionKey<PropertyDefinition, any>();//System.Collections.Generic.Dictionary<PropertyDefinition, any>;
+    private deletedProperties: DictionaryWithPropertyDefitionKey<PropertyDefinition, any> = new DictionaryWithPropertyDefitionKey<PropertyDefinition, any>();// System.Collections.Generic.Dictionary<PropertyDefinition, any>;
     private modifiedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private addedProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private requestedPropertySet: PropertySet;
 
-    constructor(serviceObject: ServiceObject) {
-        throw new Error("not implemented");
+    constructor(owner: ServiceObject) {
+        EwsLogging.Assert(
+            owner != null,
+            "PropertyBag.ctor",
+            "owner is null");
+
+        this.owner = owner;
     }
 
     static AddToChangeList(propertyDefinition: PropertyDefinition, changeList: PropertyDefinition[] /*System.Collections.Generic.List<PropertyDefinition>*/): void {
@@ -59,7 +82,7 @@ class PropertyBag {
         this.modifiedProperties.splice(0);
         this.addedProperties.splice(0);
 
-        for (var val in this.properties.Values) {
+        for (var val of this.properties.Values) {
             var complexProperty = <ComplexProperty>val;
 
             if (complexProperty instanceof ComplexProperty) {
@@ -70,21 +93,21 @@ class PropertyBag {
         this.isDirty = false;
     }
     Contains(propertyDefinition: PropertyDefinition): boolean { return this.properties.containsKey(propertyDefinition); }
-    //CreateJsonDeleteUpdate(propertyDefinition: PropertyDefinitionBase, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("Not implemented."); }
-    //CreateJsonSetUpdate(propertyDefinition: PropertyDefinition, service: ExchangeService, serviceObject: ServiceObject, propertyBag: PropertyBag): JsonObject { throw new Error("Not implemented."); }
-    //CreateJsonSetUpdate(value: ExtendedProperty, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("Not implemented."); }
+    //CreateJsonDeleteUpdate(propertyDefinition: PropertyDefinitionBase, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("PropertyBag.ts - CreateJsonDeleteUpdate : Not implemented."); }
+    //CreateJsonSetUpdate(propertyDefinition: PropertyDefinition, service: ExchangeService, serviceObject: ServiceObject, propertyBag: PropertyBag): JsonObject { throw new Error("PropertyBag.ts - CreateJsonSetUpdate : Not implemented."); }
+    //CreateJsonSetUpdate(value: ExtendedProperty, service: ExchangeService, serviceObject: ServiceObject): JsonObject { throw new Error("PropertyBag.ts - CreateJsonSetUpdate : Not implemented."); }
     DeleteProperty(propertyDefinition: PropertyDefinition): void {
         if (!this.deletedProperties.containsKey(propertyDefinition)) {
-            var propertyValue: IOutParam<any> = { value: null };
+            var propertyValue: IOutParam<any> = { outValue: null };
 
-            this.properties.tryGet(propertyDefinition, propertyValue);
+            this.properties.tryGetValue(propertyDefinition, propertyValue);
 
             this.properties.remove(propertyDefinition);
             var modifiedIndex = this.modifiedProperties.indexOf(propertyDefinition);
             if (modifiedIndex >= 0)
                 this.modifiedProperties.splice(modifiedIndex, 1);
 
-            this.deletedProperties.add(propertyDefinition, propertyValue);
+            this.deletedProperties.addUpdate(propertyDefinition, propertyValue);
 
             var complexProperty = <ComplexProperty>propertyValue;
 
@@ -101,7 +124,7 @@ class PropertyBag {
         propertyDefinitions = propertyDefinitions.concat(this.modifiedProperties);
         propertyDefinitions = propertyDefinitions.concat(this.deletedProperties.Keys);
 
-        for (var item in propertyDefinitions) {
+        for (var item of propertyDefinitions) {
             var propertyDefinition: PropertyDefinition = item;
             if (propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
                 return true;
@@ -110,20 +133,20 @@ class PropertyBag {
         return false;
     }
     static GetPropertyUpdateItemName(serviceObject: ServiceObject): string {
-        return serviceObject instanceof Folder ?
-            //return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
+        //return serviceObject instanceof Folder ?
+        return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
     GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<any>): any {
-        var outPropertyValue: IOutParam<any> = { value: null };
-        exception.value = null;
-        var propertyValue;
+        var outPropertyValue: IOutParam<any> = { outValue: null };
+        exception.outValue = null;
+        var propertyValue: any;
 
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
-            exception.value = new Exceptions.ServiceVersionException(
-                ExtensionMethods.stringFormatting.Format(
-                    "property: {0} incompatible with this version: {1}"/*Strings.PropertyIncompatibleWithRequestVersion*/,
+            exception.outValue = new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
                     propertyDefinition.Version));
             return null;
@@ -131,14 +154,14 @@ class PropertyBag {
 
         if (this.TryGetValue(propertyDefinition, outPropertyValue)) {
             // If the requested property is in the bag, return it.
-            return outPropertyValue.value;
+            return outPropertyValue.outValue;
         }
         else {
             if (propertyDefinition.HasFlag(PropertyDefinitionFlags.AutoInstantiateOnRead)) {
                 // The requested property is an auto-instantiate-on-read property
                 var complexPropertyDefinition = <ComplexPropertyDefinitionBase>propertyDefinition;
 
-                EwsUtilities.Assert(
+                EwsLogging.Assert(
                     !(complexPropertyDefinition instanceof ComplexPropertyDefinitionBase),
                     "PropertyBag.get_this[]",
                     "propertyDefinition is marked with AutoInstantiateOnRead but is not a descendant of ComplexPropertyDefinitionBase");
@@ -155,17 +178,16 @@ class PropertyBag {
                 // not been loaded, we throw.
                 if (propertyDefinition != this.Owner.GetIdPropertyDefinition()) {
                     if (!this.IsPropertyLoaded(propertyDefinition)) {
-                        exception.value = new Exceptions.ServiceObjectPropertyException("Must load or assign property before access"
-                            /*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
+                        exception.outValue = new ServiceObjectPropertyException(Strings.MustLoadOrAssignPropertyBeforeAccess, propertyDefinition);
                         return null;
                     }
 
                     // Non-nullable properties (int, bool, etc.) must be assigned or loaded; cannot return null value.
                     if (!propertyDefinition.IsNullable) {
                         var errorMessage = this.IsRequestedProperty(propertyDefinition)
-                            ? "value property not loaded" //Strings.ValuePropertyNotLoaded
-                            : "value property not assigned";//Strings.ValuePropertyNotAssigned;
-                        exception.value = new Exceptions.ServiceObjectPropertyException(errorMessage, propertyDefinition);
+                            ? Strings.ValuePropertyNotLoaded
+                            : Strings.ValuePropertyNotAssigned;
+                        exception.outValue = new ServiceObjectPropertyException(errorMessage, propertyDefinition);
                     }
                 }
             }
@@ -178,8 +200,8 @@ class PropertyBag {
         if (complexProperty) {
             complexProperty.OnChange.push(this.PropertyChanged); // can't do += in javascript;
 
-            var isIOwnedProperty = Object.keys(complexProperty).indexOf("Owner") >= 0; //todo: until fix checking interface by some other means, checking property directly
-
+            //var isIOwnedProperty = Object.keys(complexProperty).indexOf("Owner") >= 0; //todo: until fix checking interface by some other means, checking property directly
+            var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
             if (isIOwnedProperty) {
                 var ownedProperty: IOwnedProperty = <any>complexProperty;
                 ownedProperty.Owner = this.Owner;
@@ -220,8 +242,8 @@ class PropertyBag {
             return this.requestedPropertySet.Contains(propertyDefinition);
         }
     }
-    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
+    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): any { throw new Error("PropertyBag.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void {
         if (clear) {
             this.Clear();
         }
@@ -234,25 +256,38 @@ class PropertyBag {
         this.onlySummaryPropertiesRequested = onlySummaryPropertiesRequested;
 
         try {
-            do {
-                reader.Read();
 
-                if (reader.NodeType == Node.ELEMENT_NODE) {// XmlNodeType.Element) {
-                    var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
+            for (var key in jsObject) {
+                if (jsObject.hasOwnProperty(key)) {
+                    var element = jsObject[key];
 
-                    if (this.Owner.Schema.TryGetPropertyDefinition(reader.LocalName, propertyDefinition)) {
-                        propertyDefinition.value.LoadPropertyValueFromXml(reader, this);
+                    var propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
 
-                        this.loadedProperties.push(propertyDefinition.value);
-                    }
-                    else {
-                        debugger;
-                        reader.SkipCurrentElement();
+                    if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
+                        EwsLogging.Assert(false, EwsUtilities.GetPrintableTypeName(propertyDefinition.outValue), "\t\tLoading property :\t\t" + key);
+                        propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, service, this);
+                        this.loadedProperties.push(propertyDefinition.outValue);
+                        EwsLogging.DebugLog(this._getItem(propertyDefinition.outValue), true);//todo:remove this after testing
                     }
                 }
             }
-            while (reader.HasRecursiveParent(this.Owner.GetXmlElementName()));
 
+
+            //            var objTypeName: string = jsObject["__type"];
+            //            if (StringHelper.IsNullOrEmpty(objTypeName)) {
+            //                objTypeName = TypeSystem.GetJsObjectTypeName(jsObject);
+            //                jsObject = jsObject[objTypeName];
+            //            }
+            //            if (StringHelper.IsNullOrEmpty(objTypeName))
+            //                throw new Error("error determining typename");
+            //
+            //            var propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
+            //
+            //            if (this.Owner.Schema.TryGetPropertyDefinition(objTypeName, propertyDefinition)) {
+            //                propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(jsObject, this);
+            //
+            //                this.loadedProperties.push(propertyDefinition.outValue);
+            //            }
             this.ClearChangeLog();
         }
         finally {
@@ -260,7 +295,7 @@ class PropertyBag {
         }
     }
     PropertyChanged(complexProperty: ComplexProperty): void {
-        for (var item in this.properties.Items) {
+        for (var item of this.properties.Items) {
             var keyValuePair: KeyValuePair<PropertyDefinition, any> = item;
             if (keyValuePair.value == complexProperty) {
                 if (!this.deletedProperties.containsKey(keyValuePair.key)) {
@@ -271,22 +306,22 @@ class PropertyBag {
         }
     }
 
-    _propGet(propertyDefinition: PropertyDefinition): any {
-        var serviceException: Exceptions.ServiceLocalException;
-        var outparam: IOutParam<any> = { value: null };
+    _getItem(propertyDefinition: PropertyDefinition): any {
+        var serviceException: ServiceLocalException;
+        var outparam: IOutParam<any> = { outValue: null };
         var propertyValue = this.GetPropertyValueOrException(propertyDefinition, outparam);
-        if (outparam.value == null) {
+        if (outparam.outValue == null) {
             return propertyValue;
         }
         else {
             throw serviceException;
         }
     }
-    _propSet(propertyDefinition: PropertyDefinition, value: any) {
+    _setItem(propertyDefinition: PropertyDefinition, value: any) {
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
-            throw new Exceptions.ServiceVersionException(
-                ExtensionMethods.stringFormatting.Format(
-                    "property: {0} is incompatible with requested version: {1}",//Strings.PropertyIncompatibleWithRequestVersion,
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
                     ExchangeVersion[propertyDefinition.Version]), null);
         }
@@ -296,7 +331,7 @@ class PropertyBag {
         if (!this.loading) {
             // If the owner is new and if the property cannot be set, throw.
             if (this.Owner.IsNew && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanSet, this.Owner.Service.RequestedServerVersion)) {
-                throw new Error("property is readonly\n" + JSON.stringify(propertyDefinition));//  Exceptions.ServiceObjectPropertyException(Strings.PropertyIsReadOnly, propertyDefinition);
+                throw new Error("property is readonly\n" + JSON.stringify(propertyDefinition));//  ServiceObjectPropertyException(Strings.PropertyIsReadOnly, propertyDefinition);
             }
 
             if (!this.Owner.IsNew) {
@@ -305,17 +340,17 @@ class PropertyBag {
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
                 if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {
-                    throw new Exceptions.ServiceObjectPropertyException("Item attachment cannot be updated"/*Strings.ItemAttachmentCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.ItemAttachmentCannotBeUpdated, propertyDefinition);
                 }
 
                 // If the property cannot be deleted, throw.
                 if (value == null && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanDelete)) {
-                    throw new Exceptions.ServiceObjectPropertyException("property can not be deleted"/*Strings.PropertyCannotBeDeleted*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.PropertyCannotBeDeleted, propertyDefinition);
                 }
 
                 // If the property cannot be updated, throw.
                 if (!propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
-                    throw new Exceptions.ServiceObjectPropertyException("propery can not be updated"/*Strings.PropertyCannotBeUpdated*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.PropertyCannotBeUpdated, propertyDefinition);
                 }
             }
         }
@@ -344,7 +379,7 @@ class PropertyBag {
             }
             else {
                 // If the property value was not set, we have a newly set property.
-                if (this.properties.KeyNames.indexOf(propertyDefinition.Name) == -1 /*.ContainsKey(propertyDefinition)*/) {
+                if (this.properties.getStringKeys().indexOf(propertyDefinition.Name) == -1 /*.ContainsKey(propertyDefinition)*/) {
                     PropertyBag.AddToChangeList(propertyDefinition, this.addedProperties);
                 }
                 else {
@@ -363,13 +398,13 @@ class PropertyBag {
     }
 
 
-    //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("Not implemented."); }
-    //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
-    //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("Not implemented."); }
+    //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("PropertyBag.ts - ToJson : Not implemented."); }
+    //ToJsonForCreate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForCreate : Not implemented."); }
+    //ToJsonForUpdate(service: ExchangeService, jsonObject: JsonObject): any { throw new Error("PropertyBag.ts - ToJsonForUpdate : Not implemented."); }
     TryGetProperty(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean {
-        var serviceException: IOutParam<Exceptions.ServiceLocalException> = { value: null };
-        propertyValue.value = this.GetPropertyValueOrException(propertyDefinition, serviceException);
-        return serviceException.value == null;
+        var serviceException: IOutParam<ServiceLocalException> = { outValue: null };
+        propertyValue.outValue = this.GetPropertyValueOrException(propertyDefinition, serviceException);
+        return serviceException.outValue == null;
     }
     TryGetPropertyAs<T>(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<T>): boolean {
         // Verify that the type parameter and property definition's type are compatible.
@@ -386,24 +421,24 @@ class PropertyBag {
 
         var result = this.TryGetProperty(propertyDefinition, outValue);
 
-        propertyValue.value = result ? outValue.value : undefined;
+        propertyValue.outValue = result ? outValue.outValue : undefined;
 
         return result;
     }
-    TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean { return this.properties.tryGet(propertyDefinition, propertyValue); }
+    TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean { return this.properties.tryGetValue(propertyDefinition, propertyValue); }
     Validate(): void {
-        for (var item in this.addedProperties) {
+        for (var item of this.addedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.ValidatePropertyValue(propertyDefinition);
         }
 
-        for (var item in this.modifiedProperties) {
+        for (var item of this.modifiedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.ValidatePropertyValue(propertyDefinition);
         }
     }
     ValidatePropertyValue(propertyDefinition: PropertyDefinition): void {
-        var propertyValue: IOutParam<any> = { value: null };
+        var propertyValue: IOutParam<any> = { outValue: null };
         if (this.TryGetProperty(propertyDefinition, propertyValue)) {
             //todo: check for interface somehow;
             //ISelfValidate validatingValue = propertyValue as ISelfValidate;
@@ -412,12 +447,12 @@ class PropertyBag {
             //}
 
             //todo: fix interface check based on solution above (when available), this is alternate check
-            var validatingValue: ISelfValidate = propertyValue.value;
+            var validatingValue: ISelfValidate = propertyValue.outValue;
             if (validatingValue != null && validatingValue.Validate)
                 validatingValue.Validate();
         }
     }
-    //WriteDeleteUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, propertyValue: any, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteDeleteUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, propertyValue: any, service: ExchangeService): any { throw new Error("PropertyBag.ts - WriteDeleteUpdateToJson : Not implemented."); }
     WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition, propertyValue: any): void {
         // The following test should not be necessary since the property bag prevents
         // properties to be deleted (set to null) if they don't have the CanDelete flag,
@@ -445,13 +480,13 @@ class PropertyBag {
             }
         }
     }
-    //WriteSetUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteSetUpdateToJson(jsonUpdates: System.Collections.Generic.List<T>, propertyDefinition: PropertyDefinition, service: ExchangeService): any { throw new Error("PropertyBag.ts - WriteSetUpdateToJson : Not implemented."); }
     WriteSetUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition): void {
         // The following test should not be necessary since the property bag prevents
         // properties to be updated if they don't have the CanUpdate flag, but it
         // doesn't hurt...
         if (propertyDefinition.HasFlag(PropertyDefinitionFlags.CanUpdate)) {
-            var propertyValue = this._propGet(propertyDefinition);
+            var propertyValue = this._getItem(propertyDefinition);
 
             var handled = false;
 
@@ -484,7 +519,7 @@ class PropertyBag {
         debugger; //fix Schema objects Ienumerable.
 
         //
-        for (var item in this.Owner.Schema.GetEnumerator()) {
+        for (var item of this.Owner.Schema.GetEnumerator()) {
             // The following test should not be necessary since the property bag prevents
             // properties to be set if they don't have the CanSet flag, but it doesn't hurt...
             var propertyDefinition: PropertyDefinition = item;
@@ -504,18 +539,19 @@ class PropertyBag {
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.Updates);
 
-        for (var item in this.addedProperties) {
+        for (var item of this.addedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.WriteSetUpdateToXml(writer, propertyDefinition);
         }
 
-        for (var item in this.modifiedProperties) {
+        for (var item of this.modifiedProperties) {
             var propertyDefinition: PropertyDefinition = item;
             this.WriteSetUpdateToXml(writer, propertyDefinition);
         }
 
-        for (var kv in this.deletedProperties.Items) {
-            var property: KeyValuePair<PropertyDefinition, any> = item;
+        for (var kv of this.deletedProperties.Items) {
+            debugger;
+            var property: KeyValuePair<PropertyDefinition, any> = <any>item;
             this.WriteDeleteUpdateToXml(
                 writer,
                 property.key,
@@ -526,12 +562,3 @@ class PropertyBag {
         writer.WriteEndElement();
     }
 }
-
-
-export = PropertyBag;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

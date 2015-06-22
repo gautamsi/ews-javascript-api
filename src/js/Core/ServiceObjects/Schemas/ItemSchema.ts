@@ -1,702 +1,539 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ItemSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {Importance} from "../../../Enumerations/Importance";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {MimeContent} from "../../../ComplexProperties/MimeContent";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {AttachmentsPropertyDefinition} from "../../../PropertyDefinitions/AttachmentsPropertyDefinition";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import {ResponseObjectsPropertyDefinition} from "../../../PropertyDefinitions/ResponseObjectsPropertyDefinition";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+//import AppointmentSchema = require("./AppointmentSchema");
+import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
+import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
+import {Flag} from "../../../ComplexProperties/Flag";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {TextBody} from "../../../ComplexProperties/TextBody";
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ItemSchema class.</summary>
-//-----------------------------------------------------------------------
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System.Diagnostics.CodeAnalysis;
 
-    /// <summary>
-    /// Represents the schema for generic items.
-    /// </summary>
-    [Schema]
-    public class ItemSchema : ServiceObjectSchema
-    {
-        /// <summary>
-        /// Field URIs for Item.
-        /// </summary>
-        private static class FieldUris
-        {
-            public const string ItemId = "item:ItemId";
-            public const string ParentFolderId = "item:ParentFolderId";
-            public const string ItemClass = "item:ItemClass";
-            public const string MimeContent = "item:MimeContent";
-            public const string MimeContentUTF8 = "item:MimeContentUTF8";
-            public const string Attachments = "item:Attachments";
-            public const string Subject = "item:Subject";
-            public const string DateTimeReceived = "item:DateTimeReceived";
-            public const string Size = "item:Size";
-            public const string Categories = "item:Categories";
-            public const string HasAttachments = "item:HasAttachments";
-            public const string Importance = "item:Importance";
-            public const string InReplyTo = "item:InReplyTo";
-            public const string InternetMessageHeaders = "item:InternetMessageHeaders";
-            public const string IsAssociated = "item:IsAssociated";
-            public const string IsDraft = "item:IsDraft";
-            public const string IsFromMe = "item:IsFromMe";
-            public const string IsResend = "item:IsResend";
-            public const string IsSubmitted = "item:IsSubmitted";
-            public const string IsUnmodified = "item:IsUnmodified";
-            public const string DateTimeSent = "item:DateTimeSent";
-            public const string DateTimeCreated = "item:DateTimeCreated";
-            public const string Body = "item:Body";
-            public const string ResponseObjects = "item:ResponseObjects";
-            public const string Sensitivity = "item:Sensitivity";
-            public const string ReminderDueBy = "item:ReminderDueBy";
-            public const string ReminderIsSet = "item:ReminderIsSet";
-            public const string ReminderMinutesBeforeStart = "item:ReminderMinutesBeforeStart";
-            public const string DisplayTo = "item:DisplayTo";
-            public const string DisplayCc = "item:DisplayCc";
-            public const string Culture = "item:Culture";
-            public const string EffectiveRights = "item:EffectiveRights";
-            public const string LastModifiedName = "item:LastModifiedName";
-            public const string LastModifiedTime = "item:LastModifiedTime";
-            public const string WebClientReadFormQueryString = "item:WebClientReadFormQueryString";
-            public const string WebClientEditFormQueryString = "item:WebClientEditFormQueryString";
-            public const string ConversationId = "item:ConversationId";
-            public const string UniqueBody = "item:UniqueBody";
-            public const string StoreEntryId = "item:StoreEntryId";
-            public const string InstanceKey = "item:InstanceKey";
-            public const string NormalizedBody = "item:NormalizedBody";
-            public const string EntityExtractionResult = "item:EntityExtractionResult";
-            public const string Flag = "item:Flag";
-            public const string PolicyTag = "item:PolicyTag";
-            public const string ArchiveTag = "item:ArchiveTag";
-            public const string RetentionDate = "item:RetentionDate";
-            public const string Preview = "item:Preview";
-            public const string TextBody = "item:TextBody";
-            public const string IconIndex = "item:IconIndex";
-        }
+//module ItemSchema {
+module FieldUris {
+    export var ArchiveTag: string = "item:ArchiveTag";
+    export var Attachments: string = "item:Attachments";
+    export var Body: string = "item:Body";
+    export var Categories: string = "item:Categories";
+    export var ConversationId: string = "item:ConversationId";
+    export var Culture: string = "item:Culture";
+    export var DateTimeCreated: string = "item:DateTimeCreated";
+    export var DateTimeReceived: string = "item:DateTimeReceived";
+    export var DateTimeSent: string = "item:DateTimeSent";
+    export var DisplayCc: string = "item:DisplayCc";
+    export var DisplayTo: string = "item:DisplayTo";
+    export var EffectiveRights: string = "item:EffectiveRights";
+    export var EntityExtractionResult: string = "item:EntityExtractionResult";
+    export var Flag: string = "item:Flag";
+    export var HasAttachments: string = "item:HasAttachments";
+    export var IconIndex: string = "item:IconIndex";
+    export var Importance: string = "item:Importance";
+    export var InReplyTo: string = "item:InReplyTo";
+    export var InstanceKey: string = "item:InstanceKey";
+    export var InternetMessageHeaders: string = "item:InternetMessageHeaders";
+    export var IsAssociated: string = "item:IsAssociated";
+    export var IsDraft: string = "item:IsDraft";
+    export var IsFromMe: string = "item:IsFromMe";
+    export var IsResend: string = "item:IsResend";
+    export var IsSubmitted: string = "item:IsSubmitted";
+    export var IsUnmodified: string = "item:IsUnmodified";
+    export var ItemClass: string = "item:ItemClass";
+    export var ItemId: string = "item:ItemId";
+    export var LastModifiedName: string = "item:LastModifiedName";
+    export var LastModifiedTime: string = "item:LastModifiedTime";
+    export var MimeContent: string = "item:MimeContent";
+    export var NormalizedBody: string = "item:NormalizedBody";
+    export var ParentFolderId: string = "item:ParentFolderId";
+    export var PolicyTag: string = "item:PolicyTag";
+    export var Preview: string = "item:Preview";
+    export var ReminderDueBy: string = "item:ReminderDueBy";
+    export var ReminderIsSet: string = "item:ReminderIsSet";
+    export var ReminderMinutesBeforeStart: string = "item:ReminderMinutesBeforeStart";
+    export var ResponseObjects: string = "item:ResponseObjects";
+    export var RetentionDate: string = "item:RetentionDate";
+    export var Sensitivity: string = "item:Sensitivity";
+    export var Size: string = "item:Size";
+    export var StoreEntryId: string = "item:StoreEntryId";
+    export var Subject: string = "item:Subject";
+    export var TextBody: string = "item:TextBody";
+    export var UniqueBody: string = "item:UniqueBody";
+    export var WebClientEditFormQueryString: string = "item:WebClientEditFormQueryString";
+    export var WebClientReadFormQueryString: string = "item:WebClientReadFormQueryString";
+}
+//}
+export class ItemSchema extends ServiceObjectSchema {
+    static Id: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
+        "Id",
+        XmlElementNames.ItemId,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ItemId,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new ItemId(); }
+        );
 
-        /// <summary>
-        /// Defines the Id property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Id =
-            new ComplexPropertyDefinition<ItemId>(
-                XmlElementNames.ItemId,
-                FieldUris.ItemId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ItemId(); });
+    static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
+        "Body",
+        XmlElementNames.Body,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Body,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new MessageBody(); }
+        );
 
-        /// <summary>
-        /// Defines the Body property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Body =
-            new ComplexPropertyDefinition<MessageBody>(
-                XmlElementNames.Body,
-                FieldUris.Body,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new MessageBody(); });
+    static ItemClass: PropertyDefinition = new StringPropertyDefinition(
+        "ItemClass",
+        XmlElementNames.ItemClass,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ItemClass,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ItemClass property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ItemClass =
-            new StringPropertyDefinition(
-                XmlElementNames.ItemClass,
-                FieldUris.ItemClass,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static Subject: PropertyDefinition = new StringPropertyDefinition(
+        "Subject",
+        XmlElementNames.Subject,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Subject,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Subject property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Subject =
-            new StringPropertyDefinition(
-                XmlElementNames.Subject,
-                FieldUris.Subject,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static MimeContent: PropertyDefinition = new ComplexPropertyDefinition<MimeContent>(
+        "MimeContent",
+        XmlElementNames.MimeContent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MimeContent,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        () => { return new MimeContent(); }
+        );
 
-        /// <summary>
-        /// Defines the MimeContent property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition MimeContent =
-            new ComplexPropertyDefinition<MimeContent>(
-                XmlElementNames.MimeContent,
-                FieldUris.MimeContent,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new MimeContent(); });
+    static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+        "ParentFolderId",
+        XmlElementNames.ParentFolderId,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ParentFolderId,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new FolderId(); }
+        );
 
-        /// <summary>
-        /// Defines the MimeContentUTF8 property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition MimeContentUTF8 =
-            new ComplexPropertyDefinition<MimeContentUTF8>(
-                XmlElementNames.MimeContentUTF8,
-                FieldUris.MimeContentUTF8,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2013_SP1,
-                delegate() { return new MimeContentUTF8(); });
+    static Sensitivity: PropertyDefinition = new GenericPropertyDefinition<Sensitivity>(
+        "Sensitivity",
+        XmlElementNames.Sensitivity,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Sensitivity,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ParentFolderId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ParentFolderId =
-            new ComplexPropertyDefinition<FolderId>(
-                XmlElementNames.ParentFolderId,
-                FieldUris.ParentFolderId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new FolderId(); });
+    static Attachments: PropertyDefinition = new AttachmentsPropertyDefinition("Attachments");
 
-        /// <summary>
-        /// Defines the Sensitivity property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Sensitivity =
-            new GenericPropertyDefinition<Sensitivity>(
-                XmlElementNames.Sensitivity,
-                FieldUris.Sensitivity,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static DateTimeReceived: PropertyDefinition = new DateTimePropertyDefinition(
+        "DateTimeReceived",
+        XmlElementNames.DateTimeReceived,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DateTimeReceived,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Attachments property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Attachments = new AttachmentsPropertyDefinition();
+    static Size: PropertyDefinition = new IntPropertyDefinition(
+        "Size",
+        XmlElementNames.Size,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Size,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the DateTimeReceived property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DateTimeReceived =
-            new DateTimePropertyDefinition(
-                XmlElementNames.DateTimeReceived,
-                FieldUris.DateTimeReceived,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static Categories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "Categories",
+        XmlElementNames.Categories,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Categories,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        () => { return new StringList(); }
+        );
 
-        /// <summary>
-        /// Defines the Size property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Size =
-            new IntPropertyDefinition(
-                XmlElementNames.Size,
-                FieldUris.Size,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static Importance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
+        "Importance",
+        XmlElementNames.Importance,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Importance,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Categories property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Categories =
-            new ComplexPropertyDefinition<StringList>(
-                XmlElementNames.Categories,
-                FieldUris.Categories,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new StringList(); });
+    static InReplyTo: PropertyDefinition = new StringPropertyDefinition(
+        "InReplyTo",
+        XmlElementNames.InReplyTo,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.InReplyTo,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Importance property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Importance =
-            new GenericPropertyDefinition<Importance>(
-                XmlElementNames.Importance,
-                FieldUris.Importance,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsSubmitted: PropertyDefinition = new BoolPropertyDefinition(
+        "IsSubmitted",
+        XmlElementNames.IsSubmitted,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsSubmitted,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the InReplyTo property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition InReplyTo =
-            new StringPropertyDefinition(
-                XmlElementNames.InReplyTo,
-                FieldUris.InReplyTo,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsAssociated: PropertyDefinition = new BoolPropertyDefinition(
+        "IsAssociated",
+        XmlElementNames.IsAssociated,
+        ExchangeVersion.Exchange2010,
+        FieldUris.IsAssociated,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsSubmitted property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsSubmitted =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsSubmitted,
-                FieldUris.IsSubmitted,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsDraft: PropertyDefinition = new BoolPropertyDefinition(
+        "IsDraft",
+        XmlElementNames.IsDraft,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsDraft,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsAssociated property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsAssociated =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsAssociated,
-                FieldUris.IsAssociated,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010);
+    static IsFromMe: PropertyDefinition = new BoolPropertyDefinition(
+        "IsFromMe",
+        XmlElementNames.IsFromMe,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsFromMe,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsDraft property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsDraft =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsDraft,
-                FieldUris.IsDraft,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsResend: PropertyDefinition = new BoolPropertyDefinition(
+        "IsResend",
+        XmlElementNames.IsResend,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsResend,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsFromMe property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsFromMe =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsFromMe,
-                FieldUris.IsFromMe,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsUnmodified: PropertyDefinition = new BoolPropertyDefinition(
+        "IsUnmodified",
+        XmlElementNames.IsUnmodified,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsUnmodified,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsResend property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsResend =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsResend,
-                FieldUris.IsResend,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static InternetMessageHeaders: PropertyDefinition = new ComplexPropertyDefinition<InternetMessageHeaderCollection>(
+        "InternetMessageHeaders",
+        XmlElementNames.InternetMessageHeaders,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.InternetMessageHeaders,
+        PropertyDefinitionFlags.None,
+        () => { return new InternetMessageHeaderCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the IsUnmodified property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsUnmodified =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsUnmodified,
-                FieldUris.IsUnmodified,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static DateTimeSent: PropertyDefinition = new DateTimePropertyDefinition(
+        "DateTimeSent",
+        XmlElementNames.DateTimeSent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DateTimeSent,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the InternetMessageHeaders property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition InternetMessageHeaders =
-            new ComplexPropertyDefinition<InternetMessageHeaderCollection>(
-                XmlElementNames.InternetMessageHeaders,
-                FieldUris.InternetMessageHeaders,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new InternetMessageHeaderCollection(); });
+    static DateTimeCreated: PropertyDefinition = new DateTimePropertyDefinition(
+        "DateTimeCreated",
+        XmlElementNames.DateTimeCreated,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DateTimeCreated,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the DateTimeSent property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DateTimeSent =
-            new DateTimePropertyDefinition(
-                XmlElementNames.DateTimeSent,
-                FieldUris.DateTimeSent,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static AllowedResponseActions: PropertyDefinition = new ResponseObjectsPropertyDefinition(
+        "ResponseObjects",
+        XmlElementNames.ResponseObjects,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ResponseObjects,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Defines the DateTimeCreated property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DateTimeCreated =
-            new DateTimePropertyDefinition(
-                XmlElementNames.DateTimeCreated,
-                FieldUris.DateTimeCreated,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static ReminderDueBy: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ReminderDueBy",
+        XmlElementNames.ReminderDueBy,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ReminderDueBy,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { debugger;return ServiceObjectSchema.AppointmentSchema.StartTimeZone; }
+        );
 
-        /// <summary>
-        /// Defines the AllowedResponseActions property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AllowedResponseActions =
-            new ResponseObjectsPropertyDefinition(
-                XmlElementNames.ResponseObjects,
-                FieldUris.ResponseObjects,
-                ExchangeVersion.Exchange2007_SP1);
+    static IsReminderSet: PropertyDefinition = new BoolPropertyDefinition(
+        "ReminderIsSet",
+        XmlElementNames.ReminderIsSet,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ReminderIsSet,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ReminderDueBy property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ReminderDueBy =
-            new ScopedDateTimePropertyDefinition(
-                XmlElementNames.ReminderDueBy,
-                FieldUris.ReminderDueBy,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate(ExchangeVersion version)
-                {
-                    return AppointmentSchema.StartTimeZone;
-                });
+    static ReminderMinutesBeforeStart: PropertyDefinition = new IntPropertyDefinition(
+        "ReminderMinutesBeforeStart",
+        XmlElementNames.ReminderMinutesBeforeStart,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ReminderMinutesBeforeStart,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsReminderSet property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsReminderSet =
-            new BoolPropertyDefinition(
-                XmlElementNames.ReminderIsSet,              // Note: server-side the name is ReminderIsSet
-                FieldUris.ReminderIsSet,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static DisplayCc: PropertyDefinition = new StringPropertyDefinition(
+        "DisplayCc",
+        XmlElementNames.DisplayCc,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DisplayCc,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ReminderMinutesBeforeStart property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ReminderMinutesBeforeStart =
-            new IntPropertyDefinition(
-                XmlElementNames.ReminderMinutesBeforeStart,
-                FieldUris.ReminderMinutesBeforeStart,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static DisplayTo: PropertyDefinition = new StringPropertyDefinition(
+        "DisplayTo",
+        XmlElementNames.DisplayTo,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DisplayTo,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the DisplayCc property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DisplayCc =
-            new StringPropertyDefinition(
-                XmlElementNames.DisplayCc,
-                FieldUris.DisplayCc,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static HasAttachments: PropertyDefinition = new BoolPropertyDefinition(
+        "HasAttachments",
+        XmlElementNames.HasAttachments,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.HasAttachments,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the DisplayTo property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DisplayTo =
-            new StringPropertyDefinition(
-                XmlElementNames.DisplayTo,
-                FieldUris.DisplayTo,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static Culture: PropertyDefinition = new StringPropertyDefinition(
+        "Culture",
+        XmlElementNames.Culture,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Culture,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the HasAttachments property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition HasAttachments =
-            new BoolPropertyDefinition(
-                XmlElementNames.HasAttachments,
-                FieldUris.HasAttachments,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
+        "EffectiveRights",
+        XmlElementNames.EffectiveRights,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.EffectiveRights,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Culture property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Culture =
-            new StringPropertyDefinition(
-                XmlElementNames.Culture,
-                FieldUris.Culture,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static LastModifiedName: PropertyDefinition = new StringPropertyDefinition(
+        "LastModifiedName",
+        XmlElementNames.LastModifiedName,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LastModifiedName,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the EffectiveRights property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EffectiveRights =
-            new EffectiveRightsPropertyDefinition(
-                XmlElementNames.EffectiveRights,
-                FieldUris.EffectiveRights,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static LastModifiedTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "LastModifiedTime",
+        XmlElementNames.LastModifiedTime,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LastModifiedTime,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the LastModifiedName property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition LastModifiedName =
-            new StringPropertyDefinition(
-                XmlElementNames.LastModifiedName,
-                FieldUris.LastModifiedName,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static WebClientReadFormQueryString: PropertyDefinition = new StringPropertyDefinition(
+        "WebClientReadFormQueryString",
+        XmlElementNames.WebClientReadFormQueryString,
+        ExchangeVersion.Exchange2010,
+        FieldUris.WebClientReadFormQueryString,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the LastModifiedTime property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition LastModifiedTime =
-            new DateTimePropertyDefinition(
-                XmlElementNames.LastModifiedTime,
-                FieldUris.LastModifiedTime,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static WebClientEditFormQueryString: PropertyDefinition = new StringPropertyDefinition(
+        "WebClientEditFormQueryString",
+        XmlElementNames.WebClientEditFormQueryString,
+        ExchangeVersion.Exchange2010,
+        FieldUris.WebClientEditFormQueryString,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the WebClientReadFormQueryString property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition WebClientReadFormQueryString =
-            new StringPropertyDefinition(
-                XmlElementNames.WebClientReadFormQueryString,
-                FieldUris.WebClientReadFormQueryString,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010);
+    static ConversationId: PropertyDefinition = new ComplexPropertyDefinition<ConversationId>(
+        "ConversationId",
+        XmlElementNames.ConversationId,
+        ExchangeVersion.Exchange2010,
+        FieldUris.ConversationId,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new ConversationId(); }
+        );
 
-        /// <summary>
-        /// Defines the WebClientEditFormQueryString property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition WebClientEditFormQueryString =
-            new StringPropertyDefinition(
-                XmlElementNames.WebClientEditFormQueryString,
-                FieldUris.WebClientEditFormQueryString,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010);
+    static UniqueBody: PropertyDefinition = new ComplexPropertyDefinition<UniqueBody>(
+        "UniqueBody",
+        XmlElementNames.UniqueBody,
+        ExchangeVersion.Exchange2010,
+        FieldUris.UniqueBody,
+        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        () => { return new UniqueBody(); }
+        );
 
-        /// <summary>
-        /// Defines the ConversationId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ConversationId =
-            new ComplexPropertyDefinition<ConversationId>(
-                XmlElementNames.ConversationId,
-                FieldUris.ConversationId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010,
-                delegate() { return new ConversationId(); });
+    static StoreEntryId: PropertyDefinition = new ByteArrayPropertyDefinition(
+        "StoreEntryId",
+        XmlElementNames.StoreEntryId,
+        ExchangeVersion.Exchange2010_SP2,
+        FieldUris.StoreEntryId,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the UniqueBody property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition UniqueBody =
-            new ComplexPropertyDefinition<UniqueBody>(
-                XmlElementNames.UniqueBody,
-                FieldUris.UniqueBody,
-                PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2010,
-                delegate() { return new UniqueBody(); });
+    static InstanceKey: PropertyDefinition = new ByteArrayPropertyDefinition(
+        "InstanceKey",
+        XmlElementNames.InstanceKey,
+        ExchangeVersion.Exchange2013,
+        FieldUris.InstanceKey,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the StoreEntryId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition StoreEntryId =
-            new ByteArrayPropertyDefinition(
-                XmlElementNames.StoreEntryId,
-                FieldUris.StoreEntryId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010_SP2);
+    static NormalizedBody: PropertyDefinition = new ComplexPropertyDefinition<NormalizedBody>(
+        "NormalizedBody",
+        XmlElementNames.NormalizedBody,
+        ExchangeVersion.Exchange2013,
+        FieldUris.NormalizedBody,
+        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        () => { return new NormalizedBody(); }
+        );
 
-        /// <summary>
-        /// Defines the InstanceKey property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition InstanceKey =
-            new ByteArrayPropertyDefinition(
-                XmlElementNames.InstanceKey,
-                FieldUris.InstanceKey,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013);
+    static EntityExtractionResult: PropertyDefinition = new ComplexPropertyDefinition<EntityExtractionResult>(
+        "EntityExtractionResult",
+        XmlElementNames.NlgEntityExtractionResult,
+        ExchangeVersion.Exchange2013,
+        FieldUris.EntityExtractionResult,
+        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        () => { return new EntityExtractionResult(); }
+        );
 
-        /// <summary>
-        /// Defines the NormalizedBody property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition NormalizedBody =
-            new ComplexPropertyDefinition<NormalizedBody>(
-                XmlElementNames.NormalizedBody,
-                FieldUris.NormalizedBody,
-                PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new NormalizedBody(); });
+    static Flag: PropertyDefinition = new ComplexPropertyDefinition<Flag>(
+        "Flag",
+        XmlElementNames.Flag,
+        ExchangeVersion.Exchange2013,
+        FieldUris.Flag,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        () => { return new Flag(); }
+        );
 
-        /// <summary>
-        /// Defines the EntityExtractionResult property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EntityExtractionResult =
-            new ComplexPropertyDefinition<EntityExtractionResult>(
-                XmlElementNames.NlgEntityExtractionResult,
-                FieldUris.EntityExtractionResult,
-                PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new EntityExtractionResult(); });
+    static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
+        "PolicyTag",
+        XmlElementNames.PolicyTag,
+        ExchangeVersion.Exchange2013,
+        FieldUris.PolicyTag,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        () => { return new PolicyTag(); }
+        );
 
-        /// <summary>
-        /// Defines the InternetMessageHeaders property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Flag =
-            new ComplexPropertyDefinition<Flag>(
-                XmlElementNames.Flag,
-                FieldUris.Flag,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new Flag(); });
+    static ArchiveTag: PropertyDefinition = new ComplexPropertyDefinition<ArchiveTag>(
+        "ArchiveTag",
+        XmlElementNames.ArchiveTag,
+        ExchangeVersion.Exchange2013,
+        FieldUris.ArchiveTag,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        () => { return new ArchiveTag(); }
+        );
 
-        /// <summary>
-        /// Defines the PolicyTag property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition PolicyTag =
-            new ComplexPropertyDefinition<PolicyTag>(
-                XmlElementNames.PolicyTag,
-                FieldUris.PolicyTag,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new PolicyTag(); });
+    static RetentionDate: PropertyDefinition = new DateTimePropertyDefinition(
+        "RetentionDate",
+        XmlElementNames.RetentionDate,
+        ExchangeVersion.Exchange2013,
+        FieldUris.RetentionDate,
+        PropertyDefinitionFlags.CanFind,
+        true
+        );
 
-        /// <summary>
-        /// Defines the ArchiveTag property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ArchiveTag =
-            new ComplexPropertyDefinition<ArchiveTag>(
-                XmlElementNames.ArchiveTag,
-                FieldUris.ArchiveTag,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new ArchiveTag(); });
+    static Preview: PropertyDefinition = new StringPropertyDefinition(
+        "Preview",
+        XmlElementNames.Preview,
+        ExchangeVersion.Exchange2013,
+        FieldUris.Preview,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the RetentionDate property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition RetentionDate =
-            new DateTimePropertyDefinition(
-                XmlElementNames.RetentionDate,
-                FieldUris.RetentionDate,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                true);
+    static TextBody: PropertyDefinition = new ComplexPropertyDefinition<TextBody>(
+        "TextBody",
+        XmlElementNames.TextBody,
+        ExchangeVersion.Exchange2013,
+        FieldUris.TextBody,
+        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        () => { return new TextBody(); }
+        );
 
-        /// <summary>
-        /// Defines the Preview property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Preview =
-            new StringPropertyDefinition(
-                XmlElementNames.Preview,
-                FieldUris.Preview,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013);
+    static IconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
+        "IconIndex",
+        XmlElementNames.IconIndex,
+        ExchangeVersion.Exchange2013,
+        FieldUris.IconIndex,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the TextBody property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition TextBody =
-            new ComplexPropertyDefinition<TextBody>(
-                XmlElementNames.TextBody,
-                FieldUris.TextBody,
-                PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new TextBody(); });
+    static Instance: ItemSchema = new ItemSchema();
 
-        /// <summary>
-        /// Defines the IconIndex property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IconIndex =
-            new GenericPropertyDefinition<IconIndex>(
-                XmlElementNames.IconIndex,
-                FieldUris.IconIndex,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013);
-
-        // This must be declared after the property definitions
-        internal static readonly ItemSchema Instance = new ItemSchema();
-
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
-
-            this.RegisterProperty(MimeContent);
-            this.RegisterProperty(Id);
-            this.RegisterProperty(ParentFolderId);
-            this.RegisterProperty(ItemClass);
-            this.RegisterProperty(Subject);
-            this.RegisterProperty(Sensitivity);
-            this.RegisterProperty(Body);
-            this.RegisterProperty(Attachments);
-            this.RegisterProperty(DateTimeReceived);
-            this.RegisterProperty(Size);
-            this.RegisterProperty(Categories);
-            this.RegisterProperty(Importance);
-            this.RegisterProperty(InReplyTo);
-            this.RegisterProperty(IsSubmitted);
-            this.RegisterProperty(IsDraft);
-            this.RegisterProperty(IsFromMe);
-            this.RegisterProperty(IsResend);
-            this.RegisterProperty(IsUnmodified);
-            this.RegisterProperty(InternetMessageHeaders);
-            this.RegisterProperty(DateTimeSent);
-            this.RegisterProperty(DateTimeCreated);
-            this.RegisterProperty(AllowedResponseActions);
-            this.RegisterProperty(ReminderDueBy);
-            this.RegisterProperty(IsReminderSet);
-            this.RegisterProperty(ReminderMinutesBeforeStart);
-            this.RegisterProperty(DisplayCc);
-            this.RegisterProperty(DisplayTo);
-            this.RegisterProperty(HasAttachments);
-            this.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
-            this.RegisterProperty(Culture);
-            this.RegisterProperty(EffectiveRights);
-            this.RegisterProperty(LastModifiedName);
-            this.RegisterProperty(LastModifiedTime);
-            this.RegisterProperty(IsAssociated);
-            this.RegisterProperty(WebClientReadFormQueryString);
-            this.RegisterProperty(WebClientEditFormQueryString);
-            this.RegisterProperty(ConversationId);
-            this.RegisterProperty(UniqueBody);
-            this.RegisterProperty(Flag);
-            this.RegisterProperty(StoreEntryId);
-            this.RegisterProperty(InstanceKey);
-            this.RegisterProperty(NormalizedBody);
-            this.RegisterProperty(EntityExtractionResult);
-            this.RegisterProperty(PolicyTag);
-            this.RegisterProperty(ArchiveTag);
-            this.RegisterProperty(RetentionDate);
-            this.RegisterProperty(Preview);
-            this.RegisterProperty(TextBody);
-            this.RegisterProperty(IconIndex);
-            this.RegisterProperty(MimeContentUTF8);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemSchema"/> class.
-        /// </summary>
-        internal ItemSchema()
-            : base()
-        {
-        }
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(ItemSchema.MimeContent);
+        super.RegisterProperty(ItemSchema.Id);
+        super.RegisterProperty(ItemSchema.ParentFolderId);
+        super.RegisterProperty(ItemSchema.ItemClass);
+        super.RegisterProperty(ItemSchema.Subject);
+        super.RegisterProperty(ItemSchema.Sensitivity);
+        super.RegisterProperty(ItemSchema.Body);
+        super.RegisterProperty(ItemSchema.Attachments);
+        super.RegisterProperty(ItemSchema.DateTimeReceived);
+        super.RegisterProperty(ItemSchema.Size);
+        super.RegisterProperty(ItemSchema.Categories);
+        super.RegisterProperty(ItemSchema.Importance);
+        super.RegisterProperty(ItemSchema.InReplyTo);
+        super.RegisterProperty(ItemSchema.IsSubmitted);
+        super.RegisterProperty(ItemSchema.IsDraft);
+        super.RegisterProperty(ItemSchema.IsFromMe);
+        super.RegisterProperty(ItemSchema.IsResend);
+        super.RegisterProperty(ItemSchema.IsUnmodified);
+        super.RegisterProperty(ItemSchema.InternetMessageHeaders);
+        super.RegisterProperty(ItemSchema.DateTimeSent);
+        super.RegisterProperty(ItemSchema.DateTimeCreated);
+        super.RegisterProperty(ItemSchema.AllowedResponseActions);
+        super.RegisterProperty(ItemSchema.ReminderDueBy);
+        super.RegisterProperty(ItemSchema.IsReminderSet);
+        super.RegisterProperty(ItemSchema.ReminderMinutesBeforeStart);
+        super.RegisterProperty(ItemSchema.DisplayCc);
+        super.RegisterProperty(ItemSchema.DisplayTo);
+        super.RegisterProperty(ItemSchema.HasAttachments);
+        super.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
+        super.RegisterProperty(ItemSchema.Culture);
+        super.RegisterProperty(ItemSchema.EffectiveRights);
+        super.RegisterProperty(ItemSchema.LastModifiedName);
+        super.RegisterProperty(ItemSchema.LastModifiedTime);
+        super.RegisterProperty(ItemSchema.IsAssociated);
+        super.RegisterProperty(ItemSchema.WebClientReadFormQueryString);
+        super.RegisterProperty(ItemSchema.WebClientEditFormQueryString);
+        super.RegisterProperty(ItemSchema.ConversationId);
+        super.RegisterProperty(ItemSchema.UniqueBody);
+        super.RegisterProperty(ItemSchema.Flag);
+        super.RegisterProperty(ItemSchema.StoreEntryId);
+        super.RegisterProperty(ItemSchema.InstanceKey);
+        super.RegisterProperty(ItemSchema.NormalizedBody);
+        super.RegisterProperty(ItemSchema.EntityExtractionResult);
+        super.RegisterProperty(ItemSchema.PolicyTag);
+        super.RegisterProperty(ItemSchema.ArchiveTag);
+        super.RegisterProperty(ItemSchema.RetentionDate);
+        super.RegisterProperty(ItemSchema.Preview);
+        super.RegisterProperty(ItemSchema.TextBody);
+        super.RegisterProperty(ItemSchema.IconIndex);
     }
 }

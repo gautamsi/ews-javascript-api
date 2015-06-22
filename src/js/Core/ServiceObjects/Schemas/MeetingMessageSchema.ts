@@ -1,152 +1,93 @@
-// ---------------------------------------------------------------------------
-// <copyright file="MeetingMessageSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {AppointmentSchema} from "./AppointmentSchema";
+import {EmailMessageSchema} from "./EmailMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the MeetingMessageSchema class.</summary>
-//-----------------------------------------------------------------------
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System.Diagnostics.CodeAnalysis;
+//module MeetingMessageSchema {
+module FieldUris {
+    export var AssociatedCalendarItemId: string = "meeting:AssociatedCalendarItemId";
+    export var IsDelegated: string = "meeting:IsDelegated";
+    export var IsOutOfDate: string = "meeting:IsOutOfDate";
+    export var HasBeenProcessed: string = "meeting:HasBeenProcessed";
+    export var ResponseType: string = "meeting:ResponseType";
+    export var IsOrganizer: string = "cal:IsOrganizer";
+}
+//}
+export class MeetingMessageSchema extends EmailMessageSchema {
+    static AssociatedAppointmentId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
+        "AssociatedCalendarItemId",
+        XmlElementNames.AssociatedCalendarItemId,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AssociatedCalendarItemId,
+        PropertyDefinitionFlags.None,
+        () => { return new ItemId(); }
+        );
 
-    /// <summary>
-    /// Represents the schema for meeting messages.
-    /// </summary>
-    [Schema]
-    public class MeetingMessageSchema : EmailMessageSchema
-    {
-        /// <summary>
-        /// Field URIs for MeetingMessage.
-        /// </summary>
-        private static class FieldUris
-        {
-            public const string AssociatedCalendarItemId = "meeting:AssociatedCalendarItemId";
-            public const string IsDelegated = "meeting:IsDelegated";
-            public const string IsOutOfDate = "meeting:IsOutOfDate";
-            public const string HasBeenProcessed = "meeting:HasBeenProcessed";
-            public const string ResponseType = "meeting:ResponseType";
-            public const string IsOrganizer = "cal:IsOrganizer";
-        }
+    static IsDelegated: PropertyDefinition = new BoolPropertyDefinition(
+        "IsDelegated",
+        XmlElementNames.IsDelegated,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsDelegated,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the AssociatedAppointmentId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AssociatedAppointmentId =
-            new ComplexPropertyDefinition<ItemId>(
-                XmlElementNames.AssociatedCalendarItemId,
-                FieldUris.AssociatedCalendarItemId,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ItemId(); });
+    static IsOutOfDate: PropertyDefinition = new BoolPropertyDefinition(
+        "IsOutOfDate",
+        XmlElementNames.IsOutOfDate,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsOutOfDate
+        );
 
-        /// <summary>
-        /// Defines the IsDelegated property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsDelegated =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsDelegated,
-                FieldUris.IsDelegated,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static HasBeenProcessed: PropertyDefinition = new BoolPropertyDefinition(
+        "HasBeenProcessed",
+        XmlElementNames.HasBeenProcessed,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.HasBeenProcessed,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsOutOfDate property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsOutOfDate =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsOutOfDate,
-                FieldUris.IsOutOfDate,
-                ExchangeVersion.Exchange2007_SP1);
+    static ResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
+        "ResponseType",
+        XmlElementNames.ResponseType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ResponseType,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the HasBeenProcessed property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition HasBeenProcessed =
-            new BoolPropertyDefinition(
-                XmlElementNames.HasBeenProcessed,
-                FieldUris.HasBeenProcessed,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static ICalUid: PropertyDefinition = AppointmentSchema.Instance.ICalUid;
 
-        /// <summary>
-        /// Defines the ResponseType property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ResponseType =
-            new GenericPropertyDefinition<MeetingResponseType>(
-                XmlElementNames.ResponseType,
-                FieldUris.ResponseType,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    static ICalRecurrenceId: PropertyDefinition = AppointmentSchema.Instance.ICalRecurrenceId;
 
-        /// <summary>
-        /// Defines the iCalendar Uid property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalUid =
-            AppointmentSchema.ICalUid;
+    static ICalDateTimeStamp: PropertyDefinition = AppointmentSchema.Instance.ICalDateTimeStamp;
 
-        /// <summary>
-        /// Defines the iCalendar RecurrenceId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalRecurrenceId =
-            AppointmentSchema.ICalRecurrenceId;
+    static IsOrganizer: PropertyDefinition = new GenericPropertyDefinition<boolean>(
+        "IsOrganizer",
+        XmlElementNames.IsOrganizer,
+        ExchangeVersion.Exchange2013,
+        "cal:IsOrganizer",
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the iCalendar DateTimeStamp property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalDateTimeStamp =
-            AppointmentSchema.ICalDateTimeStamp;
+    static Instance: MeetingMessageSchema = new MeetingMessageSchema();
 
-        /// <summary>
-        /// Defines the IsOrganizer property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsOrganizer =
-            new GenericPropertyDefinition<bool>(
-                XmlElementNames.IsOrganizer,
-                FieldUris.IsOrganizer,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013);
-
-        // This must be after the declaration of property definitions
-        internal static new readonly MeetingMessageSchema Instance = new MeetingMessageSchema();
-
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
-
-            this.RegisterProperty(AssociatedAppointmentId);
-            this.RegisterProperty(IsDelegated);
-            this.RegisterProperty(IsOutOfDate);
-            this.RegisterProperty(HasBeenProcessed);
-            this.RegisterProperty(ResponseType);
-            this.RegisterProperty(ICalUid);
-            this.RegisterProperty(ICalRecurrenceId);
-            this.RegisterProperty(ICalDateTimeStamp);
-            this.RegisterProperty(IsOrganizer);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeetingMessageSchema"/> class.
-        /// </summary>
-        internal MeetingMessageSchema()
-            : base()
-        {
-        }
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(MeetingMessageSchema.AssociatedAppointmentId);
+        super.RegisterProperty(MeetingMessageSchema.IsDelegated);
+        super.RegisterProperty(MeetingMessageSchema.IsOutOfDate);
+        super.RegisterProperty(MeetingMessageSchema.HasBeenProcessed);
+        super.RegisterProperty(MeetingMessageSchema.ResponseType);
+        super.RegisterProperty(MeetingMessageSchema.ICalUid);
+        super.RegisterProperty(MeetingMessageSchema.ICalRecurrenceId);
+        super.RegisterProperty(MeetingMessageSchema.ICalDateTimeStamp);
+        super.RegisterProperty(MeetingMessageSchema.IsOrganizer);
     }
 }

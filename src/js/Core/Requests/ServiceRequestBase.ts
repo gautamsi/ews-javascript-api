@@ -1,20 +1,26 @@
-import ExchangeService = require("../ExchangeService");
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import EwsUtilities = require("../EwsUtilities");
-import ExchangeServerInfo = require("../ExchangeServerInfo");
-import DateTimePrecision = require("../../Enumerations/DateTimePrecision");
-import ServiceVersionException = require("../../Exceptions/ServiceVersionException");
+﻿import {ServiceResponse} from "../Responses/ServiceResponse";
+import {Strings} from "../../Strings";
+import {ExchangeService} from "../ExchangeService";
+import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {EwsUtilities} from "../EwsUtilities";
+import {ExchangeServerInfo} from "../ExchangeServerInfo";
+import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
+import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
+import {RenderingMode} from "../../Enumerations/RenderingMode";
+import {EwsLogging} from "../EwsLogging";
 
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../../ExtensionMethods";
 
-class ServiceRequestBase {
+import {IPromise, IXHROptions} from "../../Interfaces";
+import {Promise} from "../../PromiseFactory"
+import {XHR} from "../../XHRFactory"
+export class ServiceRequestBase {
 
     //#region private static and const
     private static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
@@ -22,7 +28,7 @@ class ServiceRequestBase {
     private static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
     private static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
     private static clientStatisticsCache: string[] = [];//System.Collections.Generic.List<string>;
-    get Service(): ExchangeService { return this.Service; }
+    get Service(): ExchangeService { return this.service; }
     private service: ExchangeService;
     //#endregion
 
@@ -43,13 +49,17 @@ class ServiceRequestBase {
     GetXmlElementName(): string { throw new Error("abstract method, must override"); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must override"); }
     GetResponseXmlElementName(): string { throw new Error("abstract method, must override"); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
-    //ParseResponse(jsonBody: JsonObject): any{ throw new Error("abstract method, must override");}
+    //ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
+    ParseResponse(jsonBody: any/*JsonObject*/): any {
+        var serviceResponse: ServiceResponse = new ServiceResponse();
+        serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
+        return serviceResponse;
+    }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
     //#endregion
 
     //BuildEwsHttpWebRequest(): IEwsHttpWebRequest { throw new Error("Could not implemented."); }
-    BuildXHR(): WinJS.IXHROptions {
+    BuildXHR(): IXHROptions {
 
         var request = this.Service.PrepareHttpWebRequest(this.GetXmlElementName());
         //try
@@ -88,18 +98,24 @@ class ServiceRequestBase {
         //    throw new ServiceRequestException(string.Format(Strings.ServiceRequestFailed, e.Message), e);
         //}
     }
-    //BuildResponseObjectFromJson(jsonResponse: JsonObject): any { throw new Error("Could not implemented."); }
+    BuildResponseObjectFromJson(jsObject: any): any {
+        if (jsObject["Header"]) {
+            this.ReadSoapHeader(jsObject["Header"]);
+        }
+
+        return this.ParseResponse(jsObject[XmlElementNames.SOAPBodyElementName]);
+    }
     //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
     //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
-    EmitRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
-        if (this.Service.RenderingMethod == ExchangeService.RenderingMode.Xml) {
+    EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
+        if (this.Service.RenderingMethod === RenderingMode.Xml) {
 
-            var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter();//writer.Service
+            var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter(this.service);//writer.Service
             this.WriteToXml(writer);
             request.data = writer.GetXML();
 
         }
-        else if (this.Service.RenderingMethod == ExchangeService.RenderingMode.JSON) {
+        else if (this.Service.RenderingMethod === RenderingMode.JSON) {
             //JsonObject requestObject = this.CreateJsonRequest();
 
             //using(Stream serviceRequestStream = this.GetWebRequestStream(request))
@@ -110,7 +126,7 @@ class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): WinJS.Promise<XMLHttpRequest> { return WinJS.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XHR(request); }
     GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
@@ -120,7 +136,7 @@ class ServiceRequestBase {
         }
     }
     //GetResponseStream(response: IEwsHttpWebResponse): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
-    //GetResponseStream(response: IEwsHttpWebResponse, readTimeout: number):any /*System.IO.Stream*/{ throw new Error("Not implemented.");}
+    //GetResponseStream(response: IEwsHttpWebResponse, readTimeout: number):any /*System.IO.Stream*/{ throw new Error("ServiceRequestBase.ts - GetResponseStream : Not implemented.");}
     //GetWebRequestStream(request: IEwsHttpWebRequest): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
     protected ProcessWebException(webException: XMLHttpRequest): void {
         if (webException.response) {
@@ -235,34 +251,27 @@ class ServiceRequestBase {
             }
         }
     }
-    ReadPreamble(ewsXmlReader: EwsServiceXmlReader): void {
-        this.ReadXmlDeclaration(ewsXmlReader);
-    }
-    ReadResponse(ewsXmlReader: EwsServiceXmlReader): any /*object return*/ {
-        var serviceResponse;
 
-        this.ReadPreamble(ewsXmlReader);
-        ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
-        this.ReadSoapHeader(ewsXmlReader);
-        ewsXmlReader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
+    protected ReadResponseXmlJsObject(jsObject: any): any /*object return*/ {
+        if (jsObject[XmlElementNames.SOAPHeaderElementName]) {
+            this.ReadSoapHeader(jsObject[XmlElementNames.SOAPHeaderElementName]);
+        }
 
-        ewsXmlReader.ReadStartElement(XmlNamespace.Messages, this.GetResponseXmlElementName());
-
-        serviceResponse = this.ParseResponse(ewsXmlReader);
-
-        debugger;
-
-        //ewsXmlReader.ReadEndElementIfNecessary(XmlNamespace.Messages, this.GetResponseXmlElementName());
-
-        ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
-        ewsXmlReader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
+        if (!jsObject[XmlElementNames.SOAPBodyElementName]) {
+            throw new Error("invalid soap message");
+        }
+        var serviceResponse: any;
+        jsObject = jsObject[XmlElementNames.SOAPBodyElementName]
+        jsObject = jsObject[this.GetResponseXmlElementName()];
+        serviceResponse = this.ParseResponse(jsObject);
         return serviceResponse;
     }
+
     ReadSoapFault(reader: EwsServiceXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = null;
         debugger;
         try {
-            this.ReadXmlDeclaration(reader);
+            //this.ReadXmlDeclaration(reader);
 
             reader.Read();
             if (reader.LocalName != XmlElementNames.SOAPEnvelopeElementName) {
@@ -317,44 +326,19 @@ class ServiceRequestBase {
 
         return soapFaultDetails;
     }
-    //ReadSoapFault(jsonSoapFault: JsonObject): SoapFaultDetails { throw new Error("Could not implemented."); }
-    ReadSoapHeader(reader: EwsServiceXmlReader): void {
-        debugger;
-        reader.ReadStartElement(XmlNamespace.Soap, XmlElementNames.SOAPHeaderElementName);
-        do {
-            reader.Read();
 
-            // Is this the ServerVersionInfo?
-            if (reader.IsElement(XmlNamespace.Types, XmlElementNames.ServerVersionInfo)) {
-                this.Service.ServerInfo = ExchangeServerInfo.Parse(reader);
-            }
-
-            // Ignore anything else inside the SOAP header
+    ReadSoapHeader(jsObject: any): any {
+        if (jsObject[XmlElementNames.ServerVersionInfo]) {
+            this.Service.ServerInfo = ExchangeServerInfo.Parse(jsObject[XmlElementNames.ServerVersionInfo]);
         }
-        while (!reader.HasRecursiveParent(XmlElementNames.SOAPHeaderElementName));
+    }
 
-    }
-    //ReadSoapHeader(jsonHeader: JsonObject): any { throw new Error("Could not implemented."); }
-    private ReadXmlDeclaration(reader: EwsServiceXmlReader): void {
-        debugger;
-        //try {
-        //    reader.Read(System.Xml.XmlNodeType.XmlDeclaration);
-        //}
-        //catch (XmlException ex)
-        //{
-        //    throw new ServiceRequestException(Strings.ServiceResponseDoesNotContainXml, ex);
-        //}
-        //catch (ServiceXmlDeserializationException ex)
-        //{
-        //    throw new ServiceRequestException(Strings.ServiceResponseDoesNotContainXml, ex);
-        //}
-    }
     ThrowIfNotSupportedByRequestedServerVersion(): void {
 
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {
             throw new ServiceVersionException(
-                String.Format(
-                    "not supported operation, soap element {0} not only supported in exchange version {1} onward  ",//Strings.RequestIncompatibleWithRequestVersion,
+                StringHelper.Format(
+                    Strings.RequestIncompatibleWithRequestVersion,
                     this.GetXmlElementName(),
                     ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
         }
@@ -365,10 +349,10 @@ class ServiceRequestBase {
     //TraceResponseXml(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
     //TraceXmlRequest(memoryStream: any): any { throw new Error("Could not implemented."); }
     Validate(): void { this.Service.Validate(); }
-    ValidateAndEmitRequest(request: WinJS.IXHROptions): WinJS.Promise<XMLHttpRequest> {
+    ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
         this.Validate();
 
-        var request = this.BuildXHR();
+        //var request = this.BuildXHR();
 
         if (this.service.SendClientLatencies) {
             var clientStatisticsToAdd: string = '';
@@ -381,7 +365,7 @@ class ServiceRequestBase {
             }
             //}
 
-            if (!String.IsNullOrEmpty(clientStatisticsToAdd)) {
+            if (!StringHelper.IsNullOrEmpty(clientStatisticsToAdd)) {
                 if (request.headers[ServiceRequestBase.ClientStatisticsRequestHeader]) {
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] =
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;
@@ -393,8 +377,11 @@ class ServiceRequestBase {
         }
 
         //var startTime = Date.now();// DateTime.UtcNow;
-        //var response = WinJS.xhr(request);
-        return WinJS.xhr(request);
+        //var response = XHR(request);
+        EwsLogging.DebugLog("sending ews request");
+        EwsLogging.DebugLog(request, true);
+                
+        return XHR(request);
 
         //try
         //{
@@ -507,7 +494,6 @@ class ServiceRequestBase {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.MailboxCulture,
-                XmlElementNames.MailboxCulture,
                 this.Service.PreferredCulture.Name);
         }
 
@@ -515,7 +501,6 @@ class ServiceRequestBase {
         if (this.Service.DateTimePrecision != DateTimePrecision.Default) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
-                XmlElementNames.DateTimePrecision,
                 XmlElementNames.DateTimePrecision,
                 DateTimePrecision[this.Service.DateTimePrecision]);
             //this.Service.DateTimePrecision.ToString());
@@ -552,11 +537,3 @@ class ServiceRequestBase {
 
     //#endregion
 }
-
-export = ServiceRequestBase;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

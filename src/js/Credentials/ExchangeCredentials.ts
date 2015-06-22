@@ -1,6 +1,7 @@
-import ExtensionMethods = require("../ExtensionMethods");
-
-class ExchangeCredentials {
+import {base64Helper} from "../ExtensionMethods";
+import {Uri} from "../Uri";
+import {IXHROptions} from "../Interfaces";
+export class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
 
@@ -8,29 +9,23 @@ class ExchangeCredentials {
 
     }
 
-    AdjustUrl(url: string /*System.Uri*/): string /*System.Uri*/ { return ExchangeCredentials.GetUriWithoutSuffix(url); }
+    AdjustUrl(url: Uri): Uri { return new Uri(ExchangeCredentials.GetUriWithoutSuffix(url)); }
     EmitExtraSoapHeaderNamespaceAliases(writer: any /*System.Xml.XmlWriter*/): void { /*implemented by derived classes*/ }
-    static GetUriWithoutSuffix(url: string/*System.Uri*/): string /*System.Uri*/ {
-        var index = url.toUpperCase().indexOf(/*WSSecurityBasedCredentials*/ExchangeCredentials.WsSecurityPathSuffix.toUpperCase());//, StringComparison.OrdinalIgnoreCase);
+    static GetUriWithoutSuffix(url: Uri): string {
+        var absoluteUri: string = url.AbsoluteUri;
+        //ref: can not use WSSecurityBasedCredentials.WsSecurityPathSuffix, creates circular reference.
+        var index = absoluteUri.toUpperCase().indexOf(/*WSSecurityBasedCredentials*/ExchangeCredentials.WsSecurityPathSuffix.toUpperCase());//, StringComparison.OrdinalIgnoreCase);
         if (index != -1) {
-            return url.substring(0, index);
+            return absoluteUri.substring(0, index);
         }
 
-        return url;
+        return absoluteUri;
     }
-    //PreAuthenticate(): any{ throw new Error("Not implemented.");}
-    PrepareWebRequest(request: WinJS.IXHROptions /*IEwsHttpWebRequest*/): void {
-        request.headers["Authorization"] = "Basic " + ExtensionMethods.btoa(this.UserName + ":" + this.Password);
+    //PreAuthenticate(): any{ throw new Error("ExchangeCredentials.ts - PreAuthenticate : Not implemented.");}
+    PrepareWebRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
+        request.headers["Authorization"] = "Basic " + base64Helper.btoa(this.UserName + ":" + this.Password);
     }
     SerializeExtraSoapHeaders(writer: any /*System.Xml.XmlWriter*/, webMethodName: string): void { /*implemented by derived classes*/ }
-    //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("Not implemented.");}
-    //Sign(memoryStream: any): any{ throw new Error("Not implemented.");}
+    //SerializeWSSecurityHeaders(writer: System.Xml.XmlWriter): any{ throw new Error("ExchangeCredentials.ts - SerializeWSSecurityHeaders : Not implemented.");}
+    //Sign(memoryStream: any): any{ throw new Error("ExchangeCredentials.ts - Sign : Not implemented.");}
 }
-
-export = ExchangeCredentials;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

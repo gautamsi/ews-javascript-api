@@ -1,28 +1,31 @@
-import LazyMember = require("./LazyMember");
-import ServiceObject = require("./ServiceObjects/ServiceObject");
-import ServiceObjectInfo = require("./ServiceObjects/ServiceObjectInfo");
-import Item = require("./ServiceObjects/Items/Item");
+﻿import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
+import {Strings} from "../Strings";
+import {LazyMember} from "./LazyMember";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
+import {Item} from "./ServiceObjects/Items/Item";
 
-import ExchangeService = require("./ExchangeService");
+import {ExchangeService} from "./ExchangeService";
+import {TimeSpan, moment} from "../DateTime";
 
-import DayOfTheWeek = require("../Enumerations/DayOfTheWeek");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import ItemTraversal = require("../Enumerations/ItemTraversal");
-import ConversationQueryTraversal = require("../Enumerations/ConversationQueryTraversal");
-import FileAsMapping = require("../Enumerations/FileAsMapping");
+import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsLogging} from "./EwsLogging";
+import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
+import {FileAsMapping} from "../Enumerations/FileAsMapping";
 
-import ServiceVersionException = require("../Exceptions/ServiceVersionException");
-import ISelfValidate = require("../Interfaces/ISelfValidate");
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
-import ItemAttachment = require("../ComplexProperties/ItemAttachment");
+import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
-
-class EwsUtilities {
+import {StringHelper, Convert} from "../ExtensionMethods";
+import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
+export class EwsUtilities {
 
     //#region constants in c# - typescript static
     static XSFalse: string = "false";
@@ -59,37 +62,37 @@ class EwsUtilities {
 
 
     static BuildVersion: string;
-    private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
-        () => {
-            return new ServiceObjectInfo();
-        });
+    // private static serviceObjectInfo: LazyMember<ServiceObjectInfo> = new LazyMember<ServiceObjectInfo>(
+    //     () => {
+    //         //return new ServiceObjectInfo();
+    //     });
     //private static buildVersion: LazyMember<T>;
     private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
         () => {
-            var e2evnh = EnumToExchangeVersionMappingHelper;
+            var e2evmh = EnumToExchangeVersionMappingHelper;
             var dict: EnumToExhcangeVersionDelegateDictionary = {};
-            dict[e2evnh[e2evnh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evnh.WellKnownFolderName);
-            dict[e2evnh[e2evnh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evnh.ItemTraversal);
-            dict[e2evnh[e2evnh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evnh.ConversationQueryTraversal);
-            dict[e2evnh[e2evnh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evnh.FileAsMapping);
-            dict[e2evnh[e2evnh.EventType]] = EwsUtilities.BuildEnumDict(e2evnh.EventType);
-            dict[e2evnh[e2evnh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evnh.MeetingRequestsDeliveryScope);
-            dict[e2evnh[e2evnh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evnh.ViewFilter);
+            dict[e2evmh[e2evmh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evmh.WellKnownFolderName);
+            dict[e2evmh[e2evmh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ItemTraversal);
+            dict[e2evmh[e2evmh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ConversationQueryTraversal);
+            dict[e2evmh[e2evmh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evmh.FileAsMapping);
+            dict[e2evmh[e2evmh.EventType]] = EwsUtilities.BuildEnumDict(e2evmh.EventType);
+            dict[e2evmh[e2evmh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evmh.MeetingRequestsDeliveryScope);
+            dict[e2evmh[e2evmh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evmh.ViewFilter);
             return dict;
         });
     //private static schemaToEnumDictionaries: LazyMember<T>;
     //private static enumToSchemaDictionaries: LazyMember<T>;
     //private static typeNameToShortNameMap: LazyMember<T>;
-    static Assert(condition: boolean, caller: string, message: string): any {
-        if (!condition)
-            console.log(String.Format("[{0}] {1}", caller, message));
-
+    
+    static BoolToXSBool(value: boolean): string {
+        var boolvalue = Convert.toBool(value)
+        return boolvalue ? EwsUtilities.XSTrue : EwsUtilities.XSFalse;
+        //throw new Error("EwsUtilities.ts - static BoolToXSBool : Not implemented.");
     }
-    static BoolToXSBool(value: boolean): string { throw new Error("Not implemented."); }
-    //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
+    //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumDict : Not implemented.");}
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
     static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
-        var enumDelegate = (value) => { return ExchangeVersion.Exchange2007_SP1 };
+        var enumDelegate = (value: any) => { return ExchangeVersion.Exchange2007_SP1 };
         switch (enumType) {
             //TODO: fix numbering to named enum value if possible
             case EnumToExchangeVersionMappingHelper.WellKnownFolderName:
@@ -111,7 +114,7 @@ class EwsUtilities {
                 enumDelegate = (value) => {
                     if (value <= 1) //<= ItemTraversal.SoftDeleted
                         return ExchangeVersion.Exchange2007_SP1;
-                    else if(value ==2) // === Associated
+                    else if (value == 2) // === Associated
                         return ExchangeVersion.Exchange2010;
 
                     return ExchangeVersion.Exchange_Version_Not_Updated;
@@ -170,78 +173,101 @@ class EwsUtilities {
     }
     private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
         var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
-        if (delegate && typeof delegate === 'function')
-        {
+        if (delegate && typeof delegate === 'function') {
             try {
                 return delegate(enumValue);
             }
-            catch(ex){}
+            catch (ex) { }
         }
 
         return ExchangeVersion.Exchange2007_SP1;
     }
-    //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
-    //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("Not implemented.");}
-    //static ConvertTime(dateTime: Date, sourceTimeZone: System.TimeZoneInfo, destinationTimeZone: System.TimeZoneInfo): Date{ throw new Error("Not implemented.");}
-    //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("Not implemented.");}
-    static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("Not implemented."); }
-    static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
-        //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
-        debugger;
-
-        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
-
-        if (creationDelegate) {
-            return creationDelegate(service);
+    //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented.");}
+    //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented.");}
+    static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime {
+        try {
+            return TimeZoneInfo.ConvertTime(
+                dateTime,
+                sourceTimeZone,
+                destinationTimeZone);
         }
-        else return null;
-
-        //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
-        //if (itemClass) {
-        //    //return new itemClass(service);
-
-        //    creationDelegate: CreateServiceObjectWithServiceParam;
-
-
-        //    //if (EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam.TryGetValue(itemClass, out creationDelegate)) {
-        //    //    return (TServiceObject)creationDelegate(service);
-        //    //}
-        //    //else {
-        //    //    throw new ArgumentException(Strings.NoAppropriateConstructorForItemClass);
-        //    //}
-        //}
-        //else {
-        //    return null; //default(TServiceObject);
-        //}
+        catch (ex)//ArgumentException
+        {
+            throw new TimeZoneConversionException(
+                StringHelper.Format(
+                    Strings.CannotConvertBetweenTimeZones,
+                    EwsUtilities.DateTimeToXSDateTime(dateTime),
+                    sourceTimeZone.DisplayName,
+                    destinationTimeZone.DisplayName),
+                ex);
+        }
     }
-    //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("Not implemented.");}
-    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("Not implemented."); }
-    static DateTimeToXSDate(date: Date): string { throw new Error("Not implemented."); }
-    static DateTimeToXSDateTime(dateTime: Date): string { throw new Error("Not implemented."); }
-    static DomainFromEmailAddress(emailAddress: string): string {
-        var emailAddressParts: string[]  = emailAddress.split('@');
+    //static CopyStream(source: System.IO.Stream, target: System.IO.Stream): any{ throw new Error("EwsUtilities.ts - static CopyStream : Not implemented.");}
+    static CountMatchingChars(str: string, charPredicate: any): number { throw new Error("EwsUtilities.ts - static CountMatchingChars : Not implemented."); }
+    static CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
+        throw new Error("EwsUtilities - CreateEwsObjectFromXmlElementName: - this is moved in folderinfo/iteminfo classes to avoid circular loop caused by serviceobjectinfo class");
+        //     //var itemClass = TypeSystem.GetObjectByClassName("Microsoft.Exchange.WebServices.Data." + xmlElementName
+        //     debugger;
 
-        if (emailAddressParts.length != 2 || String.IsNullOrEmpty(emailAddressParts[1])) {
-            throw new Error("invalid email address"/*Strings.InvalidEmailAddress*/);
+        //     //        var creationDelegate = EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+        //     //
+        //     //        if (creationDelegate) {
+        //     //            return creationDelegate(service);
+        //     //        }
+        //     //        else return null;
+
+        //     //var itemClass = EwsUtilities.serviceObjectInfo.Member.XmlElementNameToServiceObjectClassMap[xmlElementName];
+        //     //if (itemClass) {
+        //     //    //return new itemClass(service);
+
+        //     //    creationDelegate: CreateServiceObjectWithServiceParam;
+
+
+        //     //    //if (EwsUtilities.serviceObjectInfo.Member.ServiceObjectConstructorsWithServiceParam.TryGetValue(itemClass, out creationDelegate)) {
+        //     //    //    return (TServiceObject)creationDelegate(service);
+        //     //    //}
+        //     //    //else {
+        //     //    //    throw new ArgumentException(Strings.NoAppropriateConstructorForItemClass);
+        //     //    //}
+        //     //}
+        //     //else {
+        //     //    return null; //default(TServiceObject);
+        //     //}
+    }
+    //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
+    static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
+    static DateTimeToXSDate(date: DateTime): string { return DateTime.DateTimeToXSDate(date); }
+    static DateTimeToXSDateTime(dateTime: DateTime): string { return DateTime.DateTimeToXSDateTime(dateTime); }
+    static DomainFromEmailAddress(emailAddress: string): string {
+        var emailAddressParts: string[] = emailAddress.split('@');
+
+        if (emailAddressParts.length != 2 || StringHelper.IsNullOrEmpty(emailAddressParts[1])) {
+            throw new Error(Strings.InvalidEmailAddress);
         }
 
         return emailAddressParts[1];
     }
-    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): System.DayOfWeek /*todo: fix system enums here*/ { throw new Error("Not implemented."); }
-    //static FindFirstItemOfType(items: System.Collections.Generic.IEnumerable<Item>): any{ throw new Error("Not implemented.");}
-    //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("Not implemented.");}
-    //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("Not implemented.");}
-    //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("Not implemented.");}
-    //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("Not implemented.");}
-    //static FormatHttpRequestHeaders(request: any): string{ throw new Error("Not implemented.");}
-    static FormatHttpResponseHeaders(response:any /*IEwsHttpWebResponse*/): string { throw new Error("Not implemented."); }
-    static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("Not implemented."); }
-    static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("Not implemented."); }
-    static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("Not implemented."); }
-    static GetEnumeratedObjectCount(objects: any): number { throw new Error("Not implemented."); }
-    //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("Not implemented.");}
-    //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("Not implemented.");}
-    //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("Not implemented.");}
+    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("EwsUtilities.ts - static EwsToSystemDayOfWeek : Not implemented."); }
+    static FindFirstItemOfType<T extends Item>(items: Item[], type: any): T {
+        for (var item of items) {
+            if (item instanceof type) {
+                return <T>item;
+            }
+        }
+    }
+    //static ForEach(collection: System.Collections.Generic.IEnumerable<T>, action: any): any{ throw new Error("EwsUtilities.ts - static ForEach : Not implemented.");}
+    //static FormatHttpHeaders(headers: System.Net.WebHeaderCollection): string{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
+    //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
+    //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
+    //static FormatHttpRequestHeaders(request: any): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
+    static FormatHttpResponseHeaders(response: any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
+    static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("EwsUtilities.ts - static FormatLogMessage : Not implemented."); }
+    static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
+    static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
+    static GetEnumeratedObjectCount(objects: any): number { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectCount : Not implemented."); }
+    //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("EwsUtilities.ts - static GetEnumSchemaName : Not implemented.");}
+    //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("EwsUtilities.ts - static GetEnumVersion : Not implemented.");}
+    //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("EwsUtilities.ts - static GetItemTypeFromXmlElementName : Not implemented.");}
     static GetNamespaceFromUri(namespaceUri: string): XmlNamespace {
         switch (namespaceUri) {
             case this.EwsErrorsNamespace:
@@ -317,18 +343,120 @@ class EwsUtilities {
                 return "";
         }
     }
-    //static GetPrintableTypeName(type: System.Type): string{ throw new Error("Not implemented.");}
-    //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("Not implemented.");}
-    //static IsLocalTimeZone(timeZone: System.TimeZoneInfo): boolean{ throw new Error("Not implemented.");}
-    //static Parse(value: string): any{ throw new Error("Not implemented.");}
-    //static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): Date{ throw new Error("Not implemented.");}
-    //static ParseEnumValueList(list: System.Collections.Generic.IList<T>, value: string, separators: any): any{ throw new Error("Not implemented.");}
-    //static SerializeEnum(value: any): string{ throw new Error("Not implemented.");}
-    //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("Not implemented.");}
-    //static TimeSpanToXSDuration(timeSpan: System.TimeSpan): string{ throw new Error("Not implemented.");}
-    //static TimeSpanToXSTime(timeSpan: System.TimeSpan): string{ throw new Error("Not implemented.");}
-    //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("Not implemented.");}
-    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("Not implemented."); }
+    static GetPrintableTypeName(type: any /*instance */): string {
+        var typename: string = typeof type;
+        if (typename.indexOf("object") >= 0) {
+            try {
+                typename = type.__proto__.constructor.name;
+
+            } catch (error) {
+                typename += " - Error getting name";
+            }
+        }
+
+        return typename;
+        //         if (type.IsGenericType)
+        //             {
+        //                 // Convert generic type to printable form (e.g. List<Item>)
+        //                 string genericPrefix = type.Name.Substring(0, type.Name.IndexOf('`'));
+        //                 StringBuilder nameBuilder = new StringBuilder(genericPrefix);
+        // 
+        //                 // Note: building array of generic parameters is done recursively. Each parameter could be any type.
+        //                 string[] genericArgs = type.GetGenericArguments().ToList<Type>().ConvertAll<string>(t => GetPrintableTypeName(t)).ToArray<string>();
+        // 
+        //                 nameBuilder.Append("<");
+        //                 nameBuilder.Append(string.Join(",", genericArgs));
+        //                 nameBuilder.Append(">");
+        //                 return nameBuilder.ToString();
+        //             }
+        //             else if (type.IsArray)
+        //             {
+        //                 // Convert array type to printable form.
+        //                 string arrayPrefix = type.Name.Substring(0, type.Name.IndexOf('['));
+        //                 StringBuilder nameBuilder = new StringBuilder(EwsUtilities.GetSimplifiedTypeName(arrayPrefix));
+        //                 for (int rank = 0; rank < type.GetArrayRank(); rank++)
+        //                 {
+        //                     nameBuilder.Append("[]");
+        //                 }
+        //                 return nameBuilder.ToString();
+        //             }
+        //             else
+        //             {
+        //                 return EwsUtilities.GetSimplifiedTypeName(type.Name);
+        //             }
+    }
+    //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
+    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
+    //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
+    static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): DateTime {
+        // Convert the element's value to a DateTime with no adjustment.
+        var tempDate: DateTime = DateTime.Parse(dateString);
+
+        // Set the kind according to the service's time zone
+        if (service.TimeZone == TimeZoneInfo.Utc) {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Utc);
+        }
+        else if (EwsUtilities.IsLocalTimeZone(service.TimeZone)) {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Local);
+        }
+        else {
+            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Unspecified);
+        }
+    }
+    static ParseEnumValueList<T>(list: any[], value: string, separators: string, enumType: any): void {
+        // EwsLogging.Assert(
+        //         typeof(T).IsEnum,
+        //         "EwsUtilities.ParseEnumValueList",
+        //         "T is not an enum type.");
+
+        var enumValues: string[] = value.split(separators);
+
+        for (var enumValue of enumValues) {
+            var enumValueParsed = enumType[enumValue];
+            if (typeof enumValueParsed !== 'undefined')
+                list.push(enumValueParsed);
+        }
+    }
+    //static SerializeEnum(value: any): string{ throw new Error("EwsUtilities.ts - static SerializeEnum : Not implemented.");}
+    //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("EwsUtilities.ts - static SystemToEwsDayOfTheWeek : Not implemented.");}
+    static TimeSpanToXSDuration(timeSpan: TimeSpan): string {
+        // Optional '-' offset
+        var offsetStr: string = (timeSpan.TotalSeconds < 0) ? "-" : StringHelper.Empty;
+
+        // The TimeSpan structure does not have a Year or Month 
+        // property, therefore we wouldn't be able to return an xs:duration
+        // string from a TimeSpan that included the nY or nM components.
+        return StringHelper.Format(
+            "{0}P{1}DT{2}H{3}M{4}S",
+            offsetStr,
+            Math.abs(timeSpan.days()),
+            Math.abs(timeSpan.hours()),
+            Math.abs(timeSpan.minutes()),
+            Math.abs(timeSpan.seconds()) + "." + Math.abs(timeSpan.milliseconds()));
+    }
+    private static numPad(num: number, length: number) {
+        var str = num.toString();
+        while (str.length < length)
+            str += "0";
+        return str;
+    }
+    static TimeSpanToXSTime(timeSpan: TimeSpan): string {
+        return StringHelper.Format(
+            "{0}:{1}:{2}",
+            this.numPad(timeSpan.hours(), 2),
+            this.numPad(timeSpan.minutes(), 2),
+            this.numPad(timeSpan.seconds(), 2));
+    }
+    static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
+        var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+        if (xsDuration.match(regex) === null) {
+            throw new Error(Strings.XsDurationCouldNotBeParsed);//ArgumentException
+        }
+        return new TimeSpan(xsDuration);//using moment, it recognize the format.
+        
+    }
+    //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("EwsUtilities.ts - static TrueForAll : Not implemented.");}
+    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("EwsUtilities.ts - static ValidateClassVersion : Not implemented."); }
     static ValidateDomainNameAllowNull(domainName: string, paramName: string): void {
 
         //todo: validate domain names per ews managed api
@@ -341,40 +469,48 @@ class EwsUtilities {
         //    }
         //}
     }
-    static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper,enumValue: number, requestVersion: ExchangeVersion): void {
+    static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper, enumValue: number, requestVersion: ExchangeVersion): void {
         var enumVersion = this.GetExchangeVersionFromEnumDelegate(enumType, enumValue);
         if (requestVersion < enumVersion) {
             throw new ServiceVersionException(
-                String.Format(
-                    "Enum value incompatible with requested version. Folder: {0}, Type: {1}, minimum version: {2}",//Strings.EnumValueIncompatibleWithRequestVersion,
+                StringHelper.Format(
+                    Strings.EnumValueIncompatibleWithRequestVersion,
                     enumValue,
                     //WellKnownFolderName[folderEnum],
                     EnumToExchangeVersionMappingHelper[enumType],
                     ExchangeVersion[enumVersion]));
         }
         //////EwsUtilities.ValidateEnumVersionValue(this.FolderName, version); - alternate validation using next line
-    //////todo: move to ewsutilities - done
-    ////export class ExchangeVersionValidator {
-    ////    static ValidateWellKnownFolderName(folderEnum: WellKnownFolderName, requestedVersion: ExchangeVersion): void {
-    ////        var enumVersion = ExchangeVersion.Exchange2007_SP1;
-    ////        if (folderEnum <= 15) enumVersion = ExchangeVersion.Exchange2007_SP1;
-    ////        else if (folderEnum >= 16 && folderEnum <= 26) enumVersion = ExchangeVersion.Exchange2010_SP1;
-    ////        else if (folderEnum >= 27 && folderEnum <= 34) enumVersion = ExchangeVersion.Exchange2013;
-    ////        else enumVersion = ExchangeVersion.Exchange2013;
+        //////todo: move to ewsutilities - done
+        ////export class ExchangeVersionValidator {
+        ////    static ValidateWellKnownFolderName(folderEnum: WellKnownFolderName, requestedVersion: ExchangeVersion): void {
+        ////        var enumVersion = ExchangeVersion.Exchange2007_SP1;
+        ////        if (folderEnum <= 15) enumVersion = ExchangeVersion.Exchange2007_SP1;
+        ////        else if (folderEnum >= 16 && folderEnum <= 26) enumVersion = ExchangeVersion.Exchange2010_SP1;
+        ////        else if (folderEnum >= 27 && folderEnum <= 34) enumVersion = ExchangeVersion.Exchange2013;
+        ////        else enumVersion = ExchangeVersion.Exchange2013;
 
-    ////        if (requestedVersion < enumVersion) {
-    ////            throw new ServiceVersionException(
-    ////                string.Format(
-    ////                    "Enum value incompatible with requested version. Folder: {0}, Type: {1}, minimum version: {2}",//Strings.EnumValueIncompatibleWithRequestVersion,
-    ////                    WellKnownFolderName[folderEnum],
-    ////                    "WellKnownFolderName",
-    ////                    ExchangeVersion[enumVersion]));
-    ////        }
-    ////    }
-    ////}
+        ////        if (requestedVersion < enumVersion) {
+        ////            throw new ServiceVersionException(
+        ////                string.Format(
+        ////                    Strings.EnumValueIncompatibleWithRequestVersion,
+        ////                    WellKnownFolderName[folderEnum],
+        ////                    "WellKnownFolderName",
+        ////                    ExchangeVersion[enumVersion]));
+        ////        }
+        ////    }
+        ////}
     }
-    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): any { throw new Error("Not implemented."); }
-    static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("Not implemented."); }
+    static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): void {
+        if (service.RequestedServerVersion < minimumServerVersion) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.MethodIncompatibleWithRequestVersion,
+                    methodName,
+                    minimumServerVersion));
+        }
+    }
+    static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
         if (param != null) {
             debugger; //todo: implement this somehow
@@ -388,7 +524,7 @@ class EwsUtilities {
         var isValid = false;
 
         if (typeof (param) == "string") {
-            isValid = !String.IsNullOrEmpty(param);
+            isValid = !StringHelper.IsNullOrEmpty(param);
         }
         else {
             isValid = param != null && typeof (param) !== 'undefined';
@@ -401,6 +537,8 @@ class EwsUtilities {
         EwsUtilities.ValidateParamAllowNull(param, paramName);
     }
     static ValidateParamAllowNull(param: any, paramName: string): void {
+        return;
+        throw new Error("//todo: fix circular with service object")
         var selfValidate: ISelfValidate = param;
 
         if (selfValidate.Validate) {
@@ -418,33 +556,25 @@ class EwsUtilities {
 
         var ewsObject: ServiceObject = param;
 
-        if (ewsObject instanceof ServiceObject) {
-            if (ewsObject.IsNew) {
-                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
-            }
-        }
+        //        if (ewsObject instanceof ServiceObject) {
+        //            if (ewsObject.IsNew) {
+        //                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
+        //            }
+        //        }
     }
-    static ValidateParamCollection(collection: any, paramName: string): any { throw new Error("Not implemented."); }
-    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("Not implemented."); }
-    static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("Not implemented."); }
-    //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("Not implemented.");}
-    //static XSDurationToTimeSpan(xsDuration: string): System.TimeSpan{ throw new Error("Not implemented.");}
+    static ValidateParamCollection(collection: any, paramName: string): void { return; throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
+    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }
+    static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }
+    //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("EwsUtilities.ts - static WriteTraceStartElement : Not implemented.");}
 }
-export = EwsUtilities;
 
 
-
-
-interface EnumToExhcangeVersionDelegateDictionary {
+export interface EnumToExhcangeVersionDelegateDictionary {
     [index: string]: EnumVersionDelegate;
 }
 
-interface EnumVersionDelegate {
+export interface EnumVersionDelegate {
     (value: number): ExchangeVersion;
 }
 
 
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

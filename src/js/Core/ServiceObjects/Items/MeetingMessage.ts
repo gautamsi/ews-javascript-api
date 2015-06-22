@@ -1,6 +1,7 @@
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import EmailMessage = require("./EmailMessage");
-class MeetingMessage extends EmailMessage {
+import {EmailMessage} from "./EmailMessage";
+export class MeetingMessage extends EmailMessage {
     ////////AssociatedAppointmentId: ItemId;
     ////////IsDelegated: boolean;
     ////////IsOutOfDate: boolean;
@@ -10,17 +11,9 @@ class MeetingMessage extends EmailMessage {
     ////////ICalUid: string;
     ////////ICalRecurrenceId: Date;
     ////////ICalDateTimeStamp: Date;
-    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingMessage { throw new Error("Not implemented."); }
-    ////////Bind(service: ExchangeService, id: ItemId): MeetingMessage { throw new Error("Not implemented."); }
-    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    ////////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): MeetingMessage { throw new Error("MeetingMessage.ts - Bind : Not implemented."); }
+    ////////Bind(service: ExchangeService, id: ItemId): MeetingMessage { throw new Error("MeetingMessage.ts - Bind : Not implemented."); }
+    ////////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("MeetingMessage.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    ////////GetSchema(): ServiceObjectSchema { throw new Error("MeetingMessage.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.MeetingMessage; }
 }
-
-export = MeetingMessage;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,48 +1,34 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ResponseObjectSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ResponseObjectSchema class.</summary>
-//-----------------------------------------------------------------------
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
+export class ResponseObjectSchema extends ServiceObjectSchema {
+    static ReferenceItemId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
+        "ReferenceItemId",
+        XmlElementNames.ReferenceItemId,
+        ExchangeVersion.Exchange2007_SP1,
+        null,//FieldUri
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet,
+        () => { return new ItemId(); }
+        );
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    /// <summary>
-    /// Represents ResponseObject schema definition.
-    /// </summary>
-    internal class ResponseObjectSchema : ServiceObjectSchema
-    {
-        public static readonly PropertyDefinition ReferenceItemId =
-            new ComplexPropertyDefinition<ItemId>(
-                XmlElementNames.ReferenceItemId,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ItemId(); });
+    static BodyPrefix: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
+        "NewBodyContent",
+        XmlElementNames.NewBodyContent,
+        ExchangeVersion.Exchange2007_SP1,
+        null,//FieldUri
+        PropertyDefinitionFlags.CanSet,
+        () => { return new MessageBody(); }
+        );
 
-        public static readonly PropertyDefinition BodyPrefix =
-            new ComplexPropertyDefinition<MessageBody>(
-                XmlElementNames.NewBodyContent,
-                PropertyDefinitionFlags.CanSet,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new MessageBody(); });
-
-        // This must be declared after the property definitions
-        internal static readonly ResponseObjectSchema Instance = new ResponseObjectSchema();
-
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
-
-            this.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
-        }
+    static Instance: ResponseObjectSchema = new ResponseObjectSchema();
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
     }
 }

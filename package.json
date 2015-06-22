@@ -1,13 +1,8 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "EWS Managed api in JavaScript",
-  "main": "src/app.js",
-  "dependencies": {
-    "xmldom": "^0.1.19",
-    "winjs": "^1.0.0"
-  },
-  "devDependencies": {},
+  "main": "js/ExchangeWebService.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,12 +11,41 @@
     "url": "https://github.com/gautamsi/ews-javascript-api.git"
   },
   "keywords": [
-    "ews"
+    "ews",
+    "ews javascript api",
+    "ews-javascript-api",
+    "exchange web service"
   ],
   "author": "Gautam Singh (gautamsi)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gautamsi/ews-javascript-api/issues"
   },
-  "homepage": "https://github.com/gautamsi/ews-javascript-api"
+  "homepage": "https://github.com/gautamsi/ews-javascript-api",
+  "dependencies": {
+    "moment": "^2.10.3",
+    "moment-timezone": "^0.4.0",
+    "winjs-node": "^0.1.0",
+    "xmldom": "^0.1.19"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "chai-as-promised": "^5.1.0",
+    "debug": "^2.0.0",
+    "gulp": "^3.8.10",
+    "gulp-if": "^1.2.5",
+    "gulp-load-plugins": "^0.7.0",
+    "gulp-mocha": "^2.1.1",
+    "gulp-nodemon": "^1.0.4",
+    "gulp-task-listing": "^1.0.0",
+    "gulp-uglify": "^1.0.1",
+    "gulp-useref": "^1.0.2",
+    "gulp-util": "^3.0.5",
+    "mocha": "^2.2.5",
+    "node-notifier": "^4.0.3",
+    "q": "^1.0.1",
+    "r": "0.0.5",
+    "typescript": "^1.5.0-beta",
+    "yargs": "^1.3.3"
+  }
 }

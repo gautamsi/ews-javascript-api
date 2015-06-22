@@ -1,18 +1,19 @@
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
-import ServiceObject = require("../ServiceObjects/ServiceObject");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import PropertySet = require("../PropertySet");
+﻿import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
+import {ServiceObject} from "../ServiceObjects/ServiceObject";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {PropertySet} from "../PropertySet";
 
-import MultiResponseServiceRequest = require("./MultiResponseServiceRequest");
-class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+export class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
     PropertySet: PropertySet;
     //private propertySet: PropertySet;
-    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling) {
-        super(service, errorHandlingModeServiceErrorHandling);
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
     }
-    //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //abstract - AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("GetRequest.ts - abstract - AddIdsToRequest : Not implemented."); }
     //IJsonSerializable.ToJson(ExchangeService service): any {
     //    JsonObject jsonRequest = new JsonObject();
 
@@ -24,17 +25,10 @@ class GetRequest<TServiceObject extends ServiceObject, TResponse extends Service
     GetServiceObjectType(): ServiceObjectType { throw new Error("Abstract; must implemented."); }
     Validate(): void {
         super.Validate();
-        debugger;//todo: implement propertyset
         //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
-        //this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
+        this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertySet.WriteToXml(writer, this.GetServiceObjectType()); }
 }
 
-export = GetRequest;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 

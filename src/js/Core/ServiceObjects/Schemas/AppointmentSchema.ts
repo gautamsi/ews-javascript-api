@@ -1,666 +1,919 @@
-// ---------------------------------------------------------------------------
-// <copyright file="AppointmentSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
+import {AppointmentType} from "../../../Enumerations/AppointmentType";
+import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
+import {Appointment} from "../Items/Appointment";
+import {StartTimeZonePropertyDefinition} from "../../../PropertyDefinitions/StartTimeZonePropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {TimeZonePropertyDefinition} from "../../../PropertyDefinitions/TimeZonePropertyDefinition";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {AttendeeCollection} from "../../../ComplexProperties/AttendeeCollection";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {ItemCollection} from "../../../ComplexProperties/ItemCollection";
+import {TimeSpanPropertyDefinition} from "../../../PropertyDefinitions/TimeSpanPropertyDefinition";
+import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
+import {OccurrenceInfo} from "../../../ComplexProperties/OccurrenceInfo";
+import {OccurrenceInfoCollection} from "../../../ComplexProperties/OccurrenceInfoCollection";
+import {DeletedOccurrenceInfoCollection} from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
+import {MeetingTimeZonePropertyDefinition} from "../../../PropertyDefinitions/MeetingTimeZonePropertyDefinition";
+import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
+import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the AppointmentSchema class.</summary>
-//-----------------------------------------------------------------------
+import {ItemSchema} from "./ItemSchema";
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System.Diagnostics.CodeAnalysis;
+//module AppointmentSchema {
+module FieldUris {
+    export var Start: string = "calendar:Start";
+    export var End: string = "calendar:End";
+    export var OriginalStart: string = "calendar:OriginalStart";
+    export var IsAllDayEvent: string = "calendar:IsAllDayEvent";
+    export var LegacyFreeBusyStatus: string = "calendar:LegacyFreeBusyStatus";
+    export var Location: string = "calendar:Location";
+    export var When: string = "calendar:When";
+    export var IsMeeting: string = "calendar:IsMeeting";
+    export var IsCancelled: string = "calendar:IsCancelled";
+    export var IsRecurring: string = "calendar:IsRecurring";
+    export var MeetingRequestWasSent: string = "calendar:MeetingRequestWasSent";
+    export var IsResponseRequested: string = "calendar:IsResponseRequested";
+    export var CalendarItemType: string = "calendar:CalendarItemType";
+    export var MyResponseType: string = "calendar:MyResponseType";
+    export var Organizer: string = "calendar:Organizer";
+    export var RequiredAttendees: string = "calendar:RequiredAttendees";
+    export var OptionalAttendees: string = "calendar:OptionalAttendees";
+    export var Resources: string = "calendar:Resources";
+    export var ConflictingMeetingCount: string = "calendar:ConflictingMeetingCount";
+    export var AdjacentMeetingCount: string = "calendar:AdjacentMeetingCount";
+    export var ConflictingMeetings: string = "calendar:ConflictingMeetings";
+    export var AdjacentMeetings: string = "calendar:AdjacentMeetings";
+    export var Duration: string = "calendar:Duration";
+    export var TimeZone: string = "calendar:TimeZone";
+    export var AppointmentReplyTime: string = "calendar:AppointmentReplyTime";
+    export var AppointmentSequenceNumber: string = "calendar:AppointmentSequenceNumber";
+    export var AppointmentState: string = "calendar:AppointmentState";
+    export var Recurrence: string = "calendar:Recurrence";
+    export var FirstOccurrence: string = "calendar:FirstOccurrence";
+    export var LastOccurrence: string = "calendar:LastOccurrence";
+    export var ModifiedOccurrences: string = "calendar:ModifiedOccurrences";
+    export var DeletedOccurrences: string = "calendar:DeletedOccurrences";
+    export var MeetingTimeZone: string = "calendar:MeetingTimeZone";
+    export var StartTimeZone: string = "calendar:StartTimeZone";
+    export var EndTimeZone: string = "calendar:EndTimeZone";
+    export var ConferenceType: string = "calendar:ConferenceType";
+    export var AllowNewTimeProposal: string = "calendar:AllowNewTimeProposal";
+    export var IsOnlineMeeting: string = "calendar:IsOnlineMeeting";
+    export var MeetingWorkspaceUrl: string = "calendar:MeetingWorkspaceUrl";
+    export var NetShowUrl: string = "calendar:NetShowUrl";
+    export var Uid: string = "calendar:UID";
+    export var RecurrenceId: string = "calendar:RecurrenceId";
+    export var DateTimeStamp: string = "calendar:DateTimeStamp";
+    export var EnhancedLocation: string = "calendar:EnhancedLocation";
+    export var JoinOnlineMeetingUrl: string = "calendar:JoinOnlineMeetingUrl";
+    export var OnlineMeetingSettings: string = "calendar:OnlineMeetingSettings";
+}
+//}
+export class AppointmentSchema extends ItemSchema {
+    StartTimeZone: PropertyDefinition = new StartTimeZonePropertyDefinition(
+        "StartTimeZone",
+        XmlElementNames.StartTimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.StartTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-    /// <summary>
-    /// Represents the schema for appointment and meeting requests.
-    /// </summary>
-    [Schema]
-    public class AppointmentSchema : ItemSchema
-    {
-        /// <summary>
-        /// Field URIs for Appointment.
-        /// </summary>
-        private static class FieldUris
-        {
-            public const string Start = "calendar:Start";
-            public const string End = "calendar:End";
-            public const string OriginalStart = "calendar:OriginalStart";
-            public const string IsAllDayEvent = "calendar:IsAllDayEvent";
-            public const string LegacyFreeBusyStatus = "calendar:LegacyFreeBusyStatus";
-            public const string Location = "calendar:Location";
-            public const string When = "calendar:When";
-            public const string IsMeeting = "calendar:IsMeeting";
-            public const string IsCancelled = "calendar:IsCancelled";
-            public const string IsRecurring = "calendar:IsRecurring";
-            public const string MeetingRequestWasSent = "calendar:MeetingRequestWasSent";
-            public const string IsResponseRequested = "calendar:IsResponseRequested";
-            public const string CalendarItemType = "calendar:CalendarItemType";
-            public const string MyResponseType = "calendar:MyResponseType";
-            public const string Organizer = "calendar:Organizer";
-            public const string RequiredAttendees = "calendar:RequiredAttendees";
-            public const string OptionalAttendees = "calendar:OptionalAttendees";
-            public const string Resources = "calendar:Resources";
-            public const string ConflictingMeetingCount = "calendar:ConflictingMeetingCount";
-            public const string AdjacentMeetingCount = "calendar:AdjacentMeetingCount";
-            public const string ConflictingMeetings = "calendar:ConflictingMeetings";
-            public const string AdjacentMeetings = "calendar:AdjacentMeetings";
-            public const string Duration = "calendar:Duration";
-            public const string TimeZone = "calendar:TimeZone";
-            public const string AppointmentReplyTime = "calendar:AppointmentReplyTime";
-            public const string AppointmentSequenceNumber = "calendar:AppointmentSequenceNumber";
-            public const string AppointmentState = "calendar:AppointmentState";
-            public const string Recurrence = "calendar:Recurrence";
-            public const string FirstOccurrence = "calendar:FirstOccurrence";
-            public const string LastOccurrence = "calendar:LastOccurrence";
-            public const string ModifiedOccurrences = "calendar:ModifiedOccurrences";
-            public const string DeletedOccurrences = "calendar:DeletedOccurrences";
-            public const string MeetingTimeZone = "calendar:MeetingTimeZone";
-            public const string StartTimeZone = "calendar:StartTimeZone";
-            public const string EndTimeZone = "calendar:EndTimeZone";
-            public const string ConferenceType = "calendar:ConferenceType";
-            public const string AllowNewTimeProposal = "calendar:AllowNewTimeProposal";
-            public const string IsOnlineMeeting = "calendar:IsOnlineMeeting";
-            public const string MeetingWorkspaceUrl = "calendar:MeetingWorkspaceUrl";
-            public const string NetShowUrl = "calendar:NetShowUrl";
-            public const string Uid = "calendar:UID";
-            public const string RecurrenceId = "calendar:RecurrenceId";
-            public const string DateTimeStamp = "calendar:DateTimeStamp";
-            public const string EnhancedLocation = "calendar:EnhancedLocation";
-            public const string JoinOnlineMeetingUrl = "calendar:JoinOnlineMeetingUrl";
-            public const string OnlineMeetingSettings = "calendar:OnlineMeetingSettings";
-        }
+    EndTimeZone: PropertyDefinition = new TimeZonePropertyDefinition(
+        "EndTimeZone",
+        XmlElementNames.EndTimeZone,
+        ExchangeVersion.Exchange2010,
+        FieldUris.EndTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the StartTimeZone property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition StartTimeZone =
-            new StartTimeZonePropertyDefinition(
-                XmlElementNames.StartTimeZone,
-                FieldUris.StartTimeZone,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    Start: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "Start",
+        XmlElementNames.Start,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Start,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return this.StartTimeZone; }
+        );
 
-        /// <summary>
-        /// Defines the EndTimeZone property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EndTimeZone =
-            new TimeZonePropertyDefinition(
-                XmlElementNames.EndTimeZone,
-                FieldUris.EndTimeZone,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2010);
+    End: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "End",
+        XmlElementNames.End,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.End,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => {
+            if (version !== ExchangeVersion.Exchange2007_SP1) {
+                return this.EndTimeZone;
+            }
+            return this.StartTimeZone;
+        });
+    OriginalStart: PropertyDefinition = new DateTimePropertyDefinition(
+        "OriginalStart",
+        XmlElementNames.OriginalStart,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.OriginalStart,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Defines the Start property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Start =
-            new ScopedDateTimePropertyDefinition(
-                XmlElementNames.Start,
-                FieldUris.Start,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate(ExchangeVersion version)
-                {
-                    return AppointmentSchema.StartTimeZone;
-                });
+    IsAllDayEvent: PropertyDefinition = new BoolPropertyDefinition(
+        "IsAllDayEvent",
+        XmlElementNames.IsAllDayEvent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsAllDayEvent,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the End property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition End =
-            new ScopedDateTimePropertyDefinition(
-                XmlElementNames.End,
-                FieldUris.End,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate(ExchangeVersion version)
-                {
-                    return version == ExchangeVersion.Exchange2007_SP1 ? AppointmentSchema.StartTimeZone : AppointmentSchema.EndTimeZone;
-                });
+    LegacyFreeBusyStatus: PropertyDefinition = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
+        "LegacyFreeBusyStatus",
+        XmlElementNames.LegacyFreeBusyStatus,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LegacyFreeBusyStatus,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the OriginalStart property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition OriginalStart =
-            new DateTimePropertyDefinition(
-                XmlElementNames.OriginalStart,
-                FieldUris.OriginalStart,
-                ExchangeVersion.Exchange2007_SP1);
+    Location: PropertyDefinition = new StringPropertyDefinition(
+        "Location",
+        XmlElementNames.Location,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Location,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsAllDayEvent property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsAllDayEvent =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsAllDayEvent,
-                FieldUris.IsAllDayEvent,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    When: PropertyDefinition = new StringPropertyDefinition(
+        "When",
+        XmlElementNames.When,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.When,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the LegacyFreeBusyStatus property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition LegacyFreeBusyStatus =
-            new GenericPropertyDefinition<LegacyFreeBusyStatus>(
-                XmlElementNames.LegacyFreeBusyStatus,
-                FieldUris.LegacyFreeBusyStatus,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    IsMeeting: PropertyDefinition = new BoolPropertyDefinition(
+        "IsMeeting",
+        XmlElementNames.IsMeeting,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsMeeting,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Location property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Location =
-            new StringPropertyDefinition(
-                XmlElementNames.Location,
-                FieldUris.Location,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    IsCancelled: PropertyDefinition = new BoolPropertyDefinition(
+        "IsCancelled",
+        XmlElementNames.IsCancelled,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsCancelled,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the When property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition When =
-            new StringPropertyDefinition(
-                XmlElementNames.When,
-                FieldUris.When,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    IsRecurring: PropertyDefinition = new BoolPropertyDefinition(
+        "IsRecurring",
+        XmlElementNames.IsRecurring,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsRecurring,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsMeeting property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsMeeting =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsMeeting,
-                FieldUris.IsMeeting,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    MeetingRequestWasSent: PropertyDefinition = new BoolPropertyDefinition(
+        "MeetingRequestWasSent",
+        XmlElementNames.MeetingRequestWasSent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingRequestWasSent,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsCancelled property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsCancelled =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsCancelled,
-                FieldUris.IsCancelled,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    IsResponseRequested: PropertyDefinition = new BoolPropertyDefinition(
+        "IsResponseRequested",
+        XmlElementNames.IsResponseRequested,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsResponseRequested,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsRecurring property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsRecurring =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsRecurring,
-                FieldUris.IsRecurring,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    AppointmentType: PropertyDefinition = new GenericPropertyDefinition<AppointmentType>(
+        "CalendarItemType",
+        XmlElementNames.CalendarItemType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.CalendarItemType,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the MeetingRequestWasSent property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition MeetingRequestWasSent =
-            new BoolPropertyDefinition(
-                XmlElementNames.MeetingRequestWasSent,
-                FieldUris.MeetingRequestWasSent,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    MyResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
+        "MyResponseType",
+        XmlElementNames.MyResponseType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MyResponseType,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsResponseRequested property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsResponseRequested =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsResponseRequested,
-                FieldUris.IsResponseRequested,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    Organizer: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
+        "Organizer",
+        XmlElementNames.Organizer,
+        XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Organizer,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new EmailAddress(); }
+        );
 
-        /// <summary>
-        /// Defines the AppointmentType property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AppointmentType =
-            new GenericPropertyDefinition<AppointmentType>(
-                XmlElementNames.CalendarItemType,
-                FieldUris.CalendarItemType,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    RequiredAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
+        "RequiredAttendees",
+        XmlElementNames.RequiredAttendees,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.RequiredAttendees,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the MyResponseType property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition MyResponseType =
-            new GenericPropertyDefinition<MeetingResponseType>(
-                XmlElementNames.MyResponseType,
-                FieldUris.MyResponseType,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    OptionalAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
+        "OptionalAttendees",
+        XmlElementNames.OptionalAttendees,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.OptionalAttendees,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the Organizer property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Organizer =
-            new ContainedPropertyDefinition<EmailAddress>(
-                XmlElementNames.Organizer,
-                FieldUris.Organizer,
-                XmlElementNames.Mailbox,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new EmailAddress(); });
+    Resources: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
+        "Resources",
+        XmlElementNames.Resources,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Resources,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the RequiredAttendees property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition RequiredAttendees =
-            new ComplexPropertyDefinition<AttendeeCollection>(
-                XmlElementNames.RequiredAttendees,
-                FieldUris.RequiredAttendees,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new AttendeeCollection(); });
+    ConflictingMeetingCount: PropertyDefinition = new IntPropertyDefinition(
+        "ConflictingMeetingCount",
+        XmlElementNames.ConflictingMeetingCount,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConflictingMeetingCount,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Defines the OptionalAttendees property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition OptionalAttendees =
-            new ComplexPropertyDefinition<AttendeeCollection>(
-                XmlElementNames.OptionalAttendees,
-                FieldUris.OptionalAttendees,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new AttendeeCollection(); });
+    AdjacentMeetingCount: PropertyDefinition = new IntPropertyDefinition(
+        "AdjacentMeetingCount",
+        XmlElementNames.AdjacentMeetingCount,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AdjacentMeetingCount,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Defines the Resources property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Resources =
-            new ComplexPropertyDefinition<AttendeeCollection>(
-                XmlElementNames.Resources,
-                FieldUris.Resources,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new AttendeeCollection(); });
+    ConflictingMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+        "ConflictingMeetings",
+        XmlElementNames.ConflictingMeetings,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConflictingMeetings,
+        PropertyDefinitionFlags.None,
+        () => { return new ItemCollection<Appointment>(); }
+        );
 
-        /// <summary>
-        /// Defines the ConflictingMeetingCount property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ConflictingMeetingCount =
-            new IntPropertyDefinition(
-                XmlElementNames.ConflictingMeetingCount,
-                FieldUris.ConflictingMeetingCount,
-                ExchangeVersion.Exchange2007_SP1);
+    AdjacentMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+        "AdjacentMeetings",
+        XmlElementNames.AdjacentMeetings,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AdjacentMeetings,
+        PropertyDefinitionFlags.None,
+        () => { return new ItemCollection<Appointment>(); }
+        );
 
-        /// <summary>
-        /// Defines the AdjacentMeetingCount property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AdjacentMeetingCount =
-            new IntPropertyDefinition(
-                XmlElementNames.AdjacentMeetingCount,
-                FieldUris.AdjacentMeetingCount,
-                ExchangeVersion.Exchange2007_SP1);
+    Duration: PropertyDefinition = new TimeSpanPropertyDefinition(
+        "Duration",
+        XmlElementNames.Duration,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Duration,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ConflictingMeetings property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ConflictingMeetings =
-            new ComplexPropertyDefinition<ItemCollection<Appointment>>(
-                XmlElementNames.ConflictingMeetings,
-                FieldUris.ConflictingMeetings,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ItemCollection<Appointment>(); });
+    TimeZone: PropertyDefinition = new StringPropertyDefinition(
+        "TimeZone",
+        XmlElementNames.TimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.TimeZone,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the AdjacentMeetings property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AdjacentMeetings =
-            new ComplexPropertyDefinition<ItemCollection<Appointment>>(
-                XmlElementNames.AdjacentMeetings,
-                FieldUris.AdjacentMeetings,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ItemCollection<Appointment>(); });
+    AppointmentReplyTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "AppointmentReplyTime",
+        XmlElementNames.AppointmentReplyTime,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentReplyTime,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the Duration property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Duration =
-            new TimeSpanPropertyDefinition(
-                XmlElementNames.Duration,
-                FieldUris.Duration,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    AppointmentSequenceNumber: PropertyDefinition = new IntPropertyDefinition(
+        "AppointmentSequenceNumber",
+        XmlElementNames.AppointmentSequenceNumber,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentSequenceNumber,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Defines the TimeZone property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition TimeZone =
-            new StringPropertyDefinition(
-                XmlElementNames.TimeZone,
-                FieldUris.TimeZone,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    AppointmentState: PropertyDefinition = new IntPropertyDefinition(
+        "AppointmentState",
+        XmlElementNames.AppointmentState,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentState,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the AppointmentReplyTime property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AppointmentReplyTime =
-            new DateTimePropertyDefinition(
-                XmlElementNames.AppointmentReplyTime,
-                FieldUris.AppointmentReplyTime,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    Recurrence: PropertyDefinition = new RecurrencePropertyDefinition(
+        "Recurrence",
+        XmlElementNames.Recurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Recurrence,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
+        );
 
-        /// <summary>
-        /// Defines the AppointmentSequenceNumber property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AppointmentSequenceNumber =
-            new IntPropertyDefinition(
-                XmlElementNames.AppointmentSequenceNumber,
-                FieldUris.AppointmentSequenceNumber,
-                ExchangeVersion.Exchange2007_SP1);
+    FirstOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
+        "FirstOccurrence",
+        XmlElementNames.FirstOccurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.FirstOccurrence,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfo(); }
+        );
 
-        /// <summary>
-        /// Defines the AppointmentState property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AppointmentState =
-            new IntPropertyDefinition(
-                XmlElementNames.AppointmentState,
-                FieldUris.AppointmentState,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    LastOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
+        "LastOccurrence",
+        XmlElementNames.LastOccurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LastOccurrence,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfo(); }
+        );
 
-        /// <summary>
-        /// Defines the Recurrence property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Recurrence =
-            new RecurrencePropertyDefinition(
-                XmlElementNames.Recurrence,
-                FieldUris.Recurrence,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-                ExchangeVersion.Exchange2007_SP1);
+    ModifiedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfoCollection>(
+        "ModifiedOccurrences",
+        XmlElementNames.ModifiedOccurrences,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ModifiedOccurrences,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfoCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the FirstOccurrence property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition FirstOccurrence =
-            new ComplexPropertyDefinition<OccurrenceInfo>(
-                XmlElementNames.FirstOccurrence,
-                FieldUris.FirstOccurrence,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new OccurrenceInfo(); });
+    DeletedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
+        "DeletedOccurrences",
+        XmlElementNames.DeletedOccurrences,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DeletedOccurrences,
+        PropertyDefinitionFlags.None,
+        () => { return new DeletedOccurrenceInfoCollection(); }
+        );
 
-        /// <summary>
-        /// Defines the LastOccurrence property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition LastOccurrence =
-            new ComplexPropertyDefinition<OccurrenceInfo>(
-                XmlElementNames.LastOccurrence,
-                FieldUris.LastOccurrence,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new OccurrenceInfo(); });
+    MeetingTimeZone: PropertyDefinition = new MeetingTimeZonePropertyDefinition(
+        "MeetingTimeZone",
+        XmlElementNames.MeetingTimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate
+        );
 
-        /// <summary>
-        /// Defines the ModifiedOccurrences property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ModifiedOccurrences =
-            new ComplexPropertyDefinition<OccurrenceInfoCollection>(
-                XmlElementNames.ModifiedOccurrences,
-                FieldUris.ModifiedOccurrences,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new OccurrenceInfoCollection(); });
+    ConferenceType: PropertyDefinition = new IntPropertyDefinition(
+        "ConferenceType",
+        XmlElementNames.ConferenceType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConferenceType,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the DeletedOccurrences property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DeletedOccurrences =
-            new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
-                XmlElementNames.DeletedOccurrences,
-                FieldUris.DeletedOccurrences,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new DeletedOccurrenceInfoCollection(); });
+    AllowNewTimeProposal: PropertyDefinition = new BoolPropertyDefinition(
+        "AllowNewTimeProposal",
+        XmlElementNames.AllowNewTimeProposal,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AllowNewTimeProposal,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the MeetingTimeZone property.
-        /// </summary>
-        internal static readonly PropertyDefinition MeetingTimeZone =
-            new MeetingTimeZonePropertyDefinition(
-                XmlElementNames.MeetingTimeZone,
-                FieldUris.MeetingTimeZone,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-                ExchangeVersion.Exchange2007_SP1);
+    IsOnlineMeeting: PropertyDefinition = new BoolPropertyDefinition(
+        "IsOnlineMeeting",
+        XmlElementNames.IsOnlineMeeting,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsOnlineMeeting,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the ConferenceType property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ConferenceType =
-            new IntPropertyDefinition(
-                XmlElementNames.ConferenceType,
-                FieldUris.ConferenceType,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    MeetingWorkspaceUrl: PropertyDefinition = new StringPropertyDefinition(
+        "MeetingWorkspaceUrl",
+        XmlElementNames.MeetingWorkspaceUrl,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingWorkspaceUrl,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the AllowNewTimeProposal property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AllowNewTimeProposal =
-            new BoolPropertyDefinition(
-                XmlElementNames.AllowNewTimeProposal,
-                FieldUris.AllowNewTimeProposal,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    NetShowUrl: PropertyDefinition = new StringPropertyDefinition(
+        "NetShowUrl",
+        XmlElementNames.NetShowUrl,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.NetShowUrl,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the IsOnlineMeeting property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition IsOnlineMeeting =
-            new BoolPropertyDefinition(
-                XmlElementNames.IsOnlineMeeting,
-                FieldUris.IsOnlineMeeting,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    ICalUid: PropertyDefinition = new StringPropertyDefinition(
+        "ICalUid",
+        XmlElementNames.Uid,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Uid,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the MeetingWorkspaceUrl property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition MeetingWorkspaceUrl =
-            new StringPropertyDefinition(
-                XmlElementNames.MeetingWorkspaceUrl,
-                FieldUris.MeetingWorkspaceUrl,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    ICalRecurrenceId: PropertyDefinition = new DateTimePropertyDefinition(
+        "ICalRecurrenceId",
+        XmlElementNames.RecurrenceId,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.RecurrenceId,
+        PropertyDefinitionFlags.CanFind,
+        true
+        );
 
-        /// <summary>
-        /// Defines the NetShowUrl property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition NetShowUrl =
-            new StringPropertyDefinition(
-                XmlElementNames.NetShowUrl,
-                FieldUris.NetShowUrl,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    ICalDateTimeStamp: PropertyDefinition = new DateTimePropertyDefinition(
+        "ICalDateTimeStamp",
+        XmlElementNames.DateTimeStamp,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DateTimeStamp,
+        PropertyDefinitionFlags.CanFind,
+        true
+        );
 
-        /// <summary>
-        /// Defines the iCalendar Uid property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalUid =
-            new StringPropertyDefinition(
-                XmlElementNames.Uid,
-                FieldUris.Uid,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+    EnhancedLocation: PropertyDefinition = new ComplexPropertyDefinition<EnhancedLocation>(
+        "EnhancedLocation",
+        XmlElementNames.EnhancedLocation,
+        ExchangeVersion.Exchange2013,
+        FieldUris.EnhancedLocation,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        () => { return new EnhancedLocation(); }
+        );
 
-        /// <summary>
-        /// Defines the iCalendar RecurrenceId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalRecurrenceId =
-            new DateTimePropertyDefinition(
-                XmlElementNames.RecurrenceId,
-                FieldUris.RecurrenceId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                true);  // isNullable
+    JoinOnlineMeetingUrl: PropertyDefinition = new StringPropertyDefinition(
+        "JoinOnlineMeetingUrl",
+        XmlElementNames.JoinOnlineMeetingUrl,
+        ExchangeVersion.Exchange2013,
+        FieldUris.JoinOnlineMeetingUrl,
+        PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Defines the iCalendar DateTimeStamp property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ICalDateTimeStamp =
-            new DateTimePropertyDefinition(
-                XmlElementNames.DateTimeStamp,
-                FieldUris.DateTimeStamp,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                true);  // isNullable
+    OnlineMeetingSettings: PropertyDefinition = new ComplexPropertyDefinition<OnlineMeetingSettings>(
+        "OnlineMeetingSettings",
+        XmlElementNames.OnlineMeetingSettings,
+        ExchangeVersion.Exchange2013,
+        FieldUris.OnlineMeetingSettings,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new OnlineMeetingSettings(); }
+        );
 
-        /// <summary>
-        /// Enhanced Location property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EnhancedLocation = 
-            new ComplexPropertyDefinition<EnhancedLocation>(
-                XmlElementNames.EnhancedLocation,
-                FieldUris.EnhancedLocation,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new EnhancedLocation(); });
+    static Instance: AppointmentSchema = new AppointmentSchema();
+    /**
+     *
+     */
+    constructor() {
+        super();
+        //if (AppointmentSchema.Instance) throw new Error("can not create another instance");
+    }
+    RegisterProperties(): void {
+        this.init();
+        super.RegisterProperties();
+        super.RegisterProperty(this.ICalUid);
+        super.RegisterProperty(this.ICalRecurrenceId);
+        super.RegisterProperty(this.ICalDateTimeStamp);
+        super.RegisterProperty(this.Start);
+        super.RegisterProperty(this.End);
+        super.RegisterProperty(this.OriginalStart);
+        super.RegisterProperty(this.IsAllDayEvent);
+        super.RegisterProperty(this.LegacyFreeBusyStatus);
+        super.RegisterProperty(this.Location);
+        super.RegisterProperty(this.When);
+        super.RegisterProperty(this.IsMeeting);
+        super.RegisterProperty(this.IsCancelled);
+        super.RegisterProperty(this.IsRecurring);
+        super.RegisterProperty(this.MeetingRequestWasSent);
+        super.RegisterProperty(this.IsResponseRequested);
+        super.RegisterProperty(this.AppointmentType);
+        super.RegisterProperty(this.MyResponseType);
+        super.RegisterProperty(this.Organizer);
+        super.RegisterProperty(this.RequiredAttendees);
+        super.RegisterProperty(this.OptionalAttendees);
+        super.RegisterProperty(this.Resources);
+        super.RegisterProperty(this.ConflictingMeetingCount);
+        super.RegisterProperty(this.AdjacentMeetingCount);
+        super.RegisterProperty(this.ConflictingMeetings);
+        super.RegisterProperty(this.AdjacentMeetings);
+        super.RegisterProperty(this.Duration);
+        super.RegisterProperty(this.TimeZone);
+        super.RegisterProperty(this.AppointmentReplyTime);
+        super.RegisterProperty(this.AppointmentSequenceNumber);
+        super.RegisterProperty(this.AppointmentState);
+        super.RegisterProperty(this.Recurrence);
+        super.RegisterProperty(this.FirstOccurrence);
+        super.RegisterProperty(this.LastOccurrence);
+        super.RegisterProperty(this.ModifiedOccurrences);
+        super.RegisterProperty(this.DeletedOccurrences);
+        super.RegisterInternalProperty(this.MeetingTimeZone);
+        super.RegisterProperty(this.StartTimeZone);
+        super.RegisterProperty(this.EndTimeZone);
+        super.RegisterProperty(this.ConferenceType);
+        super.RegisterProperty(this.AllowNewTimeProposal);
+        super.RegisterProperty(this.IsOnlineMeeting);
+        super.RegisterProperty(this.MeetingWorkspaceUrl);
+        super.RegisterProperty(this.NetShowUrl);
+        super.RegisterProperty(this.EnhancedLocation);
+        super.RegisterProperty(this.JoinOnlineMeetingUrl);
+        super.RegisterProperty(this.OnlineMeetingSettings);
+    }
+    init():void{
+        this.StartTimeZone = new StartTimeZonePropertyDefinition(
+        "StartTimeZone",
+        XmlElementNames.StartTimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.StartTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// JoinOnlineMeetingUrl property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition JoinOnlineMeetingUrl =
-            new StringPropertyDefinition(
-                XmlElementNames.JoinOnlineMeetingUrl,
-                FieldUris.JoinOnlineMeetingUrl,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013);
+    this.EndTimeZone = new TimeZonePropertyDefinition(
+        "EndTimeZone",
+        XmlElementNames.EndTimeZone,
+        ExchangeVersion.Exchange2010,
+        FieldUris.EndTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// OnlineMeetingSettings property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition OnlineMeetingSettings =
-            new ComplexPropertyDefinition<OnlineMeetingSettings>(
-                XmlElementNames.OnlineMeetingSettings,
-                FieldUris.OnlineMeetingSettings,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new OnlineMeetingSettings(); });
+    this.Start = new ScopedDateTimePropertyDefinition(
+        "Start",
+        XmlElementNames.Start,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Start,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return this.StartTimeZone; }
+        );
 
-        /// <summary>
-        /// Instance of schema.
-        /// </summary>
-        /// <remarks>
-        /// This must be after the declaration of property definitions.
-        /// </remarks>
-        internal static new readonly AppointmentSchema Instance = new AppointmentSchema();
+    this.End = new ScopedDateTimePropertyDefinition(
+        "End",
+        XmlElementNames.End,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.End,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => {
+            if (version !== ExchangeVersion.Exchange2007_SP1) {
+                return this.EndTimeZone;
+            }
+            return this.StartTimeZone;
+        });
+    this.OriginalStart = new DateTimePropertyDefinition(
+        "OriginalStart",
+        XmlElementNames.OriginalStart,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.OriginalStart,
+        PropertyDefinitionFlags.None
+        );
 
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
+    this.IsAllDayEvent = new BoolPropertyDefinition(
+        "IsAllDayEvent",
+        XmlElementNames.IsAllDayEvent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsAllDayEvent,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-            this.RegisterProperty(ICalUid);
-            this.RegisterProperty(ICalRecurrenceId);
-            this.RegisterProperty(ICalDateTimeStamp);
-            this.RegisterProperty(Start);
-            this.RegisterProperty(End);
-            this.RegisterProperty(OriginalStart);
-            this.RegisterProperty(IsAllDayEvent);
-            this.RegisterProperty(LegacyFreeBusyStatus);
-            this.RegisterProperty(Location);
-            this.RegisterProperty(When);
-            this.RegisterProperty(IsMeeting);
-            this.RegisterProperty(IsCancelled);
-            this.RegisterProperty(IsRecurring);
-            this.RegisterProperty(MeetingRequestWasSent);
-            this.RegisterProperty(IsResponseRequested);
-            this.RegisterProperty(AppointmentType);
-            this.RegisterProperty(MyResponseType);
-            this.RegisterProperty(Organizer);
-            this.RegisterProperty(RequiredAttendees);
-            this.RegisterProperty(OptionalAttendees);
-            this.RegisterProperty(Resources);
-            this.RegisterProperty(ConflictingMeetingCount);
-            this.RegisterProperty(AdjacentMeetingCount);
-            this.RegisterProperty(ConflictingMeetings);
-            this.RegisterProperty(AdjacentMeetings);
-            this.RegisterProperty(Duration);
-            this.RegisterProperty(TimeZone);
-            this.RegisterProperty(AppointmentReplyTime);
-            this.RegisterProperty(AppointmentSequenceNumber);
-            this.RegisterProperty(AppointmentState);
-            this.RegisterProperty(Recurrence);
-            this.RegisterProperty(FirstOccurrence);
-            this.RegisterProperty(LastOccurrence);
-            this.RegisterProperty(ModifiedOccurrences);
-            this.RegisterProperty(DeletedOccurrences);
-            this.RegisterInternalProperty(MeetingTimeZone);
-            this.RegisterProperty(StartTimeZone);
-            this.RegisterProperty(EndTimeZone);
-            this.RegisterProperty(ConferenceType);
-            this.RegisterProperty(AllowNewTimeProposal);
-            this.RegisterProperty(IsOnlineMeeting);
-            this.RegisterProperty(MeetingWorkspaceUrl);
-            this.RegisterProperty(NetShowUrl);
-            this.RegisterProperty(EnhancedLocation);
-            this.RegisterProperty(JoinOnlineMeetingUrl);
-            this.RegisterProperty(OnlineMeetingSettings);
-        }
+    this.LegacyFreeBusyStatus = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
+        "LegacyFreeBusyStatus",
+        XmlElementNames.LegacyFreeBusyStatus,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LegacyFreeBusyStatus,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentSchema"/> class.
-        /// </summary>
-        internal AppointmentSchema()
-            : base()
-        {
-        }
+    this.Location = new StringPropertyDefinition(
+        "Location",
+        XmlElementNames.Location,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Location,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+    this.When = new StringPropertyDefinition(
+        "When",
+        XmlElementNames.When,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.When,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+    this.IsMeeting = new BoolPropertyDefinition(
+        "IsMeeting",
+        XmlElementNames.IsMeeting,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsMeeting,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.IsCancelled = new BoolPropertyDefinition(
+        "IsCancelled",
+        XmlElementNames.IsCancelled,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsCancelled,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.IsRecurring = new BoolPropertyDefinition(
+        "IsRecurring",
+        XmlElementNames.IsRecurring,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsRecurring,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.MeetingRequestWasSent = new BoolPropertyDefinition(
+        "MeetingRequestWasSent",
+        XmlElementNames.MeetingRequestWasSent,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingRequestWasSent,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.IsResponseRequested = new BoolPropertyDefinition(
+        "IsResponseRequested",
+        XmlElementNames.IsResponseRequested,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsResponseRequested,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.AppointmentType = new GenericPropertyDefinition<AppointmentType>(
+        "CalendarItemType",
+        XmlElementNames.CalendarItemType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.CalendarItemType,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.MyResponseType = new GenericPropertyDefinition<MeetingResponseType>(
+        "MyResponseType",
+        XmlElementNames.MyResponseType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MyResponseType,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.Organizer = new ContainedPropertyDefinition<EmailAddress>(
+        "Organizer",
+        XmlElementNames.Organizer,
+        XmlElementNames.Mailbox,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Organizer,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new EmailAddress(); }
+        );
+
+    this.RequiredAttendees = new ComplexPropertyDefinition<AttendeeCollection>(
+        "RequiredAttendees",
+        XmlElementNames.RequiredAttendees,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.RequiredAttendees,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
+
+    this.OptionalAttendees = new ComplexPropertyDefinition<AttendeeCollection>(
+        "OptionalAttendees",
+        XmlElementNames.OptionalAttendees,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.OptionalAttendees,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
+
+    this.Resources = new ComplexPropertyDefinition<AttendeeCollection>(
+        "Resources",
+        XmlElementNames.Resources,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Resources,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        () => { return new AttendeeCollection(); }
+        );
+
+    this.ConflictingMeetingCount = new IntPropertyDefinition(
+        "ConflictingMeetingCount",
+        XmlElementNames.ConflictingMeetingCount,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConflictingMeetingCount,
+        PropertyDefinitionFlags.None
+        );
+
+    this.AdjacentMeetingCount = new IntPropertyDefinition(
+        "AdjacentMeetingCount",
+        XmlElementNames.AdjacentMeetingCount,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AdjacentMeetingCount,
+        PropertyDefinitionFlags.None
+        );
+
+    this.ConflictingMeetings = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+        "ConflictingMeetings",
+        XmlElementNames.ConflictingMeetings,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConflictingMeetings,
+        PropertyDefinitionFlags.None,
+        () => { return new ItemCollection<Appointment>(); }
+        );
+
+    this.AdjacentMeetings = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+        "AdjacentMeetings",
+        XmlElementNames.AdjacentMeetings,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AdjacentMeetings,
+        PropertyDefinitionFlags.None,
+        () => { return new ItemCollection<Appointment>(); }
+        );
+
+    this.Duration = new TimeSpanPropertyDefinition(
+        "Duration",
+        XmlElementNames.Duration,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Duration,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.TimeZone = new StringPropertyDefinition(
+        "TimeZone",
+        XmlElementNames.TimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.TimeZone,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.AppointmentReplyTime = new DateTimePropertyDefinition(
+        "AppointmentReplyTime",
+        XmlElementNames.AppointmentReplyTime,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentReplyTime,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.AppointmentSequenceNumber = new IntPropertyDefinition(
+        "AppointmentSequenceNumber",
+        XmlElementNames.AppointmentSequenceNumber,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentSequenceNumber,
+        PropertyDefinitionFlags.None
+        );
+
+    this.AppointmentState = new IntPropertyDefinition(
+        "AppointmentState",
+        XmlElementNames.AppointmentState,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AppointmentState,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.Recurrence = new RecurrencePropertyDefinition(
+        "Recurrence",
+        XmlElementNames.Recurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Recurrence,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
+        );
+
+    this.FirstOccurrence = new ComplexPropertyDefinition<OccurrenceInfo>(
+        "FirstOccurrence",
+        XmlElementNames.FirstOccurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.FirstOccurrence,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfo(); }
+        );
+
+    this.LastOccurrence = new ComplexPropertyDefinition<OccurrenceInfo>(
+        "LastOccurrence",
+        XmlElementNames.LastOccurrence,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.LastOccurrence,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfo(); }
+        );
+
+    this.ModifiedOccurrences = new ComplexPropertyDefinition<OccurrenceInfoCollection>(
+        "ModifiedOccurrences",
+        XmlElementNames.ModifiedOccurrences,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ModifiedOccurrences,
+        PropertyDefinitionFlags.None,
+        () => { return new OccurrenceInfoCollection(); }
+        );
+
+    this.DeletedOccurrences = new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
+        "DeletedOccurrences",
+        XmlElementNames.DeletedOccurrences,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DeletedOccurrences,
+        PropertyDefinitionFlags.None,
+        () => { return new DeletedOccurrenceInfoCollection(); }
+        );
+
+    this.MeetingTimeZone = new MeetingTimeZonePropertyDefinition(
+        "MeetingTimeZone",
+        XmlElementNames.MeetingTimeZone,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingTimeZone,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate
+        );
+
+    this.ConferenceType = new IntPropertyDefinition(
+        "ConferenceType",
+        XmlElementNames.ConferenceType,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.ConferenceType,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.AllowNewTimeProposal = new BoolPropertyDefinition(
+        "AllowNewTimeProposal",
+        XmlElementNames.AllowNewTimeProposal,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.AllowNewTimeProposal,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.IsOnlineMeeting = new BoolPropertyDefinition(
+        "IsOnlineMeeting",
+        XmlElementNames.IsOnlineMeeting,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.IsOnlineMeeting,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.MeetingWorkspaceUrl = new StringPropertyDefinition(
+        "MeetingWorkspaceUrl",
+        XmlElementNames.MeetingWorkspaceUrl,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.MeetingWorkspaceUrl,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+    this.NetShowUrl = new StringPropertyDefinition(
+        "NetShowUrl",
+        XmlElementNames.NetShowUrl,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.NetShowUrl,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+    this.ICalUid = new StringPropertyDefinition(
+        "ICalUid",
+        XmlElementNames.Uid,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.Uid,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+    this.ICalRecurrenceId = new DateTimePropertyDefinition(
+        "ICalRecurrenceId",
+        XmlElementNames.RecurrenceId,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.RecurrenceId,
+        PropertyDefinitionFlags.CanFind,
+        true
+        );
+
+    this.ICalDateTimeStamp = new DateTimePropertyDefinition(
+        "ICalDateTimeStamp",
+        XmlElementNames.DateTimeStamp,
+        ExchangeVersion.Exchange2007_SP1,
+        FieldUris.DateTimeStamp,
+        PropertyDefinitionFlags.CanFind,
+        true
+        );
+
+    this.EnhancedLocation = new ComplexPropertyDefinition<EnhancedLocation>(
+        "EnhancedLocation",
+        XmlElementNames.EnhancedLocation,
+        ExchangeVersion.Exchange2013,
+        FieldUris.EnhancedLocation,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        () => { return new EnhancedLocation(); }
+        );
+
+    this.JoinOnlineMeetingUrl = new StringPropertyDefinition(
+        "JoinOnlineMeetingUrl",
+        XmlElementNames.JoinOnlineMeetingUrl,
+        ExchangeVersion.Exchange2013,
+        FieldUris.JoinOnlineMeetingUrl,
+        PropertyDefinitionFlags.CanFind
+        );
+
+    this.OnlineMeetingSettings = new ComplexPropertyDefinition<OnlineMeetingSettings>(
+        "OnlineMeetingSettings",
+        XmlElementNames.OnlineMeetingSettings,
+        ExchangeVersion.Exchange2013,
+        FieldUris.OnlineMeetingSettings,
+        PropertyDefinitionFlags.CanFind,
+        () => { return new OnlineMeetingSettings(); }
+        );
     }
 }

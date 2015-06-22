@@ -1,12 +1,12 @@
-import ServiceResponse = require("../Core/Responses/ServiceResponse");
+﻿import {Strings} from "../Strings";
+import {ServiceResponse} from "../Core/Responses/ServiceResponse";
 
-import ServiceError = require("../Enumerations/ServiceError");
+import {ServiceError} from "../Enumerations/ServiceError";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting
-import Exception = require("./Exception");
-import ServiceRemoteException = require("./ServiceRemoteException");
-class ServiceResponseException extends ServiceRemoteException {
+import {StringHelper} from "../ExtensionMethods";
+import {Exception} from "./Exception";
+import {ServiceRemoteException} from "./ServiceRemoteException";
+export class ServiceResponseException extends ServiceRemoteException {
     private static ExceptionClassKey: string = "ExceptionClass";
     private static ExceptionMessageKey: string = "ExceptionMessage";
     private static StackTraceKey: string = "StackTrace";
@@ -24,10 +24,9 @@ class ServiceResponseException extends ServiceRemoteException {
             //if (this.Response.ErrorDetails.TryGetValue(ExceptionClassKey, out exceptionClass) &&
             //    this.Response.ErrorDetails.TryGetValue(ExceptionMessageKey, out exceptionMessage) &&
             //    this.Response.ErrorDetails.TryGetValue(StackTraceKey, out stackTrace)) {
-            if (!String.IsNullOrEmpty(exceptionClass) && !String.IsNullOrEmpty(exceptionMessage) && !String.IsNullOrEmpty(stackTrace)) {
-                return String.Format(
-                //Strings.ServerErrorAndStackTraceDetails,
-                    "server error and stack tract details - Message: {0}\n, Class: {1}\n, Exception message: {2}\n, stack trace: {3}",
+            if (!StringHelper.IsNullOrEmpty(exceptionClass) && !StringHelper.IsNullOrEmpty(exceptionMessage) && !StringHelper.IsNullOrEmpty(stackTrace)) {
+                return StringHelper.Format(
+                    Strings.ServerErrorAndStackTraceDetails,
                     this.Response.ErrorMessage,
                     exceptionClass,
                     exceptionMessage,
@@ -52,10 +51,3 @@ class ServiceResponseException extends ServiceRemoteException {
     //}
 
 }
-
-export = ServiceResponseException;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

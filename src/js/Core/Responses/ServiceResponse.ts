@@ -1,21 +1,22 @@
-import ServiceError = require("../../Enumerations/ServiceError");
-import ServiceResult = require("../../Enumerations/ServiceResult");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
+﻿import {ExchangeService} from "../ExchangeService";
+import {Strings} from "../../Strings";
+import {ServiceError} from "../../Enumerations/ServiceError";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import IndexedPropertyDefinition = require("../../PropertyDefinitions/IndexedPropertyDefinition");
-import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {IndexedPropertyDefinition} from "../../PropertyDefinitions/IndexedPropertyDefinition";
+import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
 
-import SoapFaultDetails = require("../../Misc/SoapFaultDetails");
+import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
 
-import ServiceResponseException = require("../../Exceptions/ServiceResponseException");
+import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
 
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import XmlElementNames = require("../XmlElementNames");
-import XmlAttributeNames = require("../XmlAttributeNames");
-import ServiceObjectSchema = require("../ServiceObjects/Schemas/ServiceObjectSchema");
-
-class ServiceResponse {
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {ServiceObjectSchema} from "../ServiceObjects/Schemas/ServiceObjectSchema";
+export class ServiceResponse {
     get BatchProcessingStopped(): boolean { return (this.result == ServiceResult.Warning) && (this.errorCode == ServiceError.ErrorBatchProcessingStopped); }
     get Result(): ServiceResult { return this.result; }
     get ErrorCode(): ServiceError { return this.errorCode; }
@@ -27,21 +28,41 @@ class ServiceResponse {
     //private errorMessage: string;
     private errorDetails: { [index: string]: string; } = {}; /*System.Collections.Generic.Dictionary<string, string>*/
     private errorProperties: PropertyDefinitionBase[] = [];// System.Collections.ObjectModel.Collection<PropertyDefinitionBase>;
+    /**
+     * Initializes a new instance of the @see {@link ServiceResponse} class.
+     * @constructor
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the <see cref="ServiceResponse"/> class.
+     * @constructor
+     * @param {SoapFaultDetails} soapFaultDetails The SOAP fault details.
+     */
+    constructor(soapFaultDetails: SoapFaultDetails);
+    /**
+     * Initializes a new instance of the <see cref="ServiceResponse"/> class.
+     * This is intended to be used by unit tests to create a fake service error response
+     * @constructor
+     * @param {ServiceError} responseCode Response code
+     * @param {string} errorMessage Detailed error message
+     */
+    constructor(responseCode: ServiceError, errorMessage: string);
 
-    constructor(soapFaultDetails?: SoapFaultDetails, responseCode?: ServiceError, errorMessage?: string) {
+    constructor(soapFaultDetailsOrResponseCode?: SoapFaultDetails | ServiceError, errorMessage?: string) {
+        var argsLength = arguments.length;
+        if (argsLength == 0) return;
 
-        if (soapFaultDetails) {
+        if (typeof soapFaultDetailsOrResponseCode === 'number') {//(responseCode: ServiceError, errorMessage: string)
             this.result = ServiceResult.Error;
-            this.errorCode = soapFaultDetails.ResponseCode;
-            this.ErrorMessage = soapFaultDetails.FaultString;
-            this.errorDetails = soapFaultDetails.ErrorDetails;
-        }
-
-        if (responseCode) {
-            this.result = ServiceResult.Error;
-            this.errorCode = responseCode;
+            this.errorCode = soapFaultDetailsOrResponseCode;
             this.ErrorMessage = errorMessage;
             this.errorDetails = null;
+        }
+        else {//(soapFaultDetails: SoapFaultDetails)
+            this.result = ServiceResult.Error;
+            this.errorCode = soapFaultDetailsOrResponseCode.ResponseCode;
+            this.ErrorMessage = soapFaultDetailsOrResponseCode.FaultString;
+            this.errorDetails = soapFaultDetailsOrResponseCode.ErrorDetails;
         }
     }
 
@@ -61,66 +82,85 @@ class ServiceResponse {
             return false;
         }
     }
-    //LoadFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): void {
-        if (!reader.IsElement(XmlNamespace.Messages, xmlElementName)) {
-            reader.ReadStartElement(XmlNamespace.Messages, xmlElementName);
+    LoadFromXmlJsObject(responseObject: any, service: ExchangeService): any {
+
+        this.result = <any>ServiceResult[responseObject[XmlAttributeNames.ResponseClass]];
+        this.errorCode = <any>ServiceError[responseObject[XmlElementNames.ResponseCode]];
+            
+        // TODO: Deal with a JSON version of "LoadExtraDetailsFromXml"
+        if (this.result == ServiceResult.Warning || this.result == ServiceResult.Error) {
+            this.ErrorMessage = responseObject[XmlElementNames.MessageText];
         }
 
-        var attribute = reader.ReadAttributeValue(null, XmlAttributeNames.ResponseClass);
-        debugger;
-        this.result = ServiceResult[attribute];
+        if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
+            if (!this.BatchProcessingStopped) {
+                this.ReadElementsFromXmlJsObject(responseObject, service);
+            }
+        }
 
+        this.MapErrorCodeToErrorMessage();
+
+        this.Loaded();
+
+    }
+    LoadFromXmlJsObject_old(jsObject: any, xmlElementName: string, service: ExchangeService): void {
+        //set contecxt to xmlelementname 
+        jsObject = jsObject[xmlElementName];
+
+        var resClass = jsObject[XmlAttributeNames.ResponseClass];
+        debugger;
+        this.result = <any>ServiceResult[resClass];
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
             if (this.result == ServiceResult.Warning) {
-                reader.Read();
-                if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.MessageText)) {
-                    this.ErrorMessage = reader.ReadElementValue();
-                } else debugger;
+                if (jsObject[XmlElementNames.MessageText]) {
+                    this.ErrorMessage = jsObject[XmlElementNames.MessageText];
+                }
+                else
+                    debugger;
+                if (jsObject[XmlElementNames.DescriptiveLinkKey]) {
+                    this.ErrorMessage = jsObject[XmlElementNames.DescriptiveLinkKey];
+                }
+                else
+                    debugger;
             }
-            reader.Read();
-            if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.ResponseCode))
-                this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
+
+            if (jsObject[XmlElementNames.ResponseCode])
+                this.errorCode = <any>ServiceError[jsObject[XmlElementNames.ResponseCode]];
             else debugger;
-            if (this.result == ServiceResult.Warning) {
-                reader.Read();
-                if (reader.IsElement(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey))
-                    reader.ReadElementValue();
-                else debugger;
-            }
+
 
             // If batch processing stopped, EWS returns an empty element. Skip over it.
             if (this.BatchProcessingStopped) {
-                do {
-                    reader.Read();
-                }
-                while (!reader.HasRecursiveParent(xmlElementName));
+                debugger;
+                //                do {
+                //                    reader.Read();
+                //                }
+                //                while (!reader.HasRecursiveParent(xmlElementName));
             }
             else {
-                this.ReadElementsFromXml(reader);
-
-                reader.ReadEndElementIfNecessary(XmlNamespace.Messages, xmlElementName);
+                this.ReadElementsFromXmlJsObject(jsObject, service);
             }
         }
         else {
-            reader.Read();
-            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
-            reader.Read();
-            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
-
-            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
-
-            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
-                reader.Read();
-
-                //if (reader.IsStartElement()) {
-                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
-                    reader.SkipCurrentElement();
-                }
-                //}
-            }
-            reader.SeekLast();
+            //todo: check what  is missing   
+            debugger;         
+            //            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
+            //            reader.Read();
+            //            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
+            //
+            //            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
+            //
+            //            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
+            //                reader.Read();
+            //
+            //                //if (reader.IsStartElement()) {
+            //                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
+            //                    reader.SkipCurrentElement();
+            //                }
+            //                //}
+            //            }
+            //            reader.SeekLast();
         }
 
         this.MapErrorCodeToErrorMessage();
@@ -130,7 +170,7 @@ class ServiceResponse {
     MapErrorCodeToErrorMessage(): void {
         // Use a better error message when an item cannot be updated because its changeKey is old.
         if (this.ErrorCode == ServiceError.ErrorIrresolvableConflict) {
-            this.ErrorMessage = "item is out of date";// Strings.ItemIsOutOfDate;
+            this.ErrorMessage = Strings.ItemIsOutOfDate;
         }
     }
     ParseMessageXml(reader: EwsServiceXmlReader): void {
@@ -145,7 +185,8 @@ class ServiceResponse {
                     break;
 
                 case XmlElementNames.FieldURI:
-                    this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(null, XmlAttributeNames.FieldURI)));
+                    debugger;//next statement needs implementation or varification of accuracy
+                    //this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(null, XmlAttributeNames.FieldURI)));
                     break;
 
                 case XmlElementNames.IndexedFieldURI:
@@ -157,7 +198,8 @@ class ServiceResponse {
 
                 case XmlElementNames.ExtendedFieldURI:
                     var extendedPropDef = new ExtendedPropertyDefinition();
-                    extendedPropDef.LoadFromXml(reader);
+                    debugger;//next statement may be inaccurate
+                    extendedPropDef.LoadPropertyValueFromXmlJsObject(reader);
                     this.errorProperties.push(extendedPropDef);
                     break;
 
@@ -169,14 +211,9 @@ class ServiceResponse {
         while (!reader.HasRecursiveParent(/*XmlNamespace.Messages,*/ XmlElementNames.MessageXml));
         reader.SeekLast();
     }
-    //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
+    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
+        //virtual void
+    }
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void { /* virtualvoid to be implemented throw new Error("Not implemented.");*/ }
     ThrowIfNecessary(): void { this.InternalThrowIfNecessary(); }
 }
-
-export = ServiceResponse;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

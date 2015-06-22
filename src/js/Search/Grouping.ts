@@ -1,153 +1,58 @@
-// ---------------------------------------------------------------------------
-// <copyright file="Grouping.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {SortDirection} from "../Enumerations/SortDirection";
+import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
+import {AggregateType} from "../Enumerations/AggregateType";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class Grouping { //: ISelfValidate, IJsonSerializable
+    SortDirection: SortDirection = SortDirection.Ascending;
+    GroupOn: PropertyDefinitionBase;
+    AggregateOn: PropertyDefinitionBase;
+    AggregateType: AggregateType = AggregateType.Minimum;
+    /** no need for setter getter */
+    // private sortDirection: SortDirection = SortDirection.Ascending;
+    // private groupOn: PropertyDefinitionBase;
+    // private aggregateOn: PropertyDefinitionBase;
+    // private aggregateType: AggregateType;
+    
+    constructor();
+    constructor(groupOn: PropertyDefinitionBase, sortDirection: SortDirection, aggregateOn: PropertyDefinitionBase, aggregateType: AggregateType);
+    constructor(
+        groupOn?: PropertyDefinitionBase,
+        sortDirection?: SortDirection,
+        aggregateOn?: PropertyDefinitionBase,
+        aggregateType?: AggregateType) {
+        if (arguments.length > 0 && arguments.length < 4) {
+            throw new Error("Grouping.ts - ctor: incorrect number of parameters for constructor call");
+        }       
+        //EwsUtilities.ValidateParam(groupOn, "groupOn");
+        //EwsUtilities.ValidateParam(aggregateOn, "aggregateOn");
 
-//-----------------------------------------------------------------------
-// <summary>Defines the Grouping class.</summary>
-//-----------------------------------------------------------------------
+        this.GroupOn = groupOn;
+        this.SortDirection = sortDirection;
+        this.AggregateOn = aggregateOn;
+        this.AggregateType = aggregateType;
+    }
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    InternalValidate(): void {
+        //todo: implement validation
+        //EwsUtilities.ValidateParam(this.GroupOn, "GroupOn");
+        //EwsUtilities.ValidateParam(this.AggregateOn, "AggregateOn");
+    }
+    WriteToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.GroupBy);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Order, SortDirection[this.SortDirection]);
 
-    /// <summary>
-    /// Represents grouping options in item search operations.
-    /// </summary>
-    public sealed class Grouping : ISelfValidate, IJsonSerializable
-    {
-        private SortDirection sortDirection = SortDirection.Ascending;
-        private PropertyDefinitionBase groupOn;
-        private PropertyDefinitionBase aggregateOn;
-        private AggregateType aggregateType;
+        this.GroupOn.WriteToXml(writer);
 
-        /// <summary>
-        /// Validates this grouping.
-        /// </summary>
-        private void InternalValidate()
-        {
-            EwsUtilities.ValidateParam(this.GroupOn, "GroupOn");
-            EwsUtilities.ValidateParam(this.AggregateOn, "AggregateOn");
-        }
+        writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AggregateOn);
+        writer.WriteAttributeValue(null, XmlAttributeNames.Aggregate, AggregateType[this.AggregateType]);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Grouping"/> class.
-        /// </summary>
-        public Grouping()
-        {
-        }
+        this.AggregateOn.WriteToXml(writer);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Grouping"/> class.
-        /// </summary>
-        /// <param name="groupOn">The property to group on.</param>
-        /// <param name="sortDirection">The sort direction.</param>
-        /// <param name="aggregateOn">The property to aggregate on.</param>
-        /// <param name="aggregateType">The type of aggregate to calculate.</param>
-        public Grouping(
-            PropertyDefinitionBase groupOn,
-            SortDirection sortDirection,
-            PropertyDefinitionBase aggregateOn,
-            AggregateType aggregateType)
-            : this()
-        {
-            EwsUtilities.ValidateParam(groupOn, "groupOn");
-            EwsUtilities.ValidateParam(aggregateOn, "aggregateOn");
+        writer.WriteEndElement(); // AggregateOn
 
-            this.groupOn = groupOn;
-            this.sortDirection = sortDirection;
-            this.aggregateOn = aggregateOn;
-            this.aggregateType = aggregateType;
-        }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal void WriteToXml(EwsServiceXmlWriter writer)
-        {
-            writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.GroupBy);
-            writer.WriteAttributeValue(XmlAttributeNames.Order, this.SortDirection);
-
-            this.GroupOn.WriteToXml(writer);
-
-            writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AggregateOn);
-            writer.WriteAttributeValue(XmlAttributeNames.Aggregate, this.AggregateType);
-
-            this.AggregateOn.WriteToXml(writer);
-
-            writer.WriteEndElement(); // AggregateOn
-
-            writer.WriteEndElement(); // GroupBy
-        }
-
-        /// <summary>
-        /// Creates a JSON representation of this object.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns>
-        /// A Json value (either a JsonObject, an array of Json values, or a Json primitive)
-        /// </returns>
-        object IJsonSerializable.ToJson(ExchangeService service)
-        {
-            JsonObject jsonGrouping = new JsonObject();
-
-            jsonGrouping.Add(XmlAttributeNames.Order, this.SortDirection);
-
-            throw new NotImplementedException();
-
-            ////return jsonGrouping;
-        }
-
-        /// <summary>
-        /// Gets or sets the sort direction.
-        /// </summary>
-        public SortDirection SortDirection
-        {
-            get { return this.sortDirection; }
-            set { this.sortDirection = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the property to group on.
-        /// </summary>
-        public PropertyDefinitionBase GroupOn
-        {
-            get { return this.groupOn; }
-            set { this.groupOn = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the property to aggregate on.
-        /// </summary>
-        public PropertyDefinitionBase AggregateOn
-        {
-            get { return this.aggregateOn; }
-            set { this.aggregateOn = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the types of aggregate to calculate.
-        /// </summary>
-        public AggregateType AggregateType
-        {
-            get { return this.aggregateType; }
-            set { this.aggregateType = value; }
-        }
-
-        #region ISelfValidate Members
-
-        /// <summary>
-        /// Implements ISelfValidate.Validate. Validates this grouping.
-        /// </summary>
-        void ISelfValidate.Validate()
-        {
-            this.InternalValidate();
-        }
-
-        #endregion
+        writer.WriteEndElement(); // GroupBy
     }
 }

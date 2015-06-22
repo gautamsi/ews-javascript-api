@@ -1,34 +1,21 @@
-import altDict = require("../../AltDictionary");
-import IndexerWithStringKey = altDict.IndexerWithStringKey;
+﻿import {ServiceObject} from "./ServiceObject";
+import {IndexerWithStringKey} from "../../AltDictionary";
 
-import XmlElementNames = require("../XmlElementNames");
-import ExchangeService = require("../ExchangeService");
-import ItemAttachment = require("../../ComplexProperties/ItemAttachment");
-import Appointment = require("./Items/Appointment");
-import Item = require("./Items/Item");
-import CalendarFolder = require("./Folders/CalendarFolder");
-import Contact = require("./Items/Contact");
-import ContactsFolder = require("./Folders/ContactsFolder");
-import ContactGroup = require("./Items/ContactGroup");
-import Conversation = require("./Items/Conversation");
-import EmailMessage = require("./Items/EmailMessage");
-import Folder = require("./Folders/Folder");
-import MeetingMessage = require("./Items/MeetingMessage");
-import MeetingCancellation = require("./Items/MeetingCancellation");
-import MeetingRequest = require("./Items/MeetingRequest");
-import MeetingResponse = require("./Items/MeetingResponse");
-import PostItem = require("./Items/PostItem");
-import Task = require("./Items/Task");
-import TasksFolder = require("../ServiceObjects/Folders/ContactsFolder");
-import SearchFolder = require("./Folders/SearchFolder");
+import {CreateServiceObjectWithAttachmentParam, CreateServiceObjectWithServiceParam} from "../../Misc/DelegateTypes";
 
+import {XmlElementNames} from "../XmlElementNames";
+import {ExchangeService} from "../ExchangeService";
+import {ItemAttachment} from "../../ComplexProperties/ItemAttachment";
 
-class ServiceObjectInfo {
+/**
+ * Moved part of CreateEwsObjectFromXmlElementName to different object type like FolderInfo, itemInfo etc
+ */
+export class ServiceObjectInfo {
 
-    get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<any> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;
+    get XmlElementNameToServiceObjectClassMap(): IndexerWithStringKey<string> { return this.xmlElementNameToServiceObjectClassMap; }//  System.Collections.Generic.Dictionary<string, System.Type>;
     get ServiceObjectConstructorsWithServiceParam(): IndexerWithStringKey<CreateServiceObjectWithServiceParam> { return this.serviceObjectConstructorsWithServiceParam; }// System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
     get ServiceObjectConstructorsWithAttachmentParam(): IndexerWithStringKey<CreateServiceObjectWithAttachmentParam> { return this.serviceObjectConstructorsWithAttachmentParam; }//System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithAttachmentParam>;
-    private xmlElementNameToServiceObjectClassMap: IndexerWithStringKey<any>;//System.Collections.Generic.Dictionary<string, System.Type>;
+    private xmlElementNameToServiceObjectClassMap: IndexerWithStringKey<string>;//System.Collections.Generic.Dictionary<string, System.Type>;
     private serviceObjectConstructorsWithServiceParam: IndexerWithStringKey<CreateServiceObjectWithServiceParam>;//System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithServiceParam>;
     private serviceObjectConstructorsWithAttachmentParam: IndexerWithStringKey<CreateServiceObjectWithAttachmentParam>;//System.Collections.Generic.Dictionary<System.Type, CreateServiceObjectWithAttachmentParam>;
 
@@ -40,14 +27,60 @@ class ServiceObjectInfo {
         this.InitializeServiceObjectClassMap();
     }
 
-    AddServiceObjectType(xmlElementName: string, type: string /*System.Type*/, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam, createServiceObjectWithAttachmentParam: CreateServiceObjectWithAttachmentParam): any {
+    protected AddServiceObjectType(xmlElementName: string, type: string /*System.Type*/, createServiceObjectWithServiceParam: CreateServiceObjectWithServiceParam, createServiceObjectWithAttachmentParam: CreateServiceObjectWithAttachmentParam): any {
         this.xmlElementNameToServiceObjectClassMap[xmlElementName] = type;
         this.serviceObjectConstructorsWithServiceParam[xmlElementName] = createServiceObjectWithServiceParam;
         if (createServiceObjectWithAttachmentParam) { //!= null) {
             this.serviceObjectConstructorsWithAttachmentParam[xmlElementName] = createServiceObjectWithAttachmentParam;
         }
     }
+    
     InitializeServiceObjectClassMap(): any {
+        throw new Error("abstract - ServiceObjectInfo.ts - InitializeServiceObjectClassMap: must be implemented")
+        
+        /**
+         * Folder Types ->  folderinfo
+              
+        // CalendarFolder
+        this.AddServiceObjectType(
+            XmlElementNames.CalendarFolder,
+            "CalendarFolder",
+            (srv) => { return new CalendarFolder(srv); },
+            null);
+                 
+        // ContactsFolder
+        this.AddServiceObjectType(
+            XmlElementNames.ContactsFolder,
+            "ContactsFolder",
+            (srv) => { return new ContactsFolder(srv); },
+            null);
+
+        // Folder
+        this.AddServiceObjectType(
+            XmlElementNames.Folder,
+            "Folder",
+            (srv) => { return new Folder(srv); },
+            null);
+
+        // SearchFolder
+        this.AddServiceObjectType(
+            XmlElementNames.SearchFolder,
+            "SearchFolder",
+            (srv) => { return new SearchFolder(srv); },
+            null);
+
+        // TasksFolder
+        this.AddServiceObjectType(
+            XmlElementNames.TasksFolder,
+            "TasksFolder",
+            (srv) => { return new TasksFolder(srv); },
+            null);
+            
+        */
+        
+        /**
+         * Item Types -> iteminfo
+        
         // Appointment
         this.AddServiceObjectType(
             XmlElementNames.CalendarItem,
@@ -55,12 +88,6 @@ class ServiceObjectInfo {
             (srv) => { return new Appointment(srv); },
             (itemAttachment, isNew) => { return new Appointment(itemAttachment, isNew); });
 
-        // CalendarFolder
-        this.AddServiceObjectType(
-            XmlElementNames.CalendarFolder,
-            "CalendarFolder",
-            (srv) => { return new CalendarFolder(srv); },
-            null);
 
         // Contact
         this.AddServiceObjectType(
@@ -68,13 +95,6 @@ class ServiceObjectInfo {
             "Contact",
             (srv) => { return new Contact(srv); },
             (itemAttachment, isNew) => { return new Contact(itemAttachment); });
-
-        // ContactsFolder
-        this.AddServiceObjectType(
-            XmlElementNames.ContactsFolder,
-            "ContactsFolder",
-            (srv) => { return new ContactsFolder(srv); },
-            null);
 
         // ContactGroup
         this.AddServiceObjectType(
@@ -96,13 +116,6 @@ class ServiceObjectInfo {
             "EmailMessage",
             (srv) => { return new EmailMessage(srv); },
             (itemAttachment, isNew) => { return new EmailMessage(itemAttachment); });
-
-        // Folder
-        this.AddServiceObjectType(
-            XmlElementNames.Folder,
-            "Folder",
-            (srv) => { return new Folder(srv); },
-            null);
 
         // Item
         this.AddServiceObjectType(
@@ -135,7 +148,7 @@ class ServiceObjectInfo {
         // MeetingResponse
         this.AddServiceObjectType(
             XmlElementNames.MeetingResponse,
-           "MeetingResponse",
+            "MeetingResponse",
             (srv) => { return new MeetingResponse(srv); },
             (itemAttachment, isNew) => { return new MeetingResponse(itemAttachment); });
 
@@ -146,13 +159,6 @@ class ServiceObjectInfo {
             (srv) => { return new PostItem(srv); },
             (itemAttachment, isNew) => { return new PostItem(itemAttachment); });
 
-        // SearchFolder
-        this.AddServiceObjectType(
-            XmlElementNames.SearchFolder,
-            "SearchFolder",
-            (srv) => { return new SearchFolder(srv); },
-            null);
-
         // Task
         this.AddServiceObjectType(
             XmlElementNames.Task,
@@ -160,34 +166,24 @@ class ServiceObjectInfo {
             (srv) => { return new Task(srv); },
             (itemAttachment, isNew) => { return new Task(itemAttachment); });
 
-        // TasksFolder
-        this.AddServiceObjectType(
-            XmlElementNames.TasksFolder,
-            "TasksFolder",
-            (srv) => { return new TasksFolder(srv); },
-            null);
+        */
     }
+
+    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject {
+        //var itemClass = this.XmlElementNameToServiceObjectClassMap[xmlElementName];
+        //if (itemClass) {
+        //    return new itemClass(service);
+        //no need of itemclass due to lack of type conversion and dictionary implementation in javascript
+        var creationDelegate = this.ServiceObjectConstructorsWithServiceParam[xmlElementName];
+
+        if (creationDelegate) {
+            return creationDelegate(service);
+        }
+        else return null;
+
+    }
+
+    //CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("ServiceObjectInfo.ts - CreateItemFromItemClass : Not implemented."); }
 }
 
 
-export = ServiceObjectInfo;
-
-
-interface CreateServiceObjectWithServiceParam {
-    (srv: ExchangeService): any;
-}
-
-interface CreateServiceObjectWithAttachmentParam {
-    (itemAttachment: ItemAttachment, isNew: boolean): any
-}
-
-    //class CreateServiceObjectWithAttachmentParam extends System.MulticastDelegate {
-    //    BeginInvoke(itemAttachment: ItemAttachment, isNew: boolean, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
-    //    Invoke(itemAttachment: ItemAttachment, isNew: boolean): any{ throw new Error("Not implemented.");}
-    //}
-    //class CreateServiceObjectWithServiceParam extends System.MulticastDelegate {
-    //    BeginInvoke(srv: ExchangeService, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("Not implemented.");}
-    //    EndInvoke(result: System.IAsyncResult): any{ throw new Error("Not implemented.");}
-    //    Invoke(srv: ExchangeService): any{ throw new Error("Not implemented.");}
-    //}

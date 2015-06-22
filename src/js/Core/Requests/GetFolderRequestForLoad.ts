@@ -1,9 +1,13 @@
- class GetFolderRequestForLoad extends GetFolderRequestBase<ServiceResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
+﻿import {GetFolderResponse} from "../Responses/GetFolderResponse";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {GetFolderRequestBase} from "./GetFolderRequestBase";
+export class GetFolderRequestForLoad extends GetFolderRequestBase<ServiceResponse> {
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse {
+        return new GetFolderResponse(this.FolderIds.__thisIndexer(responseIndex).GetFolder(), this.PropertySet);
+    }
 }
- export = GetFolderRequestForLoad;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

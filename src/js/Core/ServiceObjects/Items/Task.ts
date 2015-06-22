@@ -1,5 +1,6 @@
-import Item = require("./Item");
-class Task extends Item {
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {Item} from "./Item";
+export class Task extends Item {
     //////ActualWork: number;
     //////AssignedTime: Date;
     //////BillingInformation: string;
@@ -23,20 +24,12 @@ class Task extends Item {
     //////StatusDescription: string;
     //////TotalWork: number;
     //////DefaultAffectedTaskOccurrences: AffectedTaskOccurrence;
-    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Task { throw new Error("Not implemented."); }
-    //////Bind(service: ExchangeService, id: ItemId): Task { throw new Error("Not implemented."); }
-    //////DeleteCurrentOccurrence(deleteMode: DeleteMode): any { throw new Error("Not implemented."); }
-    //////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Not implemented."); }
-    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    //////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    //////Update(conflictResolutionMode: ConflictResolutionMode): Task { throw new Error("Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Task { throw new Error("Task.ts - Bind : Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId): Task { throw new Error("Task.ts - Bind : Not implemented."); }
+    //////DeleteCurrentOccurrence(deleteMode: DeleteMode): any { throw new Error("Task.ts - DeleteCurrentOccurrence : Not implemented."); }
+    //////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Task.ts - GetIsTimeZoneHeaderRequired : Not implemented."); }
+    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Task.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    //////GetSchema(): ServiceObjectSchema { throw new Error("Task.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.Task; }
+    //////Update(conflictResolutionMode: ConflictResolutionMode): Task { throw new Error("Task.ts - Update : Not implemented."); }
 }
-export = Task;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,226 +1,88 @@
-// ---------------------------------------------------------------------------
-// <copyright file="UserId.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the UserId class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Text;
-
-    /// <summary>
-    /// Represents the Id of a user.
-    /// </summary>
-    public sealed class UserId : ComplexProperty
-    {
-        private string sID;
-        private string primarySmtpAddress;
-        private string displayName;
-        private StandardUser? standardUser;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserId"/> class.
-        /// </summary>
-        public UserId()
-            : base()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserId"/> class.
-        /// </summary>
-        /// <param name="primarySmtpAddress">The primary SMTP address used to initialize the UserId.</param>
-        public UserId(string primarySmtpAddress)
-            : this()
-        {
-            this.primarySmtpAddress = primarySmtpAddress;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserId"/> class.
-        /// </summary>
-        /// <param name="standardUser">The StandardUser value used to initialize the UserId.</param>
-        public UserId(StandardUser standardUser)
-            : this()
-        {
-            this.standardUser = standardUser;
-        }
-
-        /// <summary>
-        /// Determines whether this instance is valid.
-        /// </summary>
-        /// <returns><c>true</c> if this instance is valid; otherwise, <c>false</c>.</returns>
-        internal bool IsValid()
-        {
-            return this.StandardUser.HasValue || !string.IsNullOrEmpty(this.PrimarySmtpAddress) || !string.IsNullOrEmpty(this.SID);
-        }
-
-        /// <summary>
-        /// Gets or sets the SID of the user.
-        /// </summary>
-        public string SID
-        {
-            get { return this.sID; }
-            set { this.SetFieldValue<string>(ref this.sID, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the primary SMTP address or the user.
-        /// </summary>
-        public string PrimarySmtpAddress
-        {
-            get { return this.primarySmtpAddress; }
-            set { this.SetFieldValue<string>(ref this.primarySmtpAddress, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the display name of the user.
-        /// </summary>
-        public string DisplayName
-        {
-            get { return this.displayName; }
-            set { this.SetFieldValue<string>(ref this.displayName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating which standard user the user represents.
-        /// </summary>
-        public StandardUser? StandardUser
-        {
-            get { return this.standardUser; }
-            set { this.SetFieldValue<StandardUser?>(ref this.standardUser, value); }
-        }
-
-        /// <summary>
-        /// Implements an implicit conversion between a string representing a primary SMTP address and UserId.
-        /// </summary>
-        /// <param name="primarySmtpAddress">The string representing a primary SMTP address.</param>
-        /// <returns>A UserId initialized with the specified primary SMTP address.</returns>
-        public static implicit operator UserId(string primarySmtpAddress)
-        {
-            return new UserId(primarySmtpAddress);
-        }
-
-        /// <summary>
-        /// Implements an implicit conversion between StandardUser and UserId.
-        /// </summary>
-        /// <param name="standardUser">The standard user used to initialize the user Id.</param>
-        /// <returns>A UserId initialized with the specified standard user value.</returns>
-        public static implicit operator UserId(StandardUser standardUser)
-        {
-            return new UserId(standardUser);
-        }
-
-        /// <summary>
-        /// Tries to read element from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>True if element was read.</returns>
-        internal override bool TryReadElementFromXml(EwsServiceXmlReader reader)
-        {
-            switch (reader.LocalName)
-            {
-                case XmlElementNames.SID:
-                    this.sID = reader.ReadValue();
-                    return true;
-                case XmlElementNames.PrimarySmtpAddress:
-                    this.primarySmtpAddress = reader.ReadValue();
-                    return true;
-                case XmlElementNames.DisplayName:
-                    this.displayName = reader.ReadValue();
-                    return true;
-                case XmlElementNames.DistinguishedUser:
-                    this.standardUser = reader.ReadValue<StandardUser>();
-                    return true;
-                default:
-                    return false;
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {ComplexProperty} from "./ComplexProperty";
+import {StandardUser} from "../Enumerations/StandardUser";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {StringHelper} from "../ExtensionMethods";
+export class UserId extends ComplexProperty {
+    get SID(): string { return this.sID; }
+    set SID(value) { this.SetFieldValue<string>({ getValue: () => this.sID, setValue: (data) => this.sID = data }, value); }
+    get PrimarySmtpAddress(): string { return this.primarySmtpAddress; }
+    set PrimarySmtpAddress(value) { this.SetFieldValue<string>({ getValue: () => this.primarySmtpAddress, setValue: (data) => this.primarySmtpAddress = data }, value); }
+    get DisplayName(): string { return this.displayName; }
+    set DisplayName(value) { this.SetFieldValue<string>({ getValue: () => this.displayName, setValue: (data) => this.displayName = data }, value); }
+    get StandardUser(): StandardUser { return this.standardUser; }
+    set StandardUser(value) { this.SetFieldValue<StandardUser>({ getValue: () => this.standardUser, setValue: (data) => this.standardUser = data }, value); }
+    private sID: string;
+    private primarySmtpAddress: string;
+    private displayName: string;
+    private standardUser: StandardUser;
+    constructor();
+    constructor(standardUser: StandardUser);
+    constructor(primarySmtpAddress: string);
+    /**this is to shim constructor with easy use within file/module. */
+    constructor(primarySmtpAddressOrStandardUser?: string | StandardUser);
+    constructor(primarySmtpAddressOrStandardUser?: string | StandardUser) {
+        super();
+        if (typeof primarySmtpAddressOrStandardUser !== 'undefined') {
+            if (typeof primarySmtpAddressOrStandardUser === 'string') {
+                this.primarySmtpAddress = primarySmtpAddressOrStandardUser;
             }
-        }
-
-        /// <summary>
-        /// Loads from json.
-        /// </summary>
-        /// <param name="jsonProperty">The json property.</param>
-        /// <param name="service">The service.</param>
-        internal override void LoadFromJson(JsonObject jsonProperty, ExchangeService service)
-        {
-            foreach (string key in jsonProperty.Keys)
-            {
-                switch (key)
-                {
-                    case XmlElementNames.SID:
-                        this.sID = jsonProperty.ReadAsString(key);
-                        break;
-                    case XmlElementNames.PrimarySmtpAddress:
-                        this.primarySmtpAddress = jsonProperty.ReadAsString(key);
-                        break;
-                    case XmlElementNames.DisplayName:
-                        this.displayName = jsonProperty.ReadAsString(key);
-                        break;
-                    case XmlElementNames.DistinguishedUser:
-                        this.standardUser = jsonProperty.ReadEnumValue<StandardUser>(key);
-                        break;
-                    default:
-                        break;
-                }
+            else {
+                this.standardUser = primarySmtpAddressOrStandardUser;
             }
-        }
-
-        /// <summary>
-        /// Writes elements to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteElementsToXml(EwsServiceXmlWriter writer)
-        {
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.SID,
-                this.SID);
-
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.PrimarySmtpAddress,
-                this.PrimarySmtpAddress);
-
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.DisplayName,
-                this.DisplayName);
-
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.DistinguishedUser,
-                this.StandardUser);
-        }
-
-        /// <summary>
-        /// Serializes the property to a Json value.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns>
-        /// A Json value (either a JsonObject, an array of Json values, or a Json primitive)
-        /// </returns>
-        internal override object InternalToJson(ExchangeService service)
-        {
-            JsonObject jsonProperty = new JsonObject();
-
-            jsonProperty.Add(XmlElementNames.SID, this.SID);
-            jsonProperty.Add(XmlElementNames.PrimarySmtpAddress, this.PrimarySmtpAddress);
-            jsonProperty.Add(XmlElementNames.DisplayName, this.DisplayName);
-
-            if (this.StandardUser.HasValue)
-            {
-                jsonProperty.Add(XmlElementNames.DistinguishedUser, this.StandardUser.Value);
-            }
-
-            return jsonProperty;
         }
     }
+
+    InternalToJson(service: ExchangeService): any { throw new Error("UserId.ts - InternalToJson : Not implemented."); }
+    IsValid(): boolean {
+        return typeof this.StandardUser === 'number' || !StringHelper.IsNullOrEmpty(this.PrimarySmtpAddress) || !StringHelper.IsNullOrEmpty(this.SID);
+    }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("UserId.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        for (var key in jsonProperty) {
+            switch (key) {
+                case XmlElementNames.SID:
+                    this.sID = jsonProperty[key];
+                    break;
+                case XmlElementNames.PrimarySmtpAddress:
+                    this.primarySmtpAddress = jsonProperty[key];
+                    break;
+                case XmlElementNames.DisplayName:
+                    this.displayName = jsonProperty[key];
+                    break;
+                case XmlElementNames.DistinguishedUser:
+                    //debugger;//check for enum value consistency
+                    this.standardUser = <StandardUser><any>StandardUser[jsonProperty[key]];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.SID,
+            this.SID);
+
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.PrimarySmtpAddress,
+            this.PrimarySmtpAddress);
+
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.DisplayName,
+            this.DisplayName);
+
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.DistinguishedUser,
+            this.StandardUser);
+    }
 }
+
+

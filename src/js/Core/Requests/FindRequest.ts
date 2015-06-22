@@ -1,254 +1,113 @@
-// ---------------------------------------------------------------------------
-// <copyright file="FindRequest.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
+import {Strings} from "../../Strings";
+import {SeekToConditionItemView} from "../../Search/SeekToConditionItemView";
+import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {SearchFilter} from "../../Search/Filters/SearchFilter";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {ViewBase} from "../../Search/ViewBase";
+import {Grouping} from "../../Search/Grouping";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {StringHelper} from "../../ExtensionMethods";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the FindRequest class.</summary>
-//-----------------------------------------------------------------------
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+export class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
+    get ParentFolderIds(): FolderIdWrapperList { return this.parentFolderIds; }
+    SearchFilter: SearchFilter = null;
+    QueryString: string = null;
+    ReturnHighlightTerms: boolean = null;
+    View: ViewBase = null;
+    private parentFolderIds: FolderIdWrapperList = new FolderIdWrapperList();
+    //private searchFilter: SearchFilter;  - no backing property needed
+    //private queryString: string;
+    //private returnHighlightTerms: boolean;
+    //private view: ViewBase;
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    
+    GetExpectedResponseMessageCount(): number { return this.ParentFolderIds.Count; }
+    GetGroupBy(): Grouping { return null; }
+    Validate(): void {
+        super.Validate();
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+        this.View.InternalValidate(this);
 
-    /// <summary>
-    /// Represents an abstract Find request.
-    /// </summary>
-    /// <typeparam name="TResponse">The type of the response.</typeparam>
-    internal abstract class FindRequest<TResponse> : MultiResponseServiceRequest<TResponse>, IJsonSerializable
-        where TResponse : ServiceResponse
-    {
-        private FolderIdWrapperList parentFolderIds = new FolderIdWrapperList();
-        private SearchFilter searchFilter;
-        private string queryString;
-        private bool returnHighlightTerms;
-        private ViewBase view;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FindRequest&lt;TResponse&gt;"/> class.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <param name="errorHandlingMode"> Indicates how errors should be handled.</param>
-        internal FindRequest(ExchangeService service, ServiceErrorHandling errorHandlingMode)
-            : base(service, errorHandlingMode)
-        {
+        // query string parameter is only valid for Exchange2010 or higher
+        //
+        if (!StringHelper.IsNullOrEmpty(this.QueryString) &&
+            this.Service.RequestedServerVersion < ExchangeVersion.Exchange2010) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.ParameterIncompatibleWithRequestVersion,
+                    "queryString",
+                    ExchangeVersion.Exchange2010));
         }
 
-        /// <summary>
-        /// Validate request.
-        /// </summary>
-        internal override void Validate()
-        {
-            base.Validate();
+        // ReturnHighlightTerms parameter is only valid for Exchange2013 or higher
+        //
+        if (this.ReturnHighlightTerms &&
+            this.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.ParameterIncompatibleWithRequestVersion,
+                    "returnHighlightTerms",
+                    ExchangeVersion.Exchange2013));
+        }
 
-            this.View.InternalValidate(this);
+        // SeekToConditionItemView is only valid for Exchange2013 or higher
+        //
+        if ((this.View instanceof SeekToConditionItemView) &&
+            this.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.ParameterIncompatibleWithRequestVersion,
+                    "SeekToConditionItemView",
+                    ExchangeVersion.Exchange2013));
+        }
 
-            // query string parameter is only valid for Exchange2010 or higher
+        if (!StringHelper.IsNullOrEmpty(this.QueryString) &&
+            this.SearchFilter != null) {
+            throw new ServiceLocalException(Strings.BothSearchFilterAndQueryStringCannotBeSpecified);
+        }
+    }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+        super.WriteAttributesToXml(writer);
+        this.View.WriteAttributesToXml(writer);
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        this.View.WriteToXml(writer, this.GetGroupBy());
+
+        if (this.SearchFilter != null) {
+            writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Restriction);
+            this.SearchFilter.WriteToXml(writer);
+            writer.WriteEndElement(); // Restriction
+        }
+
+        this.View.WriteOrderByToXml(writer);
+
+        this.ParentFolderIds.WriteToXml(
+            writer,
+            XmlNamespace.Messages,
+            XmlElementNames.ParentFolderIds);
+
+        if (!StringHelper.IsNullOrEmpty(this.QueryString)) {
+            // Emit the QueryString
             //
-            if (!String.IsNullOrEmpty(this.queryString) &&
-                this.Service.RequestedServerVersion < ExchangeVersion.Exchange2010)
-            {
-                throw new ServiceVersionException(
-                    string.Format(
-                        Strings.ParameterIncompatibleWithRequestVersion,
-                        "queryString",
-                        ExchangeVersion.Exchange2010));
+            writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.QueryString);
+
+            if (this.ReturnHighlightTerms) {
+                writer.WriteAttributeString(undefined, XmlAttributeNames.ReturnHighlightTerms, this.ReturnHighlightTerms.toString());
             }
 
-            // ReturnHighlightTerms parameter is only valid for Exchange2013 or higher
-            //
-            if (this.ReturnHighlightTerms &&
-                this.Service.RequestedServerVersion < ExchangeVersion.Exchange2013)
-            {
-                throw new ServiceVersionException(
-                    string.Format(
-                        Strings.ParameterIncompatibleWithRequestVersion,
-                        "returnHighlightTerms",
-                        ExchangeVersion.Exchange2013));
-            }
-
-            // SeekToConditionItemView is only valid for Exchange2013 or higher
-            //
-            if ((this.View is SeekToConditionItemView) &&
-                this.Service.RequestedServerVersion < ExchangeVersion.Exchange2013)
-            {
-                throw new ServiceVersionException(
-                    string.Format(
-                        Strings.ParameterIncompatibleWithRequestVersion,
-                        "SeekToConditionItemView",
-                        ExchangeVersion.Exchange2013));
-            }
-
-            if (!String.IsNullOrEmpty(this.queryString) &&
-                this.searchFilter != null)
-            {
-                throw new ServiceLocalException(Strings.BothSearchFilterAndQueryStringCannotBeSpecified);
-            }
-        }
-
-        /// <summary>
-        /// Gets the expected response message count.
-        /// </summary>
-        /// <returns>XML element name.</returns>
-        internal override int GetExpectedResponseMessageCount()
-        {
-            return this.ParentFolderIds.Count;
-        }
-
-        /// <summary>
-        /// Gets the group by clause.
-        /// </summary>
-        /// <returns>The group by clause, null if the request does not have or support grouping.</returns>
-        internal virtual Grouping GetGroupBy()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Writes XML attributes.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteAttributesToXml(EwsServiceXmlWriter writer)
-        {
-            base.WriteAttributesToXml(writer);
-
-            this.View.WriteAttributesToXml(writer);
-        }
-
-        /// <summary>
-        /// Writes XML elements.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteElementsToXml(EwsServiceXmlWriter writer)
-        {
-            this.View.WriteToXml(writer, this.GetGroupBy());
-
-            if (this.SearchFilter != null)
-            {
-                writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Restriction);
-                this.SearchFilter.WriteToXml(writer);
-                writer.WriteEndElement(); // Restriction
-            }
-
-            this.View.WriteOrderByToXml(writer);
-
-            this.ParentFolderIds.WriteToXml(
-                writer,
-                XmlNamespace.Messages,
-                XmlElementNames.ParentFolderIds);
-
-            if (!string.IsNullOrEmpty(this.queryString))
-            {
-                // Emit the QueryString
-                //
-                writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.QueryString);
-
-                if (this.ReturnHighlightTerms)
-                {
-                    writer.WriteAttributeString(XmlAttributeNames.ReturnHighlightTerms, this.ReturnHighlightTerms.ToString().ToLowerInvariant());
-                }
-
-                writer.WriteValue(this.queryString, XmlElementNames.QueryString);
-                writer.WriteEndElement();
-            }
-        }
-
-        /// <summary>
-        /// Creates a JSON representation of this object.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns>
-        /// A Json value (either a JsonObject, an array of Json values, or a Json primitive)
-        /// </returns>
-        object IJsonSerializable.ToJson(ExchangeService service)
-        {
-            JsonObject jsonRequest = new JsonObject();
-
-            this.View.WriteShapeToJson(jsonRequest, service);
-            jsonRequest.Add("Paging", this.View.WritePagingToJson(service));
-
-            object jsonGrouping = this.View.WriteGroupingToJson(service, this.GetGroupBy());
-            if (jsonGrouping != null)
-            {
-                jsonRequest.Add("Grouping", jsonGrouping);
-            }
-
-            // Traversal and OrderBy
-            this.View.AddJsonProperties(jsonRequest, service);
-
-            if (this.SearchFilter != null)
-            {
-                JsonObject jsonSearchFilter = new JsonObject();
-                jsonSearchFilter.Add(XmlElementNames.Item, this.SearchFilter.InternalToJson(service));
-
-                jsonRequest.Add(XmlElementNames.Restriction, jsonSearchFilter);
-            }
-
-            jsonRequest.Add(XmlElementNames.ParentFolderIds, this.ParentFolderIds.InternalToJson(service));
-
-            if (!string.IsNullOrEmpty(this.queryString))
-            {
-                JsonObject jsonQueryString = new JsonObject();
-                jsonQueryString.Add(XmlAttributeNames.Value, this.QueryString);
-
-                if (this.ReturnHighlightTerms)
-                {
-                    jsonQueryString.Add(XmlAttributeNames.ReturnHighlightTerms, this.ReturnHighlightTerms.ToString().ToLowerInvariant());
-                }
-
-                jsonRequest.Add(XmlElementNames.QueryString, jsonQueryString);
-            }
-
-            return jsonRequest;
-        }
-
-        /// <summary>
-        /// Gets the parent folder ids.
-        /// </summary>
-        public FolderIdWrapperList ParentFolderIds
-        {
-            get { return this.parentFolderIds; }
-        }
-
-        /// <summary>
-        /// Gets or sets the search filter. Available search filter classes include SearchFilter.IsEqualTo,
-        /// SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection. If SearchFilter
-        /// is null, no search filters are applied.
-        /// </summary>
-        public SearchFilter SearchFilter
-        {
-            get { return this.searchFilter; }
-            set { this.searchFilter = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the query string for indexed search.
-        /// </summary>
-        public string QueryString
-        {
-            get { return this.queryString; }
-            set { this.queryString = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the query string highlight terms.
-        /// </summary>
-        internal bool ReturnHighlightTerms
-        {
-            get { return this.returnHighlightTerms; }
-            set { this.returnHighlightTerms = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the view controlling the number of items or folders returned.
-        /// </summary>
-        public ViewBase View
-        {
-            get { return this.view; }
-            set { this.view = value; }
+            writer.WriteValue(this.QueryString, XmlElementNames.QueryString);
+            writer.WriteEndElement();
         }
     }
 }

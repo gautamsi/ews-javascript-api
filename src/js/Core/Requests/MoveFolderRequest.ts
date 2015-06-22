@@ -1,14 +1,18 @@
-class MoveFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
+﻿import {ExchangeService} from "../ExchangeService";
+import {MoveCopyFolderResponse} from "../Responses/MoveCopyFolderResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../XmlElementNames";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {MoveCopyFolderRequest} from "./MoveCopyFolderRequest";
+export class MoveFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service, errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): MoveCopyFolderResponse { return new MoveCopyFolderResponse(); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetResponseMessageXmlElementName(): string { return XmlElementNames.MoveFolderResponseMessage; }
+    GetResponseXmlElementName(): string { return XmlElementNames.MoveFolderResponse; }
+    GetXmlElementName(): string { return XmlElementNames.MoveFolder; }
 }
 
-export = MoveFolderRequest;
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
 

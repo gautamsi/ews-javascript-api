@@ -1,28 +1,39 @@
-import PropertyBag = require("../PropertyBag");
-import ServiceObjectSchema = require("./Schemas/ServiceObjectSchema");
-import ExchangeService = require("../ExchangeService");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import PropertySet = require("../PropertySet");
-import DeleteMode = require("../../Enumerations/DeleteMode");
-import SendCancellationsMode = require("../../Enumerations/SendCancellationsMode");
-import AffectedTaskOccurrence = require("../../Enumerations/AffectedTaskOccurrence");
-import PropertyDefinition = require("../../PropertyDefinitions/PropertyDefinition");
-import PropertyDefinitionBase = require("../../PropertyDefinitions/PropertyDefinitionBase");
-import ExtendedPropertyDefinition = require("../../PropertyDefinitions/ExtendedPropertyDefinition");
+﻿import {IOutParam} from "../../Interfaces/IOutParam";
+import {Strings} from "../../Strings";
+import {ServiceObjectPropertyException} from "../../Exceptions/ServiceObjectPropertyException";
+import {ExtendedPropertyCollection} from "../../ComplexProperties/ExtendedPropertyCollection";
+import {ServiceId} from "../../ComplexProperties/ServiceId";
+import {PropertyBag} from "../PropertyBag";
+import {ServiceObjectSchema} from "./Schemas/ServiceObjectSchema";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {PropertySet} from "../PropertySet";
+import {DeleteMode} from "../../Enumerations/DeleteMode";
+import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
+import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
 
 
-import ExtensionMethods = require("../../ExtensionMethods");
-
-
-class ServiceObject {
+import {EwsLogging} from "../EwsLogging";
+import {StringHelper} from "../../ExtensionMethods";
+export class ServiceObject {
     get PropertyBag(): PropertyBag { return this.propertyBag; }
     get Schema(): ServiceObjectSchema { return this.GetSchema(); }
     Item: any;
     Service: ExchangeService;
     get IsNew(): boolean {
+        return this.IsNewProxy();
+        
+        // var id = this.GetId();
+        // debugger;
+        // return id == null ? true : !id.IsValid;
+    }
+    protected IsNewProxy(): boolean { //to allow derived calss call this methos with super keyboard.
         var id = this.GetId();
         debugger;
         return id == null ? true : !id.IsValid;
@@ -44,13 +55,14 @@ class ServiceObject {
         this.propertyBag = new PropertyBag(this);
     }
 
-    PropertyDefinition(propertyDefinition: PropertyDefinitionBase): any {
-        var propertyValue;
+    /**This Indexer of c# */
+    _getItem(propertyDefinition: PropertyDefinitionBase): any {
+        var propertyValue: any;
 
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;
         if (propDef != null) {
             debugger;
-            return this.PropertyBag._propGet[propDef.Name];
+            return this.PropertyBag._getItem(propDef);
         }
         else {
             var extendedPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;
@@ -59,12 +71,12 @@ class ServiceObject {
                     return propertyValue;
                 }
                 else {
-                    throw new Exceptions.ServiceObjectPropertyException("must load assigned property before load"/*Strings.MustLoadOrAssignPropertyBeforeAccess*/, propertyDefinition);
+                    throw new ServiceObjectPropertyException(Strings.MustLoadOrAssignPropertyBeforeAccess, propertyDefinition);
                 }
             }
             else {
                 // Other subclasses of PropertyDefinitionBase are not supported.
-                throw new Error(ExtensionMethods.stringFormatting.Format(
+                throw new Error(StringHelper.Format(
                     "not supported for property definition type: {0}",
                     propertyDefinition.constructor));
             }
@@ -83,63 +95,61 @@ class ServiceObject {
     GetId(): ServiceId {
         var idPropertyDefinition = this.GetIdPropertyDefinition();
 
-        var serviceId = null;
+        var serviceId: IOutParam<any> = { outValue: null };
         debugger;
         if (idPropertyDefinition != null) {
             this.PropertyBag.TryGetValue(idPropertyDefinition, serviceId);
         }
 
-        return <ServiceId> serviceId;
+        return <ServiceId> serviceId.outValue;
     }
     GetIdPropertyDefinition(): PropertyDefinition { return null; }
     GetIsCustomDateTimeScopingRequired(): boolean { return false; }
     GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { return false; }
-    GetLoadedPropertyDefinitions(): PropertyDefinitionBase /*System.Collections.ObjectModel.Collection<PropertyDefinitionBase>*/ {
-        //var propDefs: PropertyDefinitionBase[] = [];
-        //for(var propDef in this.PropertyBag.Properties.Keys)
-        //{
-        //    propDefs.Add(propDef);
-        //}
+    GetLoadedPropertyDefinitions(): PropertyDefinitionBase[] /*System.Collections.ObjectModel.Collection<PropertyDefinitionBase>*/ {
+        var propDefs: PropertyDefinitionBase[] = [];
+        for (var propDef of this.PropertyBag.Properties.Keys) {
+            propDefs.push(propDef);
+        }
 
-        //if (this.GetExtendedProperties() != null) {
-        //    foreach(ExtendedProperty extProp in this.GetExtendedProperties())
-        //    {
-        //        propDefs.Add(extProp.PropertyDefinition);
-        //    }
-        //}
+        if (this.GetExtendedProperties() != null) {
+            for (var extProp of this.GetExtendedProperties().Items) {
+                propDefs.push(extProp.PropertyDefinition);
+            }
+        }
 
-        //return propDefs;
-        return null;
+        return propDefs;
     }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must implement"); }
     GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
     GetSetFieldXmlElementName(): string { return XmlElementNames.SetItemField; }
     GetXmlElementName(): string {
         debugger;
-        throw new Error("this must be overridden by derived class");
-        if (ExtensionMethods.stringFormatting.IsNullOrEmpty(this.xmlElementName))
+        throw new Error("ServiceObject.ts - getxmlelementname -  this must be overridden by derived class - can not use reflection to get class attribute in javascript");
+        if (StringHelper.IsNullOrEmpty(this.xmlElementName)) {
             this.xmlElementName = this.GetXmlElementNameOverride();
 
-        //EwsUtilities.Assert(
-        //    !string.IsNullOrEmpty(this.xmlElementName),
-        //    "EwsObject.GetXmlElementName",
-        //    string.Format("The class {0} does not have an associated XML element name.", this.GetType().Name));
-
+            EwsLogging.Assert(
+                !StringHelper.IsNullOrEmpty(this.xmlElementName),
+                "EwsObject.GetXmlElementName",
+                StringHelper.Format("The class {0} does not have an associated XML element name.", "unknown decendent of ServiceObject - in serviceObject.GetXmlElementname"));
+        }
         return this.xmlElementName;
     }
     GetXmlElementNameOverride(): string { return null; }
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): void
     { throw new Error("abstract method, must implement"); }
     InternalLoad(propertySet: PropertySet): void { throw new Error("abstract method, must implement"); }
-    //Load(): any { throw new Error("Not implemented."); }
+    //Load(): any { throw new Error("ServiceObject.ts - Load : Not implemented."); }
     Load(propertySet?: PropertySet): void {
         this.InternalLoad(propertySet || PropertySet.FirstClassProperties);
     }
-    //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("Not implemented."); }
-    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
-        this.PropertyBag.LoadFromXml(
-            reader,
+    //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
+    //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
+        this.PropertyBag.LoadFromXmlJsObject(
+            jsObject,
+            service,
             clearPropertyBag,
             requestedPropertySet,
             summaryPropertiesOnly);
@@ -169,11 +179,49 @@ class ServiceObject {
         }
     }
     //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { return this.PropertyBag.ToJson(service, isUpdateOperation);}
-    TryGetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, propertyValue: any): boolean { throw new Error("Need implementation."); }
-    TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Need implementation."); }
-    //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Not implemented."); }
+    TryGetExtendedProperty<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean {
+        var propertyCollection:ExtendedPropertyCollection = this.GetExtendedProperties();
+
+            if ((propertyCollection != null) &&
+                propertyCollection.TryGetValue<T>(propertyDefinition, propertyValue))
+            {
+                return true;
+            }
+            else
+            {
+                propertyValue.outValue = null;//default(T);
+                return false;
+            }
+    }
+    //TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Need implementation."); }
+    //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("ServiceObject.ts - TryGetProperty : Not implemented."); }
+    TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue:IOutParam<T>): boolean {
+        var propDef:PropertyDefinition = <PropertyDefinition>propertyDefinition;// as PropertyDefinition;
+        debugger;//todo: fix for compatibility checking, if this is propertydefinition or propertydefinitionbase
+            if (propDef != null)
+            {
+                return this.PropertyBag.TryGetPropertyAs<T>(propDef, propertyValue);
+            }
+            else
+            {
+                debugger;//todo: check for compatibility of extendedpropertydefition or propertydefition.
+                var extPropDef:ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;// as ExtendedPropertyDefinition;
+                if (extPropDef != null)
+                {
+                    return this.TryGetExtendedProperty<T>(extPropDef, propertyValue);
+                }
+                else
+                {
+                    // Other subclasses of PropertyDefinitionBase are not supported.
+                    throw new Error(StringHelper.Format(
+                        Strings.OperationNotSupportedForPropertyDefinitionType,
+                        propertyDefinition.Type));//NotSupportedException
+                }
+            }
+    }
+    
     Validate(): void { this.PropertyBag.Validate(); }
-    //WriteToJsonForUpdate(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //WriteToJsonForUpdate(service: ExchangeService): any { throw new Error("ServiceObject.ts - WriteToJsonForUpdate : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXml(writer); }
     WriteToXmlForUpdate(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXmlForUpdate(writer); }
 
@@ -182,12 +230,3 @@ class ServiceObject {
     IsItemInstance(): boolean { return false; }//only item instance would return true.
     get IsAttachment(): boolean { return false; }//only item instance would return true.
 }
-
-export = ServiceObject;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

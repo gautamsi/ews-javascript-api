@@ -1,20 +1,19 @@
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
-import PropertyDefinitionFlags = require("../Enumerations/PropertyDefinitionFlags");
-import DefaultExtendedPropertySet = require("../Enumerations/DefaultExtendedPropertySet");
-import MapiPropertyType = require("../Enumerations/MapiPropertyType");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
+﻿import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {DefaultExtendedPropertySet} from "../Enumerations/DefaultExtendedPropertySet";
+import {MapiPropertyType} from "../Enumerations/MapiPropertyType";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper, Convert} from "../ExtensionMethods";
 
-import PropertyDefinitionBase = require("./PropertyDefinitionBase");
+import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
 
 //should be done
-class ExtendedPropertyDefinition extends PropertyDefinitionBase {
+export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     private static FieldFormat: string = "{0}: {1} ";
     private static PropertySetFieldName: string = "PropertySet";
     private static PropertySetIdFieldName: string = "PropertySetId";
@@ -48,7 +47,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         this.name = name;
     }
 
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("ExtendedPropertyDefinition.ts - AddJsonProperties : Not implemented."); }
     Equals(obj: any): boolean {
         var propertyDefinition = <ExtendedPropertyDefinition>obj;
         return ExtendedPropertyDefinition.IsEqualTo(propertyDefinition, this);
@@ -56,11 +55,11 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     FormatField(name: string, fieldValue: string): string {
         debugger;
         return (fieldValue != null)
-            ? String.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
+            ? StringHelper.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
             : "";
     }
-    GetHashCode(): number { throw new Error("Not implemented."); }
-    //GetJsonType(): string { throw new Error("Not implemented."); }
+    GetHashCode(): number { throw new Error("ExtendedPropertyDefinition.ts - GetHashCode : Not implemented."); }
+    //GetJsonType(): string { throw new Error("ExtendedPropertyDefinition.ts - GetJsonType : Not implemented."); }
     GetPrintableName(): string {
         debugger;
         var sb = "";
@@ -87,29 +86,58 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
             extPropDef1.PropertySet == extPropDef2.PropertySet &&
             extPropDef1.propertySetId == extPropDef2.propertySetId);
     }
-    //LoadFromJson(jsonObject: JsonObject): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): void {
+    //LoadFromJson(jsonObject: JsonObject): any { throw new Error("ExtendedPropertyDefinition.ts - LoadFromJson : Not implemented."); }
+    LoadPropertyValueFromXmlJsObject(jsObject: any): void {
+
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.DistinguishedPropertySetId:
+                debugger;
+                    this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet> +(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
+                    break;
+                case XmlAttributeNames.PropertySetId:
+                    debugger;
+                    this.propertySetId = jsObject[key];// new Guid(jsObject.ReadAsString(key));
+                    break;
+                case XmlAttributeNames.PropertyTag:
+                    this.tag = Convert.toNumber(jsObject[key]);//Convert.ToUInt16(jsObject.ReadAsString(key), 16);
+                    break;
+                case XmlAttributeNames.PropertyName:
+                    this.name = jsObject[key];//jsObject.ReadAsString(key);
+                    break;
+                case XmlAttributeNames.PropertyId:
+                    this.id = Convert.toInt(jsObject[key]);//jsObject.ReadAsInt(key);
+                    break;
+                case XmlAttributeNames.PropertyType:
+                    this.mapiType = isNaN(jsObject[key]) ? MapiPropertyType[jsObject[key]] : <any><MapiPropertyType> +(jsObject[key]);// jsObject.ReadEnumValue<MapiPropertyType>(key);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    private LoadFromXml(reader: EwsServiceXmlReader): void {
         var attributeValue: string;
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.DistinguishedPropertySetId);
-        if (!String.IsNullOrEmpty(attributeValue)) {
+        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
             this.propertySet = DefaultExtendedPropertySet[attributeValue];
         }
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertySetId);
-        if (!String.IsNullOrEmpty(attributeValue)) {
+        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
             this.propertySetId = attributeValue;// new Guid(attributeValue);
         }
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyTag);
-        if (!String.IsNullOrEmpty(attributeValue)) {
+        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
             this.tag = +(attributeValue);// Convert.ToUInt16(attributeValue, 16);
         }
 
         this.name = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyName);
 
         attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyId);
-        if (!String.IsNullOrEmpty(attributeValue)) {
+        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
             this.id = +(attributeValue);// int.Parse(attributeValue);
         }
 
@@ -125,7 +153,7 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         if (this.tag) {
             writer.WriteAttributeValue("", XmlAttributeNames.PropertyTag, this.tag);
         }
-        if (!String.IsNullOrEmpty(this.name)) {
+        if (!StringHelper.IsNullOrEmpty(this.name)) {
             writer.WriteAttributeValue("", XmlAttributeNames.PropertyName, this.name);
         }
         if (this.id) {
@@ -136,4 +164,4 @@ class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     }
 }
 
-export = ExtendedPropertyDefinition;
+

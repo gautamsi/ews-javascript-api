@@ -1,219 +1,172 @@
-// ---------------------------------------------------------------------------
-// <copyright file="FolderSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
+import {PermissionSetPropertyDefinition} from "../../../PropertyDefinitions/PermissionSetPropertyDefinition";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
+import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {FolderId} from "../../../ComplexProperties/FolderId";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the FolderSchema class.</summary>
-//-----------------------------------------------------------------------
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System.Diagnostics.CodeAnalysis;
+//module Microsoft.Exchange.WebServices.Data.FolderSchema {
+module FieldUris {
+  export var FolderId: string = "folder:FolderId";
+  export var ParentFolderId: string = "folder:ParentFolderId";
+  export var DisplayName: string = "folder:DisplayName";
+  export var UnreadCount: string = "folder:UnreadCount";
+  export var TotalCount: string = "folder:TotalCount";
+  export var ChildFolderCount: string = "folder:ChildFolderCount";
+  export var FolderClass: string = "folder:FolderClass";
+  export var ManagedFolderInformation: string = "folder:ManagedFolderInformation";
+  export var EffectiveRights: string = "folder:EffectiveRights";
+  export var PermissionSet: string = "folder:PermissionSet";
+  export var PolicyTag: string = "folder:PolicyTag";
+  export var ArchiveTag: string = "folder:ArchiveTag";
+  export var DistinguishedFolderId: string = "folder:DistinguishedFolderId";
+}
+//}
+export class FolderSchema extends ServiceObjectSchema {
+  /* <summary>
+  /// Field URIs for folders.
+  /// </summary>*/
 
-    /// <summary>
-    /// Represents the schema for folders.
-    /// </summary>
-    [Schema]
-    public class FolderSchema : ServiceObjectSchema
-    {
-        /// <summary>
-        /// Field URIs for folders.
-        /// </summary>
-        private static class FieldUris
-        {
-            public const string FolderId = "folder:FolderId";
-            public const string ParentFolderId = "folder:ParentFolderId";
-            public const string DisplayName = "folder:DisplayName";
-            public const string UnreadCount = "folder:UnreadCount";
-            public const string TotalCount = "folder:TotalCount";
-            public const string ChildFolderCount = "folder:ChildFolderCount";
-            public const string FolderClass = "folder:FolderClass";
-            public const string ManagedFolderInformation = "folder:ManagedFolderInformation";
-            public const string EffectiveRights = "folder:EffectiveRights";
-            public const string PermissionSet = "folder:PermissionSet";
-            public const string PolicyTag = "folder:PolicyTag";
-            public const string ArchiveTag = "folder:ArchiveTag";
-            public const string DistinguishedFolderId = "folder:DistinguishedFolderId";
-        }
+  static Id: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+    "Id",
+    XmlElementNames.FolderId,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.FolderId,
+    PropertyDefinitionFlags.CanFind,
+    () => { return new FolderId(); }
+    );
 
-        /// <summary>
-        /// Defines the Id property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Id =
-            new ComplexPropertyDefinition<FolderId>(
-                XmlElementNames.FolderId,
-                FieldUris.FolderId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new FolderId(); });
+  static FolderClass: PropertyDefinition = new StringPropertyDefinition(
+    "FolderClass",
+    XmlElementNames.FolderClass,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.FolderClass,
+    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the FolderClass property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition FolderClass =
-            new StringPropertyDefinition(
-                XmlElementNames.FolderClass,
-                FieldUris.FolderClass,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+  static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+    "ParentFolderId",
+    XmlElementNames.ParentFolderId,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.ParentFolderId,
+    PropertyDefinitionFlags.CanFind,
+    () => { return new FolderId(); }
+    );
 
-        /// <summary>
-        /// Defines the ParentFolderId property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ParentFolderId =
-            new ComplexPropertyDefinition<FolderId>(
-                XmlElementNames.ParentFolderId,
-                FieldUris.ParentFolderId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new FolderId(); });
+  static ChildFolderCount: PropertyDefinition = new IntPropertyDefinition(
+    "ChildFolderCount",
+    XmlElementNames.ChildFolderCount,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.ChildFolderCount,
+    PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the ChildFolderCount property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ChildFolderCount =
-            new IntPropertyDefinition(
-                XmlElementNames.ChildFolderCount,
-                FieldUris.ChildFolderCount,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
 
-        /// <summary>
-        /// Defines the DisplayName property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition DisplayName =
-            new StringPropertyDefinition(
-                XmlElementNames.DisplayName,
-                FieldUris.DisplayName,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+  static DisplayName: PropertyDefinition = new StringPropertyDefinition(
+    "DisplayName",
+    XmlElementNames.DisplayName,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.DisplayName,
+    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the UnreadCount property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition UnreadCount =
-            new IntPropertyDefinition(
-                XmlElementNames.UnreadCount,
-                FieldUris.UnreadCount,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+  static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
+    "UnreadCount",
+    XmlElementNames.UnreadCount,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.UnreadCount,
+    PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the TotalCount property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition TotalCount =
-            new IntPropertyDefinition(
-                XmlElementNames.TotalCount,
-                FieldUris.TotalCount,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+  static TotalCount: PropertyDefinition = new IntPropertyDefinition(
+    "TotalCount",
+    XmlElementNames.TotalCount,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.TotalCount,
+    PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the ManagedFolderInformation property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ManagedFolderInformation =
-            new ComplexPropertyDefinition<ManagedFolderInformation>(
-                XmlElementNames.ManagedFolderInformation,
-                FieldUris.ManagedFolderInformation,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1,
-                delegate() { return new ManagedFolderInformation(); });
+  static ManagedFolderInformation: PropertyDefinition = new ComplexPropertyDefinition<ManagedFolderInformation>(
+    "ManagedFolderInformation",
+    XmlElementNames.ManagedFolderInformation,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.ManagedFolderInformation,
+    PropertyDefinitionFlags.CanFind,
+    () => { return new ManagedFolderInformation(); }
+    );
 
-        /// <summary>
-        /// Defines the EffectiveRights property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EffectiveRights =
-            new EffectiveRightsPropertyDefinition(
-                XmlElementNames.EffectiveRights,
-                FieldUris.EffectiveRights,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2007_SP1);
+  static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
+    "EffectiveRights",
+    XmlElementNames.EffectiveRights,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.EffectiveRights,
+    PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the Permissions property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Permissions =
-            new PermissionSetPropertyDefinition(
-                XmlElementNames.PermissionSet,
-                FieldUris.PermissionSet,
-                PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-                ExchangeVersion.Exchange2007_SP1);
+  static Permissions: PropertyDefinition = new PermissionSetPropertyDefinition(
+    "Permissions",
+    XmlElementNames.PermissionSet,
+    ExchangeVersion.Exchange2007_SP1,
+    FieldUris.PermissionSet,
+    PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded
+    );
 
-        /// <summary>
-        /// Defines the WellKnownFolderName property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition WellKnownFolderName =
-            new GenericPropertyDefinition<WellKnownFolderName>(
-                XmlElementNames.DistinguishedFolderId,
-                FieldUris.DistinguishedFolderId,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                true);
+  static WellKnownFolderName: PropertyDefinition = new GenericPropertyDefinition<WellKnownFolderName>(
+    "WellKnownFolderName",
+    XmlElementNames.DistinguishedFolderId,
+    ExchangeVersion.Exchange2013,
+    FieldUris.DistinguishedFolderId,
+    PropertyDefinitionFlags.CanFind
+    );
 
-        /// <summary>
-        /// Defines the PolicyTag property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition PolicyTag =
-            new ComplexPropertyDefinition<PolicyTag>(
-                XmlElementNames.PolicyTag,
-                FieldUris.PolicyTag,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new PolicyTag(); });
+  static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
+    "PolicyTag",
+    XmlElementNames.PolicyTag,
+    ExchangeVersion.Exchange2013,
+    FieldUris.PolicyTag,
+    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+    () => { return new PolicyTag(); }
+    );
 
-        /// <summary>
-        /// Defines the ArchiveTag property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ArchiveTag =
-            new ComplexPropertyDefinition<ArchiveTag>(
-                XmlElementNames.ArchiveTag,
-                FieldUris.ArchiveTag,
-                PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate() { return new ArchiveTag(); });
+  static ArchiveTag: PropertyDefinition = new ComplexPropertyDefinition<ArchiveTag>(
+    "ArchiveTag",
+    XmlElementNames.ArchiveTag,
+    ExchangeVersion.Exchange2013,
+    FieldUris.ArchiveTag,
+    PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+    () => { return new ArchiveTag(); }
+    );
 
-        // This must be declared after the property definitions
-        internal static readonly FolderSchema Instance = new FolderSchema();
+  static Instance: FolderSchema = new FolderSchema();
 
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
+  RegisterProperties(): void {
 
-            this.RegisterProperty(Id);
-            this.RegisterProperty(ParentFolderId);
-            this.RegisterProperty(FolderClass);
-            this.RegisterProperty(DisplayName);
-            this.RegisterProperty(TotalCount);
-            this.RegisterProperty(ChildFolderCount);
-            this.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
-            this.RegisterProperty(ManagedFolderInformation);
-            this.RegisterProperty(EffectiveRights);
-            this.RegisterProperty(Permissions);
-            this.RegisterProperty(UnreadCount);
-            this.RegisterProperty(WellKnownFolderName);
-            this.RegisterProperty(PolicyTag);
-            this.RegisterProperty(ArchiveTag);
-        }
-    }
+    super.RegisterProperties();
+
+    this.RegisterProperty(FolderSchema.Id);
+    this.RegisterProperty(FolderSchema.ParentFolderId);
+    this.RegisterProperty(FolderSchema.FolderClass);
+    this.RegisterProperty(FolderSchema.DisplayName);
+    this.RegisterProperty(FolderSchema.TotalCount);
+    this.RegisterProperty(FolderSchema.ChildFolderCount);
+    this.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
+    this.RegisterProperty(FolderSchema.ManagedFolderInformation);
+    this.RegisterProperty(FolderSchema.EffectiveRights);
+    this.RegisterProperty(FolderSchema.Permissions);
+    this.RegisterProperty(FolderSchema.UnreadCount);
+    this.RegisterProperty(FolderSchema.WellKnownFolderName);
+    this.RegisterProperty(FolderSchema.PolicyTag);
+    this.RegisterProperty(FolderSchema.ArchiveTag);
+  }
 }

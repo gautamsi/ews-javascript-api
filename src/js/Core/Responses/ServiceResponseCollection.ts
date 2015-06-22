@@ -1,15 +1,14 @@
-import ServiceResponse = require("./ServiceResponse");
-import ServiceResult = require("../../Enumerations/ServiceResult");
-import EwsUtilities = require("../EwsUtilities");
-
-class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
+﻿import {ServiceResponse} from "./ServiceResponse";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {EwsLogging} from "../EwsLogging";
+export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
     get Count(): number { return this.responses.length; }
     //Item: TResponse;
     get OverallResult(): ServiceResult { return this.overallResult; }
     private responses: TResponse[] = [];// System.Collections.Generic.List<T>;
     private overallResult: ServiceResult = ServiceResult.Success;
     Add(response: TResponse): void {
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             response != null,
             "EwsResponseList.Add",
             "response is null");
@@ -20,8 +19,8 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
 
         this.responses.push(response);
     }
-    GetEnumerator(): any { throw new Error("Not implemented."); }
-    _propget(index: number) {
+    GetEnumerator(): any { throw new Error("ServiceResponseCollection.ts - GetEnumerator : Not implemented."); }
+    __thisIndexer(index: number) {
         if (index < 0 || index >= this.Count) {
             throw new Error("index out of range: " + index);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
         }
@@ -30,11 +29,3 @@ class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumera
     }
 
 }
-export = ServiceResponseCollection;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

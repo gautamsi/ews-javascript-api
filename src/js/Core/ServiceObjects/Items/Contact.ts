@@ -1,6 +1,7 @@
+﻿import {XmlElementNames} from "../../XmlElementNames";
 
-import Item = require("./Item");
-class Contact extends Item {
+import {Item} from "./Item";
+export class Contact extends Item {
     constructor(obj: any) { super(obj); }
     //////private static ContactPictureName: string = "ContactPicture.jpg";
     //////FileAs: string;
@@ -45,25 +46,16 @@ class Contact extends Item {
     //////DirectoryId: string;
     //////ManagerMailbox: EmailAddress;
     //////DirectReports: EmailAddressCollection;
-    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Contact { throw new Error("Not implemented."); }
-    //////Bind(service: ExchangeService, id: ItemId): Contact { throw new Error("Not implemented."); }
-    //////GetContactPictureAttachment(): FileAttachment { throw new Error("Not implemented."); }
-    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    //////GetSchema(): ServiceObjectSchema { throw new Error("Not implemented."); }
-    //////InternalRemoveContactPicture(): any { throw new Error("Not implemented."); }
-    //////RemoveContactPicture(): any { throw new Error("Not implemented."); }
-    //////SetContactPicture(content: System.Byte[]): any { throw new Error("Not implemented."); }
-    //////SetContactPicture(contentStream: System.IO.Stream): any { throw new Error("Not implemented."); }
-    //////SetContactPicture(fileName: string): any { throw new Error("Not implemented."); }
-    //////Validate(): any { throw new Error("Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Contact { throw new Error("Contact.ts - Bind : Not implemented."); }
+    //////Bind(service: ExchangeService, id: ItemId): Contact { throw new Error("Contact.ts - Bind : Not implemented."); }
+    //////GetContactPictureAttachment(): FileAttachment { throw new Error("Contact.ts - GetContactPictureAttachment : Not implemented."); }
+    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Contact.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    //////GetSchema(): ServiceObjectSchema { throw new Error("Contact.ts - GetSchema : Not implemented."); }
+    GetXmlElementName(): string { return XmlElementNames.Contact; }
+    //////InternalRemoveContactPicture(): any { throw new Error("Contact.ts - InternalRemoveContactPicture : Not implemented."); }
+    //////RemoveContactPicture(): any { throw new Error("Contact.ts - RemoveContactPicture : Not implemented."); }
+    //////SetContactPicture(content: System.Byte[]): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
+    //////SetContactPicture(contentStream: System.IO.Stream): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
+    //////SetContactPicture(fileName: string): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
+    //////Validate(): any { throw new Error("Contact.ts - Validate : Not implemented."); }
 }
-
-export = Contact;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

@@ -1,26 +1,26 @@
+﻿
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
 
-import ServiceObjectSchema = require("../Core/ServiceObjects/Schemas/ServiceObjectSchema");
-
-import IOutParam = require("../Interfaces/IOutParam");
-
-class PropertyDefinitionBase {
+import {IOutParam} from "../Interfaces/IOutParam";
+export class PropertyDefinitionBase {
     Version: ExchangeVersion;
     Type: any; //System.Type;
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any{ throw new Error("Not implemented.");}
-    //GetJsonType(): string{ throw new Error("Not implemented.");}
-    GetPrintableName(): string { throw new Error("abstract methos, must implement"); }
-    GetXmlElementName(): string { throw new Error("abstract methos, must implement"); }
+    constructor() { }
+    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any{ throw new Error("PropertyDefinitionBase.ts - AddJsonProperties : Not implemented.");}
+    //GetJsonType(): string{ throw new Error("PropertyDefinitionBase.ts - GetJsonType : Not implemented.");}
+    GetPrintableName(): string { throw new Error("PropertyDefinitionBase - GetPrintableName: abstract methos, must implement"); }
+    GetXmlElementName(): string { throw new Error("PropertyDefinitionBase - GetXmlElementName: abstract methos, must implement"); }
     ToString(): string { return this.GetPrintableName(); }
-    //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("Not implemented.");}
+    //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("PropertyDefinitionBase.ts - TryLoadFromJson : Not implemented.");}
 
-    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------
+    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------ move to separate file so that it does not attract circular dependency
     ////static TryLoadFromXml(reader: EwsServiceXmlReader, outParam: IOutParam<PropertyDefinitionBase> /* propertyDefinition: any*/): boolean {
     ////    //var propertyDefinition = null;
     ////    outParam.value = null;
@@ -44,19 +44,10 @@ class PropertyDefinitionBase {
     ////            return false;
     ////    }
     ////}
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract methos, must implement"); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("PropertyDefinitionBase - WriteAttributesToXml: abstract methos, must implement"); }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.GetXmlElementName());
         this.WriteAttributesToXml(writer);
         writer.WriteEndElement();
     }
 }
-export = PropertyDefinitionBase;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

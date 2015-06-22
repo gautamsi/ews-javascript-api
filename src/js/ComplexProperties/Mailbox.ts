@@ -1,15 +1,17 @@
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-import XmlNamespace = require("../Enumerations/XmlNamespace");
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
-import ComplexProperty = require("./ComplexProperty");
-class Mailbox extends ComplexProperty {
-    get IsValid(): boolean { return !String.IsNullOrEmpty(this.Address); }
+import {ComplexProperty} from "./ComplexProperty";
+export class Mailbox extends ComplexProperty {
+    ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "GetSearchString"];
+    ___typeName: string = "Mailbox";
+    get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.Address); }
     Address: string;
     RoutingType: string;
 
@@ -40,8 +42,8 @@ class Mailbox extends ComplexProperty {
             }
         }
     }
-    //GetHashCode(): number { throw new Error("Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //GetHashCode(): number { throw new Error("Mailbox.ts - GetHashCode : Not implemented."); }
+    //InternalToJson(service: ExchangeService): any { throw new Error("Mailbox.ts - InternalToJson : Not implemented."); }
     InternalValidate(): any {
         super.InternalValidate();
 
@@ -49,19 +51,29 @@ class Mailbox extends ComplexProperty {
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
+    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Mailbox.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): any {
+        debugger;
+        if (jsonProperty[XmlElementNames.EmailAddress]) {
+            this.Address = jsonProperty[XmlElementNames.EmailAddress];//.ReadAsString(XmlElementNames.EmailAddress);
+        }
+
+        if (jsonProperty[XmlElementNames.RoutingType]) {
+            this.RoutingType = jsonProperty[XmlElementNames.RoutingType];//.ReadAsString(XmlElementNames.RoutingType);
+        }
+    }
     ToString(): string {
         if (!this.IsValid) {
-            return String.Empty;
+            return StringHelper.Empty;
         }
-        else if (!String.IsNullOrEmpty(this.RoutingType)) {
+        else if (!StringHelper.IsNullOrEmpty(this.RoutingType)) {
             return this.RoutingType + ":" + this.Address;
         }
         else {
             return this.Address;
         }
     }
-    TryReadElementFromXml(reader: EwsServiceXmlReader): boolean {
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
         switch (reader.LocalName) {
             case XmlElementNames.EmailAddress:
                 this.Address = reader.ReadElementValue();
@@ -74,8 +86,8 @@ class Mailbox extends ComplexProperty {
         }
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, XmlElementNames.EmailAddress, this.Address);
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, XmlElementNames.RoutingType, this.RoutingType);
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
     }
 
     GetSearchString(): string //ISearchStringProvider.GetSearchString
@@ -83,11 +95,3 @@ class Mailbox extends ComplexProperty {
         return this.Address;
     }
 }
-export = Mailbox;
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

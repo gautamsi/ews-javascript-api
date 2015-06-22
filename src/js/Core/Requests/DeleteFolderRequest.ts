@@ -1,22 +1,36 @@
-class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
-    FolderIds: FolderIdWrapperList;
-    private folderIds: FolderIdWrapperList;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { throw new Error("Not implemented."); }
-    InternalToJson(body: JsonObject): any { throw new Error("Not implemented."); }
-    Validate(): any { throw new Error("Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented."); }
+﻿import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
+import {ExchangeService} from "../ExchangeService";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {DeleteRequest} from "./DeleteRequest";
+export class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
+    private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
+    get FolderIds(): FolderIdWrapperList {
+        return this.folderIds;
+    }
+    constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
+        super(service,errorHandlingMode);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { return new ServiceResponse(); }
+    GetExpectedResponseMessageCount(): number { return this.FolderIds.Count; }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetResponseMessageXmlElementName(): string { return XmlElementNames.DeleteFolderResponseMessage; }
+    GetResponseXmlElementName(): string { return XmlElementNames.DeleteFolderResponse; }
+    GetXmlElementName(): string { return XmlElementNames.DeleteFolder; }
+    InternalToJson(body: any): any { throw new Error("DeleteFolderRequest.ts - InternalToJson : Not implemented."); }
+    Validate(): void {
+        super.Validate();
+        //EwsUtilities.ValidateParam(this.FolderIds, "FolderIds");
+        this.FolderIds.Validate(this.Service.RequestedServerVersion);
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        this.FolderIds.WriteToXml(
+            writer,
+            XmlNamespace.Messages,
+            XmlElementNames.FolderIds);
+    }
 }
-
-export = DeleteFolderRequest;
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

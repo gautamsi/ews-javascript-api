@@ -1,108 +1,22 @@
-// ---------------------------------------------------------------------------
-// <copyright file="DisconnectPhoneCallRequest.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the DisconnectPhoneCallRequest class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-    /// <summary>
-    /// Represents a DisconnectPhoneCall request.
-    /// </summary>
-    internal sealed class DisconnectPhoneCallRequest : SimpleServiceRequestBase
-    {
-        private PhoneCallId id;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DisconnectPhoneCallRequest"/> class.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        internal DisconnectPhoneCallRequest(ExchangeService service)
-            : base(service)
-        {
-        }
-
-        /// <summary>
-        /// Gets the name of the XML element.
-        /// </summary>
-        /// <returns>XML element name,</returns>
-        internal override string GetXmlElementName()
-        {
-            return XmlElementNames.DisconnectPhoneCall;
-        }
-
-        /// <summary>
-        /// Writes XML elements.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteElementsToXml(EwsServiceXmlWriter writer)
-        {
-            this.id.WriteToXml(writer, XmlNamespace.Messages, XmlElementNames.PhoneCallId);
-        }
-
-        /// <summary>
-        /// Gets the name of the response XML element.
-        /// </summary>
-        /// <returns>XML element name,</returns>
-        internal override string GetResponseXmlElementName()
-        {
-            return XmlElementNames.DisconnectPhoneCallResponse;
-        }
-
-        /// <summary>
-        /// Parses the response.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>Response object.</returns>
-        internal override object ParseResponse(EwsServiceXmlReader reader)
-        {
-            ServiceResponse serviceResponse = new ServiceResponse();
-            serviceResponse.LoadFromXml(reader, XmlElementNames.DisconnectPhoneCallResponse);
-            return serviceResponse;
-        }
-
-        /// <summary>
-        /// Gets the request version.
-        /// </summary>
-        /// <returns>Earliest Exchange version in which this request is supported.</returns>
-        internal override ExchangeVersion GetMinimumRequiredServerVersion()
-        {
-            return ExchangeVersion.Exchange2010;
-        }
-
-        /// <summary>
-        /// Executes this request.
-        /// </summary>
-        /// <returns>Service response.</returns>
-        internal ServiceResponse Execute()
-        {
-            ServiceResponse serviceResponse = (ServiceResponse)this.InternalExecute();
-            serviceResponse.ThrowIfNecessary();
-            return serviceResponse;
-        }
-
-        /// <summary>
-        /// Gets or sets the Id of the phone call.
-        /// </summary>
-        internal PhoneCallId Id
-        {
-            get
-            {
-                return this.id;
-            }
-
-            set
-            {
-                this.id = value;
-            }
-        }
-    }
+﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {PhoneCallId} from "../../UnifiedMessaging/PhoneCallId";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
+    Id: PhoneCallId;
+    private id: PhoneCallId;
+    Execute(): ServiceResponse { throw new Error("DisconnectPhoneCallRequest.ts - Execute : Not implemented."); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("DisconnectPhoneCallRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
+    GetResponseXmlElementName(): string { throw new Error("DisconnectPhoneCallRequest.ts - GetResponseXmlElementName : Not implemented."); }
+    GetXmlElementName(): string { throw new Error("DisconnectPhoneCallRequest.ts - GetXmlElementName : Not implemented."); }
+    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("DisconnectPhoneCallRequest.ts - ParseResponse : Not implemented."); }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DisconnectPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }
+
+
+//}
+
+
+

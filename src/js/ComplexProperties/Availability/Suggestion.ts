@@ -1,131 +1,38 @@
-// ---------------------------------------------------------------------------
-// <copyright file="Suggestion.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {SuggestionQuality} from "../../Enumerations/SuggestionQuality";
+import {TimeSuggestion} from "./TimeSuggestion";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {DateTime, DateTimeKind} from "../../DateTime";
+import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {ComplexProperty} from "../ComplexProperty";
+export class Suggestion extends ComplexProperty {
+    private date: DateTime = null;
+    private quality: SuggestionQuality = SuggestionQuality.Excellent;
+    private timeSuggestions: TimeSuggestion[] = []; /*System.Collections.ObjectModel.Collection<TimeSuggestion>;*/
+    get Date(): DateTime {
+        return this.date;
+    }
+    get Quality(): SuggestionQuality {
+        return this.quality;
+    }
+    get TimeSuggestions(): TimeSuggestion[] {
+        return this.timeSuggestions;
+    }
+    constructor() {
+        super();
+    }
+    //LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("Suggestion.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
 
-//-----------------------------------------------------------------------
-// <summary>Defines the Suggestion class.</summary>
-//-----------------------------------------------------------------------
+        this.date = DateTime.Parse(jsonProperty[XmlElementNames.Date]);
+        this.quality = <SuggestionQuality><any>SuggestionQuality[jsonProperty[XmlElementNames.DayQuality]];
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.Text;
-
-    /// <summary>
-    /// Represents a suggestion for a specific date.
-    /// </summary>
-    public sealed class Suggestion : ComplexProperty
-    {
-        private DateTime date;
-        private SuggestionQuality quality;
-        private Collection<TimeSuggestion> timeSuggestions = new Collection<TimeSuggestion>();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Suggestion"/> class.
-        /// </summary>
-        internal Suggestion()
-            : base()
-        {
-        }
-
-        /// <summary>
-        /// Tries to read element from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>True if appropriate element was read.</returns>
-        internal override bool TryReadElementFromXml(EwsServiceXmlReader reader)
-        {
-            switch (reader.LocalName)
-            {
-                case XmlElementNames.Date:
-                    // The date that is returned by Availability is unscoped. 
-                    DateTime tempDate = DateTime.Parse(reader.ReadElementValue(), CultureInfo.InvariantCulture);
-
-                    if (tempDate.Kind != DateTimeKind.Unspecified)
-                    {
-                        this.date = new DateTime(tempDate.Ticks, DateTimeKind.Unspecified);
-                    }
-                    else
-                    {
-                        this.date = tempDate;
-                    }
-
-                    return true;
-                case XmlElementNames.DayQuality:
-                    this.quality = reader.ReadElementValue<SuggestionQuality>();
-                    return true;
-                case XmlElementNames.SuggestionArray:
-                    if (!reader.IsEmptyElement)
-                    {
-                        do
-                        {
-                            reader.Read();
-
-                            if (reader.IsStartElement(XmlNamespace.Types, XmlElementNames.Suggestion))
-                            {
-                                TimeSuggestion timeSuggestion = new TimeSuggestion();
-
-                                timeSuggestion.LoadFromXml(reader, reader.LocalName);
-
-                                this.timeSuggestions.Add(timeSuggestion);
-                            }
-                        }
-                        while (!reader.IsEndElement(XmlNamespace.Types, XmlElementNames.SuggestionArray));
-                    }
-
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Loads from json.
-        /// </summary>
-        /// <param name="jsonProperty">The json property.</param>
-        /// <param name="service">The service.</param>
-        internal override void LoadFromJson(JsonObject jsonProperty, ExchangeService service)
-        {
-            this.date = DateTime.Parse(jsonProperty.ReadAsString(XmlElementNames.Date));
-            this.quality = jsonProperty.ReadEnumValue<SuggestionQuality>(XmlElementNames.DayQuality);
-
-            foreach (object jsonSuggestion in jsonProperty.ReadAsArray(XmlElementNames.SuggestionArray))
-            {
-                TimeSuggestion timeSuggestion = new TimeSuggestion();
-
-                timeSuggestion.LoadFromJson(jsonSuggestion as JsonObject, service);
-
-                this.timeSuggestions.Add(timeSuggestion);
-            }
-        }
-        
-        /// <summary>
-        /// Gets the date and time of the suggestion.
-        /// </summary>
-        public DateTime Date
-        {
-            get { return this.date; }
-        }
-
-        /// <summary>
-        /// Gets the quality of the suggestion.
-        /// </summary>
-        public SuggestionQuality Quality
-        {
-            get { return this.quality; }
-        }
-
-        /// <summary>
-        /// Gets a collection of suggested times within the suggested day.
-        /// </summary>
-        public Collection<TimeSuggestion> TimeSuggestions
-        {
-            get { return this.timeSuggestions; }
+        var suggestionArrayObj: any = jsonProperty[XmlElementNames.SuggestionArray];
+        var suggestions: any[] = EwsServiceJsonReader.ReadAsArray(suggestionArrayObj, XmlElementNames.Suggestion);
+        for (var suggestion of suggestions) {
+            var timeSuggestion: TimeSuggestion = new TimeSuggestion();
+            timeSuggestion.LoadFromXmlJsObject(suggestion, service);
+            this.timeSuggestions.push(timeSuggestion);
         }
     }
 }

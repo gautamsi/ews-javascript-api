@@ -1,15 +1,16 @@
-import EwsUtilities = require("../Core/EwsUtilities");
-import EwsServiceXmlReader = require("../Core/EwsServiceXmlReader");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
-import ComplexProperty = require("./ComplexProperty");
-class ServiceId extends ComplexProperty {
-    public get IsValid(): boolean { return !String.IsNullOrEmpty(this.UniqueId); }
-    IsValidProxy(): boolean { return this.IsValid; }
+import {ComplexProperty} from "./ComplexProperty";
+export class ServiceId extends ComplexProperty {
+    public get IsValid(): boolean { return this.IsValidProxy(); }
+    protected IsValidProxy(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); } //proxy to be able to call super. from inherited child
     UniqueId: string;
     ChangeKey: string;
     //private changeKey: string; not needed for proxy
@@ -17,7 +18,7 @@ class ServiceId extends ComplexProperty {
 
     constructor(uniqueId?: string) {
         super();
-        if (!String.IsNullOrEmpty(uniqueId)) {
+        if (!StringHelper.IsNullOrEmpty(uniqueId)) {
             EwsUtilities.ValidateParam(uniqueId, "uniqueId");
             this.UniqueId = uniqueId;
         }
@@ -46,11 +47,25 @@ class ServiceId extends ComplexProperty {
         }
     }
     //GetHashCode(): number { return this.IsValid ? this.UniqueId.GetHashCode() : super.GetHashCode();}
-    //GetJsonTypeName(): string { throw new Error("Not implemented."); }
+    //GetJsonTypeName(): string { throw new Error("ServiceId.ts - GetJsonTypeName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadAttributesFromXml(reader: EwsServiceXmlReader): void {
+    //InternalToJson(service: ExchangeService): any { throw new Error("ServiceId.ts - InternalToJson : Not implemented."); }
+    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ServiceId.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.Id:
+                    this.UniqueId = jsObject[key];
+                    break;
+                case XmlAttributeNames.ChangeKey:
+                    this.ChangeKey = jsObject[key];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void {
         this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
         this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);
     }
@@ -72,4 +87,5 @@ class ServiceId extends ComplexProperty {
         super.WriteToXml(writer, this.GetXmlElementName());
     }
 }
-export = ServiceId;
+
+

@@ -1,190 +1,73 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ResponseObjectsPropertyDefinition.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {ResponseActions} from "../Enumerations/ResponseActions";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {StringHelper} from "../ExtensionMethods";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
+    IsNullable: boolean;
+    Type: any;//System.Type;
+    static GetResponseAction(responseActionString: string): ResponseActions {
+        var value: ResponseActions = ResponseActions.None;
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ResponseObjectsPropertyDefinition class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// Represents response object property defintion.
-    /// </summary>
-    internal sealed class ResponseObjectsPropertyDefinition : PropertyDefinition
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResponseObjectsPropertyDefinition"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="version">The version.</param>
-        internal ResponseObjectsPropertyDefinition(
-            string xmlElementName,
-            string uri,
-            ExchangeVersion version)
-            : base(
-                xmlElementName,
-                uri,
-                version)
-        {
+        switch (responseActionString) {
+            case XmlElementNames.AcceptItem:
+                value = ResponseActions.Accept;
+                break;
+            case XmlElementNames.TentativelyAcceptItem:
+                value = ResponseActions.TentativelyAccept;
+                break;
+            case XmlElementNames.DeclineItem:
+                value = ResponseActions.Decline;
+                break;
+            case XmlElementNames.ReplyToItem:
+                value = ResponseActions.Reply;
+                break;
+            case XmlElementNames.ForwardItem:
+                value = ResponseActions.Forward;
+                break;
+            case XmlElementNames.ReplyAllToItem:
+                value = ResponseActions.ReplyAll;
+                break;
+            case XmlElementNames.CancelCalendarItem:
+                value = ResponseActions.Cancel;
+                break;
+            case XmlElementNames.RemoveItem:
+                value = ResponseActions.RemoveFromCalendar;
+                break;
+            case XmlElementNames.SuppressReadReceipt:
+                value = ResponseActions.SuppressReadReceipt;
+                break;
+            case XmlElementNames.PostReplyItem:
+                value = ResponseActions.PostReply;
+                break;
         }
-
-        /// <summary>
-        /// Loads from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        internal override sealed void LoadPropertyValueFromXml(EwsServiceXmlReader reader, PropertyBag propertyBag)
-        {
-            ResponseActions value = ResponseActions.None;
-
-            reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, this.XmlElementName);
-
-            if (!reader.IsEmptyElement)
-            {
-                do
-                {
-                    reader.Read();
-
-                    if (reader.IsStartElement())
-                    {
-                        value |= GetResponseAction(reader.LocalName);
-                    }
-                }
-                while (!reader.IsEndElement(XmlNamespace.Types, this.XmlElementName));
-            }
-
-            propertyBag[this] = value;
-        }
-
-        /// <summary>
-        /// Loads the property value from json.
-        /// </summary>
-        /// <param name="value">The JSON value.  Can be a JsonObject, string, number, bool, array, or null.</param>
-        /// <param name="service">The service.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <remarks>
-        /// The ResponseActions collection is returned as an array of values of derived ResponseObject types. For example:
-        /// "ResponseObjects" : [ { "__type" : "CancelCalendarItem:#Exchange" }, { "__type" : "ForwardItem:#Exchange" } ]
-        /// </remarks>
-        internal override void LoadPropertyValueFromJson(object value, ExchangeService service, PropertyBag propertyBag)
-        {
-            ResponseActions responseActionValue = ResponseActions.None;
-
-            object[] jsonResponseActions = value as object[];
-
-            if (jsonResponseActions != null)
-            {
-                foreach (JsonObject jsonResponseAction in jsonResponseActions.OfType<JsonObject>())
-                {
-                    if (jsonResponseAction.HasTypeProperty())
-                    {
-                        string actionString = jsonResponseAction.ReadTypeString();
-
-                        if (!string.IsNullOrEmpty(actionString))
-                        {
-                            responseActionValue |= GetResponseAction(actionString);
-                        }
-                    }
-                }
-            }
-
-            propertyBag[this] = responseActionValue;
-        }
-
-        /// <summary>
-        /// Gets the response action.
-        /// </summary>
-        /// <param name="responseActionString">The response action string.</param>
-        /// <returns></returns>
-        private static ResponseActions GetResponseAction(string responseActionString)
-        {
-            ResponseActions value = ResponseActions.None;
-
-            switch (responseActionString)
-            {
-                case XmlElementNames.AcceptItem:
-                    value = ResponseActions.Accept;
-                    break;
-                case XmlElementNames.TentativelyAcceptItem:
-                    value = ResponseActions.TentativelyAccept;
-                    break;
-                case XmlElementNames.DeclineItem:
-                    value = ResponseActions.Decline;
-                    break;
-                case XmlElementNames.ReplyToItem:
-                    value = ResponseActions.Reply;
-                    break;
-                case XmlElementNames.ForwardItem:
-                    value = ResponseActions.Forward;
-                    break;
-                case XmlElementNames.ReplyAllToItem:
-                    value = ResponseActions.ReplyAll;
-                    break;
-                case XmlElementNames.CancelCalendarItem:
-                    value = ResponseActions.Cancel;
-                    break;
-                case XmlElementNames.RemoveItem:
-                    value = ResponseActions.RemoveFromCalendar;
-                    break;
-                case XmlElementNames.SuppressReadReceipt:
-                    value = ResponseActions.SuppressReadReceipt;
-                    break;
-                case XmlElementNames.PostReplyItem:
-                    value = ResponseActions.PostReply;
-                    break;
-            }
-            return value;
-        }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <param name="isUpdateOperation">Indicates whether the context is an update operation.</param>
-        internal override void WritePropertyValueToXml(
-            EwsServiceXmlWriter writer,
-            PropertyBag propertyBag,
-            bool isUpdateOperation)
-        {
-            // ResponseObjects is a read-only property, no need to implement this.
-        }
-
-        /// <summary>
-        /// Writes the json value.
-        /// </summary>
-        /// <param name="jsonObject">The json object.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <param name="service">The service.</param>
-        /// <param name="isUpdateOperation">if set to <c>true</c> [is update operation].</param>
-        internal override void WriteJsonValue(JsonObject jsonObject, PropertyBag propertyBag, ExchangeService service, bool isUpdateOperation)
-        {
-            // ResponseObjects is a read-only property, no need to implement this.
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this property definition is for a nullable type (ref, int?, bool?...).
-        /// </summary>
-        internal override bool IsNullable
-        {
-            get { return false; }
-        }
-
-        /// <summary>
-        /// Gets the property type.
-        /// </summary>
-        public override Type Type
-        {
-            get { return typeof(ResponseActions); }
-        }
+        return value;
     }
+    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ResponseObjectsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+    LoadPropertyValueFromXmlJsObject(jsonObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        debugger; //todo: validate
+        var responseActionValue: ResponseActions = ResponseActions.None;
+
+        var jsonResponseActions: any[] = jsonObject;// as object[];
+        debugger;//check for missing aray 
+        if (jsonResponseActions != null) {
+            for (var jsonResponseAction of jsonResponseActions) {
+                if (jsonResponseAction.__type) {
+                    var actionString: string = jsonResponseAction.__type;
+
+                    if (!StringHelper.IsNullOrEmpty(actionString)) {
+                        responseActionValue |= ResponseObjectsPropertyDefinition.GetResponseAction(actionString);
+                    }
+                }
+            }
+        }
+
+        propertyBag._setItem(this, responseActionValue);
+    }
+    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
 }

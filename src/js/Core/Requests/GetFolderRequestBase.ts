@@ -1,23 +1,23 @@
-import Folder = require("../ServiceObjects/Folders/Folder");
-import ExchangeService = require("../ExchangeService");
-import EwsServiceXmlWriter = require("../EwsServiceXmlWriter");
-import ServiceObjectType = require("../../Enumerations/ServiceObjectType");
-import ExchangeVersion = require("../../Enumerations/ExchangeVersion");
-import XmlElementNames = require("../XmlElementNames");
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import ServiceResponse = require("../Responses/ServiceResponse");
-import FolderIdWrapperList = require("../../Misc/FolderIdWrapperList");
+﻿import {Folder} from "../ServiceObjects/Folders/Folder";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
 
-import GetRequest = require("./GetRequest");
-class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest<Folder, TResponse> {
-    get FolderIds(): FolderIdWrapperList { return this.folderIds; } //todo - implement
+import {GetRequest} from "./GetRequest";
+export class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest<Folder, TResponse> {
+    get FolderIds(): FolderIdWrapperList { return this.folderIds; }
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
 
-    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling) {
+    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling:any) {
         super(service, errorHandlingModeServiceErrorHandling);
     }
 
-    //AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any{ throw new Error("Not implemented.");}
+    //AddIdsToRequest(jsonRequest: JsonObject, service: ExchangeService): any{ throw new Error("GetFolderRequestBase.ts - AddIdsToRequest : Not implemented.");}
     GetExpectedResponseMessageCount(): number { return this.FolderIds.Count; }
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     GetResponseMessageXmlElementName(): string { return XmlElementNames.GetFolderResponseMessage; }
@@ -28,7 +28,7 @@ class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest
         super.Validate();
         debugger;
         //EwsUtilities.ValidateParamCollection(this.FolderIds, "FolderIds");
-        //this.FolderIds.Validate(this.Service.RequestedServerVersion);
+        this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);
@@ -39,10 +39,3 @@ class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest
             XmlElementNames.FolderIds);
     }
 }
-
-export = GetFolderRequestBase;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

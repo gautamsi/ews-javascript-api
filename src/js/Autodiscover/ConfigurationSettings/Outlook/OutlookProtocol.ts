@@ -1,16 +1,17 @@
-import OutlookProtocolType = require("../../../Enumerations/OutlookProtocolType");
-import UserSettingName = require("../../../Enumerations/UserSettingName");
-import WebClientUrlCollection = require("../../WebClientUrlCollection");
-import GetUserSettingsResponse = require("../../Responses/GetUserSettingsResponse");
-import EwsXmlReader = require("../../../Core/EwsXmlReader");
+﻿import {LazyMember} from "../../../Core/LazyMember";
+import {OutlookProtocolType} from "../../../Enumerations/OutlookProtocolType";
+import {UserSettingName} from "../../../Enumerations/UserSettingName";
+import {WebClientUrlCollection} from "../../WebClientUrlCollection";
+import {GetUserSettingsResponse} from "../../Responses/GetUserSettingsResponse";
+import {EwsXmlReader} from "../../../Core/EwsXmlReader";
 
-class OutlookProtocol {
+export class OutlookProtocol {
     private static EXPR: string = "EXPR";
     private static EXCH: string = "EXCH";
     private static WEB: string = "WEB";
     ProtocolType: OutlookProtocolType;
-    private ConverterDictionary: System.Collections.Generic.Dictionary<UserSettingName, System.Func<OutlookProtocol, any>>;
-    static AvailableUserSettings: System.Collections.Generic.List<UserSettingName>;
+    private ConverterDictionary: any;//System.Collections.Generic.Dictionary<UserSettingName, System.Func<OutlookProtocol, any>>;
+    static AvailableUserSettings: any;//System.Collections.Generic.List<UserSettingName>;
     private activeDirectoryServer: string;
     private authPackage: string;
     private availabilityServiceUrl: string;
@@ -47,23 +48,17 @@ class OutlookProtocol {
     private MapiHttpEnabled: boolean;
     private externalOutlookWebAccessUrls: WebClientUrlCollection;
     private internalOutlookWebAccessUrls: WebClientUrlCollection;
-    private static commonProtocolSettings: LazyMember<T>;
-    private static internalProtocolSettings: LazyMember<T>;
-    private static externalProtocolSettings: LazyMember<T>;
-    private static internalProtocolConverterDictionary: LazyMember<T>;
-    private static externalProtocolConverterDictionary: LazyMember<T>;
-    private static webProtocolConverterDictionary: LazyMember<T>;
-    private static availableUserSettings: LazyMember<T>;
-    private static protocolNameToTypeMap: LazyMember<T>;
-    ConvertEcpFragmentToUrl(fragment: string): string { throw new Error("Not implemented."); }
-    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("Not implemented."); }
-    LoadWebClientUrlsFromXml(reader: EwsXmlReader, webClientUrls: WebClientUrlCollection, elementName: string): any { throw new Error("Not implemented."); }
-    ProtocolNameToType(protocolName: string): OutlookProtocolType { throw new Error("Not implemented."); }
+    private static commonProtocolSettings: LazyMember<any>;
+    private static internalProtocolSettings: LazyMember<any>;
+    private static externalProtocolSettings: LazyMember<any>;
+    private static internalProtocolConverterDictionary: LazyMember<any>;
+    private static externalProtocolConverterDictionary: LazyMember<any>;
+    private static webProtocolConverterDictionary: LazyMember<any>;
+    private static availableUserSettings: LazyMember<any>;
+    private static protocolNameToTypeMap: LazyMember<any>;
+    ConvertEcpFragmentToUrl(fragment: string): string { throw new Error("OutlookProtocol.ts - ConvertEcpFragmentToUrl : Not implemented."); }
+    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookProtocol.ts - ConvertToUserSettings : Not implemented."); }
+    LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookProtocol.ts - LoadFromXml : Not implemented."); }
+    LoadWebClientUrlsFromXml(reader: EwsXmlReader, webClientUrls: WebClientUrlCollection, elementName: string): any { throw new Error("OutlookProtocol.ts - LoadWebClientUrlsFromXml : Not implemented."); }
+    ProtocolNameToType(protocolName: string): OutlookProtocolType { throw new Error("OutlookProtocol.ts - ProtocolNameToType : Not implemented."); }
 }
-export = OutlookProtocol;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

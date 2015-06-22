@@ -1,94 +1,78 @@
-﻿// ---------------------------------------------------------------------------
-// <copyright file="EwsServiceJsonReader.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the EwsServiceJsonReader class.</summary>
-//-----------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    /// <summary>
-    /// JSON reader.
-    /// </summary>
-    internal class EwsServiceJsonReader
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EwsServiceJsonReader"/> class.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        internal EwsServiceJsonReader(ExchangeService service)
-        {
-            this.Service = service;
+﻿import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ExchangeService} from "./ExchangeService";
+import {JsonObject} from "./JsonObject";
+import {PropertySet} from "./PropertySet";
+import {GetObjectInstanceDelegate} from "../Misc/DelegateTypes";
+import {StringHelper, TypeSystem} from "../ExtensionMethods";
+export class EwsServiceJsonReader {
+    //Service: ExchangeService;
+    // constructor(service: ExchangeService){
+    // 	this.Service = service;
+    // }
+    static ReadAsArray(jsObject: any, xmlElementName: string):any[] {
+        if (!jsObject || !jsObject[xmlElementName]) {
+            return [];
+            //throw new Error("EwsServiceJsonReader - ReadAsArray - json property not found");
         }
+        var collectionItems: any[] = jsObject[xmlElementName];
+        if (!Array.isArray(collectionItems)) {
+            collectionItems = [collectionItems];
+        }
+        return collectionItems;
+    }
+    static ReadServiceObjectsCollectionFromJson<TServiceObject extends ServiceObject>(jsonResponse: any/*JsonObject*/, service: ExchangeService, collectionJsonElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): TServiceObject[] /*System.Collections.Generic.List<TServiceObject>*/ {
 
-        /// <summary>
-        /// Reads the service objects collection from JSON.
-        /// </summary>
-        /// <typeparam name="TServiceObject">The type of the service object.</typeparam>
-        /// <param name="jsonResponse">The json response.</param>
-        /// <param name="collectionJsonElementName">Name of the collection XML element.</param>
-        /// <param name="getObjectInstanceDelegate">The get object instance delegate.</param>
-        /// <param name="clearPropertyBag">if set to <c>true</c> [clear property bag].</param>
-        /// <param name="requestedPropertySet">The requested property set.</param>
-        /// <param name="summaryPropertiesOnly">if set to <c>true</c> [summary properties only].</param>
-        /// <returns>List of service objects.</returns>
-        internal List<TServiceObject> ReadServiceObjectsCollectionFromJson<TServiceObject>(
-            JsonObject jsonResponse,
-            string collectionJsonElementName,
-            GetObjectInstanceDelegate<TServiceObject> getObjectInstanceDelegate,
-            bool clearPropertyBag,
-            PropertySet requestedPropertySet,
-            bool summaryPropertiesOnly) where TServiceObject : ServiceObject
-        {
-            List<TServiceObject> serviceObjects = new List<TServiceObject>();
-            TServiceObject serviceObject = null;
+        var serviceObjects: TServiceObject[] = [];
+        var serviceObject: TServiceObject = null;
 
-            object[] jsonServiceObjects = jsonResponse.ReadAsArray(collectionJsonElementName);
-            foreach (object arrayEntry in jsonServiceObjects)
-            {
-                JsonObject jsonServiceObject = arrayEntry as JsonObject;
+        var collectionItems: any[] = jsonResponse[collectionJsonElementName];
 
-                if (jsonServiceObject != null)
-                {
-                    serviceObject = getObjectInstanceDelegate(this.Service, jsonServiceObject.ReadTypeString());
-
-                    if (serviceObject != null)
-                    {
-                        if (string.Compare(jsonServiceObject.ReadTypeString(), serviceObject.GetXmlElementName(), StringComparison.Ordinal) != 0)
-                        {
+        for (var key in collectionItems) {
+            if ((<string>key).indexOf("__") === 0)
+                continue;
+            var jsonServiceObjects: any[] = collectionItems[key];
+            if (!Array.isArray(jsonServiceObjects)) {
+                jsonServiceObjects = [jsonServiceObjects];
+            }
+            for (var jsonServiceObject of jsonServiceObjects) {
+                if (jsonServiceObject != null) {
+                    var typeName = TypeSystem.GetJsObjectTypeName(jsonServiceObject);
+                    if (StringHelper.IsNullOrEmpty(typeName)) debugger;//check why typeName is empty - may be invalid xml parsing by xml2js
+                    serviceObject = getObjectInstanceDelegate(service, typeName || key);
+                    if (serviceObject != null) {
+                        if ((typeName || key) !== serviceObject.GetXmlElementName()) { //string.Compare(jsonServiceObject.ReadTypeString(), serviceObject.GetXmlElementName(), StringComparison.Ordinal) != 0)                        
                             throw new ServiceLocalException(
-                                string.Format(
+                                StringHelper.Format(
                                     "The type of the object in the store ({0}) does not match that of the local object ({1}).",
-                                    jsonServiceObject.ReadTypeString(),
+                                    typeName,
                                     serviceObject.GetXmlElementName()));
                         }
-
-                        serviceObject.LoadFromJson(
-                                        jsonServiceObject,
-                                        this.Service,
-                                        clearPropertyBag,
-                                        requestedPropertySet,
-                                        summaryPropertiesOnly);
-
-                        serviceObjects.Add(serviceObject);
+                        debugger;
+                        serviceObject.LoadFromXmlJsObject(
+                            jsonServiceObject,
+                            service,
+                            clearPropertyBag,
+                            requestedPropertySet,
+                            summaryPropertiesOnly);
+                        debugger;
+                        serviceObjects.push(serviceObject);
                     }
+                    else
+                        debugger;
                 }
             }
 
-            return serviceObjects;
         }
 
-        /// <summary>
-        /// Gets or sets the service.
-        /// </summary>
-        internal ExchangeService Service { get; set; }
+        return serviceObjects;
     }
 }
+
+
+
+
+
+
+			
+

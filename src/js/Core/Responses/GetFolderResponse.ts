@@ -1,12 +1,14 @@
-import Folder = require("../ServiceObjects/Folders/Folder");
-import PropertySet = require("../PropertySet");
-import EwsServiceXmlReader = require("../EwsServiceXmlReader");
-import ExchangeService = require("../ExchangeService");
-import EwsUtilities = require("../EwsUtilities");
-import XmlElementNames = require("../XmlElementNames");
-
-import ServiceResponse = require("./ServiceResponse");
-class GetFolderResponse extends ServiceResponse {
+﻿import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {Folder} from "../ServiceObjects/Folders/Folder";
+import {FolderInfo} from "../ServiceObjects/Folders/FolderInfo";
+import {PropertySet} from "../PropertySet";
+import {ExchangeService} from "../ExchangeService";
+import {EwsUtilities} from "../EwsUtilities";
+import {EwsLogging} from "../EwsLogging";
+import {XmlElementNames} from "../XmlElementNames";
+import {TypeSystem} from "../../ExtensionMethods";
+import {ServiceResponse} from "./ServiceResponse";
+export class GetFolderResponse extends ServiceResponse {
     get Folder(): Folder { return this.folder; }
     private folder: Folder;
     private propertySet: PropertySet;
@@ -17,7 +19,7 @@ class GetFolderResponse extends ServiceResponse {
         this.folder = folder;
         this.propertySet = propertySet;
 
-        EwsUtilities.Assert(
+        EwsLogging.Assert(
             this.propertySet != null,
             "GetFolderResponse.ctor",
             "PropertySet should not be null");
@@ -28,14 +30,16 @@ class GetFolderResponse extends ServiceResponse {
             return this.Folder;
         }
         else {
-            return EwsUtilities.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
+            var flinfo: FolderInfo = new FolderInfo();
+            return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
         }
     }
-    //ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): void {
-        super.ReadElementsFromXml(reader);
+    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
+        super.ReadElementsFromJson(responseObject, service);
 
-        var folders: Folder[] = reader.ReadServiceObjectsCollectionFromXml<Folder>(
+        var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
+            responseObject,
+            service,
             XmlElementNames.Folders,
             this.GetObjectInstance,
             true,               /* clearPropertyBag */
@@ -44,11 +48,21 @@ class GetFolderResponse extends ServiceResponse {
 
         this.folder = folders[0];
     }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
+
+        if (responseObject[XmlElementNames.Folders]) {
+            var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
+                responseObject,
+                service,
+                XmlElementNames.Folders,
+                this.GetObjectInstance,
+                true,               /* clearPropertyBag */
+                this.propertySet,   /* requestedPropertySet */
+                false);              /* summaryPropertiesOnly */
+
+            this.folder = folders[0];
+        }
+    }
+
 }
-
-export= GetFolderResponse;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

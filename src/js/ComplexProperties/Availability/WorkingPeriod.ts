@@ -1,114 +1,45 @@
-// ---------------------------------------------------------------------------
-// <copyright file="WorkingPeriod.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsUtilities} from "../../Core/EwsUtilities";
+import {TimeSpan} from "../../DateTime";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the WorkingPeriod class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Text;
-
-    /// <summary>
-    /// Represents a working period.
-    /// </summary>
-    internal sealed class WorkingPeriod : ComplexProperty
-    {
-        private Collection<DayOfTheWeek> daysOfWeek = new Collection<DayOfTheWeek>();
-        private TimeSpan startTime;
-        private TimeSpan endTime;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WorkingPeriod"/> class.
-        /// </summary>
-        internal WorkingPeriod()
-            : base()
-        {
-        }
-
-        /// <summary>
-        /// Tries to read element from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <returns>True if appropriate element was read.</returns>
-        internal override bool TryReadElementFromXml(EwsServiceXmlReader reader)
-        {
-            switch (reader.LocalName)
-            {
+import {ComplexProperty} from "../ComplexProperty";
+export class WorkingPeriod extends ComplexProperty {
+    get DaysOfWeek(): DayOfTheWeek[] { return this.daysOfWeek; } /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/
+    get StartTime(): TimeSpan { return this.startTime; } /*System.TimeSpan*/
+    get EndTime(): TimeSpan { return this.endTime; } /*System.TimeSpan*/
+    private daysOfWeek: DayOfTheWeek[] = [] /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
+    private startTime: TimeSpan = null /*System.TimeSpan*/;
+    private endTime: TimeSpan = null/*System.TimeSpan*/;
+    constructor() {
+        super();
+    }
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("WorkingPeriod.ts - LoadFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("WorkingPeriod.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        for (var key in jsonProperty) {
+            switch (key) {
                 case XmlElementNames.DayOfWeek:
                     EwsUtilities.ParseEnumValueList<DayOfTheWeek>(
                         this.daysOfWeek,
-                        reader.ReadElementValue(),
-                        ' ');
-                    return true;
+                        jsonProperty[key],
+                        ' ',
+                        DayOfTheWeek);
+                    break;
                 case XmlElementNames.StartTimeInMinutes:
-                    this.startTime = TimeSpan.FromMinutes(reader.ReadElementValue<int>());
-                    return true;
+                    this.startTime = TimeSpan.FromMinutes(Number(jsonProperty[key]));
+                    break;
                 case XmlElementNames.EndTimeInMinutes:
-                    this.endTime = TimeSpan.FromMinutes(reader.ReadElementValue<int>());
-                    return true;
+                    this.endTime = TimeSpan.FromMinutes(Number(jsonProperty[key]));
+                    break;
                 default:
-                    return false;
+                    break;
             }
-        }
-
-        /// <summary>
-        /// Loads from json.
-        /// </summary>
-        /// <param name="jsonProperty">The json property.</param>
-        /// <param name="service">The service.</param>
-        internal override void LoadFromJson(JsonObject jsonProperty, ExchangeService service)
-        {
-            foreach (string key in jsonProperty.Keys)
-            {
-                switch (key)
-                {
-                    case XmlElementNames.DayOfWeek:
-                        EwsUtilities.ParseEnumValueList<DayOfTheWeek>(
-                            this.daysOfWeek,
-                            jsonProperty.ReadAsString(key),
-                            ' ');
-                        break;
-                    case XmlElementNames.StartTimeInMinutes:
-                        this.startTime = TimeSpan.FromMinutes(jsonProperty.ReadAsInt(key));
-                        break;
-                    case XmlElementNames.EndTimeInMinutes:
-                        this.endTime = TimeSpan.FromMinutes(jsonProperty.ReadAsInt(key));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a collection of work days.
-        /// </summary>
-        internal Collection<DayOfTheWeek> DaysOfWeek
-        {
-            get { return this.daysOfWeek; }
-        }
-
-        /// <summary>
-        /// Gets the start time of the period.
-        /// </summary>
-        internal TimeSpan StartTime
-        {
-            get { return this.startTime; }
-        }
-
-        /// <summary>
-        /// Gets the end time of the period.
-        /// </summary>
-        internal TimeSpan EndTime
-        {
-            get { return this.endTime; }
         }
     }
 }
+
+
+
+

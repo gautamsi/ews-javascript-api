@@ -1,19 +1,18 @@
-import EwsUtilities = require("../Core/EwsUtilities");
-import EwsServiceXmlWriter = require("../Core/EwsServiceXmlWriter");
-import XmlAttributeNames = require("../Core/XmlAttributeNames");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {EwsUtilities} from "../Core/EwsUtilities";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-import ExtensionMethods = require("../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {StringHelper} from "../ExtensionMethods";
 
-import WellKnownFolderName = require("../Enumerations/WellKnownFolderName");
-import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-import EnumToExchangeVersionMappingHelper = require("../Enumerations/EnumToExchangeVersionMappingHelper");
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
 
-import Mailbox = require("./Mailbox");
+import {Mailbox} from "./Mailbox";
 
-import ServiceId = require("./ServiceId");
- class FolderId extends ServiceId {
+import {ServiceId} from "./ServiceId";
+export class FolderId extends ServiceId {
     get FolderName(): WellKnownFolderName { return this.folderName; }
     get Mailbox(): Mailbox { return this.mailbox; }
     public get IsValid(): boolean {
@@ -29,8 +28,14 @@ import ServiceId = require("./ServiceId");
     private folderName: WellKnownFolderName;
     private mailbox: Mailbox;
 
-    constructor(uniqueId?: string, folderName?: WellKnownFolderName, mailbox?: Mailbox) {
-        super(uniqueId);
+    //    constructor(uniqueId?: string, folderName?: WellKnownFolderName, mailbox?: Mailbox) {
+    //        super(uniqueId);
+    //
+    //        this.mailbox = mailbox;
+    //        this.folderName = folderName;
+    //    }
+    constructor(folderName?: WellKnownFolderName, mailbox?: Mailbox) {
+        super();
 
         this.mailbox = mailbox;
         this.folderName = folderName;
@@ -62,14 +67,14 @@ import ServiceId = require("./ServiceId");
             return false;
         }
     }
-    //GetHashCode(): number { throw new Error("Not implemented."); }
-    GetXmlElementName(): string { return this.FolderName ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Not implemented."); }
+    //GetHashCode(): number { throw new Error("FolderId.ts - GetHashCode : Not implemented."); }
+    GetXmlElementName(): string { return typeof this.folderName!== 'undefined' && this.FolderName >=0 ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
+    //InternalToJson(service: ExchangeService): any { throw new Error("FolderId.ts - InternalToJson : Not implemented."); }
     ToString(): string {
         if (this.IsValid) {
             if (this.FolderName) {
                 if ((this.mailbox != null) && this.mailbox.IsValid) {
-                    return String.Format("{0} ({1})", WellKnownFolderName[this.folderName], this.Mailbox.ToString());
+                    return StringHelper.Format("{0} ({1})", WellKnownFolderName[this.folderName], this.Mailbox.ToString());
                 }
                 else {
                     return WellKnownFolderName[this.FolderName];
@@ -96,7 +101,7 @@ import ServiceId = require("./ServiceId");
         }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        if (this.FolderName) {
+        if (typeof this.folderName!== 'undefined' && this.FolderName >=0) {
             writer.WriteAttributeValue(null, XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());
 
             if (this.Mailbox != null) {
@@ -108,14 +113,3 @@ import ServiceId = require("./ServiceId");
         }
     }
 }
-
- export = FolderId;
-
-
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-

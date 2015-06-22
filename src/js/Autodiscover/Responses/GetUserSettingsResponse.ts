@@ -1,21 +1,21 @@
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import XmlAttributeNames = require("../../Core/XmlAttributeNames");
+﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
 
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import UserSettingName = require("../../Enumerations/UserSettingName");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {UserSettingName} from "../../Enumerations/UserSettingName";
 
-import UserSettingError = require("../UserSettingError");
-import WebClientUrlCollection = require("../WebClientUrlCollection");
-import ProtocolConnectionCollection = require("../ProtocolConnectionCollection");
-import AlternateMailboxCollection = require("../AlternateMailboxCollection");
-import DocumentSharingLocationCollection = require("../DocumentSharingLocationCollection");
+import {UserSettingError} from "../UserSettingError";
+import {WebClientUrlCollection} from "../WebClientUrlCollection";
+import {ProtocolConnectionCollection} from "../ProtocolConnectionCollection";
+import {AlternateMailboxCollection} from "../AlternateMailboxCollection";
+import {DocumentSharingLocationCollection} from "../DocumentSharingLocationCollection";
 
-import ExtensionMethods = require("../../ExtensionMethods");
-import String = ExtensionMethods.stringFormatting;
+import {EwsLogging} from "../../Core/EwsLogging";
+import {StringHelper} from "../../ExtensionMethods";
 
-import AutodiscoverResponse = require("./AutodiscoverResponse");
-class GetUserSettingsResponse extends AutodiscoverResponse {
+import {AutodiscoverResponse} from "./AutodiscoverResponse";
+export class GetUserSettingsResponse extends AutodiscoverResponse {
     SmtpAddress: string;
     RedirectTarget: string;
     Settings: { [index: number]: any }; //System.Collections.Generic.IDictionary<UserSettingName, any>;
@@ -90,20 +90,15 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
                             break;
 
                         default:
-                            console.assert(false,
+                            EwsLogging.Assert(false,
                                 "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                                String.Format("Invalid setting class '{0}' returned", settingClass));
-                            //EwsUtilities.Assert(
-                            //    false,
-                            //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                            //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                                StringHelper.Format("Invalid setting class '{0}' returned", settingClass));                            
                             break;
                     }
                 }
             }
             while (true);// (reader.HasRecursiveParent(XmlElementNames.UserSettings));
             //while (!reader.IsEndElement(XmlNamespace.Autodiscover, XmlElementNames.UserSettings));
-            var xxxx = null;
         }
     }
     ReadSettingFromXml(reader: EwsXmlReader): any {
@@ -150,7 +145,7 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
         if (userSettingName !== undefined)
             this.Settings[userSettingName] = value;
         else
-            console.assert(false,
+            EwsLogging.Assert(false,
                 "GetUserSettingsResponse.ReadSettingFromXml",
                 "Unexpected or empty name element in user setting");
 
@@ -185,7 +180,7 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
 
     }
     LoadUserSettingErrorsFromJson(obj: any): void {
-        var errors = undefined;
+        var errors:any = undefined;
 
         if (typeof (obj[XmlElementNames.UserSettingError]) === 'undefined') return;
 
@@ -201,7 +196,7 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
         }
     }
     LoadUserSettingsFromJson(obj: any): void {
-        var settings = undefined;
+        var settings:any = undefined;
 
         if (typeof (obj[XmlElementNames.UserSetting]) === 'undefined') return;
 
@@ -223,13 +218,9 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
                     break;
 
                 default:
-                    console.assert(false,
+                    EwsLogging.Assert(false,
                         "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                        String.Format("Invalid setting class '{0}' returned", settingClass));
-                    //EwsUtilities.Assert(
-                    //    false,
-                    //    "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                    //    string.Format("Invalid setting class '{0}' returned", settingClass));
+                        StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
                     break;
             }
         }
@@ -244,18 +235,15 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
                 value = WebClientUrlCollection.LoadFromJson(obj[XmlElementNames.WebClientUrls]);
                 break;
             case XmlElementNames.ProtocolConnectionCollectionSetting://ProtocolConnections:
-                var util = require('util');
                 value = ProtocolConnectionCollection.LoadFromJson(obj[XmlElementNames.ProtocolConnections]);
                 break;
             case XmlElementNames.AlternateMailboxCollectionSetting://AlternateMailboxes:
-                var util = require('util');
                 value = AlternateMailboxCollection.LoadFromJson(obj[XmlElementNames.AlternateMailboxes]);
                 break;
             case XmlElementNames.DocumentSharingLocationCollectionSetting://DocumentSharingLocations:
-                var util = require('util');
                 debugger;
-                console.log("------------DocumentSharingLocationCollection needs test and fix ----------------");
-                console.log(util.inspect(obj, { showHidden: false, depth: null, colors: true }));
+                EwsLogging.Log("------------DocumentSharingLocationCollection needs test and fix ----------------",true);
+                EwsLogging.Log(obj,true,true);
                 value = DocumentSharingLocationCollection.LoadFromJson(obj);
                 break;
         }
@@ -265,7 +253,7 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
         if (userSettingName !== undefined)
             this.Settings[userSettingName] = value;
         else
-            console.assert(false,
+            EwsLogging.Assert(false,
                 "GetUserSettingsResponse.ReadSettingFromXml",
                 "Unexpected or empty name element in user setting");
 
@@ -293,11 +281,3 @@ class GetUserSettingsResponse extends AutodiscoverResponse {
         return this.Settings[setting];
     }
 }
-export = GetUserSettingsResponse;
-
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

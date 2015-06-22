@@ -1,15 +1,47 @@
+﻿import {Folder} from "../ServiceObjects/Folders/Folder";
+import {FolderInfo} from "../ServiceObjects/Folders/FolderInfo";
+import {ExchangeService} from "../ExchangeService";
+import {JsonObject} from "../JsonObject";
+import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {ServiceResponse} from "./ServiceResponse";
+export class CreateFolderResponse extends ServiceResponse {
+    private folder: Folder = null;
+    constructor(folder: Folder) {
+        super();
+        this.folder = folder;
+    }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder {
+        if (this.folder != null) {
+            return this.folder;
+        }
+        else {
+            var flinfo: FolderInfo = new FolderInfo();
+            return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
+        }
+    }
+    Loaded(): void {
+        if (this.Result == ServiceResult.Success) {
+            this.folder.ClearChangeLog();
+        }
+    }
+    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("CreateFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
-class CreateFolderResponse extends ServiceResponse {
-    private folder: Folder;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder { throw new Error("Not implemented."); }
-    Loaded(): any { throw new Error("Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("Not implemented."); }
-    ReadElementsFromXml(reader: EwsServiceXmlReader): any { throw new Error("Not implemented."); }
+        if (responseObject[XmlElementNames.Folders]) {
+            var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
+                responseObject,
+                service,
+                XmlElementNames.Folders,
+                this.GetObjectInstance,
+                false,               /* clearPropertyBag */
+                null,   /* requestedPropertySet */
+                false);              /* summaryPropertiesOnly */
+
+            this.folder = folders[0];
+        }
+    }
 }
-
-export = CreateFolderResponse;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;

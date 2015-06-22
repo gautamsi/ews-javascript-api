@@ -1,133 +1,53 @@
-// ---------------------------------------------------------------------------
-// <copyright file="MeetingResponseSchema.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AppointmentSchema} from "./AppointmentSchema";
+import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the MeetingResponseSchema class.</summary>
-//-----------------------------------------------------------------------
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System.Diagnostics.CodeAnalysis;
+//module MeetingResponseSchema {
+module FieldUris {
+    export var ProposedStart: string = "meeting:ProposedStart";
+    export var ProposedEnd: string = "meeting:ProposedEnd";
+}
+//}
+export class MeetingResponseSchema extends MeetingMessageSchema {
+    static Start: PropertyDefinition = AppointmentSchema.Instance.Start;
+    static End: PropertyDefinition = AppointmentSchema.Instance.End;
+    static Location: PropertyDefinition = AppointmentSchema.Instance.Location;
+    static AppointmentType: PropertyDefinition = AppointmentSchema.Instance.AppointmentType;
+    static Recurrence: PropertyDefinition = AppointmentSchema.Instance.Recurrence;
+    static ProposedStart: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedStart",
+        XmlElementNames.ProposedStart,
+        ExchangeVersion.Exchange2013,
+        FieldUris.ProposedStart,
+        PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return AppointmentSchema.Instance.StartTimeZone; }
+        );
 
-    /// <summary>
-    /// Represents the schema for meeting messages.
-    /// </summary>
-    [Schema]
-    public class MeetingResponseSchema : MeetingMessageSchema
-    {
-        /// <summary>
-        /// Field URIs for MeetingMessage.
-        /// </summary>
-        private static class FieldUris
-        {
-            public const string ProposedStart = "meeting:ProposedStart";
-            public const string ProposedEnd = "meeting:ProposedEnd";
-        }
+    static ProposedEnd: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedEnd",
+        XmlElementNames.ProposedEnd,
+        ExchangeVersion.Exchange2013,
+        FieldUris.ProposedEnd,
+        PropertyDefinitionFlags.CanFind,
+        (version: ExchangeVersion) => { return AppointmentSchema.Instance.EndTimeZone; }
+        );
 
-        /// <summary>
-        /// Defines the Start property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Start =
-            AppointmentSchema.Start;
-
-        /// <summary>
-        /// Defines the End property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition End =
-            AppointmentSchema.End;
-
-        /// <summary>
-        /// Defines the Location property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Location =
-            AppointmentSchema.Location;
-
-        /// <summary>
-        /// Defines the AppointmentType property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition AppointmentType =
-            AppointmentSchema.AppointmentType;
-
-        /// <summary>
-        /// Defines the Recurrence property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition Recurrence =
-            AppointmentSchema.Recurrence;
-
-        /// <summary>
-        /// Defines the Proposed Start property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ProposedStart =
-            new ScopedDateTimePropertyDefinition(
-                XmlElementNames.ProposedStart,
-                FieldUris.ProposedStart,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate(ExchangeVersion version)
-                {
-                    return AppointmentSchema.StartTimeZone;
-                });
-
-        /// <summary>
-        /// Defines the Proposed End property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition ProposedEnd =
-            new ScopedDateTimePropertyDefinition(
-                XmlElementNames.ProposedEnd,
-                FieldUris.ProposedEnd,
-                PropertyDefinitionFlags.CanFind,
-                ExchangeVersion.Exchange2013,
-                delegate(ExchangeVersion version)
-                {
-                    return AppointmentSchema.EndTimeZone;
-                });
-
-        /// <summary>
-        /// Enhanced Location property.
-        /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Immutable type")]
-        public static readonly PropertyDefinition EnhancedLocation =
-            AppointmentSchema.EnhancedLocation;
-
-        // This must be after the declaration of property definitions
-        internal static new readonly MeetingResponseSchema Instance = new MeetingResponseSchema();
-
-        /// <summary>
-        /// Registers properties.
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
-        /// </remarks>
-        internal override void RegisterProperties()
-        {
-            base.RegisterProperties();
-
-            this.RegisterProperty(Start);
-            this.RegisterProperty(End);
-            this.RegisterProperty(Location);
-            this.RegisterProperty(Recurrence);
-            this.RegisterProperty(AppointmentType);
-            this.RegisterProperty(ProposedStart);
-            this.RegisterProperty(ProposedEnd);
-            this.RegisterProperty(EnhancedLocation);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeetingMessageSchema"/> class.
-        /// </summary>
-        internal MeetingResponseSchema()
-            : base()
-        {
-        }
+    static EnhancedLocation: PropertyDefinition = AppointmentSchema.Instance.EnhancedLocation;
+    static Instance: MeetingResponseSchema = new MeetingResponseSchema();
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        super.RegisterProperty(MeetingResponseSchema.Start);
+        super.RegisterProperty(MeetingResponseSchema.End);
+        super.RegisterProperty(MeetingResponseSchema.Location);
+        super.RegisterProperty(MeetingResponseSchema.Recurrence);
+        super.RegisterProperty(MeetingResponseSchema.AppointmentType);
+        super.RegisterProperty(MeetingResponseSchema.ProposedStart);
+        super.RegisterProperty(MeetingResponseSchema.ProposedEnd);
+        super.RegisterProperty(MeetingResponseSchema.EnhancedLocation);
     }
 }

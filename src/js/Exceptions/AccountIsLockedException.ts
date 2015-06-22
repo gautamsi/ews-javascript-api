@@ -1,14 +1,7 @@
-import Exception = require("./Exception");
-import ServiceRemoteException = require("./ServiceRemoteException");
-class AccountIsLockedException extends ServiceRemoteException {
-    AccountUnlockUrl: string;//System.Uri;
+﻿import {Uri} from "../Uri";
+import {Exception} from "./Exception";
+import {ServiceRemoteException} from "./ServiceRemoteException";
+export class AccountIsLockedException extends ServiceRemoteException {
+    AccountUnlockUrl: Uri;
 }
-
-export = AccountIsLockedException;
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
 

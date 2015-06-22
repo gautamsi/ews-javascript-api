@@ -1,79 +1,61 @@
-// ---------------------------------------------------------------------------
-// <copyright file="ContainedPropertyDefinition.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {EwsLogging} from "../Core/EwsLogging";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
 
-//-----------------------------------------------------------------------
-// <summary>Defines the ContainedPropertyDefinition class.</summary>
-//-----------------------------------------------------------------------
+import {ComplexPropertyDefinition} from "./ComplexPropertyDefinition";
+export class ContainedPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinition<TComplexProperty> {
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    /// <summary>
-    /// Represents contained property definition.
-    /// </summary>
-    /// <typeparam name="TComplexProperty">The type of the complex property.</typeparam>
-    internal class ContainedPropertyDefinition<TComplexProperty> : ComplexPropertyDefinition<TComplexProperty> where TComplexProperty : ComplexProperty, new()
-    {
-        private string containedXmlElementName;
+    private containedXmlElementName: string;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContainedPropertyDefinition&lt;TComplexProperty&gt;"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="containedXmlElementName">Name of the contained XML element.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="propertyCreationDelegate">Delegate used to create instances of ComplexProperty.</param>
-        internal ContainedPropertyDefinition(
-            string xmlElementName,
-            string uri,
-            string containedXmlElementName,
-            PropertyDefinitionFlags flags,
-            ExchangeVersion version,
-            CreateComplexPropertyDelegate<TComplexProperty> propertyCreationDelegate)
-            : base(xmlElementName, uri, flags, version, propertyCreationDelegate)
-        {
-            this.containedXmlElementName = containedXmlElementName;
+    constructor(
+        propertyName: string,
+        xmlElementName: string,
+        containedXmlElementName: string,
+        version: ExchangeVersion,
+        uri?: string,
+        flags?: PropertyDefinitionFlags,
+        propertyCreationDelegate?: CreateComplexPropertyDelegate<TComplexProperty>) {
+        super(propertyName, xmlElementName, version, uri, flags, propertyCreationDelegate);
+
+        EwsLogging.Assert(
+            propertyCreationDelegate != null,
+            "ComplexPropertyDefinition ctor",
+            "CreateComplexPropertyDelegate cannot be null");
+
+        this.containedXmlElementName = containedXmlElementName;
+    }
+    
+    
+    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        debugger;//check for correct contained element name
+        if(jsObject[this.containedXmlElementName]){
+            jsObject = jsObject[this.containedXmlElementName];
+        }        
+        super.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
+                
+        //reader.ReadStartElement(XmlNamespace.Types, this.containedXmlElementName);
+        //
+        //base.InternalLoadFromXml(reader, propertyBag);
+        //
+        //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
+    }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
+        debugger;
+        if (complexProperty != null || typeof complexProperty !== 'undefined') {
+            writer.WriteStartElement(XmlNamespace.Types, this.XmlElementName);
+
+            complexProperty.WriteToXml(writer, this.containedXmlElementName);
+
+            writer.WriteEndElement(); // this.XmlElementName
         }
-
-        /// <summary>
-        /// Load from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        internal override void InternalLoadFromXml(EwsServiceXmlReader reader, PropertyBag propertyBag)
-        {
-            reader.ReadStartElement(XmlNamespace.Types, this.containedXmlElementName);
-
-            base.InternalLoadFromXml(reader, propertyBag);
-
-            reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.containedXmlElementName);
-        }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <param name="isUpdateOperation">Indicates whether the context is an update operation.</param>
-        internal override void WritePropertyValueToXml(
-            EwsServiceXmlWriter writer,
-            PropertyBag propertyBag,
-            bool isUpdateOperation)
-        {
-            ComplexProperty complexProperty = (ComplexProperty)propertyBag[this];
-
-            if (complexProperty != null)
-            {
-                writer.WriteStartElement(XmlNamespace.Types, this.XmlElementName);
-
-                complexProperty.WriteToXml(writer, this.containedXmlElementName);
-
-                writer.WriteEndElement(); // this.XmlElementName
-            }
-        }
+        //throw new Error("ContainedPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }

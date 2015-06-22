@@ -1,22 +1,23 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-import AutodiscoverResponse = require("./Responses/AutodiscoverResponse");
+import {AutodiscoverResponse} from "./Responses/AutodiscoverResponse";
 
-class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse {
-    Count: number;
+export class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
+    get Count(): number{return this.Responses.length};
     Item: TResponse;
-    Responses: TResponse[];//System.Collections.Generic.List<TResponse>;
-    private responses: TResponse[];//System.Collections.Generic.List<TResponse>;
+    Responses: TResponse[] = [];//System.Collections.Generic.List<TResponse>;
+    //private responses: TResponse[];//System.Collections.Generic.List<TResponse>;
 
     constructor() {
         super();
-        this.Responses = new Array<TResponse>();
     }
-
-    CreateResponseInstance(): TResponse { throw new Error("Not implemented."); }
-    GetEnumerator(): any { throw new Error("Not implemented."); }
-    GetResponseCollectionXmlElementName(): string { throw new Error("Not implemented."); }
-    GetResponseInstanceXmlElementName(): string { throw new Error("Not implemented."); }
+    __thisIndexer(index: number): TResponse {
+        return this.Responses[index];
+    }
+    CreateResponseInstance(): TResponse { throw new Error("AutodiscoverResponseCollection.ts - CreateResponseInstance : Not implemented."); }
+    GetEnumerator(): any { throw new Error("AutodiscoverResponseCollection.ts - GetEnumerator : Not implemented."); }
+    GetResponseCollectionXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseCollectionXmlElementName : Not implemented."); }
+    GetResponseInstanceXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseInstanceXmlElementName : Not implemented."); }
     LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
         do {
             reader.Read();
@@ -44,7 +45,7 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
 
     LoadResponseCollectionFromJson(obj: any): void {
         var element = this.GetResponseInstanceXmlElementName()
-        var responses = undefined;
+        var responses:any = undefined;
         if (Object.prototype.toString.call(obj[element]) === "[object Array]")
             responses = obj[element];
         else
@@ -73,10 +74,3 @@ class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> ext
     }
 }
 
-export = AutodiscoverResponseCollection;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

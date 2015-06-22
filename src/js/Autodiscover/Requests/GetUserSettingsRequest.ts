@@ -1,20 +1,24 @@
+﻿import {Strings} from "../../Strings";
 
-import EwsXmlReader = require("../../Core/EwsXmlReader");
-import EwsServiceXmlWriter = require("../../Core/EwsServiceXmlWriter");
-import XmlElementNames = require("../../Core/XmlElementNames");
-import EwsUtilities = require("../../Core/EwsUtilities");
+import {EwsXmlReader} from "../../Core/EwsXmlReader";
+import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {EwsUtilities} from "../../Core/EwsUtilities";
+import {Uri} from "../../Uri";
 
-import XmlNamespace = require("../../Enumerations/XmlNamespace");
-import UserSettingName = require("../../Enumerations/UserSettingName");
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {UserSettingName} from "../../Enumerations/UserSettingName";
 
-import ServiceValidationException = require("../../Exceptions/ServiceValidationException");
+import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
 
-import AutodiscoverService = require("../AutodiscoverService");
-import AutodiscoverResponse = require("../Responses/AutodiscoverResponse");
-import GetUserSettingsResponseCollection = require("../Responses/GetUserSettingsResponseCollection");
+import {IPromise} from "../../Interfaces";
 
-import AutodiscoverRequest = require("./AutodiscoverRequest");
-class GetUserSettingsRequest extends AutodiscoverRequest {
+import {AutodiscoverService} from "../AutodiscoverService";
+import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
+import {GetUserSettingsResponseCollection} from "../Responses/GetUserSettingsResponseCollection";
+
+import {AutodiscoverRequest} from "./AutodiscoverRequest";
+export class GetUserSettingsRequest extends AutodiscoverRequest {
     static GetUserSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetUserSettings";
 
     SmtpAddresses: string[];//System.Collections.Generic.List<string>;
@@ -23,20 +27,24 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     PartnerTokenReference: string;
     private expectPartnerToken: boolean;
 
-    constructor(service: AutodiscoverService, url: string) {
+    constructor(service: AutodiscoverService, url: Uri) {
         super(service, url);
         this.expectPartnerToken = false;
     }
     CreateServiceResponse(): AutodiscoverResponse {
         return new GetUserSettingsResponseCollection();
     }
-    Execute(): WinJS.Promise<GetUserSettingsResponseCollection> {
-        var responses = <WinJS.Promise<GetUserSettingsResponseCollection>> this.InternalExecute();
+    Execute(): IPromise<GetUserSettingsResponseCollection> {
+        return this.InternalExecute().then((adr: GetUserSettingsResponseCollection) => {
+            this.PostProcessResponses(adr)
+            return adr;
+        });
+        //<IPromise<>> v
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);
         //}
-        return responses;
+        //return responses;
     }
     GetRequestXmlElementName(): string {
         return XmlElementNames.GetUserSettingsRequestMessage;
@@ -50,7 +58,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     PostProcessResponses(responses: GetUserSettingsResponseCollection): void {
         // Note:The response collection may not include all of the requested users if the request has been throttled.
         for (var index = 0; index < responses.Count; index++) {
-            responses[index].SmtpAddress = this.SmtpAddresses[index];
+            responses.__thisIndexer(index).SmtpAddress = this.SmtpAddresses[index];
         }
     }
     ReadSoapHeader(reader: EwsXmlReader): void {
@@ -74,15 +82,13 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
         if (this.Settings.length == 0) {
             throw new ServiceValidationException(
-                //Strings.InvalidAutodiscoverSettingsCount
-                "InvalidAutodiscoverSettingsCount"
+                Strings.InvalidAutodiscoverSettingsCount
                 );
         }
 
         if (this.SmtpAddresses.length == 0) {
             throw new ServiceValidationException(
-                //Strings.InvalidAutodiscoverSmtpAddressesCount
-                "InvalidAutodiscoverSmtpAddressesCount"
+                Strings.InvalidAutodiscoverSmtpAddressesCount
                 );
         }
 
@@ -91,8 +97,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
             //if (string.IsNullOrEmpty(smtpAddress)) {
             if (smtpAddress != undefined && smtpAddress !== "") {
                 throw new ServiceValidationException(
-                    //Strings.InvalidAutodiscoverSmtpAddress
-                    "InvalidAutodiscoverSmtpAddress"
+                    Strings.InvalidAutodiscoverSmtpAddress
                     );
             }
         }
@@ -116,7 +121,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
             if (smtpAddress != undefined && smtpAddress !== "") {
                 writer.WriteElementValue(
                     XmlNamespace.Autodiscover,
-                    XmlElementNames.Mailbox, XmlElementNames.Mailbox,
+                    XmlElementNames.Mailbox,
                     smtpAddress);
             }
             writer.WriteEndElement(); // User
@@ -129,7 +134,7 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
 
             writer.WriteElementValue(
                 XmlNamespace.Autodiscover,
-                XmlElementNames.Setting, XmlElementNames.Setting,
+                XmlElementNames.Setting,
                 UserSettingName[setting]);
         }
 
@@ -139,19 +144,13 @@ class GetUserSettingsRequest extends AutodiscoverRequest {
     }
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void {
 
-        //if (this.expectPartnerToken) {
-        //    writer.WriteElementValue(
-        //        XmlNamespace.Autodiscover,
-        //        XmlElementNames.BinarySecret,
-        //        btoa(ExchangeServiceBase.SessionKey));
-        //        //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
-        //}
+        if (this.expectPartnerToken) {
+            debugger;
+            // writer.WriteElementValue(
+            //    XmlNamespace.Autodiscover,
+            //    XmlElementNames.BinarySecret,
+            //    btoa(ExchangeServiceBase.SessionKey));
+            //    //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
+        }
     }
 }
-
-export = GetUserSettingsRequest;
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

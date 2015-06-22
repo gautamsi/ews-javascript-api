@@ -1,248 +1,81 @@
-// ---------------------------------------------------------------------------
-// <copyright file="FolderPermissionCollection.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the FolderPermissionCollection class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Text;
-
-    /// <summary>
-    /// Represents a collection of folder permissions.
-    /// </summary>
-    public sealed class FolderPermissionCollection : ComplexPropertyCollection<FolderPermission>
-    {
-        private bool isCalendarFolder;
-        private Collection<string> unknownEntries = new Collection<string>();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FolderPermissionCollection"/> class.
-        /// </summary>
-        /// <param name="owner">The folder owner.</param>
-        internal FolderPermissionCollection(Folder owner)
-            : base()
-        {
-            this.isCalendarFolder = owner is CalendarFolder;
-        }
-
-        /// <summary>
-        /// Gets the name of the inner collection XML element.
-        /// </summary>
-        /// <value>XML element name.</value>
-        private string InnerCollectionXmlElementName
-        {
-            get { return this.isCalendarFolder ? XmlElementNames.CalendarPermissions : XmlElementNames.Permissions; }
-        }
-
-        /// <summary>
-        /// Gets the name of the collection item XML element.
-        /// </summary>
-        /// <value>XML element name.</value>
-        private string CollectionItemXmlElementName
-        {
-            get { return this.isCalendarFolder ? XmlElementNames.CalendarPermission : XmlElementNames.Permission; }
-        }
-
-        /// <summary>
-        /// Gets the name of the collection item XML element.
-        /// </summary>
-        /// <param name="complexProperty">The complex property.</param>
-        /// <returns>XML element name.</returns>
-        internal override string GetCollectionItemXmlElementName(FolderPermission complexProperty)
-        {
-            return this.CollectionItemXmlElementName;
-        }
-
-        /// <summary>
-        /// Loads from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="localElementName">Name of the local element.</param>
-        internal override void LoadFromXml(EwsServiceXmlReader reader, string localElementName)
-        {
-            reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, localElementName);
-
-            reader.ReadStartElement(XmlNamespace.Types, this.InnerCollectionXmlElementName);
-            base.LoadFromXml(reader, this.InnerCollectionXmlElementName);
-            reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.InnerCollectionXmlElementName);
-
-            reader.Read();
-
-            if (reader.IsStartElement(XmlNamespace.Types, XmlElementNames.UnknownEntries))
-            {
-                do
-                {
-                    reader.Read();
-
-                    if (reader.IsStartElement(XmlNamespace.Types, XmlElementNames.UnknownEntry))
-                    {
-                        this.unknownEntries.Add(reader.ReadElementValue());
-                    }
-                }
-                while (!reader.IsEndElement(XmlNamespace.Types, XmlElementNames.UnknownEntries));
-            }
-        }
-
-        /// <summary>
-        /// Loads from json.
-        /// </summary>
-        /// <param name="jsonProperty">The json property.</param>
-        /// <param name="service">The service.</param>
-        internal override void LoadFromJson(JsonObject jsonProperty, ExchangeService service)
-        {
-            object[] jsonFolderPermissions = jsonProperty.ReadAsArray(this.InnerCollectionXmlElementName);
-            
-            foreach (object jsonFolderPermission in jsonFolderPermissions)
-            {
-                FolderPermission permission = new FolderPermission();
-                permission.LoadFromJson(jsonFolderPermission as JsonObject, service);
-                this.InternalAdd(permission);
-            }
-
-            object[] jsonUnknownEntries = jsonProperty.ReadAsArray(XmlElementNames.UnknownEntries);
-
-            foreach (object jsonUnknownEntry in jsonUnknownEntries)
-            {
-                this.unknownEntries.Add(jsonUnknownEntry as string);
-            }
-        }
-
-        /// <summary>
-        /// Validates this instance.
-        /// </summary>
-        internal void Validate()
-        {
-            for (int permissionIndex = 0; permissionIndex < this.Items.Count; permissionIndex++)
-            {
-                FolderPermission permission = this.Items[permissionIndex];
-                permission.Validate(this.isCalendarFolder, permissionIndex);
-            }
-        }
-
-        /// <summary>
-        /// Writes the elements to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        internal override void WriteElementsToXml(EwsServiceXmlWriter writer)
-        {
-            writer.WriteStartElement(XmlNamespace.Types, this.InnerCollectionXmlElementName);
-            foreach (FolderPermission folderPermission in this)
-            {
-                folderPermission.WriteToXml(
-                            writer,
-                            this.GetCollectionItemXmlElementName(folderPermission),
-                            this.isCalendarFolder);
-            }
-            writer.WriteEndElement(); // this.InnerCollectionXmlElementName
-        }
-
-        /// <summary>
-        /// Serializes the property to a Json value.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <returns>
-        /// A Json value (either a JsonObject, an array of Json values, or a Json primitive)
-        /// </returns>
-        internal override object InternalToJson(ExchangeService service)
-        {
-            JsonObject jsonProperty = new JsonObject();
-            List<object> permissions = new List<object>();
-
-            foreach (FolderPermission folderPermission in this)
-            {
-                permissions.Add(folderPermission.InternalToJson(service, this.isCalendarFolder));
-            }
-
-            jsonProperty.AddTypeParameter(this.InnerCollectionXmlElementName);
-            jsonProperty.Add(this.InnerCollectionXmlElementName, permissions.ToArray());
-
-            return jsonProperty;
-        }
-
-        /// <summary>
-        /// Creates the complex property.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <returns>FolderPermission instance.</returns>
-        internal override FolderPermission CreateComplexProperty(string xmlElementName)
-        {
-            return new FolderPermission();
-        }
-
-        /// <summary>
-        /// Creates the default complex property.
-        /// </summary>
-        /// <returns>FolderPermission instance.</returns>
-        internal override FolderPermission CreateDefaultComplexProperty()
-        {
-            return new FolderPermission();
-        }
-
-        /// <summary>
-        /// Adds a permission to the collection.
-        /// </summary>
-        /// <param name="permission">The permission to add.</param>
-        public void Add(FolderPermission permission)
-        {
-            this.InternalAdd(permission);
-        }
-
-        /// <summary>
-        /// Adds the specified permissions to the collection.
-        /// </summary>
-        /// <param name="permissions">The permissions to add.</param>
-        public void AddRange(IEnumerable<FolderPermission> permissions)
-        {
-            EwsUtilities.ValidateParam(permissions, "permissions");
-
-            foreach (FolderPermission permission in permissions)
-            {
-                this.Add(permission);
-            }
-        }
-
-        /// <summary>
-        /// Clears this collection.
-        /// </summary>
-        public void Clear()
-        {
-            this.InternalClear();
-        }
-
-        /// <summary>
-        /// Removes a permission from the collection.
-        /// </summary>
-        /// <param name="permission">The permission to remove.</param>
-        /// <returns>True if the folder permission was successfully removed from the collection, false otherwise.</returns>
-        public bool Remove(FolderPermission permission)
-        {
-            return this.InternalRemove(permission);
-        }
-
-        /// <summary>
-        /// Removes a permission from the collection.
-        /// </summary>
-        /// <param name="index">The zero-based index of the permission to remove.</param>
-        public void RemoveAt(int index)
-        {
-            this.InternalRemoveAt(index);
-        }
-
-        /// <summary>
-        /// Gets a list of unknown user Ids in the collection.
-        /// </summary>
-        public Collection<string> UnknownEntries
-        {
-            get { return this.unknownEntries; }
+﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
+import {Folder} from "../Core/ServiceObjects/Folders/Folder";
+//import CalendarFolder = require("../Core/ServiceObjects/Folders/Calendar____Folder");
+import {FolderPermission} from "./FolderPermission";
+import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import {ExchangeService} from "../Core/ExchangeService";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlElementNames} from "../Core/XmlElementNames";
+export class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
+    private get InnerCollectionXmlElementName(): string { return this.isCalendarFolder ? XmlElementNames.CalendarPermissions : XmlElementNames.Permissions; }
+    private get CollectionItemXmlElementName(): string { return this.isCalendarFolder ? XmlElementNames.CalendarPermission : XmlElementNames.Permission; }
+    private isCalendarFolder: boolean;
+    private unknownEntries: string[] = [];// System.Collections.ObjectModel.Collection<string>;
+    get UnknownEntries(): string[] { return this.unknownEntries; }// System.Collections.ObjectModel.Collection<string>;
+    constructor(owner: Folder) {
+        super();
+        this.isCalendarFolder = owner._FolderType === XmlElementNames.CalendarFolder; //owner instanceof CalendarFolder;
+        
+    }
+    Add(permission: FolderPermission): void { this.InternalAdd(permission); }
+    AddRange(permissions: FolderPermission[]/*System.Collections.Generic.IEnumerable<T>*/): void {
+        //EwsUtilities.ValidateParam(permissions, "permissions");
+        for (var permission of permissions) {
+            this.Add(permission);
         }
     }
+    Clear(): void { this.InternalClear(); }
+    CreateComplexProperty(xmlElementName: string): FolderPermission { return new FolderPermission(); }
+    CreateDefaultComplexProperty(): FolderPermission { return new FolderPermission(); }
+    GetCollectionItemXmlElementName(complexProperty: FolderPermission): string { return this.CollectionItemXmlElementName; }
+    InternalToJson(service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - InternalToJson : Not implemented."); }
+    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermissionCollection.ts - LoadFromJson : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        var jsonFolderPermissions: any[] = jsonProperty[this.InnerCollectionXmlElementName];
+        if (jsonFolderPermissions && jsonFolderPermissions[this.CollectionItemXmlElementName])
+            jsonFolderPermissions = jsonFolderPermissions[this.CollectionItemXmlElementName];
+        if (!Array.isArray(jsonFolderPermissions)) {
+            debugger;
+            throw new Error("Invalid xml parsing, jsonproperty must contain collectionxmlelementname and collectionitemelementname underneeth");
+        }
+        for (var jsonFolderPermission of jsonFolderPermissions) {
+            var permission: FolderPermission = new FolderPermission();
+            debugger;//implement this
+            permission.LoadFromXmlJsObject(jsonFolderPermission, service);
+            this.InternalAdd(permission);
+        }
+        if (jsonProperty[XmlElementNames.UnknownEntries]) {
+            var jsonUnknownEntries: any[] = jsonProperty[XmlElementNames.UnknownEntries];
+            if (typeof jsonUnknownEntries !== 'object' && !Array.isArray(jsonFolderPermissions)) {
+                debugger;
+                throw new Error("Invalid xml returned - check for consistency, UnknownEntries must be array type");
+            }
+            debugger;//check for unknown entries type, shold be string or array of string
+            for (var jsonUnknownEntry of jsonUnknownEntries) {
+                this.unknownEntries.push(jsonUnknownEntry);
+            }
+        }
+    }
+    Remove(permission: FolderPermission): boolean { return this.InternalRemove(permission); }
+    RemoveAt(index: number): void { this.InternalRemoveAt(index); }
+    Validate(): void {
+        for (var permissionIndex = 0; permissionIndex < this.Items.length; permissionIndex++) {
+            var permission: FolderPermission = this.Items[permissionIndex];
+            permission.Validate(this.isCalendarFolder, permissionIndex);
+        }
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteStartElement(XmlNamespace.Types, this.InnerCollectionXmlElementName);
+        for (var folderPermission of this.Items) {
+            folderPermission.WriteToXml(
+                writer,
+                this.GetCollectionItemXmlElementName(folderPermission),
+                undefined,//XmlNamespace - incorrect inheritance error with typesctipt in folderpermission class if removed xmlnamespace parameter
+                this.isCalendarFolder);
+        }
+        writer.WriteEndElement(); // this.InnerCollectionXmlElementName
+    }
 }
+
+

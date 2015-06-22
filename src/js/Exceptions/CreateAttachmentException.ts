@@ -1,12 +1,5 @@
-import Exception = require("./Exception");
-import BatchServiceResponseException = require("./BatchServiceResponseException");
-class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
+﻿import {CreateAttachmentResponse} from "../Core/Responses/CreateAttachmentResponse";
+import {Exception} from "./Exception";
+import {BatchServiceResponseException} from "./BatchServiceResponseException";
+export class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
 }
-
-
-//module Microsoft.Exchange.WebServices.Data {
-//}
-//import _export = Microsoft.Exchange.WebServices.Data;
-//export = _export;
-
-

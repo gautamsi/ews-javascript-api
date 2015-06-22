@@ -1,116 +1,33 @@
-// ---------------------------------------------------------------------------
-// <copyright file="MeetingTimeZonePropertyDefinition.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {MeetingTimeZone} from "../ComplexProperties/MeetingTimeZone";
+import {AppointmentSchema} from "../Core/ServiceObjects/Schemas/AppointmentSchema";
+import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
+import {PropertyDefinition} from "./PropertyDefinition";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyBag} from "../Core/PropertyBag";
+import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {JsonObject} from "../Core/JsonObject";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+export class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
+    Type: any;//System.Type;
+    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        debugger;
+        if (jsObject != null) {
+            var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone();
+            meetingTimeZone.LoadFromXmlJsObject(jsObject, service);//this.GetXmlElementName()
 
-//-----------------------------------------------------------------------
-// <summary>Defines the MeetingTimeZonePropertyDefinition class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-
-    /// <summary>
-    /// Represents the definition for the meeting time zone property.
-    /// </summary>
-    internal class MeetingTimeZonePropertyDefinition : PropertyDefinition
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeetingTimeZonePropertyDefinition"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="version">The version.</param>
-        internal MeetingTimeZonePropertyDefinition(
-            string xmlElementName,
-            string uri,
-            PropertyDefinitionFlags flags,
-            ExchangeVersion version)
-            : base(
-                xmlElementName,
-                uri,
-                flags,
-                version)
-        {
+            propertyBag._setItem(AppointmentSchema.Instance.StartTimeZone, meetingTimeZone.ToTimeZoneInfo());
         }
 
-        /// <summary>
-        /// Loads from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        internal override sealed void LoadPropertyValueFromXml(EwsServiceXmlReader reader, PropertyBag propertyBag)
-        {
-            MeetingTimeZone meetingTimeZone = new MeetingTimeZone();
-            meetingTimeZone.LoadFromXml(reader, this.XmlElementName);
+        throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented.");
+    }
+    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
+        var value: MeetingTimeZone = <MeetingTimeZone> propertyBag._getItem(this);
 
-            propertyBag[AppointmentSchema.StartTimeZone] = meetingTimeZone.ToTimeZoneInfo();
+        if (value != null || typeof value !== 'undefined') {
+            value.WriteToXml(writer, this.XmlElementName);
         }
-
-        /// <summary>
-        /// Loads the property value from json.
-        /// </summary>
-        /// <param name="value">The JSON value.  Can be a JsonObject, string, number, bool, array, or null.</param>
-        /// <param name="service">The service.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        internal override void LoadPropertyValueFromJson(object value, ExchangeService service, PropertyBag propertyBag)
-        {
-            JsonObject jsonObject = value as JsonObject;
-
-            if (jsonObject != null)
-            {
-                MeetingTimeZone meetingTimeZone = new MeetingTimeZone();
-                meetingTimeZone.LoadFromJson(jsonObject, service);
-
-                propertyBag[AppointmentSchema.StartTimeZone] = meetingTimeZone.ToTimeZoneInfo();
-            }
-        }
-
-        /// <summary>
-        /// Writes to XML.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <param name="isUpdateOperation">Indicates whether the context is an update operation.</param>
-        internal override void WritePropertyValueToXml(
-            EwsServiceXmlWriter writer,
-            PropertyBag propertyBag,
-            bool isUpdateOperation)
-        {
-            MeetingTimeZone value = (MeetingTimeZone)propertyBag[this];
-
-            if (value != null)
-            {
-                value.WriteToXml(writer, this.XmlElementName);
-            }
-        }
-
-        /// <summary>
-        /// Writes the json value.
-        /// </summary>
-        /// <param name="jsonObject">The json object.</param>
-        /// <param name="propertyBag">The property bag.</param>
-        /// <param name="service">The service.</param>
-        /// <param name="isUpdateOperation">if set to <c>true</c> [is update operation].</param>
-        internal override void WriteJsonValue(JsonObject jsonObject, PropertyBag propertyBag, ExchangeService service, bool isUpdateOperation)
-        {
-            MeetingTimeZone value = propertyBag[this] as MeetingTimeZone;
-
-            if (value != null)
-            {
-                jsonObject.Add(this.XmlElementName, value.InternalToJson(service));
-            }
-        }
-
-        /// <summary>
-        /// Gets the property type.
-        /// </summary>
-        public override Type Type
-        {
-            get { return typeof(MeetingTimeZone); }
-        }
+        //throw new Error("MeetingTimeZonePropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }

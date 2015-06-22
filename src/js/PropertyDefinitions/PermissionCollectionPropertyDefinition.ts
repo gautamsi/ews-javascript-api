@@ -1,65 +1,25 @@
-// ---------------------------------------------------------------------------
-// <copyright file="PermissionCollectionPropertyDefinition.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// <summary>Defines the PermissionCollectionPropertyDefinition class.</summary>
-//-----------------------------------------------------------------------
-
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-
-    /// <summary>
-    /// Represents permission set property definition.
-    /// </summary>
-    internal class PermissionSetPropertyDefinition : ComplexPropertyDefinitionBase
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionSetPropertyDefinition"/> class.
-        /// </summary>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <param name="uri">The URI.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="version">The version.</param>
-        internal PermissionSetPropertyDefinition(
-            string xmlElementName,
-            string uri,
-            PropertyDefinitionFlags flags,
-            ExchangeVersion version)
-            : base(
-                xmlElementName,
-                uri,
-                flags,
-                version)
-        {
-        }
-
-        /// <summary>
-        /// Creates the property instance.
-        /// </summary>
-        /// <param name="owner">The owner.</param>
-        /// <returns>ComplexProperty.</returns>
-        internal override ComplexProperty CreatePropertyInstance(ServiceObject owner)
-        {
-            Folder folder = owner as Folder;
-
-            EwsUtilities.Assert(
-                folder != null,
-                "PermissionCollectionPropertyDefinition.CreatePropertyInstance",
-                "The owner parameter is not of type Folder or a derived class.");
-
-            return new FolderPermissionCollection(folder);
-        }
-
-        /// <summary>
-        /// Gets the property type.
-        /// </summary>
-        public override Type Type
-        {
-            get { return typeof(FolderPermissionCollection); }
-        }
+﻿import {FolderPermissionCollection} from "../ComplexProperties/FolderPermissionCollection";
+import {ComplexPropertyDefinitionBase} from "./ComplexPropertyDefinitionBase";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
+import {Folder} from "../Core/ServiceObjects/Folders/Folder";
+import {EwsLogging} from "../Core/EwsLogging";
+export class PermissionSetPropertyDefinition extends ComplexPropertyDefinitionBase {
+    get Type(): any {//} Type {
+        return undefined;// new Type("FolderPermissionCollection");
+    }
+    constructor(propertyName: string, xmlElementName: string, version: ExchangeVersion, uri: string, flags: PropertyDefinitionFlags) {
+        super(propertyName, xmlElementName, version, uri, flags);
+        throw new Error("use type defined in other file, named exactly like the typename = PermissionSetPropertyDefinition");
+    }
+    CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
+        var folder: Folder = ((owner instanceof Folder) ? <Folder>owner : null);
+        EwsLogging.Assert(folder !== null, "PermissionCollectionPropertyDefinition.CreatePropertyInstance", "The owner parameter is not of type Folder or a derived class.");
+        return new FolderPermissionCollection(folder);
     }
 }
+
+
+

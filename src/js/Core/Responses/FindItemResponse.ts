@@ -1,321 +1,133 @@
-// ---------------------------------------------------------------------------
-// <copyright file="FindItemResponse.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// ---------------------------------------------------------------------------
+﻿import {XmlElementNames} from "../XmlElementNames";
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {ItemGroup} from "../../Search/ItemGroup";
+import {HighlightTerm} from "../../ComplexProperties/HighlightTerm";
+import {EwsUtilities} from "../EwsUtilities";
+import {Item} from "../ServiceObjects/Items/Item";
+import {ItemInfo} from "../ServiceObjects/Items/ItemInfo";
+import {GroupedFindItemsResults} from "../../Search/GroupedFindItemsResults";
+import {FindItemsResults} from "../../Search/FindItemsResults";
+import {PropertySet} from "../PropertySet";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {EwsLogging} from "../EwsLogging";
+import {Convert} from "../../ExtensionMethods"
 
-//-----------------------------------------------------------------------
-// <summary>Defines the FindItemResponse class.</summary>
-//-----------------------------------------------------------------------
+import {ServiceResponse} from "./ServiceResponse";
+export class FindItemResponse<TItem extends Item> extends ServiceResponse {
+    get GroupedFindResults(): GroupedFindItemsResults<TItem> { return this.groupedFindResults; }
+    get Results(): FindItemsResults<TItem> { return this.results; }
+    private results: FindItemsResults<TItem>;
+    private isGrouped: boolean = false;
+    private groupedFindResults: GroupedFindItemsResults<TItem>;
+    private propertySet: PropertySet;
 
-namespace Microsoft.Exchange.WebServices.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Xml;
+    constructor(isGrouped: boolean, propertySet: PropertySet) {
+        super();
+        this.isGrouped = isGrouped;
+        this.propertySet = propertySet;
 
-    /// <summary>
-    /// Represents the response to a item search operation.
-    /// </summary>
-    /// <typeparam name="TItem">The type of items that the opeartion returned.</typeparam>
-    internal sealed class FindItemResponse<TItem> : ServiceResponse
-        where TItem : Item
-    {
-        private FindItemsResults<TItem> results;
-        private bool isGrouped;
-        private GroupedFindItemsResults<TItem> groupedFindResults;
-        private PropertySet propertySet;
+        EwsLogging.Assert(
+            this.propertySet != null,
+            "FindItemResponse.ctor",
+            "PropertySet should not be null");
+    }
+    CreateItemInstance(service: ExchangeService, xmlElementName: string): TItem {
+        var itemInfo = new ItemInfo();
+        return itemInfo.CreateEwsObjectFromXmlElementName<TItem>(service, xmlElementName);
+        //return EwsUtilities.CreateEwsObjectFromXmlElementName<TItem>(service, xmlElementName);
+    }
+    InternalReadItemsFromJson(jsonObject: any /*JsonObject*/, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): void { throw new Error("FindItemResponse.ts - InternalReadItemsFromJson : Not implemented."); }
+    InternalReadItemsFromXmlJsObject(jsonObject: any, propertySet: PropertySet, service: ExchangeService, destinationList: TItem[]/*System.Collections.Generic.IList<TItem>*/): void {
+        EwsLogging.Assert(
+            destinationList != null,
+            "FindItemResponse.InternalReadItemsFromJson",
+            "destinationList is null.");
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FindItemResponse&lt;TItem&gt;"/> class.
-        /// </summary>
-        /// <param name="isGrouped">if set to <c>true</c> if grouped.</param>
-        /// <param name="propertySet">The property set.</param>
-        internal FindItemResponse(bool isGrouped, PropertySet propertySet)
-            : base()
-        {
-            this.isGrouped = isGrouped;
-            this.propertySet = propertySet;
+        if (jsonObject[XmlElementNames.Items]) {
+            var items: TItem[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<TItem>(
+                jsonObject,
+                service,
+                XmlElementNames.Items,
+                this.CreateItemInstance,
+                true,               /* clearPropertyBag */
+                this.propertySet,   /* requestedPropertySet */
+                true);              /* summaryPropertiesOnly */
 
-            EwsUtilities.Assert(
-                this.propertySet != null,
-                "FindItemResponse.ctor",
-                "PropertySet should not be null");
+            items.forEach((item, index) => { destinationList.push(item) });
         }
+    }
+    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void { throw new Error("FindItemResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
-        /// <summary>
-        /// Reads response elements from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        internal override void ReadElementsFromXml(EwsServiceXmlReader reader)
-        {
-            reader.ReadStartElement(XmlNamespace.Messages, XmlElementNames.RootFolder);
+        var rootFolder = responseObject[XmlElementNames.RootFolder];
+        var totalItemsInView: number = Number(rootFolder[XmlAttributeNames.TotalItemsInView]);
+        var moreItemsAvailable: boolean = !Convert.toBool(rootFolder[XmlAttributeNames.IncludesLastItemInRange]);
 
-            int totalItemsInView = reader.ReadAttributeValue<int>(XmlAttributeNames.TotalItemsInView);
-            bool moreItemsAvailable = !reader.ReadAttributeValue<bool>(XmlAttributeNames.IncludesLastItemInRange);
-
-            // Ignore IndexedPagingOffset attribute if moreItemsAvailable is false.
-            int? nextPageOffset = moreItemsAvailable ? reader.ReadNullableAttributeValue<int>(XmlAttributeNames.IndexedPagingOffset) : null;
-
-            if (!this.isGrouped)
-            {
-                this.results = new FindItemsResults<TItem>();
-                this.results.TotalCount = totalItemsInView;
-                this.results.NextPageOffset = nextPageOffset;
-                this.results.MoreAvailable = moreItemsAvailable;
-                InternalReadItemsFromXml(
-                    reader,
-                    this.propertySet,
-                    this.results.Items);
-            }
-            else
-            {
-                this.groupedFindResults = new GroupedFindItemsResults<TItem>();
-                this.groupedFindResults.TotalCount = totalItemsInView;
-                this.groupedFindResults.NextPageOffset = nextPageOffset;
-                this.groupedFindResults.MoreAvailable = moreItemsAvailable;
-
-                reader.ReadStartElement(XmlNamespace.Types, XmlElementNames.Groups);
-
-                if (!reader.IsEmptyElement) 
-                {
-                    do
-                    {
-                        reader.Read();
-
-                        if (reader.IsStartElement(XmlNamespace.Types, XmlElementNames.GroupedItems))
-                        {
-                            string groupIndex = reader.ReadElementValue(XmlNamespace.Types, XmlElementNames.GroupIndex);
-
-                            List<TItem> itemList = new List<TItem>();
-                            InternalReadItemsFromXml(
-                                reader,
-                                this.propertySet,
-                                itemList);
-
-                            reader.ReadEndElement(XmlNamespace.Types, XmlElementNames.GroupedItems);
-
-                            this.groupedFindResults.ItemGroups.Add(new ItemGroup<TItem>(groupIndex, itemList));
-                        }
-                    }
-                    while (!reader.IsEndElement(XmlNamespace.Types, XmlElementNames.Groups));
-                }
-            }
-
-            reader.ReadEndElement(XmlNamespace.Messages, XmlElementNames.RootFolder);
-
-            reader.Read();
-
-            if (reader.IsStartElement(XmlNamespace.Messages, XmlElementNames.HighlightTerms) &&
-                !reader.IsEmptyElement)
-            {
-                do
-                {
-                    reader.Read();
-
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        HighlightTerm term = new HighlightTerm();
-
-                        term.LoadFromXml(
-                            reader,
-                            XmlNamespace.Types,
-                            XmlElementNames.HighlightTerm);
-                        this.results.HighlightTerms.Add(term);
-                    }
-                }
-                while (!reader.IsEndElement(XmlNamespace.Messages, XmlElementNames.HighlightTerms));
+        // Ignore IndexedPagingOffset attribute if moreItemsAvailable is false.
+        var nextPageOffset: number = null;
+        if (moreItemsAvailable) {
+            if (rootFolder[XmlAttributeNames.IndexedPagingOffset]) {
+                nextPageOffset = Number(rootFolder[XmlAttributeNames.IndexedPagingOffset]);
             }
         }
 
-        /// <summary>
-        /// Read items from XML.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="propertySet">The property set.</param>
-        /// <param name="destinationList">The list in which to add the read items.</param>
-        private static void InternalReadItemsFromXml(
-            EwsServiceXmlReader reader,
-            PropertySet propertySet,
-            IList<TItem> destinationList)
-        {
-            EwsUtilities.Assert(
-                destinationList != null,
-                "FindItemResponse.InternalReadItemsFromXml",
-                "destinationList is null.");
-
-            reader.ReadStartElement(XmlNamespace.Types, XmlElementNames.Items);
-            if (!reader.IsEmptyElement)
-            {
-                do
-                {
-                    reader.Read();
-
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        TItem item = EwsUtilities.CreateEwsObjectFromXmlElementName<TItem>(reader.Service, reader.LocalName);
-
-                        if (item == null)
-                        {
-                            reader.SkipCurrentElement();
-                        }
-                        else
-                        {
-                            item.LoadFromXml(
-                                        reader,
-                                        true, /* clearPropertyBag */
-                                        propertySet,
-                                        true  /* summaryPropertiesOnly */);
-
-                            destinationList.Add(item);
-                        }
-                    }
-                }
-                while (!reader.IsEndElement(XmlNamespace.Types, XmlElementNames.Items));
-            }
+        if (!this.isGrouped) {
+            this.results = new FindItemsResults<TItem>();
+            this.results.TotalCount = totalItemsInView;
+            this.results.NextPageOffset = nextPageOffset;
+            this.results.MoreAvailable = moreItemsAvailable;
+            this.InternalReadItemsFromXmlJsObject(
+                rootFolder,
+                this.propertySet,
+                service,
+                this.results.Items);
         }
+        else {
+            this.groupedFindResults = new GroupedFindItemsResults<TItem>();
+            this.groupedFindResults.TotalCount = totalItemsInView;
+            this.groupedFindResults.NextPageOffset = nextPageOffset;
+            this.groupedFindResults.MoreAvailable = moreItemsAvailable;
 
-        /// <summary>
-        /// Reads response elements from Json.
-        /// </summary>
-        /// <param name="responseObject">The response object.</param>
-        /// <param name="service">The service.</param>
-        internal override void ReadElementsFromJson(JsonObject responseObject, ExchangeService service)
-        {
-            base.ReadElementsFromJson(responseObject, service);
+            if (rootFolder[XmlElementNames.Groups]) {
+                var jsGroups: any[] = EwsServiceJsonReader.ReadAsArray(rootFolder, XmlElementNames.Groups);
 
-            JsonObject rootFolder = responseObject.ReadAsJsonObject(XmlElementNames.RootFolder);
-            int totalItemsInView = rootFolder.ReadAsInt(XmlAttributeNames.TotalItemsInView);
-            bool moreItemsAvailable = !rootFolder.ReadAsBool(XmlAttributeNames.IncludesLastItemInRange);
-
-            // Ignore IndexedPagingOffset attribute if moreItemsAvailable is false.
-            int? nextPageOffset = null;
-            if (moreItemsAvailable)
-            {
-                if (rootFolder.ContainsKey(XmlAttributeNames.IndexedPagingOffset))
+                for (var jsGroup of jsGroups) //jsGroups.OfType<JsonObject>()
                 {
-                    nextPageOffset = rootFolder.ReadAsInt(XmlAttributeNames.IndexedPagingOffset);
-                }
-            }
+                    if (jsGroup[XmlElementNames.GroupedItems]) {
+                        var jsGroupedItemCollection: any[] = EwsServiceJsonReader.ReadAsArray(jsGroup, XmlElementNames.GroupedItems);
+                        for (var jsGroupedItem of jsGroupedItemCollection) {
+                            var groupIndex: string = jsGroupedItem[XmlElementNames.GroupIndex];
 
-            if (!this.isGrouped)
-            {
-                this.results = new FindItemsResults<TItem>();
-                this.results.TotalCount = totalItemsInView;
-                this.results.NextPageOffset = nextPageOffset;
-                this.results.MoreAvailable = moreItemsAvailable;
-                this.InternalReadItemsFromJson(
-                    rootFolder,
-                    this.propertySet,
-                    service,
-                    this.results.Items);
-            }
-            else
-            {
-                this.groupedFindResults = new GroupedFindItemsResults<TItem>();
-                this.groupedFindResults.TotalCount = totalItemsInView;
-                this.groupedFindResults.NextPageOffset = nextPageOffset;
-                this.groupedFindResults.MoreAvailable = moreItemsAvailable;
-
-                if (rootFolder.ContainsKey(XmlElementNames.Groups))
-                {
-                    object[] jsGroups = rootFolder.ReadAsArray(XmlElementNames.Groups);
-
-                    foreach (JsonObject jsGroup in jsGroups.OfType<JsonObject>())
-                    {
-                        if (jsGroup.ContainsKey(XmlElementNames.GroupedItems))
-                        {
-                            JsonObject jsGroupedItems = jsGroup.ReadAsJsonObject(XmlElementNames.GroupedItems);
-
-                            string groupIndex = jsGroupedItems.ReadAsString(XmlElementNames.GroupIndex);
-
-                            List<TItem> itemList = new List<TItem>();
-                            this.InternalReadItemsFromJson(
-                                jsGroupedItems,
+                            var itemList: TItem[] = [];// new List<TItem>();
+                            this.InternalReadItemsFromXmlJsObject(
+                                jsGroupedItem,
                                 this.propertySet,
                                 service,
                                 itemList);
-
-                            this.groupedFindResults.ItemGroups.Add(new ItemGroup<TItem>(groupIndex, itemList));
+                            debugger;
+                            this.groupedFindResults.ItemGroups.push(new ItemGroup<TItem>(groupIndex, itemList));
                         }
                     }
                 }
             }
-
-            Object[] highlightTermObjects = responseObject.ReadAsArray(XmlElementNames.HighlightTerms);
-            if (highlightTermObjects != null)
-            {
-                foreach (object highlightTermObject in highlightTermObjects)
-                {
-                    JsonObject jsonHighlightTerm = highlightTermObject as JsonObject;
-                    HighlightTerm term = new HighlightTerm();
-
-                    term.LoadFromJson(jsonHighlightTerm, service);
-                    this.results.HighlightTerms.Add(term);
+        }
+        debugger;
+        debugger;
+        //todo: check highlight terms and grouping.
+        if (responseObject[XmlElementNames.HighlightTerms]) {
+            var highlightTermElements: any[] = EwsServiceJsonReader.ReadAsArray(responseObject, XmlElementNames.HighlightTerms);
+            for (var highlightTermElement of highlightTermElements) {
+                if (highlightTermElement[XmlElementNames.HighlightTerm]) {
+                    var highlightTermObjects = EwsServiceJsonReader.ReadAsArray(highlightTermElement, XmlElementNames.HighlightTerm);
+                    for (var jsonHighlightTerm of highlightTermObjects) {
+                        var term: HighlightTerm = new HighlightTerm();
+                        term.LoadFromJson(jsonHighlightTerm, service);
+                        this.results.HighlightTerms.push(term);
+                    }
                 }
             }
-        }
-
-        /// <summary>
-        /// Read items from JSON.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object containing items.</param>
-        /// <param name="propertySet">The property set.</param>
-        /// <param name="service">Exchange service.</param>
-        /// <param name="destinationList">The list in which to add the read items.</param>
-        private void InternalReadItemsFromJson(
-            JsonObject jsonObject,
-            PropertySet propertySet,
-            ExchangeService service,
-            IList<TItem> destinationList)
-        {
-            EwsUtilities.Assert(
-                destinationList != null,
-                "FindItemResponse.InternalReadItemsFromJson",
-                "destinationList is null.");
-
-            if (jsonObject.ContainsKey(XmlElementNames.Items))
-            {
-                List<TItem> items = new EwsServiceJsonReader(service).ReadServiceObjectsCollectionFromJson<TItem>(
-                    jsonObject,
-                    XmlElementNames.Items,
-                    this.CreateItemInstance,
-                    true,               /* clearPropertyBag */
-                    this.propertySet,   /* requestedPropertySet */
-                    true);              /* summaryPropertiesOnly */
-
-                items.ForEach((item) => destinationList.Add(item));
-            }
-        }
-
-        /// <summary>
-        /// Creates an item instance.
-        /// </summary>
-        /// <param name="service">The service.</param>
-        /// <param name="xmlElementName">Name of the XML element.</param>
-        /// <returns>Item</returns>
-        private TItem CreateItemInstance(ExchangeService service, string xmlElementName)
-        {
-            return EwsUtilities.CreateEwsObjectFromXmlElementName<TItem>(service, xmlElementName);
-        }
-
-        /// <summary>
-        /// Gets a grouped list of items matching the specified search criteria that were found in Exchange. ItemGroups is
-        /// null if the search operation did not specify grouping options.
-        /// </summary>
-        public GroupedFindItemsResults<TItem> GroupedFindResults
-        {
-            get { return this.groupedFindResults; }
-        }
-
-        /// <summary>
-        /// Gets the results of the search operation.
-        /// </summary>
-        public FindItemsResults<TItem> Results
-        {
-            get { return this.results; }
         }
     }
 }

@@ -1,7 +1,7 @@
-import EwsXmlReader = require("../Core/EwsXmlReader");
-import XmlElementNames = require("../Core/XmlElementNames");
+﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
-class WebClientUrl {
+export class WebClientUrl {
     AuthenticationMethods: string;
     Url: string;
     //private authenticationMethods: string;
@@ -36,11 +36,3 @@ class WebClientUrl {
         return webClientUrl;
     }
 }
-
-export = WebClientUrl;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;

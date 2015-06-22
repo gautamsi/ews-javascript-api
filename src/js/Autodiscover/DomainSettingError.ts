@@ -1,8 +1,8 @@
-import AutodiscoverErrorCode = require("../Enumerations/AutodiscoverErrorCode");
-import XmlElementNames = require("../Core/XmlElementNames");
-import EwsXmlReader = require("../Core/EwsXmlReader");
+﻿import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {EwsXmlReader} from "../Core/EwsXmlReader";
 
-class DomainSettingError {
+export class DomainSettingError {
     ErrorCode: AutodiscoverErrorCode;
     ErrorMessage: string;
     SettingName: string;
@@ -40,10 +40,3 @@ class DomainSettingError {
     }
 
 }
-export = DomainSettingError;
-
-
-//module Microsoft.Exchange.WebServices.Autodiscover {
-//}
-//import _export = Microsoft.Exchange.WebServices.Autodiscover;
-//export = _export;
