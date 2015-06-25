@@ -1,20 +1,46 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {Item} from "../ServiceObjects/Items/Item";
+﻿import {Item} from "../ServiceObjects/Items/Item";
+import {ItemInfo} from "../ServiceObjects/Items/ItemInfo";
 import {PropertySet} from "../PropertySet";
 import {ExchangeService} from "../ExchangeService";
-import {JsonObject} from "../JsonObject";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsLogging} from "../EwsLogging";
+import {XmlElementNames} from "../XmlElementNames";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {ServiceResponse} from "./ServiceResponse";
 export class GetItemResponse extends ServiceResponse {
-    Item: Item;
-    private item: Item;
-    private propertySet: PropertySet;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("GetItemResponse.ts - GetObjectInstance : Not implemented."); }
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetItemResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetItemResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    private item: Item = null;
+    private propertySet: PropertySet = null;
+    get Item(): Item {
+        return this.item;
+    }
+    constructor(item: Item, propertySet: PropertySet) {
+        super();
+        this.item = item;
+        this.propertySet = propertySet;
+        EwsLogging.Assert(this.propertySet !== null, "GetItemResponse.ctor", "PropertySet should not be null");
+    }
+    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item {
+        if (this.Item != null) {
+            return this.Item;
+        }
+        else {
+
+            return new ItemInfo().CreateEwsObjectFromXmlElementName<Item>(service, xmlElementName);
+        }
+    }
+    //ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("GetItemResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
+
+        var items: Item[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
+            responseObject,
+            service,
+            XmlElementNames.Items,
+            this.GetObjectInstance,
+            true,               /* clearPropertyBag */
+            this.propertySet,   /* requestedPropertySet */
+            false);             /* summaryPropertiesOnly */
+
+        this.item = items[0];
+    }
 }
-
-
-//}
-
-
-

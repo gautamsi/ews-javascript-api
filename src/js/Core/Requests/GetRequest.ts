@@ -30,5 +30,3 @@ export class GetRequest<TServiceObject extends ServiceObject, TResponse extends 
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertySet.WriteToXml(writer, this.GetServiceObjectType()); }
 }
-
-

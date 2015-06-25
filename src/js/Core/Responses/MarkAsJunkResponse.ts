@@ -1,16 +1,18 @@
 ﻿import {ItemId} from "../../ComplexProperties/ItemId";
-import {ServiceResponse} from "./ServiceResponse";
-import {JsonObject} from "../JsonObject";
+import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {ServiceResponse} from "./ServiceResponse";
 export class MarkAsJunkResponse extends ServiceResponse {
-    MovedItemId: ItemId;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("MarkAsJunkResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("MarkAsJunkResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+    MovedItemId: ItemId = null;
+    constructor() {
+        super();
+    }
+    //ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("MarkAsJunkResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
+        if (responseObject.ContainsKey(XmlElementNames.Token)) {
+            this.MovedItemId = new ItemId();
+            this.MovedItemId.LoadFromXmlJsObject(responseObject.ReadAsJsonObject(XmlElementNames.MovedItemId), service);
+        }
+    }
 }
-
-
-//}
-
-
-

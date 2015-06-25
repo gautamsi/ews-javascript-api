@@ -7,6 +7,20 @@ import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest"
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
+import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
+import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
+import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
+import {GetItemRequest} from "./Requests/GetItemRequest";
+import {CopyItemRequest} from "./Requests/CopyItemRequest";
+import {CreateItemRequest} from "./Requests/CreateItemRequest";
+import {MoveItemRequest} from "./Requests/MoveItemRequest";
+import {SendItemRequest} from "./Requests/SendItemRequest";
+import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
+import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
+import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
+import {GetItemResponse} from "./Responses/GetItemResponse";
+import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
+import {MarkAsJunkResponse} from "./Responses/MarkAsJunkResponse";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
 import {MoveFolderRequest} from "./Requests/MoveFolderRequest";
 import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
@@ -16,9 +30,12 @@ import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {FindFolderRequest} from "./Requests/FindFolderRequest";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
 import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
+import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {Item} from "./ServiceObjects/Items/Item";
 import {ViewBase} from "../Search/ViewBase";
+import {CalendarView} from "../Search/CalendarView";
 import {Grouping} from "../Search/Grouping";
+import {MoveCopyItemResponse} from "./Responses/MoveCopyItemResponse";
 import {FindItemResponse} from "./Responses/FindItemResponse";
 import {FindFolderResponse} from "./Responses/FindFolderResponse";
 import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
@@ -32,7 +49,9 @@ import {RetentionType} from "../Enumerations/RetentionType";
 import {DeleteMode} from "../Enumerations/DeleteMode";
 //import DelegateUserResponse = require("./Responses/DelegateUserResponse");
 import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {SendInvitationsOrCancellationsMode} from "../Enumerations/SendInvitationsOrCancellationsMode";
 import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliveryScope";
+import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {ServiceResponse} from "./Responses/ServiceResponse";
 import {Mailbox} from "../ComplexProperties/Mailbox";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
@@ -51,9 +70,13 @@ import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
 import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
+import {SendInvitationsMode} from "../Enumerations/SendInvitationsMode";
+import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
+import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
 import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
 import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {SearchFilter} from "../Search/Filters/SearchFilter";
@@ -61,10 +84,12 @@ import {FindFoldersResults} from "../Search/FindFoldersResults";
 import {FolderView} from "../Search/FolderView";
 import {Uri} from "../Uri";
 import {Folder} from "./ServiceObjects/Folders/Folder";
+import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
 import {FolderId} from "../ComplexProperties/FolderId";
+import {ItemId} from "../ComplexProperties/ItemId";
 import {PropertySet} from "./PropertySet";
 
-import {StringHelper, UriHelper} from "../ExtensionMethods";
+import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 
 
 import {IPromise, IXHROptions} from "../Interfaces";
@@ -145,23 +170,25 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region Folder operations */
 
-    BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
-        // debugger;
-        return this.BindToFolder(folderId, propertySet);
-        // if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
-        // {
-        //     return <any>result;//<TFolder>
-        // }
-        // else {
-        //     //throw new ServiceLocalException(
-        //     //    string.Format(
-        //     //        Strings.FolderTypeNotCompatible,
-        //     //        result.GetType().Name,
-        //     //        typeof (TFolder).Name));
-        // }
-    }
+    //todo: delete soon;  BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
+    //     // debugger;
+    //     return this.BindToFolder(folderId, propertySet);
+    //     // if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
+    //     // {
+    //     //     return <any>result;//<TFolder>
+    //     // }
+    //     // else {
+    //     //     //throw new ServiceLocalException(
+    //     //     //    string.Format(
+    //     //     //        Strings.FolderTypeNotCompatible,
+    //     //     //        result.GetType().Name,
+    //     //     //        typeof (TFolder).Name));
+    //     // }
+    // }
 
-    BindToFolder(folderId: FolderId, propertySet: PropertySet): IPromise<Folder> {
+    BindToFolder(folderId: FolderId, propertySet: PropertySet): IPromise<Folder>;
+    BindToFolder<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet,/** pass Folder or subclass itself, not an instance */ folderType: any): IPromise<TFolder>;
+    BindToFolder(folderId: FolderId, propertySet: PropertySet, /** pass Folder or subclass itself, not an instance */ folderType: any = null): IPromise<Folder> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
 
@@ -171,7 +198,15 @@ export class ExchangeService extends ExchangeServiceBase {
         request.PropertySet = propertySet;
 
         return request.Execute().then((responses) => {
-            return responses.__thisIndexer(0).Folder;
+            var result = responses.__thisIndexer(0).Folder;
+            if (folderType != null && !(result instanceof folderType)) { //todo: validate folderType to be not a constructor
+                throw new ServiceLocalException(
+                    StringHelper.Format(
+                        Strings.FolderTypeNotCompatible,
+                        "Type detection not implemented - ExchangeService.ts - BindToFolder<TFolder>",
+                        "Type detection not implemented"));
+            }
+            return result;
         });
 
 
@@ -328,23 +363,155 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Item operations */
-    // ArchiveItems<TResponse extends ServiceResponse>(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, sourceFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ArchiveItems<TResponse extends ServiceResponse> : Not implemented."); }
-    //BindToItem(itemId: ItemId, propertySet: PropertySet): Item { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
-    ////BindToItem(itemId: ItemId, propertySet: PropertySet): any { throw new Error("ExchangeService.ts - BindToItem : Not implemented."); }
-    //BindToItems(itemIds: TResponse[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - BindToItems : Not implemented."); }
-    //CopyItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - CopyItem : Not implemented."); }
-    //CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
-    ////CopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItems : Not implemented."); }
-    //CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): any { throw new Error("ExchangeService.ts - CreateItem : Not implemented."); }
-    //CreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CreateItems : Not implemented."); }
-    //DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
-    ////DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("ExchangeService.ts - DeleteItem : Not implemented."); }
-    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
-    ////DeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItems : Not implemented."); }
-    //FindAppointments(parentFolderName: WellKnownFolderName, calendarView: CalendarView): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindAppointments : Not implemented."); }
-    ////FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): FindItemsResults<TItem> { throw new Error("ExchangeService.ts - FindAppointments : Not implemented."); }
-    
-    
+    ArchiveItems<TResponse extends ServiceResponse>(itemIds: ItemId[], sourceFolderId: FolderId): IPromise<ServiceResponseCollection<ArchiveItemResponse>> {
+        var request: ArchiveItemRequest = new ArchiveItemRequest(this, ServiceErrorHandling.ReturnErrors);
+        request.Ids.AddRange(itemIds);
+        request.SourceFolderId = sourceFolderId;
+        return request.Execute();
+    }
+    /** new method, //todo: implement other newer code from ews managed api repo //ref:  */
+    BindToGroupItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string): IPromise<ServiceResponseCollection<GetItemResponse>> {
+        EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+        EwsUtilities.ValidateParam(propertySet, "anchorMailbox");
+
+        return this.InternalBindToItems(
+            itemIds,
+            propertySet,
+            anchorMailbox,
+            ServiceErrorHandling.ReturnErrors);
+    }
+    BindToItem(itemId: ItemId, propertySet: PropertySet): IPromise<Item>;
+    BindToItem<TItem extends Item>(itemId: ItemId, propertySet: PropertySet, itemType: any /* pass Item or subclass itself, not instance */): IPromise<TItem>;
+    BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: any = null): IPromise<Item> {
+
+        EwsUtilities.ValidateParam(itemId, "itemId");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        return this.InternalBindToItems(
+            [itemId],
+            propertySet,
+            null, /* anchorMailbox */
+            ServiceErrorHandling.ThrowOnError).then((response) => {
+                var result = response.__thisIndexer(0).Item;
+                if (itemType != null && !(result instanceof itemType)) { //todo: validate itemType to be not a constructor
+                    throw new ServiceLocalException(
+                        StringHelper.Format(
+                            Strings.ItemTypeNotCompatible,
+                            "Type detection not implemented - ExchangeService.ts - BindToItem<TItem>",
+                            "Type detection not implemented"));
+                }
+
+                return result;
+            });
+    }
+    BindToItems(itemIds: ItemId[], propertySet: PropertySet): IPromise<ServiceResponseCollection<GetItemResponse>> {
+        EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        return this.InternalBindToItems(
+            itemIds,
+            propertySet,
+            null, /* anchorMailbox */
+            ServiceErrorHandling.ReturnErrors);
+    }
+    CopyItem(itemId: ItemId, destinationFolderId: FolderId): IPromise<Item> {
+        return this.InternalCopyItems(
+            [itemId],
+            destinationFolderId,
+            null,
+            ServiceErrorHandling.ThrowOnError).then((response) => {
+                return response.__thisIndexer(0).Item;
+            });
+    }
+    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean = null): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "CopyItems");
+
+        return this.InternalCopyItems(
+            itemIds,
+            destinationFolderId,
+            returnNewItemIds,
+            ServiceErrorHandling.ReturnErrors);
+    }
+    CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
+        return this.InternalCreateItems(
+            [item],
+            parentFolderId,
+            messageDisposition,
+            sendInvitationsMode,
+            ServiceErrorHandling.ThrowOnError).then((result) => {
+                //return void 0;
+            });;
+    }
+    CreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        // All items have to be new.
+        if (!items.every((item) => item.IsNew)) {
+            throw new ServiceValidationException(Strings.CreateItemsDoesNotHandleExistingItems);
+        }
+
+        // Make sure that all items do *not* have unprocessed attachments.
+        if (!items.every((item) => !item.HasUnprocessedAttachmentChanges())) {
+            throw new ServiceValidationException(Strings.CreateItemsDoesNotAllowAttachments);
+        }
+
+        return this.InternalCreateItems(
+            items,
+            parentFolderId,
+            messageDisposition,
+            sendInvitationsMode,
+            ServiceErrorHandling.ReturnErrors);
+    }
+    DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): IPromise<void>;
+    DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean = false): IPromise<void> {
+        EwsUtilities.ValidateParam(itemId, "itemId");
+
+        return this.InternalDeleteItems(
+            [itemId],
+            deleteMode,
+            sendCancellationsMode,
+            affectedTaskOccurrences,
+            ServiceErrorHandling.ThrowOnError,
+            suppressReadReceipts).then((response) => {
+
+            });
+    }
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<ServiceResponseCollection<ServiceResponse>>
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean = false): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
+        return this.InternalDeleteItems(
+            itemIds,
+            deleteMode,
+            sendCancellationsMode,
+            affectedTaskOccurrences,
+            ServiceErrorHandling.ReturnErrors,
+            suppressReadReceipt);
+    }
+    FindAppointments(parentFolderName: WellKnownFolderName, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
+    FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
+    FindAppointments(parentFolderIdOrName: FolderId | WellKnownFolderName, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>> {
+        var parentFolderId: FolderId = <FolderId>parentFolderIdOrName;
+        if (typeof parentFolderIdOrName === 'number') {
+            parentFolderId = new FolderId(parentFolderIdOrName);
+        }
+        return this.FindItems<Appointment>(
+            [parentFolderId],
+            null, /* searchFilter */
+            null, /* queryString */
+            calendarView,
+            null, /* groupBy */
+            ServiceErrorHandling.ThrowOnError).then((response) => {
+                return response.__thisIndexer(0).Results;
+            });
+    }
+
+
     FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): IPromise<FindItemsResults<Item>>;
     FindItems(parentFolderId: FolderId, view: ViewBase): IPromise<FindItemsResults<Item>>;
     FindItems(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
@@ -495,28 +662,163 @@ export class ExchangeService extends ExchangeServiceBase {
                 return responses.__thisIndexer(0).GroupedFindResults;
             }
             return responses.__thisIndexer(0).Results;
-            return
         });
 
     }
 
-    //InternalBindToItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalBindToItems : Not implemented."); }
-    //InternalCopyItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCopyItems : Not implemented."); }
-    //InternalCreateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalCreateItems : Not implemented."); }
-    //InternalDeleteItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalDeleteItems : Not implemented."); }
-    InternalLoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet, errorHandling: ServiceErrorHandling): ServiceResponseCollection<ServiceResponse> { throw new Error("ExchangeService.ts - InternalLoadPropertiesForItems : Not implemented."); }
-    //InternalMoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalMoveItems : Not implemented."); }
-    //InternalUpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalUpdateItems : Not implemented."); }
-    //LoadPropertiesForItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, propertySet: PropertySet): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - LoadPropertiesForItems : Not implemented."); }
-    //MarkAsJunk(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, isJunk: boolean, moveItem: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MarkAsJunk : Not implemented."); }
-    //MoveItem(itemId: ItemId, destinationFolderId: FolderId): Item { throw new Error("ExchangeService.ts - MoveItem : Not implemented."); }
-    //MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
-    ////MoveItems(itemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, returnNewItemIds: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItems : Not implemented."); }
-    //SendItem(item: Item, savedCopyDestinationFolderId: FolderId): any { throw new Error("ExchangeService.ts - SendItem : Not implemented."); }
-    //UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
-    ////UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Item { throw new Error("ExchangeService.ts - UpdateItem : Not implemented."); }
-    //UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
-    ////UpdateItems(items: Item[] /*System.Collections.Generic.IEnumerable<Item>*/, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - UpdateItems : Not implemented."); }
+    InternalBindToItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<GetItemResponse>> {
+        var request: GetItemRequest = new GetItemRequest(this, errorHandling);
+
+        request.ItemIds.AddRange(itemIds);
+        request.PropertySet = propertySet;
+        request.AnchorMailbox = anchorMailbox;
+
+        return request.Execute();
+    }
+    InternalCopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+        var request: CopyItemRequest = new CopyItemRequest(this, errorHandling);
+        request.ItemIds.AddRange(itemIds);
+        request.DestinationFolderId = destinationFolderId;
+        request.ReturnNewItemIds = returnNewItemIds;
+
+        return request.Execute();
+    }
+    private InternalCreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        var request: CreateItemRequest = new CreateItemRequest(this, errorHandling);
+
+        request.ParentFolderId = parentFolderId;
+        request.Items = items;
+        request.MessageDisposition = messageDisposition;
+        request.SendInvitationsMode = sendInvitationsMode;
+
+        return request.Execute();
+    }
+    InternalDeleteItems(itemIds: any[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        var request: DeleteItemRequest = new DeleteItemRequest(this, errorHandling);
+
+        request.ItemIds.AddRange(itemIds);
+        request.DeleteMode = deleteMode;
+        request.SendCancellationsMode = sendCancellationsMode;
+        request.AffectedTaskOccurrences = affectedTaskOccurrences;
+        request.SuppressReadReceipts = suppressReadReceipts;
+
+        return request.Execute();
+    }
+    InternalLoadPropertiesForItems(items: Item[], propertySet: PropertySet, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        var request: GetItemRequestForLoad = new GetItemRequestForLoad(this, errorHandling);
+        request.ItemIds.AddRange(items);
+        request.PropertySet = propertySet;
+
+        return request.Execute();
+    }
+    InternalMoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+        var request: MoveItemRequest = new MoveItemRequest(this, errorHandling);
+
+        request.ItemIds.AddRange(itemIds);
+        request.DestinationFolderId = destinationFolderId;
+        request.ReturnNewItemIds = returnNewItemIds;
+
+        return request.Execute();
+    }
+    InternalUpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>> {
+        var request: UpdateItemRequest = new UpdateItemRequest(this, errorHandling);
+
+
+        //request.Items.AddRange(items);
+        ArrayHelper.AddRange(request.Items, items);
+
+        request.SavedItemsDestinationFolder = savedItemsDestinationFolderId;
+        request.MessageDisposition = messageDisposition;
+        request.ConflictResolutionMode = conflictResolution;
+        request.SendInvitationsOrCancellationsMode = sendInvitationsOrCancellationsMode;
+        request.SuppressReadReceipts = suppressReadReceipt;
+
+        return request.Execute();
+    }
+    LoadPropertiesForItems(items: Item[], propertySet: PropertySet): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsUtilities.ValidateParamCollection(items, "items");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+        return this.InternalLoadPropertiesForItems(
+            items,
+            propertySet,
+            ServiceErrorHandling.ReturnErrors);
+    }
+    MarkAsJunk(itemIds: ItemId[], isJunk: boolean, moveItem: boolean): IPromise<ServiceResponseCollection<MarkAsJunkResponse>> {
+        var request: MarkAsJunkRequest = new MarkAsJunkRequest(this, ServiceErrorHandling.ReturnErrors);
+        request.ItemIds.AddRange(itemIds);
+        request.IsJunk = isJunk;
+        request.MoveItem = moveItem;
+        return request.Execute();
+    }
+    MoveItem(itemId: ItemId, destinationFolderId: FolderId): IPromise<Item> {
+        return this.InternalMoveItems(
+            [itemId],
+            destinationFolderId,
+            null,
+            ServiceErrorHandling.ThrowOnError).then((responses) => {
+                return responses.__thisIndexer(0).Item;
+            });
+    }
+    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean = null): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "MoveItems");
+
+        return this.InternalMoveItems(
+            itemIds,
+            destinationFolderId,
+            returnNewItemIds,
+            ServiceErrorHandling.ReturnErrors);
+    }
+    SendItem(item: Item, savedCopyDestinationFolderId: FolderId): IPromise<void> {
+        var request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
+        request.Items = [item];
+        request.SavedCopyDestinationFolderId = savedCopyDestinationFolderId;
+        return request.Execute().then((response) => {
+
+        });
+    }
+    UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<Item>;
+    UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<Item>;
+    UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<Item> {
+        return this.InternalUpdateItems(
+            [item],
+            savedItemsDestinationFolderId,
+            conflictResolution,
+            messageDisposition,
+            sendInvitationsOrCancellationsMode,
+            ServiceErrorHandling.ThrowOnError,
+            suppressReadReceipts).then((responses) => {
+
+                return responses.__thisIndexer(0).ReturnedItem;
+
+            });
+    }
+    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
+    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
+    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<ServiceResponseCollection<UpdateItemResponse>> {
+        // All items have to exist on the server (!new) and modified (dirty)
+        if (!items.every((item) => (!item.IsNew && item.IsDirty))) {
+            throw new ServiceValidationException(Strings.UpdateItemsDoesNotSupportNewOrUnchangedItems);
+        }
+
+        // Make sure that all items do *not* have unprocessed attachments.
+        if (!items.every((item) => !item.HasUnprocessedAttachmentChanges())) {
+            throw new ServiceValidationException(Strings.UpdateItemsDoesNotAllowAttachments);
+        }
+
+        return this.InternalUpdateItems(
+            items,
+            savedItemsDestinationFolderId,
+            conflictResolution,
+            messageDisposition,
+            sendInvitationsOrCancellationsMode,
+            ServiceErrorHandling.ReturnErrors,
+            suppressReadReceipts);
+    }
     /* #endregion Item operations 47*/
  
     

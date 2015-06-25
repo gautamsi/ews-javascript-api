@@ -4,7 +4,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {MessageDisposition} from "../../Enumerations/MessageDisposition";
 import {SendInvitationsMode} from "../../Enumerations/SendInvitationsMode";
-import {JsonObject} from "../JsonObject";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {CreateRequest} from "./CreateRequest";
@@ -28,10 +28,10 @@ export class CreateItemRequestBase<TServiceObject extends ServiceObject, TRespon
         return false;
     }
 
-    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: any) {
+    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {
         super(service, errorHandlingModeServiceErrorHandling);
     }
-    AddJsonProperties(jsonRequest: JsonObject, service: ExchangeService): any { throw new Error("CreateItemRequestBase.ts - AddJsonProperties : Not implemented."); }
+    AddJsonProperties(jsonRequest: any, service: ExchangeService): any { throw new Error("CreateItemRequestBase.ts - AddJsonProperties : Not implemented."); }
     GetObjectCollectionXmlElementName(): string { return XmlElementNames.Items; }
     GetParentFolderXmlElementName(): string { return XmlElementNames.SavedItemFolderId; }
     GetResponseMessageXmlElementName(): string { return XmlElementNames.CreateItemResponseMessage; }
@@ -48,7 +48,7 @@ export class CreateItemRequestBase<TServiceObject extends ServiceObject, TRespon
             writer.WriteAttributeValue(null, XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
         }
 
-        if (this.SendInvitationsMode != null) {
+        if (this.SendInvitationsMode !== null) {
             writer.WriteAttributeValue(null, XmlAttributeNames.SendMeetingInvitations, SendInvitationsMode[this.SendInvitationsMode]);
         }
     }

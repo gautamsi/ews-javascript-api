@@ -1,12 +1,11 @@
-﻿import {GetItemRequestBase} from "./GetItemRequestBase";
-import {ExchangeService} from "../ExchangeService";
+﻿import {ExchangeService} from "../ExchangeService";
+import {GetItemResponse} from "../Responses/GetItemResponse";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ServiceResponse} from "../Responses/ServiceResponse";
+import {GetItemRequestBase} from "./GetItemRequestBase";
 export class GetItemRequestForLoad extends GetItemRequestBase<ServiceResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("GetItemRequestForLoad.ts - CreateServiceResponse : Not implemented."); }
+    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {
+        super(service, errorHandlingModeServiceErrorHandling);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { return new GetItemResponse(this.ItemIds[responseIndex], this.PropertySet); }
 }
-
-
-//}
-
-
-

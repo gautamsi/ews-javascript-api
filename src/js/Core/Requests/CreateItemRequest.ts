@@ -1,16 +1,22 @@
 ﻿import {Item} from "../ServiceObjects/Items/Item";
-import {CreateItemRequestBase} from "./CreateItemRequestBase";
 import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
+import {CreateItemResponse} from "../Responses/CreateItemResponse";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {CreateItemRequestBase} from "./CreateItemRequestBase";
 export class CreateItemRequest extends CreateItemRequestBase<Item, ServiceResponse> {
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("CreateItemRequest.ts - CreateServiceResponse : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("CreateItemRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    Validate(): any { throw new Error("CreateItemRequest.ts - Validate : Not implemented."); }
+    constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {
+        super(service, errorHandlingModeServiceErrorHandling);
+    }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { return new CreateItemResponse(this.Items[responseIndex]); }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    Validate(): void {
+        super.Validate();
+
+        // Validate each item.
+        for (var item of this.Items) {
+            item.Validate();
+        }
+    }
 }
-
-
-//}
-
-
-

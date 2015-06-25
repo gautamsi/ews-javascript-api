@@ -22,4 +22,3 @@ export class DeleteRequest<TResponse extends ServiceResponse> extends MultiRespo
         writer.WriteAttributeValue(null, XmlAttributeNames.DeleteType, DeleteMode[this.DeleteMode]);
     }
 }
-

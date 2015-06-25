@@ -56,9 +56,9 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
                         errorDelegate(value);
                 }
             }, (resperr: any) => {
-                    debugger;
-                    if (errorDelegate) errorDelegate(resperr);
-                });
+                debugger;
+                if (errorDelegate) errorDelegate(resperr);
+            });
         });
     }
     GetExpectedResponseMessageCount(): number { throw new Error("Abstract; must implemented."); }
@@ -67,11 +67,11 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
         var serviceResponses = new ServiceResponseCollection<TResponse>();
         //set context to XmlElementNames.ResponseMessages
         //todo: this can have multiple reponse messages.
-        var jsResponseMessages:any[] = jsObject[XmlElementNames.ResponseMessages]
-        if (!Array.isArray(jsResponseMessages)){
+        var jsResponseMessages: any[] = jsObject[XmlElementNames.ResponseMessages]
+        if (!Array.isArray(jsResponseMessages)) {
             jsResponseMessages = [jsResponseMessages];
         }
-        
+
         var responseMessageXmlElementName = this.GetResponseMessageXmlElementName();
         
         //for (var i = 0; i < responses.length; i++) {

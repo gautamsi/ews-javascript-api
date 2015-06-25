@@ -17,7 +17,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {ServiceObjectSchema} from "../ServiceObjects/Schemas/ServiceObjectSchema";
 export class ServiceResponse {
-    get BatchProcessingStopped(): boolean { return (this.result == ServiceResult.Warning) && (this.errorCode == ServiceError.ErrorBatchProcessingStopped); }
+    get BatchProcessingStopped(): boolean { return (this.result == ServiceResult.Warning) && (this.errorCode == ServiceError.ErrorBatchProcessingStopped);} 
     get Result(): ServiceResult { return this.result; }
     get ErrorCode(): ServiceError { return this.errorCode; }
     ErrorMessage: string;

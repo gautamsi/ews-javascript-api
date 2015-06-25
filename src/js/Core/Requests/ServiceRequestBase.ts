@@ -23,6 +23,20 @@ import {XHR} from "../../XHRFactory"
 export class ServiceRequestBase {
 
     //#region private static and const
+    //ref:this may be from newer code overall i am using, update when updating from ews base code library //todo:
+    /**        /// <summary>
+     *   /// The two contants below are used to set the AnchorMailbox and ExplicitLogonUser values
+     *   /// in the request header.
+     *   /// </summary>
+     *   /// <remarks>
+     *   /// Note: Setting this values will route the request directly to the backend hosting the 
+     *   /// AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where
+     *   /// a request needs to be routed directly to the group mailbox versus the user mailbox.
+     *   /// </remarks>
+         */
+    private static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
+    private static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
+
     private static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
     private static XMLSchemaInstanceNamespace: string = "http://www.w3.org/2001/XMLSchema-instance";
     private static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
@@ -31,9 +45,12 @@ export class ServiceRequestBase {
     get Service(): ExchangeService { return this.service; }
     private service: ExchangeService;
     //#endregion
-
+    AnchorMailbox: string = null;
     SoapFaultDetails: SoapFaultDetails;
 
+    // #region abstract Methods for subclasses to override
+    get EmitTimeZoneHeader(): boolean { return false; }
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="ServiceRequestBase"/> class.
     /// </summary>
@@ -43,9 +60,12 @@ export class ServiceRequestBase {
         this.ThrowIfNotSupportedByRequestedServerVersion();
     }
 
-    // #region abstract Methods for subclasses to override
-    get EmitTimeZoneHeader(): boolean { return false; }
-
+    AddHeaders(webHeaderCollection: any /*WebHeaderCollection*/): void {
+        if (!StringHelper.IsNullOrEmpty(this.AnchorMailbox)) {
+            webHeaderCollection.Set(ServiceRequestBase.AnchorMailboxHeaderName, this.AnchorMailbox);
+            webHeaderCollection.Set(ServiceRequestBase.ExplicitLogonUserHeaderName, this.AnchorMailbox);
+        }
+    }
     GetXmlElementName(): string { throw new Error("abstract method, must override"); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must override"); }
     GetResponseXmlElementName(): string { throw new Error("abstract method, must override"); }
@@ -380,7 +400,7 @@ export class ServiceRequestBase {
         //var response = XHR(request);
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
-                
+
         return XHR(request);
 
         //try
@@ -533,7 +553,6 @@ export class ServiceRequestBase {
         writer.WriteEndElement(); // soap:Body
         writer.WriteEndElement(); // soap:Envelope
     }
-
 
     //#endregion
 }

@@ -1,7 +1,6 @@
 ﻿import {ServiceObject} from "../ServiceObjects/ServiceObject";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {FolderId} from "../../ComplexProperties/FolderId";
-import {JsonObject} from "../JsonObject";
 import {ExchangeService} from "../ExchangeService";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {XmlElementNames} from "../XmlElementNames";
@@ -17,9 +16,9 @@ export class MoveCopyRequest<TServiceObject extends ServiceObject, TResponse ext
         this.destinationFolderId = value;
     }
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
-        super(service,errorHandlingMode);
+        super(service, errorHandlingMode);
     }
-    AddIdsToJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("MoveCopyRequest.ts - AddIdsToJson : Not implemented."); }
+    AddIdsToJson(jsonObject: any, service: ExchangeService): any { throw new Error("MoveCopyRequest.ts - AddIdsToJson : Not implemented."); }
     Validate(): void {
         //EwsUtilities.ValidateParam(this.DestinationFolderId, "DestinationFolderId");
         this.DestinationFolderId.Validate(this.Service.RequestedServerVersion);
