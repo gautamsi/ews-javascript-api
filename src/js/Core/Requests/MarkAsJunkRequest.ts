@@ -2,6 +2,7 @@
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {MarkAsJunkResponse} from "../Responses/MarkAsJunkResponse";

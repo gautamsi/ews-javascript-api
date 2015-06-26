@@ -134,7 +134,7 @@ export class PropertyBag {
     }
     static GetPropertyUpdateItemName(serviceObject: ServiceObject): string {
         //return serviceObject instanceof Folder ?
-        return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
+        return serviceObject.InstanceType === XmlElementNames.Folder ? //removed instanceof operation to remove circular dependency.
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
@@ -336,7 +336,7 @@ export class PropertyBag {
 
             if (!this.Owner.IsNew) {
                 // If owner is an item attachment, properties cannot be updated (EWS doesn't support updating item attachments)
-                var isItem = this.owner.IsItemInstance();// this.owner instanceof Item;
+                var isItem = this.owner.InstanceType === XmlElementNames.Item;// this.owner instanceof Item;
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
                 if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {

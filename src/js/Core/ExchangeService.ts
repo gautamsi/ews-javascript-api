@@ -88,15 +88,10 @@ import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {ItemId} from "../ComplexProperties/ItemId";
 import {PropertySet} from "./PropertySet";
-
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
-
-
 import {IPromise, IXHROptions} from "../Interfaces";
-import {Promise} from "../PromiseFactory"
-import {XHR} from "../XHRFactory"
-
-
+import {PromiseFactory} from "../PromiseFactory";
+import  {XhrFactory}  from "../XHRFactory";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {

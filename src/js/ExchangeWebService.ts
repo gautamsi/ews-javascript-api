@@ -3,6 +3,20 @@
  * BootStrap code. to initializes some class to avoid circular reference. 
  */
 
+
+/** Promise type setup */
+import {IPromiseApi} from "./Interfaces";
+
+import {PromiseFactory} from "./PromiseFactory";
+export function useCustomPromise(promiseObj: IPromiseApi) {
+	PromiseFactory.switchPromise(promiseObj);
+}
+import {setPromise} from "./Promise_WinJS";
+// export {Promise_Q} from "./Promise_Q";
+setPromise();
+export {PromiseFactory}
+
+/**ServiceObject Schema and AppointmentSchema */
 import {ServiceObjectSchema} from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
 import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema";
 ServiceObjectSchema.AppointmentSchema = AppointmentSchema.Instance;
@@ -27,7 +41,6 @@ TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneD
 }
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
-
 
 
 /**#endregion BootStrap code */
@@ -418,7 +431,6 @@ export {Grouping} from "./Search/Grouping";
 // export {IndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
 // export {InstallAppRequest} from "./Core/Requests/InstallAppRequest";
 // export {InstallAppResponse} from "./Core/Responses/InstallAppResponse";
-// export {Interfaces} from "./Interfaces";
 // export {InternetMessageHeader} from "./ComplexProperties/InternetMessageHeader";
 // export {InternetMessageHeaderCollection} from "./ComplexProperties/InternetMessageHeaderCollection";
 // export {IntPropertyDefinition} from "./PropertyDefinitions/IntPropertyDefinition";
@@ -582,9 +594,6 @@ export {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 // export {PrivilegedLogonType} from "./Enumerations/PrivilegedLogonType";
 // export {PrivilegedUserId} from "./Misc/PrivilegedUserId";
 // export {PrivilegedUserIdBudgetType} from "./Enumerations/PrivilegedUserIdBudgetType";
-// export {Promise_Q} from "./Promise_Q";
-// export {Promise_WinJS} from "./Promise_WinJS";
-// export {PromiseFactory} from "./PromiseFactory";
 // export {PropertyBag} from "./Core/PropertyBag";
 // export {PropertyDefinition} from "./PropertyDefinitions/PropertyDefinition";
 // export {PropertyDefinitionBase} from "./PropertyDefinitions/PropertyDefinitionBase";

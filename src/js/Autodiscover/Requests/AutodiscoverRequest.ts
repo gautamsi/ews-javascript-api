@@ -5,20 +5,17 @@ import {XmlElementNames} from "../../Core/XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {EwsUtilities} from "../../Core/EwsUtilities";
 import {ExchangeServerInfo} from "../../Core/ExchangeServerInfo";
-
 import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-
 import {AutodiscoverService} from "../AutodiscoverService";
 import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
 import {ServiceResponse} from "../../Core/Responses/ServiceResponse";
 import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
-
 import {EwsLogging} from "../../Core/EwsLogging";
 import {Uri} from "../../Uri";
 import {IPromise, IXHROptions} from "../../Interfaces";
-import {Promise} from "../../PromiseFactory"
-import {XHR} from "../../XHRFactory"
+import {PromiseFactory} from "../../PromiseFactory";
+import {XhrFactory} from "../../XHRFactory";
 
 export class AutodiscoverRequest {
 
@@ -106,8 +103,8 @@ export class AutodiscoverRequest {
             //}
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
-        return Promise((successDelegate, errorDelegate, progressDelegate) => {
-            XHR(xhrOptions)
+        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+            XhrFactory.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                     var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                     //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));

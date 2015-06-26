@@ -17,10 +17,9 @@ import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence"
 import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
 import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
 import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
-
-
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper} from "../../ExtensionMethods";
+
 export class ServiceObject {
     get PropertyBag(): PropertyBag { return this.propertyBag; }
     get Schema(): ServiceObjectSchema { return this.GetSchema(); }
@@ -180,53 +179,47 @@ export class ServiceObject {
     }
     //ToJson(service: ExchangeService, isUpdateOperation: boolean): any { return this.PropertyBag.ToJson(service, isUpdateOperation);}
     TryGetExtendedProperty<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean {
-        var propertyCollection:ExtendedPropertyCollection = this.GetExtendedProperties();
+        var propertyCollection: ExtendedPropertyCollection = this.GetExtendedProperties();
 
-            if ((propertyCollection != null) &&
-                propertyCollection.TryGetValue<T>(propertyDefinition, propertyValue))
-            {
-                return true;
-            }
-            else
-            {
-                propertyValue.outValue = null;//default(T);
-                return false;
-            }
+        if ((propertyCollection != null) &&
+            propertyCollection.TryGetValue<T>(propertyDefinition, propertyValue)) {
+            return true;
+        }
+        else {
+            propertyValue.outValue = null;//default(T);
+            return false;
+        }
     }
     //TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Need implementation."); }
     //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("ServiceObject.ts - TryGetProperty : Not implemented."); }
-    TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue:IOutParam<T>): boolean {
-        var propDef:PropertyDefinition = <PropertyDefinition>propertyDefinition;// as PropertyDefinition;
+    TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: IOutParam<T>): boolean {
+        var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;// as PropertyDefinition;
         debugger;//todo: fix for compatibility checking, if this is propertydefinition or propertydefinitionbase
-            if (propDef != null)
-            {
-                return this.PropertyBag.TryGetPropertyAs<T>(propDef, propertyValue);
+        if (propDef != null) {
+            return this.PropertyBag.TryGetPropertyAs<T>(propDef, propertyValue);
+        }
+        else {
+            debugger;//todo: check for compatibility of extendedpropertydefition or propertydefition.
+            var extPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;// as ExtendedPropertyDefinition;
+            if (extPropDef != null) {
+                return this.TryGetExtendedProperty<T>(extPropDef, propertyValue);
             }
-            else
-            {
-                debugger;//todo: check for compatibility of extendedpropertydefition or propertydefition.
-                var extPropDef:ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;// as ExtendedPropertyDefinition;
-                if (extPropDef != null)
-                {
-                    return this.TryGetExtendedProperty<T>(extPropDef, propertyValue);
-                }
-                else
-                {
-                    // Other subclasses of PropertyDefinitionBase are not supported.
-                    throw new Error(StringHelper.Format(
-                        Strings.OperationNotSupportedForPropertyDefinitionType,
-                        propertyDefinition.Type));//NotSupportedException
-                }
+            else {
+                // Other subclasses of PropertyDefinitionBase are not supported.
+                throw new Error(StringHelper.Format(
+                    Strings.OperationNotSupportedForPropertyDefinitionType,
+                    propertyDefinition.Type));//NotSupportedException
             }
+        }
     }
-    
+
     Validate(): void { this.PropertyBag.Validate(); }
     //WriteToJsonForUpdate(service: ExchangeService): any { throw new Error("ServiceObject.ts - WriteToJsonForUpdate : Not implemented."); }
     WriteToXml(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXml(writer); }
     WriteToXmlForUpdate(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXmlForUpdate(writer); }
 
+    //created this to help find serviceobject type, ServiceObjectInstance instanceof Item/Folder/Attachment fails by creating circular dependency in javascript/typescript
+    get InstanceType(): string { return "ServiceObject"; }
     //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
-    IsFolderInstance(): boolean { return false; }//only folder instance would return true.
-    IsItemInstance(): boolean { return false; }//only item instance would return true.
     get IsAttachment(): boolean { return false; }//only item instance would return true.
 }

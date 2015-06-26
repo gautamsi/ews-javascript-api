@@ -91,7 +91,7 @@ export module ArrayHelper {
         }
     }
 
-    export function Find<T>(array: Array<T>, comparer: (item: T) => boolean) {
+    export function Find<T>(array: Array<T>, comparer: (item: T) => boolean): T {
         for (var entry of array) {
             if (comparer(entry)) {
                 return entry;
@@ -99,8 +99,15 @@ export module ArrayHelper {
         }
         return null;
     }
-
-
+    export function OfType<T,U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
+        var result: T[] = [];
+        for (var entry of array) {
+            if (comparer(entry)) {
+                result.push(<T><any>entry);
+            }
+        }
+        return result;
+    }
 }
 
 export class TypeSystem {

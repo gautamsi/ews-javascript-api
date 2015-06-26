@@ -14,6 +14,7 @@ import {FolderId} from "../../../ComplexProperties/FolderId";
 import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
+import {IPromise} from "../../../Interfaces";
 import {Item} from "./Item";
 export class EmailMessage extends Item {
     ToRecipients: EmailAddressCollection;
@@ -35,9 +36,9 @@ export class EmailMessage extends Item {
     ReceivedRepresenting: EmailAddress;
     ApprovalRequestData: ApprovalRequestData;
     VotingInformation: VotingInformation;
-    // Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): EmailMessage { throw new Error("EmailMessage.ts - Bind : Not implemented."); }
-    // Bind(service: ExchangeService, id: ItemId): EmailMessage { throw new Error("EmailMessage.ts - Bind : Not implemented."); }
-    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): EmailMessage { throw new Error("EmailMessage.ts - Bind : Not implemented."); }
+    Bind(service: ExchangeService, id: ItemId): IPromise<EmailMessage>;
+    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<EmailMessage>;
+    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<EmailMessage>{ throw new Error("EmailMessage.ts - Bind : Not implemented.");}
     CreateForward(): ResponseMessage { throw new Error("EmailMessage.ts - CreateForward : Not implemented."); }
     CreateReply(replyAll: boolean): ResponseMessage { throw new Error("EmailMessage.ts - CreateReply : Not implemented."); }
     // Forward(bodyPrefix: MessageBody, toRecipients: any): any { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
