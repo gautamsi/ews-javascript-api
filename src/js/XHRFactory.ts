@@ -1,6 +1,6 @@
-﻿import {IPromise, IXHROptions, IXhrApi} from "./Interfaces";
+﻿import {IPromise, IXHROptions, IXHRApi} from "./Interfaces";
 
-class xhrApi implements IXhrApi {
+class XHRApi implements IXHRApi {
 	xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest> {
 		throw new Error("xhrApi - stub method, must be bootstrapped");
 	}
@@ -9,16 +9,16 @@ class xhrApi implements IXhrApi {
 	}
 }
 
-var xhrApiObj: IXhrApi = new xhrApi();
+var xhrApiObj: IXHRApi = new XHRApi();
 
-export class XhrFactory {
+export class XHRFactory {
 	static xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest> {
 		return xhrApiObj.xhr(xhroptions);
 	}
 	static get type(): string {
 		return xhrApiObj.type;
 	}
-	static switchXhr(newXhr: IXhrApi) {
-		xhrApiObj = newXhr;
+	static switchXhr(newXHR: IXHRApi) {
+		xhrApiObj = newXHR;
 	}
 }

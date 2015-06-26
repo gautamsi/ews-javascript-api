@@ -19,7 +19,7 @@ import {StringHelper} from "../../ExtensionMethods";
 
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {PromiseFactory} from "../../PromiseFactory"
-import {XhrFactory} from "../../XHRFactory"
+import {XHRFactory} from "../../XHRFactory"
 export class ServiceRequestBase {
 
     //#region private static and const
@@ -146,7 +146,7 @@ export class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XhrFactory.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XHRFactory.xhr(request); }
     GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
@@ -401,7 +401,7 @@ export class ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return XhrFactory.xhr(request);
+        return XHRFactory.xhr(request);
 
         //try
         //{

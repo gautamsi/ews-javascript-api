@@ -29,7 +29,7 @@ export interface IPromiseApi{
 	wrap<U>(value?: U): IPromise<U>;
 	type:string;
 }
-export interface IXhrApi{
+export interface IXHRApi{
 	xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest>;
 	type?:string;
 }

@@ -15,7 +15,7 @@ import {EwsLogging} from "../../Core/EwsLogging";
 import {Uri} from "../../Uri";
 import {IPromise, IXHROptions} from "../../Interfaces";
 import {PromiseFactory} from "../../PromiseFactory";
-import {XhrFactory} from "../../XHRFactory";
+import {XHRFactory} from "../../XHRFactory";
 
 export class AutodiscoverRequest {
 
@@ -104,7 +104,7 @@ export class AutodiscoverRequest {
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
         return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
-            XhrFactory.xhr(xhrOptions)
+            XHRFactory.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                     var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                     //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));

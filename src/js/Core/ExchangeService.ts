@@ -91,7 +91,7 @@ import {PropertySet} from "./PropertySet";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {PromiseFactory} from "../PromiseFactory";
-import  {XhrFactory}  from "../XHRFactory";
+import  {XHRFactory}  from "../XHRFactory";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {
