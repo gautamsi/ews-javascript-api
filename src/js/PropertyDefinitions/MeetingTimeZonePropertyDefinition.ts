@@ -11,7 +11,7 @@ export class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
     Type: any;//System.Type;
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("MeetingTimeZonePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        debugger;
+        //debug: //ref: check for validity with example
         if (jsObject != null) {
             var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone();
             meetingTimeZone.LoadFromXmlJsObject(jsObject, service);//this.GetXmlElementName()

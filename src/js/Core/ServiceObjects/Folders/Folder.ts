@@ -237,7 +237,7 @@ export class Folder extends ServiceObject {
         else if (typeof searchFilterOrQueryString === 'string') {
             queryString = searchFilterOrQueryString;
         }
-        debugger;//check: verify if querystring is null
+        //debug: //todo: //ref: verify if querystring is null
         return this.Service.FindItems<TItem>(
             [this.Id], // FolderId[]
             searchFilter, /* searchFilter */

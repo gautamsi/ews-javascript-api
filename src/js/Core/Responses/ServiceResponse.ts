@@ -103,70 +103,7 @@ export class ServiceResponse {
         this.Loaded();
 
     }
-    LoadFromXmlJsObject_old(jsObject: any, xmlElementName: string, service: ExchangeService): void {
-        //set contecxt to xmlelementname 
-        jsObject = jsObject[xmlElementName];
-
-        var resClass = jsObject[XmlAttributeNames.ResponseClass];
-        debugger;
-        this.result = <any>ServiceResult[resClass];
-
-        if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
-            if (this.result == ServiceResult.Warning) {
-                if (jsObject[XmlElementNames.MessageText]) {
-                    this.ErrorMessage = jsObject[XmlElementNames.MessageText];
-                }
-                else
-                    debugger;
-                if (jsObject[XmlElementNames.DescriptiveLinkKey]) {
-                    this.ErrorMessage = jsObject[XmlElementNames.DescriptiveLinkKey];
-                }
-                else
-                    debugger;
-            }
-
-            if (jsObject[XmlElementNames.ResponseCode])
-                this.errorCode = <any>ServiceError[jsObject[XmlElementNames.ResponseCode]];
-            else debugger;
-
-
-            // If batch processing stopped, EWS returns an empty element. Skip over it.
-            if (this.BatchProcessingStopped) {
-                debugger;
-                //                do {
-                //                    reader.Read();
-                //                }
-                //                while (!reader.HasRecursiveParent(xmlElementName));
-            }
-            else {
-                this.ReadElementsFromXmlJsObject(jsObject, service);
-            }
-        }
-        else {
-            //todo: check what  is missing   
-            debugger;         
-            //            this.ErrorMessage = reader.ReadElementValue();//XmlNamespace.Messages, XmlElementNames.MessageText);
-            //            reader.Read();
-            //            this.errorCode = ServiceError[reader.ReadElementValue()];//XmlNamespace.Messages, XmlElementNames.ResponseCode);
-            //
-            //            reader.Read();//ElementValue<int>(XmlNamespace.Messages, XmlElementNames.DescriptiveLinkKey);
-            //
-            //            while (reader.HasRecursiveParent(/*XmlNamespace.Messages, */xmlElementName)) {
-            //                reader.Read();
-            //
-            //                //if (reader.IsStartElement()) {
-            //                if (!this.LoadExtraErrorDetailsFromXml(reader, reader.LocalName)) {
-            //                    reader.SkipCurrentElement();
-            //                }
-            //                //}
-            //            }
-            //            reader.SeekLast();
-        }
-
-        this.MapErrorCodeToErrorMessage();
-
-        this.Loaded();
-    }
+    
     MapErrorCodeToErrorMessage(): void {
         // Use a better error message when an item cannot be updated because its changeKey is old.
         if (this.ErrorCode == ServiceError.ErrorIrresolvableConflict) {
@@ -174,8 +111,9 @@ export class ServiceResponse {
         }
     }
     ParseMessageXml(reader: EwsServiceXmlReader): void {
+        throw new Error("ServiceResponse.ts - ParseMessageXml - not used")
         do {
-            debugger;
+            //debugger;
             reader.Read();
 
             //if (reader.IsStartElement()) {
@@ -185,7 +123,7 @@ export class ServiceResponse {
                     break;
 
                 case XmlElementNames.FieldURI:
-                    debugger;//next statement needs implementation or varification of accuracy
+                   // debugger;//next statement needs implementation or varification of accuracy
                     //this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(null, XmlAttributeNames.FieldURI)));
                     break;
 
@@ -198,7 +136,7 @@ export class ServiceResponse {
 
                 case XmlElementNames.ExtendedFieldURI:
                     var extendedPropDef = new ExtendedPropertyDefinition();
-                    debugger;//next statement may be inaccurate
+                    //debugger;//next statement may be inaccurate
                     extendedPropDef.LoadPropertyValueFromXmlJsObject(reader);
                     this.errorProperties.push(extendedPropDef);
                     break;

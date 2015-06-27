@@ -513,7 +513,7 @@ export class EwsUtilities {
     static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
         if (param != null) {
-            debugger; //todo: implement this somehow
+            //debug: //todo: implement this somehow
             // Non-empty string has at least one character which is *not* a whitespace character
             //if (param.length == param.CountMatchingChars((c) => Char.IsWhiteSpace(c))) {
             //    throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);

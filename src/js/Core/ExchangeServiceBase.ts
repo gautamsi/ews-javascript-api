@@ -175,7 +175,7 @@ export class ExchangeServiceBase {
 
                 break;
         }
-        debugger;//todo:iso string should work
+        //debug://todo:iso string should work
         return dateTime.ToISOString();// ISO string should work .ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
     }
     ConvertStartDateToUnspecifiedDateTime(value: string): DateTime { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
@@ -298,7 +298,7 @@ export class ExchangeServiceBase {
         this.SaveHttpResponseHeaders(response.Headers);
     }
     SaveHttpResponseHeaders(headers: IXHROptions/* System.Net.WebHeaderCollection*/): any {
-        debugger;
+        //debug:
         this.httpResponseHeaders = {};
 
         for (var key in headers.headers) {

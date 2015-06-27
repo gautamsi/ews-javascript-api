@@ -16,6 +16,11 @@ import {setPromise} from "./Promise_WinJS";
 setPromise();
 export {PromiseFactory}
 
+/** XHR setup */
+import {XHRFactory} from "./XHRFactory";
+import {setXhr} from "./XHRFactory_WinJS";
+setXhr();
+
 /**ServiceObject Schema and AppointmentSchema */
 import {ServiceObjectSchema} from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
 import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema";
@@ -824,8 +829,6 @@ export {WellKnownFolderName} from "./Enumerations/WellKnownFolderName";
 // export {WSSecurityBasedCredentials} from "./Credentials/WSSecurityBasedCredentials";
 // export {WSSecurityUtilityIdSignedXml} from "./Credentials/WSSecurityUtilityIdSignedXml";
 // export {X509CertificateCredentials} from "./Credentials/X509CertificateCredentials";
-// export {XHRFactory} from "./XHRFactory";
-// export {XHRFactory_WinJS} from "./XHRFactory_WinJS";
 // export {XmlAttributeNames} from "./Core/XmlAttributeNames";
 // export {XmlDtdException} from "./Security/XmlDtdException";
 // export {XmlElementNames} from "./Core/XmlElementNames";

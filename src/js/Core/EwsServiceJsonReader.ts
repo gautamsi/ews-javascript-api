@@ -48,14 +48,12 @@ export class EwsServiceJsonReader {
                                     typeName,
                                     serviceObject.GetXmlElementName()));
                         }
-                        debugger;
                         serviceObject.LoadFromXmlJsObject(
                             jsonServiceObject,
                             service,
                             clearPropertyBag,
                             requestedPropertySet,
                             summaryPropertiesOnly);
-                        debugger;
                         serviceObjects.push(serviceObject);
                     }
                     else

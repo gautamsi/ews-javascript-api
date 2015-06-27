@@ -49,11 +49,11 @@ export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
     }
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ResponseObjectsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsonObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        debugger; //todo: validate
+        //debug: //todo: validate
         var responseActionValue: ResponseActions = ResponseActions.None;
 
         var jsonResponseActions: any[] = jsonObject;// as object[];
-        debugger;//check for missing aray 
+        //debug: //ref: check for missing aray 
         if (jsonResponseActions != null) {
             for (var jsonResponseAction of jsonResponseActions) {
                 if (jsonResponseAction.__type) {

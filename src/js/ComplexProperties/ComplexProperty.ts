@@ -29,7 +29,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, //xmlNamespace: XmlNamespace, xmlElementName: string,
     readAction: (jsonProperty: any, service: ExchangeService) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
-    debugger;//check how to implement with jsobject.
+    //debugger;//check how to implement with jsobject.
     throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
     // this.ReadAttributesFromXmlJsObject(jsObject);
 
@@ -84,7 +84,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
 
     if (applyChange) {
-      debugger;//debug; check; check for ref value setting. 
+      //debugger;//debug; check; check for ref value setting. 
       field.setValue(value);
       this.Changed();
     }

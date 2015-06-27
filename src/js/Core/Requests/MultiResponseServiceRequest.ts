@@ -75,7 +75,7 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
         //for (var i = 0; i < responses.length; i++) {
         for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
             var response: TResponse = this.CreateServiceResponse(this.Service, i);
-            debugger; // check need for responseMessageXmlElementName
+            //ref: check need for responseMessageXmlElementName
             var jsResponseMessage = jsResponseMessages[i];
             response.LoadFromXmlJsObject(jsResponseMessage[responseMessageXmlElementName], this.Service)//, responseMessageXmlElementName, this.Service);
             // Add the response to the list after it has been deserialized because the response

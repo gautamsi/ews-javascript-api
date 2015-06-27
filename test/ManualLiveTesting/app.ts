@@ -21,46 +21,31 @@ export class Greeter {
 
     start() {
 
-        var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
-        autod.RedirectionUrlValidationCallback = (val) => { return true };
-        autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        var s: UserSettingName[] = [];
-        s.push(UserSettingName.InternalEwsUrl);
-        s.push(UserSettingName.ExternalEwsUrl);
+        var exch = new ExchangeService(ExchangeVersion.Exchange2013);
+        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
+        EwsLogging.DebugLogEnabled = false;
 
-        s.push(UserSettingName.UserDisplayName);
-        s.push(UserSettingName.UserDN);
-        s.push(UserSettingName.EwsPartnerUrl);
-        s.push(UserSettingName.DocumentSharingLocations);
-        s.push(UserSettingName.MailboxDN);
-        s.push(UserSettingName.ActiveDirectoryServer);
-        s.push(UserSettingName.CasVersion);
-        s.push(UserSettingName.ExternalWebClientUrls);
-        s.push(UserSettingName.ExternalImap4Connections);
-        s.push(UserSettingName.AlternateMailboxes);
-        autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
-        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes, UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-            .then((sr) => {
-                var tabcount = 0;
-                var tabs = ()=>{return StringHelper.Repeat("\t",tabcount);}
-                var util = require('util');
-                //console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-                console.log(autod.Url.ToString());
-                for(var resp of sr.Responses){
-                    console.log(StringHelper.Format("{0}settings for email: {1}",tabs(), resp.SmtpAddress));
-                    tabcount++;
-                    for (var setting in resp.Settings){
-                        console.log(StringHelper.Format("{0}{1} = {2}" , tabs(), UserSettingName[setting], resp.Settings[setting]));
-                    }
-                    tabcount--;                    
-                }
-                //console.log(sr);
-                console.log("------------");
-            }, (e: any) => {
-                var util = require('util');
-                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
-                console.log("------------");
+        var items: Item[] = [];
+        var item0: Item = null;
+        exch.FindItems(WellKnownFolderName.SentItems, new ItemView(3))
+            .then((response) => {
+                items = response.Items;
+                EwsLogging.Log(items[0], true, true);
+            })
+            .then(() => {
+                exch.BindToItem(items[0].Id, PropertySet.IdOnly).then((response) => {
+                    item0 = response;
+                    EwsLogging.Log(item0, true, true);
+                });
+            })
+            .then(() => {
+                item0.Load()
+                    .then((response) => {
+                        EwsLogging.Log(item0, true, true);
+                    });
             });
+
         return;
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
@@ -71,7 +56,6 @@ export class Greeter {
         //return;
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
-        var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
         var parser = new DOMParser();
         //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
@@ -88,10 +72,8 @@ export class Greeter {
         //var autod = new AutodiscoverService("https://pod51045.outlook.com/autodiscover/autodiscover.svc", "microsoft.com", ExchangeVersion.Exchange2013);
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
         exch.TimeZoneDefinition = new TimeZoneDefinition();
-        exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");

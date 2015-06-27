@@ -106,15 +106,13 @@ export class FindItemResponse<TItem extends Item> extends ServiceResponse {
                                 this.propertySet,
                                 service,
                                 itemList);
-                            debugger;
                             this.groupedFindResults.ItemGroups.push(new ItemGroup<TItem>(groupIndex, itemList));
                         }
                     }
                 }
             }
         }
-        debugger;
-        debugger;
+        //debug: //ref: need to find example.
         //todo: check highlight terms and grouping.
         if (responseObject[XmlElementNames.HighlightTerms]) {
             var highlightTermElements: any[] = EwsServiceJsonReader.ReadAsArray(responseObject, XmlElementNames.HighlightTerms);

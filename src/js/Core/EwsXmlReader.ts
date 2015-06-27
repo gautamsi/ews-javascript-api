@@ -158,7 +158,7 @@ export class EwsXmlReader {
         if (!this.eof) this.currentNode = this.treeWalker.previousNode();
     }
     SkipCurrentElement(): void {
-        debugger;
+        //debug:
         var parentNode = this.CurrentNode;
         do {
             this.Read();

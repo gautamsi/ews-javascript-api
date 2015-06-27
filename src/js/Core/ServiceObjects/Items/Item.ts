@@ -69,7 +69,8 @@ export class Item extends ServiceObject {
             return this.ParentAttachment.IsNew;
         }
         else {
-            return super.IsNewProxy();
+            var id = this.GetId();
+            return id == null ? true : !id.IsValid;
         }
     }
     get Id(): ItemId { return this.PropertyBag._getItem(this.GetIdPropertyDefinition()); }

@@ -47,13 +47,13 @@ export class Mailbox extends ComplexProperty {
     InternalValidate(): any {
         super.InternalValidate();
 
-        debugger; //check for validity implement next line of codes
+        //debug: //check for validity implement next line of codes
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
         //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Mailbox.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): any {
-        debugger;
+        //debug:
         if (jsonProperty[XmlElementNames.EmailAddress]) {
             this.Address = jsonProperty[XmlElementNames.EmailAddress];//.ReadAsString(XmlElementNames.EmailAddress);
         }

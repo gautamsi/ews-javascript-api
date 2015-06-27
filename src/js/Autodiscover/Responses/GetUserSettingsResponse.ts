@@ -168,7 +168,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
     }
 
     LoadFromJson(obj: any/*, parentElementName: string*/): void {
-        debugger;
+        //debugger;
         super.LoadFromJson(obj/*, parentElementName*/);
         var settingscol = obj[XmlElementNames.UserSettings];
         this.LoadUserSettingsFromJson(settingscol);

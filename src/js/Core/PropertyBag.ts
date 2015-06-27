@@ -408,7 +408,7 @@ export class PropertyBag {
     }
     TryGetPropertyAs<T>(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<T>): boolean {
         // Verify that the type parameter and property definition's type are compatible.
-        debugger;//todo: fix isassignablefrom
+        //debug: //todo: fix isassignablefrom
         //if (!typeof (T).IsAssignableFrom(propertyDefinition.Type)) {
         //    string errorMessage = ExtensionMethods.stringFormatting.Format(
         //        Strings.PropertyDefinitionTypeMismatch,
@@ -516,7 +516,7 @@ export class PropertyBag {
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.Owner.GetXmlElementName());
 
-        debugger; //fix Schema objects Ienumerable.
+        //debug: //todo: fix Schema objects IEnumerable.
 
         //
         for (var item of this.Owner.Schema.GetEnumerator()) {
@@ -550,12 +550,10 @@ export class PropertyBag {
         }
 
         for (var kv of this.deletedProperties.Items) {
-            debugger;
-            var property: KeyValuePair<PropertyDefinition, any> = <any>item;
             this.WriteDeleteUpdateToXml(
                 writer,
-                property.key,
-                property.value);
+                kv.key,
+                kv.value);
         }
 
         writer.WriteEndElement();

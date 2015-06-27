@@ -30,7 +30,7 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
     GetConvertedDateTime(service: ExchangeServiceBase, propertyBag: PropertyBag, isUpdateOperation: boolean, value: any): DateTime {
         var dateTime = DateTime.Parse(value);
         var convertedDateTime: DateTime;
-        debugger;//todo:find datetimekind
+        //debug: //todo: find datetimekind
         // If the date/time is unspecified, we may need to scope it to time zone.
         if (dateTime.Kind == DateTimeKind.Unspecified) {
             convertedDateTime = this.ScopeToTimeZone(
@@ -47,7 +47,7 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
     LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("DateTimePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
         var stringValue: string = jsObject;//.toString();
-        debugger;//check for datetime value
+        //debug: //ref: check for datetime value
         if (!StringHelper.IsNullOrEmpty(stringValue)) {
             var value = service.ConvertUniversalDateTimeStringToLocalDateTime(stringValue);
             propertyBag._setItem(this, service.ConvertUniversalDateTimeStringToLocalDateTime(stringValue));

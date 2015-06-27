@@ -19,6 +19,7 @@ import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefiniti
 import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper} from "../../ExtensionMethods";
+import {IPromise} from "../../Interfaces";
 
 export class ServiceObject {
     get PropertyBag(): PropertyBag { return this.propertyBag; }
@@ -26,15 +27,7 @@ export class ServiceObject {
     Item: any;
     Service: ExchangeService;
     get IsNew(): boolean {
-        return this.IsNewProxy();
-        
-        // var id = this.GetId();
-        // debugger;
-        // return id == null ? true : !id.IsValid;
-    }
-    protected IsNewProxy(): boolean { //to allow derived calss call this methos with super keyboard.
         var id = this.GetId();
-        debugger;
         return id == null ? true : !id.IsValid;
     }
     get IsDirty(): boolean {
@@ -60,7 +53,7 @@ export class ServiceObject {
 
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;
         if (propDef != null) {
-            debugger;
+            //todo: check for propertydefinitionbase type or child type;
             return this.PropertyBag._getItem(propDef);
         }
         else {
@@ -95,7 +88,6 @@ export class ServiceObject {
         var idPropertyDefinition = this.GetIdPropertyDefinition();
 
         var serviceId: IOutParam<any> = { outValue: null };
-        debugger;
         if (idPropertyDefinition != null) {
             this.PropertyBag.TryGetValue(idPropertyDefinition, serviceId);
         }
@@ -123,8 +115,7 @@ export class ServiceObject {
     GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
     GetSetFieldXmlElementName(): string { return XmlElementNames.SetItemField; }
     GetXmlElementName(): string {
-        debugger;
-        throw new Error("ServiceObject.ts - getxmlelementname -  this must be overridden by derived class - can not use reflection to get class attribute in javascript");
+        throw new Error("ServiceObject.ts - GetXmlElementName -  this must be overridden by derived class - can not use reflection to get class attribute in javascript");
         if (StringHelper.IsNullOrEmpty(this.xmlElementName)) {
             this.xmlElementName = this.GetXmlElementNameOverride();
 
@@ -138,10 +129,10 @@ export class ServiceObject {
     GetXmlElementNameOverride(): string { return null; }
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): void
     { throw new Error("abstract method, must implement"); }
-    InternalLoad(propertySet: PropertySet): void { throw new Error("abstract method, must implement"); }
+    InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("abstract method, must implement"); }
     //Load(): any { throw new Error("ServiceObject.ts - Load : Not implemented."); }
-    Load(propertySet?: PropertySet): void {
-        this.InternalLoad(propertySet || PropertySet.FirstClassProperties);
+    Load(propertySet?: PropertySet): IPromise<void> {
+        return this.InternalLoad(propertySet || PropertySet.FirstClassProperties);
     }
     //LoadFromJson(jsonObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
     //LoadFromJson(jsonServiceObject: JsonObject, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): any { throw new Error("ServiceObject.ts - LoadFromJson : Not implemented."); }
