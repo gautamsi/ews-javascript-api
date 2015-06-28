@@ -1,5 +1,6 @@
 ﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {EwsLogging} from "../Core/EwsLogging";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ComplexPropertyChangedDelegate} from "../Misc/DelegateTypes";
 import {IRefParam} from "../Interfaces/IRefParam";
@@ -19,6 +20,8 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
 
   Changed(): void {
     if (this.OnChange && this.OnChange.length > 0) {
+      EwsLogging.Assert(false, "ComplexProperty.Changed", "OnChange events not fired due to circular calling, todo: fix needed");
+      return;
       this.OnChange.forEach((delegateInstance, index, array) => {
         if (delegateInstance)
           delegateInstance(this);

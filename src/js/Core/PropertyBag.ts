@@ -66,10 +66,9 @@ export class PropertyBag {
         }
     }
     private Changed(): void {
-        //todo: implement onchange type events;
-        //if (this.OnChange != null) {
-        //    this.OnChange();
-        //}
+        this.isDirty = true;
+
+        this.owner.Changed();
     }
     Clear(): void {
         this.ClearChangeLog();
@@ -258,6 +257,9 @@ export class PropertyBag {
         try {
 
             for (var key in jsObject) {
+                if ((<string>key).indexOf("__") === 0) //skip xnljsobject conversion entries like __type and __prefix
+                    continue;
+
                 if (jsObject.hasOwnProperty(key)) {
                     var element = jsObject[key];
 

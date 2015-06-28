@@ -4,7 +4,7 @@ import {ExchangeServiceBase} from "./ExchangeServiceBase";
 import {EwsUtilities} from "./EwsUtilities";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import {StringHelper} from "../ExtensionMethods";
+import {StringHelper, base64Helper} from "../ExtensionMethods";
 export class EwsServiceXmlWriter {
     //get InternalWriter(): System.Xml.XmlWriter;
     get Service(): ExchangeServiceBase { return this.service }
@@ -62,15 +62,15 @@ export class EwsServiceXmlWriter {
 
     //#endregion
     
-    constructor(service: ExchangeServiceBase){
+    constructor(service: ExchangeServiceBase) {
         this.service = service;
     }
 
     //TryConvertObjectToString(value: any, strValue: any): boolean { throw new Error("EwsServiceXmlWriter.ts - TryConvertObjectToString : Not implemented."); }
     ConvertObjectToString(value: any): string {
         var strValue: string = null;
-        
-        if(value ===null) return null;
+
+        if (value === null) return null;
         if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) throw new Error("value can not be of type object");
 
         if (value != null) {
@@ -138,6 +138,9 @@ export class EwsServiceXmlWriter {
     }
     //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
     //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
+    WriteBase64ElementValue(buffer: any): void {
+        this.WriteValue(base64Helper.btoa(buffer), null);
+    }
     WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any, displayName: string = localName): void {
         var stringValue: string = this.ConvertObjectToString(value);
         if (stringValue != undefined) {
@@ -146,7 +149,7 @@ export class EwsServiceXmlWriter {
             this.WriteEndElement();
         }
         else {
-            EwsLogging.Assert(stringValue !== 'undefined','WriteElementValue',StringHelper.Format(
+            EwsLogging.Assert(stringValue !== 'undefined', 'WriteElementValue', StringHelper.Format(
                 Strings.ElementValueCannotBeSerialized,
                 typeof (value), localName));
                 

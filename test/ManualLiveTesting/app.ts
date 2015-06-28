@@ -1,7 +1,10 @@
-import {Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
-EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper} from "../../src/js/ExchangeWebService";
+EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
+ResolveNameSearchLocation} from "../../src/js/ExchangeWebService";
 
+import {MockXHRApi} from "../xhr_mock";
+import {xhrMockData} from "../xhrMockData";
 
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
@@ -24,7 +27,18 @@ export class Greeter {
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        EwsLogging.DebugLogEnabled = false;
+        EwsLogging.DebugLogEnabled = true;
+
+        var xhr = new MockXHRApi(xhrMockData.ResolveNameWithContactDetail);
+        useCustomXhr(xhr);
+
+        exch.ResolveName("gstest", ResolveNameSearchLocation.DirectoryOnly, true, PropertySet.IdOnly)
+            .then((response) => {
+                EwsLogging.Log(response, true, true);
+                console.log(response._getItem(0).Contact.DirectoryPhoto);
+                EwsLogging.Log("-------------- request complete ----------", true, true);
+            });
+        return;
 
         var items: Item[] = [];
         var item0: Item = null;

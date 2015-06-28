@@ -1,6 +1,4 @@
-﻿import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
-import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
-import {ExchangeService} from "../Core/ExchangeService";
+﻿import {ExchangeService} from "../Core/ExchangeService";
 import {JsonObject} from "../Core/JsonObject";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
@@ -8,19 +6,28 @@ import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
 import {SimplePropertyBag} from "../Core/SimplePropertyBag";
 import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
+import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
 export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
-    PhoneNumber: string;
-    private phoneNumber: string;
+    private phoneNumber: string = null;
+    get PhoneNumber(): string {
+        return this.phoneNumber;
+    }
+    set PhoneNumber(value: string) {
+        this.SetFieldValue<string>({ getValue: () => this.phoneNumber, setValue: (address: string) => { this.phoneNumber = address } }, value);
+    }
+    constructor();
+    constructor(key: PhoneNumberKey, imAddress: string);
+    constructor(key: PhoneNumberKey = PhoneNumberKey.AssistantPhone, phoneNumber: string = null) {
+        super(key);
+        this.phoneNumber = phoneNumber;
+    }
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - LoadFromJson : Not implemented."); }
-    ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PhoneNumberEntry.ts - ReadTextValueFromXml : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneNumberEntry.ts - WriteElementsToXml : Not implemented."); }
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
+        this.Key = <PhoneNumberKey><any>PhoneNumberKey[jsonProperty[XmlAttributeNames.Key]];
+        this.phoneNumber = jsonProperty[XmlElementNames.PhoneNumber];
+    } WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
 }
-
-
-//}
-
-
-
-
-

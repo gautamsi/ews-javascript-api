@@ -4,7 +4,7 @@ import {ExchangeService} from "./ExchangeService";
 import {JsonObject} from "./JsonObject";
 import {PropertySet} from "./PropertySet";
 import {GetObjectInstanceDelegate} from "../Misc/DelegateTypes";
-import {StringHelper, TypeSystem} from "../ExtensionMethods";
+import {StringHelper, TypeSystem, base64Helper} from "../ExtensionMethods";
 export class EwsServiceJsonReader {
     //Service: ExchangeService;
     // constructor(service: ExchangeService){
@@ -20,6 +20,9 @@ export class EwsServiceJsonReader {
             collectionItems = [collectionItems];
         }
         return collectionItems;
+    }
+    static ReadBase64ElementValue(obj:any):string{
+        return base64Helper.atob(obj);
     }
     static ReadServiceObjectsCollectionFromJson<TServiceObject extends ServiceObject>(jsonResponse: any/*JsonObject*/, service: ExchangeService, collectionJsonElementName: string, getObjectInstanceDelegate: GetObjectInstanceDelegate<TServiceObject>, clearPropertyBag: boolean, requestedPropertySet: PropertySet, summaryPropertiesOnly: boolean): TServiceObject[] /*System.Collections.Generic.List<TServiceObject>*/ {
 

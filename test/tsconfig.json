@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "noLib": false
+    },
+    "compileOnSave": false,    
+    "files": [
+		"./xhr_mock.ts",
+		"./xhrMockData.ts",
+		"./mocha/AutodiscoverTests.ts"		
+	]
+}

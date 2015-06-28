@@ -12,6 +12,7 @@ import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {PropertySet} from "../PropertySet";
 import {DeleteMode} from "../../Enumerations/DeleteMode";
+import {ServiceObjectChangedDelegate} from "../../Misc/DelegateTypes";
 import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
 import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
 import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
@@ -37,7 +38,7 @@ export class ServiceObject {
     //private service: ExchangeService;
     private propertyBag: PropertyBag;
     private xmlElementName: string;
-    private OnChange: Function;//todo: fix type-  ServiceObjectChangedDelegate;
+    private OnChange: ServiceObjectChangedDelegate[] = [];
 
     constructor(service: ExchangeService) {
         //EwsUtilities.ValidateParam(service, "service");
@@ -77,7 +78,9 @@ export class ServiceObject {
 
     Changed(): void {
         if (this.OnChange != null) {
-            this.OnChange(this);
+            for (var changeDelegate of this.OnChange) {
+                changeDelegate(this);
+            }
         }
     }
     ClearChangeLog(): void { this.PropertyBag.ClearChangeLog(); }

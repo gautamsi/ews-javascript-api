@@ -1,14 +1,34 @@
-﻿import {ComplexProperty} from "./ComplexProperty";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
+import {ComplexProperty} from "./ComplexProperty";
 export class ByteArrayArray extends ComplexProperty {
     private static ItemXmlElementName: string = "Base64Binary";
-    Content: any[];// System.Byte[][];
-    private content: any[];// System.Byte[][];//System.Collections.Generic.List<T>;
+    //ref: bytearray not implemented here, storing base64 value instead
+    private content: string[] = [];// System.Byte[][];//System.Collections.Generic.List<T>;
+    get Content(): string[] {// System.Byte[][];
+        return this.content;
+    }
+
     InternalToJson(service: ExchangeService): any { throw new Error("ByteArrayArray.ts - InternalToJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ByteArrayArray.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ByteArrayArray.ts - WriteElementsToXml : Not implemented."); }
+    LoadFromXmlJsObject(jsonCollection: any, serviceExchangeService): void {
+        if (jsonCollection !== null && jsonCollection[ByteArrayArray.ItemXmlElementName]) {
+            var binarydata: any[] = EwsServiceJsonReader.ReadAsArray(jsonCollection, ByteArrayArray.ItemXmlElementName);
+            for (var blob of binarydata) {
+                this.content.push(blob);//ref: storing original base64 content //EwsServiceJsonReader.ReadBase64ElementValue(blob));
+            }
+        }
+
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        for (var item of this.content) {
+            writer.WriteStartElement(XmlNamespace.Types, ByteArrayArray.ItemXmlElementName);
+            writer.WriteValue(item, null);
+            //writer.WriteBase64ElementValue(item);
+            writer.WriteEndElement();
+        }
+    }
 }
 
 

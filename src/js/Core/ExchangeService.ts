@@ -1,12 +1,14 @@
 import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {AvailabilityData} from "../Enumerations/AvailabilityData";
+import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
+import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
@@ -41,6 +43,7 @@ import {FindFolderResponse} from "./Responses/FindFolderResponse";
 import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
 import {Strings} from "../Strings";
 import {ManagementRoles} from "../Misc/ManagementRoles";
+import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
 import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
@@ -91,7 +94,7 @@ import {PropertySet} from "./PropertySet";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {PromiseFactory} from "../PromiseFactory";
-import  {XHRFactory}  from "../XHRFactory";
+import {XHRFactory}  from "../XHRFactory";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {
@@ -835,11 +838,105 @@ export class ExchangeService extends ExchangeServiceBase {
     ////ExpandGroup(smtpAddress: string): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
     ////ExpandGroup(emailAddress: EmailAddress): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
     //GetPasswordExpirationDate(mailboxSmtpAddress: string): Date { throw new Error("ExchangeService.ts - GetPasswordExpirationDate : Not implemented."); }
-    //ResolveName(nameToResolve: string, parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): NameResolutionCollection { throw new Error("ExchangeService.ts - ResolveName : Not implemented."); }
-    ////ResolveName(nameToResolve: string, parentFolderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): NameResolutionCollection { throw new Error("ExchangeService.ts - ResolveName : Not implemented."); }
-    ////ResolveName(nameToResolve: string): NameResolutionCollection { throw new Error("ExchangeService.ts - ResolveName : Not implemented."); }
-    ////ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): NameResolutionCollection { throw new Error("ExchangeService.ts - ResolveName : Not implemented."); }
-    ////ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): NameResolutionCollection { throw new Error("ExchangeService.ts - ResolveName : Not implemented."); }
+    ResolveName(nameToResolve: string): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+
+    ResolveName(
+        nameToResolve: string,
+        parentFolderIdsOrSearchScope?: ResolveNameSearchLocation | FolderId[],
+        searchScopeOrReturnContactDetails?: ResolveNameSearchLocation | boolean,
+        returnContactDetailsOrContactDataPropertySet?: boolean | PropertySet,
+        contactDataPropertySet: PropertySet = null
+        ): IPromise<NameResolutionCollection> {
+
+
+        var argsLength = arguments.length;
+        if (argsLength < 1 && argsLength > 5) {
+            throw new Error("ExchangeService.ts - ResolveName - invalid number of arguments, check documentation and try again.");
+        }
+        
+        //position 1 - nameToResolve - no change, same for all overload
+        
+        var searchScope: ResolveNameSearchLocation = null;
+        var parentFolderIds: FolderId[] = null;
+                
+        //position 2 - parentFolderIdsOrSearchScope
+        if (argsLength >= 2) {
+            if (typeof parentFolderIdsOrSearchScope === 'number') {
+                searchScope = parentFolderIdsOrSearchScope;
+            }
+            else if (Array.isArray(parentFolderIdsOrSearchScope)) {
+                parentFolderIds = parentFolderIdsOrSearchScope;
+            }
+            //could be null        
+            // else {
+            //     throw new Error("ExchangeService.ts - FindItems - incorrect uses of parameters at 2nd position, must be string, ViewBase or SearchFilter");
+            // }
+        }
+
+        var returnContactDetails: boolean = false;
+        
+        //position 3 - searchScopeOrReturnContactDetails
+        if (argsLength >= 3) {
+            if (typeof searchScopeOrReturnContactDetails === 'boolean') {
+                if (typeof parentFolderIdsOrSearchScope !== 'number') {
+                    throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 2nd position, it must be ResolveNameSearchLocation when using boolean at 3rd place");
+                }
+                returnContactDetails = searchScopeOrReturnContactDetails;
+            }
+            else if (typeof searchScopeOrReturnContactDetails === 'number') {
+                if (!Array.isArray(parentFolderIdsOrSearchScope)) {
+                    throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 2nd position, it must be FolderId[] when using ResolveNameSearchLocation at 3rd place");
+                }
+                searchScope = searchScopeOrReturnContactDetails;
+            }
+            else {
+                throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, must be boolean, or ResolveNameSearchLocation");
+            }
+        }
+        
+        //position 4 - returnContactDetailsOrContactDataPropertySet
+        if (argsLength >= 4) {
+            if (returnContactDetailsOrContactDataPropertySet instanceof PropertySet) {
+                if (typeof searchScopeOrReturnContactDetails !== 'boolean') {
+                    throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, it must be boolean when using PropertySet at 4th place");
+                }
+                contactDataPropertySet = returnContactDetailsOrContactDataPropertySet;
+            }
+            else if (typeof returnContactDetailsOrContactDataPropertySet === 'boolean') {
+                if (typeof searchScopeOrReturnContactDetails !== 'number') {
+                    throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, it must be ResolveNameSearchLocation when using boolean at 4th place");
+                }
+                returnContactDetails = returnContactDetailsOrContactDataPropertySet;
+            }
+            else {
+                throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 4th  position, must be  PropertySet or boolean");
+            }
+        }
+        
+        //position 5 - contactDataPropertySet
+        if (argsLength >= 5) {
+            if (typeof returnContactDetailsOrContactDataPropertySet !== 'boolean') {
+                throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 4th position, it must be boolean when using PropertySet at 5th place");
+            }
+        }
+
+        var request: ResolveNamesRequest = new ResolveNamesRequest(this);
+
+        request.NameToResolve = nameToResolve;
+        request.ReturnFullContactData = returnContactDetails;
+        request.ParentFolderIds.AddRange(parentFolderIds);
+        request.SearchLocation = searchScope;
+        request.ContactDataPropertySet = contactDataPropertySet;
+
+        return request.Execute().then((response) => {
+            return response.__thisIndexer(0).Resolutions;
+        });
+    }
+    
     /* #endregion AD related operations */
     
     

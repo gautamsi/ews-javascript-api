@@ -12,6 +12,11 @@ import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {EwsLogging} from "./EwsLogging";
+import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
+import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
+import {ImAddressKey} from "../Enumerations/ImAddressKey";
+import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
+import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
 import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {ItemTraversal} from "../Enumerations/ItemTraversal";
@@ -166,10 +171,24 @@ export class EwsUtilities {
                 };
                 break;
             default:
-                throw new Error("no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[enumType]);
+                throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[enumType]);
         }
 
         return enumDelegate;
+    }
+    static GetDictionaryKeyTypeEnum(dictionaryKeyType: DictionaryKeyType): any {
+        switch (dictionaryKeyType) {
+            case DictionaryKeyType.EmailAddressKey:
+                return EmailAddressKey;
+            case DictionaryKeyType.ImAddressKey:
+                return ImAddressKey;
+            case DictionaryKeyType.PhoneNumberKey:
+                return PhoneNumberKey;
+            case DictionaryKeyType.PhysicalAddressKey:
+                return PhysicalAddressKey;
+            default:
+                throw new Error("EwsUtilities.ts - GetDictionaryKeyTypeEnum - invalid value: " + dictionaryKeyType);
+        }
     }
     private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
         var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
