@@ -1,5 +1,5 @@
 ﻿/**custom created to simplify creation of above Enum(s) to ExchangeVersion mapping in EwsUtil, There is no c# like Attribute typesystem and reflection available */
-export enum EnumToExchangeVersionMappingHelper {
+export enum EnumToSchemaMappingHelper {
     WellKnownFolderName,
     /**Item Traversal */
     ItemTraversal,

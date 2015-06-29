@@ -504,6 +504,7 @@
         "./src/js/Enumerations/EmailAddressKey.ts",
         "./src/js/Enumerations/EmailPosition.ts",
         "./src/js/Enumerations/EnumToExchangeVersionMappingHelper.ts",
+        "./src/js/Enumerations/EnumToSchemaMappingHelper.ts",
         "./src/js/Enumerations/EventType.ts",
         "./src/js/Enumerations/ExchangeVersion.ts",
         "./src/js/Enumerations/ExtensionInstallScope.ts",
@@ -791,6 +792,11 @@
         "./src/js/operations/Persona/Persona.ts",
         "./src/js/operations/ServiceConfiguration/ServiceConfiguration.ts",
         "./src/js/operations/Sharing/Sharing.ts",
-        "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts"        
+        "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts",
+        "./test/xhr_mock.ts",
+		"./test/xhrMockData.ts",
+		"./test/mocha/AutodiscoverTests.ts",
+        "./test/ManualLiveTesting/app.ts",
+        "./test/ManualLiveTesting/app2.ts"
     ]
 }

@@ -34,7 +34,7 @@ export class Greeter {
 
         exch.ResolveName("gstest", ResolveNameSearchLocation.DirectoryOnly, true, PropertySet.IdOnly)
             .then((response) => {
-                EwsLogging.Log(response, true, true);
+                EwsLogging.Log(response.Items[0].Mailbox.MailboxType, true, true);
                 console.log(response._getItem(0).Contact.DirectoryPhoto);
                 EwsLogging.Log("-------------- request complete ----------", true, true);
             });

@@ -28,11 +28,11 @@ export class AttendeeAvailability extends ServiceResponse {
                     break;
                 case XmlElementNames.CalendarEventArray:
                     var calendarEventArray = jsObject[key];
-                    var calendarEvents = calendarEventArray[XmlElementNames.CalendarEvent];
+                    var calendarEvents:any[] = calendarEventArray[XmlElementNames.CalendarEvent];
                     if (!Array.isArray(calendarEvents)) {
                         calendarEvents = [calendarEvents]
                     }
-                    for (var calendarEventObj in calendarEvents) {
+                    for (var calendarEventObj of calendarEvents) {
                         var calendarEvent: CalendarEvent = new CalendarEvent();
                         calendarEvent.LoadFromXmlJsObject(calendarEventObj, service);
                         this.calendarEvents.push(calendarEvent);

@@ -1,7 +1,7 @@
 			
- class EwsHttpWebRequestFactory {
-}
-export = EwsHttpWebRequestFactory;
+//  class EwsHttpWebRequestFactory {
+// }
+// export = EwsHttpWebRequestFactory;
 
 
 //------------modulename->Microsoft.Exchange.WebServices.Data------------

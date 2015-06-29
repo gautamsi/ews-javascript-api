@@ -7,7 +7,7 @@ import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
 import {Strings} from "../Strings";
 import {Convert} from "../ExtensionMethods";
 export class NameResolutionCollection { //IEnumerable<NameResolution>
-    //Item: NameResolution;
+    get Items(): NameResolution[] { return this.items; }
     private service: ExchangeService = null;
     private includesAllResolutions: boolean = false;
     private items: NameResolution[] = [];
@@ -52,9 +52,9 @@ export class NameResolutionCollection { //IEnumerable<NameResolution>
                 case XmlElementNames.Resolution:
                     resolutions = EwsServiceJsonReader.ReadAsArray(jsonProperty, key);
                     for (var resolution of resolutions) {
-                            var nameResolution: NameResolution = new NameResolution(this);
-                            nameResolution.LoadFromXmlJsObject(resolution, service);
-                            this.items.push(nameResolution);
+                        var nameResolution: NameResolution = new NameResolution(this);
+                        nameResolution.LoadFromXmlJsObject(resolution, service);
+                        this.items.push(nameResolution);
                     }
                     break;
                 default:

@@ -1,7 +1,7 @@
 ﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ItemId} from "./ItemId";
 import {IRefParam} from "../interfaces/IRefParam";
-import {MailboxType} from "../Enumerations/MailboxType";
+import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {StringHelper} from "../ExtensionMethods";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -71,24 +71,24 @@ export class EmailAddress extends ComplexProperty {
     ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("EmailAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     //todo: implement UpdateFromXmlJsObject
     
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {//xmlElementName: string, xmlNamespace?: XmlNamespace
-        for (var key in jsObject) {
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {//xmlElementName: string, xmlNamespace?: XmlNamespace
+        for (var key in jsonProperty) {
             switch (key) {
                 case XmlElementNames.Name:
-                    this.name = jsObject[key];//.ReadAsString(key);
+                    this.name = jsonProperty[key];//.ReadAsString(key);
                     break;
                 case XmlElementNames.EmailAddress:
-                    this.address = jsObject[key];//.ReadAsString(key);
+                    this.address = jsonProperty[key];//.ReadAsString(key);
                     break;
                 case XmlElementNames.RoutingType:
-                    this.routingType = jsObject[key];//.ReadAsString(key);
+                    this.routingType = jsonProperty[key];//.ReadAsString(key);
                     break;
                 case XmlElementNames.MailboxType:
-                    this.mailboxType = <MailboxType><any>MailboxType[jsObject[key]] //.ReadEnumValue<MailboxType>(key);
+                    this.mailboxType = MailboxTypeParser.FromString(jsonProperty[key]) //.ReadEnumValue<MailboxType>(key);
                     break;
                 case XmlElementNames.ItemId:
                     this.id = new ItemId();
-                    this.id.LoadFromXmlJsObject(jsObject[key], service);
+                    this.id.LoadFromXmlJsObject(jsonProperty[key], service);
                     break;
                 default:
                     break;
@@ -99,7 +99,7 @@ export class EmailAddress extends ComplexProperty {
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Name, this.Name);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, this.MailboxType);
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, MailboxTypeParser.ToString(this.MailboxType));
 
         if (this.Id != null) {
             this.Id.WriteToXml(writer);//, XmlElementNames.ItemId);

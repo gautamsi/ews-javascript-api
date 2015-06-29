@@ -25,7 +25,7 @@ import {IPromise} from "../../Interfaces";
 export class ServiceObject {
     get PropertyBag(): PropertyBag { return this.propertyBag; }
     get Schema(): ServiceObjectSchema { return this.GetSchema(); }
-    Item: any;
+    //Item: any;
     Service: ExchangeService;
     get IsNew(): boolean {
         var id = this.GetId();
