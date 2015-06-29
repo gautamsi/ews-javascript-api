@@ -11,6 +11,8 @@
     "files": [
 		"./xhr_mock.ts",
 		"./xhrMockData.ts",
-		"./mocha/AutodiscoverTests.ts"		
+		"./mocha/AutodiscoverTests.ts",
+        "./ManualLiveTesting/app.ts",
+        "./ManualLiveTesting/app2.ts"	
 	]
 }

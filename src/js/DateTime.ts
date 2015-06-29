@@ -16,8 +16,7 @@ export class DateTime {
 	kind: DateTimeKind = DateTimeKind.Unspecified;
 	get Date(): moment.Moment { return this.momentDate; }
 	get currentUtcOffset(): number { return this.momentDate.utcOffset(); }
-	private momentDate: moment.Moment;
-	private momentInstance: any = moment()
+	private momentDate: moment.Moment = moment();
 	static get Now(): DateTime { return new DateTime(moment()); }
 	get TotalMilliSeconds(): number { return this.momentDate.valueOf() }
 	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Utc) {
@@ -30,6 +29,12 @@ export class DateTime {
 		this.kind = kind;
 
 	}
+
+	Add(quantity: number, unit: string): DateTime {
+		this.momentDate.add(quantity, unit);
+		return this;
+	}
+
 	static Compare(x: DateTime, y: DateTime): number {
 		var diff: number = x.momentDate.diff(y.momentDate);
 		if (diff === 0) return 0;

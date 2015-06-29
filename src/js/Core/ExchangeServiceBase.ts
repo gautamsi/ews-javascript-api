@@ -40,7 +40,12 @@ export class ExchangeServiceBase {
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
     get TimeZone(): TimeZoneInfo { return this.timeZone; }//System.TimeZoneInfo;
-    TimeZoneDefinition: TimeZoneDefinition;
+    get TimeZoneDefinition(): TimeZoneDefinition {
+        if (this.timeZoneDefinition == null) {
+            this.timeZoneDefinition = new TimeZoneDefinition(this.TimeZone);
+        }
+        return this.timeZoneDefinition;
+    }
     TraceEnabled: boolean;
     TraceFlags: TraceFlags;
     TraceListener: ITraceListener;
@@ -79,55 +84,55 @@ export class ExchangeServiceBase {
     private static defaultUserAgent: string;
 
     constructor();
-    constructor(timeZone:                   TimeZoneInfo                                                            );
-    constructor(requestedServerVersion:     ExchangeVersion                                                         );
-    constructor(requestedServerVersion:     ExchangeVersion,        timeZone:                   TimeZoneInfo        );
-    constructor(service:                    ExchangeServiceBase                                                     );
-    constructor(service:                    ExchangeServiceBase,    requestedServerVersion:     ExchangeVersion     );
+    constructor(timeZone: TimeZoneInfo);
+    constructor(requestedServerVersion: ExchangeVersion);
+    constructor(requestedServerVersion: ExchangeVersion, timeZone: TimeZoneInfo);
+    constructor(service: ExchangeServiceBase);
+    constructor(service: ExchangeServiceBase, requestedServerVersion: ExchangeVersion);
 
     constructor(
         versionServiceorTZ?: ExchangeVersion | ExchangeServiceBase | TimeZoneInfo,
         versionOrTZ?: ExchangeVersion | TimeZoneInfo
         ) {
-            var argsLength = arguments.length;
-            if (argsLength > 2) {
+        var argsLength = arguments.length;
+        if (argsLength > 2) {
             throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
+        }
+        var timeZone: TimeZoneInfo = null;
+        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
+        var service: ExchangeServiceBase = null;
+
+        if (argsLength >= 1) {
+            if (versionServiceorTZ instanceof TimeZoneInfo) {
+                timeZone = versionServiceorTZ;
             }
-            var timeZone:TimeZoneInfo = null;
-            var requestedServerVersion:ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
-            var service:ExchangeServiceBase = null;
-            
-            if(argsLength>=1){
-                if(versionServiceorTZ instanceof TimeZoneInfo){
-                    timeZone = versionServiceorTZ;
-                }
-                else if(versionServiceorTZ instanceof ExchangeServiceBase){
-                    service = versionServiceorTZ;                    
-                }
-                else if(typeof versionServiceorTZ === 'number'){
-                    requestedServerVersion = versionServiceorTZ;
-                }
+            else if (versionServiceorTZ instanceof ExchangeServiceBase) {
+                service = versionServiceorTZ;
             }
-            if(argsLength==2){
-                if(versionOrTZ instanceof TimeZoneInfo){
-                    if (typeof versionServiceorTZ !== 'number') {
-                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
-                    }
-                    timeZone = versionOrTZ;
-                }
-                else if(typeof versionOrTZ === 'number'){
-                    if (!(versionServiceorTZ instanceof ExchangeServiceBase)) {
-                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeServiceBase when using ExchangeVersion at 2nd place");
-                    }
-                    requestedServerVersion = versionOrTZ;
-                }
+            else if (typeof versionServiceorTZ === 'number') {
+                requestedServerVersion = versionServiceorTZ;
             }
-            
-            
-            
+        }
+        if (argsLength == 2) {
+            if (versionOrTZ instanceof TimeZoneInfo) {
+                if (typeof versionServiceorTZ !== 'number') {
+                    throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
+                }
+                timeZone = versionOrTZ;
+            }
+            else if (typeof versionOrTZ === 'number') {
+                if (!(versionServiceorTZ instanceof ExchangeServiceBase)) {
+                    throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeServiceBase when using ExchangeVersion at 2nd place");
+                }
+                requestedServerVersion = versionOrTZ;
+            }
+        }
+
+
+
         this.requestedServerVersion = requestedServerVersion;
-        
-        if(service !== null && typeof service !== 'undefined'){
+
+        if (service !== null && typeof service !== 'undefined') {
             this.useDefaultCredentials = service.useDefaultCredentials;
             this.credentials = service.credentials;
             this.traceEnabled = service.traceEnabled;
@@ -143,8 +148,8 @@ export class ExchangeServiceBase {
             this.httpHeaders = service.httpHeaders;
             this.ewsHttpWebRequestFactory = service.ewsHttpWebRequestFactory;
         }
-        
-        if(timeZone !== null && typeof timeZone  !== 'undefined'){
+
+        if (timeZone !== null && typeof timeZone !== 'undefined') {
             this.timeZone = timeZone;
             //this.useDefaultCredentials = true; //ref: no default credential in node.js
         }

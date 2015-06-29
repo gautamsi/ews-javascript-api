@@ -210,7 +210,6 @@
         "./src/js/ComplexProperties/UserId.ts",
         "./src/js/ComplexProperties/VotingInformation.ts",
         "./src/js/ComplexProperties/VotingOptionData.ts",
-        "./src/js/Constants.ts",
         "./src/js/Core/EwsHttpWebRequest.ts",
         "./src/js/Core/EwsHttpWebRequestFactory.ts",
         "./src/js/Core/EwsHttpWebResponse.ts",
@@ -792,8 +791,6 @@
         "./src/js/operations/Persona/Persona.ts",
         "./src/js/operations/ServiceConfiguration/ServiceConfiguration.ts",
         "./src/js/operations/Sharing/Sharing.ts",
-        "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts",
-        "./test/ManualLiveTesting/app.ts",
-        "./test/ManualLiveTesting/app2.ts"
+        "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts"        
     ]
 }

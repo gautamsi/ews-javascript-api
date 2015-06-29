@@ -4,9 +4,10 @@ import {TimeZoneTransitionGroup} from "./TimeZoneTransitionGroup";
 import {AbsoluteDateTransition} from "./AbsoluteDateTransition";
 import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
 import {Strings} from "../../Strings";
-import {DateTime} from "../../DateTime";
+import {DateTime, TimeZoneInfo} from "../../DateTime";
 import {ExchangeService} from "../../Core/ExchangeService";
 import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {EwsLogging} from "../../Core/EwsLogging";
 import {XmlElementNames} from "../../Core/XmlElementNames";
 import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
 import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
@@ -26,11 +27,12 @@ export class TimeZoneDefinition extends ComplexProperty {
     private transitionGroups: DictionaryWithStringKey<TimeZoneTransitionGroup> = new DictionaryWithStringKey<TimeZoneTransitionGroup>();// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
     private transitions: TimeZoneTransition[] = [];//System.Collections.Generic.List<TimeZoneTransition>;
     constructor();
-    constructor(timezoneInfo: any);
-    constructor(timezoneInfo?: any) {
+    constructor(timezoneInfo: TimeZoneInfo);
+    constructor(timezoneInfo?: TimeZoneInfo) {
         super()
-        if (typeof timezoneInfo !== 'undefined') {
-            throw new Error("TimeZoneDefinition.ts - ctor - timezone not implemented")
+        if (typeof timezoneInfo !== 'undefined' && timezoneInfo !== TimeZoneInfo.Utc) {
+            EwsLogging.Assert(false,"TimeZoneDefinition.ts - ctor","timezone not implemented properly, always default to UTC")  
+            //throw new Error("TimeZoneDefinition.ts - ctor - timezone not implemented")
         }
     }
 

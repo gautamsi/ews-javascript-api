@@ -33,8 +33,8 @@ var envenv = $.util.env;
 gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
-gulp.task('build',['ts-compile', 'ts-compile-tests']);
-gulp.task('build-all',['ts-compile','ts-compile-amd', 'ts-compile-tests', 'ts-compile-amd-tests']);
+gulp.task('build', ['ts-compile-tests']);
+gulp.task('build-all', ['ts-compile', 'ts-compile-amd', 'ts-compile-tests', 'ts-compile-amd-tests']);
 
 //gulp.task('ts-clean', function(done) {
 //    clean(config.ts.output, done);
@@ -84,14 +84,15 @@ gulp.task('ts-watcher', function () {
  * and optionally d.ts files (if passed --dts)
  */
 gulp.task('ts-compile', function (done) {
-    var outdir = path.join(process.cwd(), 'build/output/node');
+    var outdir = path.join(process.cwd(), 'build/output/node/src/js');
     runTSC('.', outdir, [], done);
 });
 
 
 function runTSC(inputDir, outputDir, tsArgs, done) {
     var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
-    var tsArguments = [tscjs, '-p', inputDir, '--outDir', outputDir];
+    //console.log(outputDir);
+    var tsArguments = [tscjs, '-p', inputDir, '--outDir', outputDir, "--noResolve"];
     tsArgs.forEach(function (arg) {
         tsArguments.push(arg);
     });
@@ -123,9 +124,11 @@ gulp.task('ts-compile-amd', function (done) {
  * Compiles *.js files, sourcemaps, 
  * and optionally d.ts files (if passed --dts)
  */
-gulp.task('ts-compile-tests', function (done) {
-    var outdir = path.join(process.cwd(), 'build/output/node/test/mocha');
-    runTSC('./test',outdir,[], done);
+gulp.task('ts-compile-tests', [], function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/node/test/mocha/');
+    var indir = path.join(process.cwd(), 'test');
+    var files = gulp.src(config.ts.testFiles,{read:false});    
+    runTSC("./test", outdir, [ '--listFiles'], done);
 });
 
 
@@ -139,7 +142,7 @@ gulp.task('tests', ['ts-compile-tests'], function (done) {
 
 gulp.task('ts-compile-amd-tests', function (done) {
     var outdir = path.join(process.cwd(), 'build/output/amd/test/mocha');
-    runTSC('./test',outdir, ["--module", "amd"], done);
+    runTSC('./test', outdir, ["--module", "amd"], done);
 });
 
 gulp.task('amd-tests', ['ts-compile-amd-tests'], function (done) {
@@ -150,7 +153,7 @@ gulp.task('amd-tests', ['ts-compile-amd-tests'], function (done) {
 
 
 
-gulp.task('serve-dev',function(done){
+gulp.task('serve-dev', function (done) {
     var childProcess = cp.spawn('http-server', ['./build/output/amd'], { cwd: process.cwd() });
     childProcess.stdout.on('data', function (data) {
         // Ticino will read the output
@@ -163,19 +166,39 @@ gulp.task('serve-dev',function(done){
     childProcess.on('close', function () {
         done();
     });
-    
+
 });
 
-gulp.task("npm-prep", function(){
+gulp.task("npm-prep", function () {
     return gulp.src([
         "./README.md",
         "./LICENSE",
         "./COPYRIGHT",
         "./package.json"
-        ])
-    .pipe(gulp.dest("./build/output/node/src"));
+    ])
+        .pipe(gulp.dest("./build/output/node/src"));
 });
 
+gulp.task('ts-pref-defs', function (done) {
+    var outdir = path.join(process.cwd(), 'build/output/node/dts');
+    runTSC('.', outdir, ["--declaration"], done);
+});
+
+/** import statement regex "^import\s*\{\s*.*\s*\}.*from.*;" */
+var concat = require('gulp-concat');
+var replace = require('gulp-replace');
+gulp.task("ts-def-gen", function () {
+    var regex = new RegExp("^import\s*\{\s*.*\s*\}.*from.*;");
+    return gulp.src([
+        "./build/output/node/dts/*.d.ts",
+        "./build/output/node/dts/**/*.d.ts"
+    ])
+        .pipe(concat("All.d.ts"))
+    //.pipe(replace('class','class-class'))
+        .pipe(replace(/^.*import.*\{.*\}.*from.*\;/gm, ''))
+        .pipe(replace(/^.*export.*\{.*\}.*from.*\;/gm, ''))
+        .pipe(gulp.dest("./build/output/node/dst2/"));
+});
 
 /**
  * When files change, log it

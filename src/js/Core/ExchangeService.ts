@@ -95,6 +95,7 @@ import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {PromiseFactory} from "../PromiseFactory";
 import {XHRFactory}  from "../XHRFactory";
+import {DateTime,TimeZoneInfo} from "../DateTime";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {
@@ -129,7 +130,7 @@ export class ExchangeService extends ExchangeServiceBase {
     PreferredCulture: any = null;//System.Globalization.CultureInfo;
     DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
     FileAttachmentContentHandler: IFileAttachmentContentHandler = null;
-    get TimeZone(): any {// System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {// System.TimeZoneInfo;
         return this.timeZone;
     }
     get UnifiedMessaging(): UnifiedMessaging {

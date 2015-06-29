@@ -24,6 +24,14 @@ export module StringHelper {
     export function Tabs(times: number = 0): string {
         return Repeat("\t", times);
     }
+    export function Compare(lhs: string, rhs: string, ignoreCase: boolean = false): number {
+        if (ignoreCase) {
+            return lhs.toLocaleLowerCase().localeCompare(rhs.toLocaleLowerCase());
+        }
+        else {
+            return lhs.localeCompare(rhs);
+        }
+    }
 }
 
 export module EnumHelper {
@@ -99,7 +107,7 @@ export module ArrayHelper {
         }
         return null;
     }
-    export function OfType<T,U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
+    export function OfType<T, U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
         var result: T[] = [];
         for (var entry of array) {
             if (comparer(entry)) {
