@@ -251,7 +251,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.BaseShape,
-            PropertySet.defaultPropertySetMap.Member[this.BasePropertySet]);
+            PropertySet.defaultPropertySetMap.Member.get(this.BasePropertySet));
 
         if (serviceObjectType == ServiceObjectType.Item) {
             if (this.RequestedBodyType/*.HasValue*/) {
