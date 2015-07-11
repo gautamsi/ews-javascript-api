@@ -8,6 +8,8 @@ import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest"
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
+import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
+import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
@@ -46,6 +48,7 @@ import {ManagementRoles} from "../Misc/ManagementRoles";
 import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
 import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
+import {ExpandGroupResults} from "../Misc/ExpandGroupResults";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
 import {RetentionType} from "../Enumerations/RetentionType";
@@ -90,12 +93,13 @@ import {Folder} from "./ServiceObjects/Folders/Folder";
 import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {ItemId} from "../ComplexProperties/ItemId";
+import {EmailAddress} from "../ComplexProperties/EmailAddress";
 import {PropertySet} from "./PropertySet";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {PromiseFactory} from "../PromiseFactory";
 import {XHRFactory}  from "../XHRFactory";
-import {DateTime,TimeZoneInfo} from "../DateTime";
+import {DateTime, TimeZoneInfo} from "../DateTime";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 export class ExchangeService extends ExchangeServiceBase {
@@ -833,12 +837,50 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region AD related operations */
-    
-    //ExpandGroup(address: string, routingType: string): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
-    ////ExpandGroup(groupId: ItemId): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
-    ////ExpandGroup(smtpAddress: string): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
-    ////ExpandGroup(emailAddress: EmailAddress): ExpandGroupResults { throw new Error("ExchangeService.ts - ExpandGroup : Not implemented."); }
-    //GetPasswordExpirationDate(mailboxSmtpAddress: string): Date { throw new Error("ExchangeService.ts - GetPasswordExpirationDate : Not implemented."); }
+
+    ExpandGroup(groupId: ItemId): IPromise<ExpandGroupResults>;
+    ExpandGroup(smtpAddress: string): IPromise<ExpandGroupResults>;
+    ExpandGroup(emailAddress: EmailAddress): IPromise<ExpandGroupResults>;
+    ExpandGroup(address: string, routingType: string): IPromise<ExpandGroupResults>;
+    ExpandGroup(emailAddressOrsmtpAddressOrGroupId: EmailAddress | string | ItemId, routingType?: string): IPromise<ExpandGroupResults> {
+        // EwsUtilities.ValidateParam(emailAddressOrsmtpAddressOrGroupId, "address");
+        // EwsUtilities.ValidateParam(routingType, "routingType");
+        //EwsUtilities.ValidateParam(emailAddress, "emailAddress");
+        var emailAddress: EmailAddress = new EmailAddress();
+
+        if (emailAddressOrsmtpAddressOrGroupId instanceof EmailAddress) {
+            emailAddress = emailAddressOrsmtpAddressOrGroupId;
+        }
+        else if (emailAddressOrsmtpAddressOrGroupId instanceof ItemId) {
+            emailAddress.Id = emailAddressOrsmtpAddressOrGroupId;
+        }
+        else if (typeof emailAddressOrsmtpAddressOrGroupId === 'string') {
+            emailAddress = new EmailAddress(emailAddressOrsmtpAddressOrGroupId);
+        }
+
+        if (routingType) {
+            emailAddress.RoutingType = routingType;
+        }
+
+        var request: ExpandGroupRequest = new ExpandGroupRequest(this);
+
+        request.EmailAddress = emailAddress;
+
+        return request.Execute().then((response) => {
+            return response.__thisIndexer(0).Members;
+        });
+
+    }
+
+    GetPasswordExpirationDate(mailboxSmtpAddress: string): IPromise<DateTime> {
+        var request: GetPasswordExpirationDateRequest = new GetPasswordExpirationDateRequest(this);
+        request.MailboxSmtpAddress = mailboxSmtpAddress;
+
+        return request.Execute().then((response) => {
+            return response.PasswordExpirationDate;
+        });
+    }
+
     ResolveName(nameToResolve: string): IPromise<NameResolutionCollection>;
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;

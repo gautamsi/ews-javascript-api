@@ -1,16 +1,13 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
+﻿import {ExchangeService} from "../ExchangeService";
 import {ExpandGroupResults} from "../../Misc/ExpandGroupResults";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {ServiceResponse} from "./ServiceResponse";
 export class ExpandGroupResponse extends ServiceResponse {
-    Members: ExpandGroupResults;
-    private members: ExpandGroupResults;
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("ExpandGroupResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+    private members: ExpandGroupResults = new ExpandGroupResults();
+    get Members(): ExpandGroupResults {
+        return this.members;
+    }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
+        this.Members.LoadFromXmlJsObject(responseObject, service);
+    }
 }
-
-
-
-
-//}
-
-
-

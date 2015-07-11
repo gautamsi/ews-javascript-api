@@ -12,12 +12,7 @@ class XHRApi implements IXHRApi {
 var xhrApiObj: IXHRApi = new XHRApi();
 
 export class XHRFactory {
-	static xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest> {
-		return xhrApiObj.xhr(xhroptions);
-	}
-	static get type(): string {
-		return xhrApiObj.type;
-	}
+	static get XHRApi(){return xhrApiObj;}
 	static switchXhr(newXHR: IXHRApi) {
 		xhrApiObj = newXHR;
 	}

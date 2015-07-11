@@ -131,11 +131,13 @@ gulp.task('ts-compile-amd', function (done) {
 // });
 
 
-// gulp.task('tests', ['ts-compile-tests'], function (done) {
-//     return gulp.src(['./build/output/node/test/mocha/*.js'], { read: false })
-//         .pipe(mocha({ reporter: 'spec' }))
-//         .on('error', gutil.log);
-// });
+gulp.task('tests', [], function (done) {
+    return gulp.src([
+        './build/output/node/test/mocha/**/*.js',                
+        ], { read: false })
+        .pipe(mocha({ reporter: 'spec' }))
+        .on('error', gutil.log);
+});
 
 
 

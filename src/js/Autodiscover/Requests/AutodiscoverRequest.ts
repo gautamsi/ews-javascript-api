@@ -104,7 +104,7 @@ export class AutodiscoverRequest {
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
         return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
-            XHRFactory.xhr(xhrOptions)
+            this.service.GetXHRApi.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                     var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                     //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));

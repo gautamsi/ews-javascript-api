@@ -12,7 +12,8 @@ import {ExchangeServerInfo} from "./ExchangeServerInfo";
 
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {TraceFlags} from "../Enumerations/TraceFlags";
-import {IXHROptions} from "../Interfaces";
+import {IXHROptions, IXHRApi} from "../Interfaces";
+import {XHRFactory} from "../XHRFactory";
 
 import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
@@ -82,6 +83,9 @@ export class ExchangeServiceBase {
     private static lockObj: any;
     private static binarySecret: any;//System.Byte[];
     private static defaultUserAgent: string;
+
+    public XHRApi: IXHRApi = null;
+    get GetXHRApi(): IXHRApi { return this.XHRApi || XHRFactory.XHRApi; }
 
     constructor();
     constructor(timeZone: TimeZoneInfo);
@@ -190,6 +194,10 @@ export class ExchangeServiceBase {
         }
         else {
             // Assume an unbiased date/time is in UTC. Convert to UTC otherwise.
+            //ref: //fix: hard convert to UTC date as no request contains TZ information.
+            if (value.toLowerCase().indexOf("z") < 0)
+                value += "Z";
+                
             var dateTime: DateTime = DateTime.Parse(
                 value);
             // CultureInfo.InvariantCulture,

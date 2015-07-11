@@ -793,9 +793,10 @@
         "./src/js/operations/ServiceConfiguration/ServiceConfiguration.ts",
         "./src/js/operations/Sharing/Sharing.ts",
         "./src/js/operations/UnifiedContactStore/UnifiedContactStore.ts",
-        "./test/xhr_mock.ts",
-		"./test/xhrMockData.ts",
+        "./test/MockXHRApi.ts",
+		"./test/MockXHRData.ts",
 		"./test/mocha/AutodiscoverTests.ts",
+		"./test/mocha/Operations/ADOperations.ts",
         "./test/ManualLiveTesting/app.ts",
         "./test/ManualLiveTesting/app2.ts"
     ]

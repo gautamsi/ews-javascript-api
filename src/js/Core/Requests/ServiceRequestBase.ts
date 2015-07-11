@@ -17,7 +17,7 @@ import {EwsLogging} from "../EwsLogging";
 
 import {StringHelper} from "../../ExtensionMethods";
 
-import {IPromise, IXHROptions} from "../../Interfaces";
+import {IPromise, IXHROptions, IXHRApi} from "../../Interfaces";
 import {PromiseFactory} from "../../PromiseFactory"
 import {XHRFactory} from "../../XHRFactory"
 export class ServiceRequestBase {
@@ -50,6 +50,8 @@ export class ServiceRequestBase {
 
     // #region abstract Methods for subclasses to override
     get EmitTimeZoneHeader(): boolean { return false; }
+    
+    
     
     /// <summary>
     /// Initializes a new instance of the <see cref="ServiceRequestBase"/> class.
@@ -146,7 +148,7 @@ export class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XHRFactory.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
     GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
@@ -401,7 +403,7 @@ export class ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return XHRFactory.xhr(request);
+        return this.service.GetXHRApi.xhr(request);
 
         //try
         //{

@@ -3,8 +3,8 @@ UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, Fo
 EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
 ResolveNameSearchLocation} from "../../src/js/ExchangeWebService";
 
-import {MockXHRApi} from "../xhr_mock";
-import {xhrMockData} from "../xhrMockData";
+import {MockXHRApi} from "../MockXHRApi";
+import {MockXHRData} from "../MockXHRData";
 
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
@@ -29,8 +29,35 @@ export class Greeter {
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         EwsLogging.DebugLogEnabled = true;
 
-        var xhr = new MockXHRApi(xhrMockData.ResolveNameWithContactDetail);
-        useCustomXhr(xhr);
+        var mockXhr = new MockXHRApi();
+        exch.XHRApi = mockXhr
+
+
+
+
+
+
+        mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
+        mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
+        exch.ExpandGroup("group@contoso.com").then((response) => {
+            EwsLogging.Log(response, true, true);
+            EwsLogging.Log("-------------- request complete ----------", true, true);
+        });
+
+        return;
+
+
+
+
+        mockXhr.requestXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest;
+        mockXhr.responseXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire;
+        exch.GetPasswordExpirationDate("gstest@singhs.pro").then((response) => {
+            EwsLogging.Log(response, true, true);
+            EwsLogging.Log("-------------- request complete ----------", true, true);
+        });
+
+        return;
+
 
         exch.ResolveName("gstest", ResolveNameSearchLocation.DirectoryOnly, true, PropertySet.IdOnly)
             .then((response) => {

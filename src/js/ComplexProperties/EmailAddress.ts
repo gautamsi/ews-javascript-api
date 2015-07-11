@@ -5,6 +5,7 @@ import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {StringHelper} from "../ExtensionMethods";
 import {ExchangeService} from "../Core/ExchangeService";
+import {EwsUtilities} from "../Core/EwsUtilities";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ComplexProperty} from "./ComplexProperty";
 export class EmailAddress extends ComplexProperty {
@@ -43,6 +44,45 @@ export class EmailAddress extends ComplexProperty {
     }
     get Id(): ItemId {
         return this.id;
+    }
+
+    constructor();
+    constructor(smtpAddress: string);
+    constructor(name: string, smtpAddress: string);
+    constructor(name: string, address: string, routingType: string);
+    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType);
+    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType, itemId: ItemId);
+    constructor(mailbox: EmailAddress);
+    constructor(smtpAddressOrNameOrMailbox?: EmailAddress | string, smtpAddressOrAddress?: string, routingType?: string, mailboxType?: MailboxType, itemId?: ItemId) {
+        super();
+        if (smtpAddressOrNameOrMailbox instanceof EmailAddress) {
+            EwsUtilities.ValidateParam(smtpAddressOrNameOrMailbox, "mailbox");
+
+            this.Name = smtpAddressOrNameOrMailbox.Name;
+            this.Address = smtpAddressOrNameOrMailbox.Address;
+            this.RoutingType = smtpAddressOrNameOrMailbox.RoutingType;
+            this.MailboxType = smtpAddressOrNameOrMailbox.MailboxType;
+            this.Id = smtpAddressOrNameOrMailbox.Id;
+        }
+        else {
+            var argsLength = arguments.length;
+            if (argsLength === 1) {
+                this.address = <string>smtpAddressOrNameOrMailbox;
+            }
+            else if (argsLength > 1) {
+                this.name = <string>smtpAddressOrNameOrMailbox;
+                this.address = smtpAddressOrAddress;
+                if (argsLength >= 3) {
+                    this.routingType = routingType;
+                }
+                if (argsLength >= 4) {
+                    this.mailboxType = mailboxType;
+                }
+                if (argsLength === 5) {
+                    this.id = itemId;
+                }
+            }
+        }
     }
 
     InternalToJson(service: ExchangeService): any { throw new Error("EmailAddress.ts - InternalToJson : Not implemented."); }

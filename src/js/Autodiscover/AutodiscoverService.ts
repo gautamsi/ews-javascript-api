@@ -272,7 +272,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
                 else {
                     return value.__thisIndexer(0);
                 }
-            },(error)=>{
+            }, (error) => {
                 throw error;
             });
 
@@ -317,7 +317,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
             type: "GET",
             url: url,
         };
-        return XHRFactory.xhr(xhrOptions)
+        return this.GetXHRApi.xhr(xhrOptions)
             .then((response: XMLHttpRequest) => {
                 if (response != null) {
 
@@ -537,28 +537,17 @@ export class AutodiscoverService extends ExchangeServiceBase {
             return this.GetSettingsRecursiveLookup(identities, settings, requestedVersion, getSettingsMethod, autodiscoverUrlRef, hosts, currentHostIndex);
         });
     }
-    private GetUserSettingsInternal(smtpAddresses: string[], settings: UserSettingName[]): IPromise<GetUserSettingsResponseCollection> {
 
-        //EwsUtilities.ValidateParam(smtpAddresses, "smtpAddresses");
-        //EwsUtilities.ValidateParam(settings, "settings");
-
-        return this.GetSettings<GetUserSettingsResponseCollection, UserSettingName>(
-            smtpAddresses,
-            settings,
-            null,
-            this.InternalGetUserSettings,
-            () => { return EwsUtilities.DomainFromEmailAddress(smtpAddresses[0]); });
-
-
-        ////var request = new GetUserSettingsRequest(this, this.url);
-        ////request.Settings = userSettingNames;
-        ////request.SmtpAddresses = smtpAddresses;
-
-        ////var response = request.Execute();
-        ////return <any>response;
-    }
-
+    /**internal method */
     public GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): IPromise<GetUserSettingsResponseCollection>;
+    /**
+     * Retrieves the specified settings for single SMTP address.
+     *
+     * @param   {string}   userSmtpAddress    The SMTP addresses of the user.
+     * @param   {UserSettingName[]}   userSettingNames   The user setting names.
+     * @return  {IPromise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
+     */
+    public GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
     public GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
     public GetUserSettings(smtpAddresses: string | string[], userSettings: any): IPromise<GetUserSettingsResponse | GetUserSettingsResponseCollection> {
         var userSettingNames: UserSettingName[] = [];
@@ -624,7 +613,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         ////if(userSettingNames)
         ////userSettingNames.forEach((s)=> settingNames.push());
 
-        return this.GetUserSettingsInternal(userSmtpAddresses, userSettingNames); //calls getsettings
+        return this.GetUserSettings(userSmtpAddresses, userSettingNames); //calls getsettings
     }
     InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): IPromise<GetDomainSettingsResponseCollection> {
 
@@ -686,7 +675,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         //if (currentHop > AutodiscoverService.AutodiscoverMaxRedirections)
         //    throw new AutodiscoverLocalException(Strings.AutodiscoverCouldNotBeLocated);
 
-        return this.GetUserSettingsInternal(smtpAddresses, requestedSettings).then((resp) => {
+        return this.GetUserSettings(smtpAddresses, requestedSettings).then((resp) => {
             var response = resp.Responses[0];
             switch (response.ErrorCode) {
                 case AutodiscoverErrorCode.RedirectAddress:
@@ -888,7 +877,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
 
         //todo - optimize code, need to apply logic in failed errors as 401 go to onerror of xhr;
-        return XHRFactory.xhr(xhrOptions)
+        return this.GetXHRApi.xhr(xhrOptions)
             .then((response: XMLHttpRequest) => {
                 if (response != null) {
                     var redirectUrl: any = null;;

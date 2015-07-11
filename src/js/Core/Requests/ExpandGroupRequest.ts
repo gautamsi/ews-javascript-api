@@ -1,26 +1,41 @@
-﻿import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
-import {EmailAddress} from "../../ComplexProperties/EmailAddress";
+﻿import {EmailAddress} from "../../ComplexProperties/EmailAddress";
 import {ExchangeService} from "../ExchangeService";
-import {ExpandGroupResponse} from "../Responses/ExpandGroupResponse";
+import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../XmlElementNames";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExpandGroupResponse} from "../Responses/ExpandGroupResponse";
+import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
 export class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupResponse> {
-    EmailAddress: EmailAddress;
-    private emailAddress: EmailAddress;
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ExpandGroupResponse { throw new Error("ExpandGroupRequest.ts - CreateServiceResponse : Not implemented."); }
-    GetExpectedResponseMessageCount(): number { throw new Error("ExpandGroupRequest.ts - GetExpectedResponseMessageCount : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("ExpandGroupRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseMessageXmlElementName(): string { throw new Error("ExpandGroupRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("ExpandGroupRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("ExpandGroupRequest.ts - GetXmlElementName : Not implemented."); }
-    Validate(): any { throw new Error("ExpandGroupRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExpandGroupRequest.ts - WriteElementsToXml : Not implemented."); }
+    private emailAddress: EmailAddress = null;
+    get EmailAddress(): EmailAddress {
+        return this.emailAddress;
+    }
+    set EmailAddress(value: EmailAddress) {
+        this.emailAddress = value;
+    }
+    constructor(service: ExchangeService) {
+        super(service, ServiceErrorHandling.ThrowOnError);
+    }
+
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ExpandGroupResponse { return new ExpandGroupResponse(); }
+    GetExpectedResponseMessageCount(): number { return 1; }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetResponseMessageXmlElementName(): string { return XmlElementNames.ExpandDLResponseMessage; }
+    GetResponseXmlElementName(): string { return XmlElementNames.ExpandDLResponse; }
+    GetXmlElementName(): string { return XmlElementNames.ExpandDL; }
+    Validate(): void {
+        super.Validate();
+        //EwsUtilities.ValidateParam(this.EmailAddress, "EmailAddress");
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        if (this.EmailAddress != null) {
+            this.EmailAddress.WriteToXml(
+                writer,
+                XmlElementNames.Mailbox,
+                XmlNamespace.Messages
+                );
+        }
+    }
 }
-
-
-
-
-//}
-
-
-
