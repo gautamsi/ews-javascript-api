@@ -490,7 +490,6 @@
         "./src/js/Enumerations/ConversationQueryTraversal.ts",
         "./src/js/Enumerations/ConversationSortOrder.ts",
         "./src/js/Enumerations/DateTimePrecision.ts",
-        "./src/js/Enumerations/DateTimeStyles.ts",
         "./src/js/Enumerations/DayOfTheWeek.ts",
         "./src/js/Enumerations/DayOfTheWeekIndex.ts",
         "./src/js/Enumerations/DefaultExtendedPropertySet.ts",
