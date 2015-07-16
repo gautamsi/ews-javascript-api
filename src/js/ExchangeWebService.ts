@@ -406,6 +406,7 @@ export {Grouping} from "./Search/Grouping";
 export {GroupMember} from "./ComplexProperties/GroupMember";
 export {GroupMemberCollection} from "./ComplexProperties/GroupMemberCollection";
 export {GroupMemberPropertyDefinition} from "./PropertyDefinitions/GroupMemberPropertyDefinition";
+export {Guid} from "./Guid";
 export {HangingRequestDisconnectEventArgs} from "./Core/Requests/HangingRequestDisconnectEventArgs";
 export {HangingRequestDisconnectReason} from "./Enumerations/HangingRequestDisconnectReason";
 export {HangingServiceRequestBase} from "./Core/Requests/HangingServiceRequestBase";

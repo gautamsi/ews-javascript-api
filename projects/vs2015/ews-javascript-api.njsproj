@@ -137,6 +137,7 @@
     <Folder Include="typings\mocha\" />
     <Folder Include="typings\moment-timezone\" />
     <Folder Include="typings\moment\" />
+    <Folder Include="typings\node-uuid\" />
     <Folder Include="typings\node\" />
     <Folder Include="typings\q\" />
     <Folder Include="typings\winjs\" />

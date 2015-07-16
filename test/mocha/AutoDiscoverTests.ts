@@ -10,7 +10,7 @@ import chai = require('chai');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 chai.should();
-describe("AutoDiscover tests", () => {
+describe.skip("AutoDiscover tests", () => {
 	describe("AutoDiscover settings with single user", () => {
 		var autod = new AutodiscoverService(ExchangeVersion.Exchange2010_SP1);
 		autod.Url = new Uri("https://fake");

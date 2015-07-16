@@ -1,16 +1,19 @@
 ﻿import {XmlElementNames} from "../Core/XmlElementNames";
 import {Strings} from "../Strings";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ComplexProperty} from "./ComplexProperty";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ComplexProperty} from "./ComplexProperty";
 export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
     get Count(): number { return this.items.length; }
     get Items(): string[] { return this.items; }
     private items: string[] = [];// /*System.Collections.Generic.List<string>*/;
     private itemXmlElementName: string = XmlElementNames.String;
 
+    constructor();
+    constructor(itemXmlElementName: string);
+    constructor(strings: string[]);
     constructor(stringOrItemXmlElementName?: string| string[]) {
         super();
         if (typeof stringOrItemXmlElementName !== 'undefined') {
@@ -44,7 +47,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
         this.items.push(s);
         this.Changed();
     }
-    AddRange(strings: string[] /*System.Collections.Generic.IEnumerable<string>*/): void {
+    AddRange(strings: string[]): void {
         var changed = false;
 
         for (var s of strings) {
@@ -84,7 +87,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
         this.Changed();
     }
     ToString(): string { return this.items.join(","); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); return null;}
+    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); return null; }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var item of this.items) {
             writer.WriteStartElement(XmlNamespace.Types, this.itemXmlElementName);
@@ -92,10 +95,16 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
             writer.WriteEndElement();
         }
     }
+    
+    
+    //IJsonCollectionDeserializer.CreateFromJsonCollection
+    CreateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void {
+            for (var element of jsonCollection)
+            {
+                this.Add(<string>element);
+            }
+    }
+    //IJsonCollectionDeserializer.UpdateFromJsonCollection
+    UpdateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void {
+    }
 }
-
-
-//}
-
-
-

@@ -23,6 +23,7 @@
     ],
     "files": [
         "./src/js/AltDictionary.ts",
+        "./src/js/Guid.ts",
         "./src/js/Uri.ts",
         "./src/js/ExchangeWebService.ts",
         "./src/js/Attributes/AttachableAttribute.ts",
@@ -489,6 +490,7 @@
         "./src/js/Enumerations/ConversationQueryTraversal.ts",
         "./src/js/Enumerations/ConversationSortOrder.ts",
         "./src/js/Enumerations/DateTimePrecision.ts",
+        "./src/js/Enumerations/DateTimeStyles.ts",
         "./src/js/Enumerations/DayOfTheWeek.ts",
         "./src/js/Enumerations/DayOfTheWeekIndex.ts",
         "./src/js/Enumerations/DefaultExtendedPropertySet.ts",
@@ -536,6 +538,7 @@
         "./src/js/Enumerations/MailboxSearchScopeType.ts",
         "./src/js/Enumerations/MailboxType.ts",
         "./src/js/Enumerations/MapiPropertyType.ts",
+        "./src/js/Enumerations/MapiTypeConverterTypeSystem.ts",
         "./src/js/Enumerations/MeetingAttendeeType.ts",
         "./src/js/Enumerations/MeetingRequestType.ts",
         "./src/js/Enumerations/MeetingRequestsDeliveryScope.ts",
@@ -796,6 +799,7 @@
         "./test/MockXHRApi.ts",
 		"./test/MockXHRData.ts",
 		"./test/mocha/AutodiscoverTests.ts",
+		"./test/mocha/Operations/ItemOperationsTests.ts",
 		"./test/mocha/Operations/ADOperations.ts",
         "./test/ManualLiveTesting/app.ts",
         "./test/ManualLiveTesting/app2.ts"

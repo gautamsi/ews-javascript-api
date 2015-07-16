@@ -56,7 +56,7 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
     InternalAdd(entry: TEntry): void {
         entry.OnChange.push(this.EntryChanged);
 
-        this.entries.addUpdate(entry.Key, entry);
+        this.entries.Add(entry.Key, entry);
         this.addedEntries.push(entry.Key);
         this.removedEntries.remove(entry.Key);
         this.Changed();
@@ -88,7 +88,7 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
             ArrayHelper.RemoveEntry(entry.outValue.OnChange, this.EntryChanged);
 
             this.entries.remove(key);
-            this.removedEntries.addUpdate(key, entry.outValue);
+            this.removedEntries.Add(key, entry.outValue);
             this.Changed();
         }
 

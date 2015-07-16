@@ -1,7 +1,7 @@
 import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
 EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
-ResolveNameSearchLocation} from "../../src/js/ExchangeWebService";
+ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
@@ -34,9 +34,42 @@ export class Greeter {
 
 
 
+        mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
+        mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
+        var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
+        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS]);
+        exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
+            .then((response) => {
+                for (var item of response.Items) {
+                    mockXhr.requestXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader;
+                    mockXhr.responseXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse;
+
+                    var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
+                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MapiPropertyType.String, "Expiration Date", MyPropertySetId);
+                    item.SetExtendedProperty(extendedPropertyDefinition, DateTime.Now.Add(2, "days").ToISOString());
+
+                    item.Update(ConflictResolutionMode.AutoResolve)
+                    //item.Load(psPropSet)
+                        .then((loadResp) => {
+                            var outval = { outValue: null };
+                            //EwsLogging.Log(item,true,true);
+                            if (item.TryGetExtendedProperty(PR_TRANSPORT_MESSAGE_HEADERS, outval)) {
+                                EwsLogging.Log(outval.outValue, true, true);
+                            }
+                        }, (err) => {
+                            EwsLogging.Log(err, true, true);
+                            EwsLogging.Log("-------------- error in loading item ----------", true, true);
+                        });
+                }
+            }, (err) => {
+                EwsLogging.Log(err, true, true);
+                EwsLogging.Log("-------------- error in finditem ----------", true, true);
+            });
 
 
 
+
+        return;
         mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
         mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
         exch.ExpandGroup("group@contoso.com").then((response) => {

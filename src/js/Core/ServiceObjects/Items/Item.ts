@@ -460,8 +460,8 @@ export class Item extends ServiceObject {
             MessageDisposition.SaveOnly,
             null);
     }
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Item.ts - SetExtendedProperty : Not implemented."); }
-    SetSubject(subject: string): any { throw new Error("Item.ts - SetSubject : Not implemented."); }
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void { this.ExtendedProperties.SetExtendedProperty(extendedPropertyDefinition, value); }
+    SetSubject(subject: string): void { this.PropertyBag._setItem(ItemSchema.Subject, subject); }
     ThrowIfThisIsAttachment(): void {
         if (this.IsAttachment) {
             throw new Error(Strings.OperationDoesNotSupportAttachments);//InvalidOperationException

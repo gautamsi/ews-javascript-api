@@ -70,6 +70,8 @@ export class Dictionary<TKey, TValue>{
     
     
     /** add value or update the value for key */
+    Add(key: TKey, value: TValue): void { return this.addUpdate(key, value); }
+    /** add value or update the value for key */
     addUpdate(key: TKey, value: TValue): void {
         var strKey = this.keyPicker(key);
         if (StringHelper.IsNullOrEmpty(strKey))

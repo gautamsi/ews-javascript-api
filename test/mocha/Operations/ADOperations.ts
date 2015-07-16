@@ -10,7 +10,7 @@ import chai = require('chai');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 chai.should();
-describe("AD Operation tests", () => {
+describe.skip("AD Operation tests", () => {
 
 	var exch = new ExchangeService(ExchangeVersion.Exchange2010_SP1);
 	exch.Url = new Uri("https://fake");
@@ -26,15 +26,15 @@ describe("AD Operation tests", () => {
 		promise.should.eventually.deep.equal(DateTime.Parse("9999-12-31T23:59:59.9999999Z"));
 	});
 
-it("ExpandGroup Operation ", () => {
+	it("ExpandGroup Operation ", () => {
 		mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
         mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
         exch.XHRApi = mockXhr;
 		//EwsLogging.DebugLogEnabled = false;
 		var promise = exch.ExpandGroup("group@contoso.com");
-		promise.should.eventually.deep.property("Members[0].RoutingType",'SMTP');
-		promise.should.eventually.deep.property("Members[0].MailboxType",4);		
-		promise.should.eventually.deep.property("Members[1].RoutingType",'SMTP');
-		promise.should.eventually.deep.property("Members[1].MailboxType",4);
+		promise.should.eventually.deep.property("Members[0].RoutingType", 'SMTP');
+		promise.should.eventually.deep.property("Members[0].MailboxType", 4);
+		promise.should.eventually.deep.property("Members[1].RoutingType", 'SMTP');
+		promise.should.eventually.deep.property("Members[1].MailboxType", 4);
 	});
 });

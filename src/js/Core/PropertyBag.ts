@@ -106,7 +106,7 @@ export class PropertyBag {
             if (modifiedIndex >= 0)
                 this.modifiedProperties.splice(modifiedIndex, 1);
 
-            this.deletedProperties.addUpdate(propertyDefinition, propertyValue);
+            this.deletedProperties.Add(propertyDefinition, propertyValue);
 
             var complexProperty = <ComplexProperty>propertyValue;
 
@@ -291,6 +291,9 @@ export class PropertyBag {
             //                this.loadedProperties.push(propertyDefinition.outValue);
             //            }
             this.ClearChangeLog();
+        }
+        catch(exception){
+            EwsLogging.Log(exception);
         }
         finally {
             this.loading = false;

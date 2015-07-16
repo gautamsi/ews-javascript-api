@@ -30,8 +30,8 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
     static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
     private static defaultPropertySetMap: LazyMember<Dictionary<BasePropertySet, string>> = new LazyMember<Dictionary<BasePropertySet, string>>(() => {
         var result: Dictionary<BasePropertySet, string> = new Dictionary<BasePropertySet, string>((bps) => BasePropertySet[bps]);
-        result.addUpdate(BasePropertySet.IdOnly, "IdOnly");
-        result.addUpdate(BasePropertySet.FirstClassProperties, "AllProperties");
+        result.Add(BasePropertySet.IdOnly, "IdOnly");
+        result.Add(BasePropertySet.FirstClassProperties, "AllProperties");
         return result;
     });
     private basePropertySet: BasePropertySet;

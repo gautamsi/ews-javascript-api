@@ -64,7 +64,7 @@ export class TimeZoneDefinition extends ComplexProperty {
         var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
         transitionGroup.Transitions.push(transitionToPeriod);
         
-        this.transitionGroups.addUpdate(transitionGroup.Id, transitionGroup);
+        this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
 
         return transitionGroup;
     }

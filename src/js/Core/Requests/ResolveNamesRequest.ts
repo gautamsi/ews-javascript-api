@@ -20,10 +20,10 @@ export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveName
     
     private static searchScopeMap: LazyMember<Dictionary<ResolveNameSearchLocation, string>> = new LazyMember<Dictionary<ResolveNameSearchLocation, string>>(() => {
         var map: Dictionary<ResolveNameSearchLocation, string> = new Dictionary<ResolveNameSearchLocation, string>((rnsl) => ResolveNameSearchLocation[rnsl]);
-        map.addUpdate(ResolveNameSearchLocation.DirectoryOnly, "ActiveDirectory");
-        map.addUpdate(ResolveNameSearchLocation.DirectoryThenContacts, "ActiveDirectoryContacts");
-        map.addUpdate(ResolveNameSearchLocation.ContactsOnly, "Contacts");
-        map.addUpdate(ResolveNameSearchLocation.ContactsThenDirectory, "ContactsActiveDirectory");
+        map.Add(ResolveNameSearchLocation.DirectoryOnly, "ActiveDirectory");
+        map.Add(ResolveNameSearchLocation.DirectoryThenContacts, "ActiveDirectoryContacts");
+        map.Add(ResolveNameSearchLocation.ContactsOnly, "Contacts");
+        map.Add(ResolveNameSearchLocation.ContactsThenDirectory, "ContactsActiveDirectory");
         return map;
     });
 

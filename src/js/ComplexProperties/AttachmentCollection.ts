@@ -11,14 +11,14 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     ___implementsInterface: string[] = ["IOwnedProperty", "ISelfValidate", "IJsonSerializable", "IEnumerable<TComplexProperty>", "ICustomUpdateSerializer", "IJsonCollectionDeserialize"];
     ___typeName: string = "Attachment";
     ___typeGenerics: string[] = ["ComplexProperty"];
-	
+
 	private owner: Item;
 	get Owner(): ServiceObject { return this.owner; };
 	set(value): void {
 		EwsLogging.Assert(
 			value != null && !(value instanceof Item),
 			"AttachmentCollection.IOwnedProperty.set_Owner",
-			"value is not a descendant of ItemBase");		
+			"value is not a descendant of ItemBase");
 		this.owner = value;
 	}
 	AddFileAttachment(fileName: string): FileAttachment { throw new Error("AttachmentCollection.ts - AddFileAttachment : Not implemented."); }
@@ -31,7 +31,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
 	CreateComplexProperty(xmlElementName: string): Attachment { throw new Error("AttachmentCollection.ts - CreateComplexProperty : Not implemented."); }
 	CreateDefaultComplexProperty(): Attachment { throw new Error("AttachmentCollection.ts - CreateDefaultComplexProperty : Not implemented."); }
 	GetCollectionItemXmlElementName(complexProperty: Attachment): string { throw new Error("AttachmentCollection.ts - GetCollectionItemXmlElementName : Not implemented."); }
-	HasUnprocessedChanges(): boolean { throw new Error("AttachmentCollection.ts - HasUnprocessedChanges : Not implemented."); }
+	HasUnprocessedChanges(): boolean { EwsLogging.Assert(true, "AttachmentCollection.ts - HasUnprocessedChanges :", "Not implemented."); return false }
 	InternalCreateAttachments(parentItemId: string, attachments: Attachment[] /*System.Collections.Generic.IEnumerable<Attachment>*/): void { throw new Error("AttachmentCollection.ts - InternalCreateAttachments : Not implemented."); }
 	InternalDeleteAttachments(attachments: Attachment[] /*System.Collections.Generic.IEnumerable<Attachment>*/): void { throw new Error("AttachmentCollection.ts - InternalDeleteAttachments : Not implemented."); }
 	Remove(attachment: Attachment): boolean { throw new Error("AttachmentCollection.ts - Remove : Not implemented."); }

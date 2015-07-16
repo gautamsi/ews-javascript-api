@@ -34,6 +34,9 @@
     },
     "chai/chai.d.ts": {
       "commit": "faff1866df10486a4c50904236183edc62ca841e"
+    },
+    "node-uuid/node-uuid.d.ts": {
+      "commit": "0fff32b558aa91ba24cfca5479aba02e4ef2fafe"
     }
   }
 }
