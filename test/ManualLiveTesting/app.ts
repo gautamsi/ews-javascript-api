@@ -1,7 +1,7 @@
 import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
 EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
-ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid} from "../../src/js/ExchangeWebService";
+ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
@@ -30,14 +30,16 @@ export class Greeter {
         EwsLogging.DebugLogEnabled = true;
 
         var mockXhr = new MockXHRApi();
-        exch.XHRApi = mockXhr
+        //exch.XHRApi = mockXhr
 
 
 
         mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
         mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
         var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
-        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS]);
+        var EX_normalized_Subject = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x0E1D); //https://willcode4foodblog.wordpress.com/2012/04/14/understanding-sharing-invitation-requests-ews-managed-api-1-2-part-2/
+        var EX_prop2 = new ExtendedPropertyDefinition(MapiPropertyType.String,"Content-Class", DefaultExtendedPropertySet.InternetHeaders);
+        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS,EX_normalized_Subject]);
         exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
             .then((response) => {
                 for (var item of response.Items) {
@@ -49,7 +51,7 @@ export class Greeter {
                     item.SetExtendedProperty(extendedPropertyDefinition, DateTime.Now.Add(2, "days").ToISOString());
 
                     item.Update(ConflictResolutionMode.AutoResolve)
-                    //item.Load(psPropSet)
+                    item.Load(psPropSet)
                         .then((loadResp) => {
                             var outval = { outValue: null };
                             //EwsLogging.Log(item,true,true);
