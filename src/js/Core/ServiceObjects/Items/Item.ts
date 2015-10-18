@@ -279,9 +279,9 @@ export class Item extends ServiceObject {
 
     constructor(svc: ExchangeService);
     constructor(parentAttachment: ItemAttachment);
+    /**used for super call, easier to manage, do not use in Actual code. //todo:fix - remove from d.ts file*/
+    constructor(obj: ExchangeService | ItemAttachment)
     constructor(obj: ExchangeService | ItemAttachment) {
-        //constructor(obj: any) {
-        //super(obj instanceof ExchangeService ? obj : (obj instanceof ItemAttachment ? obj.Service : null));
         super(obj instanceof ItemAttachment ? obj.Service : <ExchangeService>obj);//todo:fix -can not user instanceof with exchangeservice, creates circular loop with ewsutility 
 
         if (obj instanceof ItemAttachment) {

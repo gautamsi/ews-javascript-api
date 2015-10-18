@@ -9,11 +9,3 @@ export interface ICalendarActionProvider {
 	CreateDeclineMessage(): DeclineMeetingInvitationMessage;
 	Decline(sendResponse: boolean): CalendarActionResults;
 }
-
-
-
-
-
-
-			
-

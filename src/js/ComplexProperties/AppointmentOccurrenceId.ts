@@ -1,12 +1,30 @@
-﻿import {ItemId} from "./ItemId";
+import {Strings} from "../Strings";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 
+import {ItemId} from "./ItemId";
 export class AppointmentOccurrenceId extends ItemId {
-    OccurrenceIndex: number;
     private occurrenceIndex: number;
-    GetXmlElementName(): string { throw new Error("AppointmentOccurrenceId.ts - GetXmlElementName : Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("AppointmentOccurrenceId.ts - InternalToJson : Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AppointmentOccurrenceId.ts - WriteAttributesToXml : Not implemented."); }
-}
+    get OccurrenceIndex(): number {
+        return this.occurrenceIndex;
+    }
+    set OccurrenceIndex(value: number) {
+        if (value < 1) {
+            throw new Error(Strings.OccurrenceIndexMustBeGreaterThanZero);//ArgumentException
+        }
+        this.occurrenceIndex = value;
+    }
+    constructor(recurringMasterUniqueId: string, occurrenceIndex: number) {
+        super(recurringMasterUniqueId);
+        this.OccurrenceIndex = occurrenceIndex;
+    }
 
+    GetXmlElementName(): string { return XmlElementNames.OccurrenceItemId; }
+    InternalToJson(service: ExchangeService): any { throw new Error("AppointmentOccurrenceId.ts - InternalToJson : Not implemented."); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteAttributeValue(null, XmlAttributeNames.RecurringMasterId, this.UniqueId);
+        writer.WriteAttributeValue(null, XmlAttributeNames.InstanceIndex, this.OccurrenceIndex);
+    }
+}

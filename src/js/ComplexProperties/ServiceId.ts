@@ -16,6 +16,8 @@ export class ServiceId extends ComplexProperty {
     //private changeKey: string; not needed for proxy
     //private uniqueId: string; - not needed for proxy
 
+    constructor();
+    constructor(uniqueId: string);
     constructor(uniqueId?: string) {
         super();
         if (!StringHelper.IsNullOrEmpty(uniqueId)) {
@@ -87,5 +89,3 @@ export class ServiceId extends ComplexProperty {
         super.WriteToXml(writer, this.GetXmlElementName());
     }
 }
-
-

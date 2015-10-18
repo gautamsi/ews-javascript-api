@@ -12,7 +12,7 @@ more documents available in wiki (publishig soon)
 
 ###install in node
 ```shell
-[sudo] npm install ews-managed-api
+[sudo] npm install ews-javascript-api
 ``` 
 
 #### Use in node
