@@ -29,8 +29,8 @@ export class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkRes
         //EwsUtilities.ValidateParam(this.ItemIds, "ItemIds");
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(null, XmlAttributeNames.IsJunk, this.IsJunk);
-        writer.WriteAttributeValue(null, XmlAttributeNames.MoveItem, this.MoveItem);
+        writer.WriteAttributeValue(XmlAttributeNames.IsJunk, this.IsJunk);
+        writer.WriteAttributeValue(XmlAttributeNames.MoveItem, this.MoveItem);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.itemIds.WriteToXml(writer, XmlNamespace.Messages, XmlElementNames.ItemIds); }
 }

@@ -123,8 +123,8 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
     WriteUriToJson(key: TKey): any { throw new Error("DictionaryProperty.ts - WriteUriToJson : Not implemented."); }
     WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.IndexedFieldURI);
-        writer.WriteAttributeValue(null, XmlAttributeNames.FieldURI, this.GetFieldURI());
-        writer.WriteAttributeValue(null, XmlAttributeNames.FieldIndex, this.GetFieldIndex(key));
+        writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.GetFieldURI());
+        writer.WriteAttributeValue(XmlAttributeNames.FieldIndex, this.GetFieldIndex(key));
         writer.WriteEndElement();
     }
 }

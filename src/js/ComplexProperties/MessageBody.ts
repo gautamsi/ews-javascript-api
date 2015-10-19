@@ -61,7 +61,7 @@ export class MessageBody extends ComplexProperty {
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadAttributesFromXml : Not implemented. - should not be called"); }
     ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadTextValueFromXml : Not implemented. - should not be called"); }
     ToString(): string { return (this.Text == null) ? StringHelper.Empty : this.Text; }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(null, XmlAttributeNames.BodyType, this.BodyType); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(XmlAttributeNames.BodyType, this.BodyType); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (!StringHelper.IsNullOrEmpty(this.Text)) {
             writer.WriteValue(this.Text, XmlElementNames.Body);

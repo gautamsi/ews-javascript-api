@@ -99,18 +99,17 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
         super.WriteAttributesToXml(writer);
 
         if (this.MessageDisposition !== null) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.MessageDisposition, this.MessageDisposition);
+            writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, this.MessageDisposition);
         }
 
         if (this.SuppressReadReceipts) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.SuppressReadReceipts, true);
+            writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
 
-        writer.WriteAttributeValue(null, XmlAttributeNames.ConflictResolution, this.ConflictResolutionMode);
+        writer.WriteAttributeValue(XmlAttributeNames.ConflictResolution, this.ConflictResolutionMode);
 
         if (this.SendInvitationsOrCancellationsMode !== null) {
             writer.WriteAttributeValue(
-                null,
                 XmlAttributeNames.SendMeetingInvitationsOrCancellations,
                 this.SendInvitationsOrCancellationsMode);
         }

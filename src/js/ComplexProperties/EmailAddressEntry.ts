@@ -68,10 +68,10 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
         super.WriteAttributesToXml(writer);
 
         if (writer.Service.RequestedServerVersion > ExchangeVersion.Exchange2007_SP1) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.Name, this.EmailAddress.Name);
-            writer.WriteAttributeValue(null, XmlAttributeNames.RoutingType, this.EmailAddress.RoutingType);
+            writer.WriteAttributeValue(XmlAttributeNames.Name, this.EmailAddress.Name);
+            writer.WriteAttributeValue(XmlAttributeNames.RoutingType, this.EmailAddress.RoutingType);
             if (this.EmailAddress.MailboxType != MailboxType.Unknown) {
-                writer.WriteAttributeValue(null, XmlAttributeNames.MailboxType, MailboxTypeParser.ToString(this.EmailAddress.MailboxType));
+                writer.WriteAttributeValue(XmlAttributeNames.MailboxType, MailboxTypeParser.ToString(this.EmailAddress.MailboxType));
             }
         }
     }

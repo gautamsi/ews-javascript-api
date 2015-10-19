@@ -170,10 +170,10 @@ export class TimeZoneDefinition extends ComplexProperty {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         // The Name attribute is only supported in Exchange 2010 and above.
         if (writer.Service.RequestedServerVersion != ExchangeVersion.Exchange2007_SP1) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.Name, this.Name);
+            writer.WriteAttributeValue(XmlAttributeNames.Name, this.Name);
         }
 
-        writer.WriteAttributeValue(null, XmlAttributeNames.Id, this.Id);
+        writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id);
     }
 
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {

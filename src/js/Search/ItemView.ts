@@ -32,7 +32,7 @@ export class ItemView extends PagedView {
     }
     InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void { super.InternalWriteSearchSettingsToXml(writer, groupBy); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.Traversal, ItemTraversal[this.Traversal]);
+        writer.WriteAttributeValue(XmlAttributeNames.Traversal, ItemTraversal[this.Traversal]);
     }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { this.orderBy.WriteToXml(writer, XmlElementNames.SortOrder); }
 }

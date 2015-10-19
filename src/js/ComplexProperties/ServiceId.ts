@@ -82,8 +82,8 @@ export class ServiceId extends ComplexProperty {
     }
     ToString(): string { return (this.UniqueId == null) ? "" : this.UniqueId; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue("", XmlAttributeNames.Id, this.UniqueId);
-        writer.WriteAttributeValue("", XmlAttributeNames.ChangeKey, this.ChangeKey);
+        writer.WriteAttributeValue(XmlAttributeNames.Id, this.UniqueId);
+        writer.WriteAttributeValue(XmlAttributeNames.ChangeKey, this.ChangeKey);
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         super.WriteToXml(writer, this.GetXmlElementName());

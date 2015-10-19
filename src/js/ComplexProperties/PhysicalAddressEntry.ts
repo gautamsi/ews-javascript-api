@@ -81,8 +81,8 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 	InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): void {
 		writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
 		writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.IndexedFieldURI);
-		writer.WriteAttributeValue(null, XmlAttributeNames.FieldURI, this.GetFieldUri(fieldXmlElementName));
-		writer.WriteAttributeValue(null, XmlAttributeNames.FieldIndex, PhysicalAddressKey[this.Key]);
+		writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.GetFieldUri(fieldXmlElementName));
+		writer.WriteAttributeValue(XmlAttributeNames.FieldIndex, PhysicalAddressKey[this.Key]);
 		writer.WriteEndElement(); // IndexedFieldURI
 		writer.WriteEndElement(); // ewsObject.GetDeleteFieldXmlElementName()
 	}
@@ -132,8 +132,8 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 			writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetSetFieldXmlElementName());
 
 			writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.IndexedFieldURI);
-			writer.WriteAttributeValue(null, XmlAttributeNames.FieldURI, this.GetFieldUri(xmlElementName));
-			writer.WriteAttributeValue(null, XmlAttributeNames.FieldIndex, PhysicalAddressKey[this.Key]);
+			writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.GetFieldUri(xmlElementName));
+			writer.WriteAttributeValue(XmlAttributeNames.FieldIndex, PhysicalAddressKey[this.Key]);
 			writer.WriteEndElement(); // IndexedFieldURI
 
 			writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetXmlElementName());

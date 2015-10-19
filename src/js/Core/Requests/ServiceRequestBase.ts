@@ -488,7 +488,7 @@ export class ServiceRequestBase {
         // Emit the RequestServerVersion header
         if (!this.Service.SuppressXmlVersionHeader) {
             writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.RequestServerVersion);
-            writer.WriteAttributeValue("", XmlAttributeNames.Version, this.GetRequestedServiceVersionString());
+            writer.WriteAttributeValue(XmlAttributeNames.Version, this.GetRequestedServiceVersionString());
             writer.WriteEndElement(); // RequestServerVersion
         }
 

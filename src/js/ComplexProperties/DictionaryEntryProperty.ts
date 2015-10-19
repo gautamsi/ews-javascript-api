@@ -22,7 +22,7 @@ export class DictionaryEntryProperty<TKey> extends ComplexProperty {
         this.key = key;
     }
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("DictionaryEntryProperty.ts - ReadAttributesFromXml : Not used."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(null, XmlAttributeNames.Key, this.Key); }
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(XmlAttributeNames.Key, this.Key); }
     WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[] /*System.Collections.Generic.List<T>*/): boolean { throw new Error("DictionaryEntryProperty.ts - WriteDeleteUpdateToJson : Not implemented."); }
     WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean { return false; }
     WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]/*System.Collections.Generic.List<T>*/): boolean { throw new Error("DictionaryEntryProperty.ts - WriteSetUpdateToJson : Not implemented."); }

@@ -75,8 +75,7 @@ export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveName
         //EwsUtilities.ValidateNonBlankStringParam(this.NameToResolve, "NameToResolve");
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(
-            null,
+        writer.WriteAttributeValue(            
                 XmlAttributeNames.ReturnFullContactData,
                 this.ReturnFullContactData);
 
@@ -97,11 +96,11 @@ export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveName
 
             if (!this.Service.Exchange2007CompatibilityMode)
             {
-                writer.WriteAttributeValue(null, XmlAttributeNames.SearchScope, searchScope.outValue);
+                writer.WriteAttributeValue(XmlAttributeNames.SearchScope, searchScope.outValue);
             }
             if (!StringHelper.IsNullOrEmpty(propertySet.outValue))
             {
-                writer.WriteAttributeValue(null, XmlAttributeNames.ContactDataShape, propertySet.outValue);
+                writer.WriteAttributeValue(XmlAttributeNames.ContactDataShape, propertySet.outValue);
             }
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {

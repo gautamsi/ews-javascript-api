@@ -31,9 +31,9 @@ export class TimeZonePeriod extends ComplexProperty {
     LoadFromXmlJsObject(reader: any): any { throw new Error("TimeZonePeriod.ts - LoadFromXmlJsObject : Not implemented."); }
     //ReadAttributesFromXmlJsObject(reader: any): any { throw new Error("TimeZonePeriod.ts - ReadAttributesFromXml : Not implemented."); }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(null, XmlAttributeNames.Bias, EwsUtilities.TimeSpanToXSDuration(this.Bias));
-        writer.WriteAttributeValue(null, XmlAttributeNames.Name, this.Name);
-        writer.WriteAttributeValue(null, XmlAttributeNames.Id, this.Id);
+        writer.WriteAttributeValue(XmlAttributeNames.Bias, EwsUtilities.TimeSpanToXSDuration(this.Bias));
+        writer.WriteAttributeValue(XmlAttributeNames.Name, this.Name);
+        writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id);
     }
     WriteToXml(writer: EwsServiceXmlWriter): void { super.WriteToXml(writer, XmlElementNames.Period); }
 }

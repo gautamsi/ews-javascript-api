@@ -120,11 +120,11 @@ export class TimeZoneTransition extends ComplexProperty {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.To);
 
         if (this.targetPeriod != null) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.Kind, TimeZoneTransition.PeriodTarget);
+            writer.WriteAttributeValue(XmlAttributeNames.Kind, TimeZoneTransition.PeriodTarget);
             writer.WriteValue(this.targetPeriod.Id, XmlElementNames.To);
         }
         else {
-            writer.WriteAttributeValue(null, XmlAttributeNames.Kind, TimeZoneTransition.GroupTarget);
+            writer.WriteAttributeValue(XmlAttributeNames.Kind, TimeZoneTransition.GroupTarget);
             writer.WriteValue(this.targetGroup.Id, XmlElementNames.To);
         }
 

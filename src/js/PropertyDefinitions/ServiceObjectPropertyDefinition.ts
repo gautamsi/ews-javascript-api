@@ -28,7 +28,7 @@ export class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
     //GetJsonType(): string{ throw new Error("ServiceObjectPropertyDefinition.ts - GetJsonType : Not implemented.");}
     GetXmlElementName(): string { return XmlElementNames.FieldURI; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue("", XmlAttributeNames.FieldURI, this.Uri);
+        writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.Uri);
     }
 }
 

@@ -102,7 +102,7 @@ export class FolderId extends ServiceId {
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (typeof this.folderName!== 'undefined' && this.FolderName >=0) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());
+            writer.WriteAttributeValue(XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());
 
             if (this.Mailbox != null) {
                 this.Mailbox.WriteToXml(writer, XmlElementNames.Mailbox);

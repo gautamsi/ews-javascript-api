@@ -46,8 +46,8 @@ export class PagedView extends ViewBase {
     }
     InternalWriteViewToXml(writer: EwsServiceXmlWriter): void {
         super.InternalWriteViewToXml(writer);
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.Offset, this.Offset);
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.BasePoint, OffsetBasePoint[this.OffsetBasePoint]);
+        writer.WriteAttributeValue(XmlAttributeNames.Offset, this.Offset);
+        writer.WriteAttributeValue(XmlAttributeNames.BasePoint, OffsetBasePoint[this.OffsetBasePoint]);
     }
     WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("PagedView.ts - WriteGroupingToJson : Not implemented."); }
     WriteOrderByToXml(writer: EwsServiceXmlWriter): void { /* No order by for paged view*/ }

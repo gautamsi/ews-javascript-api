@@ -187,22 +187,22 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (this.propertySet) {
-            writer.WriteAttributeValue("", XmlAttributeNames.DistinguishedPropertySetId, this.propertySet);
+            writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, this.propertySet);
         }
         if (this.propertySetId) {
-            writer.WriteAttributeValue("", XmlAttributeNames.PropertySetId, this.propertySetId.ToString());
+            writer.WriteAttributeValue(XmlAttributeNames.PropertySetId, this.propertySetId.ToString());
         }
         if (this.tag) {
-            writer.WriteAttributeValue("", XmlAttributeNames.PropertyTag, this.tag);
+            writer.WriteAttributeValue(XmlAttributeNames.PropertyTag, this.tag);
         }
         if (!StringHelper.IsNullOrEmpty(this.name)) {
-            writer.WriteAttributeValue("", XmlAttributeNames.PropertyName, this.name);
+            writer.WriteAttributeValue(XmlAttributeNames.PropertyName, this.name);
         }
         if (this.id) {
-            writer.WriteAttributeValue("", XmlAttributeNames.PropertyId, this.id);
+            writer.WriteAttributeValue(XmlAttributeNames.PropertyId, this.id);
         }
 
-        writer.WriteAttributeValue("", XmlAttributeNames.PropertyType, MapiPropertyType[this.mapiType]);
+        writer.WriteAttributeValue(XmlAttributeNames.PropertyType, MapiPropertyType[this.mapiType]);
     }
 }
 

@@ -20,6 +20,6 @@ export class GroupMemberPropertyDefinition extends ServiceObjectPropertyDefiniti
     GetXmlElementName(): string { return XmlElementNames.IndexedFieldURI; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
-        writer.WriteAttributeValue("", XmlAttributeNames.FieldIndex, this.Key);
+        writer.WriteAttributeValue(XmlAttributeNames.FieldIndex, this.Key);
     }
 }
