@@ -122,7 +122,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      */
-    Send(): IPromise<void> { return this.InternalCreate(null, MessageDisposition.SendOnly).then(() => { return; }); }
+    Send(): IPromise<void> { return <any>this.InternalCreate(null, MessageDisposition.SendOnly); }
     /**
      * Sends this response and saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
      */
@@ -149,8 +149,6 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
                 destinationFolderId = destinationFolderIdOrName;
             }
         }
-        return this.InternalCreate(destinationFolderId, MessageDisposition.SendAndSaveCopy).then((res) => {
-            return;
-        });
+        return <any>this.InternalCreate(destinationFolderId, MessageDisposition.SendAndSaveCopy);
     }
 }

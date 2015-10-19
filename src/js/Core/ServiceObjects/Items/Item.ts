@@ -392,12 +392,10 @@ export class Item extends ServiceObject {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
-        return this.Service.InternalLoadPropertiesForItems(
+        return <any>this.Service.InternalLoadPropertiesForItems(
             [this],//new Item[] { this },
             propertySet,
-            ServiceErrorHandling.ThrowOnError).then((response) => {
-                return;
-            })
+            ServiceErrorHandling.ThrowOnError);
     }
     InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<Item>;
     InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<Item>;
@@ -470,14 +468,12 @@ export class Item extends ServiceObject {
     Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
     Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): IPromise<void>;
     Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean = false): IPromise<void> {
-        return this.InternalUpdate(
+        return <any>this.InternalUpdate(
             null /* parentFolder */,
             conflictResolutionMode,
             MessageDisposition.SaveOnly,
             null,
-            suppressReadReceipts).then((response) => {
-                return;
-            });
+            suppressReadReceipts);
     }
     Validate(): void {
         super.Validate();

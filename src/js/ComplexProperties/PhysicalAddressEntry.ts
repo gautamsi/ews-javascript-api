@@ -113,7 +113,7 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				xmlElementName,
-				this.propertyBag[xmlElementName]);
+				this.propertyBag._getItem(xmlElementName));
 		}
 	}
 	WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("PhysicalAddressEntry.ts - WriteSetUpdateToJson : Not implemented."); }
@@ -143,7 +143,7 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				xmlElementName,
-				this.propertyBag[xmlElementName]);
+				this.propertyBag._getItem(xmlElementName));
 			writer.WriteEndElement(); // Entry
 			writer.WriteEndElement(); // ownerDictionaryXmlElementName
 			writer.WriteEndElement(); // ewsObject.GetXmlElementName()

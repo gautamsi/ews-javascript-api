@@ -750,13 +750,11 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[SendInvitationsOrCancellationsMode]}   sendInvitationsOrCancellationsMode   Specifies if and how invitations or cancellations should be sent if this appointment is a meeting.
      */
     Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<void> {
-        return this.InternalUpdate(
+        return <any>this.InternalUpdate(
             null,
             conflictResolutionMode,
             null,
-            sendInvitationsOrCancellationsMode).then(() => {
-                return;
-            });
+            sendInvitationsOrCancellationsMode);
     }
     /**
      * Validates this instance.
