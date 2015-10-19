@@ -3,8 +3,11 @@ import {EwsLogging} from "./EwsLogging";
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 import {EwsUtilities} from "./EwsUtilities";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-
 import {StringHelper, base64Helper} from "../ExtensionMethods";
+
+/**
+ * XML writer
+ */
 export class EwsServiceXmlWriter {
     //get InternalWriter(): System.Xml.XmlWriter;
     get Service(): ExchangeServiceBase { return this.service }

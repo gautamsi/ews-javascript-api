@@ -44,12 +44,12 @@ export class MessageBody extends ComplexProperty {
         this.text = strText;
     }
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-        for (var key in jsObject.Keys) {
+        for (var key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.BodyType:
                     this.bodyType = <BodyType><any>BodyType[jsObject[key]];//.ReadEnumValue<BodyType>(key);
                     break;
-                case XmlElementNames.Body:
+                case XmlElementNames.Body: //info - Body Element text - custom parser in ExtensionMethods. 
                     this.text = jsObject[key];//.ReadAsString(key);
                     break;
                 default:
