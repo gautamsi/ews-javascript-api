@@ -786,6 +786,7 @@
         "./src/js/UnifiedMessaging/UnifiedMessaging.ts",
         "./src/js/XHRFactory.ts",
         "./src/js/XHRFactory_WinJS.ts",
+        "./src/js/TypeContainer.ts",
         "./src/js/operations/BulkTransfer/BulkTransfer.ts",
         "./src/js/operations/ExchangeMailboxData/Reminder.ts",
         "./src/js/operations/ExchangeMailboxData/Utilities.ts",

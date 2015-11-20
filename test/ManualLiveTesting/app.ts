@@ -1,7 +1,7 @@
 import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
 EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
-ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet} from "../../src/js/ExchangeWebService";
+ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
@@ -29,11 +29,48 @@ export class Greeter {
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         EwsLogging.DebugLogEnabled = true;
 
+        var appointment = new Appointment(exch);
+        appointment.Subject = "Dentist Appointment";
+        appointment.Body = new MessageBody("The appointment is with Dr. Smith.");
+        appointment.Start = new DateTime(new Date(2016, 3, 1, 9, 0, 0));
+        appointment.End = appointment.Start.Add(2, "hour");
+        appointment.Save(SendInvitationsMode.SendToNone).then(() => {
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+return;
+
+
+        exch.TimeZoneDefinition = new TimeZoneDefinition();
+
+
+        var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
+        var att2 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
+        // var att1 = new AttendeeInfo("gautamsi@microsoft.com");
+        // var att2 = new AttendeeInfo("abhijitp@microsoft.com");
+        // var att3 = new AttendeeInfo("pardeb@microsoft.com");
+        // var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
+        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).asMilliseconds()));
+        var ats = [att1, att2];//, att3, att4];
+        exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
+            .then((fi) => {
+                //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
+                EwsLogging.Log(fi, true, true);                
+                console.log("------------");
+            }, (ei: any) => {
+                EwsLogging.Log(ei, true, true);
+                console.log(ei.stack, ei.stack.split("\n"));
+                console.log("------------");
+            });
+        console.log("------------");
+        return;
+
+
         var mockXhr = new MockXHRApi();
-        //exch.XHRApi = mockXhr
-
-
-
+        exch.XHRApi = mockXhr
         mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
         mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
         var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
@@ -164,6 +201,7 @@ export class Greeter {
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
                 EwsLogging.Log(fi, true, true);
+                for(var res in fi.SuggestionsResponse)
                 console.log("------------");
             }, (ei: any) => {
                 EwsLogging.Log(ei, true, true);

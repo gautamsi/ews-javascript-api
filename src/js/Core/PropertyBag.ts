@@ -292,7 +292,7 @@ export class PropertyBag {
             //            }
             this.ClearChangeLog();
         }
-        catch(exception){
+        catch (exception) {
             EwsLogging.Log(exception);
         }
         finally {
@@ -395,7 +395,7 @@ export class PropertyBag {
                 }
             }
 
-            this.InitComplexProperty(value instanceof ComplexProperty ? <ComplexProperty> value : undefined);
+            this.InitComplexProperty(value instanceof ComplexProperty ? <ComplexProperty>value : undefined);
             this.properties.set(propertyDefinition, value);
 
             this.Changed();
@@ -422,7 +422,7 @@ export class PropertyBag {
         //    throw new ArgumentException(errorMessage, "propertyDefinition");
         //}
 
-        var outValue: IOutParam<T>;
+        var outValue: IOutParam<T> = { outValue: null };
 
         var result = this.TryGetProperty(propertyDefinition, outValue);
 

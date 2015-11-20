@@ -424,14 +424,14 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[boolean]}   sendResponse   Indicates whether to send a response to the organizer.
      * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    Accept(sendResponse: boolean): CalendarActionResults { return this.InternalAccept(false, sendResponse); }
+    Accept(sendResponse: boolean): IPromise<CalendarActionResults> { return this.InternalAccept(false, sendResponse); }
     /**
      * Tentatively accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {[boolean]}   sendResponse   Indicates whether to send a response to the organizer.
      * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    AcceptTentatively(sendResponse: boolean): CalendarActionResults { return this.InternalAccept(true, sendResponse); }
+    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults> { return this.InternalAccept(true, sendResponse); }
 
     /**
      * Binds to an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
@@ -509,21 +509,21 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    CancelMeeting(): CalendarActionResults;
+    CancelMeeting(): IPromise<CalendarActionResults>;
     /**
      * Cancels the meeting and sends cancellation messages to all attendees. Calling this method results in a call to EWS.
      *
      * @param   {[string]}   cancellationMessageText   Cancellation message text sent to all attendees.
      * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    CancelMeeting(cancellationMessageText: string): CalendarActionResults;
-    CancelMeeting(cancellationMessageText?: string): CalendarActionResults {
+    CancelMeeting(cancellationMessageText: string): IPromise<CalendarActionResults>;
+    CancelMeeting(cancellationMessageText?: string): IPromise<CalendarActionResults> {
         if (arguments.length === 0) {
             return this.CreateCancelMeetingMessage().SendAndSaveCopy();
         }
 
         var cancelMsg: CancelMeetingMessage = this.CreateCancelMeetingMessage();
-        cancelMsg.Body = new MessageBody(cancellationMessageText); //todo:fix - cant use implicit operator of c#, using explicit. Assumed HTML body
+        cancelMsg.Body = new MessageBody(cancellationMessageText); //todo:fix - cant use implicit operator of c#, using explicit. Assumed HTML body used in c# implicit conversion
         return cancelMsg.SendAndSaveCopy();
     }
 
@@ -575,7 +575,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[boolean]}   sendResponse   Indicates whether to send a response to the organizer.
      * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as aresults of this operation.
      */
-    Decline(sendResponse: boolean): CalendarActionResults {
+    Decline(sendResponse: boolean): IPromise<CalendarActionResults> {
         var decline: DeclineMeetingInvitationMessage = this.CreateDeclineMessage();
 
         if (sendResponse) {
@@ -604,13 +604,13 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[EmailAddress[]]}  toRecipients   The recipients to forward the appointment to.
      */
     //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): void;
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): void {
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> {
         var responseMessage: ResponseMessage = this.CreateForward();
 
         responseMessage.BodyPrefix = bodyPrefix;
         responseMessage.ToRecipients.AddRange(toRecipients);
 
-        responseMessage.SendAndSaveCopy();
+        return responseMessage.SendAndSaveCopy();
     }
     //@internal 
     /**
@@ -674,7 +674,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[boolean]}   sendResponse   Indicates whether to send a response to the organizer.
      * @return  {[CalendarActionResults]}    A CalendarActionResults object containing the various items that were created or modified as aresults of this operation.
      */
-    InternalAccept(tentative: boolean, sendResponse: boolean): CalendarActionResults {
+    InternalAccept(tentative: boolean, sendResponse: boolean): IPromise<CalendarActionResults> {
         var accept: AcceptMeetingInvitationMessage = this.CreateAcceptMessage(tentative);
 
         if (sendResponse) {
@@ -690,12 +690,12 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {[MessageBody]}     bodyPrefix   The prefix to prepend to the body of the meeting.
      * @param   {[boolean]}         replyAll     Indicates whether the reply should go to the organizer only or to all the attendees.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): void {
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void> {
         var responseMessage: ResponseMessage = this.CreateReply(replyAll);
 
         responseMessage.BodyPrefix = bodyPrefix;
 
-        responseMessage.SendAndSaveCopy();
+        return responseMessage.SendAndSaveCopy();
     }
     /**
      * Saves this appointment in the Calendar folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
@@ -730,7 +730,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
             return this.InternalCreate(
                 null,
                 null,
-                sendInvitationsMode);
+                simode);
         }
         var destinationFolderId: FolderId = <FolderId>destinationFolderNameOrIdOrSendInvitationMode;
         if (argsLength === 2) {

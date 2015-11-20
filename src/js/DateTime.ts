@@ -19,7 +19,7 @@ export class DateTime {
 	private momentDate: moment.Moment = moment();
 	static get Now(): DateTime { return new DateTime(moment()); }
 	get TotalMilliSeconds(): number { return this.momentDate.valueOf() }
-	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Utc) {
+	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Local) {
 		if (date instanceof DateTime) {
 			this.momentDate = date.Date.clone();
 		}
@@ -31,8 +31,9 @@ export class DateTime {
 	}
 
 	Add(quantity: number, unit: string): DateTime {
-		this.momentDate.add(quantity, unit);
-		return this;
+		var date:moment.Moment = moment(this.momentDate);
+		date.add(quantity, unit);
+		return new DateTime(date);
 	}
 
 	static Compare(x: DateTime, y: DateTime): number {

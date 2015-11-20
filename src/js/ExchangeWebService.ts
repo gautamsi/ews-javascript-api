@@ -50,7 +50,20 @@ TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneD
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
 
+import {Item} from "./Core/ServiceObjects/Items/Item";
+import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
+import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
+import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
+import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 
+import {TypeContainer} from "./TypeContainer"
+TypeContainer.Item = Item;
+TypeContainer.Appointment = Appointment;
+TypeContainer.MeetingRequest = MeetingRequest;
+TypeContainer.MeetingResponse = MeetingResponse;
+TypeContainer.MeetingCancellation = MeetingCancellation;
+
+export {Item, Appointment, MeetingCancellation, MeetingRequest, MeetingResponse}
 /**#endregion BootStrap code */
 
 
@@ -72,7 +85,7 @@ export {AlternateMailboxCollection} from "./Autodiscover/AlternateMailboxCollect
 export {AlternatePublicFolderId} from "./Misc/IdConversion/AlternatePublicFolderId";
 export {AlternatePublicFolderItemId} from "./Misc/IdConversion/AlternatePublicFolderItemId";
 export {ApplyConversationActionRequest} from "./Core/Requests/ApplyConversationActionRequest";
-export {Appointment} from "./Core/ServiceObjects/Items/Appointment";
+
 
 export {AppointmentOccurrenceId} from "./ComplexProperties/AppointmentOccurrenceId";
 export {AppointmentType} from "./Enumerations/AppointmentType";
@@ -441,7 +454,6 @@ export {IOwnedProperty} from "./Interfaces/IOwnedProperty";
 export {IRefParam} from "./Interfaces/IRefParam";
 export {ISearchStringProvider} from "./Interfaces/ISearchStringProvider";
 export {ISelfValidate} from "./Interfaces/ISelfValidate";
-export {Item} from "./Core/ServiceObjects/Items/Item";
 
 export {ItemAttachment} from "./ComplexProperties/ItemAttachment";
 export {ItemChange} from "./Sync/ItemChange";
@@ -499,17 +511,14 @@ export {MarkAllItemsAsReadRequest} from "./Core/Requests/MarkAllItemsAsReadReque
 export {MarkAsJunkRequest} from "./Core/Requests/MarkAsJunkRequest";
 export {MarkAsJunkResponse} from "./Core/Responses/MarkAsJunkResponse";
 export {MeetingAttendeeType} from "./Enumerations/MeetingAttendeeType";
-export {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
 
 export {MeetingCancellationSchema} from "./Core/ServiceObjects/Schemas/MeetingCancellationSchema";
 export {MeetingMessage} from "./Core/ServiceObjects/Items/MeetingMessage";
 export {MeetingMessageSchema} from "./Core/ServiceObjects/Schemas/MeetingMessageSchema";
-export {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
 
 export {MeetingRequestSchema} from "./Core/ServiceObjects/Schemas/MeetingRequestSchema";
 export {MeetingRequestsDeliveryScope} from "./Enumerations/MeetingRequestsDeliveryScope";
 export {MeetingRequestType} from "./Enumerations/MeetingRequestType";
-export {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 
 export {MeetingResponseSchema} from "./Core/ServiceObjects/Schemas/MeetingResponseSchema";
 export {MeetingResponseType} from "./Enumerations/MeetingResponseType";

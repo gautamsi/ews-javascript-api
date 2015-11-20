@@ -219,7 +219,8 @@ export class EwsServiceXmlWriter {
         var value: any = valueToWrite;
         var alwaysWriteEmptyString: boolean = false;
         var namespacePrefix: string = null;
-
+        var callWithNameSpacePrifix:boolean = false;
+        
         if (argsLength === 2) {
             value = localNameOrAlwaysWriteEmptyStringOrValue;
         }
@@ -231,13 +232,14 @@ export class EwsServiceXmlWriter {
             else {
                 namespacePrefix = localNameOrNamespacePrefix;
                 localName = localNameOrAlwaysWriteEmptyStringOrValue;
+                callWithNameSpacePrifix = true;
             }
         }
 
         var stringValue: string = this.ConvertObjectToString(value);
         if (!StringHelper.IsNullOrEmpty(stringValue) || alwaysWriteEmptyString) {
             this.WriteAttributeString(
-                namespacePrefix,
+                callWithNameSpacePrifix? namespacePrefix:"",
                 localName,
                 stringValue);
         }

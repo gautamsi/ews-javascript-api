@@ -1,5 +1,5 @@
 ﻿return
-cd D:\dr\lgh\ews-javascript-api\src\js
+cd D:\dr\gh\ews-javascript-api\src\js
 
 $content = Get-Content ..\..\errors.txt
 $lines = $content | ?{$_.contains("TS2304")}
@@ -241,7 +241,7 @@ return
  }
 
 
- cd D:\dr\lgh\ews-javascript-api\build\output\src\
+ cd D:\dr\gh\ews-javascript-api\build\output\node\src\
 [Collections.Generic.List[String]]$looping  = @()
 [Collections.Generic.List[String]]$done  = @()
  function subm ($f, $indent = 0, $x = $f){
@@ -252,6 +252,7 @@ return
             $moduleNames = $match | %{$_.Matches | %{$_.Groups["moduleName"].Value}}
             $moduleNames | ?{!$global:done.Contains($_)} | %{
                 if($_ -like $x){
+                    Write-Warning "$indention file $f - chained to $_"
                     Write-Warning "$indention found loop - $($f<#$match.Filename | select -Unique#>) "
                     #$global:looping.Contains($f)
                     if(!$global:looping.Contains($f)){$global:looping.Add($f)}
@@ -272,7 +273,7 @@ return
 
         }
 }
-subm "EmailMessageSchema" 0
+subm "AttachmentsPropertyDefinition" 0
 
    $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
 

@@ -31,7 +31,7 @@ export class ServiceObjectSchema {
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
     static AppointmentSchema: AppointmentSchema;
-    static appointmentSchema: AppointmentSchema;
+    //static appointmentSchema: AppointmentSchema;
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
         "ExtendedProperties",
         XmlElementNames.ExtendedProperty,
