@@ -14,7 +14,7 @@ export class PagedView extends ViewBase {
         }
         this.pageSize = value;
     }
-    OffsetBasePoint: OffsetBasePoint;
+    OffsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning;
     get Offset(): number { return this.offset; }
     set Offset(value) {
         if (value >= 0) {
@@ -25,16 +25,16 @@ export class PagedView extends ViewBase {
         }
     };
 
-    private pageSize: number;
+    private pageSize: number = 0;
     //private offsetBasePoint: OffsetBasePoint; //not used as there is not difference in auto proerpty get or set.
-    private offset: number;
+    private offset: number = 0;
     constructor(pageSize: number,
         offset: number = 0,
         offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
         super();
-        this.PageSize = pageSize;
-        this.Offset = offset;
-        this.OffsetBasePoint = offsetBasePoint;
+        this.pageSize = pageSize || this.pageSize;
+        this.Offset = offset || this.offset;
+        this.OffsetBasePoint = offsetBasePoint || this.OffsetBasePoint;
     }
     GetMaxEntriesReturned(): number { return this.PageSize; }
     InternalValidate(request: ServiceRequestBase): void { super.InternalValidate(request); }
