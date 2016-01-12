@@ -26,7 +26,7 @@ export class ViewBase {
     InternalWriteViewToXml(writer: EwsServiceXmlWriter): void {
         var maxEntriesReturned = this.GetMaxEntriesReturned();
         if (!isNaN(maxEntriesReturned)) {
-            writer.WriteAttributeValue(undefined, XmlAttributeNames.MaxEntriesReturned, maxEntriesReturned);
+            writer.WriteAttributeValue(XmlAttributeNames.MaxEntriesReturned, maxEntriesReturned);
         }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract - ViewBase.ts - WriteAttributesToXml : Not implemented."); }

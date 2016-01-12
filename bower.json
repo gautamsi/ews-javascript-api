@@ -30,6 +30,7 @@
     "winjs": "~4.0.1",
     "moment-timezone": "~0.4.0",
     "moment": "~2.10.3",
-    "requirejs-plugins": "~1.0.3"
+    "requirejs-plugins": "~1.0.3",
+    "base64-js": "~1.0.0"
   }
 }

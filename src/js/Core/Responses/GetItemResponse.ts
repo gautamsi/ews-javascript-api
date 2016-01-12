@@ -36,10 +36,10 @@ export class GetItemResponse extends ServiceResponse {
             responseObject,
             service,
             XmlElementNames.Items,
-            this.GetObjectInstance,
-            true,               /* clearPropertyBag */
-            this.propertySet,   /* requestedPropertySet */
-            false);             /* summaryPropertiesOnly */
+            (s, e) => { return this.GetObjectInstance(s, e); },
+            true,               /* clearPropertyBag         */
+            this.propertySet,   /* requestedPropertySet     */
+            false);             /* summaryPropertiesOnly    */
 
         this.item = items[0];
     }

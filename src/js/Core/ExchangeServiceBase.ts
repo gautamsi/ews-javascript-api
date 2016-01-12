@@ -12,7 +12,8 @@ import {ExchangeServerInfo} from "./ExchangeServerInfo";
 
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {TraceFlags} from "../Enumerations/TraceFlags";
-import {IXHROptions} from "../Interfaces";
+import {IXHROptions, IXHRApi} from "../Interfaces";
+import {XHRFactory} from "../XHRFactory";
 
 import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
@@ -40,7 +41,12 @@ export class ExchangeServiceBase {
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
     get TimeZone(): TimeZoneInfo { return this.timeZone; }//System.TimeZoneInfo;
-    TimeZoneDefinition: TimeZoneDefinition;
+    get TimeZoneDefinition(): TimeZoneDefinition {
+        if (this.timeZoneDefinition == null) {
+            this.timeZoneDefinition = new TimeZoneDefinition(this.TimeZone);
+        }
+        return this.timeZoneDefinition;
+    }
     TraceEnabled: boolean;
     TraceFlags: TraceFlags;
     TraceListener: ITraceListener;
@@ -78,56 +84,59 @@ export class ExchangeServiceBase {
     private static binarySecret: any;//System.Byte[];
     private static defaultUserAgent: string;
 
+    public XHRApi: IXHRApi = null;
+    get GetXHRApi(): IXHRApi { return this.XHRApi || XHRFactory.XHRApi; }
+
     constructor();
-    constructor(timeZone:                   TimeZoneInfo                                                            );
-    constructor(requestedServerVersion:     ExchangeVersion                                                         );
-    constructor(requestedServerVersion:     ExchangeVersion,        timeZone:                   TimeZoneInfo        );
-    constructor(service:                    ExchangeServiceBase                                                     );
-    constructor(service:                    ExchangeServiceBase,    requestedServerVersion:     ExchangeVersion     );
+    constructor(timeZone: TimeZoneInfo);
+    constructor(requestedServerVersion: ExchangeVersion);
+    constructor(requestedServerVersion: ExchangeVersion, timeZone: TimeZoneInfo);
+    constructor(service: ExchangeServiceBase);
+    constructor(service: ExchangeServiceBase, requestedServerVersion: ExchangeVersion);
 
     constructor(
         versionServiceorTZ?: ExchangeVersion | ExchangeServiceBase | TimeZoneInfo,
         versionOrTZ?: ExchangeVersion | TimeZoneInfo
         ) {
-            var argsLength = arguments.length;
-            if (argsLength > 2) {
+        var argsLength = arguments.length;
+        if (argsLength > 2) {
             throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
+        }
+        var timeZone: TimeZoneInfo = null;
+        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
+        var service: ExchangeServiceBase = null;
+
+        if (argsLength >= 1) {
+            if (versionServiceorTZ instanceof TimeZoneInfo) {
+                timeZone = versionServiceorTZ;
             }
-            var timeZone:TimeZoneInfo = null;
-            var requestedServerVersion:ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
-            var service:ExchangeServiceBase = null;
-            
-            if(argsLength>=1){
-                if(versionServiceorTZ instanceof TimeZoneInfo){
-                    timeZone = versionServiceorTZ;
-                }
-                else if(versionServiceorTZ instanceof ExchangeServiceBase){
-                    service = versionServiceorTZ;                    
-                }
-                else if(typeof versionServiceorTZ === 'number'){
-                    requestedServerVersion = versionServiceorTZ;
-                }
+            else if (versionServiceorTZ instanceof ExchangeServiceBase) {
+                service = versionServiceorTZ;
             }
-            if(argsLength==2){
-                if(versionOrTZ instanceof TimeZoneInfo){
-                    if (typeof versionServiceorTZ !== 'number') {
-                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
-                    }
-                    timeZone = versionOrTZ;
-                }
-                else if(typeof versionOrTZ === 'number'){
-                    if (!(versionServiceorTZ instanceof ExchangeServiceBase)) {
-                        throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeServiceBase when using ExchangeVersion at 2nd place");
-                    }
-                    requestedServerVersion = versionOrTZ;
-                }
+            else if (typeof versionServiceorTZ === 'number') {
+                requestedServerVersion = versionServiceorTZ;
             }
-            
-            
-            
+        }
+        if (argsLength == 2) {
+            if (versionOrTZ instanceof TimeZoneInfo) {
+                if (typeof versionServiceorTZ !== 'number') {
+                    throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
+                }
+                timeZone = versionOrTZ;
+            }
+            else if (typeof versionOrTZ === 'number') {
+                if (!(versionServiceorTZ instanceof ExchangeServiceBase)) {
+                    throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeServiceBase when using ExchangeVersion at 2nd place");
+                }
+                requestedServerVersion = versionOrTZ;
+            }
+        }
+
+
+
         this.requestedServerVersion = requestedServerVersion;
-        
-        if(service !== null && typeof service !== 'undefined'){
+
+        if (service !== null && typeof service !== 'undefined') {
             this.useDefaultCredentials = service.useDefaultCredentials;
             this.credentials = service.credentials;
             this.traceEnabled = service.traceEnabled;
@@ -143,8 +152,8 @@ export class ExchangeServiceBase {
             this.httpHeaders = service.httpHeaders;
             this.ewsHttpWebRequestFactory = service.ewsHttpWebRequestFactory;
         }
-        
-        if(timeZone !== null && typeof timeZone  !== 'undefined'){
+
+        if (timeZone !== null && typeof timeZone !== 'undefined') {
             this.timeZone = timeZone;
             //this.useDefaultCredentials = true; //ref: no default credential in node.js
         }
@@ -175,7 +184,7 @@ export class ExchangeServiceBase {
 
                 break;
         }
-        debugger;//todo:iso string should work
+        //debug://todo:iso string should work
         return dateTime.ToISOString();// ISO string should work .ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
     }
     ConvertStartDateToUnspecifiedDateTime(value: string): DateTime { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
@@ -185,6 +194,10 @@ export class ExchangeServiceBase {
         }
         else {
             // Assume an unbiased date/time is in UTC. Convert to UTC otherwise.
+            //ref: //fix: hard convert to UTC date as no request contains TZ information.
+            if (value.toLowerCase().indexOf("z") < 0)
+                value += "Z";
+                
             var dateTime: DateTime = DateTime.Parse(
                 value);
             // CultureInfo.InvariantCulture,
@@ -298,7 +311,7 @@ export class ExchangeServiceBase {
         this.SaveHttpResponseHeaders(response.Headers);
     }
     SaveHttpResponseHeaders(headers: IXHROptions/* System.Net.WebHeaderCollection*/): any {
-        debugger;
+        //debug:
         this.httpResponseHeaders = {};
 
         for (var key in headers.headers) {

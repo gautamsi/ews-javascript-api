@@ -31,7 +31,6 @@ import {FolderId} from "../../../ComplexProperties/FolderId";
 import {FolderSchema} from "../Schemas/FolderSchema";
 import {EwsLogging} from "../../EwsLogging";
 import {IPromise} from "../../../Interfaces";
-import {Promise} from "../../../PromiseFactory"
 import {XmlElementNames} from "../../XmlElementNames";
 
 import {ServiceObject} from "../ServiceObject";
@@ -238,7 +237,7 @@ export class Folder extends ServiceObject {
         else if (typeof searchFilterOrQueryString === 'string') {
             queryString = searchFilterOrQueryString;
         }
-        debugger;//check: verify if querystring is null
+        //debug: //todo: //ref: verify if querystring is null
         return this.Service.FindItems<TItem>(
             [this.Id], // FolderId[]
             searchFilter, /* searchFilter */
@@ -322,7 +321,7 @@ export class Folder extends ServiceObject {
             this.Permissions.Validate();
         }
     }
-
-    //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
-    IsFolderInstance(): boolean { return true; }//only folder instance returns true.
+    
+    //created this to help find serviceobject type, ServiceObjectInstance instanceof Folder fails by creating circular dependency in javascript/typescript
+    get InstanceType(): string { return XmlElementNames.Folder; }
 }

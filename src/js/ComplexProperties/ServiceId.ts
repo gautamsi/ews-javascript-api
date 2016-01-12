@@ -16,6 +16,8 @@ export class ServiceId extends ComplexProperty {
     //private changeKey: string; not needed for proxy
     //private uniqueId: string; - not needed for proxy
 
+    constructor();
+    constructor(uniqueId: string);
     constructor(uniqueId?: string) {
         super();
         if (!StringHelper.IsNullOrEmpty(uniqueId)) {
@@ -80,12 +82,10 @@ export class ServiceId extends ComplexProperty {
     }
     ToString(): string { return (this.UniqueId == null) ? "" : this.UniqueId; }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue("", XmlAttributeNames.Id, this.UniqueId);
-        writer.WriteAttributeValue("", XmlAttributeNames.ChangeKey, this.ChangeKey);
+        writer.WriteAttributeValue(XmlAttributeNames.Id, this.UniqueId);
+        writer.WriteAttributeValue(XmlAttributeNames.ChangeKey, this.ChangeKey);
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         super.WriteToXml(writer, this.GetXmlElementName());
     }
 }
-
-

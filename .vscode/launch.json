@@ -9,7 +9,7 @@
 			// Type of configuration. Possible values: "node", "mono".
 			"type": "node",
 			// Workspace relative or absolute path to the program.
-			"program": "./build/output/test/ManualLiveTesting/app.js",
+			"program": "./build/output/node/test/ManualLiveTesting/app.js",
 			// Automatically stop program after launch.
 			"stopOnEntry": false,
 			// Command line arguments passed to the program.

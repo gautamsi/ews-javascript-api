@@ -26,7 +26,6 @@ export class GetFolderRequestBase<TResponse extends ServiceResponse> extends Get
     GetXmlElementName(): string { return XmlElementNames.GetFolder; }
     Validate(): void {
         super.Validate();
-        debugger;
         //EwsUtilities.ValidateParamCollection(this.FolderIds, "FolderIds");
         this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }

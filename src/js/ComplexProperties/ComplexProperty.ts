@@ -1,5 +1,6 @@
 ﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {EwsLogging} from "../Core/EwsLogging";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ComplexPropertyChangedDelegate} from "../Misc/DelegateTypes";
 import {IRefParam} from "../Interfaces/IRefParam";
@@ -19,6 +20,8 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
 
   Changed(): void {
     if (this.OnChange && this.OnChange.length > 0) {
+      EwsLogging.Assert(false, "ComplexProperty.Changed", "OnChange events not fired due to circular calling, todo: fix needed");
+      return;
       this.OnChange.forEach((delegateInstance, index, array) => {
         if (delegateInstance)
           delegateInstance(this);
@@ -29,8 +32,9 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, //xmlNamespace: XmlNamespace, xmlElementName: string,
     readAction: (jsonProperty: any, service: ExchangeService) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
-    debugger;//check how to implement with jsobject.
-    throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. ")
+    //debugger;//check how to implement with jsobject.
+    EwsLogging.Assert(false,(<any>this.constructor).name + ".LoadFromXmlJsObject", "ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this.constructor).name);
+    throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this).constuctor.name)
     // this.ReadAttributesFromXmlJsObject(jsObject);
 
     // if (!jsObject.IsEmptyElement) {
@@ -84,7 +88,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
     }
 
     if (applyChange) {
-      debugger;//debug; check; check for ref value setting. 
+      //debugger;//debug; check; check for ref value setting. 
       field.setValue(value);
       this.Changed();
     }

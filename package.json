@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.1.5",
+  "version": "0.1.11",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
@@ -23,20 +23,26 @@
   },
   "homepage": "https://github.com/gautamsi/ews-javascript-api",
   "dependencies": {
+    "base64-js": "0.0.8",
     "moment": "^2.10.3",
     "moment-timezone": "^0.4.0",
-    "winjs-node": "^0.1.0",
+    "node-uuid": "^1.4.3",
+    "winjs-node": "^0.2.0",
     "xmldom": "^0.1.19"
   },
   "devDependencies": {
+    "almond": "^0.3.1",
     "chai": "^3.0.0",
     "chai-as-promised": "^5.1.0",
     "debug": "^2.0.0",
+    "del": "^1.2.0",
     "gulp": "^3.8.10",
+    "gulp-concat": "^2.6.0",
     "gulp-if": "^1.2.5",
     "gulp-load-plugins": "^0.7.0",
     "gulp-mocha": "^2.1.1",
     "gulp-nodemon": "^1.0.4",
+    "gulp-replace": "^0.5.3",
     "gulp-task-listing": "^1.0.0",
     "gulp-uglify": "^1.0.1",
     "gulp-useref": "^1.0.2",

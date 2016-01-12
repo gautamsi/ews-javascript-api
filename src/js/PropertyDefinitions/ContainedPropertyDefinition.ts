@@ -34,7 +34,7 @@ export class ContainedPropertyDefinition<TComplexProperty extends ComplexPropert
     
     
     InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        debugger;//check for correct contained element name
+        //debug: //check for correct contained element name
         if(jsObject[this.containedXmlElementName]){
             jsObject = jsObject[this.containedXmlElementName];
         }        
@@ -48,7 +48,6 @@ export class ContainedPropertyDefinition<TComplexProperty extends ComplexPropert
     }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
-        debugger;
         if (complexProperty != null || typeof complexProperty !== 'undefined') {
             writer.WriteStartElement(XmlNamespace.Types, this.XmlElementName);
 

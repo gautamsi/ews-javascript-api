@@ -1,22 +1,37 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetPasswordExpirationDateResponse} from "../Responses/GetPasswordExpirationDateResponse";
+﻿import {GetPasswordExpirationDateResponse} from "../Responses/GetPasswordExpirationDateResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import {XmlElementNames} from "../XmlElementNames";
+import {IPromise} from "../../Interfaces";
+import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJsonSerializable
-    MailboxSmtpAddress: string;
-    private mailboxSmtpAddress: string;
-    Execute(): GetPasswordExpirationDateResponse { throw new Error("GetPasswordExpirationDateRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetPasswordExpirationDateRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetPasswordExpirationDateRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetPasswordExpirationDateRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetPasswordExpirationDateRequest.ts - ParseResponse : Not implemented."); }
-    //ParseResponse(jsonBody: JsonObject): any { throw new Error("GetPasswordExpirationDateRequest.ts - ParseResponse : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetPasswordExpirationDateRequest.ts - WriteElementsToXml : Not implemented."); }
+    private mailboxSmtpAddress: string = null;
+    get MailboxSmtpAddress(): string {
+        return this.mailboxSmtpAddress;
+    }
+    set MailboxSmtpAddress(value: string) {
+        this.mailboxSmtpAddress = value;
+    }
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    Execute(): IPromise<GetPasswordExpirationDateResponse> {
+        return this.InternalExecute().then((serviceResponse) => {
+            serviceResponse.ThrowIfNecessary();
+            return <GetPasswordExpirationDateResponse>serviceResponse;
+        });
+    }
+    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2010_SP1; }
+    GetResponseXmlElementName(): string { return XmlElementNames.GetPasswordExpirationDateResponse; }
+    GetXmlElementName(): string { return XmlElementNames.GetPasswordExpirationDateRequest; }
+    //ParseResponse(reader: any): any { throw new Error("GetPasswordExpirationDateRequest.ts - ParseResponse : Not implemented."); }
+    ParseResponse(jsonBody: any): any {
+        var serviceResponse: GetPasswordExpirationDateResponse = new GetPasswordExpirationDateResponse();
+        serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
+        return serviceResponse;
+    }
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxSmtpAddress, this.MailboxSmtpAddress); }
 }
-
-
-//}
-
-
-

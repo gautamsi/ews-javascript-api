@@ -103,7 +103,7 @@ export class FindRequest<TResponse extends ServiceResponse> extends MultiRespons
             writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.QueryString);
 
             if (this.ReturnHighlightTerms) {
-                writer.WriteAttributeString(undefined, XmlAttributeNames.ReturnHighlightTerms, this.ReturnHighlightTerms.toString());
+                writer.WriteAttributeString(XmlAttributeNames.ReturnHighlightTerms, this.ReturnHighlightTerms.toString());
             }
 
             writer.WriteValue(this.QueryString, XmlElementNames.QueryString);

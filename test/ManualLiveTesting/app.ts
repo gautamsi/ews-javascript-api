@@ -1,7 +1,10 @@
-import {Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
 UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
-EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper} from "../../src/js/ExchangeWebService";
+EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
+ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody} from "../../src/js/ExchangeWebService";
 
+import {MockXHRApi} from "../MockXHRApi";
+import {MockXHRData} from "../MockXHRData";
 
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
@@ -21,46 +24,141 @@ export class Greeter {
 
     start() {
 
-        var autod = new AutodiscoverService();//new Uri("https://pod51045.outlook.com/autodiscover/autodiscover.svc"), ExchangeVersion.Exchange2013);
-        autod.RedirectionUrlValidationCallback = (val) => { return true };
-        autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        var s: UserSettingName[] = [];
-        s.push(UserSettingName.InternalEwsUrl);
-        s.push(UserSettingName.ExternalEwsUrl);
+        var exch = new ExchangeService(ExchangeVersion.Exchange2013);
+        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
+        EwsLogging.DebugLogEnabled = true;
 
-        s.push(UserSettingName.UserDisplayName);
-        s.push(UserSettingName.UserDN);
-        s.push(UserSettingName.EwsPartnerUrl);
-        s.push(UserSettingName.DocumentSharingLocations);
-        s.push(UserSettingName.MailboxDN);
-        s.push(UserSettingName.ActiveDirectoryServer);
-        s.push(UserSettingName.CasVersion);
-        s.push(UserSettingName.ExternalWebClientUrls);
-        s.push(UserSettingName.ExternalImap4Connections);
-        s.push(UserSettingName.AlternateMailboxes);
-        autod.GetUserSettings(["gstest@singhspro.onmicrosoft.com", "gstest@singhspro.onmicrosoft.com"], s)
-        //autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl, UserSettingName.AlternateMailboxes, UserSettingName.MailboxDN, UserSettingName.CasVersion, UserSettingName.DocumentSharingLocations, UserSettingName.ActiveDirectoryServer, UserSettingName.EwsPartnerUrl)
-            .then((sr) => {
-                var tabcount = 0;
-                var tabs = ()=>{return StringHelper.Repeat("\t",tabcount);}
-                var util = require('util');
-                //console.log(util.inspect(sr, { showHidden: false, depth: null, colors: true }));
-                console.log(autod.Url.ToString());
-                for(var resp of sr.Responses){
-                    console.log(StringHelper.Format("{0}settings for email: {1}",tabs(), resp.SmtpAddress));
-                    tabcount++;
-                    for (var setting in resp.Settings){
-                        console.log(StringHelper.Format("{0}{1} = {2}" , tabs(), UserSettingName[setting], resp.Settings[setting]));
-                    }
-                    tabcount--;                    
-                }
-                //console.log(sr);
+        var appointment = new Appointment(exch);
+        appointment.Subject = "Dentist Appointment";
+        appointment.Body = new MessageBody("The appointment is with Dr. Smith.");
+        appointment.Start = new DateTime(new Date(2016, 3, 1, 9, 0, 0));
+        appointment.End = appointment.Start.Add(2, "hour");
+        appointment.Save(SendInvitationsMode.SendToNone).then(() => {
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+return;
+
+
+        exch.TimeZoneDefinition = new TimeZoneDefinition();
+
+
+        var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
+        var att2 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
+        // var att1 = new AttendeeInfo("gautamsi@microsoft.com");
+        // var att2 = new AttendeeInfo("abhijitp@microsoft.com");
+        // var att3 = new AttendeeInfo("pardeb@microsoft.com");
+        // var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
+        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).asMilliseconds()));
+        var ats = [att1, att2];//, att3, att4];
+        exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
+            .then((fi) => {
+                //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
+                EwsLogging.Log(fi, true, true);                
                 console.log("------------");
-            }, (e: any) => {
-                var util = require('util');
-                console.log(util.inspect(e, { showHidden: false, depth: null, colors: true }));
+            }, (ei: any) => {
+                EwsLogging.Log(ei, true, true);
+                console.log(ei.stack, ei.stack.split("\n"));
                 console.log("------------");
             });
+        console.log("------------");
+        return;
+
+
+        var mockXhr = new MockXHRApi();
+        exch.XHRApi = mockXhr
+        mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
+        mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
+        var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
+        var EX_normalized_Subject = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x0E1D); //https://willcode4foodblog.wordpress.com/2012/04/14/understanding-sharing-invitation-requests-ews-managed-api-1-2-part-2/
+        var EX_prop2 = new ExtendedPropertyDefinition(MapiPropertyType.String,"Content-Class", DefaultExtendedPropertySet.InternetHeaders);
+        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS,EX_normalized_Subject]);
+        exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
+            .then((response) => {
+                for (var item of response.Items) {
+                    mockXhr.requestXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader;
+                    mockXhr.responseXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse;
+
+                    var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
+                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MapiPropertyType.String, "Expiration Date", MyPropertySetId);
+                    item.SetExtendedProperty(extendedPropertyDefinition, DateTime.Now.Add(2, "days").ToISOString());
+
+                    item.Update(ConflictResolutionMode.AutoResolve)
+                    item.Load(psPropSet)
+                        .then((loadResp) => {
+                            var outval = { outValue: null };
+                            //EwsLogging.Log(item,true,true);
+                            if (item.TryGetExtendedProperty(PR_TRANSPORT_MESSAGE_HEADERS, outval)) {
+                                EwsLogging.Log(outval.outValue, true, true);
+                            }
+                        }, (err) => {
+                            EwsLogging.Log(err, true, true);
+                            EwsLogging.Log("-------------- error in loading item ----------", true, true);
+                        });
+                }
+            }, (err) => {
+                EwsLogging.Log(err, true, true);
+                EwsLogging.Log("-------------- error in finditem ----------", true, true);
+            });
+
+
+
+
+        return;
+        mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
+        mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
+        exch.ExpandGroup("group@contoso.com").then((response) => {
+            EwsLogging.Log(response, true, true);
+            EwsLogging.Log("-------------- request complete ----------", true, true);
+        });
+
+        return;
+
+
+
+
+        mockXhr.requestXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest;
+        mockXhr.responseXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire;
+        exch.GetPasswordExpirationDate("gstest@singhs.pro").then((response) => {
+            EwsLogging.Log(response, true, true);
+            EwsLogging.Log("-------------- request complete ----------", true, true);
+        });
+
+        return;
+
+
+        exch.ResolveName("gstest", ResolveNameSearchLocation.DirectoryOnly, true, PropertySet.IdOnly)
+            .then((response) => {
+                EwsLogging.Log(response.Items[0].Mailbox.MailboxType, true, true);
+                console.log(response._getItem(0).Contact.DirectoryPhoto);
+                EwsLogging.Log("-------------- request complete ----------", true, true);
+            });
+        return;
+
+        var items: Item[] = [];
+        var item0: Item = null;
+        exch.FindItems(WellKnownFolderName.SentItems, new ItemView(3))
+            .then((response) => {
+                items = response.Items;
+                EwsLogging.Log(items[0], true, true);
+            })
+            .then(() => {
+                exch.BindToItem(items[0].Id, PropertySet.IdOnly).then((response) => {
+                    item0 = response;
+                    EwsLogging.Log(item0, true, true);
+                });
+            })
+            .then(() => {
+                item0.Load()
+                    .then((response) => {
+                        EwsLogging.Log(item0, true, true);
+                    });
+            });
+
         return;
         //EwsLogging.DebugLogEnabled = true;
         //var dd = new ext.DOMParser()
@@ -71,7 +169,6 @@ export class Greeter {
         //return;
         var colorName: string = Color[2];
         var cname = Object.prototype.toString.call(Color).slice(8, -1);;
-        var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"> <s:Header> <h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="154" MinorBuildNumber="18" Version="V2_42" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/> </s:Header> <s:Body> <m:GetFolderResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"> <m:ResponseMessages> <m:GetFolderResponseMessage ResponseClass="Success"> <m:ResponseCode>NoError</m:ResponseCode> <m:Folders> <t:CalendarFolder> <t:FolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAENAAA=" ChangeKey="AgAAABYAAAB0vGFf3HZOSb1IxPAYl2sPAAAAAAA3"/> <t:ParentFolderId Id="AAMkADVmNzUzM2M2LTY1ODgtNGIwNS05NWUwLTE5MzJhNWRhNWIzZQAuAAAAAAAt9OU5vf4nTaa38x9WV1pGAQB0vGFf3HZOSb1IxPAYl2sPAAAAAAEIAAA=" ChangeKey="AQAAAA=="/> <t:FolderClass>IPF.Appointment</t:FolderClass> <t:DisplayName>Calendar</t:DisplayName> <t:TotalCount>0</t:TotalCount> <t:ChildFolderCount>0</t:ChildFolderCount> <t:EffectiveRights> <t:CreateAssociated>true</t:CreateAssociated> <t:CreateContents>true</t:CreateContents> <t:CreateHierarchy>true</t:CreateHierarchy> <t:Delete>true</t:Delete> <t:Modify>true</t:Modify> <t:Read>true</t:Read> <t:ViewPrivateItems>true</t:ViewPrivateItems> </t:EffectiveRights> <t:PermissionSet> <t:CalendarPermissions> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Default</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>TimeOnly</t:ReadItems> <t:CalendarPermissionLevel>FreeBusyTimeOnly</t:CalendarPermissionLevel> </t:CalendarPermission> <t:CalendarPermission> <t:UserId> <t:DistinguishedUser>Anonymous</t:DistinguishedUser> </t:UserId> <t:CanCreateItems>false</t:CanCreateItems> <t:CanCreateSubFolders>false</t:CanCreateSubFolders> <t:IsFolderOwner>false</t:IsFolderOwner> <t:IsFolderVisible>false</t:IsFolderVisible> <t:IsFolderContact>false</t:IsFolderContact> <t:EditItems>None</t:EditItems> <t:DeleteItems>None</t:DeleteItems> <t:ReadItems>None</t:ReadItems> <t:CalendarPermissionLevel>None</t:CalendarPermissionLevel> </t:CalendarPermission> </t:CalendarPermissions> </t:PermissionSet> </t:CalendarFolder> </m:Folders> </m:GetFolderResponseMessage> </m:ResponseMessages> </m:GetFolderResponse> </s:Body> </s:Envelope>';
         var parser = new DOMParser();
         //var xmlDoc = parser.parseFromString(rawXML, "text/xml");
@@ -88,10 +185,8 @@ export class Greeter {
         //var autod = new AutodiscoverService("https://pod51045.outlook.com/autodiscover/autodiscover.svc", "microsoft.com", ExchangeVersion.Exchange2013);
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
-        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
         exch.TimeZoneDefinition = new TimeZoneDefinition();
-        exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
@@ -106,6 +201,7 @@ export class Greeter {
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
                 EwsLogging.Log(fi, true, true);
+                for(var res in fi.SuggestionsResponse)
                 console.log("------------");
             }, (ei: any) => {
                 EwsLogging.Log(ei, true, true);

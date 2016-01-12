@@ -1,5 +1,7 @@
 /// <reference path="../../typings/node/node.d.ts" />
+/// <reference path="../../typings/base64-js.d.ts" />
 
+import * as b64 from 'base64-js';
 
 export module StringHelper {
     export function IsNullOrEmpty(str: string): boolean {
@@ -23,6 +25,14 @@ export module StringHelper {
     }
     export function Tabs(times: number = 0): string {
         return Repeat("\t", times);
+    }
+    export function Compare(lhs: string, rhs: string, ignoreCase: boolean = false): number {
+        if (ignoreCase) {
+            return lhs.toLocaleLowerCase().localeCompare(rhs.toLocaleLowerCase());
+        }
+        else {
+            return lhs.localeCompare(rhs);
+        }
     }
 }
 
@@ -91,7 +101,7 @@ export module ArrayHelper {
         }
     }
 
-    export function Find<T>(array: Array<T>, comparer: (item: T) => boolean) {
+    export function Find<T>(array: Array<T>, comparer: (item: T) => boolean): T {
         for (var entry of array) {
             if (comparer(entry)) {
                 return entry;
@@ -99,8 +109,33 @@ export module ArrayHelper {
         }
         return null;
     }
-
-
+    export function OfType<T, U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
+        var result: T[] = [];
+        for (var entry of array) {
+            if (comparer(entry)) {
+                result.push(<T><any>entry);
+            }
+        }
+        return result;
+    }
+    /**dirty calculation of max dimension, will return more than one if array contains any array element in first testElementCount items */
+    export function Rank(array: any[], testElementCount: number = 4): number {
+        var rank: number = 1;
+        if (array.length === 0) {
+            return rank;
+        }
+        var length = array.length <= testElementCount ? array.length : testElementCount;
+        var maxDepthRank: number = 0;
+        for (var index = 0; index < length; index++) {
+            var element = array[index];
+            if (Array.isArray(element)) {
+                var _tRank = Rank(element, testElementCount);
+                maxDepthRank = _tRank > maxDepthRank ? _tRank : maxDepthRank;
+            }
+        }
+        rank += maxDepthRank;
+        return rank;
+    }
 }
 
 export class TypeSystem {
@@ -440,24 +475,36 @@ export class Convert {
         if (throwIfNotBool) throw new Error("not a boolean");
         return false;
     }
+    // static FromBase64String(encodedStr: string): string {
+    //     return base64Helper.atob(encodedStr);
+    // }
+    // static ToBase64String(str: string): string {
+    //     return base64Helper.btoa(str);
+    // }
+    static FromBase64String(encodedStr: string): number[] {
+        return b64.toByteArray(encodedStr);
+    }
+    static ToBase64String(byteArray: number[]): string {
+        return b64.fromByteArray(byteArray);
+    }
 }
 
 export module base64Helper {
 
-    export function btoa(text: string): string {
+    export function btoa(textToEncode: string): string {
         if (isNode) {
-            var b = new Buffer(text);
+            var b = new Buffer(textToEncode);
             return b.toString('base64');
         } else {
-            return window.btoa(text);
+            return window.btoa(textToEncode);
         }
     }
-    export function atob(text: string): string {
+    export function atob(textToDecode: string): string {
         if (isNode) {
-            var b = new Buffer(text, 'base64');
+            var b = new Buffer(textToDecode, 'base64');
             return b.toString();
         } else {
-            return window.atob(text);
+            return window.atob(textToDecode);
         }
     }
 }

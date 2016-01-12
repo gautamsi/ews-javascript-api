@@ -20,10 +20,10 @@ import {ByteArrayArray} from "../../../ComplexProperties/ByteArrayArray";
 import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
 import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
 import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {ItemSchema} from "./ItemSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
 
+import {ItemSchema} from "./ItemSchema";
 
 //module ContactSchema {
 module FieldUris {

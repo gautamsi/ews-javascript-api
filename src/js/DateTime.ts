@@ -16,11 +16,10 @@ export class DateTime {
 	kind: DateTimeKind = DateTimeKind.Unspecified;
 	get Date(): moment.Moment { return this.momentDate; }
 	get currentUtcOffset(): number { return this.momentDate.utcOffset(); }
-	private momentDate: moment.Moment;
-	private momentInstance: any = moment()
+	private momentDate: moment.Moment = moment();
 	static get Now(): DateTime { return new DateTime(moment()); }
 	get TotalMilliSeconds(): number { return this.momentDate.valueOf() }
-	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Utc) {
+	constructor(date?: DateTime | any, kind: DateTimeKind = DateTimeKind.Local) {
 		if (date instanceof DateTime) {
 			this.momentDate = date.Date.clone();
 		}
@@ -30,6 +29,13 @@ export class DateTime {
 		this.kind = kind;
 
 	}
+
+	Add(quantity: number, unit: string): DateTime {
+		var date:moment.Moment = moment(this.momentDate);
+		date.add(quantity, unit);
+		return new DateTime(date);
+	}
+
 	static Compare(x: DateTime, y: DateTime): number {
 		var diff: number = x.momentDate.diff(y.momentDate);
 		if (diff === 0) return 0;
@@ -50,6 +56,7 @@ export class DateTime {
 		return new DateTime(value, kind);
 	}
 	ToISOString(): string { return this.momentDate.toISOString(); }
+	toString(): string { return this.ToISOString(); }
 	utcOffset(value: number) { this.momentDate.utcOffset(value); }
 
 
@@ -94,7 +101,8 @@ export class DateTime {
 		// ensure this.
 		return date.Format(format);//, CultureInfo.InvariantCulture);
 	}
-
+	static MinValue: DateTime = new DateTime('0001-01-01T00:00:00+00:00');
+	static MaxValue: DateTime = new DateTime("9999-12-31T23:59:59.9999999+00:00");
 
 }
 
@@ -378,4 +386,74 @@ module TimeSpan2 {
 		// public static bool operator >= (TimeSpan t1, TimeSpan t2);
 
 	}
+}
+//
+// Summary:
+//     Defines the formatting options that customize string parsing for some date and
+//     time parsing methods.
+export enum DateTimeStyles {
+	//
+	// Summary:
+	//     Default formatting options must be used. This value represents the default style
+	//     for the System.DateTime.Parse(System.String), System.DateTime.ParseExact(System.String,System.String,System.IFormatProvider),
+	//     and System.DateTime.TryParse(System.String,System.DateTime@) methods.
+	None = 0,
+	//
+	// Summary:
+	//     Leading white-space characters must be ignored during parsing, except if they
+	//     occur in the System.Globalization.DateTimeFormatInfo format patterns.
+	AllowLeadingWhite = 1,
+	//
+	// Summary:
+	//     Trailing white-space characters must be ignored during parsing, except if they
+	//     occur in the System.Globalization.DateTimeFormatInfo format patterns.
+	AllowTrailingWhite = 2,
+	/**
+	 * Summary:
+	 *	    Extra white-space characters in the middle of the string must be ignored during
+	 *	    parsing, except if they occur in the System.Globalization.DateTimeFormatInfo
+	 *	    format patterns.
+	 */
+	AllowInnerWhite = 4,
+	
+	/**
+	 * 	Summary:
+	 *	    Extra white-space characters anywhere in the string must be ignored during parsing,
+	 *	    except if they occur in the System.Globalization.DateTimeFormatInfo format patterns.
+	 *	    This value is a combination of the System.Globalization.DateTimeStyles.AllowLeadingWhite,
+	 *	    System.Globalization.DateTimeStyles.AllowTrailingWhite, and System.Globalization.DateTimeStyles.AllowInnerWhite
+	 *	    values.
+	 */
+	AllowWhiteSpaces = 7,
+	//
+	// Summary:
+	//     If the parsed string contains only the time and not the date, the parsing methods
+	//     assume the Gregorian date with year = 1, month = 1, and day = 1. If this value
+	//     is not used, the current date is assumed.
+	NoCurrentDateDefault = 8,
+	//
+	// Summary:
+	//     Date and time are returned as a Coordinated Universal Time (UTC). If the input
+	//     string denotes a local time, through a time zone specifier or System.Globalization.DateTimeStyles.AssumeLocal,
+	//     the date and time are converted from the local time to UTC. If the input string
+	//     denotes a UTC time, through a time zone specifier or System.Globalization.DateTimeStyles.AssumeUniversal,
+	//     no conversion occurs. If the input string does not denote a local or UTC time,
+	//     no conversion occurs and the resulting System.DateTime.Kind property is System.DateTimeKind.Unspecified.
+	AdjustToUniversal = 16,
+	//
+	// Summary:
+	//     If no time zone is specified in the parsed string, the string is assumed to denote
+	//     a local time.
+	AssumeLocal = 32,
+	//
+	// Summary:
+	//     If no time zone is specified in the parsed string, the string is assumed to denote
+	//     a UTC.
+	AssumeUniversal = 64,
+	//
+	// Summary:
+	//     The System.DateTimeKind field of a date is preserved when a System.DateTime object
+	//     is converted to a string using the "o" or "r" standard format specifier, and
+	//     the string is then converted back to a System.DateTime object.
+	RoundtripKind = 128
 }

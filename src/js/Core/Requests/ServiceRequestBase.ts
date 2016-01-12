@@ -17,9 +17,9 @@ import {EwsLogging} from "../EwsLogging";
 
 import {StringHelper} from "../../ExtensionMethods";
 
-import {IPromise, IXHROptions} from "../../Interfaces";
-import {Promise} from "../../PromiseFactory"
-import {XHR} from "../../XHRFactory"
+import {IPromise, IXHROptions, IXHRApi} from "../../Interfaces";
+import {PromiseFactory} from "../../PromiseFactory"
+import {XHRFactory} from "../../XHRFactory"
 export class ServiceRequestBase {
 
     //#region private static and const
@@ -50,6 +50,8 @@ export class ServiceRequestBase {
 
     // #region abstract Methods for subclasses to override
     get EmitTimeZoneHeader(): boolean { return false; }
+    
+    
     
     /// <summary>
     /// Initializes a new instance of the <see cref="ServiceRequestBase"/> class.
@@ -146,7 +148,7 @@ export class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return XHR(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
     GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
@@ -401,7 +403,7 @@ export class ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return XHR(request);
+        return this.service.GetXHRApi.xhr(request);
 
         //try
         //{
@@ -486,7 +488,7 @@ export class ServiceRequestBase {
         // Emit the RequestServerVersion header
         if (!this.Service.SuppressXmlVersionHeader) {
             writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.RequestServerVersion);
-            writer.WriteAttributeValue("", XmlAttributeNames.Version, this.GetRequestedServiceVersionString());
+            writer.WriteAttributeValue(XmlAttributeNames.Version, this.GetRequestedServiceVersionString());
             writer.WriteEndElement(); // RequestServerVersion
         }
 

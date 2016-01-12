@@ -4,7 +4,7 @@ import {ServiceRequestException} from "../../Exceptions/ServiceRequestException"
 import {Strings} from "../../Strings";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {IPromise} from "../../Interfaces";
-import {Promise} from "../../PromiseFactory"
+import {PromiseFactory} from "../../PromiseFactory"
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
 
@@ -33,26 +33,10 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
         //    //}
         //};
 
-        return Promise((successDelegate, errorDelegate, progressDelegate) => {
+        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
             var request = this.BuildXHR();
 
-
             //this.ReadResponsePrivate(response);
-            ////////////////////////
-            var noserver = { value: false };
-            if (noserver.value) {
-                //autodiscover - usersettings
-                var rawXML = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:a="http://www.w3.org/2005/08/addressing"><s:Header><a:Action s:mustUnderstand="1">http://schemas.microsoft.com/exchange/2010/Autodiscover/Autodiscover/GetUserSettingsResponse</a:Action><h:ServerVersionInfo xmlns:h="http://schemas.microsoft.com/exchange/2010/Autodiscover" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><h:MajorVersion>15</h:MajorVersion><h:MinorVersion>1</h:MinorVersion><h:MajorBuildNumber>49</h:MajorBuildNumber><h:MinorBuildNumber>12</h:MinorBuildNumber><h:Version>Exchange2013_SP1</h:Version></h:ServerVersionInfo></s:Header><s:Body><GetUserSettingsResponseMessage xmlns="http://schemas.microsoft.com/exchange/2010/Autodiscover"><Response xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><ErrorCode>NoError</ErrorCode><ErrorMessage/><UserResponses><UserResponse><ErrorCode>NoError</ErrorCode><ErrorMessage>No error.</ErrorMessage><RedirectTarget i:nil="true"/><UserSettingErrors><UserSettingError><ErrorCode>SettingIsNotAvailable</ErrorCode><ErrorMessage>User setting \'PublicFolderServer\' is not available. </ErrorMessage><SettingName>PublicFolderServer</SettingName></UserSettingError><UserSettingError><ErrorCode>SettingIsNotAvailable</ErrorCode><ErrorMessage>User setting \'ActiveDirectoryServer\' is not available. </ErrorMessage><SettingName>ActiveDirectoryServer</SettingName></UserSettingError></UserSettingErrors><UserSettings><UserSetting i:type="StringSetting"><Name>UserDisplayName</Name><Value>Gautam Singh</Value></UserSetting><UserSetting i:type="StringSetting"><Name>UserDN</Name><Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=d3a8122a309a4ba38da2b92046226d57-gs</Value></UserSetting><UserSetting i:type="StringSetting"><Name>UserDeploymentId</Name><Value>6912b512-2112-48ab-ba64-191c0620d684</Value></UserSetting><UserSetting i:type="StringSetting"><Name>CasVersion</Name><Value>15.01.0049.012</Value></UserSetting><UserSetting i:type="StringSetting"><Name>EwsSupportedSchemas</Name><Value>Exchange2007, Exchange2007_SP1, Exchange2010, Exchange2010_SP1, Exchange2010_SP2, Exchange2013, Exchange2013_SP1</Value></UserSetting><UserSetting i:type="StringSetting"><Name>InternalMailboxServer</Name><Value>DM2PR09MB0206.namprd09.prod.outlook.com</Value></UserSetting><UserSetting i:type="StringSetting"><Name>GroupingInformation</Name><Value>DM2PR09</Value></UserSetting><UserSetting i:type="StringSetting"><Name>MailboxDN</Name><Value>/o=ExchangeLabs/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Configuration/cn=Servers/cn=d1a570b9-89e9-409f-89f7-860cc25ba410@singhspro.onmicrosoft.com/cn=Microsoft Private MDB</Value></UserSetting><UserSetting i:type="StringSetting"><Name>EcpDeliveryReportUrlFragment</Name><Value>PersonalSettings/DeliveryReport.aspx?rfr=olk&amp;exsvurl=1&amp;IsOWA=&lt;IsOWA&gt;&amp;MsgID=&lt;MsgID&gt;&amp;Mbx=&lt;Mbx&gt;&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type="StringSetting"><Name>EcpTextMessagingUrlFragment</Name><Value>?rfr=olk&amp;p=sms/textmessaging.slab&amp;exsvurl=1&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type="StringSetting"><Name>EcpPublishingUrlFragment</Name><Value>customize/calendarpublishing.slab?rfr=olk&amp;exsvurl=1&amp;FldID=&lt;FldID&gt;&amp;realm=singhspro.onmicrosoft.com</Value></UserSetting><UserSetting i:type="StringSetting"><Name>ExternalEwsUrl</Name><Value>https://outlook.office365.com/EWS/Exchange.asmx</Value></UserSetting><UserSetting i:type="StringSetting"><Name>ExternalMailboxServer</Name><Value>outlook.office365.com</Value></UserSetting></UserSettings></UserResponse></UserResponses></Response></GetUserSettingsResponseMessage></s:Body></s:Envelope>';
-
-                var dom = new DOMParser();
-                var xml2js = new xml2JsObject();
-                var req = xml2js.parseXMLNode(dom.parseFromString(rawXML, "text/xml").documentElement, true);
-                EwsLogging.DebugLog(req, true);
-                successDelegate(this.ReadResponsePrivate(req));
-                return req;
-            }
-            //////////////////////////////////////
-
             this.ValidateAndEmitRequest(request).then((xhrResponse: XMLHttpRequest) => {
                 var dom = new DOMParser();
                 var xml2js = new xml2JsObject();

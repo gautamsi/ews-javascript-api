@@ -1,16 +1,15 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {JsonObject} from "../JsonObject";
+﻿import {DateTime} from "../../DateTime";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+import {ServiceResponse} from "./ServiceResponse";
 export class GetPasswordExpirationDateResponse extends ServiceResponse {
-    PasswordExpirationDate: Date;
-    private passwordExpirationDate: Date;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetPasswordExpirationDateResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetPasswordExpirationDateResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+    private passwordExpirationDate: DateTime = null;
+    get PasswordExpirationDate(): DateTime {
+        return this.passwordExpirationDate;
+    }
+    ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("GetPasswordExpirationDateResponse.ts - ReadElementsFromJson : Not implemented."); }
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        super.ReadElementsFromXmlJsObject(responseObject, service);
+        this.passwordExpirationDate = service.ConvertUniversalDateTimeStringToLocalDateTime(responseObject[XmlElementNames.PasswordExpirationDate]);
+    }
 }
-
-
-//}
-
-
-

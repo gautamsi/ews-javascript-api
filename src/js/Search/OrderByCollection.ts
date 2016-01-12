@@ -67,7 +67,7 @@ export class OrderByCollection {  //: IEnumerable < PropertyDefinitionSortDirect
             for (var keyValuePair of this.propDefSortOrderPairList) {
                 writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.FieldOrder);
 
-                writer.WriteAttributeValue(undefined, XmlAttributeNames.Order, keyValuePair.value);
+                writer.WriteAttributeValue(XmlAttributeNames.Order, keyValuePair.value);
                 keyValuePair.key.WriteToXml(writer);
 
                 writer.WriteEndElement(); // FieldOrder

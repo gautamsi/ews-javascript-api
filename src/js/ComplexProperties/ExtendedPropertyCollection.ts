@@ -2,6 +2,7 @@
 import {EwsUtilities} from "../Core/EwsUtilities";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {ExtendedProperty} from "./ExtendedProperty";
+import {ArgumentException} from "../Exceptions/ArgumentException";
 import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
@@ -25,7 +26,7 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
     InternalToJson(service: ExchangeService): any { throw new Error("ExtendedPropertyCollection.ts - InternalToJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any,service:ExchangeService ): void {//localElementName: string
         var extendedProperty = new ExtendedProperty();
-        debugger; //todo: check for need of local elementnot tested
+        //debugger; //debug: //todo: check for need of local element -not tested
         extendedProperty.LoadFromXmlJsObject(jsObject, service);
         this.InternalAdd(extendedProperty);
     }
@@ -52,21 +53,18 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
         var extendedProperty: IOutParam<ExtendedProperty> = { outValue: null };
         if (this.TryGetProperty(propertyDefinition, extendedProperty)) {
             //debug: Verify that the type parameter and property definition's type are compatible.
-            //debugger;
-            throw new Error("ExtendedPropertyCollection.ts - TryGetValue - some type of implementation needed for TypeSystem - ExtendedPropertyCollection.ts - TryGetValue");
             //if (!typeof (T).IsAssignableFrom(propertyDefinition.Type)) {
-            var errorMessage = StringHelper.Format(
-                Strings.PropertyDefinitionTypeMismatch,
-                EwsUtilities.GetPrintableTypeName(propertyDefinition.Type),
-                EwsUtilities.GetPrintableTypeName("Y"));
-            throw new Error(errorMessage +  " - propertyDefinition");//ArgumentException
+            // var errorMessage = StringHelper.Format(
+            //     Strings.PropertyDefinitionTypeMismatch,
+            //     EwsUtilities.GetPrintableTypeName(propertyDefinition.Type),
+            //     EwsUtilities.GetPrintableTypeName("Y"));
+            // throw new ArgumentException(errorMessage +  " - propertyDefinition");
             //}
-
-            propertyValue = <T>extendedProperty.outValue.Value;
+            propertyValue.outValue = <T>extendedProperty.outValue.Value;
             return true
         }
         else {
-            propertyValue = null;// default(T);
+            propertyValue.outValue = null;// default(T);
             return false;
         }
     }

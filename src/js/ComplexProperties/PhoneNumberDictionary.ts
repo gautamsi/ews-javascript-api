@@ -1,15 +1,48 @@
-﻿import {DictionaryProperty} from "./DictionaryProperty";
+﻿import {IOutParam} from "../Interfaces/IOutParam";
+import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
 import {PhoneNumberEntry} from "./PhoneNumberEntry";
 import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
+import {DictionaryProperty} from "./DictionaryProperty";
 export class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, PhoneNumberEntry> {
-    Item: string;
-    CreateEntryInstance(): PhoneNumberEntry { throw new Error("PhoneNumberDictionary.ts - CreateEntryInstance : Not implemented."); }
-    GetFieldURI(): string { throw new Error("PhoneNumberDictionary.ts - GetFieldURI : Not implemented."); }
-    TryGetValue(key: PhoneNumberKey, phoneNumber: any): boolean { throw new Error("PhoneNumberDictionary.ts - TryGetValue : Not implemented."); }
+    constructor() {
+        super(DictionaryKeyType.PhoneNumberKey);
+    }
+    _getItem(key: PhoneNumberKey): string {
+        return this.Entries.get(key).PhoneNumber;
+    }
+
+    _setItem(key: PhoneNumberKey, value: string) {
+        if (value == null) {
+            this.InternalRemove(key);
+        }
+        else {
+            var entry: IOutParam<PhoneNumberEntry> = { outValue: null };
+
+            if (this.Entries.tryGetValue(key, entry)) {
+                entry.outValue.PhoneNumber = value;
+                this.Changed();
+            }
+            else {
+                entry = new PhoneNumberEntry(key, value);
+                this.InternalAdd(entry.outValue);
+            }
+        }
+    }
+
+    CreateEntryInstance(): PhoneNumberEntry {return new PhoneNumberEntry(); }
+    GetFieldURI(): string { return "contacts:PhoneNumber"; }
+    TryGetValue(key: PhoneNumberKey, phoneNumber: IOutParam<string>): boolean {
+        var entry: IOutParam<PhoneNumberEntry> = { outValue: null };
+
+        if (this.Entries.tryGetValue(key, entry)) {
+            phoneNumber = entry.outValue.PhoneNumber;
+
+            return true;
+        }
+        else {
+            phoneNumber = null;
+
+            return false;
+        }
+    }
 }
-
-
-//}
-
-
-

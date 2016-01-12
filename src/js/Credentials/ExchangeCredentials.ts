@@ -1,12 +1,19 @@
-import {base64Helper} from "../ExtensionMethods";
+import {base64Helper, StringHelper} from "../ExtensionMethods";
 import {Uri} from "../Uri";
 import {IXHROptions} from "../Interfaces";
 export class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
-
-    constructor(public UserName: string, public Password: string) {
-
+    UserName: string = null;
+    Password: string = null
+    constructor();
+    constructor(userName: string, password: string)
+    constructor(userName: string = null, password: string = null) {
+        if (arguments.length > 0 && (StringHelper.IsNullOrEmpty(userName) || StringHelper.IsNullOrEmpty(password))) {
+            throw new Error("ExchangeCredentials.ctor, must provide username and password value.")
+        }
+        this.UserName = userName;
+        this.Password = password;
     }
 
     AdjustUrl(url: Uri): Uri { return new Uri(ExchangeCredentials.GetUriWithoutSuffix(url)); }

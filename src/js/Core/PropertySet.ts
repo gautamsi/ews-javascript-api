@@ -19,19 +19,19 @@ import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionB
 import {LazyMember} from "./LazyMember";
 import {EwsLogging} from "../Core/EwsLogging";
 import {StringHelper} from "../ExtensionMethods";
-import {IndexerWithNumericKey, IndexerWithEnumKey} from "../AltDictionary";
+import {Dictionary} from "../AltDictionary";
 
 //todo: should be done except for debugger stops
 export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitionBase>
     //using DefaultPropertySetDictionary = LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
 
-    static get DefaultPropertySetMap(): LazyMember<IndexerWithEnumKey<BasePropertySet, string>> { return this.defaultPropertySetMap; }
+    static get DefaultPropertySetMap(): LazyMember<Dictionary<BasePropertySet, string>> { return this.defaultPropertySetMap; }
     static IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
     static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
-    private static defaultPropertySetMap: LazyMember<IndexerWithEnumKey<BasePropertySet, string>> = new LazyMember<IndexerWithEnumKey<BasePropertySet, string>>(() => {
-        var result: IndexerWithEnumKey<BasePropertySet, string> = {};// = new Dictionary<BasePropertySet, string>();
-        result[BasePropertySet.IdOnly] = "IdOnly";
-        result[BasePropertySet.FirstClassProperties] = "AllProperties";
+    private static defaultPropertySetMap: LazyMember<Dictionary<BasePropertySet, string>> = new LazyMember<Dictionary<BasePropertySet, string>>(() => {
+        var result: Dictionary<BasePropertySet, string> = new Dictionary<BasePropertySet, string>((bps) => BasePropertySet[bps]);
+        result.Add(BasePropertySet.IdOnly, "IdOnly");
+        result.Add(BasePropertySet.FirstClassProperties, "AllProperties");
         return result;
     });
     private basePropertySet: BasePropertySet;
@@ -251,7 +251,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.BaseShape,
-            PropertySet.defaultPropertySetMap.Member[this.BasePropertySet]);
+            PropertySet.defaultPropertySetMap.Member.get(this.BasePropertySet));
 
         if (serviceObjectType == ServiceObjectType.Item) {
             if (this.RequestedBodyType/*.HasValue*/) {

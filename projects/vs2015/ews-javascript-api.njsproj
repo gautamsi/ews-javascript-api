@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>ews-javascript-api</Name>
     <RootNamespace>ews-javascript-api</RootNamespace>
-    <ToolsVersionPromptShown>1.5</ToolsVersionPromptShown>
+    <ToolsVersionPromptShown>1.6</ToolsVersionPromptShown>
     <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -137,6 +137,7 @@
     <Folder Include="typings\mocha\" />
     <Folder Include="typings\moment-timezone\" />
     <Folder Include="typings\moment\" />
+    <Folder Include="typings\node-uuid\" />
     <Folder Include="typings\node\" />
     <Folder Include="typings\q\" />
     <Folder Include="typings\winjs\" />

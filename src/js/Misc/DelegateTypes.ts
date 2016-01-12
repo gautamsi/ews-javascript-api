@@ -35,7 +35,7 @@ export interface ResponseHeadersCapturedHandler {
 
 
 export interface ServiceObjectChangedDelegate {
-    (serviceObject: ServiceObject): ServiceObject;
+    (serviceObject: ServiceObject): void;
 }
 //class ServiceObjectChangedDelegate extends System.MulticastDelegate {
 //    //BeginInvoke(serviceObject: ServiceObject, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
@@ -45,7 +45,7 @@ export interface ServiceObjectChangedDelegate {
 
 
 export interface PropertyBagChangedDelegate {
-    (): any;
+    (): void;
 }
 //class PropertyBagChangedDelegate extends System.MulticastDelegate {
 //    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}

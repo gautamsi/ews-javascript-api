@@ -14,6 +14,10 @@ module.exports = function() {
             files: [
                 './src/**/*.ts',                
             ],
+            // all typescript that we want to vet
+           testFiles: [
+                './test/**/*.ts',                
+            ],
             defs: typings + '**/*.ts',
             output: '.tmp',
             refs: typings + 'app.d.ts',

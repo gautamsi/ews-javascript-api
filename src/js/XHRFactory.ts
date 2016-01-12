@@ -1,22 +1,19 @@
-﻿import {IPromise, IXHROptions} from "./Interfaces";
-import {xhr} from "./XHRFactory_WinJS";
+﻿import {IPromise, IXHROptions, IXHRApi} from "./Interfaces";
 
-export function XHR(xhroptions:IXHROptions): IPromise<XMLHttpRequest>{
-    return xhr(xhroptions);
+class XHRApi implements IXHRApi {
+	xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest> {
+		throw new Error("xhrApi - stub method, must be bootstrapped");
+	}
+	get type(): string {
+		return "none";
+	}
 }
 
+var xhrApiObj: IXHRApi = new XHRApi();
 
-//export interface IPromise<T> {
-//	cancel(): void;
-//	done<U>(onComplete?: (value: T) => any, onError?: (error: any) => any, onProgress?: (progress: any) => void): void;
-//	then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => U, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => U, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => U, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => void, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => void, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-//	then<U>(onComplete?: (value: T) => void, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-//}
-
+export class XHRFactory {
+	static get XHRApi(){return xhrApiObj;}
+	static switchXhr(newXHR: IXHRApi) {
+		xhrApiObj = newXHR;
+	}
+}

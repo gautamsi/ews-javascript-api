@@ -45,11 +45,11 @@ export class CreateItemRequestBase<TServiceObject extends ServiceObject, TRespon
         super.WriteAttributesToXml(writer);
 
         if (this.MessageDisposition !== null) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
+            writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
         }
 
         if (this.SendInvitationsMode !== null) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.SendMeetingInvitations, SendInvitationsMode[this.SendInvitationsMode]);
+            writer.WriteAttributeValue(XmlAttributeNames.SendMeetingInvitations, SendInvitationsMode[this.SendInvitationsMode]);
         }
     }
 }

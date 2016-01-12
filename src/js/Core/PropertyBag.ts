@@ -66,10 +66,9 @@ export class PropertyBag {
         }
     }
     private Changed(): void {
-        //todo: implement onchange type events;
-        //if (this.OnChange != null) {
-        //    this.OnChange();
-        //}
+        this.isDirty = true;
+
+        this.owner.Changed();
     }
     Clear(): void {
         this.ClearChangeLog();
@@ -107,7 +106,7 @@ export class PropertyBag {
             if (modifiedIndex >= 0)
                 this.modifiedProperties.splice(modifiedIndex, 1);
 
-            this.deletedProperties.addUpdate(propertyDefinition, propertyValue);
+            this.deletedProperties.Add(propertyDefinition, propertyValue);
 
             var complexProperty = <ComplexProperty>propertyValue;
 
@@ -134,7 +133,7 @@ export class PropertyBag {
     }
     static GetPropertyUpdateItemName(serviceObject: ServiceObject): string {
         //return serviceObject instanceof Folder ?
-        return serviceObject.IsFolderInstance() ? //keep Folder object away from here.
+        return serviceObject.InstanceType === XmlElementNames.Folder ? //removed instanceof operation to remove circular dependency.
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
@@ -258,6 +257,9 @@ export class PropertyBag {
         try {
 
             for (var key in jsObject) {
+                if ((<string>key).indexOf("__") === 0) //skip xnljsobject conversion entries like __type and __prefix
+                    continue;
+
                 if (jsObject.hasOwnProperty(key)) {
                     var element = jsObject[key];
 
@@ -289,6 +291,9 @@ export class PropertyBag {
             //                this.loadedProperties.push(propertyDefinition.outValue);
             //            }
             this.ClearChangeLog();
+        }
+        catch (exception) {
+            EwsLogging.Log(exception);
         }
         finally {
             this.loading = false;
@@ -336,7 +341,7 @@ export class PropertyBag {
 
             if (!this.Owner.IsNew) {
                 // If owner is an item attachment, properties cannot be updated (EWS doesn't support updating item attachments)
-                var isItem = this.owner.IsItemInstance();// this.owner instanceof Item;
+                var isItem = this.owner.InstanceType === XmlElementNames.Item;// this.owner instanceof Item;
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
                 if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {
@@ -390,7 +395,7 @@ export class PropertyBag {
                 }
             }
 
-            this.InitComplexProperty(value instanceof ComplexProperty ? <ComplexProperty> value : undefined);
+            this.InitComplexProperty(value instanceof ComplexProperty ? <ComplexProperty>value : undefined);
             this.properties.set(propertyDefinition, value);
 
             this.Changed();
@@ -408,7 +413,7 @@ export class PropertyBag {
     }
     TryGetPropertyAs<T>(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<T>): boolean {
         // Verify that the type parameter and property definition's type are compatible.
-        debugger;//todo: fix isassignablefrom
+        //debug: //todo: fix isassignablefrom
         //if (!typeof (T).IsAssignableFrom(propertyDefinition.Type)) {
         //    string errorMessage = ExtensionMethods.stringFormatting.Format(
         //        Strings.PropertyDefinitionTypeMismatch,
@@ -417,7 +422,7 @@ export class PropertyBag {
         //    throw new ArgumentException(errorMessage, "propertyDefinition");
         //}
 
-        var outValue: IOutParam<T>;
+        var outValue: IOutParam<T> = { outValue: null };
 
         var result = this.TryGetProperty(propertyDefinition, outValue);
 
@@ -516,7 +521,7 @@ export class PropertyBag {
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.Owner.GetXmlElementName());
 
-        debugger; //fix Schema objects Ienumerable.
+        //debug: //todo: fix Schema objects IEnumerable.
 
         //
         for (var item of this.Owner.Schema.GetEnumerator()) {
@@ -550,12 +555,10 @@ export class PropertyBag {
         }
 
         for (var kv of this.deletedProperties.Items) {
-            debugger;
-            var property: KeyValuePair<PropertyDefinition, any> = <any>item;
             this.WriteDeleteUpdateToXml(
                 writer,
-                property.key,
-                property.value);
+                kv.key,
+                kv.value);
         }
 
         writer.WriteEndElement();

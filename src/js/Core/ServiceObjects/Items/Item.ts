@@ -1,5 +1,6 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
+import {IPromise} from "../../../Interfaces";
 import {Strings} from "../../../Strings";
 import {ServiceVersionException} from "../../../Exceptions/ServiceVersionException";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
@@ -7,6 +8,7 @@ import {ItemId} from "../../../ComplexProperties/ItemId";
 import {MimeContent} from "../../../ComplexProperties/MimeContent";
 import {FolderId} from "../../../ComplexProperties/FolderId";
 import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {Attachment} from "../../../ComplexProperties/Attachment";
 import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
 import {StringList} from "../../../ComplexProperties/StringList";
 import {Importance} from "../../../Enumerations/Importance";
@@ -41,7 +43,8 @@ import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMo
 import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
 import {ItemSchema} from "../Schemas/ItemSchema";
 import {IOutParam} from "../../../Interfaces/IOutParam";
-import {StringHelper} from "../../../ExtensionMethods";
+import {StringHelper, ArrayHelper} from "../../../ExtensionMethods";
+import {PromiseFactory} from "../../../PromiseFactory";
 
 import {ServiceObject} from "../ServiceObject";
 export class Item extends ServiceObject {
@@ -66,7 +69,8 @@ export class Item extends ServiceObject {
             return this.ParentAttachment.IsNew;
         }
         else {
-            return super.IsNewProxy();
+            var id = this.GetId();
+            return id == null ? true : !id.IsValid;
         }
     }
     get Id(): ItemId { return this.PropertyBag._getItem(this.GetIdPropertyDefinition()); }
@@ -272,65 +276,12 @@ export class Item extends ServiceObject {
     get DefaultSendInvitationsOrCancellationsMode(): SendInvitationsOrCancellationsMode {//nullable
         return null;
     }
-    // MimeContent: MimeContent;
-    // ParentFolderId: FolderId;
-    // Sensitivity: Sensitivity;
-    // Attachments: AttachmentCollection;
-    // DateReceived: Date;
-    // Size: number;
-    // Categories: StringList;
-    // Culture: string;
-    // Importance: Importance;
-    // InReplyTo: string;
-    // IsSubmitted: boolean;
-    // IsAssociated: boolean;
-    // IsDraft: boolean;
-    // IsFromMe: boolean;
-    // IsResend: boolean;
-    // IsUnmodified: boolean;
-    // InternetMessageHeaders: InternetMessageHeaderCollection;
-    // DateSent: Date;
-    // DateCreated: Date;
-    // AllowedResponseActions: ResponseActions;
-    // ReminderDueBy: Date;
-    // IsReminderSet: boolean;
-    // ReminderMinutesBeforeStart: number;
-    // DisplayCc: string;
-    // DisplayTo: string;
-    // HasAttachments: boolean;
-    // Body: MessageBody;
-    // ItemClass: string;
-    // Subject: string;
-    // WebClientReadFormQueryString: string;
-    // WebClientEditFormQueryString: string;
-    // ExtendedProperties: ExtendedPropertyCollection;
-    // EffectiveRights: EffectiveRights;
-    // LastModifiedName: string;
-    // LastModifiedTime: Date;
-    // ConversationId: ConversationId;
-    // UniqueBody: UniqueBody;
-    // StoreEntryId: any[];// System.Byte[];
-    // InstanceKey: any[];// System.Byte[];
-    // Flag: Flag;
-    // NormalizedBody: NormalizedBody;
-    // EntityExtractionResult: EntityExtractionResult;
-    // PolicyTag: PolicyTag;
-    // ArchiveTag: ArchiveTag;
-    // RetentionDate: Date;
-    // Preview: string;
-    // TextBody: TextBody;
-    // IconIndex: IconIndex;
-    // DefaultAffectedTaskOccurrences: AffectedTaskOccurrence;
-    // DefaultSendCancellationsMode: SendCancellationsMode;
-    // DefaultSendInvitationsMode: SendInvitationsMode;
-    // DefaultSendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode;
-    // private parentAttachment: ItemAttachment;
 
     constructor(svc: ExchangeService);
     constructor(parentAttachment: ItemAttachment);
+    /**used for super call, easier to manage, do not use in Actual code. //todo:fix - remove from d.ts file*/
+    constructor(obj: ExchangeService | ItemAttachment)
     constructor(obj: ExchangeService | ItemAttachment) {
-        //constructor(obj: any) {
-        //super(obj instanceof ExchangeService ? obj : (obj instanceof ItemAttachment ? obj.Service : null));
         super(obj instanceof ItemAttachment ? obj.Service : <ExchangeService>obj);//todo:fix -can not user instanceof with exchangeservice, creates circular loop with ewsutility 
 
         if (obj instanceof ItemAttachment) {
@@ -344,13 +295,15 @@ export class Item extends ServiceObject {
         }
     }
 
-    //Bind(service: ExchangeService, id: ItemId): Item { throw new Error("Item.ts - Bind : Not implemented."); }
-    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Item {
-        return service.BindToItem<Item>(id, propertySet);
+    Bind(service: ExchangeService, id: ItemId): IPromise<Item>;
+    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Item>;
+    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Item> {
+        return service.BindToItem<Item>(id, propertySet, Item);
     }
-    // Copy(destinationFolderName: WellKnownFolderName): Item { throw new Error("Item.ts - Copy : Not implemented."); }
-    // Copy(destinationFolderId: FolderId): Item { throw new Error("Item.ts - Copy : Not implemented."); }
-    Copy(destinationFolderIdOrName: FolderId| WellKnownFolderName): Item {
+
+    Copy(destinationFolderName: WellKnownFolderName): IPromise<Item>;
+    Copy(destinationFolderId: FolderId): IPromise<Item>;
+    Copy(destinationFolderIdOrName: FolderId| WellKnownFolderName): IPromise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -365,9 +318,11 @@ export class Item extends ServiceObject {
 
         return this.Service.CopyItem(this.Id, folderId);
     }
-    //Delete(deleteMode: DeleteMode): void { throw new Error("Item.ts - Delete : Not implemented."); }
-    //Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): any { throw new Error("Item.ts - Delete : Not implemented."); }
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): void { this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
+
+    Delete(deleteMode: DeleteMode): IPromise<void>
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): IPromise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
+
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }
     GetIdPropertyDefinition(): PropertyDefinition { return ItemSchema.Id; }
     GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean {
@@ -377,7 +332,7 @@ export class Item extends ServiceObject {
         debugger;//filtering of specific type needed.
         if (!isUpdateOperation &&
             (this.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP2)) {
-            for (var itemAttachment of this.Attachments.Items);//.OfType<ItemAttachment>())
+            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof ItemAttachment))//.OfType<ItemAttachment>())
             {
                 if ((itemAttachment.Item != null) && itemAttachment.Item.GetIsTimeZoneHeaderRequired(false /* isUpdateOperation */)) {
                     return true;
@@ -388,26 +343,29 @@ export class Item extends ServiceObject {
         return super.GetIsTimeZoneHeaderRequired(isUpdateOperation);
     }
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
-    GetSchema(): ServiceObjectSchema {return ItemSchema.Instance;}
+    GetSchema(): ServiceObjectSchema { return ItemSchema.Instance; }
     GetXmlElementName(): string { return XmlElementNames.Item; }
     HasUnprocessedAttachmentChanges(): boolean { return this.Attachments.HasUnprocessedChanges(); }
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): void {
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
         this.ThrowIfThisIsNotNew();
         this.ThrowIfThisIsAttachment();
 
         if (this.IsNew || this.IsDirty) {
-            this.Service.CreateItem(
+            return this.Service.CreateItem(
                 this,
                 parentFolderId,
                 messageDisposition,
-                sendInvitationsMode !== null ? sendInvitationsMode : this.DefaultSendInvitationsMode);
-
-            this.Attachments.Save();
+                sendInvitationsMode !== null ? sendInvitationsMode : this.DefaultSendInvitationsMode)
+                .then((response) => {
+                    return this.Attachments.Save();
+                });
         }
+        return;
     }
-    //InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): any { throw new Error("Item.ts - InternalDelete : Not implemented."); }
-    //InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any;//{ throw new Error("Item.ts - InternalDelete : Not implemented.");}
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode = this.DefaultSendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence = this.DefaultAffectedTaskOccurrences, suppressReadReceipts: boolean = false): void {
+
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): IPromise<void>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode = this.DefaultSendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence = this.DefaultAffectedTaskOccurrences, suppressReadReceipts: boolean = false): IPromise<void> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -423,39 +381,29 @@ export class Item extends ServiceObject {
         //     affectedTaskOccurrences = this.DefaultAffectedTaskOccurrences;
         // }
 
-        this.Service.DeleteItem(
+        return this.Service.DeleteItem(
             this.Id,
             deleteMode,
             sendCancellationsMode,
             affectedTaskOccurrences,
             suppressReadReceipts);
     }
-    InternalLoad(propertySet: PropertySet): void {
+    InternalLoad(propertySet: PropertySet): IPromise<void> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
-        this.Service.InternalLoadPropertiesForItems(
+        return <any>this.Service.InternalLoadPropertiesForItems(
             [this],//new Item[] { this },
             propertySet,
             ServiceErrorHandling.ThrowOnError);
     }
-    //InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Item { throw new Error("Item.ts - InternalUpdate : Not implemented."); }
-    //InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Item { throw new Error("Item.ts - InternalUpdate : Not implemented."); }
-    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): Item {
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<Item>;
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<Item>;
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
         var returnedItem: Item = null;
-
-        if (this.IsDirty && this.PropertyBag.GetIsUpdateCallNecessary()) {
-            returnedItem = this.Service.UpdateItem(
-                this,
-                parentFolderId,
-                conflictResolutionMode,
-                messageDisposition,
-                sendInvitationsOrCancellationsMode !== null ? sendInvitationsOrCancellationsMode : this.DefaultSendInvitationsOrCancellationsMode,
-                suppressReadReceipts);
-        }
 
         // Regardless of whether item is dirty or not, if it has unprocessed
         // attachment changes, validate them and process now.
@@ -464,11 +412,21 @@ export class Item extends ServiceObject {
             this.Attachments.Save();
         }
 
-        return returnedItem;
+        if (this.IsDirty && this.PropertyBag.GetIsUpdateCallNecessary()) {
+            return this.Service.UpdateItem(
+                this,
+                parentFolderId,
+                conflictResolutionMode,
+                messageDisposition,
+                sendInvitationsOrCancellationsMode !== null ? sendInvitationsOrCancellationsMode : this.DefaultSendInvitationsOrCancellationsMode,
+                suppressReadReceipts);
+        }
+
+        return PromiseFactory.wrap(returnedItem);
     }
-    //Move(destinationFolderId: FolderId): Item { throw new Error("Item.ts - Move : Not implemented."); }
-    //Move(destinationFolderName: WellKnownFolderName): Item { throw new Error("Item.ts - Move : Not implemented."); }
-    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): Item {
+    Move(destinationFolderId: FolderId): IPromise<Item>;
+    Move(destinationFolderName: WellKnownFolderName): IPromise<Item>;
+    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -480,22 +438,43 @@ export class Item extends ServiceObject {
             folderId = new FolderId(<WellKnownFolderName> destinationFolderIdOrName);
         }
         //EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
-        return this.Service.MoveItem(this.Id, destinationFolderIdOrName);
+        return this.Service.MoveItem(this.Id, folderId);
 
     }
     RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean { return this.ExtendedProperties.RemoveExtendedProperty(extendedPropertyDefinition); }
-    Save(parentFolderId: FolderId): any { throw new Error("Item.ts - Save : Not implemented."); }
-    //Save(parentFolderName: WellKnownFolderName): any { throw new Error("Item.ts - Save : Not implemented."); }
-    //Save(): any { throw new Error("Item.ts - Save : Not implemented."); }
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): any { throw new Error("Item.ts - SetExtendedProperty : Not implemented."); }
-    SetSubject(subject: string): any { throw new Error("Item.ts - SetSubject : Not implemented."); }
+    Save(): IPromise<void>;
+    Save(parentFolderName?: WellKnownFolderName): IPromise<void>;
+    Save(parentFolderId?: FolderId): IPromise<void>;
+    Save(parentFolderIdOrName: FolderId | WellKnownFolderName = null): IPromise<void> {
+        var parentFolderId: FolderId = null;
+        if (parentFolderIdOrName !== null) {
+            parentFolderId = <FolderId> parentFolderIdOrName;
+            if (typeof parentFolderIdOrName === 'number') {
+                parentFolderId = new FolderId(parentFolderIdOrName);
+            }
+        }
+        return this.InternalCreate(
+            parentFolderId,
+            MessageDisposition.SaveOnly,
+            null);
+    }
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void { this.ExtendedProperties.SetExtendedProperty(extendedPropertyDefinition, value); }
+    SetSubject(subject: string): void { this.PropertyBag._setItem(ItemSchema.Subject, subject); }
     ThrowIfThisIsAttachment(): void {
         if (this.IsAttachment) {
             throw new Error(Strings.OperationDoesNotSupportAttachments);//InvalidOperationException
         }
     }
-    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): any { throw new Error("Item.ts - Update : Not implemented."); }
-    //Update(conflictResolutionMode: ConflictResolutionMode): any { throw new Error("Item.ts - Update : Not implemented."); }
+    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean = false): IPromise<void> {
+        return <any>this.InternalUpdate(
+            null /* parentFolder */,
+            conflictResolutionMode,
+            MessageDisposition.SaveOnly,
+            null,
+            suppressReadReceipts);
+    }
     Validate(): void {
         super.Validate();
 
@@ -517,7 +496,7 @@ export class Item extends ServiceObject {
         }
     }
 
-    //created this to keep item and folder object away frmo here. modularization would fail and create a larger file
-    IsItemInstance(): boolean { return true; }//only item instance would return true.
+    //created this to help find serviceobject type, ServiceObjectInstance instanceof Item fails by creating circular dependency in javascript/typescript
+    get InstanceType(): string { return XmlElementNames.Item; }
 
 }

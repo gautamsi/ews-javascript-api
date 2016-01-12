@@ -47,8 +47,7 @@ export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
-        writer.WriteAttributeValue(
-            null,
+        writer.WriteAttributeValue(            
             XmlAttributeNames.SaveItemToFolder,
             this.SavedCopyDestinationFolderId != null);
     }

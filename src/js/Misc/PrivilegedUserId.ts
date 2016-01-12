@@ -27,9 +27,9 @@ export class PrivilegedUserId {
         }
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.OpenAsAdminOrSystemService);
-        writer.WriteAttributeString("", XmlElementNames.LogonType, PrivilegedLogonType[this.LogonType]);
+        writer.WriteAttributeString(XmlElementNames.LogonType, PrivilegedLogonType[this.LogonType]);
         if (requestedServerVersion >= ExchangeVersion.Exchange2013 && this.BudgetType) {
-            writer.WriteAttributeString("", XmlElementNames.BudgetType, PrivilegedUserIdBudgetType[this.BudgetType]);
+            writer.WriteAttributeString(XmlElementNames.BudgetType, PrivilegedUserIdBudgetType[this.BudgetType]);
         }
 
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ConnectingSID);

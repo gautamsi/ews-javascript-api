@@ -29,7 +29,7 @@ export class TypedPropertyDefinition extends PropertyDefinition {
         if (typeof jsObject === 'string' || jsObject instanceof String) {
             propertyBag._setItem(this, this.Parse(jsObject));
         }
-        else if (jsObject != null ) { //undefined == null returns true, false for === comparison.
+        else if (jsObject != null) { //undefined == null returns true, false for === comparison.
             propertyBag._setItem(this, this.Parse(jsObject));
         }
     }
@@ -42,9 +42,8 @@ export class TypedPropertyDefinition extends PropertyDefinition {
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
 
-            if (value != null)
-            {
-                writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, value, this.Name);
-            }
+        if (value != null) {
+            writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, this.Name, value);
+        }
     }
 }

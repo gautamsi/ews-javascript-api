@@ -3,7 +3,7 @@ import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {EwsLogging} from "../EwsLogging";
 export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
     get Count(): number { return this.responses.length; }
-    //Item: TResponse;
+    get Responses(): TResponse[]{return this.responses;}
     get OverallResult(): ServiceResult { return this.overallResult; }
     private responses: TResponse[] = [];// System.Collections.Generic.List<T>;
     private overallResult: ServiceResult = ServiceResult.Success;

@@ -8,10 +8,10 @@ import {TypedPropertyDefinition} from "./TypedPropertyDefinition";
 export class ByteArrayPropertyDefinition extends TypedPropertyDefinition {
     get IsNullable(): boolean{return true;}
     Type: any;//System.Type;
-    Parse(value: string): any { return base64Helper.atob(value); }
+    Parse(value: string): any { return value;}//ref: storing original base64 data base64Helper.atob(value); }
     ToString(value?: any): string {
         if (value)
-            return base64Helper.btoa(value);
+            return value;//ref: using original value. base64Helper.btoa(value);
             
         throw new Error("ByteArrayPropertyDefinition: incorrect call of ToString(), undefined or null passed");
     }

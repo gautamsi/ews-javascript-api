@@ -8,4 +8,5 @@ export enum EnumToExchangeVersionMappingHelper {
     EventType,
     MeetingRequestsDeliveryScope,
     ViewFilter,
+    MailboxType,
 }

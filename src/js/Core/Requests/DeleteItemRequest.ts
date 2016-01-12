@@ -62,20 +62,18 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
 
         if (this.AffectedTaskOccurrences !== null) {
             writer.WriteAttributeValue(
-                null,
                 XmlAttributeNames.AffectedTaskOccurrences,
                 this.AffectedTaskOccurrences);
         }
 
         if (this.SendCancellationsMode !== null) {
             writer.WriteAttributeValue(
-                null,
                 XmlAttributeNames.SendMeetingCancellations,
                 this.SendCancellationsMode);
         }
 
         if (this.SuppressReadReceipts) {
-            writer.WriteAttributeValue(null, XmlAttributeNames.SuppressReadReceipts, true);
+            writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {

@@ -31,6 +31,6 @@ export class IndexedPropertyDefinition extends ServiceObjectPropertyDefinition {
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
-        writer.WriteAttributeValue("", XmlAttributeNames.FieldIndex, this.Index);
+        writer.WriteAttributeValue(XmlAttributeNames.FieldIndex, this.Index);
     }
 }

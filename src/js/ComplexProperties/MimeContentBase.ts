@@ -33,7 +33,7 @@ export class MimeContentBase extends ComplexProperty {
         //            }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(undefined, XmlAttributeNames.CharacterSet, this.CharacterSet);
+        writer.WriteAttributeValue(XmlAttributeNames.CharacterSet, this.CharacterSet);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (this.Content != null && this.Content.length > 0) {

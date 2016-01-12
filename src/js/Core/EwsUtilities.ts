@@ -1,6 +1,7 @@
 ﻿import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
 import {Strings} from "../Strings";
 import {LazyMember} from "./LazyMember";
+import {DictionaryWithStringKey, DictionaryWithNumericKey} from "../AltDictionary";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
 import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
 import {Item} from "./ServiceObjects/Items/Item";
@@ -12,7 +13,13 @@ import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {EwsLogging} from "./EwsLogging";
+import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
+import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
+import {ImAddressKey} from "../Enumerations/ImAddressKey";
+import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
+import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
 import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import {EnumToSchemaMappingHelper} from "../Enumerations/EnumToSchemaMappingHelper";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {ItemTraversal} from "../Enumerations/ItemTraversal";
 import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
@@ -78,10 +85,23 @@ export class EwsUtilities {
             dict[e2evmh[e2evmh.EventType]] = EwsUtilities.BuildEnumDict(e2evmh.EventType);
             dict[e2evmh[e2evmh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evmh.MeetingRequestsDeliveryScope);
             dict[e2evmh[e2evmh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evmh.ViewFilter);
+            dict[e2evmh[e2evmh.MailboxType]] = EwsUtilities.BuildEnumDict(e2evmh.MailboxType);
             return dict;
         });
-    //private static schemaToEnumDictionaries: LazyMember<T>;
-    //private static enumToSchemaDictionaries: LazyMember<T>;
+    // private static schemaToEnumDictionaries: LazyMember<DictionaryWithNumericKey<DictionaryWithStringKey<number>>> = new LazyMember<DictionaryWithNumericKey<DictionaryWithStringKey<number>>>(
+    //     () => {
+    //         var dict = new DictionaryWithNumericKey<DictionaryWithStringKey<number>>();
+    //         dict.addUpdate(EnumToSchemaMappingHelper.WellKnownFolderName, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.WellKnownFolderName));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.ItemTraversal, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.ItemTraversal));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.ConversationQueryTraversal, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.ConversationQueryTraversal));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.FileAsMapping, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.FileAsMapping));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.EventType, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.EventType));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.MeetingRequestsDeliveryScope, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.MeetingRequestsDeliveryScope));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.ViewFilter, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.ViewFilter));
+    //         dict.addUpdate(EnumToSchemaMappingHelper.MailboxType, EwsUtilities.BuildSchemaToEnumDict(EnumToSchemaMappingHelper.EventType));
+    //         return dict;
+    //     });
+    // private static enumToSchemaDictionaries: LazyMember<DictionaryWithNumericKey<DictionaryWithNumericKey<string>>>;
     //private static typeNameToShortNameMap: LazyMember<T>;
     
     static BoolToXSBool(value: boolean): string {
@@ -165,11 +185,40 @@ export class EwsUtilities {
                     return ExchangeVersion.Exchange_Version_Not_Updated;
                 };
                 break;
+            case EnumToExchangeVersionMappingHelper.MailboxType:
+                enumDelegate = (value) => {
+                    if (value <= 1) //<=MailboxType.OneOff
+                        return ExchangeVersion.Exchange2010;
+                    if (value <= 6) //<=MailboxType.Contact
+                        return ExchangeVersion.Exchange2007_SP1;
+
+                    return ExchangeVersion.Exchange_Version_Not_Updated;
+                };
+                break;
             default:
-                throw new Error("no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[enumType]);
+                throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[enumType]);
         }
 
         return enumDelegate;
+    }
+    //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
+    static BuildEnumToSchemaDict(enumType: EnumToSchemaMappingHelper): DictionaryWithNumericKey<string> { throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented."); }
+    //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
+    static BuildSchemaToEnumDict(enumType: EnumToSchemaMappingHelper): DictionaryWithStringKey<number> { throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented."); }
+
+    static GetDictionaryKeyTypeEnum(dictionaryKeyType: DictionaryKeyType): any {
+        switch (dictionaryKeyType) {
+            case DictionaryKeyType.EmailAddressKey:
+                return EmailAddressKey;
+            case DictionaryKeyType.ImAddressKey:
+                return ImAddressKey;
+            case DictionaryKeyType.PhoneNumberKey:
+                return PhoneNumberKey;
+            case DictionaryKeyType.PhysicalAddressKey:
+                return PhysicalAddressKey;
+            default:
+                throw new Error("EwsUtilities.ts - GetDictionaryKeyTypeEnum - invalid value: " + dictionaryKeyType);
+        }
     }
     private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
         var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
@@ -182,8 +231,6 @@ export class EwsUtilities {
 
         return ExchangeVersion.Exchange2007_SP1;
     }
-    //static BuildEnumToSchemaDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented.");}
-    //static BuildSchemaToEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented.");}
     static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime {
         try {
             return TimeZoneInfo.ConvertTime(
@@ -388,9 +435,10 @@ export class EwsUtilities {
     //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
     static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
+    static ParseEnum(value: string, ewsenum): any { throw new Error("EwsUtilities.ts - static Parse : Not implemented."); }
     static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): DateTime {
         // Convert the element's value to a DateTime with no adjustment.
-        var tempDate: DateTime = DateTime.Parse(dateString);
+        var tempDate: DateTime = DateTime.Parse(dateString + "Z");
 
         // Set the kind according to the service's time zone
         if (service.TimeZone == TimeZoneInfo.Utc) {
@@ -513,7 +561,7 @@ export class EwsUtilities {
     static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
         if (param != null) {
-            debugger; //todo: implement this somehow
+            //debug: //todo: implement this somehow
             // Non-empty string has at least one character which is *not* a whitespace character
             //if (param.length == param.CountMatchingChars((c) => Char.IsWhiteSpace(c))) {
             //    throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);

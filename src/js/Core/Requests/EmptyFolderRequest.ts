@@ -32,7 +32,7 @@ export class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
-        writer.WriteAttributeValue(null, XmlAttributeNames.DeleteSubFolders, this.DeleteSubFolders);
+        writer.WriteAttributeValue(XmlAttributeNames.DeleteSubFolders, this.DeleteSubFolders);
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.FolderIds.WriteToXml(
