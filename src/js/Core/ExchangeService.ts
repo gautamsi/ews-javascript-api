@@ -1169,7 +1169,7 @@ export class ExchangeService extends ExchangeServiceBase {
         return request.Execute();
     }
     /**
-     * Loads the properties of multiple items in a single call to EWS.
+     * Loads the properties of multiple items in a single call to EWS. **## Unstable for Extended Properties**
      *
      * @param   {Item[]}        items         The items to load the properties of.
      * @param   {PropertySet}   propertySet   The set of properties to load.
@@ -1353,9 +1353,34 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region AD related operations */
 
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemId}   groupId   The Id of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(groupId: ItemId): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   smtpAddress   The SMTP address of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(smtpAddress: string): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {EmailAddress}   emailAddress   The e-mail address of the group.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(emailAddress: EmailAddress): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   address       The SMTP address of the group to expand.
+     * @param   {string}   routingType   The routing type of the address of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(address: string, routingType: string): IPromise<ExpandGroupResults>;
     ExpandGroup(emailAddressOrsmtpAddressOrGroupId: EmailAddress | string | ItemId, routingType?: string): IPromise<ExpandGroupResults> {
         // EwsUtilities.ValidateParam(emailAddressOrsmtpAddressOrGroupId, "address");
@@ -1386,7 +1411,12 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-
+    /**
+     * Get the password expiration date
+     *
+     * @param   {string}   mailboxSmtpAddress   The e-mail address of the user.
+     * @return  {IPromise<DateTime>}            The password expiration date :Promise.
+     */
     GetPasswordExpirationDate(mailboxSmtpAddress: string): IPromise<DateTime> {
         var request: GetPasswordExpirationDateRequest = new GetPasswordExpirationDateRequest(this);
         request.MailboxSmtpAddress = mailboxSmtpAddress;
@@ -1396,10 +1426,52 @@ export class ExchangeService extends ExchangeServiceBase {
         });
     }
 
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}    nameToResolve               The name to resolve.
+     * @return  {IPromise<NameResolutionCollection>}    A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */    
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {FolderId[]}                    parentFolderIds             The Ids of the contact folders in which to look for matching contacts.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {FolderId[]}                    parentFolderIds             The Ids of the contact folders in which to look for matching contacts.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
 
     ResolveName(
@@ -1557,7 +1629,24 @@ export class ExchangeService extends ExchangeServiceBase {
     
     //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
     //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
+    /**
+     * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
+     *
+     * @param   {AttendeeInfo[]}        attendees           The attendees for which to retrieve availability information.
+     * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
+     * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
+     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     */
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData): IPromise<GetUserAvailabilityResults>;
+    /**
+     * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
+     *
+     * @param   {AttendeeInfo[]}        attendees           The attendees for which to retrieve availability information.
+     * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
+     * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
+     * @param   {AvailabilityOptions}   options             The options controlling the information returned.
+     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     */    
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): IPromise<GetUserAvailabilityResults>;
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): IPromise<GetUserAvailabilityResults> {
         EwsUtilities.ValidateParamCollection(attendees, "attendees");
@@ -1686,13 +1775,30 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Autodiscover */
-
+    
+    /**
+     * Adjusts the service URI based on the current type of credentials.
+     *
+     * @param   {Uri}   uri   The URI.
+     * @return  {Uri}         Adjusted URL.
+     */
     private AdjustServiceUriFromCredentials(uri: Uri): Uri {
         return (this.Credentials != null)
             ? this.Credentials.AdjustUrl(uri)
             : uri;
     }
+    /**
+     * Initializes the Url property to the Exchange Web Services URL for the specified e-mail address by calling the Autodiscover service.
+     *
+     * @param   {string}   emailAddress     The email address to use.
+     */
     AutodiscoverUrl(emailAddress: string): IPromise<void>;
+    /**
+     * Initializes the Url property to the Exchange Web Services URL for the specified e-mail address by calling the Autodiscover service.
+     *
+     * @param   {string}   emailAddress                             The email address to use.
+     * @param   {AutodiscoverRedirectionUrlValidationCallback}      validateRedirectionUrlCallback   The callback used to validate redirection URL.
+     */
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<void>;
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): IPromise<void> {
         //validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
@@ -1746,10 +1852,24 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     }
-    private DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
+    /**
+     * Default implementation of AutodiscoverRedirectionUrlValidationCallback. Always returns true indicating that the URL can be used.
+     *
+     * @param   {string}   redirectionUrl   The redirection URL.
+     * @return  {boolean}                    Returns true.
+     */
+    private DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean { //ref: need to fix this type - Always returns true indicating that the URL can be used
 
         throw new AutodiscoverLocalException(StringHelper.Format(Strings.AutodiscoverRedirectBlocked, redirectionUrl));
     }
+    /**
+     * Gets the EWS URL from Autodiscover.
+     *
+     * @param   {string}                                        emailAddress                     The email address.
+     * @param   {ExchangeVersion}                               requestedServerVersion           Exchange version.
+     * @param   {AutodiscoverRedirectionUrlValidationCallback}  validateRedirectionUrlCallback   The validate redirection URL callback.
+     * @return  {IPromise<Uri>}                                 Ews URL :Promise.
+     */
     private GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<Uri> {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
@@ -1784,6 +1904,13 @@ export class ExchangeService extends ExchangeServiceBase {
             });
 
     }
+    /**
+     * Gets the EWS URL from Autodiscover GetUserSettings response.
+     *
+     * @param   {GetUserSettingsResponse}   response     The response.
+     * @param   {boolean}                   isExternal   If true, Autodiscover call was made externally.
+     * @return  {Uri}                       EWS URL.
+     */
     private GetEwsUrlFromResponse(response: GetUserSettingsResponse, isExternal: boolean): Uri {
 
         var uriString = response.GetSettingValue<string>(UserSettingName.ExternalEwsUrl)
@@ -1856,6 +1983,10 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return true;
     }
+    /**
+     * @internal Validates this instance.
+     *
+     */
     Validate(): void {
         super.Validate();
 
@@ -1869,6 +2000,11 @@ export class ExchangeService extends ExchangeServiceBase {
 
         // only one of PrivilegedUserId|ImpersonatedUserId|ManagementRoles can be set.
     }
+    /**
+     * @internal Validates a new-style version string. This validation is not as strict as server-side validation.
+     *
+     * @param   {string}   version   the version string
+     */
     static ValidateTargetVersion(version: string): void {
         var ParameterSeparator: string = ';'; //char
         var LegacyVersionPrefix: string = "Exchange20";
@@ -1918,9 +2054,14 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Utilities */
-    
-    ////PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
-    PrepareHttpWebRequest(methodName: string): IXHROptions {
+        
+    /**
+     * @internal Creates an IXHROptions instance and initializes it with the appropriate parameters, based on the configuration of this service object.
+     *
+     * @param   {string}   methodName   Name of the method.
+     * @return  {IXHROptions}           An instance of IXHROptions to call web service with.
+     */
+    PrepareHttpWebRequest(methodName: string): IXHROptions { //info: PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
@@ -1944,7 +2085,14 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request;
     }
+    
     //ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeService.ts - ProcessHttpErrorResponse : Not implemented."); }
+    
+    /**
+     * Sets the type of the content.
+     *
+     * @param   {IXHROptions}   request   The request.
+     */
     SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         if (this.renderingMode == RenderingMode.Xml) {
             request.headers["Content-Type"] = "text/xml; charset=utf-8";
