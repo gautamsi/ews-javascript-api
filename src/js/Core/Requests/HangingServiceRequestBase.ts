@@ -5,6 +5,9 @@ import {IEwsHttpWebRequest} from "../../Interfaces/IEwsHttpWebRequest";
 import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
 import {Exception} from "../../Exceptions/Exception";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class HangingServiceRequestBase extends ServiceRequestBase {
 	private static BufferSize: number = 4096;
 	IsConnected: boolean;
@@ -31,11 +34,3 @@ interface HangingRequestDisconnectHandler {
 interface HandleResponseObject {
 	(response: any): void;
 }
-
-
-
-
-
-
-			
-

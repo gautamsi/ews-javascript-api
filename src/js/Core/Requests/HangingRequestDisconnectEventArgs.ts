@@ -1,5 +1,8 @@
 ﻿import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
 import {Exception} from "../../Exceptions/Exception";
+/**
+ * ## *Not Implemented* 
+ */
 export class HangingRequestDisconnectEventArgs //extends  EventArgs
 {
 	/// <summary>
@@ -25,5 +28,3 @@ export class HangingRequestDisconnectEventArgs //extends  EventArgs
 	/// </summary>
 	Exception: Exception;
 }
-
-

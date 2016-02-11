@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class CreateUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
     UserConfiguration: UserConfiguration;
     userConfiguration: UserConfiguration;
@@ -16,9 +19,3 @@ export class CreateUserConfigurationRequest extends MultiResponseServiceRequest<
     Validate(): any { throw new Error("CreateUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

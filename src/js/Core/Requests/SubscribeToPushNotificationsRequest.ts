@@ -5,6 +5,9 @@ import {ExchangeService} from "../ExchangeService";
 import {SubscribeResponse} from "../Responses/SubscribeResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSubscription> {
 	Frequency: number;
 	Url: string /*Uri*/;
@@ -19,11 +22,3 @@ export class SubscribeToPushNotificationsRequest extends SubscribeRequest<PushSu
 	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
 	Validate(): void{ throw new Error("SubscribeToPushNotificationsRequest.ts - Validate : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

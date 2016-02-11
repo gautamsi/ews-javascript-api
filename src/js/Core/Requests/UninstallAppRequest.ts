@@ -3,6 +3,9 @@ import {UninstallAppResponse} from "../Responses/UninstallAppResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class UninstallAppRequest extends SimpleServiceRequestBase {
 	private ID: string;
 	Execute(): UninstallAppResponse{ throw new Error("UninstallAppRequest.ts - Execute : Not implemented.");}
@@ -12,11 +15,3 @@ export class UninstallAppRequest extends SimpleServiceRequestBase {
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("UninstallAppRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("UninstallAppRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

@@ -1,6 +1,9 @@
 ﻿import {Folder} from "../ServiceObjects/Folders/Folder";
 import {SyncResponse} from "./SyncResponse";
 import {FolderChange} from "../../Sync/FolderChange";
+/**
+ * ## *Not Implemented* 
+ */
 export class SyncFolderHierarchyResponse extends SyncResponse<Folder, FolderChange> {
 	SummaryPropertiesOnly: boolean;
 	CreateChangeInstance(): FolderChange{ throw new Error("SyncFolderHierarchyResponse.ts - CreateChangeInstance : Not implemented.");}
@@ -8,11 +11,3 @@ export class SyncFolderHierarchyResponse extends SyncResponse<Folder, FolderChan
 	GetChangeIdElementName(): string{ throw new Error("SyncFolderHierarchyResponse.ts - GetChangeIdElementName : Not implemented.");}
 	GetIncludesLastInRangeXmlElementName(): string{ throw new Error("SyncFolderHierarchyResponse.ts - GetIncludesLastInRangeXmlElementName : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

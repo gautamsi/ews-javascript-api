@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {Item} from "./Item";
+/**
+ * ## *Not Implemented* 
+ */
 export class PostItem extends Item {
     ////////ConversationIndex: System.Byte[];
     ////////ConversationTopic: string;

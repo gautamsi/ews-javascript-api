@@ -7,6 +7,9 @@ export enum ConnectionStatus {
 	Closed = 1
 }
 
+/**
+ * ## *Not Implemented* 
+ */
 export class GetStreamingEventsResponse extends ServiceResponse {
 	Results: GetStreamingEventsResults;
 	ErrorSubscriptionIds: string[] /*System.Collections.Generic.List<string>*/;

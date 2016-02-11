@@ -3,6 +3,9 @@ import {GetSearchableMailboxesResponse} from "../Responses/GetSearchableMailboxe
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     SearchFilter: string;
     ExpandGroupMembership: boolean;
@@ -13,9 +16,3 @@ export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetSearchableMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

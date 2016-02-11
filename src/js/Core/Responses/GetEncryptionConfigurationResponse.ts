@@ -1,5 +1,8 @@
 ﻿import {ServiceResponse} from "./ServiceResponse";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetEncryptionConfigurationResponse extends ServiceResponse {
     ImageBase64: string;
     EmailText: string;
@@ -11,11 +14,3 @@ export class GetEncryptionConfigurationResponse extends ServiceResponse {
     private disclaimerText: string;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetEncryptionConfigurationResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

@@ -4,6 +4,9 @@ import {GetClientExtensionResponse} from "../Responses/GetClientExtensionRespons
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetClientExtensionRequest extends SimpleServiceRequestBase {
     private requestedExtensionIds: StringList;
     private shouldReturnEnabledOnly: boolean;
@@ -19,12 +22,3 @@ export class GetClientExtensionRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetClientExtensionRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-
-//}
-
-
-

@@ -5,6 +5,9 @@ import {ExchangeService} from "../ExchangeService";
 import {SubscribeResponse} from "../Responses/SubscribeResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SubscribeToStreamingNotificationsRequest extends SubscribeRequest<StreamingSubscription> {
 	AddJsonProperties(jsonSubscribeRequest: JsonObject, service: ExchangeService): void{ throw new Error("SubscribeToStreamingNotificationsRequest.ts - AddJsonProperties : Not implemented.");}
 	CreateServiceResponse(service: ExchangeService, responseIndex: number): SubscribeResponse<StreamingSubscription>{ throw new Error("SubscribeToStreamingNotificationsRequest.ts - CreateServiceResponse : Not implemented.");}
@@ -13,11 +16,3 @@ export class SubscribeToStreamingNotificationsRequest extends SubscribeRequest<S
 	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToStreamingNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
 	Validate(): void{ throw new Error("SubscribeToStreamingNotificationsRequest.ts - Validate : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

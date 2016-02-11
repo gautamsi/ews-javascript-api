@@ -4,6 +4,9 @@ import {FailedSearchMailbox} from "../../MailboxSearch/FailedSearchMailbox";
 import {JsonObject} from "../JsonObject";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetSearchableMailboxesResponse extends ServiceResponse {
     SearchableMailboxes: SearchableMailbox[];
     FailedMailboxes: FailedSearchMailbox[];
@@ -11,9 +14,3 @@ export class GetSearchableMailboxesResponse extends ServiceResponse {
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-
-
-//}
-
-
-

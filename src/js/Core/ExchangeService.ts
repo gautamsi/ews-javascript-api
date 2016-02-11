@@ -1169,7 +1169,7 @@ export class ExchangeService extends ExchangeServiceBase {
         return request.Execute();
     }
     /**
-     * Loads the properties of multiple items in a single call to EWS. **## Unstable for Extended Properties**
+     * Loads the properties of multiple items in a single call to EWS. **Unstable for Extended Properties**
      *
      * @param   {Item[]}        items         The items to load the properties of.
      * @param   {PropertySet}   propertySet   The set of properties to load.

@@ -2,6 +2,9 @@
 import {Mailbox} from "../../ComplexProperties/Mailbox";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
     Mailbox: Mailbox;
     private mailbox: Mailbox;
@@ -11,10 +14,3 @@ export class DelegateManagementRequestBase<TResponse> extends SimpleServiceReque
     Validate(): any { throw new Error("DelegateManagementRequestBase.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DelegateManagementRequestBase.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-//}
-
-
-

@@ -4,6 +4,9 @@ import {SetHoldOnMailboxesResponse} from "../Responses/SetHoldOnMailboxesRespons
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     ActionType: HoldAction;
     HoldId: string;
@@ -20,9 +23,3 @@ export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("SetHoldOnMailboxesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetHoldOnMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

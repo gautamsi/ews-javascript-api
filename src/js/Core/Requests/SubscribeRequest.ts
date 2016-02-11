@@ -5,6 +5,9 @@ import {EventType} from "../../Enumerations/EventType";
 import {JsonObject} from "../JsonObject";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SubscribeRequest<TSubscription> extends MultiResponseServiceRequest<SubscribeResponse<TSubscription>> {
 	FolderIds: FolderIdWrapperList;
 	EventTypes: EventType[] /*System.Collections.Generic.List<EventType>*/;
@@ -19,11 +22,3 @@ export class SubscribeRequest<TSubscription> extends MultiResponseServiceRequest
 	Validate(): void{ throw new Error("SubscribeRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

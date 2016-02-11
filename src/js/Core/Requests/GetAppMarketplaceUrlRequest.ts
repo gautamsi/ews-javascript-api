@@ -3,6 +3,9 @@ import {GetAppMarketplaceUrlResponse} from "../Responses/GetAppMarketplaceUrlRes
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
 	ApiVersionSupported: string;
 	SchemaVersionSupported: string;
@@ -14,11 +17,3 @@ export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
 	Validate(): void{ throw new Error("GetAppMarketplaceUrlRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetAppMarketplaceUrlRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

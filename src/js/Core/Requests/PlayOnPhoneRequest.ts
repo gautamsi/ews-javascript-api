@@ -4,6 +4,9 @@ import {PlayOnPhoneResponse} from "../Responses/PlayOnPhoneResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSerializable
     ItemId: ItemId;
     DialString: string;
@@ -17,9 +20,3 @@ export class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSeriali
     //ParseResponse(jsonBody: JsonObject): any { throw new Error("PlayOnPhoneRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PlayOnPhoneRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

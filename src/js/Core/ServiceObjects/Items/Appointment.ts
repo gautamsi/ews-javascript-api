@@ -44,7 +44,7 @@ import {IPromise} from "../../../Interfaces";
 
 import {Item} from "./Item";
 /**
- * Represents an appointment or a meeting. Properties available on appointments are defined in the AppointmentSchema class.
+ * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
 export class Appointment extends Item implements ICalendarActionProvider {
     //todo: attachable attribute missing. 

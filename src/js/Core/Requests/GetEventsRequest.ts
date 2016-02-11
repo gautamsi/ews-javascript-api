@@ -3,6 +3,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetEventsResponse} from "../Responses/GetEventsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetEventsRequest extends MultiResponseServiceRequest<GetEventsResponse> {
 	SubscriptionId: string;
 	Watermark: string;
@@ -17,11 +20,3 @@ export class GetEventsRequest extends MultiResponseServiceRequest<GetEventsRespo
 	Validate(): void{ throw new Error("GetEventsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetEventsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

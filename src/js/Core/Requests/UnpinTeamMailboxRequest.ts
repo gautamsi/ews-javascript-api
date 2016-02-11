@@ -4,6 +4,9 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     Execute(): ServiceResponse { throw new Error("UnpinTeamMailboxRequest.ts - Execute : Not implemented."); }
@@ -13,11 +16,3 @@ export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("UnpinTeamMailboxRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UnpinTeamMailboxRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

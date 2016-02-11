@@ -3,6 +3,9 @@ import {GetDiscoverySearchConfigurationResponse} from "../Responses/GetDiscovery
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequestBase {
     SearchId: string;
     ExpandGroupMembership: boolean;
@@ -14,9 +17,3 @@ export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequest
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDiscoverySearchConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

@@ -6,6 +6,9 @@ import {FindConversationResponse} from "../Responses/FindConversationResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSerializable
     View: ViewBase;
     FolderId: FolderIdWrapper;
@@ -27,9 +30,3 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindConversationRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("FindConversationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

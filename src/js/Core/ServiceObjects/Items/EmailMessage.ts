@@ -23,7 +23,7 @@ import {IPromise} from "../../../Interfaces";
 
 import {Item} from "./Item";
 /**
- * Represents an e-mail message. Properties available on e-mail messages are defined in the EmailMessageSchema class.
+ * Represents an **e-mail message**. Properties available on e-mail messages are defined in the *EmailMessageSchema* class.
  *
  */
 export class EmailMessage extends Item {
@@ -297,7 +297,9 @@ export class EmailMessage extends Item {
     GetSchema(): ServiceObjectSchema { return EmailMessageSchema.Instance; }
     
     /**
-     * @internal Get XML Element Name - workaround for c# attributes
+     * @internal Gets the element name of item in XML
+     * 
+     * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.Message; }
     

@@ -3,6 +3,9 @@ import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
 import {GetDelegateResponse} from "../Responses/GetDelegateResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     IncludePermissions: boolean;
@@ -15,10 +18,3 @@ export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegat
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-//}
-
-
-

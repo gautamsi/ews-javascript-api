@@ -6,6 +6,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetUserConfigurationResponse} from "../Responses/GetUserConfigurationResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> { //IJsonSerializable
     private static EnumDelimiter: string = ",";
 
@@ -26,9 +29,3 @@ export class GetUserConfigurationRequest extends MultiResponseServiceRequest<Get
     Validate(): any { throw new Error("GetUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

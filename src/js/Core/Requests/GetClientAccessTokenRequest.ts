@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetClientAccessTokenResponse} from "../Responses/GetClientAccessTokenResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
 	TokenRequests: ClientAccessTokenRequest[];
 	CreateServiceResponse(service: ExchangeService, responseIndex: number): GetClientAccessTokenResponse{ throw new Error("GetClientAccessTokenRequest.ts - CreateServiceResponse : Not implemented.");}
@@ -15,11 +18,3 @@ export class GetClientAccessTokenRequest extends MultiResponseServiceRequest<Get
 	Validate(): void{ throw new Error("GetClientAccessTokenRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetClientAccessTokenRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

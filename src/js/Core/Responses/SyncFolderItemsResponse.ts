@@ -1,6 +1,9 @@
 ﻿import {Item} from "../ServiceObjects/Items/Item";
 import {SyncResponse} from "./SyncResponse";
 import {ItemChange} from "../../Sync/ItemChange";
+/**
+ * ## *Not Implemented* 
+ */
 export class SyncFolderItemsResponse extends SyncResponse<Item, ItemChange> {
 	SummaryPropertiesOnly: boolean;
 	CreateChangeInstance(): ItemChange{ throw new Error("SyncFolderItemsResponse.ts - CreateChangeInstance : Not implemented.");}
@@ -8,11 +11,3 @@ export class SyncFolderItemsResponse extends SyncResponse<Item, ItemChange> {
 	GetChangeIdElementName(): string{ throw new Error("SyncFolderItemsResponse.ts - GetChangeIdElementName : Not implemented.");}
 	GetIncludesLastInRangeXmlElementName(): string{ throw new Error("SyncFolderItemsResponse.ts - GetIncludesLastInRangeXmlElementName : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

@@ -6,6 +6,9 @@ import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {Uri} from "../../Uri";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+/**
+ * ## *Not Implemented* 
+ */
 export class SetTeamMailboxRequest extends SimpleServiceRequestBase {
     private emailAddress: EmailAddress;
     private sharePointSiteUrl: Uri;

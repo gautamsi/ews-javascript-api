@@ -5,6 +5,9 @@ import {ExchangeService} from "../ExchangeService";
 import {SubscribeResponse} from "../Responses/SubscribeResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SubscribeToPullNotificationsRequest extends SubscribeRequest<PullSubscription> {
 	Timeout: number;
 	private timeout: number;
@@ -15,11 +18,3 @@ export class SubscribeToPullNotificationsRequest extends SubscribeRequest<PullSu
 	InternalWriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SubscribeToPullNotificationsRequest.ts - InternalWriteElementsToXml : Not implemented.");}
 	Validate(): void{ throw new Error("SubscribeToPullNotificationsRequest.ts - Validate : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

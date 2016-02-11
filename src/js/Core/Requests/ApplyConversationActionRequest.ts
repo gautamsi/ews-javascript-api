@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     ConversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
     private conversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;
@@ -16,9 +19,3 @@ export class ApplyConversationActionRequest extends MultiResponseServiceRequest<
     Validate(): any { throw new Error("ApplyConversationActionRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ApplyConversationActionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

@@ -4,6 +4,9 @@ import {XmlElementNames} from "../../XmlElementNames";
 
 import {ExchangeService} from "../../ExchangeService";
 import {Folder} from "./Folder";
+/**
+ * ## *Not Implemented* 
+ */
 export class CalendarFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs

@@ -33,5 +33,3 @@ export class MoveCopyFolderResponse extends ServiceResponse {
         }
     }
 }
-
-

@@ -28,6 +28,10 @@ import {IPromise} from "../../../Interfaces";
 import {IOutParam} from "../../../Interfaces/IOutParam";
 
 import {Item} from "./Item";
+/**
+ * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
+ * 
+ */
 export class Contact extends Item {
     private static ContactPictureName: string = "ContactPicture.jpg";
     
@@ -526,7 +530,9 @@ export class Contact extends Item {
     GetSchema(): ServiceObjectSchema { return ContactSchema.Instance; }
     
     /**
-     * @internal Get XML Element Name - workaround for c# attributes
+     * @internal Gets the element name of item in XML
+     * 
+     * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.Contact; }
     
@@ -565,7 +571,7 @@ export class Contact extends Item {
     //SetContactPicture(content: number[] /*System.Byte[]*/): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
     //SetContactPicture(fileName: string): any { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
     /**
-     * *## Not Implemented*
+     * ## *Not Implemented*
      */
     SetContactPicture(fileNameOrContent: string|number[]): void { throw new Error("Contact.ts - SetContactPicture : Not implemented."); }
     

@@ -4,6 +4,9 @@ import {GetRoomsResponse} from "../Responses/GetRoomsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetRoomsRequest extends SimpleServiceRequestBase {
     RoomList: EmailAddress;
     private roomList: EmailAddress;
@@ -14,10 +17,3 @@ export class GetRoomsRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetRoomsRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetRoomsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-//}
-
-
-

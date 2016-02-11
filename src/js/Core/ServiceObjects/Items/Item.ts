@@ -723,7 +723,9 @@ export class Item extends ServiceObject {
     GetSchema(): ServiceObjectSchema { return ItemSchema.Instance; }
     
     /**
-     * @internal name of SOAP element - workaround to Attribute usage
+     * @internal Gets the element name of item in XML
+     * 
+     * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.Item; }
     

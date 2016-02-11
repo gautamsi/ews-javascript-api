@@ -3,6 +3,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
     private actions: any[];//System.Collections.Generic.List<T>;
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { throw new Error("SetClientExtensionRequest.ts - CreateServiceResponse : Not implemented."); }
@@ -14,11 +17,3 @@ export class SetClientExtensionRequest extends MultiResponseServiceRequest<Servi
     Validate(): any { throw new Error("SetClientExtensionRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-
