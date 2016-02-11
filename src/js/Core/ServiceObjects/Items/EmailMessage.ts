@@ -35,6 +35,7 @@ export class EmailMessage extends Item {
     get ToRecipients(): EmailAddressCollection {
         return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ToRecipients);
     }
+    
     /**
      * Gets the list of Bcc recipients for the e-mail message.
      *
@@ -42,6 +43,7 @@ export class EmailMessage extends Item {
     get BccRecipients(): EmailAddressCollection {
         return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.BccRecipients);
     }
+    
     /**
      * Gets the list of Cc recipients for the e-mail message.
      *
@@ -49,6 +51,7 @@ export class EmailMessage extends Item {
     get CcRecipients(): EmailAddressCollection {
         return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.CcRecipients);
     }
+    
     /**
      * Gets the conversation topic of the e-mail message.
      *
@@ -56,6 +59,7 @@ export class EmailMessage extends Item {
     get ConversationTopic(): string {
         return <string>this.PropertyBag._getItem(EmailMessageSchema.ConversationTopic);
     }
+    
     /**
      * Gets the conversation index of the e-mail message.
      *
@@ -63,6 +67,7 @@ export class EmailMessage extends Item {
     get ConversationIndex(): number[] {
         return <number[]>this.PropertyBag._getItem(EmailMessageSchema.ConversationIndex);
     }
+    
     /**
      * Gets or sets the "on behalf" sender of the e-mail message.
      *
@@ -73,6 +78,7 @@ export class EmailMessage extends Item {
     set From(value: EmailAddress) {
         this.PropertyBag._setItem(EmailMessageSchema.From, value);
     }
+    
     /**
      * Gets or sets a value indicating whether this is an associated message.
      *
@@ -83,6 +89,7 @@ export class EmailMessage extends Item {
     set IsAssociated(value: boolean) {
         this.PropertyBag._setItem(ItemSchema.IsAssociated, value);
     }
+    
     /**
      * Gets or sets a value indicating whether a read receipt is requested for the e-mail message.
      *
@@ -93,6 +100,7 @@ export class EmailMessage extends Item {
     set IsDeliveryReceiptRequested(value: boolean) {
         this.PropertyBag._setItem(EmailMessageSchema.IsDeliveryReceiptRequested, value);
     }
+    
     /**
      * Gets or sets a value indicating whether the e-mail message is read.
      *
@@ -103,6 +111,7 @@ export class EmailMessage extends Item {
     set IsRead(value: boolean) {
         this.PropertyBag._setItem(EmailMessageSchema.IsRead, value);
     }
+    
     /**
      * Gets or sets a value indicating whether a read receipt is requested for the e-mail message.
      *
@@ -113,6 +122,7 @@ export class EmailMessage extends Item {
     set IsReadReceiptRequested(value: boolean) {
         this.PropertyBag._setItem(EmailMessageSchema.IsReadReceiptRequested, value);
     }
+    
     /**
      * Gets or sets a value indicating whether a response is requested for the e-mail message.
      *
@@ -123,6 +133,7 @@ export class EmailMessage extends Item {
     set IsResponseRequested(value: boolean) {
         this.PropertyBag._setItem(EmailMessageSchema.IsResponseRequested, value);
     }
+    
     /**
      * Gets the Internat Message Id of the e-mail message.
      *
@@ -130,6 +141,7 @@ export class EmailMessage extends Item {
     get InternetMessageId(): string {
         return <string>this.PropertyBag._getItem(EmailMessageSchema.InternetMessageId);
     }
+    
     /**
      * Gets or sets the references of the e-mail message.
      *
@@ -140,6 +152,7 @@ export class EmailMessage extends Item {
     set References(value: string) {
         this.PropertyBag._setItem(EmailMessageSchema.References, value);
     }
+    
     /**
      * Gets a list of e-mail addresses to which replies should be addressed.
      *
@@ -147,6 +160,7 @@ export class EmailMessage extends Item {
     get ReplyTo(): EmailAddressCollection {
         return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ReplyTo);
     }
+    
     /**
      * Gets or sets the sender of the e-mail message.
      *
@@ -157,6 +171,7 @@ export class EmailMessage extends Item {
     set Sender(value: EmailAddress) {
         this.PropertyBag._setItem(EmailMessageSchema.Sender, value);
     }
+    
     /**
      * Gets the ReceivedBy property of the e-mail message.
      *
@@ -164,6 +179,7 @@ export class EmailMessage extends Item {
     get ReceivedBy(): EmailAddress {
         return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedBy);
     }
+    
     /**
      * Gets the ReceivedRepresenting property of the e-mail message.
      *
@@ -171,6 +187,7 @@ export class EmailMessage extends Item {
     get ReceivedRepresenting(): EmailAddress {
         return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedRepresenting);
     }
+    
     /**
      * Gets the ApprovalRequestData property of the e-mail message.
      *
@@ -178,13 +195,15 @@ export class EmailMessage extends Item {
     get ApprovalRequestData(): ApprovalRequestData {
         return <ApprovalRequestData>this.PropertyBag._getItem(EmailMessageSchema.ApprovalRequestData);
     }
+    
     /**
      * Gets the VotingInformation property of the e-mail message.
      *
      */
     get VotingInformation(): VotingInformation {
         return <VotingInformation>this.PropertyBag._getItem(EmailMessageSchema.VotingInformation);
-    }
+    }    
+    
     /**
      * Initializes an unsaved local instance of . To bind to an existing e-mail message, use EmailMessage.Bind() instead.
      *
@@ -192,7 +211,7 @@ export class EmailMessage extends Item {
      */
     constructor(service: ExchangeService);
     /**
-     * Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the  class.
      *
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
@@ -207,7 +226,7 @@ export class EmailMessage extends Item {
      *
      * @param   {ExchangeService}         service     The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id          The Id of the e-mail message to bind to.
-     * @return  {IPromise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id. 
+     * @return  {IPromise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise. 
      */
     static Bind(service: ExchangeService, id: ItemId): IPromise<EmailMessage>;
     /**
@@ -216,12 +235,13 @@ export class EmailMessage extends Item {
      * @param   {ExchangeService}         service         The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id              The Id of the e-mail message to bind to.
      * @param   {PropertySet}             propertySet     The set of properties to load.
-     * @return  {IPromise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id.
+     * @return  {IPromise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
      */
     static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<EmailMessage>;
     static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<EmailMessage> {
         return service.BindToItem<EmailMessage>(id, propertySet, EmailMessage);
     }
+    
     /**
      * Creates a forward response to the message.
      *
@@ -231,6 +251,7 @@ export class EmailMessage extends Item {
         this.ThrowIfThisIsNew();
         return new ResponseMessage(this, ResponseMessageType.Forward);
     }
+    
     /**
      * Creates a reply response to the message.
      *
@@ -243,6 +264,7 @@ export class EmailMessage extends Item {
             this,
             replyAll ? ResponseMessageType.ReplyAll : ResponseMessageType.Reply);
     }
+    
     //Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
     //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
     /**
@@ -259,29 +281,33 @@ export class EmailMessage extends Item {
 
         return responseMessage.SendAndSaveCopy();
     }
+    
     /**
-     * Gets the minimum required server version.
+     * @internal Gets the minimum required server version.
      *
      * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    
     /**
-     * Internal method to return the schema associated with this type of object.
+     * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return EmailMessageSchema.Instance; }
+    
     /**
-     * Get XML Element Name - workaround for c# attributes
+     * @internal Get XML Element Name - workaround for c# attributes
      */
     GetXmlElementName(): string { return XmlElementNames.Message; }
+    
     /**
      * Send message.
      *
      * @param   {FolderId}            parentFolderId       The parent folder id.
      * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
-    InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
+    private InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
         this.ThrowIfThisIsAttachment();
 
         if (this.IsNew) {
@@ -327,6 +353,7 @@ export class EmailMessage extends Item {
             }
         }
     }
+    
     /**
      * Replies to the message. Calling this method results in a call to EWS.
      *
@@ -340,10 +367,12 @@ export class EmailMessage extends Item {
 
         return responseMessage.SendAndSaveCopy();
     }
+    
     /**
      * Sends this e-mail message. Calling this method results in at least one call to EWS.
      */
     Send(): IPromise<void> { return this.InternalSend(null, MessageDisposition.SendOnly); }
+    
     /**
      * Sends this e-mail message and saves a copy of it in the Sent Items folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
@@ -375,6 +404,7 @@ export class EmailMessage extends Item {
         }
         return this.InternalSend(destinationFolderId, MessageDisposition.SendAndSaveCopy);
     }
+    
     /**
      * Suppresses the read receipt on the message. Calling this method results in a call to EWS.
      *
