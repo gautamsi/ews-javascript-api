@@ -188,13 +188,13 @@ export class EmailMessage extends Item {
     /**
      * Initializes an unsaved local instance of . To bind to an existing e-mail message, use EmailMessage.Bind() instead.
      *
-     * @param   {[ExchangeService]}   service   The ExchangeService object to which the e-mail message will be bound.
+     * @param   {ExchangeService}   service   The ExchangeService object to which the e-mail message will be bound.
      */
     constructor(service: ExchangeService);
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[ItemAttachment]}   parentAttachment   The parent attachment.
+     * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
     constructor(parentAttachment: ItemAttachment);
     constructor(serviceOrParentAttachment: ExchangeService | ItemAttachment) {
@@ -205,18 +205,18 @@ export class EmailMessage extends Item {
     /**
      * Binds to an existing e-mail message and loads its first class properties. Calling this method results in a call to EWS.
      *
-     * @param   {[ExchangeService]}         service     The service to use to bind to the e-mail message.
-     * @param   {[ItemId]}                  id          The Id of the e-mail message to bind to.
-     * @return  {[IPromise<EmailMessage>]}              An EmailMessage instance representing the e-mail message corresponding to the specified Id. 
+     * @param   {ExchangeService}         service     The service to use to bind to the e-mail message.
+     * @param   {ItemId}                  id          The Id of the e-mail message to bind to.
+     * @return  {IPromise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id. 
      */
     static Bind(service: ExchangeService, id: ItemId): IPromise<EmailMessage>;
     /**
      * Binds to an existing e-mail message and loads the specified set of properties. Calling this method results in a call to EWS.
      *
-     * @param   {[ExchangeService]}         service         The service to use to bind to the e-mail message.
-     * @param   {[ItemId]}                  id              The Id of the e-mail message to bind to.
-     * @param   {[PropertySet]}             propertySet     The set of properties to load.
-     * @return  {[IPromise<EmailMessage>]}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id.
+     * @param   {ExchangeService}         service         The service to use to bind to the e-mail message.
+     * @param   {ItemId}                  id              The Id of the e-mail message to bind to.
+     * @param   {PropertySet}             propertySet     The set of properties to load.
+     * @return  {IPromise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id.
      */
     static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<EmailMessage>;
     static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<EmailMessage> {
@@ -225,7 +225,7 @@ export class EmailMessage extends Item {
     /**
      * Creates a forward response to the message.
      *
-     * @return  {[ResponseMessage]}      A ResponseMessage representing the forward response that can subsequently be modified and sent.
+     * @return  {ResponseMessage}      A ResponseMessage representing the forward response that can subsequently be modified and sent.
      */
     CreateForward(): ResponseMessage {
         this.ThrowIfThisIsNew();
@@ -234,8 +234,8 @@ export class EmailMessage extends Item {
     /**
      * Creates a reply response to the message.
      *
-     * @param   {[boolean]}             replyAll   Indicates whether the reply should go to all of the original recipients of the message.
-     * @return  {[ResponseMessage]}     A ResponseMessage representing the reply response that can subsequently be modified and sent.
+     * @param   {boolean}             replyAll   Indicates whether the reply should go to all of the original recipients of the message.
+     * @return  {ResponseMessage}     A ResponseMessage representing the reply response that can subsequently be modified and sent.
      */
     CreateReply(replyAll: boolean): ResponseMessage {
         this.ThrowIfThisIsNew();
@@ -248,8 +248,8 @@ export class EmailMessage extends Item {
     /**
      * Forwards the message. Calling this method results in a call to EWS.
      *
-     * @param   {[MessageBody]}   bodyPrefix     The prefix to prepend to the original body of the message.
-     * @param   {[EmailAddress[]]}   toRecipients   The recipients to forward the message to.
+     * @param   {MessageBody}   bodyPrefix     The prefix to prepend to the original body of the message.
+     * @param   {EmailAddress[]}   toRecipients   The recipients to forward the message to.
      */
     Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> {
         var responseMessage: ResponseMessage = this.CreateForward();
@@ -262,13 +262,13 @@ export class EmailMessage extends Item {
     /**
      * Gets the minimum required server version.
      *
-     * @return  {[ExchangeVersion]}      Earliest Exchange version in which this service object type is supported.
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return EmailMessageSchema.Instance; }
     /**
@@ -278,8 +278,8 @@ export class EmailMessage extends Item {
     /**
      * Send message.
      *
-     * @param   {[FolderId]}            parentFolderId       The parent folder id.
-     * @param   {[MessageDisposition]}  messageDisposition   The message disposition.
+     * @param   {FolderId}            parentFolderId       The parent folder id.
+     * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
     InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
         this.ThrowIfThisIsAttachment();
@@ -330,8 +330,8 @@ export class EmailMessage extends Item {
     /**
      * Replies to the message. Calling this method results in a call to EWS.
      *
-     * @param   {[MessageBody]}   bodyPrefix   The prefix to prepend to the original body of the message.
-     * @param   {[boolean]}   replyAll     Indicates whether the reply should be sent to all of the original recipients of the message.
+     * @param   {MessageBody}   bodyPrefix   The prefix to prepend to the original body of the message.
+     * @param   {boolean}   replyAll     Indicates whether the reply should be sent to all of the original recipients of the message.
      */
     Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void> {
         var responseMessage: ResponseMessage = this.CreateReply(replyAll);
@@ -352,7 +352,7 @@ export class EmailMessage extends Item {
     /**
      * Sends this e-mail message and saves a copy of it in the specified folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
-     * @param   {[WellKnownFolderName]}   destinationFolderName   The name of the folder in which to save the copy.
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy.
      */
     SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
     /**
@@ -360,7 +360,7 @@ export class EmailMessage extends Item {
     message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method
     results in a call to EWS.
      *
-     * @param   {[FolderId]}   destinationFolderId   The Id of the folder in which to save the copy.
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy.
      */
     SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
     SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<void> {

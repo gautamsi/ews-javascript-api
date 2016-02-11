@@ -47,7 +47,7 @@ export class EwsServiceXmlWriter {
     /**
      * Gets the xml created by EWS XMl Writer.
      * 
-     * @param   {[boolean]}   keep   removes internal cache of XML data if false, otherwise keep the data. 
+     * @param   {boolean}   keep   removes internal cache of XML data if false, otherwise keep the data. 
      */
     GetXML(keep: boolean = false): string {
         var returnVal = this.soapData.trim();
@@ -68,8 +68,8 @@ export class EwsServiceXmlWriter {
     /**
      * Pushes xml uri to internal tracker of used xml uris
      * 
-     * @param   {[string]}   prefix     Prefix of uri.
-     * @param   {[string]}   uri        uri itself.
+     * @param   {string}   prefix     Prefix of uri.
+     * @param   {string}   uri        uri itself.
      */
     private PushUris(prefix: string, uri: string): void {
 
@@ -82,8 +82,8 @@ export class EwsServiceXmlWriter {
     /**
      * check if an uri exist in internal tracker
      * 
-     * @param   {[string]}   prefix     Prefix of uri.
-     * @param   {[string]}   uri        uri itself.
+     * @param   {string}   prefix     Prefix of uri.
+     * @param   {string}   uri        uri itself.
      */
     private CheckRootUri(prefix: string, uri: string): boolean {
         return this.rootUris.indexOf(prefix + ":" + uri) >= 0;
@@ -93,7 +93,7 @@ export class EwsServiceXmlWriter {
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[ExchangeServiceBase]}   service   The service.
+     * @param   {ExchangeServiceBase}   service   The service.
      */
     constructor(service: ExchangeServiceBase) {
         this.service = service;
@@ -103,8 +103,8 @@ export class EwsServiceXmlWriter {
     /**
      * convert object to a string. transformed TryConvertObjectToString metho from c#
      *
-     * @param   {[any]}     value      The value.
-     * @return  {[string]}  The string representation of value.
+     * @param   {any}     value      The value.
+     * @return  {string}  The string representation of value.
      */
     ConvertObjectToString(value: any): string {
         var strValue: string = null;
@@ -144,16 +144,16 @@ export class EwsServiceXmlWriter {
     /**
      * Writes the attribute value.
      *
-     * @param   {[string]}   localName     The local name of the attribute.
-     * @param   {[string]}   stringValue   The string value.
+     * @param   {string}   localName     The local name of the attribute.
+     * @param   {string}   stringValue   The string value.
      */
     WriteAttributeString(localName: string, stringValue: string): void;
     /**
      * Writes the attribute value.
      *
-     * @param   {[string]}   namespacePrefix   The namespace prefix.
-     * @param   {[string]}   localName         The local name of the attribute.
-     * @param   {[string]}   stringValue       The string value.
+     * @param   {string}   namespacePrefix   The namespace prefix.
+     * @param   {string}   localName         The local name of the attribute.
+     * @param   {string}   stringValue       The string value.
      */
     WriteAttributeString(namespacePrefix: string, localName: string, stringValue: string): void;
     WriteAttributeString(
@@ -190,24 +190,24 @@ export class EwsServiceXmlWriter {
     /**
      * Writes the attribute value.  Does not emit empty string values.
      *
-     * @param   {[string]}  localName   The local name of the attribute.
-     * @param   {[any]}     value       The value.
+     * @param   {string}  localName   The local name of the attribute.
+     * @param   {any}     value       The value.
      */
     WriteAttributeValue(localName: string, value: any): void;
     /**
      * Writes the attribute value.  Optionally emits empty string values.
      *
-     * @param   {[string]}      localName                The local name of the attribute.
-     * @param   {[boolean]}     alwaysWriteEmptyString   Always emit the empty string as the value.
-     * @param   {[any]}         value                    The value.
+     * @param   {string}      localName                The local name of the attribute.
+     * @param   {boolean}     alwaysWriteEmptyString   Always emit the empty string as the value.
+     * @param   {any}         value                    The value.
      */
     WriteAttributeValue(localName: string, alwaysWriteEmptyString: boolean, value: any): void;
     /**
      * Writes the attribute value.
      *
-     * @param   {[string]}  namespacePrefix   The namespace prefix.
-     * @param   {[string]}  localName         The local name of the attribute.
-     * @param   {[any]}     value             The value.
+     * @param   {string}  namespacePrefix   The namespace prefix.
+     * @param   {string}  localName         The local name of the attribute.
+     * @param   {any}     value             The value.
      */
     WriteAttributeValue(namespacePrefix: string, localName: string, value: any): void;
     WriteAttributeValue(
@@ -250,7 +250,7 @@ export class EwsServiceXmlWriter {
     /**
      * Writes the base64-encoded element value.
      *
-     * @param   {[any]}   buffer   The buffer.
+     * @param   {any}   buffer   The buffer.
      */
     WriteBase64ElementValue(buffer: any): void {
         this.WriteValue(base64Helper.btoa(buffer), null);
@@ -259,18 +259,18 @@ export class EwsServiceXmlWriter {
     /**
      * Writes the element value.
      *
-     * @param   {[XmlNamespace]}    xmlNamespace   The XML namespace.
-     * @param   {[string]}          localName      The local name of the element.
-     * @param   {[string]}          displayName    The name that should appear in the exception message when the value can not be serialized.
-     * @param   {[any]}             value          The value.
+     * @param   {XmlNamespace}    xmlNamespace   The XML namespace.
+     * @param   {string}          localName      The local name of the element.
+     * @param   {string}          displayName    The name that should appear in the exception message when the value can not be serialized.
+     * @param   {any}             value          The value.
      */
     WriteElementValue(xmlNamespace: XmlNamespace, localName: string, value: any): void;
     /**
      * Writes the element value.
      *
-     * @param   {[XmlNamespace]}    xmlNamespace   The XML namespace.
-     * @param   {[string]}          localName      The local name of the element.
-     * @param   {[any]}             value          The value.
+     * @param   {XmlNamespace}    xmlNamespace   The XML namespace.
+     * @param   {string}          localName      The local name of the element.
+     * @param   {any}             value          The value.
      */
     WriteElementValue(xmlNamespace: XmlNamespace, localName: string, displayName: string, value: any): void;
     WriteElementValue(
@@ -315,8 +315,8 @@ export class EwsServiceXmlWriter {
     /**
      * Writes the start element.
      *
-     * @param   {[XmlNamespace]}    xmlNamespace   The XML namespace.
-     * @param   {[string]}          localName      The local name of the element.
+     * @param   {XmlNamespace}    xmlNamespace   The XML namespace.
+     * @param   {string}          localName      The local name of the element.
      */
     WriteStartElement(xmlNamespace: XmlNamespace, localName: string): void {
         this.CloseTag();
@@ -344,8 +344,8 @@ export class EwsServiceXmlWriter {
     /**
      * Writes string value.
      *
-     * @param   {[string]}   value   The value.
-     * @param   {[string]}   name    Element name (used for error handling)
+     * @param   {string}   value   The value.
+     * @param   {string}   name    Element name (used for error handling)
      */
     WriteValue(value: string, name: string): any {
         //var closeElement = this.soapData.charAt(this.soapData.length - 1) !== ">";

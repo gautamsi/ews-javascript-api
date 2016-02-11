@@ -41,7 +41,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[type]}   referenceItem   The reference item.
+     * @param   {type}   referenceItem   The reference item.
      */
     constructor(referenceItem: Item) {
         super(referenceItem.Service);
@@ -52,15 +52,15 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return ResponseObjectSchema.Instance; }
     /**
     * Create the response object.
     *
-    * @param   {[FolderId]}             destinationFolderId   The destination folder id.
-    * @param   {[MessageDisposition]}   messageDisposition    The message disposition.
-    * @return  {[IPromise<Item[]>]}               The list of items returned by EWS.
+    * @param   {FolderId}             destinationFolderId   The destination folder id.
+    * @param   {MessageDisposition}   messageDisposition    The message disposition.
+    * @return  {IPromise<Item[]>}               The list of items returned by EWS.
     */
     InternalCreate(destinationFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
         (<ItemId>this.PropertyBag._getItem(ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
@@ -73,36 +73,36 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     /**
      * Deletes the object.
      *
-     * @param   {[DeleteMode]}                  deleteMode                The deletion mode.
-     * @param   {[SendCancellationsMode]}       sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
-     * @param   {[affectedTaskOccurrences]}     affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
+     * @param   {DeleteMode}                  deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}       sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
+     * @param   {affectedTaskOccurrences}     affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> { throw new Error("ResponseObject.ts - InternalDelete : Not Supported Exception."); } //throw new NotSupportedException();
     /**
      * Loads the specified set of properties on the object.
      *
-     * @param   {[PropertySet]}   propertySet   The properties to load.
+     * @param   {PropertySet}   propertySet   The properties to load.
      */
     InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("ResponseObject.ts - InternalLoad : Not Supported Exception."); } //throw new NotSupportedException();
     
     /**
      * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @return  {[IPromise<TMessage>]}      A TMessage that represents the response.
+     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
      */
     Save(): IPromise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[WellKnownFolderName]}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {[IPromise<TMessage>]}      A TMessage that represents the response.
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
+     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
      */
     Save(destinationFolderName: WellKnownFolderName): IPromise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[FolderId]}   destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {[IPromise<TMessage>]}                         A TMessage that represents the response.
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the response.
+     * @return  {IPromise<TMessage>}                         A TMessage that represents the response.
      */
     Save(destinationFolderId: FolderId): IPromise<TMessage>;
     Save(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<TMessage> {
@@ -130,13 +130,13 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[WellKnownFolderName]}   destinationFolderName   The name of the folder in which to save the copy of the message.
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy of the message.
      */
     SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[FolderId]}   destinationFolderId   The Id of the folder in which to save the copy of the message.
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy of the message.
      */
     SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
     SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<void> {

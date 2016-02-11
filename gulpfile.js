@@ -14,7 +14,9 @@ var gutil = require("gulp-util");
 
 var colors = $.util.colors;
 var envenv = $.util.env;
-
+var gulp_typedoc = require("gulp-typedoc");
+var typedoc = require('typedoc');
+    
 
 
 /**
@@ -247,5 +249,72 @@ function log(msg) {
         $.util.log($.util.colors.blue(msg));
     }
 }
+
+/**
+ * replace line [reflection.name = '"' + _this.basePath.trim(name) + '"';] with [reflection.name = _this.basePath.trim(name);] to avoid '"' in names
+ */
+gulp.task("typedocX", function() {
+    process.chdir("./src/js/");
+	return gulp
+		.src(config.typedocFiles)
+		.pipe(gulp_typedoc({ 
+			// TypeScript options (see typescript docs) 
+			module: "commonjs", 
+			target: "es5",
+			includeDeclarations: true,
+			
+			// Output options (see typedoc docs) 
+			out: "./build/docs", 
+			//json: "./build/docs/file.json",
+ 
+			// TypeDoc options (see typedoc docs) 
+			name: "EWS JavaScript Api", 
+			theme: "default",
+			//plugins: ["my", "plugins"],
+			ignoreCompilerErrors: true,
+			//version: true,
+		}));
+});
+
+
+gulp.task("typedocFile", function() {
+    var options = {
+        target:"ES5",
+        module:"commonjs",
+        ignoreCompilerErrors:true,
+        name:"Ews JavaScript Api",
+        verbose:false,
+        //entryPoint:'"Core/ExchangeService"',
+        exclude: "**/*.d*.ts",
+        excludeExternals:true,
+        theme:"default",
+        mode:"File",
+        readme:"none"                  
+    }
+    var app = new typedoc.Application(options);
+    return app.generateDocs(app.expandInputFiles(['.\\src\\js']), ".\\build\\docs\\FileMode");
+    //return app.generateDocs(app.expandInputFiles(['.\\src\\js\\Core\\ServiceObjects\\Items']), ".\\build\\doc\\File");
+
+});
+gulp.task("typedocModules", function() {
+    var options = {
+        target:"ES5",
+        module:"commonjs",
+        ignoreCompilerErrors:true,
+        name:"Ews JavaScript Api",
+        verbose:false,
+        //entryPoint:'Core/ExchangeService',
+        exclude: "**/*.d*.ts",
+        excludeExternals:true,
+        theme:"default",
+        mode:"Modules" ,
+        readme:"none"        
+    }
+    var app = new typedoc.Application(options);
+    return app.generateDocs(app.expandInputFiles(['.\\src\\js']), ".\\build\\docs\\ModulesMode");
+
+});
+
+gulp.task("typedoc",["typedocFile","typedocModules"]);
 
 module.exports = gulp;

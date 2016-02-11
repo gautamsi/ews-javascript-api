@@ -26,7 +26,7 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[Item]}   referenceItem   The reference item.
+     * @param   {Item}   referenceItem   The reference item.
      */
     constructor(referenceItem: Item) {
         super(referenceItem);
@@ -34,19 +34,19 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
     /**
      * Gets the minimum required server version.
      *
-     * @return  {[ExchangeVersion]}      Earliest Exchange version in which this service object type is supported.
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return CancelMeetingMessageSchema.Instance; }
     /**
      * Gets the element name of item in XML
      * 
-     * @return  {[string]} name of elelment
+     * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.CancelCalendarItem; }
 }

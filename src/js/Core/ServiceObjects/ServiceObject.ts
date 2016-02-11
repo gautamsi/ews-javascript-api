@@ -62,7 +62,7 @@ export class ServiceObject {
     /**
      * Internal constructor.
      *
-     * @param   {[ExchangeService]}   service   EWS service to which this object belongs.
+     * @param   {ExchangeService}   service   EWS service to which this object belongs.
      */
     constructor(service: ExchangeService) {
         //EwsUtilities.ValidateParam(service, "service");
@@ -76,7 +76,7 @@ export class ServiceObject {
      * Gets the value of specified property in this instance.
      * This Indexer of c# 
      * 
-     * @param   {[PropertyDefinitionBase]}   propertyDefinition   Definition of the property to get.
+     * @param   {PropertyDefinitionBase}   propertyDefinition   Definition of the property to get.
      */
     _getItem(propertyDefinition: PropertyDefinitionBase): any {
         var propertyValue: any;
@@ -121,25 +121,25 @@ export class ServiceObject {
     /**
      * Gets the name of the change XML element.
      *
-     * @return  {[string]}      XML element name,
+     * @return  {string}      XML element name,
      */
     GetChangeXmlElementName(): string { return XmlElementNames.ItemChange; }
     /**
      * Gets the name of the delete field XML element.
      *
-     * @return  {[string]}      XML element name,
+     * @return  {string}      XML element name,
      */
     GetDeleteFieldXmlElementName(): string { return XmlElementNames.DeleteItemField; }
     /**
      * Gets the extended properties collection.
      *
-     * @return  {[ExtendedPropertyCollection]}      Extended properties collection.
+     * @return  {ExtendedPropertyCollection}      Extended properties collection.
      */
     GetExtendedProperties(): ExtendedPropertyCollection { return null; }
     /**
      * The unique Id of this object.
      *
-     * @return  {[ServiceId]}      A ServiceId instance..
+     * @return  {ServiceId}      A ServiceId instance..
      */
     GetId(): ServiceId {
         var idPropertyDefinition = this.GetIdPropertyDefinition();
@@ -154,26 +154,26 @@ export class ServiceObject {
     /**
      * The property definition for the Id of this object.
      *
-     * @return  {[PropertyDefinition]}      A PropertyDefinition instance.
+     * @return  {PropertyDefinition}      A PropertyDefinition instance.
      */
     GetIdPropertyDefinition(): PropertyDefinition { return null; }
     /**
      * Determines whether properties defined with ScopedDateTimePropertyDefinition require custom time zone scoping.
      *
-     * @return  {[boolean]}      true if this item type requires custom scoping for scoped date/time properties; otherwise, false.
+     * @return  {boolean}      true if this item type requires custom scoping for scoped date/time properties; otherwise, false.
      */
     GetIsCustomDateTimeScopingRequired(): boolean { return false; }
     /**
      * Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
      *
-     * @param   {[boolean]}     isUpdateOperation   Indicates whether the operation being petrformed is an update operation.
-     * @return  {[boolean]}     true if a time zone SOAP header should be emitted; otherwise, false.
+     * @param   {boolean}     isUpdateOperation   Indicates whether the operation being petrformed is an update operation.
+     * @return  {boolean}     true if a time zone SOAP header should be emitted; otherwise, false.
      */
     GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { return false; }
     /**
      * Gets the collection of loaded property definitions.
      *
-     * @return  {[PropertyDefinitionBase[]]}      Collection of property definitions.
+     * @return  {PropertyDefinitionBase[]}      Collection of property definitions.
      */
     GetLoadedPropertyDefinitions(): PropertyDefinitionBase[] /*System.Collections.ObjectModel.Collection<PropertyDefinitionBase>*/ {
         var propDefs: PropertyDefinitionBase[] = [];
@@ -192,25 +192,25 @@ export class ServiceObject {
     /**
      * Gets the minimum required server version.
      *
-     * @return  {[ExchangeVersion]}      Earliest Exchange version in which this service object type is supported.
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must implement"); }
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
     /**
      * Gets the name of the set field XML element.
      *
-     * @return  {[string]}      XML element name,
+     * @return  {string}      XML element name,
      */
     GetSetFieldXmlElementName(): string { return XmlElementNames.SetItemField; }
     /**
      * GetXmlElementName retrieves the XmlElementName of this type based on the EwsObjectDefinition attribute that decorates it, if present.
      *
-     * @return  {[string]}      The XML element name associated with this type.
+     * @return  {string}      The XML element name associated with this type.
      */
     GetXmlElementName(): string {
         throw new Error("ServiceObject.ts - GetXmlElementName -  this must be overridden by derived class - can not use reflection to get class attribute in javascript");
@@ -227,15 +227,15 @@ export class ServiceObject {
     /**
      * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
      *
-     * @return  {[string]}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
+     * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
      */
     GetXmlElementNameOverride(): string { return null; }
     /**
      * Deletes the object.
      *
-     * @param   {[DeleteMode]}              deleteMode                The deletion mode.
-     * @param   {[SendCancellationsMode]}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
-     * @param   {[AffectedTaskOccurrence]}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
+     * @param   {DeleteMode}              deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
+     * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
         throw new Error("abstract method, must implement");
@@ -243,7 +243,7 @@ export class ServiceObject {
     /**
      * Loads the specified set of properties on the object.
      *
-     * @param   {[PropertySet]}   propertySet   The properties to load.
+     * @param   {PropertySet}   propertySet   The properties to load.
      */
     InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("abstract method, must implement"); }
 
@@ -254,7 +254,7 @@ export class ServiceObject {
     /**
      * Loads the specified set of properties. Calling this method results in a call to EWS.
      *
-     * @param   {[PropertySet]}   propertySet   The properties to load.
+     * @param   {PropertySet}   propertySet   The properties to load.
      */
     Load(propertySet?: PropertySet): IPromise<void>;
     Load(propertySet?: PropertySet): IPromise<void> {
@@ -265,11 +265,11 @@ export class ServiceObject {
     /**
      * Loads service object from XML.
      *
-     * @param   {[any]}                 jsObject                Jason Object converted from XML.
-     * @param   {[ExchangeService]}     service                 The service.
-     * @param   {[boolean]}             clearPropertyBag        if set to true [clear property bag].
-     * @param   {[PropertySet]}         requestedPropertySet    The property set.
-     * @param   {[boolean]}             summaryPropertiesOnly   if set to true [summary props only].
+     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {ExchangeService}     service                 The service.
+     * @param   {boolean}             clearPropertyBag        if set to true [clear property bag].
+     * @param   {PropertySet}         requestedPropertySet    The property set.
+     * @param   {boolean}             summaryPropertiesOnly   if set to true [summary props only].
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clearPropertyBag: boolean, requestedPropertySet: PropertySet = null, summaryPropertiesOnly: boolean = false): void {
         this.PropertyBag.LoadFromXmlJsObject(
@@ -300,9 +300,9 @@ export class ServiceObject {
     /**
      * Try to get the value of a specified extended property in this instance.
      *
-     * @param   {[ExtendedPropertyDefinition]}  propertyDefinition   The property definition.
-     * @param   {[IOutParam<T>]}                propertyValue        The property value.
-     * @return  {[boolean]}                     True if property retrieved, false otherwise.
+     * @param   {ExtendedPropertyDefinition}  propertyDefinition   The property definition.
+     * @param   {IOutParam<T>}                propertyValue        The property value.
+     * @return  {boolean}                     True if property retrieved, false otherwise.
      */
     TryGetExtendedProperty<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean {
         var propertyCollection: ExtendedPropertyCollection = this.GetExtendedProperties();
@@ -322,9 +322,9 @@ export class ServiceObject {
     /**
      * Try to get the value of a specified property in this instance.
      *
-     * @param   {[PropertyDefinitionBase]}  propertyDefinition   The property definition.
-     * @param   {[IOutParam<T>]}            propertyValue        The property value.
-     * @return  {[boolean]}                 True if property retrieved, false otherwise.
+     * @param   {PropertyDefinitionBase}  propertyDefinition   The property definition.
+     * @param   {IOutParam<T>}            propertyValue        The property value.
+     * @return  {boolean}                 True if property retrieved, false otherwise.
      */
     TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: IOutParam<T>): boolean {
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;// as PropertyDefinition;
@@ -355,13 +355,13 @@ export class ServiceObject {
     /**
      * Writes service object as XML.
      *
-     * @param   {[EwsServiceXmlWriter]}   writer   The writer.
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteToXml(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXml(writer); }
     /**
      * Writes service object for update as XML.
      *
-     * @param   {[EwsServiceXmlWriter]}   writer   The writer.
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteToXmlForUpdate(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXmlForUpdate(writer); }
 

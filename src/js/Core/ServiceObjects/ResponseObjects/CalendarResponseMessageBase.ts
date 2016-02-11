@@ -15,7 +15,7 @@ export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends 
     /**
     * Initializes a new instance of the  class.
     *
-    * @param   {[Item]}   referenceItem   The reference item.
+    * @param   {Item}   referenceItem   The reference item.
     */
     constructor(referenceItem: Item) {
         super(referenceItem);
@@ -24,21 +24,21 @@ export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends 
     /**
      * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @return  {[CalendarActionResults]}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     Save(): IPromise<CalendarActionResults>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[WellKnownFolderName]}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     Save(destinationFolderName: WellKnownFolderName): IPromise<CalendarActionResults>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[FolderId]}                destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the response.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     Save(destinationFolderId: FolderId): IPromise<CalendarActionResults>;
     Save(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<CalendarActionResults> {
@@ -58,7 +58,7 @@ export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends 
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      *
-     * @return  {[CalendarActionResults]}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     Send(): IPromise<CalendarActionResults> {
         return this.InternalCreate(null, MessageDisposition.SendOnly).then((results) => {
@@ -69,21 +69,21 @@ export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends 
     /**
      * Sends this response ans saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
      *
-     * @return  {[CalendarActionResults]}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     SendAndSaveCopy(): IPromise<CalendarActionResults>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[WellKnownFolderName]}     destinationFolderName   The name of the folder in which to save the copy of the message.
-     * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the copy of the message.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<CalendarActionResults>;
     /**
      * Sends this response ans saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {[FolderId]}                destinationFolderId   The Id of the folder in which to save the copy of the message.
-     * @return  {[CalendarActionResults]}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the copy of the message.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
     SendAndSaveCopy(destinationFolderId: FolderId): IPromise<CalendarActionResults>;
     SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<CalendarActionResults> {

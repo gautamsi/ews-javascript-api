@@ -20,8 +20,8 @@ export class AcceptMeetingInvitationMessage extends CalendarResponseMessage<Meet
         /**
          * Initializes a new instance of the  class.
          *
-         * @param   {[Item]}            referenceItem   The reference item.
-         * @param   {[boolean]}         tentative       if set to true accept invitation tentatively.
+         * @param   {Item}            referenceItem   The reference item.
+         * @param   {boolean}         tentative       if set to true accept invitation tentatively.
          */
         constructor(referenceItem: Item, tentative: boolean) {
                 super(referenceItem);
@@ -30,13 +30,13 @@ export class AcceptMeetingInvitationMessage extends CalendarResponseMessage<Meet
         /**
          * Gets the minimum required server version.
          *
-         * @return  {[ExchangeVersion]}      Earliest Exchange version in which this service object type is supported.
+         * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
          */
         GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
         /**
          * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
          *
-         * @return  {[string]}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
+         * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
          */
         GetXmlElementNameOverride(): string {
                 if (this.tentative) {
