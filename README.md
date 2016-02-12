@@ -11,8 +11,10 @@ Works with **Office 365/Exchange Online** and on-premises Exchange (2007 - 2016)
 ## Authentication
 * Basic - inbuilt
 * [NTLM](https://gist.github.com/gautamsi/28211eda711e3e7dc04c) - using XHRApi adapter
-* [Cookies/FBA Authentication with TMG/ISA](https://gist.github.com/gautamsi/4aec3307942de9087e89) - using XHRApi adapter
-> NTML and Cookies Authentication works with nodejs only
+* [Cookies/FBA Authentication with TMG/ISA](https://gist.github.com/gautamsi/4aec3307942de9087e89) - using XHRApi adapter 
+
+> use SSL for basic authentication  
+NTLM and Cookies Authentication works with nodejs only
 
 ## Modules
 * commonjs module for NodeJs
