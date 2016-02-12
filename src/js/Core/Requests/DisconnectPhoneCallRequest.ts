@@ -4,6 +4,9 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     Id: PhoneCallId;
     private id: PhoneCallId;
@@ -14,9 +17,3 @@ export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("DisconnectPhoneCallRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DisconnectPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

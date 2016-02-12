@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {Folder} from "./Folder";
+/**
+ * ## *Not Implemented*  
+ */
 export class TasksFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs

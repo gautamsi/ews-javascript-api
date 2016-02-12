@@ -12,7 +12,7 @@ module.exports = function() {
         ts: {
             // all typescript that we want to vet
             files: [
-                './src/**/*.ts',                
+                './src/**/*.ts',                                                
             ],
             // all typescript that we want to vet
            testFiles: [
@@ -36,7 +36,12 @@ module.exports = function() {
             },
             typings: typings            
         },
-
+        typedocFiles:[
+            './**/*.ts',
+            '!./**/*.d.ts',
+            '!./WebService.Extra.ts',
+            '!./Microsoft.Exchange.WebServices.d__.ts',
+        ],
         build: './build/',
         root: root,
         source: 'src/',

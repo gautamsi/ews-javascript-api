@@ -23,7 +23,7 @@ export class SuppressReadReceipt extends ServiceObject {
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[Item]}   referenceItem   The reference item.
+     * @param   {Item}   referenceItem   The reference item.
      */
     constructor(referenceItem: Item) {
         super(referenceItem.Service);
@@ -34,21 +34,21 @@ export class SuppressReadReceipt extends ServiceObject {
     /**
      * Gets the minimum required server version.
      *
-     * @return  {[ExchangeVersion]}      Earliest Exchange version in which this service object type is supported.
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return ResponseObjectSchema.Instance; }
     GetXmlElementName(): string { return XmlElementNames.SuppressReadReceipt; }
     /**
      * Create the response object.
      *
-     * @param   {[FolderId]}            parentFolderId       The parent folder id.
-     * @param   {[MessageDisposition]}  messageDisposition   The message disposition.
+     * @param   {FolderId}            parentFolderId       The parent folder id.
+     * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
     InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
         (<ItemId>this.PropertyBag._getItem(ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
@@ -61,15 +61,15 @@ export class SuppressReadReceipt extends ServiceObject {
     /**
      * Deletes the object.
      *
-     * @param   {[DeleteMode]}              deleteMode                The deletion mode.
-     * @param   {[SendCancellationsMode]}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
-     * @param   {[AffectedTaskOccurrence]}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
+     * @param   {DeleteMode}              deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
+     * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
     InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> { throw new Error("SuppressReadReceipt.ts - InternalDelete : Not Supported Exception."); }
     /**
      * Loads the specified set of properties on the object.
      *
-     * @param   {[PropertySet]}   propertySet   The properties to load.
+     * @param   {PropertySet}   propertySet   The properties to load.
      */
     InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("SuppressReadReceipt.ts - InternalLoad : Not Supported Exception."); }
 }

@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {DeleteAttachmentResponse} from "../Responses/DeleteAttachmentResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     private attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
@@ -16,9 +19,3 @@ export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteA
     Validate(): any { throw new Error("DeleteAttachmentRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

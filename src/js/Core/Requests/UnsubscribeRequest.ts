@@ -3,6 +3,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class UnsubscribeRequest extends MultiResponseServiceRequest<ServiceResponse> {
 	SubscriptionId: string;
 	CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse{ throw new Error("UnsubscribeRequest.ts - CreateServiceResponse : Not implemented.");}
@@ -14,11 +17,3 @@ export class UnsubscribeRequest extends MultiResponseServiceRequest<ServiceRespo
 	Validate(): void{ throw new Error("UnsubscribeRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("UnsubscribeRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

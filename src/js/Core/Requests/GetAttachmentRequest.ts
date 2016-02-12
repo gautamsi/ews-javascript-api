@@ -6,6 +6,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetAttachmentResponse} from "../Responses/GetAttachmentResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachmentResponse> { //IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
     AttachmentIds: string[];//System.Collections.Generic.List<string>;
@@ -27,9 +30,3 @@ export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachm
     WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("GetAttachmentRequest.ts - WriteAttachmentIdXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

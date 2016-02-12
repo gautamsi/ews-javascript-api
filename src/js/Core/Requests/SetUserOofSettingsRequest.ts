@@ -4,6 +4,9 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
 	SmtpAddress: string;
 	OofSettings: OofSettings;
@@ -17,11 +20,3 @@ export class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
 	Validate(): void{ throw new Error("SetUserOofSettingsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SetUserOofSettingsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

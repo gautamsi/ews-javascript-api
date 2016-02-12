@@ -3,6 +3,9 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     ImageBase64: string;
     EmailText: string;
@@ -19,11 +22,3 @@ export class SetEncryptionConfigurationRequest extends SimpleServiceRequestBase 
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("SetEncryptionConfigurationRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {MeetingMessage} from "./MeetingMessage";
+/**
+ * ## *Not Implemented* 
+ */
 export class MeetingResponse extends MeetingMessage {
     //////Start: Date;
     //////End: Date;

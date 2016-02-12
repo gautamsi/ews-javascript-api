@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {Item} from "./Item";
+/**
+ * ## *Not Implemented* 
+ */
 export class ContactGroup extends Item {
     //////FileAs: string;
     //////DisplayName: string;

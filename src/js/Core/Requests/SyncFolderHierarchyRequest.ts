@@ -5,6 +5,9 @@ import {ExchangeService} from "../ExchangeService";
 import {SyncFolderHierarchyResponse} from "../Responses/SyncFolderHierarchyResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<SyncFolderHierarchyResponse> {
 	PropertySet: PropertySet;
 	SyncFolderId: FolderId;
@@ -21,11 +24,3 @@ export class SyncFolderHierarchyRequest extends MultiResponseServiceRequest<Sync
 	Validate(): void{ throw new Error("SyncFolderHierarchyRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SyncFolderHierarchyRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

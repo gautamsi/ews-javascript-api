@@ -3,6 +3,9 @@ import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
 import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;
     private userIds: UserId[];//System.Collections.Generic.List<UserId>;
@@ -13,10 +16,3 @@ export class RemoveDelegateRequest extends DelegateManagementRequestBase<Delegat
     Validate(): any { throw new Error("RemoveDelegateRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("RemoveDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-//}
-
-
-

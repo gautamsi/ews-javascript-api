@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {ServiceObject} from "../ServiceObject";
+/**
+ * ## *Not Implemented* 
+ */
 export class Conversation extends ServiceObject {
     //////Id: ConversationId;
     //////Topic: string;

@@ -4,6 +4,9 @@ import {DelegateUser} from "../../ComplexProperties/DelegateUser";
 import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class UpdateDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     DelegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;
@@ -16,10 +19,3 @@ export class UpdateDelegateRequest extends DelegateManagementRequestBase<Delegat
     Validate(): any { throw new Error("UpdateDelegateRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-//}
-
-
-

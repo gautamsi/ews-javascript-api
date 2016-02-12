@@ -1,22 +1,47 @@
 ews-javascript-api 
 ==================
-##Exchange Web Service in JavaScript, available cross platform on Windows/Mac/Linux/Cordova
+## Exchange Web Service in JavaScript/TypeScript.
 
-EWS managed API for TypeScript/JavaScript - code ported from OfficeDev/ews-managed-api. availbale for node.js and mobile devices (cordova)
+EWS managed API for TypeScript/JavaScript - code ported from OfficeDev/ews-managed-api. availbale for nodejs, browser and mobile devices (cordova).  
 
-All http operation is wrapped in promise using (WinJS promise or Q promise - configurable at build or in initialization). 
-Coding style is highly compatible with EWS managed api 2.1 except it is async :).
+Pluggable XHRApi adapter to replace client (browser) based XHR call with server brokered call (example coming soon). Example Ruby on rails, PHP or any server side framework where c# or nodejs is not available
 
-##Documentation
-more documents available in wiki (publishig soon)
+Works with **Office 365/Exchange Online** and on-premises Exchange (2007 - 2016)
 
-###install in node
+## Authentication
+* Basic - inbuilt
+* [NTLM](https://gist.github.com/gautamsi/28211eda711e3e7dc04c) - using XHRApi adapter
+* [Cookies/FBA Authentication with TMG/ISA](https://gist.github.com/gautamsi/4aec3307942de9087e89) - using XHRApi adapter
+> NTML and Cookies Authentication works with nodejs only
+
+## Modules
+* commonjs module for NodeJs
+* AMD module for browser*
+
+All http call is wrapped in promise using WinJS promise.  
+Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library/office/jj536567.aspx) should work with little modificaion to Promise format
+
+
+## Documentation
+Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api)
+
+
+# Getting Started
+## install
 ```shell
 [sudo] npm install ews-javascript-api
 ``` 
 
-#### Use in node
-#####Autodiscover user settings
+## use
+```javascript
+//classic Javascript style
+var ews = require('ews-javascript-api');
+var exch = new ews.ExchangeService(ExchangeVersion.Exchange2013);
+//ES6 TypeScript style
+import {ExchangeService, AutodiscoverService, Folder, Item, ExchangeVersion} from "ews-javascript-api";
+var exch = new ExchangeService(ExchangeVersion.Exchange2013);
+```
+## Autodiscover user settings
 ```javascript
 //import ews module
 var ews = require('ews-javascript-api');
@@ -63,7 +88,7 @@ autod.GetUserSettings(["email1@domain.com", "email2@domain.com"], settings)
 });
 ```
 
-#####Use EWS operations
+## Example EWS operations
 Example of user availability
 ```javascript
 var ews = require('ews-javascript-api');
@@ -85,50 +110,72 @@ exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndS
         
 ```
 
-####Other Opetations
-#####Folder Operations
-* BindToFolder
-* CopyFolder
-* CreateFolder
-* DeleteFolder
-* EmptyFolder
-* FindFolders
-* LoadPropertiesForFolder
-* MarkAllItemsAsRead
-* MoveFolder
-* UpdateFolder
+# Porting status
 
-#####Item Operations
+Review Core/ExchangeService methods in api document, Any method not marked private oe internal (internal marker is in description of method) is posted and can be used, open issue if it doe snot work
 
-* ArchiveItem*
-* BindToItem*
-* CopyItem[s]*
-* CreateItem*
-* DeleteItem[s]*
-* FindAppointments*
-* FindItems
-* MarkAsJunk*
-* MoveItem*
-* SendItem*
-* UpdateItem[s]*
-
-#####Availability Operations
+## List of ExchangeService methods ported  
+> ArchiveItems  
+AutodiscoverUrl  
+BindToGroupItems  
+BindToItems  
+CopyItems  
+CreateItems  
+DeleteItems  
+ExpandGroup  
+FindAppointments  
+FindFolders  
+FindItems  
+GetPasswordExpirationDate  
+GetUserAvailability  
+LoadPropertiesForItems  
+MarkAsJunk  
+MoveItems  
+ResolveName  
+UpdateItems 
 
 
-* GetUserAvailability
+## List of Folder object methods ported
 
-[*--Work in progress for next minor release]
+> BindToFolder  
+CopyFolder  
+CreateFolder  
+DeleteFolder  
+EmptyFolder  
+FindFolders  
+FindItems  
+Load  
+LoadPropertiesForFolder  
+MarkAllItemsAsRead  
+MarkAllItemsAsUnread  
+MoveFolder  
+Save  
+UpdateFolder 
 
-#####many more operations to be available soon
+## List of Item object methods ported
+
+>ArchiveItem  
+BindToItem  
+CopyItem[s]  
+CreateItem  
+DeleteItem[s]  
+FindAppointments  
+FindItems  
+MarkAsJunk  
+MoveItem  
+SendItem  
+Save  
+UpdateItem[s] 
 
 
-####Use in Cordova
-AMD module for require.js to be included in build system, will be publishing bower module and documentation soon with.
+
+## Use in Cordova
+AMD module for require.js to be included in build system, bower module and related documentation will be published.
 
 
-#Tests
+# Tests
 in progress....
 
 
-#License
+# License
 Licensed under MIT

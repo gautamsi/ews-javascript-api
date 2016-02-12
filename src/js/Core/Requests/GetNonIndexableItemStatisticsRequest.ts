@@ -3,6 +3,9 @@ import {GetNonIndexableItemStatisticsResponse} from "../Responses/GetNonIndexabl
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
     Mailboxes: string[];
     SearchArchiveOnly: boolean;
@@ -14,9 +17,3 @@ export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBa
     Validate(): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

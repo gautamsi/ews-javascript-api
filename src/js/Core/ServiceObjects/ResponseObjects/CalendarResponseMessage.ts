@@ -79,7 +79,7 @@ export class CalendarResponseMessage<TMessage extends EmailMessage> extends Cale
         /**
          * Initializes a new instance of the  class.
          *
-         * @param   {[Item]}   referenceItem   The reference item.
+         * @param   {Item}   referenceItem   The reference item.
          */
         constructor(referenceItem: Item) {
                 super(referenceItem);
@@ -87,7 +87,7 @@ export class CalendarResponseMessage<TMessage extends EmailMessage> extends Cale
         /**
          * Internal method to return the schema associated with this type of object.
          *
-         * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+         * @return  {ServiceObjectSchema}      The schema associated with this type of object.
          */
         GetSchema(): ServiceObjectSchema {
                 return CalendarResponseObjectSchema.Instance;

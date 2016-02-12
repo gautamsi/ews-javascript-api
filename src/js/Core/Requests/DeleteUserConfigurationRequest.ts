@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<ServiceResponse> { //: IJsonSerializable
     Name: string;
     ParentFolderId: FolderId;
@@ -18,9 +21,3 @@ export class DeleteUserConfigurationRequest extends MultiResponseServiceRequest<
     Validate(): any { throw new Error("DeleteUserConfigurationRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteUserConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

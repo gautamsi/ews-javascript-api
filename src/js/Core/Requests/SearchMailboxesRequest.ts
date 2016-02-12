@@ -9,6 +9,9 @@ import {SearchMailboxesResponse} from "../Responses/SearchMailboxesResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMailboxesResponse> {
     SearchQueries: MailboxQuery[];//System.Collections.Generic.List<MailboxQuery>;
     ResultType: SearchResultType;
@@ -41,9 +44,3 @@ export class SearchMailboxesRequest extends MultiResponseServiceRequest<SearchMa
     Validate(): any { throw new Error("SearchMailboxesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SearchMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

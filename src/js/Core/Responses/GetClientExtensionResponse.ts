@@ -1,6 +1,9 @@
 ﻿import {ClientExtension} from "../../ComplexProperties/ClientExtension";
 import {ServiceResponse} from "./ServiceResponse";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetClientExtensionResponse extends ServiceResponse {
     ClientExtensions: ClientExtension[];//System.Collections.ObjectModel.Collection<ClientExtension>;
     RawMasterTableXml: string;
@@ -8,11 +11,3 @@ export class GetClientExtensionResponse extends ServiceResponse {
     private rawMasterTableXml: string;
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetClientExtensionResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

@@ -5,6 +5,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ConvertIdResponse} from "../Responses/ConvertIdResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdResponse> {//IJsonSerializable
     DestinationFormat: IdFormat;
     Ids: AlternateIdBase[];//System.Collections.Generic.List<AlternateIdBase>;
@@ -19,9 +22,3 @@ export class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdRespo
     Validate(): any { throw new Error("ConvertIdRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ConvertIdRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

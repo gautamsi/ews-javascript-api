@@ -4,6 +4,9 @@ import {ExchangeService} from "../ExchangeService";
 import {CreateAttachmentResponse} from "../Responses/CreateAttachmentResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;
@@ -19,9 +22,3 @@ export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateA
     Validate(): any { throw new Error("CreateAttachmentRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

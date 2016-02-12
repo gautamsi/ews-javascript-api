@@ -3,6 +3,9 @@ import {InstallAppResponse} from "../Responses/InstallAppResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class InstallAppRequest extends SimpleServiceRequestBase {
 	private manifestStream: any /*System.IO.Stream*/;
 	Execute(): InstallAppResponse{ throw new Error("InstallAppRequest.ts - Execute : Not implemented.");}
@@ -12,11 +15,3 @@ export class InstallAppRequest extends SimpleServiceRequestBase {
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("InstallAppRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("InstallAppRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

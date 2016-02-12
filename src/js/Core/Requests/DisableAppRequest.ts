@@ -4,6 +4,9 @@ import {DisableAppResponse} from "../Responses/DisableAppResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class DisableAppRequest extends SimpleServiceRequestBase {
 	private Id: string;
 	private DisableReason: DisableReasonType;
@@ -14,11 +17,3 @@ export class DisableAppRequest extends SimpleServiceRequestBase {
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("DisableAppRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("DisableAppRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

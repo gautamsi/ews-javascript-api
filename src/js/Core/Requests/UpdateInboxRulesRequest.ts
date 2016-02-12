@@ -4,6 +4,9 @@ import {UpdateInboxRulesResponse} from "../Responses/UpdateInboxRulesResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
     MailboxSmtpAddress: string;
     RemoveOutlookRuleBlob: boolean;
@@ -19,11 +22,3 @@ export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
     Validate(): any { throw new Error("UpdateInboxRulesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateInboxRulesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

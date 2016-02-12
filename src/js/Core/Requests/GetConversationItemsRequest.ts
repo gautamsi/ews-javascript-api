@@ -8,6 +8,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetConversationItemsResponse} from "../Responses/GetConversationItemsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {//IJsonSerializable
     Conversations: ConversationRequest[];//System.Collections.Generic.List<ConversationRequest>;
     ItemProperties: PropertySet;
@@ -25,9 +28,3 @@ export class GetConversationItemsRequest extends MultiResponseServiceRequest<Get
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteAttributesToXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetConversationItemsRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

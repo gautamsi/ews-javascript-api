@@ -1,6 +1,9 @@
 ﻿import {ServiceRequestBase} from "./ServiceRequestBase";
 import {IEwsHttpWebRequest} from "../../Interfaces/IEwsHttpWebRequest";
 import {ExchangeService} from "../ExchangeService";
+/**
+ * ## *Not Implemented* 
+ */
 export class AsyncRequestResult {
 	ServiceRequest: ServiceRequestBase;
 	WebRequest: IEwsHttpWebRequest;
@@ -11,11 +14,3 @@ export class AsyncRequestResult {
 	IsCompleted: boolean;
 	ExtractServiceRequest<T>(exchangeService: ExchangeService, asyncResult: any /*System.IAsyncResult*/): T{ throw new Error("AsyncRequestResult.ts - ExtractServiceRequest<T> : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

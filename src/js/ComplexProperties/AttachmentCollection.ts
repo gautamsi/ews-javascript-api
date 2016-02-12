@@ -36,8 +36,8 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
 	/**
 	 * Adds a file attachment to the collection.
 	 *
-	 * @param   {[string]}	fileName   The name of the file representing the content of the attachment.
-	 * @return  {[FileAttachment]} 		A FileAttachment instance.
+	 * @param   {string}	fileName   The name of the file representing the content of the attachment.
+	 * @return  {FileAttachment} 		A FileAttachment instance.
 	 */
 	AddFileAttachment(fileName: string): FileAttachment { EwsLogging.DebugLog("AttachmentCollection.ts - AddFileAttachment : Not implemented."); return null; }
 	//AddFileAttachment(name: string, fileName: string): FileAttachment{ throw new Error("AttachmentCollection.ts - AddFileAttachment : Not implemented.");}

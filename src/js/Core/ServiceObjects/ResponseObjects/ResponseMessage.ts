@@ -82,8 +82,8 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
     /**
      * Initializes a new instance of the  class.
      *
-     * @param   {[Item]}                    referenceItem   The reference item.
-     * @param   {[ResponseMessageType]}     responseType    Type of the response.
+     * @param   {Item}                    referenceItem   The reference item.
+     * @param   {ResponseMessageType}     responseType    Type of the response.
      */
     constructor(referenceItem: Item, responseType: ResponseMessageType) {
         super(referenceItem);
@@ -92,13 +92,13 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
     /**
      * Gets the minimum required server version.
      *
-     * @return  {[type]}      Earliest Exchange version in which this service object type is supported.
+     * @return  {type}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     /**
      * Internal method to return the schema associated with this type of object.
      *
-     * @return  {[ServiceObjectSchema]}      The schema associated with this type of object.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { return ResponseMessageSchema.Instance; }
     /**
@@ -108,7 +108,7 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
     /**
      * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
      *
-     * @return  {[string]}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
+     * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
      */
     GetXmlElementNameOverride(): string {
         switch (this.responseType) {

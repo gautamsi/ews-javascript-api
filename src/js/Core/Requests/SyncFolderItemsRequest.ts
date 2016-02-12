@@ -7,6 +7,9 @@ import {ExchangeService} from "../ExchangeService";
 import {SyncFolderItemsResponse} from "../Responses/SyncFolderItemsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFolderItemsResponse> {
 	PropertySet: PropertySet;
 	SyncFolderId: FolderId;
@@ -29,11 +32,3 @@ export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFold
 	Validate(): void{ throw new Error("SyncFolderItemsRequest.ts - Validate : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SyncFolderItemsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

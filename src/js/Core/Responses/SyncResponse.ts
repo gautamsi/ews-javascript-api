@@ -4,6 +4,9 @@ import {PropertySet} from "../PropertySet";
 import {JsonObject} from "../JsonObject";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class SyncResponse<TServiceObject, TChange> extends ServiceResponse {
 	Changes: ChangeCollection<TChange>;
 	SummaryPropertiesOnly: boolean;
@@ -16,11 +19,3 @@ export class SyncResponse<TServiceObject, TChange> extends ServiceResponse {
 	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("SyncResponse.ts - ReadElementsFromJson : Not implemented.");}
 	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("SyncResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

@@ -2,6 +2,9 @@
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetStreamingEventsRequest extends HangingServiceRequestBase {
 	 static HeartbeatFrequencyDefault: number = 45000;
 	HeartbeatFrequency: number;
@@ -14,11 +17,3 @@ export class GetStreamingEventsRequest extends HangingServiceRequestBase {
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetStreamingEventsRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetStreamingEventsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

@@ -3,6 +3,9 @@ import {ExchangeService} from "../ExchangeService";
 import {GetServerTimeZonesResponse} from "../Responses/GetServerTimeZonesResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetServerTimeZonesResponse> {
     Ids: string[];//System.Collections.Generic.IEnumerable<string>;
     private ids: string[];//System.Collections.Generic.IEnumerable<string>;
@@ -15,9 +18,3 @@ export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetSe
     Validate(): any { throw new Error("GetServerTimeZonesRequest.ts - Validate : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetServerTimeZonesRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-//}
-
-
-

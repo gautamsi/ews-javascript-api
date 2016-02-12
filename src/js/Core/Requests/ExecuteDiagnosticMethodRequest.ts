@@ -3,6 +3,9 @@ import {ExchangeService} from "../ExchangeService";
 import {ExecuteDiagnosticMethodResponse} from "../Responses/ExecuteDiagnosticMethodResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<ExecuteDiagnosticMethodResponse> {
     Verb: string;
     Parameter: any;//System.Xml.XmlNode;
@@ -14,11 +17,3 @@ export class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<
     GetXmlElementName(): string { throw new Error("ExecuteDiagnosticMethodRequest.ts - GetXmlElementName : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExecuteDiagnosticMethodRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

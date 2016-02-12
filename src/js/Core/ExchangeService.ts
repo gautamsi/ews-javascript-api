@@ -102,6 +102,10 @@ import {XHRFactory}  from "../XHRFactory";
 import {DateTime, TimeZoneInfo} from "../DateTime";
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
+/**
+ * Represents a binding to the **Exchange Web Services**.
+ *
+ */
 export class ExchangeService extends ExchangeServiceBase {
     
     /* #region Constants */
@@ -159,6 +163,14 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Response object operations */
+    /**
+     * @internal Create response object.
+     * 
+     * @param   {ServiceObject}          responseObject       The response object.
+     * @param   {FolderId}               parentFolderId       The parent folder id.
+     * @param   {MessageDisposition}     messageDisposition   The message disposition.
+     * @return  {IPromise<Item[]>}       The list of items created or modified as a result of the "creation" of the response object :Promise.
+     */
     InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
         var request: CreateResponseObjectRequest = new CreateResponseObjectRequest(this, ServiceErrorHandling.ThrowOnError);
         request.ParentFolderId = parentFolderId;
@@ -189,7 +201,22 @@ export class ExchangeService extends ExchangeServiceBase {
     //     // }
     // }
 
+    /**
+     * @internal Binds to folder.
+     *
+     * @param   {FolderId}           folderId      The folder id.
+     * @param   {PropertySet}        propertySet   The property set.
+     * @return  {IPromise<TFolder>}  Folder object :Promise.
+     */
     BindToFolder(folderId: FolderId, propertySet: PropertySet): IPromise<Folder>;
+    /**
+     * @internal Binds to folder.
+     *
+     * @param   {FolderId}           folderId      The folder id.
+     * @param   {PropertySet}        propertySet   The property set.
+     * @param   {folderType}         propertySet   Type to Cast - pass Folder or subclass itself, not an instance
+     * @return  {IPromise<TFolder>}  Folder object :Promise.
+     */
     BindToFolder<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet,/** pass Folder or subclass itself, not an instance */ folderType: any): IPromise<TFolder>;
     BindToFolder(folderId: FolderId, propertySet: PropertySet, /** pass Folder or subclass itself, not an instance */ folderType: any = null): IPromise<Folder> {
         EwsUtilities.ValidateParam(folderId, "folderId");
@@ -214,6 +241,13 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     }
+    /**
+     * @internal Copies a folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}           folderId              The folder id.
+     * @param   {FolderId}           destinationFolderId   The destination folder id.
+     * @return  {IPromise<Folder>}   Copy of folder :Promise.
+     */
     CopyFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> {
         var request: CopyFolderRequest = new CopyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
 
@@ -224,6 +258,12 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Folder;
         });
     }
+    /**
+     * @internal Creates a folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   folder           The folder.
+     * @param   {FolderId}   parentFolderId   The parent folder id.
+     */
     CreateFolder(folder: Folder, parentFolderId: FolderId): IPromise<void> {
         var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Folders = [folder];
@@ -232,6 +272,13 @@ export class ExchangeService extends ExchangeServiceBase {
             return null;
         });
     }
+    
+    /**
+     * @internal Deletes a folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      folderId     The folder id.
+     * @param   {DeleteMode}    deleteMode   The delete mode.
+     */
     DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): IPromise<void> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         var request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
@@ -241,6 +288,13 @@ export class ExchangeService extends ExchangeServiceBase {
             return null;
         });
     }
+    /**
+     * @internal Empties a folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      folderId           The folder id.
+     * @param   {DeleteMode}    deleteMode         The delete mode.
+     * @param   {boolean}       deleteSubFolders   if set to true empty folder should also delete sub folders.
+     */
     EmptyFolder(folderId: FolderId, deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         var request: EmptyFolderRequest = new EmptyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
@@ -252,9 +306,39 @@ export class ExchangeService extends ExchangeServiceBase {
         });
     }
 
+    /**
+     * Obtains a list of folders by searching the sub-folders of the specified folder.
+     *
+     * @param   {FolderId}                       parentFolderId   The Id of the folder in which to search for folders.
+     * @param   {FolderView}                     view             The view controlling the number of folders returned.
+     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     */
     FindFolders(parentFolderId: FolderId, view: FolderView): IPromise<FindFoldersResults>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of the specified folder.
+     *
+     * @param   {WellKnownFolderName}            parentFolderName   The name of the folder in which to search for folders.
+     * @param   {FolderView}                     view               The view controlling the number of folders returned.
+     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     */
     FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): IPromise<FindFoldersResults>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of the specified folder.
+     *
+     * @param   {FolderId}                       parentFolderId   The Id of the folder in which to search for folders.
+     * @param   {SearchFilter}                   searchFilter     The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {FolderView}                     view             The view controlling the number of folders returned.
+     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     */
     FindFolders(parentFolderId: FolderId, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of the specified folder.
+     *
+     * @param   {WellKnownFolderName}            parentFolderName   The name of the folder in which to search for folders.
+     * @param   {SearchFilter}                   searchFilter       The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {FolderView}                     view               The view controlling the number of folders returned.
+     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     */
     FindFolders(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
 
     FindFolders(
@@ -312,6 +396,15 @@ export class ExchangeService extends ExchangeServiceBase {
                 return responses.__thisIndexer(0).Results;
             });
     }
+    /**
+     * Finds folders.
+     *
+     * @param   {FolderId[]}             parentFolderIds     The parent folder ids.
+     * @param   {SearchFilter}           searchFilter        The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {FolderView}             view                The view controlling the number of folders returned.
+     * @param   {ServiceErrorHandling}   errorHandlingMode   Indicates the type of error handling should be done.
+     * @return  {IPromise<ServiceResponseCollection<FindFolderResponse>>}    Collection of service responses :Promise.
+     */
     private InternalFindFolders(parentFolderIds: FolderId[], searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindFolderResponse>> {
 
         var request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
@@ -322,7 +415,12 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-
+    /**
+     * @internal Load specified properties for a folder.
+     *
+     * @param   {Folder}         folder        The folder.
+     * @param   {PropertySet}    propertySet   The property set.
+     */
     LoadPropertiesForFolder(folder: Folder, propertySet: PropertySet): IPromise<void> {
         EwsUtilities.ValidateParam(folder, "folder");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
@@ -336,6 +434,13 @@ export class ExchangeService extends ExchangeServiceBase {
             return null;
         });
     }
+    /**
+     * @internal Marks all items in folder as read/unread. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      folderId               The folder id.
+     * @param   {boolean}       readFlag               If true, items marked as read, otherwise unread.
+     * @param   {boolean}       suppressReadReceipts   If true, suppress read receipts for items.
+     */
     MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): IPromise<void> {
         EwsUtilities.ValidateParam(folderId, "folderId");
         EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "MarkAllItemsAsRead");
@@ -347,6 +452,13 @@ export class ExchangeService extends ExchangeServiceBase {
             return null;
         });
     }
+    /**
+     * @internal Move a folder.
+     *
+     * @param   {FolderId}           folderId              The folder id.
+     * @param   {FolderId}           destinationFolderId   The destination folder id.
+     * @return  {IPromise<Folder>}   Moved folder :Promise.
+     */
     MoveFolder(folderId: FolderId, destinationFolderId: FolderId): IPromise<Folder> {
         var request: MoveFolderRequest = new MoveFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.DestinationFolderId = destinationFolderId;
@@ -355,6 +467,11 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Folder;
         });
     }
+    /**
+     * @internal Updates a folder.
+     *
+     * @param   {Folder}   folder   The folder.
+     */
     UpdateFolder(folder: Folder): IPromise<void> {
         var request: UpdateFolderRequest = new UpdateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Folders.push(folder);
@@ -366,13 +483,29 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Item operations */
+    
+    /**
+     * Archives multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}   itemIds          The Ids of the items to move.
+     * @param   {FolderId}   sourceFolderId   The Id of the folder in primary corresponding to which items are being archived to.
+     * @return  {IPromise<ServiceResponseCollection<ArchiveItemResponse>>}                    A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
     ArchiveItems<TResponse extends ServiceResponse>(itemIds: ItemId[], sourceFolderId: FolderId): IPromise<ServiceResponseCollection<ArchiveItemResponse>> {
         var request: ArchiveItemRequest = new ArchiveItemRequest(this, ServiceErrorHandling.ReturnErrors);
         request.Ids.AddRange(itemIds);
         request.SourceFolderId = sourceFolderId;
         return request.Execute();
     }
-    /** new method, //todo: implement other newer code from ews managed api repo //ref:  */
+    /* //ref: new method, //todo: implement other newer code from ews managed api repo  */
+    /**
+     * Binds to multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}      itemIds         The Ids of the items to bind to.
+     * @param   {PropertySet}   propertySet     The set of properties to load.
+     * @param   {string}        anchorMailbox   The SmtpAddress of mailbox that hosts all items we need to bind to
+     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}                   A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     */
     BindToGroupItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string): IPromise<ServiceResponseCollection<GetItemResponse>> {
         EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
@@ -384,7 +517,22 @@ export class ExchangeService extends ExchangeServiceBase {
             anchorMailbox,
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * @internal Binds to item.
+     *
+     * @param   {ItemId}            itemId        The item id.
+     * @param   {PropertySet}       propertySet   The property set.
+     * @return  {IPromise<Item>}    Item :Promise.
+     */
     BindToItem(itemId: ItemId, propertySet: PropertySet): IPromise<Item>;
+    /**
+     * @internal Binds to item.
+     *
+     * @param   {ItemId}            itemId        The item id.
+     * @param   {PropertySet}       propertySet   The property set.
+     * @param   {<TItem>}          itemType      Item type class ex: Item, EmailMessage etc..
+     * @return  {IPromise<Item>}    Item :Promise.
+     */
     BindToItem<TItem extends Item>(itemId: ItemId, propertySet: PropertySet, itemType: any /* pass Item or subclass itself, not instance */): IPromise<TItem>;
     BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: any = null): IPromise<Item> {
 
@@ -408,6 +556,13 @@ export class ExchangeService extends ExchangeServiceBase {
                 return result;
             });
     }
+    /**
+     * Binds to multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}      itemIds       The Ids of the items to bind to.
+     * @param   {PropertySet}   propertySet   The set of properties to load.
+     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}                 A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     */
     BindToItems(itemIds: ItemId[], propertySet: PropertySet): IPromise<ServiceResponseCollection<GetItemResponse>> {
         EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
@@ -418,6 +573,13 @@ export class ExchangeService extends ExchangeServiceBase {
             null, /* anchorMailbox */
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * @internal Copies an item. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemId}        itemId                The Id of the item to copy.
+     * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the item to.
+     * @return  {IPromise<Item>}    The copy of the item :Promise.
+     */
     CopyItem(itemId: ItemId, destinationFolderId: FolderId): IPromise<Item> {
         return this.InternalCopyItems(
             [itemId],
@@ -427,7 +589,22 @@ export class ExchangeService extends ExchangeServiceBase {
                 return response.__thisIndexer(0).Item;
             });
     }
+    /**
+     * Copies multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}      itemIds               The Ids of the items to copy.
+     * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the items to.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}                         A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
     CopyItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    /**
+     * Copies multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}      itemIds               The Ids of the items to copy.
+     * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the items to.
+     * @param   {boolean}       returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}                         A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
     CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
     CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean = null): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
         EwsUtilities.ValidateMethodVersion(
@@ -441,6 +618,14 @@ export class ExchangeService extends ExchangeServiceBase {
             returnNewItemIds,
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * @internal Creates an item. Calling this method results in a call to EWS.
+     *
+     * @param   {Item}                  item                  The item to create.
+     * @param   {FolderId}              parentFolderId        The Id of the folder in which to place the newly created item. If null, the item is created in its default folders.
+     * @param   {MessageDisposition}    messageDisposition    Indicates the disposition mode for items of type EmailMessage. Required if item is an EmailMessage instance.
+     * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for item of type Appointment. Required if item is an Appointment instance.
+     */
     CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
         return this.InternalCreateItems(
             [item],
@@ -451,6 +636,15 @@ export class ExchangeService extends ExchangeServiceBase {
                 //return void 0;
             });;
     }
+    /**
+     * Creates multiple items in a single EWS call. Supported item classes are EmailMessage, Appointment, Contact, PostItem, Task and Item. CreateItems does not support items that have unsaved attachments.
+     *
+     * @param   {Item[]}                items                 The items to create.
+     * @param   {FolderId}              parentFolderId        The Id of the folder in which to place the newly created items. If null, items are created in their default folders.
+     * @param   {MessageDisposition}    messageDisposition    Indicates the disposition mode for items of type EmailMessage. Required if items contains at least one EmailMessage instance.
+     * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}                         A ServiceResponseCollection providing creation results for each of the specified items :Promise.
+     */
     CreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<ServiceResponseCollection<ServiceResponse>> {
         // All items have to be new.
         if (!items.every((item) => item.IsNew)) {
@@ -469,7 +663,24 @@ export class ExchangeService extends ExchangeServiceBase {
             sendInvitationsMode,
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * @internal Deletes an item. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemId}                    itemId                    The Id of the item to delete.
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
+     */
     DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    /**
+     * @internal Deletes an item. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemId}                    itemId                    The Id of the item to delete.
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
+     * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
+     */
     DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): IPromise<void>;
     DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean = false): IPromise<void> {
         EwsUtilities.ValidateParam(itemId, "itemId");
@@ -484,8 +695,27 @@ export class ExchangeService extends ExchangeServiceBase {
 
             });
     }
-    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<ServiceResponseCollection<ServiceResponse>>
-    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>
+    /**
+     * Deletes multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}                  itemIds                   The Ids of the items to delete.
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     */
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    /**
+     * Deletes multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}                  itemIds                   The Ids of the items to delete.
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
+     * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     */
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
     DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean = false): IPromise<ServiceResponseCollection<ServiceResponse>> {
         EwsUtilities.ValidateParamCollection(itemIds, "itemIds");
         return this.InternalDeleteItems(
@@ -496,7 +726,21 @@ export class ExchangeService extends ExchangeServiceBase {
             ServiceErrorHandling.ReturnErrors,
             suppressReadReceipt);
     }
+    /**
+     * Obtains a list of appointments by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName   The name of the calendar folder in which to search for items.
+     * @param   {CalendarView}          calendarView     The calendar view controlling the number of appointments returned.
+     * @return  {IPromise<FindItemsResults<Appointment>>}                    A collection of appointments representing the contents of the specified folder :Promise.
+     */
     FindAppointments(parentFolderName: WellKnownFolderName, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
+    /**
+     * Obtains a list of appointments by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      parentFolderId   The id of the calendar folder in which to search for items.
+     * @param   {CalendarView}  calendarView     The calendar view controlling the number of appointments returned.
+     * @return  {IPromise<FindItemsResults<Appointment>>}                    A collection of appointments representing the contents of the specified folder :Promise.
+     */
     FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
     FindAppointments(parentFolderIdOrName: FolderId | WellKnownFolderName, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>> {
         var parentFolderId: FolderId = <FolderId>parentFolderIdOrName;
@@ -514,20 +758,139 @@ export class ExchangeService extends ExchangeServiceBase {
             });
     }
 
-
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
+     * @param   {ViewBase}              view                    The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
+     * @param   {ViewBase}  view                   The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderId: FolderId, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
+     * @param   {ViewBase}      view                    The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy                 The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     */
     FindItems(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
+     * @param   {string}    queryString            The search string to be used for indexed search, if any.
+     * @param   {ViewBase}  view                   The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
+     * @param   {string}                queryString             The search string to be used for indexed search, if any.
+     * @param   {ViewBase}              view                    The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
+     * @param   {searchFilter}          searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ViewBase}              view                    The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
+     * @param   {searchFilter}  searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ViewBase}      view                    The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
+     * @param   {searchFilter}  searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ViewBase}      view                    The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy                 The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     */
     FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
+     * @param   {string}        queryString             The search string to be used for indexed search, if any.
+     * @param   {ViewBase}      view                    The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy                 The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     */
     FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
+     * @param   {searchFilter}          searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ViewBase}              view                    The view controlling the number of items returned.
+     * @param   {Grouping}              groupBy                 The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     */
     FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
+     * @param   {string}                queryString             The search string to be used for indexed search, if any.
+     * @param   {ViewBase}              view                    The view controlling the number of items returned.
+     * @param   {Grouping}              groupBy                 The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     */
     FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
+     * @param   {string}    queryString            the search string to be used for indexed search, if any.
+     * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
+     * @param   {ViewBase}  view                   The view controlling the number of items returned.
+     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.     
+     *
+     * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
+     * @param   {string}    queryString            the search string to be used for indexed search, if any.
+     * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
+     * @param   {ViewBase}  view                   The view controlling the number of items returned.
+     * @param   {Grouping}  groupBy                The group by clause.
+     * @return  {IPromise<GroupedFindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
+     */
     FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    /**
+     * @internal Finds items.
+     *
+     * @param   {FolderId[]}                parentFolderIds     The parent folder ids.
+     * @param   {SearchFilter}              searchFilter        The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {string}                    queryString         query string to be used for indexed search.
+     * @param   {ViewBase}                  view                The view controlling the number of items returned.
+     * @param   {Grouping}                  groupBy             The group by.
+     * @param   {ServiceErrorHandling}      errorHandlingMode   Indicates the type of error handling should be done.
+     * @return  {IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>}      Service response collection :Promise.
+     */
     FindItems<TItem extends Item>(parentFolderIds: FolderId[], searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;    
     //skipped: not needed, no calls coming in to this internal function in ews managed api, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     FindItems<TItem extends Item>(
@@ -537,7 +900,7 @@ export class ExchangeService extends ExchangeServiceBase {
         groupByOrView?: Grouping | ViewBase,
         groupBy?: Grouping,
         errorHandlingMode: ServiceErrorHandling = ServiceErrorHandling.ThrowOnError
-        ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item> | ServiceResponseCollection<FindItemResponse<TItem>>> {
+    ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item> | ServiceResponseCollection<FindItemResponse<TItem>>> {
         
         //todo: better argument check with ewsutilities
 
@@ -565,7 +928,7 @@ export class ExchangeService extends ExchangeServiceBase {
             parentIds.push(nameIdOrIds);
         }
         else if (Array.isArray(nameIdOrIds)) {
-            parentIds = <FolderId[]> nameIdOrIds;
+            parentIds = <FolderId[]>nameIdOrIds;
         }
 
         var queryString: string = null;
@@ -668,8 +1031,16 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-
-    InternalBindToItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<GetItemResponse>> {
+    /**
+     * Binds to multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}              itemIds         The Ids of the items to bind to.
+     * @param   {PropertySet}           propertySet     The set of properties to load.
+     * @param   {string}                anchorMailbox   The SmtpAddress of mailbox that hosts all items we need to bind to
+     * @param   {ServiceErrorHandling}  errorHandling   Type of error handling to perform.
+     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}      A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     */
+    private InternalBindToItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<GetItemResponse>> {
         var request: GetItemRequest = new GetItemRequest(this, errorHandling);
 
         request.ItemIds.AddRange(itemIds);
@@ -678,7 +1049,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    InternalCopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+    /**
+     * Copies multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}              itemIds                 The Ids of the items to bind to.
+     * @param   {FolderId}              destinationFolderId     The Id of the folder to copy the items to.
+     * @param   {boolean}               returnNewItemIds        Flag indicating whether service should return new ItemIds or not.
+     * @param   {ServiceErrorHandling}  errorHandling           What type of error handling should be performed.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
+    private InternalCopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
         var request: CopyItemRequest = new CopyItemRequest(this, errorHandling);
         request.ItemIds.AddRange(itemIds);
         request.DestinationFolderId = destinationFolderId;
@@ -686,6 +1066,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
+    /**
+     * Creates multiple items in a single EWS call. Supported item classes are EmailMessage, Appointment, Contact, PostItem, Task and Item. CreateItems does not support items that have unsaved attachments.
+     *
+     * @param   {Item[]}                items                 The items to create.
+     * @param   {FolderId}              parentFolderId        The Id of the folder in which to place the newly created items. If null, items are created in their default folders.
+     * @param   {MessageDisposition}    messageDisposition    Indicates the disposition mode for items of type EmailMessage. Required if items contains at least one EmailMessage instance.
+     * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
+     * @param   {ServiceErrorHandling}  errorHandling         What type of error handling should be performed.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing creation results for each of the specified items :Promise.
+     */
     private InternalCreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
         var request: CreateItemRequest = new CreateItemRequest(this, errorHandling);
 
@@ -696,7 +1086,18 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    InternalDeleteItems(itemIds: any[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+    /**
+     * Deletes multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}                  itemIds                   The Ids of the items to delete.
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if any of the item Ids represents an Appointment.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if any of the item Ids represents a Task.
+     * @param   {ServiceErrorHandling}      errorHandling             Type of error handling to perform.
+     * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     */
+    private InternalDeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
         var request: DeleteItemRequest = new DeleteItemRequest(this, errorHandling);
 
         request.ItemIds.AddRange(itemIds);
@@ -707,6 +1108,14 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
+    /**
+     * @internal Loads the properties of multiple items in a single call to EWS.
+     *
+     * @param   {Item[]}                items           The items to load the properties of.
+     * @param   {PropertySet}           propertySet     The set of properties to load.
+     * @param   {ServiceErrorHandling}  errorHandling   Indicates the type of error handling should be done.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing results for each of the specified items :Promise.
+     */
     InternalLoadPropertiesForItems(items: Item[], propertySet: PropertySet, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
         var request: GetItemRequestForLoad = new GetItemRequestForLoad(this, errorHandling);
         request.ItemIds.AddRange(items);
@@ -714,7 +1123,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    InternalMoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
+    /**
+     * Moves multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}              itemIds               The Ids of the items to move.
+     * @param   {FolderId}              destinationFolderId   The Id of the folder to move the items to.
+     * @param   {boolean}               returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
+     * @param   {ServiceErrorHandling}  errorHandling         What type of error handling should be performed.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
+    private InternalMoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
         var request: MoveItemRequest = new MoveItemRequest(this, errorHandling);
 
         request.ItemIds.AddRange(itemIds);
@@ -723,7 +1141,19 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    InternalUpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>> {
+    /**
+     * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
+     *
+     * @param   {Item[]}                                items                                The items to update.
+     * @param   {FolderId}                              savedItemsDestinationFolderId        The folder in which to save sent messages, meeting invitations or cancellations. If null, the messages, meeting invitation or cancellations are saved in the Sent Items folder.
+     * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
+     * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for items of type EmailMessage. Required if items contains at least one EmailMessage instance.
+     * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
+     * @param   {ServiceErrorHandling}                  errorHandling                        What type of error handling should be performed.
+     * @param   {boolean}                               suppressReadReceipt                  Whether to suppress read receipts
+     * @return  {IPromise<ServiceResponseCollection<UpdateItemResponse>>}                    A ServiceResponseCollection providing update results for each of the specified items :Promise.
+     */
+    private InternalUpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>> {
         var request: UpdateItemRequest = new UpdateItemRequest(this, errorHandling);
 
 
@@ -738,6 +1168,13 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
+    /**
+     * Loads the properties of multiple items in a single call to EWS. **Unstable for Extended Properties**
+     *
+     * @param   {Item[]}        items         The items to load the properties of.
+     * @param   {PropertySet}   propertySet   The set of properties to load.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing results for each of the specified items :Promise.
+     */
     LoadPropertiesForItems(items: Item[], propertySet: PropertySet): IPromise<ServiceResponseCollection<ServiceResponse>> {
         EwsUtilities.ValidateParamCollection(items, "items");
         EwsUtilities.ValidateParam(propertySet, "propertySet");
@@ -746,6 +1183,14 @@ export class ExchangeService extends ExchangeServiceBase {
             propertySet,
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * Mark items as junk.
+     *
+     * @param   {ItemId[]}      itemIds    ItemIds for the items to mark
+     * @param   {boolean}       isJunk     Whether the items are junk.  If true, senders are add to blocked sender list. If false, senders are removed.
+     * @param   {boolean}       moveItem   Whether to move the item.  Items are moved to junk folder if isJunk is true, inbox if isJunk is false.
+     * @return  {IPromise<ServiceResponseCollection<MarkAsJunkResponse>>}       A ServiceResponseCollection providing itemIds for each of the moved items :Promise.
+     */
     MarkAsJunk(itemIds: ItemId[], isJunk: boolean, moveItem: boolean): IPromise<ServiceResponseCollection<MarkAsJunkResponse>> {
         var request: MarkAsJunkRequest = new MarkAsJunkRequest(this, ServiceErrorHandling.ReturnErrors);
         request.ItemIds.AddRange(itemIds);
@@ -753,6 +1198,13 @@ export class ExchangeService extends ExchangeServiceBase {
         request.MoveItem = moveItem;
         return request.Execute();
     }
+    /**
+     * @internal Move an item.
+     *
+     * @param   {ItemId}    itemId                The Id of the item to move.
+     * @param   {FolderId}  destinationFolderId   The Id of the folder to move the item to.
+     * @return  {IPromise<Item>}                  The moved item :Promise.
+     */
     MoveItem(itemId: ItemId, destinationFolderId: FolderId): IPromise<Item> {
         return this.InternalMoveItems(
             [itemId],
@@ -762,7 +1214,22 @@ export class ExchangeService extends ExchangeServiceBase {
                 return responses.__thisIndexer(0).Item;
             });
     }
+    /**
+     * Moves multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}   itemIds               The Ids of the items to move.
+     * @param   {FolderId}   destinationFolderId   The Id of the folder to move the items to.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
     MoveItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    /**
+     * Moves multiple items in a single call to EWS.
+     *
+     * @param   {ItemId[]}   itemIds               The Ids of the items to move.
+     * @param   {FolderId}   destinationFolderId   The Id of the folder to move the items to.
+     * @param   {boolean}    returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
+     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     */
     MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
     MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean = null): IPromise<ServiceResponseCollection<MoveCopyItemResponse>> {
         EwsUtilities.ValidateMethodVersion(
@@ -776,6 +1243,12 @@ export class ExchangeService extends ExchangeServiceBase {
             returnNewItemIds,
             ServiceErrorHandling.ReturnErrors);
     }
+    /**
+     * @internal Sends an item.
+     *
+     * @param   {Item}      item                           The item.
+     * @param   {FolderId}  savedCopyDestinationFolderId   The saved copy destination folder id.
+     */
     SendItem(item: Item, savedCopyDestinationFolderId: FolderId): IPromise<void> {
         var request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Items = [item];
@@ -784,7 +1257,28 @@ export class ExchangeService extends ExchangeServiceBase {
 
         });
     }
+    /**
+     * @internal Updates an item.
+     *
+     * @param   {Item}                                  item                                 The item to update.
+     * @param   {FolderId}                              savedItemsDestinationFolderId        The folder in which to save sent messages, meeting invitations or cancellations. If null, the message, meeting invitation or cancellation is saved in the Sent Items folder.
+     * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
+     * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
+     * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
+     * @return  {IPromise<Item>}                                                             Updated item : Promise.
+     */
     UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<Item>;
+    /**
+     * @internal Updates an item.
+     *
+     * @param   {Item}                                  item                                 The item to update.
+     * @param   {FolderId}                              savedItemsDestinationFolderId        The folder in which to save sent messages, meeting invitations or cancellations. If null, the message, meeting invitation or cancellation is saved in the Sent Items folder.
+     * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
+     * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
+     * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
+     * @param   {boolean}                               suppressReadReceipts                 Whether to suppress read receipts
+     * @return  {IPromise<Item>}                                                             Updated item : Promise.
+     */
     UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<Item>;
     UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<Item> {
         return this.InternalUpdateItems(
@@ -800,7 +1294,28 @@ export class ExchangeService extends ExchangeServiceBase {
 
             });
     }
+    /**
+     * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
+     *
+     * @param   {Item[]}                                items                                The items to update.
+     * @param   {FolderId}                              savedItemsDestinationFolderId        The folder in which to save sent messages, meeting invitations or cancellations. If null, the message, meeting invitation or cancellation is saved in the Sent Items folder.
+     * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
+     * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
+     * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
+     * @return  {IPromise<Item>}                                                             A ServiceResponseCollection providing update results for each of the specified items : Promise.
+     */
     UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
+    /**
+     * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
+     *
+     * @param   {Item[]}                                items                                The items to update.
+     * @param   {FolderId}                              savedItemsDestinationFolderId        The folder in which to save sent messages, meeting invitations or cancellations. If null, the message, meeting invitation or cancellation is saved in the Sent Items folder.
+     * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
+     * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
+     * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
+     * @param   {boolean}                               suppressReadReceipts                 Whether to suppress read receipts
+     * @return  {IPromise<Item>}                                                             A ServiceResponseCollection providing update results for each of the specified items : Promise.
+     */
     UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
     UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<ServiceResponseCollection<UpdateItemResponse>> {
         // All items have to exist on the server (!new) and modified (dirty)
@@ -838,9 +1353,34 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region AD related operations */
 
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemId}   groupId   The Id of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(groupId: ItemId): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   smtpAddress   The SMTP address of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(smtpAddress: string): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {EmailAddress}   emailAddress   The e-mail address of the group.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(emailAddress: EmailAddress): IPromise<ExpandGroupResults>;
+    /**
+     * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   address       The SMTP address of the group to expand.
+     * @param   {string}   routingType   The routing type of the address of the group to expand.
+     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     */
     ExpandGroup(address: string, routingType: string): IPromise<ExpandGroupResults>;
     ExpandGroup(emailAddressOrsmtpAddressOrGroupId: EmailAddress | string | ItemId, routingType?: string): IPromise<ExpandGroupResults> {
         // EwsUtilities.ValidateParam(emailAddressOrsmtpAddressOrGroupId, "address");
@@ -871,7 +1411,12 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-
+    /**
+     * Get the password expiration date
+     *
+     * @param   {string}   mailboxSmtpAddress   The e-mail address of the user.
+     * @return  {IPromise<DateTime>}            The password expiration date :Promise.
+     */
     GetPasswordExpirationDate(mailboxSmtpAddress: string): IPromise<DateTime> {
         var request: GetPasswordExpirationDateRequest = new GetPasswordExpirationDateRequest(this);
         request.MailboxSmtpAddress = mailboxSmtpAddress;
@@ -881,10 +1426,52 @@ export class ExchangeService extends ExchangeServiceBase {
         });
     }
 
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}    nameToResolve               The name to resolve.
+     * @return  {IPromise<NameResolutionCollection>}    A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */    
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {FolderId[]}                    parentFolderIds             The Ids of the contact folders in which to look for matching contacts.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    /**
+     * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
+     *
+     * @param   {string}                        nameToResolve               The name to resolve.
+     * @param   {FolderId[]}                    parentFolderIds             The Ids of the contact folders in which to look for matching contacts.
+     * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
+     * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
+     * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
+     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     */
     ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
 
     ResolveName(
@@ -893,7 +1480,7 @@ export class ExchangeService extends ExchangeServiceBase {
         searchScopeOrReturnContactDetails?: ResolveNameSearchLocation | boolean,
         returnContactDetailsOrContactDataPropertySet?: boolean | PropertySet,
         contactDataPropertySet: PropertySet = null
-        ): IPromise<NameResolutionCollection> {
+    ): IPromise<NameResolutionCollection> {
 
 
         var argsLength = arguments.length;
@@ -1042,7 +1629,24 @@ export class ExchangeService extends ExchangeServiceBase {
     
     //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
     //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
+    /**
+     * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
+     *
+     * @param   {AttendeeInfo[]}        attendees           The attendees for which to retrieve availability information.
+     * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
+     * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
+     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     */
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData): IPromise<GetUserAvailabilityResults>;
+    /**
+     * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
+     *
+     * @param   {AttendeeInfo[]}        attendees           The attendees for which to retrieve availability information.
+     * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
+     * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
+     * @param   {AvailabilityOptions}   options             The options controlling the information returned.
+     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     */    
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): IPromise<GetUserAvailabilityResults>;
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): IPromise<GetUserAvailabilityResults> {
         EwsUtilities.ValidateParamCollection(attendees, "attendees");
@@ -1171,13 +1775,30 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Autodiscover */
-
+    
+    /**
+     * Adjusts the service URI based on the current type of credentials.
+     *
+     * @param   {Uri}   uri   The URI.
+     * @return  {Uri}         Adjusted URL.
+     */
     private AdjustServiceUriFromCredentials(uri: Uri): Uri {
         return (this.Credentials != null)
             ? this.Credentials.AdjustUrl(uri)
             : uri;
     }
+    /**
+     * Initializes the Url property to the Exchange Web Services URL for the specified e-mail address by calling the Autodiscover service.
+     *
+     * @param   {string}   emailAddress     The email address to use.
+     */
     AutodiscoverUrl(emailAddress: string): IPromise<void>;
+    /**
+     * Initializes the Url property to the Exchange Web Services URL for the specified e-mail address by calling the Autodiscover service.
+     *
+     * @param   {string}   emailAddress                             The email address to use.
+     * @param   {AutodiscoverRedirectionUrlValidationCallback}      validateRedirectionUrlCallback   The callback used to validate redirection URL.
+     */
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<void>;
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): IPromise<void> {
         //validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
@@ -1231,15 +1852,29 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     }
-    private DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean {
+    /**
+     * Default implementation of AutodiscoverRedirectionUrlValidationCallback. Always returns true indicating that the URL can be used.
+     *
+     * @param   {string}   redirectionUrl   The redirection URL.
+     * @return  {boolean}                    Returns true.
+     */
+    private DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean { //ref: need to fix this type - Always returns true indicating that the URL can be used
 
         throw new AutodiscoverLocalException(StringHelper.Format(Strings.AutodiscoverRedirectBlocked, redirectionUrl));
     }
+    /**
+     * Gets the EWS URL from Autodiscover.
+     *
+     * @param   {string}                                        emailAddress                     The email address.
+     * @param   {ExchangeVersion}                               requestedServerVersion           Exchange version.
+     * @param   {AutodiscoverRedirectionUrlValidationCallback}  validateRedirectionUrlCallback   The validate redirection URL callback.
+     * @return  {IPromise<Uri>}                                 Ews URL :Promise.
+     */
     private GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<Uri> {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
         autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
-        autodiscoverService.EnableScpLookup = this.EnableScpLookup
+            autodiscoverService.EnableScpLookup = this.EnableScpLookup
 
         return autodiscoverService.GetUserSettings(
             emailAddress,
@@ -1269,6 +1904,13 @@ export class ExchangeService extends ExchangeServiceBase {
             });
 
     }
+    /**
+     * Gets the EWS URL from Autodiscover GetUserSettings response.
+     *
+     * @param   {GetUserSettingsResponse}   response     The response.
+     * @param   {boolean}                   isExternal   If true, Autodiscover call was made externally.
+     * @return  {Uri}                       EWS URL.
+     */
     private GetEwsUrlFromResponse(response: GetUserSettingsResponse, isExternal: boolean): Uri {
 
         var uriString = response.GetSettingValue<string>(UserSettingName.ExternalEwsUrl)
@@ -1341,6 +1983,10 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return true;
     }
+    /**
+     * @internal Validates this instance.
+     *
+     */
     Validate(): void {
         super.Validate();
 
@@ -1354,6 +2000,11 @@ export class ExchangeService extends ExchangeServiceBase {
 
         // only one of PrivilegedUserId|ImpersonatedUserId|ManagementRoles can be set.
     }
+    /**
+     * @internal Validates a new-style version string. This validation is not as strict as server-side validation.
+     *
+     * @param   {string}   version   the version string
+     */
     static ValidateTargetVersion(version: string): void {
         var ParameterSeparator: string = ';'; //char
         var LegacyVersionPrefix: string = "Exchange20";
@@ -1403,9 +2054,14 @@ export class ExchangeService extends ExchangeServiceBase {
     
     
     /* #region Utilities */
-    
-    ////PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
-    PrepareHttpWebRequest(methodName: string): IXHROptions {
+        
+    /**
+     * @internal Creates an IXHROptions instance and initializes it with the appropriate parameters, based on the configuration of this service object.
+     *
+     * @param   {string}   methodName   Name of the method.
+     * @return  {IXHROptions}           An instance of IXHROptions to call web service with.
+     */
+    PrepareHttpWebRequest(methodName: string): IXHROptions { //info: PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
@@ -1429,7 +2085,14 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request;
     }
+    
     //ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeService.ts - ProcessHttpErrorResponse : Not implemented."); }
+    
+    /**
+     * Sets the type of the content.
+     *
+     * @param   {IXHROptions}   request   The request.
+     */
     SetContentType(request: IXHROptions /*IEwsHttpWebRequest*/): void {
         if (this.renderingMode == RenderingMode.Xml) {
             request.headers["Content-Type"] = "text/xml; charset=utf-8";

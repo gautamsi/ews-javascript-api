@@ -4,6 +4,9 @@ import {DelegateUser} from "../../ComplexProperties/DelegateUser";
 import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class AddDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;
     DelegateUsers: DelegateUser[];//System.Collections.Generic.List<DelegateUser>;

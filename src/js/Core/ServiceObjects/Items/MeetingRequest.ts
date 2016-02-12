@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {MeetingMessage} from "./MeetingMessage";
+/**
+ * ## *Not Implemented* 
+ */
 export class MeetingRequest extends MeetingMessage {
     ////////MeetingRequestType: MeetingRequestType;
     ////////IntendedFreeBusyStatus: LegacyFreeBusyStatus;

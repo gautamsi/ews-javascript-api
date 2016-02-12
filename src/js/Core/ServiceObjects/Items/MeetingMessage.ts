@@ -1,6 +1,9 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 
 import {EmailMessage} from "./EmailMessage";
+/**
+ * ## *Not Implemented* 
+ */
 export class MeetingMessage extends EmailMessage {
     ////////AssociatedAppointmentId: ItemId;
     ////////IsDelegated: boolean;

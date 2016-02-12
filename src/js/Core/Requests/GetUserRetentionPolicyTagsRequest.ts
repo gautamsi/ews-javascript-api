@@ -3,6 +3,9 @@ import {GetUserRetentionPolicyTagsResponse} from "../Responses/GetUserRetentionP
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase {
 	Execute(): GetUserRetentionPolicyTagsResponse{ throw new Error("GetUserRetentionPolicyTagsRequest.ts - Execute : Not implemented.");}
 	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("GetUserRetentionPolicyTagsRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
@@ -11,11 +14,3 @@ export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase 
 	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetUserRetentionPolicyTagsRequest.ts - ParseResponse : Not implemented.");}
 	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetUserRetentionPolicyTagsRequest.ts - WriteElementsToXml : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

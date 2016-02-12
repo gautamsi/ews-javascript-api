@@ -1,6 +1,9 @@
 ﻿import {ClientApp} from "../../ComplexProperties/ClientApp";
 import {ServiceResponse} from "./ServiceResponse";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetAppManifestsResponse extends ServiceResponse {
 	Manifests: any /*System.Collections.ObjectModel.Collection<System.Xml.XmlDocument>*/;
 	Apps: ClientApp[] /*System.Collections.ObjectModel.Collection<ClientApp>*/;
@@ -10,11 +13,3 @@ export class GetAppManifestsResponse extends ServiceResponse {
 	ReadFromExchange2013(reader: EwsServiceXmlReader): void{ throw new Error("GetAppManifestsResponse.ts - ReadFromExchange2013 : Not implemented.");}
 	ReadFromExchange2013Sp1(reader: EwsServiceXmlReader): void{ throw new Error("GetAppManifestsResponse.ts - ReadFromExchange2013Sp1 : Not implemented.");}
 }
-
-
-
-
-
-
-			
-

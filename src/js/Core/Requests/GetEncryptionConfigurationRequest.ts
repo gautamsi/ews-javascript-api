@@ -3,6 +3,9 @@ import {GetEncryptionConfigurationResponse} from "../Responses/GetEncryptionConf
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/**
+ * ## *Not Implemented* 
+ */
 export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     Execute(): GetEncryptionConfigurationResponse { throw new Error("GetEncryptionConfigurationRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetEncryptionConfigurationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
@@ -11,11 +14,3 @@ export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase 
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetEncryptionConfigurationRequest.ts - ParseResponse : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }
-
-
-
-
-//}
-
-
-

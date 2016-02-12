@@ -1,5 +1,8 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {Item} from "./Item";
+/**
+ * ## *Not Implemented*
+ */
 export class Task extends Item {
     //////ActualWork: number;
     //////AssignedTime: Date;
