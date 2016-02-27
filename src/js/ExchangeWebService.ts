@@ -50,11 +50,14 @@ TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneD
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
 
-import {Item} from "./Core/ServiceObjects/Items/Item";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
+import {Item} from "./Core/ServiceObjects/Items/Item";
+import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
 import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
 import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
 import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
+
+import {ExchangeService} from "./Core/ExchangeService";
 
 import {TypeContainer} from "./TypeContainer"
 TypeContainer.Item = Item;
@@ -62,8 +65,10 @@ TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
 TypeContainer.MeetingResponse = MeetingResponse;
 TypeContainer.MeetingCancellation = MeetingCancellation;
+TypeContainer.ItemAttachment = ItemAttachment;
+TypeContainer.ExchangeService = ExchangeService;
 
-export {Item, Appointment, MeetingCancellation, MeetingRequest, MeetingResponse}
+export {Appointment, ExchangeService, Item, ItemAttachment, MeetingCancellation, MeetingRequest, MeetingResponse}
 /**#endregion BootStrap code */
 
 
@@ -291,7 +296,6 @@ export {ExchangeCredentials} from "./Credentials/ExchangeCredentials";
 
 export {ExchangeResourceManager} from "./ResourceManager/ExchangeResourceManager";
 export {ExchangeServerInfo} from "./Core/ExchangeServerInfo";
-export {ExchangeService} from "./Core/ExchangeService";
 
 export {ExchangeServiceBase} from "./Core/ExchangeServiceBase";
 export {ExchangeVersion} from "./Enumerations/ExchangeVersion";
@@ -455,7 +459,6 @@ export {IRefParam} from "./Interfaces/IRefParam";
 export {ISearchStringProvider} from "./Interfaces/ISearchStringProvider";
 export {ISelfValidate} from "./Interfaces/ISelfValidate";
 
-export {ItemAttachment} from "./ComplexProperties/ItemAttachment";
 export {ItemChange} from "./Sync/ItemChange";
 export {ItemCollection} from "./ComplexProperties/ItemCollection";
 export {ItemEvent} from "./Notifications/ItemEvent";

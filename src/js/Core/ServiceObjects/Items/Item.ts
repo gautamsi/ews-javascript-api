@@ -45,6 +45,7 @@ import {ItemSchema} from "../Schemas/ItemSchema";
 import {IOutParam} from "../../../Interfaces/IOutParam";
 import {StringHelper, ArrayHelper} from "../../../ExtensionMethods";
 import {PromiseFactory} from "../../../PromiseFactory";
+import {TypeContainer} from "../../../TypeContainer";
 
 import {ServiceObject} from "../ServiceObject";
 /**
@@ -586,17 +587,17 @@ export class Item extends ServiceObject {
      * @param   {ExchangeService | ItemAttachment}   service   The ExchangeService object to which the item will be bound.
      */
     constructor(obj: ExchangeService | ItemAttachment)
-    constructor(obj: ExchangeService | ItemAttachment) {
-        super(obj instanceof ItemAttachment ? obj.Service : <ExchangeService>obj);//todo:fix -can not user instanceof with exchangeservice, creates circular loop with ewsutility 
+    constructor(obj: ExchangeService | ItemAttachment) {        
+        super(obj instanceof TypeContainer.ExchangeService ? <ExchangeService>obj: obj instanceof TypeContainer.ItemAttachment? (<ItemAttachment>obj).Service : null);//info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround 
 
-        if (obj instanceof ItemAttachment) {
+        if (obj instanceof TypeContainer.ItemAttachment) {
             var parentAttachment = obj;
             EwsLogging.Assert(
                 parentAttachment != null,
                 "Item.ctor",
                 "parentAttachment is null");
 
-            this.parentAttachment = parentAttachment;
+            this.parentAttachment = <ItemAttachment>parentAttachment;
         }
     }
     
@@ -697,7 +698,7 @@ export class Item extends ServiceObject {
         debugger;//filtering of specific type needed.
         if (!isUpdateOperation &&
             (this.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP2)) {
-            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof ItemAttachment))//.OfType<ItemAttachment>())
+            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof TypeContainer.ItemAttachment))//.OfType<ItemAttachment>()) //info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround
             {
                 if ((itemAttachment.Item != null) && itemAttachment.Item.GetIsTimeZoneHeaderRequired(false /* isUpdateOperation */)) {
                     return true;
