@@ -91,7 +91,7 @@ export class EwsServiceXmlWriter {
 
     //#endregion
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **EwsServiceXmlWriter** class.
      *
      * @param   {ExchangeServiceBase}   service   The service.
      */
