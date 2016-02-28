@@ -1,10 +1,6 @@
-//			
-// class AttachableAttribute extends System.Attribute {
-//}
-//export = AttachableAttribute;
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
-
-
-			
+import 'reflect-metadata';
+export function Attachable(value:boolean = false){
+    return function (target:Function) {
+        Reflect.defineMetadata("Attachable",value, target);
+    }
+}

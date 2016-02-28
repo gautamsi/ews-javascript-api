@@ -93,7 +93,7 @@ gulp.task('ts-compile', function (done) {
 
 
 function runTSC(inputDir, outputDir, tsArgs, done) {
-    var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
+    var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc');
     //console.log(outputDir);
     var tsArguments = [tscjs, '-p', inputDir, '--outDir', outputDir];
     tsArgs.forEach(function (arg) {

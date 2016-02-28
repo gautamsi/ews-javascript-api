@@ -5,7 +5,11 @@
         "declaration": false,
         "noImplicitAny": false,
         "removeComments": false,
-        "noLib": false
+        "noLib": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowUnreachableCode": true,
+        "pretty": false
     },
     "compileOnSave": false,
     "filesGlob": [
