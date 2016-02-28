@@ -39,7 +39,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
         this.PropertyBag._setItem(EmailMessageSchema.IsDeliveryReceiptRequested, value);
     }
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **ResponseObject** class.
      *
      * @param   {type}   referenceItem   The reference item.
      */

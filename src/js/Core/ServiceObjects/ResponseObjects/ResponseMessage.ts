@@ -80,7 +80,7 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
     }
         
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **ResponseMessage** class.
      *
      * @param   {Item}                    referenceItem   The reference item.
      * @param   {ResponseMessageType}     responseType    Type of the response.

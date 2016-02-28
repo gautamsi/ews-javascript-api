@@ -18,7 +18,7 @@ export class AcceptMeetingInvitationMessage extends CalendarResponseMessage<Meet
                 return this.tentative;
         }
         /**
-         * Initializes a new instance of the  class.
+         * Initializes a new instance of the **AcceptMeetingInvitationMessage** class.
          *
          * @param   {Item}            referenceItem   The reference item.
          * @param   {boolean}         tentative       if set to true accept invitation tentatively.

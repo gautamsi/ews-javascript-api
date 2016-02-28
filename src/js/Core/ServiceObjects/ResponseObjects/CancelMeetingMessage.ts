@@ -24,7 +24,7 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
         this.PropertyBag._setItem(CancelMeetingMessageSchema.Body, value);
     }
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **CancelMeetingMessage** class.
      *
      * @param   {Item}   referenceItem   The reference item.
      */

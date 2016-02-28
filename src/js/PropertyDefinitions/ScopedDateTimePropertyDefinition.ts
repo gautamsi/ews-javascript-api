@@ -19,14 +19,17 @@ import {DateTimePropertyDefinition} from "./DateTimePropertyDefinition";
  */
 export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
     private getPropertyDefinitionCallback: GetPropertyDefinitionCallback;
+    
+    //todo: fix multiple constructor
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **ScopedDateTimePropertyDefinition** class.
      *
-     * @param   {type}   xmlElementName                  Name of the XML element.
-     * @param   {type}   uri                             The URI.
-     * @param   {type}   flags                           The flags.
-     * @param   {type}   version                         The version.
-     * @param   {type}   getPropertyDefinitionCallback   The callback that will be used to retrieve the time zone property.
+     * @param   {string}   xmlElementName                  Name of the XML element.
+     * @param   {string}   xmlElementName                  Name of the XML element.
+     * @param   {ExchangeVersion}   version                         The version.
+     * @param   {string}   uri                             The URI.
+     * @param   {PropertyDefinitionFlags}   flags                           The flags.
+     * @param   {GetPropertyDefinitionCallback}   getPropertyDefinitionCallback   The callback that will be used to retrieve the time zone property.
      */
     constructor(
         propertyName: string,

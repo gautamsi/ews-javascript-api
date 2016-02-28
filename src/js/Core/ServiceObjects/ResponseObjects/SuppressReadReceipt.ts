@@ -21,7 +21,7 @@ import {ServiceObject} from "../ServiceObject";
 export class SuppressReadReceipt extends ServiceObject {
     private referenceItem: Item = null;
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **SuppressReadReceipt** class.
      *
      * @param   {Item}   referenceItem   The reference item.
      */

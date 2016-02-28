@@ -13,7 +13,7 @@ import {ResponseObject} from "./ResponseObject";
  */
 export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends ResponseObject<TMessage> { //abstract
     /**
-    * Initializes a new instance of the  class.
+    * Initializes a new instance of the **CalendarResponseMessageBase** class.
     *
     * @param   {Item}   referenceItem   The reference item.
     */

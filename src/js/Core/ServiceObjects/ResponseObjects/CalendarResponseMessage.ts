@@ -77,7 +77,7 @@ export class CalendarResponseMessage<TMessage extends EmailMessage> extends Cale
                 this.PropertyBag._setItem(EmailMessageSchema.Sender, value);
         }
         /**
-         * Initializes a new instance of the  class.
+         * Initializes a new instance of the **CalendarResponseMessage** class.
          *
          * @param   {Item}   referenceItem   The reference item.
          */

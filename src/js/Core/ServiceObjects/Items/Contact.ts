@@ -458,7 +458,7 @@ export class Contact extends Item {
      */
     constructor(service: ExchangeService);
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **Contact** class.
      *
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */

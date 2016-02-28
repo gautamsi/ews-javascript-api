@@ -23,20 +23,20 @@ export class FolderView extends PagedView {
         this.traversal = value;
     }
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **FolderView** class.
      *
      * @param   {number}   pageSize          The maximum number of elements the search operation should return.
      */
     constructor(pageSize: number);
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **FolderView** class.
      *
      * @param   {number}   pageSize          The maximum number of elements the search operation should return.
      * @param   {number}   offset            The offset of the view from the base point.
      */
     constructor(pageSize: number, offset: number);
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **FolderView** class.
      *
      * @param   {number}   pageSize          The maximum number of elements the search operation should return.
      * @param   {number}   offset            The offset of the view from the base point.
