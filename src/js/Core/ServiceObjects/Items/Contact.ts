@@ -26,12 +26,14 @@ import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
 import {DateTime} from "../../../DateTime";
 import {IPromise} from "../../../Interfaces";
 import {IOutParam} from "../../../Interfaces/IOutParam";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
  * 
  */
+@AttachableAttribute(true)
 export class Contact extends Item {
     private static ContactPictureName: string = "ContactPicture.jpg";
     

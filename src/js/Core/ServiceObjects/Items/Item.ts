@@ -46,12 +46,14 @@ import {IOutParam} from "../../../Interfaces/IOutParam";
 import {StringHelper, ArrayHelper} from "../../../ExtensionMethods";
 import {PromiseFactory} from "../../../PromiseFactory";
 import {TypeContainer} from "../../../TypeContainer";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {ServiceObject} from "../ServiceObject";
 /**
  * Represents a generic **Item**. Properties available on items are defined in the *ItemSchema* class.
  *
  */
+@AttachableAttribute(true)
 export class Item extends ServiceObject {
 
     private parentAttachment: ItemAttachment = null;
@@ -668,7 +670,7 @@ export class Item extends ServiceObject {
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      * @param   {boolean}   suppressReadReceipts   Whether to suppress read receipts
      */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>    
     Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): IPromise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
 
     /**

@@ -1,8 +1,11 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+
 import {Item} from "./Item";
 /**
  * ## *Not Implemented* 
  */
+@AttachableAttribute(false)
 export class ContactGroup extends Item {
     //////FileAs: string;
     //////DisplayName: string;

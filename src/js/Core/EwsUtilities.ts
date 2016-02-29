@@ -191,7 +191,9 @@ export class EwsUtilities {
                         return ExchangeVersion.Exchange2010;
                     if (value <= 6) //<=MailboxType.Contact
                         return ExchangeVersion.Exchange2007_SP1;
-
+                    if (value <= 7) //<=MailboxType.GroupMailbox
+                        return ExchangeVersion.Exchange2015;
+                        
                     return ExchangeVersion.Exchange_Version_Not_Updated;
                 };
                 break;

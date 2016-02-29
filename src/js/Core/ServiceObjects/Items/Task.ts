@@ -1,8 +1,11 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+
 import {Item} from "./Item";
 /**
  * ## *Not Implemented*
  */
+@AttachableAttribute(true)
 export class Task extends Item {
     //////ActualWork: number;
     //////AssignedTime: Date;

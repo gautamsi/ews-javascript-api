@@ -41,11 +41,13 @@ import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
 import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
 import {XmlElementNames} from "../../XmlElementNames";
 import {IPromise} from "../../../Interfaces";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
+@AttachableAttribute(true)
 export class Appointment extends Item implements ICalendarActionProvider {
     //todo: attachable attribute missing. 
     
@@ -580,19 +582,19 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {boolean}   tentative   Specifies whether the meeting will be tentatively accepted.
      * @return  {AcceptMeetingInvitationMessage}  An AcceptMeetingInvitationMessage representing the meeting acceptance message.
      */
-    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { return new AcceptMeetingInvitationMessage(this, tentative); }
+    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { return new AcceptMeetingInvitationMessage(<any><any>this, tentative); }
     /**
      * Creates a local meeting cancellation message that can be customized and sent.
      *
      * @return  {CancelMeetingMessage}    A CancelMeetingMessage representing the meeting cancellation message.
      */
-    CreateCancelMeetingMessage(): CancelMeetingMessage { return new CancelMeetingMessage(this); }
+    CreateCancelMeetingMessage(): CancelMeetingMessage { return new CancelMeetingMessage(<any><any>this); }
     /**
      * Creates a local meeting declination message that can be customized and sent.
      *
      * @return  {DeclineMeetingInvitationMessage}      A DeclineMeetingInvitation representing the meeting declination message.
      */
-    CreateDeclineMessage(): DeclineMeetingInvitationMessage { return new DeclineMeetingInvitationMessage(this); }
+    CreateDeclineMessage(): DeclineMeetingInvitationMessage { return new DeclineMeetingInvitationMessage(<any><any>this); }
     /**
      * Creates a forward message from this appointment.
      *
@@ -601,7 +603,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
     CreateForward(): ResponseMessage {
         this.ThrowIfThisIsNew();
 
-        return new ResponseMessage(this, ResponseMessageType.Forward);
+        return new ResponseMessage(<any><any>this, ResponseMessageType.Forward);
     }
     
     /**
@@ -614,7 +616,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
         this.ThrowIfThisIsNew();
 
         return new ResponseMessage(
-            this,
+            <any><any>this,
             replyAll ? ResponseMessageType.ReplyAll : ResponseMessageType.Reply);
     }
     

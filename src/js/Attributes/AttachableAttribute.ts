@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-export function Attachable(value:boolean = false){
-    return function (target:Function) {
-        Reflect.defineMetadata("Attachable",value, target);
+export var AttachableAttributeMetadata = "AttachableAttribute";
+export function AttachableAttribute(value: boolean = false) {
+    return function(target: Function) {
+        Reflect.defineMetadata("AttachableAttribute", value, target.prototype);
     }
 }

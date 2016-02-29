@@ -20,12 +20,14 @@ import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
 import {IPromise} from "../../../Interfaces";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents an **e-mail message**. Properties available on e-mail messages are defined in the *EmailMessageSchema* class.
  *
  */
+@AttachableAttribute(true)
 export class EmailMessage extends Item {
 
     /**

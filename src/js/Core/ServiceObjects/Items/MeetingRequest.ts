@@ -1,8 +1,11 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+
 import {MeetingMessage} from "./MeetingMessage";
 /**
  * ## *Not Implemented* 
  */
+@AttachableAttribute(true)
 export class MeetingRequest extends MeetingMessage {
     ////////MeetingRequestType: MeetingRequestType;
     ////////IntendedFreeBusyStatus: LegacyFreeBusyStatus;
