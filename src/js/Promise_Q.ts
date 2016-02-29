@@ -12,8 +12,11 @@ class QPromiseApi implements IPromiseApi {
 	create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T> {
 		return Q.Promise<T>(init);
 	}
-	wrap<U>(value?: U): IPromise<U> {
+	resolve<U>(value?: U): IPromise<U> {
 		return Q(value);
+	}
+    reject<U>(value?: U): IPromise<U> {
+		return Q.reject(value);
 	}
 	get type(): string {
 		return "Q";

@@ -65,7 +65,10 @@ export class PropertyBag {
             changeList.push(propertyDefinition);
         }
     }
-    private Changed(): void {
+    /**
+     * @internal unstable
+     */
+    Changed(): void {
         this.isDirty = true;
 
         this.owner.Changed();

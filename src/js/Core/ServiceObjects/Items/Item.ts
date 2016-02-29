@@ -864,7 +864,7 @@ export class Item extends ServiceObject {
                 suppressReadReceipts);
         }
 
-        return PromiseFactory.wrap(returnedItem);
+        return PromiseFactory.resolve(returnedItem);
     }
     
     /**
