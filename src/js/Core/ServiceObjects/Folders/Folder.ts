@@ -28,7 +28,7 @@ import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
 import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import {FolderSchema} from "../Schemas/FolderSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {EwsLogging} from "../../EwsLogging";
 import {IPromise} from "../../../Interfaces";
 import {XmlElementNames} from "../../XmlElementNames";
@@ -46,84 +46,84 @@ export class Folder extends ServiceObject {
      * Gets the Id of this folder's parent folder.
      * 
      */
-    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(FolderSchema.ParentFolderId); }
+    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(Schemas.FolderSchema.ParentFolderId); }
     
     /**
      * Gets the number of child folders this folder has.
      * 
      */
-    get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.ChildFolderCount); }
+    get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.ChildFolderCount); }
     
     /**
      * Gets or sets the display name of the folder.
      * 
      */
-    get DisplayName(): string { return <string>this.PropertyBag._getItem(FolderSchema.DisplayName); }
-    set DisplayName(value: string) { this.PropertyBag._setItem(FolderSchema.DisplayName, value); }
+    get DisplayName(): string { return <string>this.PropertyBag._getItem(Schemas.FolderSchema.DisplayName); }
+    set DisplayName(value: string) { this.PropertyBag._setItem(Schemas.FolderSchema.DisplayName, value); }
     
     /**
      * Gets or sets the custom class name of this folder.
      * 
      */
-    get FolderClass(): string { return <string>this.PropertyBag._getItem(FolderSchema.FolderClass); }
-    set FolderClass(value: string) { this.PropertyBag._setItem(FolderSchema.FolderClass, value); }
+    get FolderClass(): string { return <string>this.PropertyBag._getItem(Schemas.FolderSchema.FolderClass); }
+    set FolderClass(value: string) { this.PropertyBag._setItem(Schemas.FolderSchema.FolderClass, value); }
     
     /**
      * Gets the total number of items contained in the folder.
      * 
      */
-    get TotalCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.TotalCount); }
+    get TotalCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.TotalCount); }
     
     /**
      * Gets a list of extended properties associated with the folder. **Unstable Need testing**
      * 
      */
-    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._getItem(FolderSchema.ExtendedProperties); }
+    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._getItem(ServiceObjectSchema.ExtendedProperties); }
     
     /**
      * Gets the Email Lifecycle Management (ELC) information associated with the folder.
      * 
      */
-    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._getItem(FolderSchema.ManagedFolderInformation); }
+    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._getItem(Schemas.FolderSchema.ManagedFolderInformation); }
     
     /**
      * Gets a value indicating the effective rights the current authenticated user has on the folder.
      * 
      */
-    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._getItem(FolderSchema.EffectiveRights); }
+    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._getItem(Schemas.FolderSchema.EffectiveRights); }
     
     /**
      * Gets a list of permissions for the folder.
      * 
      */
-    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._getItem(FolderSchema.Permissions); }
+    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._getItem(Schemas.FolderSchema.Permissions); }
     
     /**
      * Gets the number of unread items in the folder.
      * 
      */
-    get UnreadCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.UnreadCount); }
+    get UnreadCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.UnreadCount); }
     
     /**
      * Gets or sets the policy tag.
      * 
      */
-    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._getItem(FolderSchema.PolicyTag); }
-    set PolicyTag(value: PolicyTag) { this.PropertyBag._setItem(FolderSchema.PolicyTag, value); }
+    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._getItem(Schemas.FolderSchema.PolicyTag); }
+    set PolicyTag(value: PolicyTag) { this.PropertyBag._setItem(Schemas.FolderSchema.PolicyTag, value); }
     
     /**
      * Gets or sets the archive tag.
      * 
      */
-    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._getItem(FolderSchema.ArchiveTag); }
-    set ArchiveTag(value) { this.PropertyBag._setItem(FolderSchema.ArchiveTag, value); }
+    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._getItem(Schemas.FolderSchema.ArchiveTag); }
+    set ArchiveTag(value) { this.PropertyBag._setItem(Schemas.FolderSchema.ArchiveTag, value); }
     
     /**
      * Gets the well known name of this folder, if any, as a string.
      * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
      * 
      */
-    get WellKnownFolderNameAsString(): string { return WellKnownFolderName[<WellKnownFolderName>this.PropertyBag._getItem(FolderSchema.WellKnownFolderName)]; }
+    get WellKnownFolderNameAsString(): string { return WellKnownFolderName[<WellKnownFolderName>this.PropertyBag._getItem(Schemas.FolderSchema.WellKnownFolderName)]; }
     
     /**
      * Gets the well known name of this folder, if any.
@@ -441,7 +441,7 @@ export class Folder extends ServiceObject {
      *
      * @return  {PropertyDefinition}      A PropertyDefinition instance.
      */
-    GetIdPropertyDefinition(): PropertyDefinition { return FolderSchema.Id; }
+    GetIdPropertyDefinition(): PropertyDefinition { return Schemas.FolderSchema.Id; }
     
     /**
      * @internal Gets the minimum required server version.
@@ -455,7 +455,7 @@ export class Folder extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return FolderSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.FolderSchema; } //info: Schemas.FolderSchema is FolderSchema.Instance
     
     /**
      * @internal Gets the name of the set field XML element.
@@ -652,7 +652,7 @@ export class Folder extends ServiceObject {
         super.Validate();
 
         // Validate folder permissions
-        if (this.PropertyBag.Contains(FolderSchema.Permissions)) {
+        if (this.PropertyBag.Contains(Schemas.FolderSchema.Permissions)) {
             this.Permissions.Validate();
         }
     }

@@ -30,12 +30,11 @@ import {Flag} from "../../../ComplexProperties/Flag";
 import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
 import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
 import {TextBody} from "../../../ComplexProperties/TextBody";
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {Schemas} from "./Schemas";
 
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
-
-//module ItemSchema {
 module FieldUris {
     export var ArchiveTag: string = "item:ArchiveTag";
     export var Attachments: string = "item:Attachments";
@@ -86,454 +85,505 @@ module FieldUris {
     export var WebClientEditFormQueryString: string = "item:WebClientEditFormQueryString";
     export var WebClientReadFormQueryString: string = "item:WebClientReadFormQueryString";
 }
-//}
+
 export class ItemSchema extends ServiceObjectSchema {
-    static Id: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
-        "Id",
-        XmlElementNames.ItemId,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ItemId,
-        PropertyDefinitionFlags.CanFind,
-        () => { return new ItemId(); }
-        );
-
-    static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
-        "Body",
-        XmlElementNames.Body,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Body,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-        () => { return new MessageBody(); }
-        );
-
-    static ItemClass: PropertyDefinition = new StringPropertyDefinition(
-        "ItemClass",
-        XmlElementNames.ItemClass,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ItemClass,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    static Subject: PropertyDefinition = new StringPropertyDefinition(
-        "Subject",
-        XmlElementNames.Subject,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Subject,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    static MimeContent: PropertyDefinition = new ComplexPropertyDefinition<MimeContent>(
-        "MimeContent",
-        XmlElementNames.MimeContent,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MimeContent,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-        () => { return new MimeContent(); }
-        );
-
-    static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
-        "ParentFolderId",
-        XmlElementNames.ParentFolderId,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ParentFolderId,
-        PropertyDefinitionFlags.CanFind,
-        () => { return new FolderId(); }
-        );
-
-    static Sensitivity: PropertyDefinition = new GenericPropertyDefinition<Sensitivity>(
-        "Sensitivity",
-        XmlElementNames.Sensitivity,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Sensitivity,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    static Attachments: PropertyDefinition = new AttachmentsPropertyDefinition("Attachments");
-
-    static DateTimeReceived: PropertyDefinition = new DateTimePropertyDefinition(
-        "DateTimeReceived",
-        XmlElementNames.DateTimeReceived,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DateTimeReceived,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static Size: PropertyDefinition = new IntPropertyDefinition(
-        "Size",
-        XmlElementNames.Size,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Size,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static Categories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "Categories",
-        XmlElementNames.Categories,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Categories,
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        () => { return new StringList(); }
-        );
-
-    static Importance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
-        "Importance",
-        XmlElementNames.Importance,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Importance,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    static InReplyTo: PropertyDefinition = new StringPropertyDefinition(
-        "InReplyTo",
-        XmlElementNames.InReplyTo,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.InReplyTo,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    static IsSubmitted: PropertyDefinition = new BoolPropertyDefinition(
-        "IsSubmitted",
-        XmlElementNames.IsSubmitted,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsSubmitted,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static IsAssociated: PropertyDefinition = new BoolPropertyDefinition(
-        "IsAssociated",
-        XmlElementNames.IsAssociated,
-        ExchangeVersion.Exchange2010,
-        FieldUris.IsAssociated,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind
-        );
-
-    static IsDraft: PropertyDefinition = new BoolPropertyDefinition(
-        "IsDraft",
-        XmlElementNames.IsDraft,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsDraft,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static IsFromMe: PropertyDefinition = new BoolPropertyDefinition(
-        "IsFromMe",
-        XmlElementNames.IsFromMe,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsFromMe,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static IsResend: PropertyDefinition = new BoolPropertyDefinition(
-        "IsResend",
-        XmlElementNames.IsResend,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsResend,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static IsUnmodified: PropertyDefinition = new BoolPropertyDefinition(
-        "IsUnmodified",
-        XmlElementNames.IsUnmodified,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsUnmodified,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static InternetMessageHeaders: PropertyDefinition = new ComplexPropertyDefinition<InternetMessageHeaderCollection>(
-        "InternetMessageHeaders",
-        XmlElementNames.InternetMessageHeaders,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.InternetMessageHeaders,
-        PropertyDefinitionFlags.None,
-        () => { return new InternetMessageHeaderCollection(); }
-        );
-
-    static DateTimeSent: PropertyDefinition = new DateTimePropertyDefinition(
-        "DateTimeSent",
-        XmlElementNames.DateTimeSent,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DateTimeSent,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static DateTimeCreated: PropertyDefinition = new DateTimePropertyDefinition(
-        "DateTimeCreated",
-        XmlElementNames.DateTimeCreated,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DateTimeCreated,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static AllowedResponseActions: PropertyDefinition = new ResponseObjectsPropertyDefinition(
-        "ResponseObjects",
-        XmlElementNames.ResponseObjects,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ResponseObjects,
-        PropertyDefinitionFlags.None
-        );
-
-    static ReminderDueBy: PropertyDefinition = new ScopedDateTimePropertyDefinition(
-        "ReminderDueBy",
-        XmlElementNames.ReminderDueBy,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ReminderDueBy,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { debugger;return ServiceObjectSchema.AppointmentSchema.StartTimeZone; }
-        );
-
-    static IsReminderSet: PropertyDefinition = new BoolPropertyDefinition(
-        "ReminderIsSet",
-        XmlElementNames.ReminderIsSet,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ReminderIsSet,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    static ReminderMinutesBeforeStart: PropertyDefinition = new IntPropertyDefinition(
-        "ReminderMinutesBeforeStart",
-        XmlElementNames.ReminderMinutesBeforeStart,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ReminderMinutesBeforeStart,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    static DisplayCc: PropertyDefinition = new StringPropertyDefinition(
-        "DisplayCc",
-        XmlElementNames.DisplayCc,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DisplayCc,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static DisplayTo: PropertyDefinition = new StringPropertyDefinition(
-        "DisplayTo",
-        XmlElementNames.DisplayTo,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DisplayTo,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static HasAttachments: PropertyDefinition = new BoolPropertyDefinition(
-        "HasAttachments",
-        XmlElementNames.HasAttachments,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.HasAttachments,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static Culture: PropertyDefinition = new StringPropertyDefinition(
-        "Culture",
-        XmlElementNames.Culture,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Culture,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
-        "EffectiveRights",
-        XmlElementNames.EffectiveRights,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.EffectiveRights,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static LastModifiedName: PropertyDefinition = new StringPropertyDefinition(
-        "LastModifiedName",
-        XmlElementNames.LastModifiedName,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.LastModifiedName,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static LastModifiedTime: PropertyDefinition = new DateTimePropertyDefinition(
-        "LastModifiedTime",
-        XmlElementNames.LastModifiedTime,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.LastModifiedTime,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static WebClientReadFormQueryString: PropertyDefinition = new StringPropertyDefinition(
-        "WebClientReadFormQueryString",
-        XmlElementNames.WebClientReadFormQueryString,
-        ExchangeVersion.Exchange2010,
-        FieldUris.WebClientReadFormQueryString,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static WebClientEditFormQueryString: PropertyDefinition = new StringPropertyDefinition(
-        "WebClientEditFormQueryString",
-        XmlElementNames.WebClientEditFormQueryString,
-        ExchangeVersion.Exchange2010,
-        FieldUris.WebClientEditFormQueryString,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static ConversationId: PropertyDefinition = new ComplexPropertyDefinition<ConversationId>(
-        "ConversationId",
-        XmlElementNames.ConversationId,
-        ExchangeVersion.Exchange2010,
-        FieldUris.ConversationId,
-        PropertyDefinitionFlags.CanFind,
-        () => { return new ConversationId(); }
-        );
-
-    static UniqueBody: PropertyDefinition = new ComplexPropertyDefinition<UniqueBody>(
-        "UniqueBody",
-        XmlElementNames.UniqueBody,
-        ExchangeVersion.Exchange2010,
-        FieldUris.UniqueBody,
-        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-        () => { return new UniqueBody(); }
-        );
-
-    static StoreEntryId: PropertyDefinition = new ByteArrayPropertyDefinition(
-        "StoreEntryId",
-        XmlElementNames.StoreEntryId,
-        ExchangeVersion.Exchange2010_SP2,
-        FieldUris.StoreEntryId,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static InstanceKey: PropertyDefinition = new ByteArrayPropertyDefinition(
-        "InstanceKey",
-        XmlElementNames.InstanceKey,
-        ExchangeVersion.Exchange2013,
-        FieldUris.InstanceKey,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static NormalizedBody: PropertyDefinition = new ComplexPropertyDefinition<NormalizedBody>(
-        "NormalizedBody",
-        XmlElementNames.NormalizedBody,
-        ExchangeVersion.Exchange2013,
-        FieldUris.NormalizedBody,
-        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-        () => { return new NormalizedBody(); }
-        );
-
-    static EntityExtractionResult: PropertyDefinition = new ComplexPropertyDefinition<EntityExtractionResult>(
-        "EntityExtractionResult",
-        XmlElementNames.NlgEntityExtractionResult,
-        ExchangeVersion.Exchange2013,
-        FieldUris.EntityExtractionResult,
-        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-        () => { return new EntityExtractionResult(); }
-        );
-
-    static Flag: PropertyDefinition = new ComplexPropertyDefinition<Flag>(
-        "Flag",
-        XmlElementNames.Flag,
-        ExchangeVersion.Exchange2013,
-        FieldUris.Flag,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        () => { return new Flag(); }
-        );
-
-    static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
-        "PolicyTag",
-        XmlElementNames.PolicyTag,
-        ExchangeVersion.Exchange2013,
-        FieldUris.PolicyTag,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        () => { return new PolicyTag(); }
-        );
-
-    static ArchiveTag: PropertyDefinition = new ComplexPropertyDefinition<ArchiveTag>(
-        "ArchiveTag",
-        XmlElementNames.ArchiveTag,
-        ExchangeVersion.Exchange2013,
-        FieldUris.ArchiveTag,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        () => { return new ArchiveTag(); }
-        );
-
-    static RetentionDate: PropertyDefinition = new DateTimePropertyDefinition(
-        "RetentionDate",
-        XmlElementNames.RetentionDate,
-        ExchangeVersion.Exchange2013,
-        FieldUris.RetentionDate,
-        PropertyDefinitionFlags.CanFind,
-        true
-        );
-
-    static Preview: PropertyDefinition = new StringPropertyDefinition(
-        "Preview",
-        XmlElementNames.Preview,
-        ExchangeVersion.Exchange2013,
-        FieldUris.Preview,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static TextBody: PropertyDefinition = new ComplexPropertyDefinition<TextBody>(
-        "TextBody",
-        XmlElementNames.TextBody,
-        ExchangeVersion.Exchange2013,
-        FieldUris.TextBody,
-        PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-        () => { return new TextBody(); }
-        );
-
-    static IconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
-        "IconIndex",
-        XmlElementNames.IconIndex,
-        ExchangeVersion.Exchange2013,
-        FieldUris.IconIndex,
-        PropertyDefinitionFlags.CanFind
-        );
+    public Id: PropertyDefinition;
+    public Body: PropertyDefinition;
+    public ItemClass: PropertyDefinition;
+    public Subject: PropertyDefinition;
+    public MimeContent: PropertyDefinition;
+    public ParentFolderId: PropertyDefinition;
+    public Sensitivity: PropertyDefinition;
+    public Attachments: PropertyDefinition;
+    public DateTimeReceived: PropertyDefinition;
+    public Size: PropertyDefinition;
+    public Categories: PropertyDefinition;
+    public Importance: PropertyDefinition;
+    public InReplyTo: PropertyDefinition;
+    public IsSubmitted: PropertyDefinition;
+    public IsAssociated: PropertyDefinition;
+    public IsDraft: PropertyDefinition;
+    public IsFromMe: PropertyDefinition;
+    public IsResend: PropertyDefinition;
+    public IsUnmodified: PropertyDefinition;
+    public InternetMessageHeaders: PropertyDefinition;
+    public DateTimeSent: PropertyDefinition;
+    public DateTimeCreated: PropertyDefinition;
+    public AllowedResponseActions: PropertyDefinition;
+    public ReminderDueBy: PropertyDefinition;
+    public IsReminderSet: PropertyDefinition;
+    public ReminderMinutesBeforeStart: PropertyDefinition;
+    public DisplayCc: PropertyDefinition;
+    public DisplayTo: PropertyDefinition;
+    public HasAttachments: PropertyDefinition;
+    public Culture: PropertyDefinition;
+    public EffectiveRights: PropertyDefinition;
+    public LastModifiedName: PropertyDefinition;
+    public LastModifiedTime: PropertyDefinition;
+    public WebClientReadFormQueryString: PropertyDefinition;
+    public WebClientEditFormQueryString: PropertyDefinition;
+    public ConversationId: PropertyDefinition;
+    public UniqueBody: PropertyDefinition;
+    public StoreEntryId: PropertyDefinition;
+    public InstanceKey: PropertyDefinition;
+    public NormalizedBody: PropertyDefinition;
+    public EntityExtractionResult: PropertyDefinition;
+    public Flag: PropertyDefinition;
+    public PolicyTag: PropertyDefinition;
+    public ArchiveTag: PropertyDefinition;
+    public RetentionDate: PropertyDefinition;
+    public Preview: PropertyDefinition;
+    public TextBody: PropertyDefinition;
+    public IconIndex: PropertyDefinition;
 
     static Instance: ItemSchema = new ItemSchema();
 
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ItemSchema.MimeContent);
-        super.RegisterProperty(ItemSchema.Id);
-        super.RegisterProperty(ItemSchema.ParentFolderId);
-        super.RegisterProperty(ItemSchema.ItemClass);
-        super.RegisterProperty(ItemSchema.Subject);
-        super.RegisterProperty(ItemSchema.Sensitivity);
-        super.RegisterProperty(ItemSchema.Body);
-        super.RegisterProperty(ItemSchema.Attachments);
-        super.RegisterProperty(ItemSchema.DateTimeReceived);
-        super.RegisterProperty(ItemSchema.Size);
-        super.RegisterProperty(ItemSchema.Categories);
-        super.RegisterProperty(ItemSchema.Importance);
-        super.RegisterProperty(ItemSchema.InReplyTo);
-        super.RegisterProperty(ItemSchema.IsSubmitted);
-        super.RegisterProperty(ItemSchema.IsDraft);
-        super.RegisterProperty(ItemSchema.IsFromMe);
-        super.RegisterProperty(ItemSchema.IsResend);
-        super.RegisterProperty(ItemSchema.IsUnmodified);
-        super.RegisterProperty(ItemSchema.InternetMessageHeaders);
-        super.RegisterProperty(ItemSchema.DateTimeSent);
-        super.RegisterProperty(ItemSchema.DateTimeCreated);
-        super.RegisterProperty(ItemSchema.AllowedResponseActions);
-        super.RegisterProperty(ItemSchema.ReminderDueBy);
-        super.RegisterProperty(ItemSchema.IsReminderSet);
-        super.RegisterProperty(ItemSchema.ReminderMinutesBeforeStart);
-        super.RegisterProperty(ItemSchema.DisplayCc);
-        super.RegisterProperty(ItemSchema.DisplayTo);
-        super.RegisterProperty(ItemSchema.HasAttachments);
+        super.RegisterProperty(this.MimeContent);
+        super.RegisterProperty(this.Id);
+        super.RegisterProperty(this.ParentFolderId);
+        super.RegisterProperty(this.ItemClass);
+        super.RegisterProperty(this.Subject);
+        super.RegisterProperty(this.Sensitivity);
+        super.RegisterProperty(this.Body);
+        super.RegisterProperty(this.Attachments);
+        super.RegisterProperty(this.DateTimeReceived);
+        super.RegisterProperty(this.Size);
+        super.RegisterProperty(this.Categories);
+        super.RegisterProperty(this.Importance);
+        super.RegisterProperty(this.InReplyTo);
+        super.RegisterProperty(this.IsSubmitted);
+        super.RegisterProperty(this.IsDraft);
+        super.RegisterProperty(this.IsFromMe);
+        super.RegisterProperty(this.IsResend);
+        super.RegisterProperty(this.IsUnmodified);
+        super.RegisterProperty(this.InternetMessageHeaders);
+        super.RegisterProperty(this.DateTimeSent);
+        super.RegisterProperty(this.DateTimeCreated);
+        super.RegisterProperty(this.AllowedResponseActions);
+        super.RegisterProperty(this.ReminderDueBy);
+        super.RegisterProperty(this.IsReminderSet);
+        super.RegisterProperty(this.ReminderMinutesBeforeStart);
+        super.RegisterProperty(this.DisplayCc);
+        super.RegisterProperty(this.DisplayTo);
+        super.RegisterProperty(this.HasAttachments);
         super.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
-        super.RegisterProperty(ItemSchema.Culture);
-        super.RegisterProperty(ItemSchema.EffectiveRights);
-        super.RegisterProperty(ItemSchema.LastModifiedName);
-        super.RegisterProperty(ItemSchema.LastModifiedTime);
-        super.RegisterProperty(ItemSchema.IsAssociated);
-        super.RegisterProperty(ItemSchema.WebClientReadFormQueryString);
-        super.RegisterProperty(ItemSchema.WebClientEditFormQueryString);
-        super.RegisterProperty(ItemSchema.ConversationId);
-        super.RegisterProperty(ItemSchema.UniqueBody);
-        super.RegisterProperty(ItemSchema.Flag);
-        super.RegisterProperty(ItemSchema.StoreEntryId);
-        super.RegisterProperty(ItemSchema.InstanceKey);
-        super.RegisterProperty(ItemSchema.NormalizedBody);
-        super.RegisterProperty(ItemSchema.EntityExtractionResult);
-        super.RegisterProperty(ItemSchema.PolicyTag);
-        super.RegisterProperty(ItemSchema.ArchiveTag);
-        super.RegisterProperty(ItemSchema.RetentionDate);
-        super.RegisterProperty(ItemSchema.Preview);
-        super.RegisterProperty(ItemSchema.TextBody);
-        super.RegisterProperty(ItemSchema.IconIndex);
+        super.RegisterProperty(this.Culture);
+        super.RegisterProperty(this.EffectiveRights);
+        super.RegisterProperty(this.LastModifiedName);
+        super.RegisterProperty(this.LastModifiedTime);
+        super.RegisterProperty(this.IsAssociated);
+        super.RegisterProperty(this.WebClientReadFormQueryString);
+        super.RegisterProperty(this.WebClientEditFormQueryString);
+        super.RegisterProperty(this.ConversationId);
+        super.RegisterProperty(this.UniqueBody);
+        super.RegisterProperty(this.Flag);
+        super.RegisterProperty(this.StoreEntryId);
+        super.RegisterProperty(this.InstanceKey);
+        super.RegisterProperty(this.NormalizedBody);
+        super.RegisterProperty(this.EntityExtractionResult);
+        super.RegisterProperty(this.PolicyTag);
+        super.RegisterProperty(this.ArchiveTag);
+        super.RegisterProperty(this.RetentionDate);
+        super.RegisterProperty(this.Preview);
+        super.RegisterProperty(this.TextBody);
+        super.RegisterProperty(this.IconIndex);
+    }
+    protected init() {
+        super.init();
+        this.Id = new ComplexPropertyDefinition<ItemId>(
+            "Id",
+            XmlElementNames.ItemId,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ItemId,
+            PropertyDefinitionFlags.CanFind,
+            () => { return new ItemId(); }
+        );
+
+        this.Body = new ComplexPropertyDefinition<MessageBody>(
+            "Body",
+            XmlElementNames.Body,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Body,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            () => { return new MessageBody(); }
+        );
+
+        this.ItemClass = new StringPropertyDefinition(
+            "ItemClass",
+            XmlElementNames.ItemClass,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ItemClass,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+        this.Subject = new StringPropertyDefinition(
+            "Subject",
+            XmlElementNames.Subject,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Subject,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+        this.MimeContent = new ComplexPropertyDefinition<MimeContent>(
+            "MimeContent",
+            XmlElementNames.MimeContent,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.MimeContent,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            () => { return new MimeContent(); }
+        );
+
+        this.ParentFolderId = new ComplexPropertyDefinition<FolderId>(
+            "ParentFolderId",
+            XmlElementNames.ParentFolderId,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ParentFolderId,
+            PropertyDefinitionFlags.CanFind,
+            () => { return new FolderId(); }
+        );
+
+        this.Sensitivity = new GenericPropertyDefinition<Sensitivity>(
+            "Sensitivity",
+            XmlElementNames.Sensitivity,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Sensitivity,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+        this.Attachments = new AttachmentsPropertyDefinition("Attachments");
+
+        this.DateTimeReceived = new DateTimePropertyDefinition(
+            "DateTimeReceived",
+            XmlElementNames.DateTimeReceived,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.DateTimeReceived,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.Size = new IntPropertyDefinition(
+            "Size",
+            XmlElementNames.Size,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Size,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.Categories = new ComplexPropertyDefinition<StringList>(
+            "Categories",
+            XmlElementNames.Categories,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Categories,
+            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            () => { return new StringList(); }
+        );
+
+        this.Importance = new GenericPropertyDefinition<Importance>(
+            "Importance",
+            XmlElementNames.Importance,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Importance,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+        this.InReplyTo = new StringPropertyDefinition(
+            "InReplyTo",
+            XmlElementNames.InReplyTo,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.InReplyTo,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsSubmitted = new BoolPropertyDefinition(
+            "IsSubmitted",
+            XmlElementNames.IsSubmitted,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsSubmitted,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsAssociated = new BoolPropertyDefinition(
+            "IsAssociated",
+            XmlElementNames.IsAssociated,
+            ExchangeVersion.Exchange2010,
+            FieldUris.IsAssociated,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsDraft = new BoolPropertyDefinition(
+            "IsDraft",
+            XmlElementNames.IsDraft,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsDraft,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsFromMe = new BoolPropertyDefinition(
+            "IsFromMe",
+            XmlElementNames.IsFromMe,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsFromMe,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsResend = new BoolPropertyDefinition(
+            "IsResend",
+            XmlElementNames.IsResend,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsResend,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsUnmodified = new BoolPropertyDefinition(
+            "IsUnmodified",
+            XmlElementNames.IsUnmodified,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsUnmodified,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.InternetMessageHeaders = new ComplexPropertyDefinition<InternetMessageHeaderCollection>(
+            "InternetMessageHeaders",
+            XmlElementNames.InternetMessageHeaders,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.InternetMessageHeaders,
+            PropertyDefinitionFlags.None,
+            () => { return new InternetMessageHeaderCollection(); }
+        );
+
+        this.DateTimeSent = new DateTimePropertyDefinition(
+            "DateTimeSent",
+            XmlElementNames.DateTimeSent,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.DateTimeSent,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.DateTimeCreated = new DateTimePropertyDefinition(
+            "DateTimeCreated",
+            XmlElementNames.DateTimeCreated,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.DateTimeCreated,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.AllowedResponseActions = new ResponseObjectsPropertyDefinition(
+            "ResponseObjects",
+            XmlElementNames.ResponseObjects,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ResponseObjects,
+            PropertyDefinitionFlags.None
+        );
+
+        this.ReminderDueBy = new ScopedDateTimePropertyDefinition(
+            "ReminderDueBy",
+            XmlElementNames.ReminderDueBy,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ReminderDueBy,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            (version: ExchangeVersion) => { debugger; return Schemas.AppointmentSchema.StartTimeZone; }
+        );
+
+        this.IsReminderSet = new BoolPropertyDefinition(
+            "ReminderIsSet",
+            XmlElementNames.ReminderIsSet,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ReminderIsSet,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+        this.ReminderMinutesBeforeStart = new IntPropertyDefinition(
+            "ReminderMinutesBeforeStart",
+            XmlElementNames.ReminderMinutesBeforeStart,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ReminderMinutesBeforeStart,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+        );
+
+        this.DisplayCc = new StringPropertyDefinition(
+            "DisplayCc",
+            XmlElementNames.DisplayCc,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.DisplayCc,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.DisplayTo = new StringPropertyDefinition(
+            "DisplayTo",
+            XmlElementNames.DisplayTo,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.DisplayTo,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.HasAttachments = new BoolPropertyDefinition(
+            "HasAttachments",
+            XmlElementNames.HasAttachments,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.HasAttachments,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.Culture = new StringPropertyDefinition(
+            "Culture",
+            XmlElementNames.Culture,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.Culture,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+        );
+
+        this.EffectiveRights = new EffectiveRightsPropertyDefinition(
+            "EffectiveRights",
+            XmlElementNames.EffectiveRights,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.EffectiveRights,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.LastModifiedName = new StringPropertyDefinition(
+            "LastModifiedName",
+            XmlElementNames.LastModifiedName,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.LastModifiedName,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.LastModifiedTime = new DateTimePropertyDefinition(
+            "LastModifiedTime",
+            XmlElementNames.LastModifiedTime,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.LastModifiedTime,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.WebClientReadFormQueryString = new StringPropertyDefinition(
+            "WebClientReadFormQueryString",
+            XmlElementNames.WebClientReadFormQueryString,
+            ExchangeVersion.Exchange2010,
+            FieldUris.WebClientReadFormQueryString,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.WebClientEditFormQueryString = new StringPropertyDefinition(
+            "WebClientEditFormQueryString",
+            XmlElementNames.WebClientEditFormQueryString,
+            ExchangeVersion.Exchange2010,
+            FieldUris.WebClientEditFormQueryString,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.ConversationId = new ComplexPropertyDefinition<ConversationId>(
+            "ConversationId",
+            XmlElementNames.ConversationId,
+            ExchangeVersion.Exchange2010,
+            FieldUris.ConversationId,
+            PropertyDefinitionFlags.CanFind,
+            () => { return new ConversationId(); }
+        );
+
+        this.UniqueBody = new ComplexPropertyDefinition<UniqueBody>(
+            "UniqueBody",
+            XmlElementNames.UniqueBody,
+            ExchangeVersion.Exchange2010,
+            FieldUris.UniqueBody,
+            PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            () => { return new UniqueBody(); }
+        );
+
+        this.StoreEntryId = new ByteArrayPropertyDefinition(
+            "StoreEntryId",
+            XmlElementNames.StoreEntryId,
+            ExchangeVersion.Exchange2010_SP2,
+            FieldUris.StoreEntryId,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.InstanceKey = new ByteArrayPropertyDefinition(
+            "InstanceKey",
+            XmlElementNames.InstanceKey,
+            ExchangeVersion.Exchange2013,
+            FieldUris.InstanceKey,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.NormalizedBody = new ComplexPropertyDefinition<NormalizedBody>(
+            "NormalizedBody",
+            XmlElementNames.NormalizedBody,
+            ExchangeVersion.Exchange2013,
+            FieldUris.NormalizedBody,
+            PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            () => { return new NormalizedBody(); }
+        );
+
+        this.EntityExtractionResult = new ComplexPropertyDefinition<EntityExtractionResult>(
+            "EntityExtractionResult",
+            XmlElementNames.NlgEntityExtractionResult,
+            ExchangeVersion.Exchange2013,
+            FieldUris.EntityExtractionResult,
+            PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            () => { return new EntityExtractionResult(); }
+        );
+
+        this.Flag = new ComplexPropertyDefinition<Flag>(
+            "Flag",
+            XmlElementNames.Flag,
+            ExchangeVersion.Exchange2013,
+            FieldUris.Flag,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            () => { return new Flag(); }
+        );
+
+        this.PolicyTag = new ComplexPropertyDefinition<PolicyTag>(
+            "PolicyTag",
+            XmlElementNames.PolicyTag,
+            ExchangeVersion.Exchange2013,
+            FieldUris.PolicyTag,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            () => { return new PolicyTag(); }
+        );
+
+        this.ArchiveTag = new ComplexPropertyDefinition<ArchiveTag>(
+            "ArchiveTag",
+            XmlElementNames.ArchiveTag,
+            ExchangeVersion.Exchange2013,
+            FieldUris.ArchiveTag,
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            () => { return new ArchiveTag(); }
+        );
+
+        this.RetentionDate = new DateTimePropertyDefinition(
+            "RetentionDate",
+            XmlElementNames.RetentionDate,
+            ExchangeVersion.Exchange2013,
+            FieldUris.RetentionDate,
+            PropertyDefinitionFlags.CanFind,
+            true
+        );
+
+        this.Preview = new StringPropertyDefinition(
+            "Preview",
+            XmlElementNames.Preview,
+            ExchangeVersion.Exchange2013,
+            FieldUris.Preview,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.TextBody = new ComplexPropertyDefinition<TextBody>(
+            "TextBody",
+            XmlElementNames.TextBody,
+            ExchangeVersion.Exchange2013,
+            FieldUris.TextBody,
+            PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            () => { return new TextBody(); }
+        );
+
+        this.IconIndex = new GenericPropertyDefinition<IconIndex>(
+            "IconIndex",
+            XmlElementNames.IconIndex,
+            ExchangeVersion.Exchange2013,
+            FieldUris.IconIndex,
+            PropertyDefinitionFlags.CanFind
+        );
     }
 }

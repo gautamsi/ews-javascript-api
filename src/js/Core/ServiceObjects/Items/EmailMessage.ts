@@ -1,7 +1,6 @@
 import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
 import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
 import {SuppressReadReceipt} from "../ResponseObjects/SuppressReadReceipt";
-import {ItemSchema} from "../Schemas/ItemSchema";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
 import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
@@ -14,12 +13,13 @@ import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
 import {MessageBody} from "../../../ComplexProperties/MessageBody";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {EmailMessageSchema} from "../Schemas/EmailMessageSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {FolderId} from "../../../ComplexProperties/FolderId";
 import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
 import {IPromise} from "../../../Interfaces";
+import {PromiseFactory} from '../../../PromiseFactory';
 import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
@@ -35,7 +35,7 @@ export class EmailMessage extends Item {
      *
      */
     get ToRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ToRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ToRecipients);
     }
     
     /**
@@ -43,7 +43,7 @@ export class EmailMessage extends Item {
      *
      */
     get BccRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.BccRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.BccRecipients);
     }
     
     /**
@@ -51,7 +51,7 @@ export class EmailMessage extends Item {
      *
      */
     get CcRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.CcRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.CcRecipients);
     }
     
     /**
@@ -59,7 +59,7 @@ export class EmailMessage extends Item {
      *
      */
     get ConversationTopic(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.ConversationTopic);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ConversationTopic);
     }
     
     /**
@@ -67,7 +67,7 @@ export class EmailMessage extends Item {
      *
      */
     get ConversationIndex(): number[] {
-        return <number[]>this.PropertyBag._getItem(EmailMessageSchema.ConversationIndex);
+        return <number[]>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ConversationIndex);
     }
     
     /**
@@ -75,10 +75,10 @@ export class EmailMessage extends Item {
      *
      */
     get From(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.From);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.From);
     }
     set From(value: EmailAddress) {
-        this.PropertyBag._setItem(EmailMessageSchema.From, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.From, value);
     }
     
     /**
@@ -89,7 +89,7 @@ export class EmailMessage extends Item {
         return this.IsAssociated;
     }
     set IsAssociated(value: boolean) {
-        this.PropertyBag._setItem(ItemSchema.IsAssociated, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.IsAssociated, value);
     }
     
     /**
@@ -97,10 +97,10 @@ export class EmailMessage extends Item {
      *
      */
     get IsDeliveryReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsDeliveryReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
     }
     set IsDeliveryReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsDeliveryReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested, value);
     }
     
     /**
@@ -108,10 +108,10 @@ export class EmailMessage extends Item {
      *
      */
     get IsRead(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsRead);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsRead);
     }
     set IsRead(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsRead, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsRead, value);
     }
     
     /**
@@ -119,10 +119,10 @@ export class EmailMessage extends Item {
      *
      */
     get IsReadReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsReadReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsReadReceiptRequested);
     }
     set IsReadReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsReadReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsReadReceiptRequested, value);
     }
     
     /**
@@ -130,10 +130,10 @@ export class EmailMessage extends Item {
      *
      */
     get IsResponseRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsResponseRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsResponseRequested);
     }
     set IsResponseRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsResponseRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsResponseRequested, value);
     }
     
     /**
@@ -141,7 +141,7 @@ export class EmailMessage extends Item {
      *
      */
     get InternetMessageId(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.InternetMessageId);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.InternetMessageId);
     }
     
     /**
@@ -149,10 +149,10 @@ export class EmailMessage extends Item {
      *
      */
     get References(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.References);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.References);
     }
     set References(value: string) {
-        this.PropertyBag._setItem(EmailMessageSchema.References, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.References, value);
     }
     
     /**
@@ -160,7 +160,7 @@ export class EmailMessage extends Item {
      *
      */
     get ReplyTo(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ReplyTo);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReplyTo);
     }
     
     /**
@@ -168,10 +168,10 @@ export class EmailMessage extends Item {
      *
      */
     get Sender(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.Sender);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.Sender);
     }
     set Sender(value: EmailAddress) {
-        this.PropertyBag._setItem(EmailMessageSchema.Sender, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.Sender, value);
     }
     
     /**
@@ -179,7 +179,7 @@ export class EmailMessage extends Item {
      *
      */
     get ReceivedBy(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedBy);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReceivedBy);
     }
     
     /**
@@ -187,7 +187,7 @@ export class EmailMessage extends Item {
      *
      */
     get ReceivedRepresenting(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedRepresenting);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReceivedRepresenting);
     }
     
     /**
@@ -195,7 +195,7 @@ export class EmailMessage extends Item {
      *
      */
     get ApprovalRequestData(): ApprovalRequestData {
-        return <ApprovalRequestData>this.PropertyBag._getItem(EmailMessageSchema.ApprovalRequestData);
+        return <ApprovalRequestData>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ApprovalRequestData);
     }
     
     /**
@@ -203,7 +203,7 @@ export class EmailMessage extends Item {
      *
      */
     get VotingInformation(): VotingInformation {
-        return <VotingInformation>this.PropertyBag._getItem(EmailMessageSchema.VotingInformation);
+        return <VotingInformation>this.PropertyBag._getItem(Schemas.EmailMessageSchema.VotingInformation);
     }    
     
     /**
@@ -296,7 +296,7 @@ export class EmailMessage extends Item {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return EmailMessageSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.EmailMessageSchema; } //info: Schemas.EmailMessageSchema is EmailMessageSchema.Instance
     
     /**
      * @internal Gets the element name of item in XML
@@ -323,7 +323,7 @@ export class EmailMessage extends Item {
             }
             else {
                 // If the message has attachments, save as a draft (and add attachments) before sending.
-                this.InternalCreate(
+                return this.InternalCreate(
                     null,                           // null means use the Drafts folder in the mailbox of the authenticated user.
                     MessageDisposition.SaveOnly,
                     null).then((results) => {
@@ -336,25 +336,21 @@ export class EmailMessage extends Item {
             // attachment changes, process them now.
             
             debugger; //todo: check - check for attachment save() promise. 
-            
-            // Validate and save attachments before sending.
-            if (this.HasUnprocessedAttachmentChanges()) {
-                this.Attachments.Validate();
-                this.Attachments.Save();
-            }
-
-            debugger; //todo: check - check for attachment save() promise.
-            
-            if (this.PropertyBag.GetIsUpdateCallNecessary()) {
-                this.InternalUpdate(
-                    parentFolderId,
-                    ConflictResolutionMode.AutoResolve,
-                    messageDisposition,
-                    null);
-            }
-            else {
-                return this.Service.SendItem(this, parentFolderId);
-            }
+            return PromiseFactory.resolve(
+                // Validate and save attachments before sending.
+                this.HasUnprocessedAttachmentChanges() ? this.Attachments.ValidateAndSave() : void 0)
+                .then(() => {
+                    if (this.PropertyBag.GetIsUpdateCallNecessary()) {
+                        return <any>this.InternalUpdate( //ref: //info: <any> to supress cast error, returning promise is required, this time it is not void but no action is taken on this promise. 
+                            parentFolderId,
+                            ConflictResolutionMode.AutoResolve,
+                            messageDisposition,
+                            null);
+                    }
+                    else {
+                        return this.Service.SendItem(this, parentFolderId);
+                    }
+                });
         }
     }
     

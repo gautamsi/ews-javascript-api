@@ -1,13 +1,15 @@
-﻿import {ItemSchema} from "./ItemSchema";
-import {ResponseObjectSchema} from "./ResponseObjectSchema";
+﻿import {Schemas} from "./Schemas";
+
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
 export class PostReplySchema extends ServiceObjectSchema {
+
     static Instance: PostReplySchema = new PostReplySchema();
+
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ItemSchema.Subject);
-        super.RegisterProperty(ItemSchema.Body);
-        super.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
-        super.RegisterProperty(ResponseObjectSchema.BodyPrefix);
+        super.RegisterProperty(Schemas.ItemSchema.Subject);
+        super.RegisterProperty(Schemas.ItemSchema.Body);
+        super.RegisterProperty(Schemas.ResponseObjectSchema.ReferenceItemId);
+        super.RegisterProperty(Schemas.ResponseObjectSchema.BodyPrefix);
     }
 }

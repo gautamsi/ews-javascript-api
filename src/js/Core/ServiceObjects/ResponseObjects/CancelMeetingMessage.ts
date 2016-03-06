@@ -3,7 +3,7 @@ import {MeetingCancellation} from "../Items/MeetingCancellation";
 import {MessageBody} from "../../../ComplexProperties/MessageBody";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {CancelMeetingMessageSchema} from "../Schemas/CancelMeetingMessageSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {Item} from "../Items/Item";
 
 
@@ -18,10 +18,10 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
      *
      */
     get Body(): MessageBody {
-        return <MessageBody>this.PropertyBag._getItem(CancelMeetingMessageSchema.Body);
+        return <MessageBody>this.PropertyBag._getItem(Schemas.CancelMeetingMessageSchema.Body);
     }
     set Body(value: MessageBody) {
-        this.PropertyBag._setItem(CancelMeetingMessageSchema.Body, value);
+        this.PropertyBag._setItem(Schemas.CancelMeetingMessageSchema.Body, value);
     }
     /**
      * Initializes a new instance of the **CancelMeetingMessage** class.
@@ -42,7 +42,7 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return CancelMeetingMessageSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.CancelMeetingMessageSchema; } //info: Schemas.CancelMeetingMessageSchema is CancelMeetingMessageSchema.Instance
     /**
      * Gets the element name of item in XML
      * 

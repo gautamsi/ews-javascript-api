@@ -6,12 +6,11 @@ import {ItemId} from "../../../ComplexProperties/ItemId";
 import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {AppointmentSchema} from "./AppointmentSchema";
-import {EmailMessageSchema} from "./EmailMessageSchema";
+import {Schemas} from "./Schemas";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 
+import {EmailMessageSchema} from "./EmailMessageSchema";
 
-//module MeetingMessageSchema {
 module FieldUris {
     export var AssociatedCalendarItemId: string = "meeting:AssociatedCalendarItemId";
     export var IsDelegated: string = "meeting:IsDelegated";
@@ -20,74 +19,87 @@ module FieldUris {
     export var ResponseType: string = "meeting:ResponseType";
     export var IsOrganizer: string = "cal:IsOrganizer";
 }
-//}
+
 export class MeetingMessageSchema extends EmailMessageSchema {
-    static AssociatedAppointmentId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
-        "AssociatedCalendarItemId",
-        XmlElementNames.AssociatedCalendarItemId,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AssociatedCalendarItemId,
-        PropertyDefinitionFlags.None,
-        () => { return new ItemId(); }
-        );
-
-    static IsDelegated: PropertyDefinition = new BoolPropertyDefinition(
-        "IsDelegated",
-        XmlElementNames.IsDelegated,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsDelegated,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static IsOutOfDate: PropertyDefinition = new BoolPropertyDefinition(
-        "IsOutOfDate",
-        XmlElementNames.IsOutOfDate,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsOutOfDate
-        );
-
-    static HasBeenProcessed: PropertyDefinition = new BoolPropertyDefinition(
-        "HasBeenProcessed",
-        XmlElementNames.HasBeenProcessed,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.HasBeenProcessed,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static ResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
-        "ResponseType",
-        XmlElementNames.ResponseType,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ResponseType,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    static ICalUid: PropertyDefinition = AppointmentSchema.Instance.ICalUid;
-
-    static ICalRecurrenceId: PropertyDefinition = AppointmentSchema.Instance.ICalRecurrenceId;
-
-    static ICalDateTimeStamp: PropertyDefinition = AppointmentSchema.Instance.ICalDateTimeStamp;
-
-    static IsOrganizer: PropertyDefinition = new GenericPropertyDefinition<boolean>(
-        "IsOrganizer",
-        XmlElementNames.IsOrganizer,
-        ExchangeVersion.Exchange2013,
-        "cal:IsOrganizer",
-        PropertyDefinitionFlags.CanFind
-        );
+    public AssociatedAppointmentId: PropertyDefinition;
+    public IsDelegated: PropertyDefinition;
+    public IsOutOfDate: PropertyDefinition;
+    public HasBeenProcessed: PropertyDefinition;
+    public ResponseType: PropertyDefinition;
+    public ICalUid: PropertyDefinition;
+    public ICalRecurrenceId: PropertyDefinition;
+    public ICalDateTimeStamp: PropertyDefinition;
+    public IsOrganizer: PropertyDefinition;
 
     static Instance: MeetingMessageSchema = new MeetingMessageSchema();
 
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(MeetingMessageSchema.AssociatedAppointmentId);
-        super.RegisterProperty(MeetingMessageSchema.IsDelegated);
-        super.RegisterProperty(MeetingMessageSchema.IsOutOfDate);
-        super.RegisterProperty(MeetingMessageSchema.HasBeenProcessed);
-        super.RegisterProperty(MeetingMessageSchema.ResponseType);
-        super.RegisterProperty(MeetingMessageSchema.ICalUid);
-        super.RegisterProperty(MeetingMessageSchema.ICalRecurrenceId);
-        super.RegisterProperty(MeetingMessageSchema.ICalDateTimeStamp);
-        super.RegisterProperty(MeetingMessageSchema.IsOrganizer);
+        super.RegisterProperty(this.AssociatedAppointmentId);
+        super.RegisterProperty(this.IsDelegated);
+        super.RegisterProperty(this.IsOutOfDate);
+        super.RegisterProperty(this.HasBeenProcessed);
+        super.RegisterProperty(this.ResponseType);
+        super.RegisterProperty(this.ICalUid);
+        super.RegisterProperty(this.ICalRecurrenceId);
+        super.RegisterProperty(this.ICalDateTimeStamp);
+        super.RegisterProperty(this.IsOrganizer);
+    }
+
+    protected init() {
+        super.init();
+        this.AssociatedAppointmentId = new ComplexPropertyDefinition<ItemId>(
+            "AssociatedCalendarItemId",
+            XmlElementNames.AssociatedCalendarItemId,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.AssociatedCalendarItemId,
+            PropertyDefinitionFlags.None,
+            () => { return new ItemId(); }
+        );
+
+        this.IsDelegated = new BoolPropertyDefinition(
+            "IsDelegated",
+            XmlElementNames.IsDelegated,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsDelegated,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.IsOutOfDate = new BoolPropertyDefinition(
+            "IsOutOfDate",
+            XmlElementNames.IsOutOfDate,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.IsOutOfDate
+        );
+
+        this.HasBeenProcessed = new BoolPropertyDefinition(
+            "HasBeenProcessed",
+            XmlElementNames.HasBeenProcessed,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.HasBeenProcessed,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.ResponseType = new GenericPropertyDefinition<MeetingResponseType>(
+            "ResponseType",
+            XmlElementNames.ResponseType,
+            ExchangeVersion.Exchange2007_SP1,
+            FieldUris.ResponseType,
+            PropertyDefinitionFlags.CanFind
+        );
+
+        this.ICalUid = Schemas.AppointmentSchema.ICalUid;
+
+        this.ICalRecurrenceId = Schemas.AppointmentSchema.ICalRecurrenceId;
+
+        this.ICalDateTimeStamp = Schemas.AppointmentSchema.ICalDateTimeStamp;
+
+        this.IsOrganizer = new GenericPropertyDefinition<boolean>(
+            "IsOrganizer",
+            XmlElementNames.IsOrganizer,
+            ExchangeVersion.Exchange2013,
+            "cal:IsOrganizer",
+            PropertyDefinitionFlags.CanFind
+        );
     }
 }

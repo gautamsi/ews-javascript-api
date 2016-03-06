@@ -1,22 +1,26 @@
 ﻿import {ItemSchema} from "./ItemSchema";
 import {EmailMessageSchema} from "./EmailMessageSchema";
 import {ResponseObjectSchema} from "./ResponseObjectSchema";
+import {Schemas} from "./Schemas";
+
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
 export class CalendarResponseObjectSchema extends ServiceObjectSchema {
+    
     static Instance: CalendarResponseObjectSchema = new CalendarResponseObjectSchema();
+    
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ItemSchema.ItemClass);
-        super.RegisterProperty(ItemSchema.Sensitivity);
-        super.RegisterProperty(ItemSchema.Body);
-        super.RegisterProperty(ItemSchema.Attachments);
-        super.RegisterProperty(ItemSchema.InternetMessageHeaders);
-        super.RegisterProperty(EmailMessageSchema.Sender);
-        super.RegisterProperty(EmailMessageSchema.ToRecipients);
-        super.RegisterProperty(EmailMessageSchema.CcRecipients);
-        super.RegisterProperty(EmailMessageSchema.BccRecipients);
-        super.RegisterProperty(EmailMessageSchema.IsReadReceiptRequested);
-        super.RegisterProperty(EmailMessageSchema.IsDeliveryReceiptRequested);
-        super.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
+        super.RegisterProperty(Schemas.ItemSchema.ItemClass);
+        super.RegisterProperty(Schemas.ItemSchema.Sensitivity);
+        super.RegisterProperty(Schemas.ItemSchema.Body);
+        super.RegisterProperty(Schemas.ItemSchema.Attachments);
+        super.RegisterProperty(Schemas.ItemSchema.InternetMessageHeaders);
+        super.RegisterProperty(Schemas.EmailMessageSchema.Sender);
+        super.RegisterProperty(Schemas.EmailMessageSchema.ToRecipients);
+        super.RegisterProperty(Schemas.EmailMessageSchema.CcRecipients);
+        super.RegisterProperty(Schemas.EmailMessageSchema.BccRecipients);
+        super.RegisterProperty(Schemas.EmailMessageSchema.IsReadReceiptRequested);
+        super.RegisterProperty(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
+        super.RegisterProperty(Schemas.ResponseObjectSchema.ReferenceItemId);
     }
 }

@@ -1,17 +1,18 @@
-﻿import {AppointmentSchema} from "../Core/ServiceObjects/Schemas/AppointmentSchema";
+﻿import {Schemas} from "../Core/ServiceObjects/Schemas/Schemas";
 import {ExchangeService} from "../Core/ExchangeService";
 import {MeetingTimeZone} from "../ComplexProperties/MeetingTimeZone";
 import {XmlElementNames} from "../Core/XmlElementNames";
-import {TimeZonePropertyDefinition} from "./TimeZonePropertyDefinition";
 import {PropertyDefinition} from "./PropertyDefinition";
 import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {PropertyBag} from "../Core/PropertyBag";
+
+import {TimeZonePropertyDefinition} from "./TimeZonePropertyDefinition";
 export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition {
     HasFlag(flag: PropertyDefinitionFlags, version: ExchangeVersion): boolean {
         if (version && (version === ExchangeVersion.Exchange2007_SP1)) {
-            return AppointmentSchema.Instance.MeetingTimeZone.HasFlag(flag, version);
+            return Schemas.AppointmentSchema.MeetingTimeZone.HasFlag(flag, version);
         }
         else {
             return super.HasFlag(flag, version);
@@ -20,7 +21,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
     RegisterAssociatedInternalProperties(properties: PropertyDefinition[]): void {
         super.RegisterAssociatedInternalProperties(properties);
 
-        properties.push(AppointmentSchema.Instance.MeetingTimeZone);
+        properties.push(Schemas.AppointmentSchema.MeetingTimeZone);
     }
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
@@ -43,7 +44,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
     }
     WriteToXml(writer: EwsServiceXmlWriter): void {
         if (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
-            AppointmentSchema.Instance.MeetingTimeZone.WriteToXml(writer);
+            Schemas.AppointmentSchema.MeetingTimeZone.WriteToXml(writer);
         }
         else {
             super.WriteToXml(writer);

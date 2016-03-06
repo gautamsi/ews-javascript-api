@@ -1,22 +1,34 @@
-﻿import {AppointmentSchema} from "./AppointmentSchema";
-import {MeetingMessageSchema} from "./MeetingMessageSchema";
+﻿import {Schemas} from "./Schemas";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
 export class MeetingCancellationSchema extends MeetingMessageSchema {
-    static Start: PropertyDefinition = AppointmentSchema.Instance.Start;
-    static End: PropertyDefinition = AppointmentSchema.Instance.End;
-    static Location: PropertyDefinition = AppointmentSchema.Instance.Location;
-    static AppointmentType: PropertyDefinition = AppointmentSchema.Instance.AppointmentType;
-    static Recurrence: PropertyDefinition = AppointmentSchema.Instance.Recurrence;
-    static EnhancedLocation: PropertyDefinition = AppointmentSchema.Instance.EnhancedLocation;
+    public Start: PropertyDefinition;
+    public End: PropertyDefinition;
+    public Location: PropertyDefinition;
+    public AppointmentType: PropertyDefinition;
+    public Recurrence: PropertyDefinition;
+    public EnhancedLocation: PropertyDefinition;
+
     static Instance: MeetingCancellationSchema = new MeetingCancellationSchema();
+
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(MeetingCancellationSchema.Start);
-        super.RegisterProperty(MeetingCancellationSchema.End);
-        super.RegisterProperty(MeetingCancellationSchema.Location);
-        super.RegisterProperty(MeetingCancellationSchema.Recurrence);
-        super.RegisterProperty(MeetingCancellationSchema.AppointmentType);
-        super.RegisterProperty(MeetingCancellationSchema.EnhancedLocation);
+        super.RegisterProperty(this.Start);
+        super.RegisterProperty(this.End);
+        super.RegisterProperty(this.Location);
+        super.RegisterProperty(this.Recurrence);
+        super.RegisterProperty(this.AppointmentType);
+        super.RegisterProperty(this.EnhancedLocation);
+    }
+
+    protected init() {
+        super.init();
+        this.Start = Schemas.AppointmentSchema.Start;
+        this.End = Schemas.AppointmentSchema.End;
+        this.Location = Schemas.AppointmentSchema.Location;
+        this.AppointmentType = Schemas.AppointmentSchema.AppointmentType;
+        this.Recurrence = Schemas.AppointmentSchema.Recurrence;
+        this.EnhancedLocation = Schemas.AppointmentSchema.EnhancedLocation;
     }
 }
-

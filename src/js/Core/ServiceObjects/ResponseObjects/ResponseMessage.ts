@@ -1,8 +1,5 @@
-import {ItemSchema} from "../Schemas/ItemSchema";
-import {EmailMessageSchema} from "../Schemas/EmailMessageSchema";
-import {ResponseObjectSchema} from "../Schemas/ResponseObjectSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {Item} from "../Items/Item";
-import {ResponseMessageSchema} from "../Schemas/ResponseMessageSchema";
 import {XmlElementNames} from "../../XmlElementNames";
 import {EwsLogging} from "../../EwsLogging";
 import {MessageBody} from "../../../ComplexProperties/MessageBody";
@@ -31,41 +28,41 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
      *
      */
     get Body(): MessageBody {
-        return <MessageBody>this.PropertyBag._getItem(ItemSchema.Body);
+        return <MessageBody>this.PropertyBag._getItem(Schemas.ItemSchema.Body);
     }
     set Body(value: MessageBody) {
-        this.PropertyBag._setItem(ItemSchema.Body, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Body, value);
     }
     /**
      * Gets a list of recipients the response will be sent to.
      *
      */
     get ToRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ToRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ToRecipients);
     }
     /**
      * Gets a list of recipients the response will be sent to as Cc.
      *
      */
     get CcRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.CcRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.CcRecipients);
     }
     /**
      * Gets a list of recipients this response will be sent to as Bcc.
      *
      */
     get BccRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.BccRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.BccRecipients);
     }
     /**
      * Gets or sets the subject of this response.
      *
      */
     get Subject(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.Subject);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.Subject);
     }
     set Subject(value: string) {
-        this.PropertyBag._setItem(ItemSchema.Subject, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Subject, value);
     }
     /**
      * Gets or sets the body prefix of this response. The body prefix will be prepended to the original
@@ -73,10 +70,10 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
      *
      */
     get BodyPrefix(): MessageBody {
-        return <MessageBody>this.PropertyBag._getItem(ResponseObjectSchema.BodyPrefix);
+        return <MessageBody>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.BodyPrefix);
     }
     set BodyPrefix(value: MessageBody) {
-        this.PropertyBag._setItem(ResponseObjectSchema.BodyPrefix, value);
+        this.PropertyBag._setItem(Schemas.ResponseObjectSchema.BodyPrefix, value);
     }
         
     /**
@@ -100,7 +97,7 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return ResponseMessageSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseMessageSchema; } //info: Schemas.ResponseMessageSchema is ResponseMessageSchema.Instance
     /**
      * Get XML Element Name - workaround for c# attributes
      */

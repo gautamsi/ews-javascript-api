@@ -4,30 +4,40 @@ import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPro
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 import {GroupMemberCollection} from "../../../ComplexProperties/GroupMemberCollection";
-import {ItemSchema} from "./ItemSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {Schemas} from "./Schemas";
 
-//module ContactGroupSchema {
+import {ItemSchema} from "./ItemSchema";
+
 module FieldUris {
     export var Members: string = "distributionlist:Members";
 }
-//}
+
 export class ContactGroupSchema extends ItemSchema {
-    static DisplayName: PropertyDefinition = ContactSchema.DisplayName;
-    static FileAs: PropertyDefinition = ContactSchema.FileAs;
-    static Members: PropertyDefinition = new ComplexPropertyDefinition<GroupMemberCollection>(
-        "Members",
-        XmlElementNames.Members,
-        ExchangeVersion.Exchange2010,
-        FieldUris.Members,
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-        () => { return new GroupMemberCollection(); }
-        );
+    public DisplayName: PropertyDefinition;
+    public FileAs: PropertyDefinition ;
+    public Members: PropertyDefinition;
+
     static Instance: ContactGroupSchema = new ContactGroupSchema();
+
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ContactGroupSchema.DisplayName);
-        super.RegisterProperty(ContactGroupSchema.FileAs);
-        super.RegisterProperty(ContactGroupSchema.Members);
+        super.RegisterProperty(this.DisplayName);
+        super.RegisterProperty(this.FileAs);
+        super.RegisterProperty(this.Members);
+    }
+    
+    protected init() {
+        super.init();
+        this.DisplayName = Schemas.ContactSchema.DisplayName;
+        this.FileAs = Schemas.ContactSchema.FileAs;
+        this.Members = new ComplexPropertyDefinition<GroupMemberCollection>(
+            "Members",
+            XmlElementNames.Members,
+            ExchangeVersion.Exchange2010,
+            FieldUris.Members,
+            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+            () => { return new GroupMemberCollection(); }
+        );
     }
 }
