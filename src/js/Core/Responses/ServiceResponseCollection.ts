@@ -1,6 +1,6 @@
 ﻿import {ServiceResponse} from "./ServiceResponse";
-import {Strings} from "../Strings";
-import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
+import {Strings} from "../../Strings";
+import {ArgumentOutOfRangeException} from "../../Exceptions/ArgumentException";
 import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {EwsLogging} from "../EwsLogging";
 export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
