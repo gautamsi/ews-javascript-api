@@ -1,4 +1,5 @@
 ﻿import {Strings} from "../Strings";
+import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -27,7 +28,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     
     __thisIndexer(index: number): TComplexProperty {
         if (index < 0 || index >= this.Count) {
-            throw new Error("ComplexPropertyCollection[index] (__thisIndexer) : " + Strings.IndexIsOutOfRange);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+            throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
         }
         return this.items[index];
     }

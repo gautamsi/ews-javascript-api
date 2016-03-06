@@ -26,6 +26,7 @@ import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTrave
 import {FileAsMapping} from "../Enumerations/FileAsMapping";
 
 import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ArgumentException} from "../Exceptions/ArgumentException";
 import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
 import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
@@ -500,7 +501,7 @@ export class EwsUtilities {
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
         var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
         if (xsDuration.match(regex) === null) {
-            throw new Error(Strings.XsDurationCouldNotBeParsed);//ArgumentException
+            throw new ArgumentException(Strings.XsDurationCouldNotBeParsed);
         }
         return new TimeSpan(xsDuration);//using moment, it recognize the format.
         
@@ -596,7 +597,7 @@ export class EwsUtilities {
                 selfValidate.Validate();
             }
             catch (e) {
-                throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e));
+                throw new ArgumentException(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e));
                 //ArgumentException(
                 //    Strings.ValidationFailed,
                 //    paramName,

@@ -1,4 +1,5 @@
 import {Strings} from "../Strings";
+import {ArgumentException} from "../Exceptions/ArgumentException";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -12,7 +13,7 @@ export class AppointmentOccurrenceId extends ItemId {
     }
     set OccurrenceIndex(value: number) {
         if (value < 1) {
-            throw new Error(Strings.OccurrenceIndexMustBeGreaterThanZero);//ArgumentException
+            throw new ArgumentException(Strings.OccurrenceIndexMustBeGreaterThanZero);
         }
         this.occurrenceIndex = value;
     }

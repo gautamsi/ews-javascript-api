@@ -1,5 +1,6 @@
 ﻿import {XmlElementNames} from "../Core/XmlElementNames";
 import {Strings} from "../Strings";
+import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
@@ -28,13 +29,13 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
 
     _getItem(index: number): string {
         if (index < 0 || index >= this.Count) {
-            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+            throw new ArgumentOutOfRangeException("index - " + Strings.IndexIsOutOfRange);
         }
         return this.items[index];
     }
     _setItem(index: number, value: string): void {
         if (index < 0 || index >= this.Count) {
-            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+            throw new ArgumentOutOfRangeException("index - " + Strings.IndexIsOutOfRange);
         }
         if (this.items[index] !== value) {
             this.items[index] = value;
@@ -81,7 +82,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
     }
     RemoveAt(index: number): void {
         if (index < 0 || index >= this.Count) {
-            throw new Error("index - " + Strings.IndexIsOutOfRange);//ArgumentOutOfRangeException
+            throw new ArgumentOutOfRangeException("index - " + Strings.IndexIsOutOfRange);
         }
         this.items.splice(index, 1);
         this.Changed();

@@ -1,4 +1,6 @@
 ﻿import {ServiceResponse} from "./ServiceResponse";
+import {Strings} from "../Strings";
+import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {EwsLogging} from "../EwsLogging";
 export class ServiceResponseCollection<TResponse extends ServiceResponse> { // IEnumerable<TResponse> where TResponse : ServiceResponse
@@ -22,7 +24,7 @@ export class ServiceResponseCollection<TResponse extends ServiceResponse> { // I
     GetEnumerator(): any { throw new Error("ServiceResponseCollection.ts - GetEnumerator : Not implemented."); }
     __thisIndexer(index: number) {
         if (index < 0 || index >= this.Count) {
-            throw new Error("index out of range: " + index);// ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+            throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
         }
 
         return this.responses[index];
