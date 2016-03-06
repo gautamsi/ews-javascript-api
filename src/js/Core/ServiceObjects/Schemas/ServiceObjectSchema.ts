@@ -30,8 +30,7 @@ export class ServiceObjectSchema {
     private firstClassProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
-    static AppointmentSchema: AppointmentSchema;
-    //static appointmentSchema: AppointmentSchema;
+    //static appointmentSchema: AppointmentSchema; - moved to Schemas
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
         "ExtendedProperties",
         XmlElementNames.ExtendedProperty,
@@ -179,9 +178,11 @@ export class ServiceObjectSchema {
     }
     GetEnumerator(): PropertyDefinition[] { return this.visibleProperties; }
 
+    protected init(){}
+    
     RegisterIndexedProperty(indexedProperty: IndexedPropertyDefinition): void { this.indexedProperties.push(indexedProperty); }
     RegisterInternalProperty(property: PropertyDefinition): void { this.RegisterProperty(property, true); }
-    RegisterProperties(): void { /*virtual void for derived class to implement if needed*/ }
+    RegisterProperties(): void { this.init(); /*virtual void for derived class to implement if needed*/ }
     //RegisterProperty(property: PropertyDefinition): any { throw new Error("ServiceObjectSchema.ts - RegisterProperty : Not implemented."); }
     RegisterProperty(property: PropertyDefinition, isInternal: boolean = false): void {
         this.properties.Add(property.XmlElementName, property);
