@@ -1,7 +1,7 @@
 ﻿import {Item} from "../Core/ServiceObjects/Items/Item";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter"; XmlAttributeNames
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {DateTime} from "../DateTime";
@@ -11,7 +11,7 @@ import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinition
 import {BodyType} from "../Enumerations/BodyType";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import { StringHelper } from '../ExtensionMethods';
+import { StringHelper, Convert } from '../ExtensionMethods';
 import { Strings } from '../Strings';
 import {TypeContainer} from "../TypeContainer";
 
@@ -118,28 +118,42 @@ export class Attachment extends ComplexProperty {
     }
     
     /**
-     * True if the attachment has not yet been saved, false otherwise.
+     * @internal True if the attachment has not yet been saved, false otherwise.
      */
     get IsNew(): boolean {
         return StringHelper.IsNullOrEmpty(this.Id);
     }
     
     /**
-     * Gets the owner of the attachment.
+     * @internal Gets the owner of the attachment.
      */
     get Owner(): Item {
         return this.owner;
     }
     
     /**
-     * Gets the related exchange service.
+     * @internal Gets the related exchange service.
      */
     get Service(): ExchangeService {
         return this.service;
     }
 
+    /**
+     * @internal Initializes a new instance of the Attachment class.
+     *
+     * @param   {Item}   owner   The owner.
+     */
     constructor(owner: Item);
+    /**
+     * @internal Initializes a new instance of the Attachment class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */    
     constructor(service: ExchangeService);
+    /**
+     * @internal  @protected unused - only for derived class call
+     */
+    constructor(ownerOrService: Item | ExchangeService)
     constructor(ownerOrService: Item | ExchangeService) {
         super();
         if (arguments.length === 1 && (ownerOrService === null || ownerOrService instanceof TypeContainer.Item)) {
@@ -186,7 +200,7 @@ export class Attachment extends ComplexProperty {
      *
      * @param   {any}   jsonObject   The json object.
      */
-    LoadAttachmentIdFromXMLJsObject(jsonObject: any): void {
+    private LoadAttachmentIdFromXMLJsObject(jsonObject: any): void {
         this.id = jsonObject[XmlAttributeNames.Id];
 
         if (this.Owner != null && jsonObject[XmlAttributeNames.RootItemChangeKey]) {
@@ -199,37 +213,37 @@ export class Attachment extends ComplexProperty {
     }
     
     /**
-     * Loads from json.
+     * @internal Loads from XMLjsObject.
      *
      * @param   {any}               jsonObject
      * @param   {ExchangeService}   service        
      */
-    LoadFromXmlJsObject(jsonObject: any, service: ExchangeService): void {
-        for (let key in jsonObject) {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        for (let key in jsObject) {
             switch (key) {
                 case XmlElementNames.AttachmentId:
-                    this.LoadAttachmentIdFromXMLJsObject(jsonObject[key]);
+                    this.LoadAttachmentIdFromXMLJsObject(jsObject[key]);
                     break;
                 case XmlElementNames.Name:
-                    this.name = jsonObject.ReadAsString(key);
+                    this.name = jsObject[key];
                     break;
                 case XmlElementNames.ContentType:
-                    this.contentType = jsonObject.ReadAsString(key);
+                    this.contentType = jsObject[key];
                     break;
                 case XmlElementNames.ContentId:
-                    this.contentId = jsonObject.ReadAsString(key);
+                    this.contentId = jsObject[key];
                     break;
                 case XmlElementNames.ContentLocation:
-                    this.contentLocation = jsonObject.ReadAsString(key);
+                    this.contentLocation = jsObject[key];
                     break;
                 case XmlElementNames.Size:
-                    this.size = jsonObject.ReadAsInt(key);
+                    this.size = Convert.toInt(jsObject[key]);
                     break;
                 case XmlElementNames.LastModifiedTime:
-                    this.lastModifiedTime = service.ConvertUniversalDateTimeStringToLocalDateTime(jsonObject.ReadAsString(key));
+                    this.lastModifiedTime = service.ConvertUniversalDateTimeStringToLocalDateTime(jsObject[key]);
                     break;
                 case XmlElementNames.IsInline:
-                    this.isInline = jsonObject.ReadAsBool(key);
+                    this.isInline = Convert.toBool(jsObject[key]);
                     break;
                 default:
                     break;
@@ -238,7 +252,7 @@ export class Attachment extends ComplexProperty {
     }
 
     /**
-     * Sets value of field.
+     * @internal Sets value of field.
      * 
      * @remarks  We override the base implementation. Attachments cannot be modified so any attempts the change a property on an existing attachment is an error.
      * 
@@ -251,7 +265,7 @@ export class Attachment extends ComplexProperty {
     }
 
     /**
-     * Throws exception if this is not a new service object.
+     * @internal Throws exception if this is not a new service object.
      */
     ThrowIfThisIsNotNew(): void {
         if (!this.IsNew) {
