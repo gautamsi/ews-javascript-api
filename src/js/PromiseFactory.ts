@@ -8,10 +8,10 @@ class promiseApi implements IPromiseApi {
 	create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T> {
 		throw new Error("PromiseApi - stub method, must be bootstrapped");
 	}
-	resolve<U>(value?: U): IPromise<U> {
+	resolve<U>(value?: U | IPromise<U>): IPromise<U> {
 		throw new Error("PromiseApi - stub method, must be bootstrapped");
 	}
-    reject<U>(value?: U): IPromise<U>{
+    reject<U>(value?: U | IPromise<U>): IPromise<U>{
 		throw new Error("PromiseApi - stub method, must be bootstrapped");        
     }
 	get type(): string {
@@ -25,10 +25,10 @@ export class PromiseFactory {
 	static create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T> {
 		return promiseApiObj.create(init, onCancel);
 	}
-	static resolve<U>(value?: U): IPromise<U> {
+	static resolve<U>(value?: U | IPromise<U>): IPromise<U> {
 		return promiseApiObj.resolve(value);
 	}
-    static reject<U>(value?: U): IPromise<U> {
+    static reject<U>(value?: U | IPromise<U>): IPromise<U> {
 		return promiseApiObj.reject(value);
 	} 
 	static get type(): string {

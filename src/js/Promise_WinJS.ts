@@ -12,10 +12,10 @@ class WinJSPromiseApi implements IPromiseApi {
 	create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T> {
 		return new WinJS.Promise<T>(init, onCancel);
 	}
-	resolve<U>(value?: U): IPromise<U> {
+	resolve<U>(value?: U | IPromise<U>): IPromise<U> {
 		return WinJS.Promise.as(value);
 	}
-    reject<U>(value?: U): IPromise<U> {
+    reject<U>(value?: U | IPromise<U>): IPromise<U> {
 		return WinJS.Promise.wrapError(value);
 	}
 	get type(): string {
