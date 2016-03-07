@@ -5,6 +5,10 @@ export class TypeContainer {
     constructor(parameters) {
 
     }
+    /**
+	 * Type object of ServiceObject (not instance)
+	 */
+    public static ServiceObject: any;
 	/**
 	 * Type object of Appointment (not instance)
 	 */
@@ -30,6 +34,11 @@ export class TypeContainer {
      * Type object of ItemAttachment (not instance)
      */
     public static ItemAttachment: any;
+
+    /**
+     * Type object of ItemAttachmentOf **Generic Version of ItemAttachment** (not instance)
+     */
+    public static ItemAttachmentOf: any;
 
     /**
      * Type object of ExchangeService (not instance)

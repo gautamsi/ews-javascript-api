@@ -41,7 +41,7 @@ export class ItemAttachment extends Attachment {
     }
     /** to workaround base.Item property accessor of c# //ref: //info: */
     protected _setItem(value: Item): void {
-        this.Item = value;
+        this.item = value;
     }
     /**
     * @internal Initializes a new instance of the **ItemAttachment** class.

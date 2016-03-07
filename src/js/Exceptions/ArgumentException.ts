@@ -14,6 +14,33 @@ export class ArgumentException extends Exception {
     }
 }
 
+export class ArgumentNullException extends ArgumentException {
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(message: string, paramName: string, innerException: Exception);
+    constructor(paramNameOrMessage: string = null, paramNameOrInnerException: string | Exception = null, innerException: Exception = null) {
+        var argsLength = arguments.length;
+        switch (argsLength) {
+            case 1:
+                super("Argument is Null", paramNameOrMessage);
+                break;
+            case 2:
+                if (typeof paramNameOrInnerException === 'string') {
+                    super(paramNameOrInnerException, paramNameOrMessage);
+                }
+                else {
+                    super(paramNameOrMessage, paramNameOrInnerException);
+                }
+                break;
+            default:
+                super("Argument is Null");
+                break;
+        }
+    }
+}
+
 export class ArgumentOutOfRangeException extends ArgumentException {
     actualValue: any;
     /**
@@ -50,19 +77,6 @@ export class ArgumentOutOfRangeException extends ArgumentException {
             default:
                 super();
                 break;
-        }
-        if (argsLength >= 1) {
-            this.ParamName = paramNameOrMessage;
-        }
-        if (argsLength >= 2) {
-            if (messageOrActualValueOrException instanceof Exception) {
-                this.ParamName = null;
-                this.Message = paramNameOrMessage;
-                this.InnerException = messageOrActualValueOrException;
-            }
-            else if (typeof messageOrActualValueOrException === 'string') {
-                this.Message = messageOrActualValueOrException;
-            }
         }
     }
 }

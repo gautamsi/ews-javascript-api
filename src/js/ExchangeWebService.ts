@@ -86,8 +86,8 @@ import {CalendarResponseObjectSchema} from "./Core/ServiceObjects/Schemas/Calend
 Schemas.CalendarResponseObjectSchema = CalendarResponseObjectSchema.Instance;
 
 export {ServiceObjectSchema, ConversationSchema, FolderSchema, SearchFolderSchema, ItemSchema, AppointmentSchema, ContactSchema, ContactGroupSchema, EmailMessageSchema,
-    MeetingMessageSchema, MeetingCancellationSchema, MeetingResponseSchema, MeetingRequestSchema, PostItemSchema, TaskSchema, ResponseObjectSchema, PostReplySchema,
-    ResponseMessageSchema, CancelMeetingMessageSchema, CalendarResponseObjectSchema}
+MeetingMessageSchema, MeetingCancellationSchema, MeetingResponseSchema, MeetingRequestSchema, PostItemSchema, TaskSchema, ResponseObjectSchema, PostReplySchema,
+ResponseMessageSchema, CancelMeetingMessageSchema, CalendarResponseObjectSchema}
 
 import {TimeZoneTransition} from "./ComplexProperties/TimeZones/TimeZoneTransition";
 import {AbsoluteDateTransition} from "./ComplexProperties/TimeZones/AbsoluteDateTransition";
@@ -109,9 +109,11 @@ TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneD
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
 
+import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
 import {Item} from "./Core/ServiceObjects/Items/Item";
 import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
+import {ItemAttachmentOf} from "./ComplexProperties/ItemAttachmentOf";
 import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
 import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
 import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
@@ -119,15 +121,17 @@ import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 import {ExchangeService} from "./Core/ExchangeService";
 
 import {TypeContainer} from "./TypeContainer"
+TypeContainer.ServiceObject = ServiceObject;
 TypeContainer.Item = Item;
 TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
 TypeContainer.MeetingResponse = MeetingResponse;
 TypeContainer.MeetingCancellation = MeetingCancellation;
 TypeContainer.ItemAttachment = ItemAttachment;
+TypeContainer.ItemAttachmentOf = ItemAttachmentOf
 TypeContainer.ExchangeService = ExchangeService;
 
-export {Appointment, ExchangeService, Item, ItemAttachment, MeetingCancellation, MeetingRequest, MeetingResponse}
+export {ServiceObject, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse}
 /**#endregion BootStrap code */
 
 
@@ -400,7 +404,6 @@ export {FolderView} from "./Search/FolderView";
 export {FolderWrapper} from "./Misc/FolderWrapper";
 export {FreeBusyViewType} from "./Enumerations/FreeBusyViewType";
 //export {FreeType} from "./Enumerations/FreeType"; - with DnsNativeMethods
-export {GenericItemAttachment} from "./ComplexProperties/GenericItemAttachment";
 export {GenericPropertyDefinition} from "./PropertyDefinitions/GenericPropertyDefinition";
 export {GetAppManifestsRequest} from "./Core/Requests/GetAppManifestsRequest";
 export {GetAppManifestsResponse} from "./Core/Responses/GetAppManifestsResponse";
@@ -752,7 +755,6 @@ export {ServiceErrorHandling} from "./Enumerations/ServiceErrorHandling";
 export {ServiceId} from "./ComplexProperties/ServiceId";
 export {ServiceJsonDeserializationException} from "./Exceptions/ServiceJsonDeserializationException";
 export {ServiceLocalException} from "./Exceptions/ServiceLocalException";
-export {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 export {ServiceObjectInfo} from "./Core/ServiceObjects/ServiceObjectInfo";
 export {ServiceObjectPropertyDefinition} from "./PropertyDefinitions/ServiceObjectPropertyDefinition";
 export {ServiceObjectPropertyException} from "./Exceptions/ServiceObjectPropertyException";

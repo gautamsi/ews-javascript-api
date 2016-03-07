@@ -8,7 +8,7 @@ import {TypeContainer} from "../TypeContainer";
 import {Strings} from "../Strings";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {EwsUtilities} from "../Core/EwsUtilities";
-import {GenericItemAttachment} from "./GenericItemAttachment";
+import {ItemAttachmentOf} from "./ItemAttachmentOf";
 import {ItemAttachment} from "./ItemAttachment";
 import {EwsLogging} from "../Core/EwsLogging";
 import {AttachableAttributeMetadata} from "../Attributes/AttachableAttribute";
@@ -135,9 +135,9 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
      * 
      * @param   {any*}      TItem    Item type, not instance
      * @param   {string}    TItemElementName    XML Element Name of the Item class
-     * @return  {GenericItemAttachment<TItem>}      An ItemAttachment instance.
+     * @return  {ItemAttachmentOf<TItem>}      An ItemAttachment instance.
      */
-    AddItemAttachment<TItem extends Item>(TItem: any, TItemElementName: string): GenericItemAttachment<TItem> {
+    AddItemAttachment<TItem extends Item>(TItem: any, TItemElementName: string): ItemAttachmentOf<TItem> {
         let attachable = Reflect.getMetadata(AttachableAttributeMetadata, TItem.prototype) === true; //(typeof(TItem).GetCustomAttributes(typeof(AttachableAttribute), false).Length == 0)        
         
         if (!attachable) {
@@ -147,7 +147,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
                     typeof (TItem).Name)); //InvalidOperationException
         }
 
-        let itemAttachment: GenericItemAttachment<TItem> = new GenericItemAttachment<TItem>(this.owner); //ref: //info: ItemAttachment can not be generic when same name non generic version exhist. TypeScript limitation
+        let itemAttachment: ItemAttachmentOf<TItem> = new ItemAttachmentOf<TItem>(this.owner); //ref: //info: ItemAttachment can not be generic when same name non generic version exhist. TypeScript limitation
         itemAttachment.Item = <TItem>(new ItemInfo()).CreateItemFromItemClass(itemAttachment, TItemElementName, true); //todo: needs to implement Reflector metadata for Type to class creation map
 
         this.InternalAdd(<any><any>itemAttachment);

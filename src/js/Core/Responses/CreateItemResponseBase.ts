@@ -17,7 +17,7 @@ export class CreateItemResponseBase extends ServiceResponse {
                 responseObject,
                 service,
                 XmlElementNames.Items,
-                this.GetObjectInstance,
+                this.GetObjectInstance.bind(this),
                 false,      /* clearPropertyBag */
                 null,       /* requestedPropertySet */
                 false);     /* summaryPropertiesOnly */

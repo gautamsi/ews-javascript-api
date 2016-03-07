@@ -136,6 +136,9 @@ export module ArrayHelper {
         rank += maxDepthRank;
         return rank;
     }
+    export function isArray(obj: any) {
+        return Object.prototype.toString.call(obj) === "[object Array]";
+    }
 }
 
 export class TypeSystem {
