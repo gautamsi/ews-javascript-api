@@ -71,8 +71,8 @@ return;
 
         var mockXhr = new MockXHRApi();
         exch.XHRApi = mockXhr
-        mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
-        mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
+        mockXhr.requestXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView];
+        mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse];
         var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
         var EX_normalized_Subject = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x0E1D); //https://willcode4foodblog.wordpress.com/2012/04/14/understanding-sharing-invitation-requests-ews-managed-api-1-2-part-2/
         var EX_prop2 = new ExtendedPropertyDefinition(MapiPropertyType.String,"Content-Class", DefaultExtendedPropertySet.InternetHeaders);
@@ -80,8 +80,8 @@ return;
         exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
             .then((response) => {
                 for (var item of response.Items) {
-                    mockXhr.requestXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader;
-                    mockXhr.responseXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse;
+                    mockXhr.requestXml = [MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader];
+                    mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse];
 
                     var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
                     var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MapiPropertyType.String, "Expiration Date", MyPropertySetId);
@@ -109,8 +109,8 @@ return;
 
 
         return;
-        mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
-        mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
+        mockXhr.requestXml = [MockXHRData.Operations.ADOperations.DLExpansionRequest];
+        mockXhr.responseXml = [MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse];
         exch.ExpandGroup("group@contoso.com").then((response) => {
             EwsLogging.Log(response, true, true);
             EwsLogging.Log("-------------- request complete ----------", true, true);
@@ -121,8 +121,8 @@ return;
 
 
 
-        mockXhr.requestXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest;
-        mockXhr.responseXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire;
+        mockXhr.requestXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest];
+        mockXhr.responseXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire];
         exch.GetPasswordExpirationDate("gstest@singhs.pro").then((response) => {
             EwsLogging.Log(response, true, true);
             EwsLogging.Log("-------------- request complete ----------", true, true);
@@ -216,8 +216,8 @@ return;
         view.PropertySet = PropertySet.FirstClassProperties;
         //var sf = new SearchFilter.ContainsSubstring(ItemSchema.Subject,"test");
         var groupBy = new Grouping();
-        groupBy.GroupOn = EmailMessageSchema.Subject;
-        groupBy.AggregateOn = ItemSchema.DateTimeReceived;
+        groupBy.GroupOn = EmailMessageSchema.Instance.Subject;
+        groupBy.AggregateOn = ItemSchema.Instance.DateTimeReceived;
         groupBy.AggregateType = AggregateType.Minimum;
         groupBy.SortDirection = SortDirection.Descending;
         exch.FindItems(new FolderId(WellKnownFolderName.SentItems), view, groupBy)

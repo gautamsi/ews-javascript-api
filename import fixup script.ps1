@@ -273,6 +273,8 @@ return
 
         }
 }
+$looping.Clear()
+$done.Clear()
 subm "AttachmentsPropertyDefinition" 0
 
    $moduleName = $util | %{$_.Matches | %{$_.Groups["moduleName"].Value.ToString()}}
