@@ -171,7 +171,7 @@ export class EwsServiceXmlWriter {
 
         if (namespacePrefix !== "") namespacePrefix += ":";
         this.soapData += " " + namespacePrefix + localName + "=\"" + stringValue + "\"";
-        if (namespacePrefix == "xmlns") // push to rootUris cache
+        if (namespacePrefix == "xmlns:") // push to rootUris cache
             this.PushUris(localName, stringValue);
         //try {
         //    this.xmlWriter.WriteAttributeString(
