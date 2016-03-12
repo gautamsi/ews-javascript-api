@@ -111,17 +111,20 @@ export abstract class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
         propertyBag._setItem(this, outComplexproperty.outValue);
     }
-    
+
     /**
      * @internal Loads the property value from XMLJsObject.
      *
      * @param   {any}               jsObject         The JSON value.  Can be a JsonObject, string, number, bool, array, or null.
      * @param   {ExchangeService}   service       The service.
      * @param   {PropertyBag}       propertyBag   The property bag.
-     */    
+     */
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        //debugger;//update: array type detection in next call, can not call GetPropertyInstance multiple time
-        this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);        
+        // check for null value from empty element
+        if (jsObject) {
+            //debugger;//update: array type detection in next call, can not call GetPropertyInstance multiple time
+            this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
+        }
     }
 
     /**

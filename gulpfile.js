@@ -222,7 +222,7 @@ gulp.task('ts-def-clean', ["ts-def-concat"], function (done) {
     del(delconfig, done);
 });
 
-gulp.task("ts-prep-def", ['ts-def-clean'])
+gulp.task("build-typedef", ['ts-def-clean'])
 
 
 /**

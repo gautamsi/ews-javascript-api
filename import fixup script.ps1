@@ -396,3 +396,27 @@ if($filetofix -ne $null){
 $exports = "export {"
 $allfiles.BaseName | %{$exports += "`r`n// $_,"}
 $exports += "`r`n};"
+
+$moduleNames = @()
+$allthrows = @()
+function searchdependencyportstatus($f){
+    $match = dir ($f + ".ts") -Recurse |  Select-String -Pattern  '(import).*\".*\/(?<moduleName>.*)\"\;'
+        if($match)
+        {
+            $moduleNames = $match | %{$_.Matches | %{$_.Groups["moduleName"].Value}}
+            $moduleNames | %{
+                if($global:moduleNames -notcontains $_){
+                    $global:moduleNames += $_
+                    Write-Host $_ -ForegroundColor Red
+                    $m2 = dir ($_ + ".ts") -Recurse |  Select-String -Pattern  '^\s+\w.*throw new Error.*Not implemented.*'
+                    $global:allthrows += $m2
+                    write-host "---------------------------------------------------" -ForegroundColor Yellow
+                    #$list
+                    searchdependencyportstatus $_
+                }
+                #else{"skipping $_"}
+            }
+
+        }
+}
+searchdependencyportstatus "Attachment"
