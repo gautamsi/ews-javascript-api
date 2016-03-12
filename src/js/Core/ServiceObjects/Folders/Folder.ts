@@ -455,7 +455,7 @@ export class Folder extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.FolderSchema; } //info: Schemas.FolderSchema is FolderSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.FolderSchema.Instance; }
 
     /**
      * @internal Gets the name of the set field XML element.
@@ -655,10 +655,5 @@ export class Folder extends ServiceObject {
         if (this.PropertyBag.Contains(Schemas.FolderSchema.Permissions)) {
             this.Permissions.Validate();
         }
-    }
-
-    /**
-     * @internal ~~created this to help find serviceobject type, ServiceObjectInstance instanceof Item fails by creating circular dependency in javascript/typescript~~
-     */
-    get InstanceType(): string { return XmlElementNames.Folder; }
+    }    
 }

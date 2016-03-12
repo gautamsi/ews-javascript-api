@@ -18,14 +18,30 @@ export class ResponseMessageSchema extends ServiceObjectSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(Schemas.ItemSchema.Subject);
-        super.RegisterProperty(Schemas.ItemSchema.Body);
-        super.RegisterProperty(Schemas.EmailMessageSchema.ToRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.CcRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.BccRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsReadReceiptRequested);
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
-        super.RegisterProperty(Schemas.ResponseObjectSchema.ReferenceItemId);
-        super.RegisterProperty(Schemas.ResponseObjectSchema.BodyPrefix);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.ItemSchema.Subject);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.ItemSchema.Body);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.EmailMessageSchema.ToRecipients);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.EmailMessageSchema.CcRecipients);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.EmailMessageSchema.BccRecipients);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.EmailMessageSchema.IsReadReceiptRequested);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.ResponseObjectSchema.ReferenceItemId);
+        this.RegisterProperty(ResponseMessageSchema, Schemas.ResponseObjectSchema.BodyPrefix);
     }
+}
+
+/**
+ * Represents ResponseMessage schema definition.
+ */
+export interface ResponseMessageSchema {
+    /**
+     * @internal Instance of **ResponseMessageSchema**
+     */
+    Instance: ResponseMessageSchema;
+}
+
+/**
+ * Represents ResponseMessage schema definition.
+ */
+export interface ResponseMessageSchemaStatic extends ResponseMessageSchema {
 }

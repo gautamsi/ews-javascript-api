@@ -97,7 +97,7 @@ export class ResponseMessage extends ResponseObject<EmailMessage> {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.ResponseMessageSchema; } //info: Schemas.ResponseMessageSchema is ResponseMessageSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseMessageSchema.Instance; }
     /**
      * Get XML Element Name - workaround for c# attributes
      */

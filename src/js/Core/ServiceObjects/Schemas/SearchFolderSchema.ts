@@ -18,11 +18,18 @@ module FieldUris {
  * Represents the schema for search folders.
  */
 export class SearchFolderSchema extends FolderSchema {
-    
+
     /**
      * Defines the **SearchParameters** property.
      */
-    public SearchParameters: PropertyDefinition;
+    public static SearchParameters: PropertyDefinition = new ComplexPropertyDefinition<SearchFolderParameters>(
+        "SearchParameters",
+        XmlElementNames.SearchParameters,
+        FieldUris.SearchParameters,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new SearchFolderParameters(); }
+    );
 
     /**
      * @internal Instance of **SearchFolderSchema** 
@@ -36,19 +43,26 @@ export class SearchFolderSchema extends FolderSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.SearchParameters);
+        this.RegisterProperty(SearchFolderSchema, SearchFolderSchema.SearchParameters);
     }
+}
 
-    protected init() {
-        return;
-        super.init();
-        this.SearchParameters = new ComplexPropertyDefinition<SearchFolderParameters>(
-            "SearchParameters",
-            XmlElementNames.SearchParameters,
-            FieldUris.SearchParameters,
-            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new SearchFolderParameters(); }
-        );
-    }
+/**
+ * Represents the schema for search folders.
+ */
+export interface SearchFolderSchema {
+    /**
+     * Defines the **SearchParameters** property.
+     */
+    SearchParameters: PropertyDefinition;
+    /**
+     * @internal Instance of **SearchFolderSchema**
+     */
+    Instance: SearchFolderSchema;
+}
+
+/**
+ * Represents the schema for search folders.
+ */
+export interface SearchFolderSchemaStatic extends SearchFolderSchema {
 }

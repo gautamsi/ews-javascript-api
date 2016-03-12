@@ -43,67 +43,150 @@ export class FolderSchema extends ServiceObjectSchema {
     /**
      * Defines the **Id** property.
      */
-    public Id: PropertyDefinition;
+    public static Id: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+        "Id",
+        XmlElementNames.FolderId,
+        FieldUris.FolderId,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new FolderId(); }
+    );
 
     /**
      * Defines the **FolderClass** property.
      */
-    public FolderClass: PropertyDefinition;
+    public static FolderClass: PropertyDefinition = new StringPropertyDefinition(
+        "FolderClass",
+        XmlElementNames.FolderClass,
+        FieldUris.FolderClass,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **ParentFolderId** property.
      */
-    public ParentFolderId: PropertyDefinition;
+    public static ParentFolderId: PropertyDefinition = new ComplexPropertyDefinition<FolderId>(
+        "ParentFolderId",
+        XmlElementNames.ParentFolderId,
+        FieldUris.ParentFolderId,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new FolderId(); }
+    );
 
     /**
      * Defines the **ChildFolderCount** property.
      */
-    public ChildFolderCount: PropertyDefinition;
+    public static ChildFolderCount: PropertyDefinition = new IntPropertyDefinition(
+        "ChildFolderCount",
+        XmlElementNames.ChildFolderCount,
+        FieldUris.ChildFolderCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **DisplayName** property.
      */
-    public DisplayName: PropertyDefinition;
+    public static DisplayName: PropertyDefinition = new StringPropertyDefinition(
+        "DisplayName",
+        XmlElementNames.DisplayName,
+        FieldUris.DisplayName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **UnreadCount** property.
      */
-    public UnreadCount: PropertyDefinition;
+    public static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
+        "UnreadCount",
+        XmlElementNames.UnreadCount,
+        FieldUris.UnreadCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **TotalCount** property.
      */
-    public TotalCount: PropertyDefinition;
+    public static TotalCount: PropertyDefinition = new IntPropertyDefinition(
+        "TotalCount",
+        XmlElementNames.TotalCount,
+        FieldUris.TotalCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **ManagedFolderInformation** property.
      */
-    public ManagedFolderInformation: PropertyDefinition;
+    public static ManagedFolderInformation: PropertyDefinition = new ComplexPropertyDefinition<ManagedFolderInformation>(
+        "ManagedFolderInformation",
+        XmlElementNames.ManagedFolderInformation,
+        FieldUris.ManagedFolderInformation,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new ManagedFolderInformation(); }
+    );
 
     /**
      * Defines the **EffectiveRights** property.
      */
-    public EffectiveRights: PropertyDefinition;
+    public static EffectiveRights: PropertyDefinition = new EffectiveRightsPropertyDefinition(
+        "EffectiveRights",
+        XmlElementNames.EffectiveRights,
+        FieldUris.EffectiveRights,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **Permissions** property.
      */
-    public Permissions: PropertyDefinition;
+    public static Permissions: PropertyDefinition = new PermissionSetPropertyDefinition(
+        "Permissions",
+        XmlElementNames.PermissionSet,
+        FieldUris.PermissionSet,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **WellKnownFolderName** property.
      */
-    public WellKnownFolderName: PropertyDefinition;
+    public static WellKnownFolderName: PropertyDefinition = new GenericPropertyDefinition<WellKnownFolderName>(
+        "WellKnownFolderName",
+        XmlElementNames.DistinguishedFolderId,
+        FieldUris.DistinguishedFolderId,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
 
     /**
      * Defines the **PolicyTag** property.
      */
-    public PolicyTag: PropertyDefinition;
+    public static PolicyTag: PropertyDefinition = new ComplexPropertyDefinition<PolicyTag>(
+        "PolicyTag",
+        XmlElementNames.PolicyTag,
+        FieldUris.PolicyTag,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
+        () => { return new PolicyTag(); }
+    );
 
     /**
      * Defines the **ArchiveTag** property.
      */
-    public ArchiveTag: PropertyDefinition;
+    public static ArchiveTag: PropertyDefinition = new ComplexPropertyDefinition<ArchiveTag>(
+        "ArchiveTag",
+        XmlElementNames.ArchiveTag,
+        FieldUris.ArchiveTag,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
+        () => { return new ArchiveTag(); }
+    );
 
     /**
      * @internal Instance of **FolderSchema** 
@@ -117,132 +200,87 @@ export class FolderSchema extends ServiceObjectSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        this.RegisterProperty(this.Id);
-        this.RegisterProperty(this.ParentFolderId);
-        this.RegisterProperty(this.FolderClass);
-        this.RegisterProperty(this.DisplayName);
-        this.RegisterProperty(this.TotalCount);
-        this.RegisterProperty(this.ChildFolderCount);
-        this.RegisterProperty(ServiceObjectSchema.ExtendedProperties);
-        this.RegisterProperty(this.ManagedFolderInformation);
-        this.RegisterProperty(this.EffectiveRights);
-        this.RegisterProperty(this.Permissions);
-        this.RegisterProperty(this.UnreadCount);
-        this.RegisterProperty(this.WellKnownFolderName);
-        this.RegisterProperty(this.PolicyTag);
-        this.RegisterProperty(this.ArchiveTag);
+        this.RegisterProperty(FolderSchema, FolderSchema.Id);
+        this.RegisterProperty(FolderSchema, FolderSchema.ParentFolderId);
+        this.RegisterProperty(FolderSchema, FolderSchema.FolderClass);
+        this.RegisterProperty(FolderSchema, FolderSchema.DisplayName);
+        this.RegisterProperty(FolderSchema, FolderSchema.TotalCount);
+        this.RegisterProperty(FolderSchema, FolderSchema.ChildFolderCount);
+        this.RegisterProperty(FolderSchema, ServiceObjectSchema.ExtendedProperties);
+        this.RegisterProperty(FolderSchema, FolderSchema.ManagedFolderInformation);
+        this.RegisterProperty(FolderSchema, FolderSchema.EffectiveRights);
+        this.RegisterProperty(FolderSchema, FolderSchema.Permissions);
+        this.RegisterProperty(FolderSchema, FolderSchema.UnreadCount);
+        this.RegisterProperty(FolderSchema, FolderSchema.WellKnownFolderName);
+        this.RegisterProperty(FolderSchema, FolderSchema.PolicyTag);
+        this.RegisterProperty(FolderSchema, FolderSchema.ArchiveTag);
     }
+}
 
-    protected init() {
-        super.init();
-        this.Id = new ComplexPropertyDefinition<FolderId>(
-            "Id",
-            XmlElementNames.FolderId,
-            FieldUris.FolderId,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new FolderId(); }
-        );
+/**
+ * Represents the schema for folders.
+ */
+export interface FolderSchema {
+    /**
+     * Defines the **Id** property.
+     */
+    Id: PropertyDefinition;
+    /**
+     * Defines the **FolderClass** property.
+     */
+    FolderClass: PropertyDefinition;
+    /**
+     * Defines the **ParentFolderId** property.
+     */
+    ParentFolderId: PropertyDefinition;
+    /**
+     * Defines the **ChildFolderCount** property.
+     */
+    ChildFolderCount: PropertyDefinition;
+    /**
+     * Defines the **DisplayName** property.
+     */
+    DisplayName: PropertyDefinition;
+    /**
+     * Defines the **UnreadCount** property.
+     */
+    UnreadCount: PropertyDefinition;
+    /**
+     * Defines the **TotalCount** property.
+     */
+    TotalCount: PropertyDefinition;
+    /**
+     * Defines the **ManagedFolderInformation** property.
+     */
+    ManagedFolderInformation: PropertyDefinition;
+    /**
+     * Defines the **EffectiveRights** property.
+     */
+    EffectiveRights: PropertyDefinition;
+    /**
+     * Defines the **Permissions** property.
+     */
+    Permissions: PropertyDefinition;
+    /**
+     * Defines the **WellKnownFolderName** property.
+     */
+    WellKnownFolderName: PropertyDefinition;
+    /**
+     * Defines the **PolicyTag** property.
+     */
+    PolicyTag: PropertyDefinition;
+    /**
+     * Defines the **ArchiveTag** property.
+     */
+    ArchiveTag: PropertyDefinition;
+    /**
+     * @internal Instance of **FolderSchema**
+     */
+    Instance: FolderSchema;
+}
 
-        this.FolderClass = new StringPropertyDefinition(
-            "FolderClass",
-            XmlElementNames.FolderClass,
-            FieldUris.FolderClass,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.ParentFolderId = new ComplexPropertyDefinition<FolderId>(
-            "ParentFolderId",
-            XmlElementNames.ParentFolderId,
-            FieldUris.ParentFolderId,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new FolderId(); }
-        );
-
-        this.ChildFolderCount = new IntPropertyDefinition(
-            "ChildFolderCount",
-            XmlElementNames.ChildFolderCount,
-            FieldUris.ChildFolderCount,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-
-        this.DisplayName = new StringPropertyDefinition(
-            "DisplayName",
-            XmlElementNames.DisplayName,
-            FieldUris.DisplayName,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.UnreadCount = new IntPropertyDefinition(
-            "UnreadCount",
-            XmlElementNames.UnreadCount,
-            FieldUris.UnreadCount,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.TotalCount = new IntPropertyDefinition(
-            "TotalCount",
-            XmlElementNames.TotalCount,
-            FieldUris.TotalCount,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.ManagedFolderInformation = new ComplexPropertyDefinition<ManagedFolderInformation>(
-            "ManagedFolderInformation",
-            XmlElementNames.ManagedFolderInformation,
-            FieldUris.ManagedFolderInformation,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new ManagedFolderInformation(); }
-        );
-
-        this.EffectiveRights = new EffectiveRightsPropertyDefinition(
-            "EffectiveRights",
-            XmlElementNames.EffectiveRights,
-            FieldUris.EffectiveRights,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.Permissions = new PermissionSetPropertyDefinition(
-            "Permissions",
-            XmlElementNames.PermissionSet,
-            FieldUris.PermissionSet,
-            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.WellKnownFolderName = new GenericPropertyDefinition<WellKnownFolderName>(
-            "WellKnownFolderName",
-            XmlElementNames.DistinguishedFolderId,
-            FieldUris.DistinguishedFolderId,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013
-        );
-
-        this.PolicyTag = new ComplexPropertyDefinition<PolicyTag>(
-            "PolicyTag",
-            XmlElementNames.PolicyTag,
-            FieldUris.PolicyTag,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013,
-            () => { return new PolicyTag(); }
-        );
-
-        this.ArchiveTag = new ComplexPropertyDefinition<ArchiveTag>(
-            "ArchiveTag",
-            XmlElementNames.ArchiveTag,
-            FieldUris.ArchiveTag,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013,
-            () => { return new ArchiveTag(); }
-        );
-    }
+/**
+ * Represents the schema for folders.
+ */
+export interface FolderSchemaStatic extends FolderSchema {
 }

@@ -7,13 +7,13 @@ import {ServiceObject} from "./ServiceObjects/ServiceObject";
 import {PropertySet} from "./PropertySet";
 import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
 import {IOutParam} from "../Interfaces/IOutParam";
+import {Item} from "./ServiceObjects/Items/Item";
 import {Folder} from "./ServiceObjects/Folders/Folder";
 import {ComplexPropertyDefinitionBase} from "../PropertyDefinitions/ComplexPropertyDefinitionBase";
 import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
 import {BasePropertySet} from "../Enumerations/BasePropertySet";
 import {EwsServiceXmlReader} from "./EwsServiceXmlReader";
 import {ISelfValidate} from "../Interfaces/ISelfValidate";
-
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {EwsServiceXmlWriter} from "./EwsServiceXmlWriter";
@@ -21,14 +21,11 @@ import {EwsUtilities} from "./EwsUtilities";
 import {EwsLogging} from "./EwsLogging";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-
 import {ICustomUpdateSerializer} from "../Interfaces/ICustomXmlUpdateSerializer";
-
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
-
 import {DictionaryWithPropertyDefitionKey, KeyValuePair} from "../AltDictionary";
-
 import {StringHelper, TypeSystem} from "../ExtensionMethods";
+import {TypeContainer} from "../TypeContainer";
 
 
 //todo: should be done
@@ -135,8 +132,7 @@ export class PropertyBag {
         return false;
     }
     static GetPropertyUpdateItemName(serviceObject: ServiceObject): string {
-        //return serviceObject instanceof Folder ?
-        return serviceObject.InstanceType === XmlElementNames.Folder ? //removed instanceof operation to remove circular dependency.
+        return serviceObject instanceof TypeContainer.Folder ? //ref: //info: TypeContainer contains constructor of Folder (not instance) to evade circular dependency. Assigned at bootstarp
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
@@ -344,10 +340,10 @@ export class PropertyBag {
 
             if (!this.Owner.IsNew) {
                 // If owner is an item attachment, properties cannot be updated (EWS doesn't support updating item attachments)
-                var isItem = this.owner.InstanceType === XmlElementNames.Item;// this.owner instanceof Item;
+                var isItem = this.owner instanceof TypeContainer.Item;  //ref: //info: TypeContainer contains constructor of Item (not instance) to evade circular dependency. Assigned at bootstarp
                 //debugger;
                 //var ownerItem = <Item>this.Owner; - implemented IsAttachment on service object to remove dependency to Item object.
-                if (isItem && this.owner.IsAttachment) { // ownerItem.IsAttachment) {
+                if (isItem && (<Item>this.owner).IsAttachment) { // ownerItem.IsAttachment) {
                     throw new ServiceObjectPropertyException(Strings.ItemAttachmentCannotBeUpdated, propertyDefinition);
                 }
 

@@ -529,7 +529,7 @@ export class Contact extends Item {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.ContactSchema; } //info: Schemas.ContactSchema is ContactSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.ContactSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML

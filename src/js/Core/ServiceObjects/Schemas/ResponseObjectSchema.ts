@@ -12,16 +12,28 @@ import {ServiceObjectSchema} from "./ServiceObjectSchema";
  * Represents ResponseObject schema definition.
  */
 export class ResponseObjectSchema extends ServiceObjectSchema {
-    
+
     /**
      * Defines the **ReferenceItemId** property.
      */
-    public ReferenceItemId: PropertyDefinition;
-    
+    public static ReferenceItemId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
+        "ReferenceItemId",
+        XmlElementNames.ReferenceItemId,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new ItemId(); }
+    );
+
     /**
      * Defines the **BodyPrefix** property.
      */
-    public BodyPrefix: PropertyDefinition;
+    public static BodyPrefix: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
+        "NewBodyContent",
+        XmlElementNames.NewBodyContent,
+        PropertyDefinitionFlags.CanSet,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new MessageBody(); }
+    );
 
     /**
      * @internal Instance of **ResponseObjectSchema** 
@@ -35,25 +47,30 @@ export class ResponseObjectSchema extends ServiceObjectSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.ReferenceItemId);
+        this.RegisterProperty(ResponseObjectSchema, ResponseObjectSchema.ReferenceItemId);
     }
+}
 
-    protected init() {
-        super.init();
-        this.ReferenceItemId = new ComplexPropertyDefinition<ItemId>(
-            "ReferenceItemId",
-            XmlElementNames.ReferenceItemId,
-            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new ItemId(); }
-        );
+/**
+ * Represents ResponseObject schema definition.
+ */
+export interface ResponseObjectSchema {
+    /**
+     * Defines the **ReferenceItemId** property.
+     */
+    ReferenceItemId: PropertyDefinition;
+    /**
+     * Defines the **BodyPrefix** property.
+     */
+    BodyPrefix: PropertyDefinition;
+    /**
+     * @internal Instance of **ResponseObjectSchema**
+     */
+    Instance: ResponseObjectSchema;
+}
 
-        this.BodyPrefix = new ComplexPropertyDefinition<MessageBody>(
-            "NewBodyContent",
-            XmlElementNames.NewBodyContent,
-            PropertyDefinitionFlags.CanSet,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new MessageBody(); }
-        );
-    }
+/**
+ * Represents ResponseObject schema definition.
+ */
+export interface ResponseObjectSchemaStatic extends ResponseObjectSchema {
 }

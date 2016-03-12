@@ -17,7 +17,7 @@ import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPro
 /**
  * Represents the base class for all item and folder schemas.
  */
-export class ServiceObjectSchema {
+export abstract class ServiceObjectSchema {
     //todo: fixing difficulties with following c# code. - ref: added as delegate PropertyDefinitionDictionary in AltDictionary
     //using PropertyDefinitionDictionary = LazyMember < System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
     //type SchemaTypeList = LazyMember <string[]>;
@@ -211,42 +211,45 @@ export class ServiceObjectSchema {
     protected init() { }
 
     /**
-     * Registers an indexed property.
+     * @internal Registers an indexed property.
      *
      * @param   {IndexedPropertyDefinition}   indexedProperty   The indexed property to register.
      */
     RegisterIndexedProperty(indexedProperty: IndexedPropertyDefinition): void { this.indexedProperties.push(indexedProperty); }
 
     /**
-     * Registers an internal schema property.
+     * @internal Registers an internal schema property.
      *
+     * @param   {any}                   registeringSchemaClass     SchemaClass calling this method - workaround for fieldUri registration oterhwise it registers super/parent class static properties as well. TypeScript does not provide a way to detect inherited property, hasOwnProperty returns true for parent static property
      * @param   {PropertyDefinition}   property   The property to register.
      */
-    RegisterInternalProperty(property: PropertyDefinition): void { this.RegisterProperty(property, true); }
+    RegisterInternalProperty(registeringSchemaClass: any, property: PropertyDefinition): void { this.RegisterProperty(registeringSchemaClass, property, true); }
 
     /**
-     * Registers properties.
+     * @internal Registers properties.
      * 
      * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
-    RegisterProperties(): void { this.init(); }
+    RegisterProperties(): void {/** Virtual */ }
 
     /**
-     * @internal Registers a schema property.
+     * @internal Registers a schema property. - workaround for fieldUri registration oterhwise it registers super/parent class static properties as well. TypeScript does not provide a way to detect inherited property, hasOwnProperty returns true
      *
-     * @param   {PropertyDefinition}   property     The property to register.
+     * @param   {any}                   registeringSchemaClass     SchemaClass calling this method - workaround for fieldUri registration oterhwise it registers super/parent class static properties as well. TypeScript does not provide a way to detect inherited property, hasOwnProperty returns true for parent static property
+     * @param   {PropertyDefinition}    property     The property to register.
      */
-    RegisterProperty(property: PropertyDefinition): void;
+    RegisterProperty(registeringSchemaClass: any, property: PropertyDefinition): void;
     /**
      * @private Registers a schema property.
      *
+     * @param   {any}                   registeringSchemaClass     SchemaClass calling this method - workaround for fieldUri registration oterhwise it registers super/parent class static properties as well. TypeScript does not provide a way to detect inherited property, hasOwnProperty returns true for parent static property
      * @param   {PropertyDefinition}   property     The property to register.
      * @param   {boolean}   isInternal   Indicates whether the property is internal or should be visible to developers.
      */
-    RegisterProperty(property: PropertyDefinition, isInternal: boolean): void;
-    RegisterProperty(property: PropertyDefinition, isInternal: boolean = false): void {
+    RegisterProperty(registeringSchemaClass: any, property: PropertyDefinition, isInternal: boolean): void;
+    RegisterProperty(registeringSchemaClass: any, property: PropertyDefinition, isInternal: boolean = false): void {
         this.properties.Add(property.XmlElementName, property);
-        if (!StringHelper.IsNullOrEmpty(property.Uri)) {
+        if (!StringHelper.IsNullOrEmpty(property.Uri) && registeringSchemaClass === this.constructor) {
             if (ServiceObjectSchema.allSchemaProperties.containsKey(property.Uri)) {
                 EwsLogging.Assert(
                     ServiceObjectSchema.allSchemaProperties.get(property.Uri) == property,
@@ -274,7 +277,7 @@ export class ServiceObjectSchema {
     }
 
     /**
-     * Tries to get property definition.
+     * @internal Tries to get property definition.
      *
      * @param   {string}   xmlElementName           Name of the XML element.
      * @param   {IOutParam<PropertyDefinition>}     propertyDefinition   The property definition.
@@ -285,6 +288,27 @@ export class ServiceObjectSchema {
     }
 }
 
-export interface ServiceObjectSchemaStatic {
-    FindPropertyDefinition(uri: string);
+/**
+ * Represents the base class for all item and folder schemas.
+ */
+export interface ServiceObjectSchema {
+
+    /**
+     * Defines the **ExtendedProperties** property.
+     */
+    ExtendedProperties: PropertyDefinition;
+
+    /**
+     * @internal Finds the property definition.
+     *
+     * @param   {string}   uri   The URI.
+     * @return  {PropertyDefinitionBase}    Property definition.
+     */
+    FindPropertyDefinition(uri: string): PropertyDefinitionBase;
+}
+
+/**
+ * Represents the base class for all item and folder schemas.
+ */
+export interface ServiceObjectSchemaStatic extends ServiceObjectSchema {
 }

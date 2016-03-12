@@ -29,61 +29,61 @@ import {Schemas} from "./Core/ServiceObjects/Schemas/Schemas";
 import {ServiceObjectSchema} from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
 
 import {ConversationSchema} from "./Core/ServiceObjects/Schemas/ConversationSchema"; // [ServiceObjectSchema]
-Schemas.ConversationSchema = ConversationSchema.Instance;
+Schemas.ConversationSchema = <any>ConversationSchema;
 
 import {FolderSchema} from "./Core/ServiceObjects/Schemas/FolderSchema"; // [ServiceObjectSchema]
-Schemas.FolderSchema = FolderSchema.Instance;
+Schemas.FolderSchema = <any>FolderSchema;
 
 import {SearchFolderSchema} from "./Core/ServiceObjects/Schemas/SearchFolderSchema"; // [FolderSchema]
-Schemas.SearchFolderSchema = SearchFolderSchema.Instance;
+Schemas.SearchFolderSchema = <any>SearchFolderSchema;
 
 import {ItemSchema} from "./Core/ServiceObjects/Schemas/ItemSchema"; // [ServiceObjectSchema] AppointmentSchema
-Schemas.ItemSchema = ItemSchema.Instance;
+Schemas.ItemSchema = <any>ItemSchema;
 
 import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema"; // [ItemSchema]
-Schemas.AppointmentSchema = AppointmentSchema.Instance;
+Schemas.AppointmentSchema = <any>AppointmentSchema;
 
 import {ContactSchema} from "./Core/ServiceObjects/Schemas/ContactSchema"; // [ItemSchema]
-Schemas.ContactSchema = ContactSchema.Instance;
+Schemas.ContactSchema = <any>ContactSchema;
 
 import {ContactGroupSchema} from "./Core/ServiceObjects/Schemas/ContactGroupSchema"; // [ItemSchema] ContactSchema
-Schemas.ContactGroupSchema = ContactGroupSchema.Instance;
+Schemas.ContactGroupSchema = <any>ContactGroupSchema;
 
 import {EmailMessageSchema} from "./Core/ServiceObjects/Schemas/EmailMessageSchema"; // [ItemSchema]
-Schemas.EmailMessageSchema = EmailMessageSchema.Instance;
+Schemas.EmailMessageSchema = <any>EmailMessageSchema;
 
 import {MeetingMessageSchema} from "./Core/ServiceObjects/Schemas/MeetingMessageSchema"; // [EmailMessageSchema] AppointmentSchema
-Schemas.MeetingMessageSchema = MeetingMessageSchema.Instance;
+Schemas.MeetingMessageSchema = <any>MeetingMessageSchema;
 
 import {MeetingCancellationSchema} from "./Core/ServiceObjects/Schemas/MeetingCancellationSchema"; // [MeetingMessageSchema] AppointmentSchema
-Schemas.MeetingCancellationSchema = MeetingCancellationSchema.Instance;
+Schemas.MeetingCancellationSchema = <any>MeetingCancellationSchema;
 
 import {MeetingResponseSchema} from "./Core/ServiceObjects/Schemas/MeetingResponseSchema"; // [MeetingMessageSchema] AppointmentSchema
-Schemas.MeetingResponseSchema = MeetingResponseSchema.Instance;
+Schemas.MeetingResponseSchema = <any>MeetingResponseSchema;
 
 import {MeetingRequestSchema} from "./Core/ServiceObjects/Schemas/MeetingRequestSchema"; // [MeetingMessageSchema] AppointmentSchema
-Schemas.MeetingRequestSchema = MeetingRequestSchema.Instance;
+Schemas.MeetingRequestSchema = <any>MeetingRequestSchema;
 
 import {PostItemSchema} from "./Core/ServiceObjects/Schemas/PostItemSchema"; // [ItemSchema] EmailMessageSchema
-Schemas.PostItemSchema = PostItemSchema.Instance;
+Schemas.PostItemSchema = <any>PostItemSchema;
 
 import {TaskSchema} from "./Core/ServiceObjects/Schemas/TaskSchema"; // [ItemSchema]
-Schemas.TaskSchema = TaskSchema.Instance;
+Schemas.TaskSchema = <any>TaskSchema;
 
 import {ResponseObjectSchema} from "./Core/ServiceObjects/Schemas/ResponseObjectSchema"; // [ServiceObjectSchema]
-Schemas.ResponseObjectSchema = ResponseObjectSchema.Instance;
+Schemas.ResponseObjectSchema = <any>ResponseObjectSchema;
 
 import {PostReplySchema} from "./Core/ServiceObjects/Schemas/PostReplySchema"; // [ServiceObjectSchema] ItemSchema, ResponseObjectSchema
-Schemas.PostReplySchema = PostReplySchema.Instance;
+Schemas.PostReplySchema = <any>PostReplySchema;
 
 import {ResponseMessageSchema} from "./Core/ServiceObjects/Schemas/ResponseMessageSchema"; // [ServiceObjectSchema] ItemSchema, EmailMessageSchema, ResponseObjectSchema
-Schemas.ResponseMessageSchema = ResponseMessageSchema.Instance;
+Schemas.ResponseMessageSchema = <any>ResponseMessageSchema;
 
 import {CancelMeetingMessageSchema} from "./Core/ServiceObjects/Schemas/CancelMeetingMessageSchema"; // [ServiceObjectSchema] EmailMessageSchema, ResponseObjectSchema
-Schemas.CancelMeetingMessageSchema = CancelMeetingMessageSchema.Instance;
+Schemas.CancelMeetingMessageSchema = <any>CancelMeetingMessageSchema;
 
 import {CalendarResponseObjectSchema} from "./Core/ServiceObjects/Schemas/CalendarResponseObjectSchema"; // [ServiceObjectSchema] ItemSchema, EmailMessageSchema, ResponseObjectSchema
-Schemas.CalendarResponseObjectSchema = CalendarResponseObjectSchema.Instance;
+Schemas.CalendarResponseObjectSchema = <any>CalendarResponseObjectSchema;
 
 export {ServiceObjectSchema, ConversationSchema, FolderSchema, SearchFolderSchema, ItemSchema, AppointmentSchema, ContactSchema, ContactGroupSchema, EmailMessageSchema,
 MeetingMessageSchema, MeetingCancellationSchema, MeetingResponseSchema, MeetingRequestSchema, PostItemSchema, TaskSchema, ResponseObjectSchema, PostReplySchema,
@@ -113,7 +113,7 @@ export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTran
  * Bootstrap typecontainer
  */
 import {TypeContainer} from "./TypeContainer";
-TypeContainer.ServiceObjectSchema = ServiceObjectSchema;
+TypeContainer.ServiceObjectSchema = <any>ServiceObjectSchema;
 
 import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 import {Folder} from "./Core/ServiceObjects/Folders/Folder";

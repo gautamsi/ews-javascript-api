@@ -31,47 +31,83 @@ export class MeetingMessageSchema extends EmailMessageSchema {
     /**
      * Defines the **AssociatedAppointmentId** property.
      */
-    public AssociatedAppointmentId: PropertyDefinition;
+    public static AssociatedAppointmentId: PropertyDefinition = new ComplexPropertyDefinition<ItemId>(
+        "AssociatedCalendarItemId",
+        XmlElementNames.AssociatedCalendarItemId,
+        FieldUris.AssociatedCalendarItemId,
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new ItemId(); }
+    );
 
     /**
      * Defines the **IsDelegated** property.
      */
-    public IsDelegated: PropertyDefinition;
+    public static IsDelegated: PropertyDefinition = new BoolPropertyDefinition(
+        "IsDelegated",
+        XmlElementNames.IsDelegated,
+        FieldUris.IsDelegated,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **IsOutOfDate** property.
      */
-    public IsOutOfDate: PropertyDefinition;
+    public static IsOutOfDate: PropertyDefinition = new BoolPropertyDefinition(
+        "IsOutOfDate",
+        XmlElementNames.IsOutOfDate,
+        FieldUris.IsOutOfDate,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **HasBeenProcessed** property.
      */
-    public HasBeenProcessed: PropertyDefinition;
+    public static HasBeenProcessed: PropertyDefinition = new BoolPropertyDefinition(
+        "HasBeenProcessed",
+        XmlElementNames.HasBeenProcessed,
+        FieldUris.HasBeenProcessed,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **ResponseType** property.
      */
-    public ResponseType: PropertyDefinition;
+    public static ResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
+        "ResponseType",
+        XmlElementNames.ResponseType,
+        FieldUris.ResponseType,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **ICalUid** property.
      */
-    public ICalUid: PropertyDefinition;
+    public static ICalUid: PropertyDefinition = Schemas.AppointmentSchema.ICalUid;
 
     /**
      * Defines the **ICalRecurrenceId** property.
      */
-    public ICalRecurrenceId: PropertyDefinition;
+    public static ICalRecurrenceId: PropertyDefinition = Schemas.AppointmentSchema.ICalRecurrenceId;
 
     /**
      * Defines the **ICalDateTimeStamp** property.
      */
-    public ICalDateTimeStamp: PropertyDefinition;
+    public static ICalDateTimeStamp: PropertyDefinition = Schemas.AppointmentSchema.ICalDateTimeStamp;
 
     /**
      * Defines the **IsOrganizer** property.
      */
-    public IsOrganizer: PropertyDefinition;
+    public static IsOrganizer: PropertyDefinition = new GenericPropertyDefinition<boolean>(
+        "IsOrganizer",
+        XmlElementNames.IsOrganizer,
+        "cal:IsOrganizer",
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
 
     /**
      * @internal Instance of **MeetingMessageSchema** 
@@ -85,71 +121,66 @@ export class MeetingMessageSchema extends EmailMessageSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.AssociatedAppointmentId);
-        super.RegisterProperty(this.IsDelegated);
-        super.RegisterProperty(this.IsOutOfDate);
-        super.RegisterProperty(this.HasBeenProcessed);
-        super.RegisterProperty(this.ResponseType);
-        super.RegisterProperty(this.ICalUid);
-        super.RegisterProperty(this.ICalRecurrenceId);
-        super.RegisterProperty(this.ICalDateTimeStamp);
-        super.RegisterProperty(this.IsOrganizer);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.AssociatedAppointmentId);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.IsDelegated);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.IsOutOfDate);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.HasBeenProcessed);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.ResponseType);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.ICalUid);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.ICalRecurrenceId);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.ICalDateTimeStamp);
+        this.RegisterProperty(MeetingMessageSchema, MeetingMessageSchema.IsOrganizer);
     }
+}
 
-    protected init() {
-        super.init();
-        this.AssociatedAppointmentId = new ComplexPropertyDefinition<ItemId>(
-            "AssociatedCalendarItemId",
-            XmlElementNames.AssociatedCalendarItemId,
-            FieldUris.AssociatedCalendarItemId,
-            PropertyDefinitionFlags.None,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new ItemId(); }
-        );
+/**
+ * Represents the schema for meeting messages.
+ */
+export interface MeetingMessageSchema {
+    /**
+     * Defines the **AssociatedAppointmentId** property.
+     */
+    AssociatedAppointmentId: PropertyDefinition;
+    /**
+     * Defines the **IsDelegated** property.
+     */
+    IsDelegated: PropertyDefinition;
+    /**
+     * Defines the **IsOutOfDate** property.
+     */
+    IsOutOfDate: PropertyDefinition;
+    /**
+     * Defines the **HasBeenProcessed** property.
+     */
+    HasBeenProcessed: PropertyDefinition;
+    /**
+     * Defines the **ResponseType** property.
+     */
+    ResponseType: PropertyDefinition;
+    /**
+     * Defines the **ICalUid** property.
+     */
+    ICalUid: PropertyDefinition;
+    /**
+     * Defines the **ICalRecurrenceId** property.
+     */
+    ICalRecurrenceId: PropertyDefinition;
+    /**
+     * Defines the **ICalDateTimeStamp** property.
+     */
+    ICalDateTimeStamp: PropertyDefinition;
+    /**
+     * Defines the **IsOrganizer** property.
+     */
+    IsOrganizer: PropertyDefinition;
+    /**
+     * @internal Instance of **MeetingMessageSchema**
+     */
+    Instance: MeetingMessageSchema;
+}
 
-        this.IsDelegated = new BoolPropertyDefinition(
-            "IsDelegated",
-            XmlElementNames.IsDelegated,
-            FieldUris.IsDelegated,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.IsOutOfDate = new BoolPropertyDefinition(
-            "IsOutOfDate",
-            XmlElementNames.IsOutOfDate,
-            FieldUris.IsOutOfDate,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.HasBeenProcessed = new BoolPropertyDefinition(
-            "HasBeenProcessed",
-            XmlElementNames.HasBeenProcessed,
-            FieldUris.HasBeenProcessed,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.ResponseType = new GenericPropertyDefinition<MeetingResponseType>(
-            "ResponseType",
-            XmlElementNames.ResponseType,
-            FieldUris.ResponseType,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.ICalUid = Schemas.AppointmentSchema.ICalUid;
-
-        this.ICalRecurrenceId = Schemas.AppointmentSchema.ICalRecurrenceId;
-
-        this.ICalDateTimeStamp = Schemas.AppointmentSchema.ICalDateTimeStamp;
-
-        this.IsOrganizer = new GenericPropertyDefinition<boolean>(
-            "IsOrganizer",
-            XmlElementNames.IsOrganizer,
-            "cal:IsOrganizer",
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013
-        );
-    }
+/**
+ * Represents the schema for meeting messages.
+ */
+export interface MeetingMessageSchemaStatic extends MeetingMessageSchema {
 }

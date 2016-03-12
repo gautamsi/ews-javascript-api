@@ -716,7 +716,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.AppointmentSchema; } //info: Schemas.AppointmentSchema is AppointmentSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.AppointmentSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML

@@ -42,7 +42,7 @@ export class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCan
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.CancelMeetingMessageSchema; } //info: Schemas.CancelMeetingMessageSchema is CancelMeetingMessageSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.CancelMeetingMessageSchema.Instance; }
     /**
      * Gets the element name of item in XML
      * 

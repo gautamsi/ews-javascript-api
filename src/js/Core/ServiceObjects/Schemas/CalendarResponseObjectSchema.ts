@@ -12,7 +12,7 @@ export class CalendarResponseObjectSchema extends ServiceObjectSchema {
     /**
      * @internal Instance of **CalendarResponseObjectSchema** 
      */
-    static Instance: CalendarResponseObjectSchema = new CalendarResponseObjectSchema();
+    public static Instance: CalendarResponseObjectSchema = new CalendarResponseObjectSchema();
 
     /**
      * Registers properties.
@@ -21,17 +21,35 @@ export class CalendarResponseObjectSchema extends ServiceObjectSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(Schemas.ItemSchema.ItemClass);
-        super.RegisterProperty(Schemas.ItemSchema.Sensitivity);
-        super.RegisterProperty(Schemas.ItemSchema.Body);
-        super.RegisterProperty(Schemas.ItemSchema.Attachments);
-        super.RegisterProperty(Schemas.ItemSchema.InternetMessageHeaders);
-        super.RegisterProperty(Schemas.EmailMessageSchema.Sender);
-        super.RegisterProperty(Schemas.EmailMessageSchema.ToRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.CcRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.BccRecipients);
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsReadReceiptRequested);
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
-        super.RegisterProperty(Schemas.ResponseObjectSchema.ReferenceItemId);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ItemSchema.ItemClass);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ItemSchema.Sensitivity);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ItemSchema.Body);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ItemSchema.Attachments);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ItemSchema.InternetMessageHeaders);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.Sender);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.ToRecipients);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.CcRecipients);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.BccRecipients);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.IsReadReceiptRequested);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
+        this.RegisterProperty(CalendarResponseObjectSchema, Schemas.ResponseObjectSchema.ReferenceItemId);
     }
+}
+
+/**
+ * Represents CalendarResponseObject schema definition.
+ */
+
+export interface CalendarResponseObjectSchema{
+    /**
+     * @internal Instance of **CalendarResponseObjectSchema**
+     */
+    Instance: CalendarResponseObjectSchema;
+}
+
+/**
+ * Represents CalendarResponseObject schema definition.
+ */
+
+export interface CalendarResponseObjectSchemaStatic extends CalendarResponseObjectSchema{
 }

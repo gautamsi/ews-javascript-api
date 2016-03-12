@@ -27,17 +27,24 @@ export class ContactGroupSchema extends ItemSchema {
     /**
      * Defines the **DisplayName** property.
      */
-    public DisplayName: PropertyDefinition;
+    public static DisplayName: PropertyDefinition = Schemas.ContactSchema.DisplayName;
 
     /**
      * Defines the **FileAs** property.
      */
-    public FileAs: PropertyDefinition;
+    public static FileAs: PropertyDefinition = Schemas.ContactSchema.FileAs;
 
     /**
      * Defines the **Members** property.
      */
-    public Members: PropertyDefinition;
+    public static Members: PropertyDefinition = new ComplexPropertyDefinition<GroupMemberCollection>(
+        "Members",
+        XmlElementNames.Members,
+        FieldUris.Members,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2010,
+        () => { return new GroupMemberCollection(); }
+    );
 
     /**
      * @internal Instance of **ContactGroupSchema** 
@@ -51,22 +58,36 @@ export class ContactGroupSchema extends ItemSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.DisplayName);
-        super.RegisterProperty(this.FileAs);
-        super.RegisterProperty(this.Members);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.DisplayName);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.FileAs);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.Members);
     }
+}
 
-    protected init() {
-        super.init();
-        this.DisplayName = Schemas.ContactSchema.DisplayName;
-        this.FileAs = Schemas.ContactSchema.FileAs;
-        this.Members = new ComplexPropertyDefinition<GroupMemberCollection>(
-            "Members",
-            XmlElementNames.Members,
-            FieldUris.Members,
-            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
-            ExchangeVersion.Exchange2010,
-            () => { return new GroupMemberCollection(); }
-        );
-    }
+/**
+ * Represents the schema for contact groups.
+ */
+export interface ContactGroupSchema {
+    /**
+     * Defines the **DisplayName** property.
+     */
+    DisplayName: PropertyDefinition;
+    /**
+     * Defines the **FileAs** property.
+     */
+    FileAs: PropertyDefinition;
+    /**
+     * Defines the **Members** property.
+     */
+    Members: PropertyDefinition;
+    /**
+     * @internal Instance of **ContactGroupSchema**
+     */
+    Instance: ContactGroupSchema;
+}
+
+/**
+ * Represents the schema for contact groups.
+ */
+export interface ContactGroupSchemaStatic extends ContactGroupSchema {
 }

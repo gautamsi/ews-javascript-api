@@ -28,217 +28,235 @@ export class MeetingRequestSchema extends MeetingMessageSchema {
     /**
      * Defines the **MeetingRequestType** property.
      */
-    public MeetingRequestType: PropertyDefinition;
+    public static MeetingRequestType: PropertyDefinition = new GenericPropertyDefinition<MeetingRequestType>(
+        "MeetingRequestType",
+        XmlElementNames.MeetingRequestType,
+        FieldUris.MeetingRequestType,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **IntendedFreeBusyStatus** property.
      */
-    public IntendedFreeBusyStatus: PropertyDefinition;
+    public static IntendedFreeBusyStatus: PropertyDefinition = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
+        "IntendedFreeBusyStatus",
+        XmlElementNames.IntendedFreeBusyStatus,
+        FieldUris.IntendedFreeBusyStatus,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
     /**
      * Defines the **ChangeHighlights** property.
      */
-    public ChangeHighlights: PropertyDefinition;
+    public static ChangeHighlights: PropertyDefinition = new ComplexPropertyDefinition<ChangeHighlights>(
+        "ChangeHighlights",
+        XmlElementNames.ChangeHighlights,
+        FieldUris.ChangeHighlights,
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2013,
+        () => { return new ChangeHighlights(); }
+    );
 
     /**
      * Defines the **EnhancedLocation** property.
      */
-    public EnhancedLocation: PropertyDefinition;
+    public static EnhancedLocation: PropertyDefinition = Schemas.AppointmentSchema.EnhancedLocation;
 
     /**
      * Defines the **Start** property.
      */
-    public Start: PropertyDefinition;
+    public static Start: PropertyDefinition = Schemas.AppointmentSchema.Start;
 
     /**
      * Defines the **End** property.
      */
-    public End: PropertyDefinition;
+    public static End: PropertyDefinition = Schemas.AppointmentSchema.End;
 
     /**
      * Defines the **OriginalStart** property.
      */
-    public OriginalStart: PropertyDefinition;
+    public static OriginalStart: PropertyDefinition = Schemas.AppointmentSchema.OriginalStart;
 
     /**
      * Defines the **IsAllDayEvent** property.
      */
-    public IsAllDayEvent: PropertyDefinition;
+    public static IsAllDayEvent: PropertyDefinition = Schemas.AppointmentSchema.IsAllDayEvent;
 
     /**
      * Defines the **LegacyFreeBusyStatus** property.
      */
-    public LegacyFreeBusyStatus: PropertyDefinition;
+    public static LegacyFreeBusyStatus: PropertyDefinition = Schemas.AppointmentSchema.LegacyFreeBusyStatus;
 
     /**
      * Defines the **Location** property.
      */
-    public Location: PropertyDefinition;
+    public static Location: PropertyDefinition = Schemas.AppointmentSchema.Location;
 
     /**
      * Defines the **When** property.
      */
-    public When: PropertyDefinition;
+    public static When: PropertyDefinition = Schemas.AppointmentSchema.When;
 
     /**
      * Defines the **IsMeeting** property.
      */
-    public IsMeeting: PropertyDefinition;
+    public static IsMeeting: PropertyDefinition = Schemas.AppointmentSchema.IsMeeting;
 
     /**
      * Defines the **IsCancelled** property.
      */
-    public IsCancelled: PropertyDefinition;
+    public static IsCancelled: PropertyDefinition = Schemas.AppointmentSchema.IsCancelled;
 
     /**
      * Defines the **IsRecurring** property.
      */
-    public IsRecurring: PropertyDefinition;
+    public static IsRecurring: PropertyDefinition = Schemas.AppointmentSchema.IsRecurring;
 
     /**
      * Defines the **MeetingRequestWasSent** property.
      */
-    public MeetingRequestWasSent: PropertyDefinition;
+    public static MeetingRequestWasSent: PropertyDefinition = Schemas.AppointmentSchema.MeetingRequestWasSent;
 
     /**
      * Defines the **AppointmentType** property.
      */
-    public AppointmentType: PropertyDefinition;
+    public static AppointmentType: PropertyDefinition = Schemas.AppointmentSchema.AppointmentType;
 
     /**
      * Defines the **MyResponseType** property.
      */
-    public MyResponseType: PropertyDefinition;
+    public static MyResponseType: PropertyDefinition = Schemas.AppointmentSchema.MyResponseType;
 
     /**
      * Defines the **Organizer** property.
      */
-    public Organizer: PropertyDefinition;
+    public static Organizer: PropertyDefinition = Schemas.AppointmentSchema.Organizer;
 
     /**
      * Defines the **RequiredAttendees** property.
      */
-    public RequiredAttendees: PropertyDefinition;
+    public static RequiredAttendees: PropertyDefinition = Schemas.AppointmentSchema.RequiredAttendees;
 
     /**
      * Defines the **OptionalAttendees** property.
      */
-    public OptionalAttendees: PropertyDefinition;
+    public static OptionalAttendees: PropertyDefinition = Schemas.AppointmentSchema.OptionalAttendees;
 
     /**
      * Defines the **Resources** property.
      */
-    public Resources: PropertyDefinition;
+    public static Resources: PropertyDefinition = Schemas.AppointmentSchema.Resources;
 
     /**
      * Defines the **ConflictingMeetingCount** property.
      */
-    public ConflictingMeetingCount: PropertyDefinition;
+    public static ConflictingMeetingCount: PropertyDefinition = Schemas.AppointmentSchema.ConflictingMeetingCount;
 
     /**
      * Defines the **AdjacentMeetingCount** property.
      */
-    public AdjacentMeetingCount: PropertyDefinition;
+    public static AdjacentMeetingCount: PropertyDefinition = Schemas.AppointmentSchema.AdjacentMeetingCount;
 
     /**
      * Defines the **ConflictingMeetings** property.
      */
-    public ConflictingMeetings: PropertyDefinition;
+    public static ConflictingMeetings: PropertyDefinition = Schemas.AppointmentSchema.ConflictingMeetings;
 
     /**
      * Defines the **AdjacentMeetings** property.
      */
-    public AdjacentMeetings: PropertyDefinition;
+    public static AdjacentMeetings: PropertyDefinition = Schemas.AppointmentSchema.AdjacentMeetings;
 
     /**
      * Defines the **Duration** property.
      */
-    public Duration: PropertyDefinition;
+    public static Duration: PropertyDefinition = Schemas.AppointmentSchema.Duration;
 
     /**
      * Defines the **TimeZone** property.
      */
-    public TimeZone: PropertyDefinition;
+    public static TimeZone: PropertyDefinition = Schemas.AppointmentSchema.TimeZone;
 
     /**
      * Defines the **AppointmentReplyTime** property.
      */
-    public AppointmentReplyTime: PropertyDefinition;
+    public static AppointmentReplyTime: PropertyDefinition = Schemas.AppointmentSchema.AppointmentReplyTime;
 
     /**
      * Defines the **AppointmentSequenceNumber** property.
      */
-    public AppointmentSequenceNumber: PropertyDefinition;
+    public static AppointmentSequenceNumber: PropertyDefinition = Schemas.AppointmentSchema.AppointmentSequenceNumber;
 
     /**
      * Defines the **AppointmentState** property.
      */
-    public AppointmentState: PropertyDefinition;
+    public static AppointmentState: PropertyDefinition = Schemas.AppointmentSchema.AppointmentState;
 
     /**
      * Defines the **Recurrence** property.
      */
-    public Recurrence: PropertyDefinition;
+    public static Recurrence: PropertyDefinition = Schemas.AppointmentSchema.Recurrence;
 
     /**
      * Defines the **FirstOccurrence** property.
      */
-    public FirstOccurrence: PropertyDefinition;
+    public static FirstOccurrence: PropertyDefinition = Schemas.AppointmentSchema.FirstOccurrence;
 
     /**
      * Defines the **LastOccurrence** property.
      */
-    public LastOccurrence: PropertyDefinition;
+    public static LastOccurrence: PropertyDefinition = Schemas.AppointmentSchema.LastOccurrence;
 
     /**
      * Defines the **ModifiedOccurrences** property.
      */
-    public ModifiedOccurrences: PropertyDefinition;
+    public static ModifiedOccurrences: PropertyDefinition = Schemas.AppointmentSchema.ModifiedOccurrences;
 
     /**
      * Defines the **DeletedOccurrences** property.
      */
-    public DeletedOccurrences: PropertyDefinition;
+    public static DeletedOccurrences: PropertyDefinition = Schemas.AppointmentSchema.DeletedOccurrences;
 
     /**
      * Defines the **MeetingTimeZone** property.
      */
-    public MeetingTimeZone: PropertyDefinition;
+    public static MeetingTimeZone: PropertyDefinition = Schemas.AppointmentSchema.MeetingTimeZone;
 
     /**
      * Defines the **StartTimeZone** property.
      */
-    public StartTimeZone: PropertyDefinition;
+    public static StartTimeZone: PropertyDefinition = Schemas.AppointmentSchema.StartTimeZone;
 
     /**
      * Defines the **EndTimeZone** property.
      */
-    public EndTimeZone: PropertyDefinition;
+    public static EndTimeZone: PropertyDefinition = Schemas.AppointmentSchema.EndTimeZone;
 
     /**
      * Defines the **ConferenceType** property.
      */
-    public ConferenceType: PropertyDefinition;
+    public static ConferenceType: PropertyDefinition = Schemas.AppointmentSchema.ConferenceType;
 
     /**
      * Defines the **AllowNewTimeProposal** property.
      */
-    public AllowNewTimeProposal: PropertyDefinition;
+    public static AllowNewTimeProposal: PropertyDefinition = Schemas.AppointmentSchema.AllowNewTimeProposal;
 
     /**
      * Defines the **IsOnlineMeeting** property.
      */
-    public IsOnlineMeeting: PropertyDefinition;
+    public static IsOnlineMeeting: PropertyDefinition = Schemas.AppointmentSchema.IsOnlineMeeting;
 
     /**
      * Defines the **MeetingWorkspaceUrl** property.
      */
-    public MeetingWorkspaceUrl: PropertyDefinition;
+    public static MeetingWorkspaceUrl: PropertyDefinition = Schemas.AppointmentSchema.MeetingWorkspaceUrl;
 
     /**
      * Defines the **NetShowUrl** property.
      */
-    public NetShowUrl: PropertyDefinition;
+    public static NetShowUrl: PropertyDefinition = Schemas.AppointmentSchema.NetShowUrl;
 
     /**
      * @internal Instance of **MeetingRequestSchema** 
@@ -252,116 +270,236 @@ export class MeetingRequestSchema extends MeetingMessageSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.MeetingRequestType);
-        super.RegisterProperty(this.IntendedFreeBusyStatus);
-        super.RegisterProperty(this.ChangeHighlights);
-        super.RegisterProperty(this.Start);
-        super.RegisterProperty(this.End);
-        super.RegisterProperty(this.OriginalStart);
-        super.RegisterProperty(this.IsAllDayEvent);
-        super.RegisterProperty(this.LegacyFreeBusyStatus);
-        super.RegisterProperty(this.Location);
-        super.RegisterProperty(this.When);
-        super.RegisterProperty(this.IsMeeting);
-        super.RegisterProperty(this.IsCancelled);
-        super.RegisterProperty(this.IsRecurring);
-        super.RegisterProperty(this.MeetingRequestWasSent);
-        super.RegisterProperty(this.AppointmentType);
-        super.RegisterProperty(this.MyResponseType);
-        super.RegisterProperty(this.Organizer);
-        super.RegisterProperty(this.RequiredAttendees);
-        super.RegisterProperty(this.OptionalAttendees);
-        super.RegisterProperty(this.Resources);
-        super.RegisterProperty(this.ConflictingMeetingCount);
-        super.RegisterProperty(this.AdjacentMeetingCount);
-        super.RegisterProperty(this.ConflictingMeetings);
-        super.RegisterProperty(this.AdjacentMeetings);
-        super.RegisterProperty(this.Duration);
-        super.RegisterProperty(this.TimeZone);
-        super.RegisterProperty(this.AppointmentReplyTime);
-        super.RegisterProperty(this.AppointmentSequenceNumber);
-        super.RegisterProperty(this.AppointmentState);
-        super.RegisterProperty(this.Recurrence);
-        super.RegisterProperty(this.FirstOccurrence);
-        super.RegisterProperty(this.LastOccurrence);
-        super.RegisterProperty(this.ModifiedOccurrences);
-        super.RegisterProperty(this.DeletedOccurrences);
-        super.RegisterInternalProperty(this.MeetingTimeZone);
-        super.RegisterProperty(this.StartTimeZone);
-        super.RegisterProperty(this.EndTimeZone);
-        super.RegisterProperty(this.ConferenceType);
-        super.RegisterProperty(this.AllowNewTimeProposal);
-        super.RegisterProperty(this.IsOnlineMeeting);
-        super.RegisterProperty(this.MeetingWorkspaceUrl);
-        super.RegisterProperty(this.NetShowUrl);
-        super.RegisterProperty(this.EnhancedLocation);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.MeetingRequestType);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IntendedFreeBusyStatus);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.ChangeHighlights);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Start);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.End);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.OriginalStart);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IsAllDayEvent);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.LegacyFreeBusyStatus);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Location);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.When);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IsMeeting);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IsCancelled);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IsRecurring);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.MeetingRequestWasSent);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AppointmentType);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.MyResponseType);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Organizer);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.RequiredAttendees);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.OptionalAttendees);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Resources);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.ConflictingMeetingCount);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AdjacentMeetingCount);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.ConflictingMeetings);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AdjacentMeetings);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Duration);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.TimeZone);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AppointmentReplyTime);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AppointmentSequenceNumber);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AppointmentState);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.Recurrence);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.FirstOccurrence);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.LastOccurrence);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.ModifiedOccurrences);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.DeletedOccurrences);
+        this.RegisterInternalProperty(MeetingRequestSchema, MeetingRequestSchema.MeetingTimeZone);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.StartTimeZone);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.EndTimeZone);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.ConferenceType);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.AllowNewTimeProposal);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.IsOnlineMeeting);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.MeetingWorkspaceUrl);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.NetShowUrl);
+        this.RegisterProperty(MeetingRequestSchema, MeetingRequestSchema.EnhancedLocation);
     }
+}
 
-    protected init() {
-        super.init();
-        this.MeetingRequestType = new GenericPropertyDefinition<MeetingRequestType>(
-            "MeetingRequestType",
-            XmlElementNames.MeetingRequestType,
-            FieldUris.MeetingRequestType,
-            ExchangeVersion.Exchange2007_SP1
-        );
+/**
+ * Represents the schema for meeting requests.
+ */
+export interface MeetingRequestSchema {
+    /**
+     * Defines the **MeetingRequestType** property.
+     */
+    MeetingRequestType: PropertyDefinition;
+    /**
+     * Defines the **IntendedFreeBusyStatus** property.
+     */
+    IntendedFreeBusyStatus: PropertyDefinition;
+    /**
+     * Defines the **ChangeHighlights** property.
+     */
+    ChangeHighlights: PropertyDefinition;
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    EnhancedLocation: PropertyDefinition;
+    /**
+     * Defines the **Start** property.
+     */
+    Start: PropertyDefinition;
+    /**
+     * Defines the **End** property.
+     */
+    End: PropertyDefinition;
+    /**
+     * Defines the **OriginalStart** property.
+     */
+    OriginalStart: PropertyDefinition;
+    /**
+     * Defines the **IsAllDayEvent** property.
+     */
+    IsAllDayEvent: PropertyDefinition;
+    /**
+     * Defines the **LegacyFreeBusyStatus** property.
+     */
+    LegacyFreeBusyStatus: PropertyDefinition;
+    /**
+     * Defines the **Location** property.
+     */
+    Location: PropertyDefinition;
+    /**
+     * Defines the **When** property.
+     */
+    When: PropertyDefinition;
+    /**
+     * Defines the **IsMeeting** property.
+     */
+    IsMeeting: PropertyDefinition;
+    /**
+     * Defines the **IsCancelled** property.
+     */
+    IsCancelled: PropertyDefinition;
+    /**
+     * Defines the **IsRecurring** property.
+     */
+    IsRecurring: PropertyDefinition;
+    /**
+     * Defines the **MeetingRequestWasSent** property.
+     */
+    MeetingRequestWasSent: PropertyDefinition;
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    AppointmentType: PropertyDefinition;
+    /**
+     * Defines the **MyResponseType** property.
+     */
+    MyResponseType: PropertyDefinition;
+    /**
+     * Defines the **Organizer** property.
+     */
+    Organizer: PropertyDefinition;
+    /**
+     * Defines the **RequiredAttendees** property.
+     */
+    RequiredAttendees: PropertyDefinition;
+    /**
+     * Defines the **OptionalAttendees** property.
+     */
+    OptionalAttendees: PropertyDefinition;
+    /**
+     * Defines the **Resources** property.
+     */
+    Resources: PropertyDefinition;
+    /**
+     * Defines the **ConflictingMeetingCount** property.
+     */
+    ConflictingMeetingCount: PropertyDefinition;
+    /**
+     * Defines the **AdjacentMeetingCount** property.
+     */
+    AdjacentMeetingCount: PropertyDefinition;
+    /**
+     * Defines the **ConflictingMeetings** property.
+     */
+    ConflictingMeetings: PropertyDefinition;
+    /**
+     * Defines the **AdjacentMeetings** property.
+     */
+    AdjacentMeetings: PropertyDefinition;
+    /**
+     * Defines the **Duration** property.
+     */
+    Duration: PropertyDefinition;
+    /**
+     * Defines the **TimeZone** property.
+     */
+    TimeZone: PropertyDefinition;
+    /**
+     * Defines the **AppointmentReplyTime** property.
+     */
+    AppointmentReplyTime: PropertyDefinition;
+    /**
+     * Defines the **AppointmentSequenceNumber** property.
+     */
+    AppointmentSequenceNumber: PropertyDefinition;
+    /**
+     * Defines the **AppointmentState** property.
+     */
+    AppointmentState: PropertyDefinition;
+    /**
+     * Defines the **Recurrence** property.
+     */
+    Recurrence: PropertyDefinition;
+    /**
+     * Defines the **FirstOccurrence** property.
+     */
+    FirstOccurrence: PropertyDefinition;
+    /**
+     * Defines the **LastOccurrence** property.
+     */
+    LastOccurrence: PropertyDefinition;
+    /**
+     * Defines the **ModifiedOccurrences** property.
+     */
+    ModifiedOccurrences: PropertyDefinition;
+    /**
+     * Defines the **DeletedOccurrences** property.
+     */
+    DeletedOccurrences: PropertyDefinition;
+    /**
+     * Defines the **MeetingTimeZone** property.
+     */
+    MeetingTimeZone: PropertyDefinition;
+    /**
+     * Defines the **StartTimeZone** property.
+     */
+    StartTimeZone: PropertyDefinition;
+    /**
+     * Defines the **EndTimeZone** property.
+     */
+    EndTimeZone: PropertyDefinition;
+    /**
+     * Defines the **ConferenceType** property.
+     */
+    ConferenceType: PropertyDefinition;
+    /**
+     * Defines the **AllowNewTimeProposal** property.
+     */
+    AllowNewTimeProposal: PropertyDefinition;
+    /**
+     * Defines the **IsOnlineMeeting** property.
+     */
+    IsOnlineMeeting: PropertyDefinition;
+    /**
+     * Defines the **MeetingWorkspaceUrl** property.
+     */
+    MeetingWorkspaceUrl: PropertyDefinition;
+    /**
+     * Defines the **NetShowUrl** property.
+     */
+    NetShowUrl: PropertyDefinition;
+    /**
+     * @internal Instance of **MeetingRequestSchema**
+     */
+    Instance: MeetingRequestSchema;
+}
 
-        this.IntendedFreeBusyStatus = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
-            "IntendedFreeBusyStatus",
-            XmlElementNames.IntendedFreeBusyStatus,
-            FieldUris.IntendedFreeBusyStatus,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
-
-        this.ChangeHighlights = new ComplexPropertyDefinition<ChangeHighlights>(
-            "ChangeHighlights",
-            XmlElementNames.ChangeHighlights,
-            FieldUris.ChangeHighlights,
-            PropertyDefinitionFlags.None,
-            ExchangeVersion.Exchange2013,
-            () => { return new ChangeHighlights(); }
-        );
-
-        this.EnhancedLocation = Schemas.AppointmentSchema.EnhancedLocation;
-        this.Start = Schemas.AppointmentSchema.Start;
-        this.End = Schemas.AppointmentSchema.End;
-        this.OriginalStart = Schemas.AppointmentSchema.OriginalStart;
-        this.IsAllDayEvent = Schemas.AppointmentSchema.IsAllDayEvent;
-        this.LegacyFreeBusyStatus = Schemas.AppointmentSchema.LegacyFreeBusyStatus;
-        this.Location = Schemas.AppointmentSchema.Location;
-        this.When = Schemas.AppointmentSchema.When;
-        this.IsMeeting = Schemas.AppointmentSchema.IsMeeting;
-        this.IsCancelled = Schemas.AppointmentSchema.IsCancelled;
-        this.IsRecurring = Schemas.AppointmentSchema.IsRecurring;
-        this.MeetingRequestWasSent = Schemas.AppointmentSchema.MeetingRequestWasSent;
-        this.AppointmentType = Schemas.AppointmentSchema.AppointmentType;
-        this.MyResponseType = Schemas.AppointmentSchema.MyResponseType;
-        this.Organizer = Schemas.AppointmentSchema.Organizer;
-        this.RequiredAttendees = Schemas.AppointmentSchema.RequiredAttendees;
-        this.OptionalAttendees = Schemas.AppointmentSchema.OptionalAttendees;
-        this.Resources = Schemas.AppointmentSchema.Resources;
-        this.ConflictingMeetingCount = Schemas.AppointmentSchema.ConflictingMeetingCount;
-        this.AdjacentMeetingCount = Schemas.AppointmentSchema.AdjacentMeetingCount;
-        this.ConflictingMeetings = Schemas.AppointmentSchema.ConflictingMeetings;
-        this.AdjacentMeetings = Schemas.AppointmentSchema.AdjacentMeetings;
-        this.Duration = Schemas.AppointmentSchema.Duration;
-        this.TimeZone = Schemas.AppointmentSchema.TimeZone;
-        this.AppointmentReplyTime = Schemas.AppointmentSchema.AppointmentReplyTime;
-        this.AppointmentSequenceNumber = Schemas.AppointmentSchema.AppointmentSequenceNumber;
-        this.AppointmentState = Schemas.AppointmentSchema.AppointmentState;
-        this.Recurrence = Schemas.AppointmentSchema.Recurrence;
-        this.FirstOccurrence = Schemas.AppointmentSchema.FirstOccurrence;
-        this.LastOccurrence = Schemas.AppointmentSchema.LastOccurrence;
-        this.ModifiedOccurrences = Schemas.AppointmentSchema.ModifiedOccurrences;
-        this.DeletedOccurrences = Schemas.AppointmentSchema.DeletedOccurrences;
-        this.MeetingTimeZone = Schemas.AppointmentSchema.MeetingTimeZone;
-        this.StartTimeZone = Schemas.AppointmentSchema.StartTimeZone;
-        this.EndTimeZone = Schemas.AppointmentSchema.EndTimeZone;
-        this.ConferenceType = Schemas.AppointmentSchema.ConferenceType;
-        this.AllowNewTimeProposal = Schemas.AppointmentSchema.AllowNewTimeProposal;
-        this.IsOnlineMeeting = Schemas.AppointmentSchema.IsOnlineMeeting;
-        this.MeetingWorkspaceUrl = Schemas.AppointmentSchema.MeetingWorkspaceUrl;
-        this.NetShowUrl = Schemas.AppointmentSchema.NetShowUrl;
-    }
+/**
+ * Represents the schema for meeting requests.
+ */
+export interface MeetingRequestSchemaStatic extends MeetingRequestSchema {
 }

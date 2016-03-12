@@ -723,7 +723,7 @@ export class Item extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.ItemSchema; } //info: Schemas.ItemSchema is ItemSchema.Instance;
+    GetSchema(): ServiceObjectSchema { return Schemas.ItemSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML
@@ -1015,10 +1015,5 @@ export class Item extends ServiceObject {
             flag.outValue.Validate();
         }
     }
-
-    /**
-     * @internal ~~created this to help find serviceobject type, ServiceObjectInstance instanceof Item fails by creating circular dependency in javascript/typescript~~
-     */
-    get InstanceType(): string { return XmlElementNames.Item; }
 
 }

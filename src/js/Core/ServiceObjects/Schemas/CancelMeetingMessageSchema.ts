@@ -13,11 +13,17 @@ import {ServiceObjectSchema} from "./ServiceObjectSchema";
  * Represents CancelMeetingMessage schema definition.
  */
 export class CancelMeetingMessageSchema extends ServiceObjectSchema {
-    
+
     /**
      * Defines the **Body** property.
      */
-    public Body: PropertyDefinition;
+    public static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
+        "Body",
+        XmlElementNames.NewBodyContent,
+        PropertyDefinitionFlags.CanSet,
+        ExchangeVersion.Exchange2007_SP1,
+        () => { return new MessageBody(); }
+    );
 
     /**
      * @internal Instance of **CancelMeetingMessageSchema** 
@@ -31,20 +37,29 @@ export class CancelMeetingMessageSchema extends ServiceObjectSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsReadReceiptRequested);
-        super.RegisterProperty(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
-        super.RegisterProperty(Schemas.ResponseObjectSchema.ReferenceItemId);
-        super.RegisterProperty(this.Body);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.EmailMessageSchema.IsReadReceiptRequested);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.ResponseObjectSchema.ReferenceItemId);
+        this.RegisterProperty(CancelMeetingMessageSchema, CancelMeetingMessageSchema.Body);
     }
-    
-    protected init() {
-        super.init();
-        this.Body = new ComplexPropertyDefinition<MessageBody>(
-            "Body",
-            XmlElementNames.NewBodyContent,
-            PropertyDefinitionFlags.CanSet,
-            ExchangeVersion.Exchange2007_SP1,
-            () => { return new MessageBody(); }
-        );
-    }
+}
+
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
+export interface CancelMeetingMessageSchema {
+    /**
+     * Defines the **Body** property.
+     */
+    Body: PropertyDefinition;
+    /**
+     * @internal Instance of **CancelMeetingMessageSchema**
+     */
+    Instance: CancelMeetingMessageSchema;
+}
+
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
+export interface CancelMeetingMessageSchemaStatic extends CancelMeetingMessageSchema {
 }

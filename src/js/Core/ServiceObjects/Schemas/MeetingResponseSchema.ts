@@ -23,42 +23,56 @@ export class MeetingResponseSchema extends MeetingMessageSchema {
     /**
      * Defines the **Start** property.
      */
-    public Start: PropertyDefinition;
+    public static Start: PropertyDefinition = Schemas.AppointmentSchema.Start;
 
     /**
      * Defines the **End** property.
      */
-    public End: PropertyDefinition;
+    public static End: PropertyDefinition = Schemas.AppointmentSchema.End;
 
     /**
      * Defines the **Location** property.
      */
-    public Location: PropertyDefinition;
+    public static Location: PropertyDefinition = Schemas.AppointmentSchema.Location;
 
     /**
      * Defines the **AppointmentType** property.
      */
-    public AppointmentType: PropertyDefinition;
+    public static AppointmentType: PropertyDefinition = Schemas.AppointmentSchema.AppointmentType;
 
     /**
      * Defines the **Recurrence** property.
      */
-    public Recurrence: PropertyDefinition;
+    public static Recurrence: PropertyDefinition = Schemas.AppointmentSchema.Recurrence;
 
     /**
      * Defines the **ProposedStart** property.
      */
-    public ProposedStart: PropertyDefinition;
+    public static ProposedStart: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedStart",
+        XmlElementNames.ProposedStart,
+        FieldUris.ProposedStart,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
+        (version: ExchangeVersion) => { return Schemas.AppointmentSchema.StartTimeZone; }
+    );
 
     /**
      * Defines the **ProposedEnd** property.
      */
-    public ProposedEnd: PropertyDefinition;
+    public static ProposedEnd: PropertyDefinition = new ScopedDateTimePropertyDefinition(
+        "ProposedEnd",
+        XmlElementNames.ProposedEnd,
+        FieldUris.ProposedEnd,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
+        (version: ExchangeVersion) => { return Schemas.AppointmentSchema.EndTimeZone; }
+    );
 
     /**
      * Defines the **EnhancedLocation** property.
      */
-    public EnhancedLocation: PropertyDefinition;
+    public static EnhancedLocation: PropertyDefinition = Schemas.AppointmentSchema.EnhancedLocation;
 
     /**
      * @internal Instance of **MeetingResponseSchema** 
@@ -72,41 +86,61 @@ export class MeetingResponseSchema extends MeetingMessageSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.Start);
-        super.RegisterProperty(this.End);
-        super.RegisterProperty(this.Location);
-        super.RegisterProperty(this.Recurrence);
-        super.RegisterProperty(this.AppointmentType);
-        super.RegisterProperty(this.ProposedStart);
-        super.RegisterProperty(this.ProposedEnd);
-        super.RegisterProperty(this.EnhancedLocation);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.Start);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.End);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.Location);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.Recurrence);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.AppointmentType);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.ProposedStart);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.ProposedEnd);
+        this.RegisterProperty(MeetingResponseSchema, MeetingResponseSchema.EnhancedLocation);
     }
+}
 
-    protected init() {
-        super.init();
-        this.Start = Schemas.AppointmentSchema.Start;
-        this.End = Schemas.AppointmentSchema.End;
-        this.Location = Schemas.AppointmentSchema.Location;
-        this.AppointmentType = Schemas.AppointmentSchema.AppointmentType;
-        this.Recurrence = Schemas.AppointmentSchema.Recurrence;
-        this.ProposedStart = new ScopedDateTimePropertyDefinition(
-            "ProposedStart",
-            XmlElementNames.ProposedStart,
-            FieldUris.ProposedStart,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013,
-            (version: ExchangeVersion) => { return Schemas.AppointmentSchema.StartTimeZone; }
-        );
+/**
+ * Represents the schema for meeting response
+ */
+export interface MeetingResponseSchema {
+    /**
+     * Defines the **Start** property.
+     */
+    Start: PropertyDefinition;
+    /**
+     * Defines the **End** property.
+     */
+    End: PropertyDefinition;
+    /**
+     * Defines the **Location** property.
+     */
+    Location: PropertyDefinition;
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    AppointmentType: PropertyDefinition;
+    /**
+     * Defines the **Recurrence** property.
+     */
+    Recurrence: PropertyDefinition;
+    /**
+     * Defines the **ProposedStart** property.
+     */
+    ProposedStart: PropertyDefinition;
+    /**
+     * Defines the **ProposedEnd** property.
+     */
+    ProposedEnd: PropertyDefinition;
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    EnhancedLocation: PropertyDefinition;
+    /**
+     * @internal Instance of **MeetingResponseSchema**
+     */
+    Instance: MeetingResponseSchema;
+}
 
-        this.ProposedEnd = new ScopedDateTimePropertyDefinition(
-            "ProposedEnd",
-            XmlElementNames.ProposedEnd,
-            FieldUris.ProposedEnd,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2013,
-            (version: ExchangeVersion) => { return Schemas.AppointmentSchema.EndTimeZone; }
-        );
-
-        this.EnhancedLocation = Schemas.AppointmentSchema.EnhancedLocation;
-    }
+/**
+ * Represents the schema for meeting response
+ */
+export interface MeetingResponseSchemaStatic extends MeetingResponseSchema {
 }

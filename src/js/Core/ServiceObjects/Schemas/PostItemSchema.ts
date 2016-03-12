@@ -18,46 +18,52 @@ module FieldUris {
  * Represents the schema for post items.
  */
 export class PostItemSchema extends ItemSchema {
-    
+
     /**
      * Defines the **ConversationIndex** property.
      */
-    public ConversationIndex: PropertyDefinition;
-    
+    public static ConversationIndex: PropertyDefinition = Schemas.EmailMessageSchema.ConversationIndex;
+
     /**
      * Defines the **ConversationTopic** property.
      */
-    public ConversationTopic: PropertyDefinition;
-    
+    public static ConversationTopic: PropertyDefinition = Schemas.EmailMessageSchema.ConversationTopic;
+
     /**
      * Defines the **From** property.
      */
-    public From: PropertyDefinition;
-    
+    public static From: PropertyDefinition = Schemas.EmailMessageSchema.From;
+
     /**
      * Defines the **InternetMessageId** property.
      */
-    public InternetMessageId: PropertyDefinition;
-    
+    public static InternetMessageId: PropertyDefinition = Schemas.EmailMessageSchema.InternetMessageId;
+
     /**
      * Defines the **IsRead** property.
      */
-    public IsRead: PropertyDefinition;
-    
+    public static IsRead: PropertyDefinition = Schemas.EmailMessageSchema.IsRead;
+
     /**
      * Defines the **PostedTime** property.
      */
-    public PostedTime: PropertyDefinition;
-    
+    public static PostedTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "PostedTime",
+        XmlElementNames.PostedTime,
+        FieldUris.PostedTime,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
     /**
      * Defines the **References** property.
      */
-    public References: PropertyDefinition;
-    
+    public static References: PropertyDefinition = Schemas.EmailMessageSchema.References;
+
     /**
      * Defines the **Sender** property.
      */
-    public Sender: PropertyDefinition;
+    public static Sender: PropertyDefinition = Schemas.EmailMessageSchema.Sender;
 
     /**
      * @internal Instance of **PostItemSchema** 
@@ -71,32 +77,61 @@ export class PostItemSchema extends ItemSchema {
      */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(this.ConversationIndex);
-        super.RegisterProperty(this.ConversationTopic);
-        super.RegisterProperty(this.From);
-        super.RegisterProperty(this.InternetMessageId);
-        super.RegisterProperty(this.IsRead);
-        super.RegisterProperty(this.PostedTime);
-        super.RegisterProperty(this.References);
-        super.RegisterProperty(this.Sender);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.ConversationIndex);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.ConversationTopic);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.From);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.InternetMessageId);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.IsRead);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.PostedTime);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.References);
+        this.RegisterProperty(PostItemSchema, PostItemSchema.Sender);
     }
+}
 
-    protected init() {
-        super.init();
-        this.ConversationIndex = Schemas.EmailMessageSchema.ConversationIndex;
-        this.ConversationTopic = Schemas.EmailMessageSchema.ConversationTopic;
-        this.From = Schemas.EmailMessageSchema.From;
-        this.InternetMessageId = Schemas.EmailMessageSchema.InternetMessageId;
-        this.IsRead = Schemas.EmailMessageSchema.IsRead;
-        this.PostedTime = new DateTimePropertyDefinition(
-            "PostedTime",
-            XmlElementNames.PostedTime,
-            FieldUris.PostedTime,
-            PropertyDefinitionFlags.CanFind,
-            ExchangeVersion.Exchange2007_SP1
-        );
+/**
+ * Represents the schema for post items.
+ */
+export interface PostItemSchema {
+    /**
+     * Defines the **ConversationIndex** property.
+     */
+    ConversationIndex: PropertyDefinition;
+    /**
+     * Defines the **ConversationTopic** property.
+     */
+    ConversationTopic: PropertyDefinition;
+    /**
+     * Defines the **From** property.
+     */
+    From: PropertyDefinition;
+    /**
+     * Defines the **InternetMessageId** property.
+     */
+    InternetMessageId: PropertyDefinition;
+    /**
+     * Defines the **IsRead** property.
+     */
+    IsRead: PropertyDefinition;
+    /**
+     * Defines the **PostedTime** property.
+     */
+    PostedTime: PropertyDefinition;
+    /**
+     * Defines the **References** property.
+     */
+    References: PropertyDefinition;
+    /**
+     * Defines the **Sender** property.
+     */
+    Sender: PropertyDefinition;
+    /**
+     * @internal Instance of **PostItemSchema**
+     */
+    Instance: PostItemSchema;
+}
 
-        this.References = Schemas.EmailMessageSchema.References;
-        this.Sender = Schemas.EmailMessageSchema.Sender;
-    }
+/**
+ * Represents the schema for post items.
+ */
+export interface PostItemSchemaStatic extends PostItemSchema {
 }

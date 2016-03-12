@@ -53,7 +53,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema; } //info: Schemas.ResponseObjectSchema is ResponseObjectSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema.Instance; }
     /**
     * Create the response object.
     *

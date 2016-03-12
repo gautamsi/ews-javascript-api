@@ -42,7 +42,7 @@ export class SuppressReadReceipt extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema; } //info: Schemas.ResponseObjectSchema is ResponseObjectSchema.Instance
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema.Instance; }
     GetXmlElementName(): string { return XmlElementNames.SuppressReadReceipt; }
     /**
      * Create the response object.
