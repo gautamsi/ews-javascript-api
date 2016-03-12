@@ -11,59 +11,245 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {MeetingMessageSchema} from "./MeetingMessageSchema";
 
+/**
+ * Field URIs for meeting request.
+ */
 module FieldUris {
     export var MeetingRequestType: string = "meetingRequest:MeetingRequestType";
     export var IntendedFreeBusyStatus: string = "meetingRequest:IntendedFreeBusyStatus";
     export var ChangeHighlights: string = "meetingRequest:ChangeHighlights";
 }
 
+/**
+ * Represents the schema for meeting requests.
+ */
 export class MeetingRequestSchema extends MeetingMessageSchema {
-public MeetingRequestType: PropertyDefinition;
+
+    /**
+     * Defines the **MeetingRequestType** property.
+     */
+    public MeetingRequestType: PropertyDefinition;
+
+    /**
+     * Defines the **IntendedFreeBusyStatus** property.
+     */
     public IntendedFreeBusyStatus: PropertyDefinition;
+
+    /**
+     * Defines the **ChangeHighlights** property.
+     */
     public ChangeHighlights: PropertyDefinition;
+
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
     public EnhancedLocation: PropertyDefinition;
+
+    /**
+     * Defines the **Start** property.
+     */
     public Start: PropertyDefinition;
+
+    /**
+     * Defines the **End** property.
+     */
     public End: PropertyDefinition;
+
+    /**
+     * Defines the **OriginalStart** property.
+     */
     public OriginalStart: PropertyDefinition;
+
+    /**
+     * Defines the **IsAllDayEvent** property.
+     */
     public IsAllDayEvent: PropertyDefinition;
+
+    /**
+     * Defines the **LegacyFreeBusyStatus** property.
+     */
     public LegacyFreeBusyStatus: PropertyDefinition;
+
+    /**
+     * Defines the **Location** property.
+     */
     public Location: PropertyDefinition;
+
+    /**
+     * Defines the **When** property.
+     */
     public When: PropertyDefinition;
+
+    /**
+     * Defines the **IsMeeting** property.
+     */
     public IsMeeting: PropertyDefinition;
+
+    /**
+     * Defines the **IsCancelled** property.
+     */
     public IsCancelled: PropertyDefinition;
+
+    /**
+     * Defines the **IsRecurring** property.
+     */
     public IsRecurring: PropertyDefinition;
+
+    /**
+     * Defines the **MeetingRequestWasSent** property.
+     */
     public MeetingRequestWasSent: PropertyDefinition;
+
+    /**
+     * Defines the **AppointmentType** property.
+     */
     public AppointmentType: PropertyDefinition;
+
+    /**
+     * Defines the **MyResponseType** property.
+     */
     public MyResponseType: PropertyDefinition;
+
+    /**
+     * Defines the **Organizer** property.
+     */
     public Organizer: PropertyDefinition;
+
+    /**
+     * Defines the **RequiredAttendees** property.
+     */
     public RequiredAttendees: PropertyDefinition;
+
+    /**
+     * Defines the **OptionalAttendees** property.
+     */
     public OptionalAttendees: PropertyDefinition;
+
+    /**
+     * Defines the **Resources** property.
+     */
     public Resources: PropertyDefinition;
+
+    /**
+     * Defines the **ConflictingMeetingCount** property.
+     */
     public ConflictingMeetingCount: PropertyDefinition;
+
+    /**
+     * Defines the **AdjacentMeetingCount** property.
+     */
     public AdjacentMeetingCount: PropertyDefinition;
+
+    /**
+     * Defines the **ConflictingMeetings** property.
+     */
     public ConflictingMeetings: PropertyDefinition;
+
+    /**
+     * Defines the **AdjacentMeetings** property.
+     */
     public AdjacentMeetings: PropertyDefinition;
+
+    /**
+     * Defines the **Duration** property.
+     */
     public Duration: PropertyDefinition;
+
+    /**
+     * Defines the **TimeZone** property.
+     */
     public TimeZone: PropertyDefinition;
+
+    /**
+     * Defines the **AppointmentReplyTime** property.
+     */
     public AppointmentReplyTime: PropertyDefinition;
+
+    /**
+     * Defines the **AppointmentSequenceNumber** property.
+     */
     public AppointmentSequenceNumber: PropertyDefinition;
+
+    /**
+     * Defines the **AppointmentState** property.
+     */
     public AppointmentState: PropertyDefinition;
+
+    /**
+     * Defines the **Recurrence** property.
+     */
     public Recurrence: PropertyDefinition;
+
+    /**
+     * Defines the **FirstOccurrence** property.
+     */
     public FirstOccurrence: PropertyDefinition;
+
+    /**
+     * Defines the **LastOccurrence** property.
+     */
     public LastOccurrence: PropertyDefinition;
+
+    /**
+     * Defines the **ModifiedOccurrences** property.
+     */
     public ModifiedOccurrences: PropertyDefinition;
+
+    /**
+     * Defines the **DeletedOccurrences** property.
+     */
     public DeletedOccurrences: PropertyDefinition;
+
+    /**
+     * Defines the **MeetingTimeZone** property.
+     */
     public MeetingTimeZone: PropertyDefinition;
+
+    /**
+     * Defines the **StartTimeZone** property.
+     */
     public StartTimeZone: PropertyDefinition;
+
+    /**
+     * Defines the **EndTimeZone** property.
+     */
     public EndTimeZone: PropertyDefinition;
+
+    /**
+     * Defines the **ConferenceType** property.
+     */
     public ConferenceType: PropertyDefinition;
+
+    /**
+     * Defines the **AllowNewTimeProposal** property.
+     */
     public AllowNewTimeProposal: PropertyDefinition;
+
+    /**
+     * Defines the **IsOnlineMeeting** property.
+     */
     public IsOnlineMeeting: PropertyDefinition;
+
+    /**
+     * Defines the **MeetingWorkspaceUrl** property.
+     */
     public MeetingWorkspaceUrl: PropertyDefinition;
+
+    /**
+     * Defines the **NetShowUrl** property.
+     */
     public NetShowUrl: PropertyDefinition;
 
+    /**
+     * @internal Instance of **MeetingRequestSchema** 
+     */
     static Instance: MeetingRequestSchema = new MeetingRequestSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.MeetingRequestType);
@@ -112,28 +298,28 @@ public MeetingRequestType: PropertyDefinition;
     }
 
     protected init() {
-        super.init();                
+        super.init();
         this.MeetingRequestType = new GenericPropertyDefinition<MeetingRequestType>(
             "MeetingRequestType",
             XmlElementNames.MeetingRequestType,
-            ExchangeVersion.Exchange2007_SP1,
-            FieldUris.MeetingRequestType
+            FieldUris.MeetingRequestType,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IntendedFreeBusyStatus = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
             "IntendedFreeBusyStatus",
             XmlElementNames.IntendedFreeBusyStatus,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IntendedFreeBusyStatus,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ChangeHighlights = new ComplexPropertyDefinition<ChangeHighlights>(
             "ChangeHighlights",
             XmlElementNames.ChangeHighlights,
-            ExchangeVersion.Exchange2013,
             FieldUris.ChangeHighlights,
             PropertyDefinitionFlags.None,
+            ExchangeVersion.Exchange2013,
             () => { return new ChangeHighlights(); }
         );
 

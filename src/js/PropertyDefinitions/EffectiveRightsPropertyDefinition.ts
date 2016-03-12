@@ -2,14 +2,44 @@
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {ExchangeService} from "../Core/ExchangeService";
 import {PropertyBag} from "../Core/PropertyBag";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {Convert} from "../ExtensionMethods";
+
 import {PropertyDefinition} from "./PropertyDefinition";
+/**
+ * @internal Represents effective rights property definition.
+ */
 export class EffectiveRightsPropertyDefinition extends PropertyDefinition {
+
+    /**
+     * Gets the property type.
+     */
     Type: any;//System.Type;
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
+
+    /**
+     * @internal Initializes a new instance of the **EffectiveRightsPropertyDefinition** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {string}                    uri              The URI.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
+        super(propertyName, xmlElementName, uri, flags, version);
+    }
+
+
+    /**
+     * @internal Loads the property value from XMLJsObject.
+     *
+     * @param   {any}               value         The JSON value.  Can be a JsonObject, string, number, bool, array, or null.
+     * @param   {ExchangeService}   service       The service.
+     * @param   {PropertyBag}       propertyBag   The property bag.
+     */
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
         var effectiveRightsValue: EffectiveRights = EffectiveRights.None;
         if (jsObject != null) {
             for (var key in jsObject) {
@@ -52,12 +82,17 @@ export class EffectiveRightsPropertyDefinition extends PropertyDefinition {
                 }
             }
         }
-        propertyBag._setItem(this,jsObject);
-        //throw new Error("EffectiveRightsPropertyDefinition.ts - LoadPropertyValueFromXmlJsObject : Not implemented.");
+        propertyBag._setItem(this, jsObject);
     }
-    //WriteJsonValue(jsObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("EffectiveRightsPropertyDefinition.ts - WriteJsonValue : Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void { 
+
+    /**
+     * @internal Writes the property value to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer              The writer.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
+     */
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         // EffectiveRights is a read-only property, no need to implement this.
-        //throw new Error("EffectiveRightsPropertyDefinition.ts - WritePropertyValueToXml : Not implemented."); 
     }
 }

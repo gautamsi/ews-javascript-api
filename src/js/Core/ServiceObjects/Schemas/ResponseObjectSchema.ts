@@ -8,12 +8,31 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 import {Schemas} from "./Schemas";
 
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
+/**
+ * Represents ResponseObject schema definition.
+ */
 export class ResponseObjectSchema extends ServiceObjectSchema {
+    
+    /**
+     * Defines the **ReferenceItemId** property.
+     */
     public ReferenceItemId: PropertyDefinition;
+    
+    /**
+     * Defines the **BodyPrefix** property.
+     */
     public BodyPrefix: PropertyDefinition;
 
+    /**
+     * @internal Instance of **ResponseObjectSchema** 
+     */
     static Instance: ResponseObjectSchema = new ResponseObjectSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.ReferenceItemId);
@@ -24,18 +43,16 @@ export class ResponseObjectSchema extends ServiceObjectSchema {
         this.ReferenceItemId = new ComplexPropertyDefinition<ItemId>(
             "ReferenceItemId",
             XmlElementNames.ReferenceItemId,
-            ExchangeVersion.Exchange2007_SP1,
-            null,//FieldUri
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new ItemId(); }
         );
 
         this.BodyPrefix = new ComplexPropertyDefinition<MessageBody>(
             "NewBodyContent",
             XmlElementNames.NewBodyContent,
-            ExchangeVersion.Exchange2007_SP1,
-            null,//FieldUri
             PropertyDefinitionFlags.CanSet,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new MessageBody(); }
         );
     }

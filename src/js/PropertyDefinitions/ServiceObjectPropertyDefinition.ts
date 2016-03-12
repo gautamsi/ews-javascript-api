@@ -7,15 +7,38 @@ import {EwsLogging} from "../Core/EwsLogging";
 import {StringHelper} from "../ExtensionMethods";
 
 import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
+/**
+ * Represents a property definition for a service object.
+ */
+export abstract class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
 
-//should be done except JSON
-export class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
+    private uri: string = null;
+
+    /**
+     * Gets the minimum Exchange version that supports this property.
+     *
+     * @value {ExchangeVersion} The version.
+     */
     get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+
+    /**
+     * @internal Gets the URI of the property definition.
+     */
     get Uri(): string { return this.uri; }
-    private uri: string;
-    constructor(uri?: string) {
+
+    /**
+     * @internal Initializes a new instance of the **ServiceObjectPropertyDefinition** class.
+     */
+    constructor();
+    /**
+     * @internal Initializes a new instance of the **ServiceObjectPropertyDefinition** class.
+     *
+     * @param   {string}   uri   The URI.
+     */
+    constructor(uri: string);
+    constructor(uri: string = null) {
         super();
-        if (uri !== undefined) {
+        if (arguments.length == 1) {
             EwsLogging.Assert(
                 !StringHelper.IsNullOrEmpty(uri),
                 "ServiceObjectPropertyDefinition.ctor",
@@ -24,9 +47,19 @@ export class ServiceObjectPropertyDefinition extends PropertyDefinitionBase {
             this.uri = uri;
         }
     }
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { jsonPropertyDefinition.Add(XmlAttributeNames.FieldURI, this.Uri); }
-    //GetJsonType(): string{ throw new Error("ServiceObjectPropertyDefinition.ts - GetJsonType : Not implemented.");}
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
     GetXmlElementName(): string { return XmlElementNames.FieldURI; }
+
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.Uri);
     }

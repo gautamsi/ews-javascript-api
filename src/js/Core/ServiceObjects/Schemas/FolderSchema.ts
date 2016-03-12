@@ -16,6 +16,9 @@ import {FolderId} from "../../../ComplexProperties/FolderId";
 
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
+/**
+ * Field URIs for folders.
+ */
 module FieldUris {
     export var FolderId: string = "folder:FolderId";
     export var ParentFolderId: string = "folder:ParentFolderId";
@@ -32,24 +35,86 @@ module FieldUris {
     export var DistinguishedFolderId: string = "folder:DistinguishedFolderId";
 }
 
+/**
+ * Represents the schema for folders.
+ */
 export class FolderSchema extends ServiceObjectSchema {
 
+    /**
+     * Defines the **Id** property.
+     */
     public Id: PropertyDefinition;
+
+    /**
+     * Defines the **FolderClass** property.
+     */
     public FolderClass: PropertyDefinition;
+
+    /**
+     * Defines the **ParentFolderId** property.
+     */
     public ParentFolderId: PropertyDefinition;
+
+    /**
+     * Defines the **ChildFolderCount** property.
+     */
     public ChildFolderCount: PropertyDefinition;
+
+    /**
+     * Defines the **DisplayName** property.
+     */
     public DisplayName: PropertyDefinition;
+
+    /**
+     * Defines the **UnreadCount** property.
+     */
     public UnreadCount: PropertyDefinition;
+
+    /**
+     * Defines the **TotalCount** property.
+     */
     public TotalCount: PropertyDefinition;
+
+    /**
+     * Defines the **ManagedFolderInformation** property.
+     */
     public ManagedFolderInformation: PropertyDefinition;
+
+    /**
+     * Defines the **EffectiveRights** property.
+     */
     public EffectiveRights: PropertyDefinition;
+
+    /**
+     * Defines the **Permissions** property.
+     */
     public Permissions: PropertyDefinition;
+
+    /**
+     * Defines the **WellKnownFolderName** property.
+     */
     public WellKnownFolderName: PropertyDefinition;
+
+    /**
+     * Defines the **PolicyTag** property.
+     */
     public PolicyTag: PropertyDefinition;
+
+    /**
+     * Defines the **ArchiveTag** property.
+     */
     public ArchiveTag: PropertyDefinition;
 
+    /**
+     * @internal Instance of **FolderSchema** 
+     */
     static Instance: FolderSchema = new FolderSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         this.RegisterProperty(this.Id);
@@ -73,110 +138,110 @@ export class FolderSchema extends ServiceObjectSchema {
         this.Id = new ComplexPropertyDefinition<FolderId>(
             "Id",
             XmlElementNames.FolderId,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.FolderId,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new FolderId(); }
         );
 
         this.FolderClass = new StringPropertyDefinition(
             "FolderClass",
             XmlElementNames.FolderClass,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.FolderClass,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ParentFolderId = new ComplexPropertyDefinition<FolderId>(
             "ParentFolderId",
             XmlElementNames.ParentFolderId,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ParentFolderId,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new FolderId(); }
         );
 
         this.ChildFolderCount = new IntPropertyDefinition(
             "ChildFolderCount",
             XmlElementNames.ChildFolderCount,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ChildFolderCount,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
 
         this.DisplayName = new StringPropertyDefinition(
             "DisplayName",
             XmlElementNames.DisplayName,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.DisplayName,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.UnreadCount = new IntPropertyDefinition(
             "UnreadCount",
             XmlElementNames.UnreadCount,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.UnreadCount,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.TotalCount = new IntPropertyDefinition(
             "TotalCount",
             XmlElementNames.TotalCount,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.TotalCount,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ManagedFolderInformation = new ComplexPropertyDefinition<ManagedFolderInformation>(
             "ManagedFolderInformation",
             XmlElementNames.ManagedFolderInformation,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ManagedFolderInformation,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new ManagedFolderInformation(); }
         );
 
         this.EffectiveRights = new EffectiveRightsPropertyDefinition(
             "EffectiveRights",
             XmlElementNames.EffectiveRights,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.EffectiveRights,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Permissions = new PermissionSetPropertyDefinition(
             "Permissions",
             XmlElementNames.PermissionSet,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.PermissionSet,
-            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded
+            PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.MustBeExplicitlyLoaded,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.WellKnownFolderName = new GenericPropertyDefinition<WellKnownFolderName>(
             "WellKnownFolderName",
             XmlElementNames.DistinguishedFolderId,
-            ExchangeVersion.Exchange2013,
             FieldUris.DistinguishedFolderId,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013
         );
 
         this.PolicyTag = new ComplexPropertyDefinition<PolicyTag>(
             "PolicyTag",
             XmlElementNames.PolicyTag,
-            ExchangeVersion.Exchange2013,
             FieldUris.PolicyTag,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013,
             () => { return new PolicyTag(); }
         );
 
         this.ArchiveTag = new ComplexPropertyDefinition<ArchiveTag>(
             "ArchiveTag",
             XmlElementNames.ArchiveTag,
-            ExchangeVersion.Exchange2013,
             FieldUris.ArchiveTag,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013,
             () => { return new ArchiveTag(); }
         );
     }

@@ -260,7 +260,7 @@ export class PropertyBag {
         try {
 
             for (var key in jsObject) {
-                if ((<string>key).indexOf("__") === 0) //skip xnljsobject conversion entries like __type and __prefix
+                if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
                     continue;
 
                 if (jsObject.hasOwnProperty(key)) {

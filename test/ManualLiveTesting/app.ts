@@ -75,7 +75,7 @@ return;
         mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse];
         var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
         var EX_normalized_Subject = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x0E1D); //https://willcode4foodblog.wordpress.com/2012/04/14/understanding-sharing-invitation-requests-ews-managed-api-1-2-part-2/
-        var EX_prop2 = new ExtendedPropertyDefinition(MapiPropertyType.String,"Content-Class", DefaultExtendedPropertySet.InternetHeaders);
+        var EX_prop2 = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.InternetHeaders,"Content-Class", MapiPropertyType.String);
         var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS,EX_normalized_Subject]);
         exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
             .then((response) => {
@@ -84,7 +84,7 @@ return;
                     mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse];
 
                     var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
-                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MapiPropertyType.String, "Expiration Date", MyPropertySetId);
+                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MyPropertySetId, "Expiration Date", MapiPropertyType.String);
                     item.SetExtendedProperty(extendedPropertyDefinition, DateTime.Now.Add(2, "days").ToISOString());
 
                     item.Update(ConflictResolutionMode.AutoResolve)

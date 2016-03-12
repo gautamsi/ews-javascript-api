@@ -52,7 +52,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     }
     
 	/**
-	 * Initializes a new instance of AttachmentCollection.
+	 * @internal Initializes a new instance of AttachmentCollection.
 	 */
     constructor() {
         super();
@@ -131,7 +131,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     /**
      * Adds an item attachment to the collection
      *
-     * @typeParameter name:TItem    The type of the item to attach.
+     * @type <TItem>    The type of the item to attach.
      * 
      * @param   {any*}      TItem    Item type, not instance
      * @param   {string}    TItemElementName    XML Element Name of the Item class
@@ -162,7 +162,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     Clear(): void { this.InternalClear(); }
 
     /**
-     * Disables the change log clearing mechanism. Attachment collections are saved separately from the items they belong to.
+     * @internal Disables the change log clearing mechanism. Attachment collections are saved separately from the items they belong to.
      */
     ClearChangeLog(): void { /** Do nothing */ }
 
@@ -187,7 +187,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     CreateDefaultComplexProperty(): Attachment { EwsLogging.DebugLog("AttachmentCollection.ts - CreateDefaultComplexProperty : Not implemented."); return null; }
 
     /**
-     * Determines the name of the XML element associated with the complexProperty parameter.
+     * @internal Determines the name of the XML element associated with the complexProperty parameter.
      *
      * @param   {Attachment}   complexProperty   The attachment object for which to determine the XML element name with.
      * @return  {string}        The XML element name associated with the complexProperty parameter.
@@ -202,7 +202,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     }
 
     /**
-     * Determines whether there are any unsaved attachment collection changes.
+     * @internal Determines whether there are any unsaved attachment collection changes.
      *
      * @return  {boolean}      True if attachment adds or deletes haven't been processed yet.
      */
@@ -238,7 +238,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
      * @param   {string}        parentItemId   The Id of the parent item of the new attachments.
      * @param   {Attachment[]}  attachments    The attachments to create.
      */
-    InternalCreateAttachments(parentItemId: string, attachments: Attachment[]): IPromise<void> {
+    private InternalCreateAttachments(parentItemId: string, attachments: Attachment[]): IPromise<void> {
         return this.owner.Service.CreateAttachments(parentItemId, attachments)
             .then((responses: ServiceResponseCollection<CreateAttachmentResponse>) => {
                 for (let response of responses.Responses) {
@@ -261,7 +261,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
      *
      * @param   {Attachment[]}   attachments   The attachments to delete.
      */
-    InternalDeleteAttachments(attachments: Attachment[]): IPromise<void> {
+    private InternalDeleteAttachments(attachments: Attachment[]): IPromise<void> {
         return this.owner.Service.DeleteAttachments(attachments)
             .then((responses: ServiceResponseCollection<DeleteAttachmentResponse>) => {
                 for (let response of responses.Responses) {
@@ -304,7 +304,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     }
 
     /**
-     * Saves this collection by creating new attachment and deleting removed ones.
+     * @internal Saves this collection by creating new attachment and deleting removed ones.
      */
     Save(): IPromise<void> {
 
@@ -354,7 +354,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     }
     
     /**
-     * Validates this instance.
+     * @internal Validates this instance.
      */
     Validate(): void {
         // Validate all added attachments

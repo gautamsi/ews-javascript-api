@@ -7,27 +7,85 @@ import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
 import {PropertyBag} from "../Core/PropertyBag";
 import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {JsonObject} from "../Core/JsonObject";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 import {StringHelper} from "../ExtensionMethods";
+import {EwsLogging} from "../Core/EwsLogging";
 
 import {PropertyDefinition} from "./PropertyDefinition";
+/**
+ * @internal Represents DateTime property definition.
+ */
 export class DateTimePropertyDefinition extends PropertyDefinition {
+
+    private isNullable: boolean;
+    /**
+     * @internal Gets a value indicating whether this property definition is for a nullable type (ref, int?, bool?...).
+     */
     get IsNullable(): boolean { return this.isNullable; }
+
+    /**
+     * Gets the property type.
+     */
     Type: any;//System.Type;
-    private isNullable: boolean = false;
-    constructor(
-        propertyName: string,
-        xmlElementName: string,
-        version: ExchangeVersion,
-        uri?: string,
-        flags?: PropertyDefinitionFlags,
-        isNullable: boolean = false) {
-        super(propertyName, xmlElementName, version, uri, flags);
+
+    /**
+     * @internal Initializes a new instance of the **DateTimePropertyDefinition** class.
+     *
+     * @param   {string}            propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}            xmlElementName   Name of the XML element.
+     * @param   {string}            uri              The URI.
+     * @param   {ExchangeVersion}   version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, version: ExchangeVersion);
+    /**
+     * @internal Initializes a new instance of the **DateTimePropertyDefinition** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {string}                    uri              The URI.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion);
+    /**
+     * @internal Initializes a new instance of the **DateTimePropertyDefinition** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {string}                    uri              The URI.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     * @param   {boolean}                   isNullable       Indicates that this property definition is for a nullable property.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion, isNullable: boolean);
+    constructor(propertyName: string, xmlElementName: string, uri: string, versionOrFlags: ExchangeVersion | PropertyDefinitionFlags, version?: ExchangeVersion, isNullable?: boolean) {
+        switch (arguments.length) {
+            case 4:
+                super(propertyName, xmlElementName, uri, <ExchangeVersion>versionOrFlags);
+                break;
+            case 5:
+            case 6:
+                super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version);
+                break;
+            default:
+                break;
+        }
+        this.isNullable = isNullable || false;
     }
-    GetConvertedDateTime(service: ExchangeServiceBase, propertyBag: PropertyBag, isUpdateOperation: boolean, value: any): DateTime {
+
+    /**
+     * Gets the converted date time.
+     *
+     * @param   {ExchangeServiceBase}   service             The service.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   if set to true [is update operation].
+     * @param   {any}                   value               The value.
+     * @return  {DateTime}      Converted DateTime value
+     */
+    private GetConvertedDateTime(service: ExchangeServiceBase, propertyBag: PropertyBag, isUpdateOperation: boolean, value: any): DateTime {
+        EwsLogging.Assert(false, "DateTimePropertyDefinition.GetConvertedDateTime", "TimeZone info could be misleading, It should be used as UTC in all cases until fixed");
+
         var dateTime = DateTime.Parse(value);
         var convertedDateTime: DateTime;
         //debug: //todo: find datetimekind
@@ -44,7 +102,14 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
         }
         return convertedDateTime;
     }
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("DateTimePropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
+
+    /**
+     * @internal Loads the property value from XMLJsObject.
+     *
+     * @param   {any}               value         The JSON value.  Can be a JsonObject, string, number, bool, array, or null.
+     * @param   {ExchangeService}   service       The service.
+     * @param   {PropertyBag}       propertyBag   The property bag.
+     */
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
         var stringValue: string = jsObject;//.toString();
         //debug: //ref: check for datetime value
@@ -53,7 +118,18 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
             propertyBag._setItem(this, service.ConvertUniversalDateTimeStringToLocalDateTime(stringValue));
         }
     }
+
+    /**
+     * @internal Scopes the date time property to the appropriate time zone, if necessary.
+     *
+     * @param   {ExchangeServiceBase}   service             The service emitting the request.
+     * @param   {DateTime}              dateTime            The date time.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the scoping is to be performed in the context of an update operation.
+     * @return  {DateTime}              The converted DateTime.
+     */
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: DateTime, propertyBag: PropertyBag, isUpdateOperation: boolean): DateTime {
+        EwsLogging.Assert(false, "DateTimePropertyDefinition.ScopeToTimeZone", "TimeZone info could be misleading, It should be used as UTC in all cases until fixed");
         try {
             var convertedDateTime: DateTime = EwsUtilities.ConvertTime(
                 dateTime,
@@ -70,7 +146,14 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
                 e);
         }
     }
-    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("DateTimePropertyDefinition.ts - WriteJsonValue : Not implemented."); }
+
+    /**
+     * @internal Writes the property value to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer              The writer.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
+     */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
         if (value != null) {

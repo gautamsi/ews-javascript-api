@@ -1,6 +1,5 @@
 ﻿import {IOutParam} from "../Interfaces/IOutParam";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
 import {PropertyBag} from "../Core/PropertyBag";
@@ -11,19 +10,68 @@ import {ComplexPropertyCollection} from "../ComplexProperties/ComplexPropertyCol
 import {TypeSystem} from "../ExtensionMethods";
 
 import {PropertyDefinition} from "./PropertyDefinition";
-export class ComplexPropertyDefinitionBase extends PropertyDefinition {
+/**
+ * @internal Represents abstract complex property definition.
+ */
+export abstract class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
-    constructor(
-        propertyName: string,
-        xmlElementName: string,
-        version: ExchangeVersion,
-        uri?: string,
-        flags?: PropertyDefinitionFlags) {
-        super(propertyName, xmlElementName, version, uri, flags);
+    /**
+     * @internal Initializes a new instance of the **ComplexPropertyDefinitionBase** class.
+     *
+     * @param   {string}            propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}            xmlElementName   Name of the XML element.
+     * @param   {string}            uri              The URI.
+     * @param   {ExchangeVersion}   version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, version: ExchangeVersion);
+    /**
+     * @internal Initializes a new instance of the **ComplexPropertyDefinitionBase** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, flags: PropertyDefinitionFlags, version: ExchangeVersion);
+    /**
+     * @internal Initializes a new instance of the **ComplexPropertyDefinitionBase** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {string}                    uri              The URI.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion);
+    constructor(propertyName: string, xmlElementName: string, uriOrFlags: string | PropertyDefinitionFlags, versionOrFlags: PropertyDefinitionFlags | ExchangeVersion, version?: ExchangeVersion) {
+        switch (arguments.length) {
+            case 4:
+                super(propertyName, xmlElementName, <any>uriOrFlags, <ExchangeVersion>versionOrFlags);
+                break;
+            case 5:
+                super(propertyName, xmlElementName, <string>uriOrFlags, <PropertyDefinitionFlags>versionOrFlags, version);
+                break;
+            default:
+                break;
+        }
     }
 
-    CreatePropertyInstance(owner: ServiceObject): ComplexProperty { throw new Error("ComplexPropertyDefinitionBase.ts - CreatePropertyInstance : Abstract method - Not implemented."); }
-    GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean {
+    /**
+     * @internal Creates the property instance.
+     *
+     * @param   {ServiceObject}     owner   The owner.
+     * @return  {ComplexProperty}   ComplexProperty.
+     */
+    abstract CreatePropertyInstance(owner: ServiceObject): ComplexProperty;
+
+    /**
+     * Gets the property instance.
+     *
+     * @param   {PropertyBag}       propertyBag       The property bag.
+     * @param   {complexProperty}   complexProperty   The property instance.
+     * @return  {boolean}    True if the instance is newly created.
+     */
+    private GetPropertyInstance(propertyBag: PropertyBag, complexProperty: IOutParam<ComplexProperty>): boolean {
         complexProperty.outValue = null;
         if (!propertyBag.TryGetValue(this, complexProperty) || !this.HasFlag(PropertyDefinitionFlags.ReuseInstance, propertyBag.Owner.Service.RequestedServerVersion)) {
             complexProperty.outValue = this.CreatePropertyInstance(propertyBag.Owner);
@@ -32,13 +80,19 @@ export class ComplexPropertyDefinitionBase extends PropertyDefinition {
 
         return false;
     }
-    InternalLoadCollectionFromJson(jsonCollection: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadCollectionFromJson : Not implemented."); }
-    InternalLoadFromJson(jsonObject: any /*JsonObject*/, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - InternalLoadFromJson : Not implemented."); }
-    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
+
+    /**
+     * @internal Internals the load from XMlJsObject.
+     *
+     * @param   {any}               jsObject    The json object.
+     * @param   {ExchangeService}   service       The service.
+     * @param   {PropertyBag}       propertyBag   The property bag.
+     */
+    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
 
         var outComplexproperty: IOutParam<ComplexProperty> = { outValue: null };
         var justCreated: boolean = this.GetPropertyInstance(propertyBag, outComplexproperty);
-        
+
         //assume collection type
         var complexPropertyCollection: ComplexPropertyCollection<any> = <ComplexPropertyCollection<any>>outComplexproperty.outValue
         //check for collection type //todo: implement better ComplexPropertyCollection detection
@@ -55,31 +109,34 @@ export class ComplexPropertyDefinitionBase extends PropertyDefinition {
             outComplexproperty.outValue.LoadFromXmlJsObject(jsObject, service);
         }
 
-
         propertyBag._setItem(this, outComplexproperty.outValue);
     }
-    //LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ComplexPropertyDefinitionBase.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): any {
-        debugger;//todo: check for array type. //update: checked in next call, can not call GetPropertyInstance multiple time
-        this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);
-        //    reader.EnsureCurrentNodeIsStartElement(XmlNamespace.Types, this.XmlElementName);
-        //
-        //if (!reader.IsEmptyElement || reader.HasAttributes)
-        //{
-        //    this.InternalLoadFromXml(reader, propertyBag);
-        //}
-        //
-        //reader.ReadEndElementIfNecessary(XmlNamespace.Types, this.XmlElementName);
+    
+    /**
+     * @internal Loads the property value from XMLJsObject.
+     *
+     * @param   {any}               jsObject         The JSON value.  Can be a JsonObject, string, number, bool, array, or null.
+     * @param   {ExchangeService}   service       The service.
+     * @param   {PropertyBag}       propertyBag   The property bag.
+     */    
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        //debugger;//update: array type detection in next call, can not call GetPropertyInstance multiple time
+        this.InternalLoadFromXmlJsObject(jsObject, service, propertyBag);        
     }
-    //WriteJsonValue(jsonObject: any /*JsonObject*/, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): any { throw new Error("ComplexPropertyDefinitionBase.ts - WriteJsonValue : Not implemented."); }
-    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
 
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer              The writer.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
+     */
+    WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
         debugger;
-        if (complexProperty != null || typeof complexProperty !== 'undefined') {
+        if (complexProperty) {
             complexProperty.WriteToXml(writer, this.XmlElementName);
-        } 
-        //throw new Error("ComplexPropertyDefinitionBase.ts - WritePropertyValueToXml : Not implemented."); 
+        }
     }
 }
 

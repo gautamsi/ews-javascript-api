@@ -3,7 +3,7 @@ import {JsonObject} from "../../../Core/JsonObject";
 import {ExchangeService} from "../../../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
 			
-import {IntervalPattern} from "./Recurrence_IntervalPattern";
+import {IntervalPattern} from "./Recurrence.IntervalPattern";
 export class MonthlyPattern extends IntervalPattern {
 	XmlElementName: string;
 	DayOfMonth: number;

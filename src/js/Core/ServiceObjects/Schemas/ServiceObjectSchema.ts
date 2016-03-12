@@ -1,46 +1,63 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {PropertyDefinitionBase} from "../../../PropertyDefinitions/PropertyDefinitionBase";
 import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
 import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-
 import {IOutParam} from "../../../Interfaces/IOutParam";
 import {Dictionary, DictionaryWithPropertyDefitionKey, PropertyDefinitionDictionary} from "../../../AltDictionary";
-
 import {AppointmentSchema} from "./AppointmentSchema";
-
-
 import {LazyMember} from "../../LazyMember";
-
 import {EwsUtilities} from "../../EwsUtilities";
 import {EwsLogging} from "../../EwsLogging";
 import {StringHelper} from "../../../ExtensionMethods";
-
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+
+/**
+ * Represents the base class for all item and folder schemas.
+ */
 export class ServiceObjectSchema {
-    //todo: fixing difficulties with following c# code.
+    //todo: fixing difficulties with following c# code. - ref: added as delegate PropertyDefinitionDictionary in AltDictionary
     //using PropertyDefinitionDictionary = LazyMember < System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
     //type SchemaTypeList = LazyMember <string[]>;
-    get FirstClassProperties(): PropertyDefinition[] { return this.firstClassProperties; }//System.Collections.Generic.List<PropertyDefinition>;
-    get FirstClassSummaryProperties(): PropertyDefinition[] { return this.firstClassSummaryProperties; }//System.Collections.Generic.List<PropertyDefinition>;
-    get IndexedProperties(): IndexedPropertyDefinition[] { return this.indexedProperties; }//System.Collections.Generic.List<IndexedPropertyDefinition>;
-    private properties: Dictionary<string, PropertyDefinition> = new Dictionary<string,PropertyDefinition>((key)=>key);// System.Collections.Generic.Dictionary<TKey, TValue>;
+
+    private properties: Dictionary<string, PropertyDefinition> = new Dictionary<string, PropertyDefinition>((key) => key);// System.Collections.Generic.Dictionary<TKey, TValue>;
     private visibleProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private firstClassSummaryProperties: PropertyDefinition[] = [];//System.Collections.Generic.List<PropertyDefinition>;
     private indexedProperties: IndexedPropertyDefinition[] = [];//System.Collections.Generic.List<IndexedPropertyDefinition>;
     //static appointmentSchema: AppointmentSchema; - moved to Schemas
+
+    /**
+     * @internal Gets the list of first class properties for this service object type.
+     */
+    get FirstClassProperties(): PropertyDefinition[] { return this.firstClassProperties; }//System.Collections.Generic.List<PropertyDefinition>;
+
+    /**
+     * @internal Gets the list of first class summary properties for this service object type.
+     */
+    get FirstClassSummaryProperties(): PropertyDefinition[] { return this.firstClassSummaryProperties; }//System.Collections.Generic.List<PropertyDefinition>;
+
+    /**
+     * @internal Gets the list of indexed properties for this service object type.
+     */
+    get IndexedProperties(): IndexedPropertyDefinition[] { return this.indexedProperties; }//System.Collections.Generic.List<IndexedPropertyDefinition>;
+
+    /**
+     * Defines the **ExtendedProperties** property.
+     */
     static ExtendedProperties: PropertyDefinition = new ComplexPropertyDefinition<ExtendedPropertyCollection>(
         "ExtendedProperties",
         XmlElementNames.ExtendedProperty,
-        ExchangeVersion.Exchange2007_SP1,
-        null,//FieldUri
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.ReuseInstance | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new ExtendedPropertyCollection(); }
-        );
+    );
 
-    
+
+    private static allSchemaProperties = new PropertyDefinitionDictionary((s) => s);
+
     //    private static lockObject: any = {};
     //    private static allSchemaTypes: LazyMember<string[]> = new LazyMember<string[]>(() => { //SchemaTypeList - LazyMember<T>; - using typenames[] temporarily
     //        var typeList: string[] = [];
@@ -140,9 +157,17 @@ export class ServiceObjectSchema {
     //            (propertyDefinition: PropertyDefinition, fieldName: string) =>
     //            { propertyNameDictionary.add(propertyDefinition, fieldName); });
     //    }
-    //    static FindPropertyDefinition(uri: string): PropertyDefinitionBase {
-    //        return ServiceObjectSchema.allSchemaProperties.Member.get(uri);
-    //    }
+
+    /**
+     * @internal Finds the property definition.
+     *
+     * @param   {string}   uri   The URI.
+     * @return  {PropertyDefinitionBase}    Property definition.
+     */
+    static FindPropertyDefinition(uri: string): PropertyDefinitionBase {
+        return ServiceObjectSchema.allSchemaProperties.get(uri);
+    }
+
     //    static ForeachPublicStaticPropertyFieldInType(type: string /*System.Type*/, propFieldDelegate: (propertyDefinition: PropertyDefinition, fieldInfo: any /*FieldInfo*/) => void /*ServiceObjectSchema.PropertyFieldInfoDelegate*/): void {
     //        
     //        var keys = Object.keys(type);
@@ -173,20 +198,65 @@ export class ServiceObjectSchema {
     //        }
     //        //}
     //    }
+
+    /**
+     * @internal Initializes a new instance of the **ServiceObjectSchema** class.
+     */
     constructor() {
         this.RegisterProperties();
     }
+
     GetEnumerator(): PropertyDefinition[] { return this.visibleProperties; }
 
-    protected init(){}
-    
+    protected init() { }
+
+    /**
+     * Registers an indexed property.
+     *
+     * @param   {IndexedPropertyDefinition}   indexedProperty   The indexed property to register.
+     */
     RegisterIndexedProperty(indexedProperty: IndexedPropertyDefinition): void { this.indexedProperties.push(indexedProperty); }
+
+    /**
+     * Registers an internal schema property.
+     *
+     * @param   {PropertyDefinition}   property   The property to register.
+     */
     RegisterInternalProperty(property: PropertyDefinition): void { this.RegisterProperty(property, true); }
-    RegisterProperties(): void { this.init(); /*virtual void for derived class to implement if needed*/ }
-    //RegisterProperty(property: PropertyDefinition): any { throw new Error("ServiceObjectSchema.ts - RegisterProperty : Not implemented."); }
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
+    RegisterProperties(): void { this.init(); }
+
+    /**
+     * @internal Registers a schema property.
+     *
+     * @param   {PropertyDefinition}   property     The property to register.
+     */
+    RegisterProperty(property: PropertyDefinition): void;
+    /**
+     * @private Registers a schema property.
+     *
+     * @param   {PropertyDefinition}   property     The property to register.
+     * @param   {boolean}   isInternal   Indicates whether the property is internal or should be visible to developers.
+     */
+    RegisterProperty(property: PropertyDefinition, isInternal: boolean): void;
     RegisterProperty(property: PropertyDefinition, isInternal: boolean = false): void {
         this.properties.Add(property.XmlElementName, property);
-
+        if (!StringHelper.IsNullOrEmpty(property.Uri)) {
+            if (ServiceObjectSchema.allSchemaProperties.containsKey(property.Uri)) {
+                EwsLogging.Assert(
+                    ServiceObjectSchema.allSchemaProperties.get(property.Uri) == property,
+                    "Schema.allSchemaProperties.delegate",
+                    StringHelper.Format("There are at least two distinct property definitions with the following URI: {0}", property.Uri));
+            }
+            else {
+                ServiceObjectSchema.allSchemaProperties.Add(property.Uri, property);
+            }
+        }
         if (!isInternal) {
             this.visibleProperties.push(property);
         }
@@ -202,7 +272,19 @@ export class ServiceObjectSchema {
             this.firstClassSummaryProperties.push(property);
         }
     }
+
+    /**
+     * Tries to get property definition.
+     *
+     * @param   {string}   xmlElementName           Name of the XML element.
+     * @param   {IOutParam<PropertyDefinition>}     propertyDefinition   The property definition.
+     * @return  {boolean}                           True if property definition exists.
+     */
     TryGetPropertyDefinition(xmlElementName: string, propertyDefinition: IOutParam<PropertyDefinition>): boolean {
         return this.properties.tryGetValue(xmlElementName, propertyDefinition);
     }
+}
+
+export interface ServiceObjectSchemaStatic {
+    FindPropertyDefinition(uri: string);
 }

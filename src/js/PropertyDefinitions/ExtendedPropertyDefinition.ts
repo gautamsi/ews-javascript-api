@@ -1,5 +1,4 @@
 ﻿import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
@@ -12,8 +11,13 @@ import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {Guid} from "../Guid";
 import {Strings} from "../Strings";
 import {StringHelper, Convert} from "../ExtensionMethods";
+
 import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
+/**
+ * Represents the definition of an extended property.
+ */
 export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
+
     private static FieldFormat: string = "{0}: {1} ";
     private static PropertySetFieldName: string = "PropertySet";
     private static PropertySetIdFieldName: string = "PropertySetId";
@@ -21,14 +25,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     private static NameFieldName: string = "Name";
     private static IdFieldName: string = "Id";
     private static MapiTypeFieldName: string = "MapiType";
-    get Id(): number { return this.id; }
-    get MapiType(): MapiPropertyType { return this.mapiType; }
-    get Name(): string { return this.name || (typeof this.tag === 'undefined') ? null : this.tag.toString(); }
-    get PropertySet(): DefaultExtendedPropertySet { return this.propertySet; }
-    get PropertySetId(): Guid { return this.propertySetId; }
-    get Tag(): number { return this.tag; }
-    get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
-    Type: any;// System.Type;
+
     private propertySet: DefaultExtendedPropertySet;
     private propertySetId: Guid;
     private tag: number;
@@ -36,76 +33,165 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     private id: number;
     private mapiType: MapiPropertyType;
 
-    //ref: cant use mixed of enum and number in same place, it makes confusion in JS/TS
-    /** create instance of ExtendedPropertyDefinition\n, please check the order of parameter, slightly shifted from ews managed api */
+    /**
+     * @Nullable Gets the Id of the extended property.
+     */
+    get Id(): number { return this.id; }
+
+    /**
+     * Gets the MAPI type of the extended property.
+     */
+    get MapiType(): MapiPropertyType { return this.mapiType; }
+
+    /**
+     * Gets the name of the extended property.
+     */
+    get Name(): string { return this.name || (typeof this.tag === 'undefined') ? null : this.tag.toString(); }
+
+    /**
+     * @Nullable Gets the property set of the extended property.
+     */
+    get PropertySet(): DefaultExtendedPropertySet { return this.propertySet; }
+
+    /**
+     * @Nullable Gets the property set Id or the extended property.
+     * */
+    get PropertySetId(): Guid { return this.propertySetId; }
+
+    /**
+     * @Nullable Gets the extended property's tag.
+     */
+    get Tag(): number { return this.tag; }
+
+    /**
+     * Gets the minimum Exchange version that supports this extended property.
+     *
+     * @value {ExchangeVersion} The version.     
+     */
+    get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+
+    /**
+     * Gets the property type.
+     */
+    Type: any;// System.Type;
+
+    /**
+     * @internal Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     */
     constructor();
+    /**
+     * @internal Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {MapiPropertyType}  mapiType      The MAPI type of the extended property.
+     */
     constructor(mapiType: MapiPropertyType);
-    constructor(mapiType: MapiPropertyType, tag: number);
-    constructor(mapiType: MapiPropertyType, name: string, propertySet: DefaultExtendedPropertySet);
-    constructor(mapiType: MapiPropertyType, id: number, propertySet: DefaultExtendedPropertySet);
-    constructor(mapiType: MapiPropertyType, name: string, propertySetId: Guid);
-    constructor(mapiType: MapiPropertyType, id: number, propertySetId: Guid);
+    /**
+     * Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {number}            tag        The tag of the extended property.
+     * @param   {MapiPropertyType}  mapiType      The MAPI type of the extended property.
+     */
+    constructor(tag: number, mapiType: MapiPropertyType);
+    /**
+     * Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {DefaultExtendedPropertySet}    propertySet   The extended property set of the extended property.
+     * @param   {string}                        name          The name of the extended property.
+     * @param   {MapiPropertyType}              mapiType      The MAPI type of the extended property.
+     */
+    constructor(propertySet: DefaultExtendedPropertySet, name: string, mapiType: MapiPropertyType);
+    /**
+     * Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {DefaultExtendedPropertySet}    propertySet   The extended property set of the extended property.
+     * @param   {number}                        id            The Id of the extended property.
+     * @param   {MapiPropertyType}              mapiType      The MAPI type of the extended property.
+     */
+    constructor(propertySet: DefaultExtendedPropertySet, id: number, mapiType: MapiPropertyType);
+    /**
+     * Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {Guid}              propertySetId   The property set Id of the extended property.
+     * @param   {string}            name          The name of the extended property.
+     * @param   {MapiPropertyType}  mapiType      The MAPI type of the extended property.
+     */
+    constructor(propertySetId: Guid, name: string, mapiType: MapiPropertyType);
+    /**
+     * Initializes a new instance of the **ExtendedPropertyDefinition** class.
+     *
+     * @param   {Guid}              propertySetId   The property set Id of the extended property.
+     * @param   {number}            id            The Id of the extended property.
+     * @param   {MapiPropertyType}  mapiType      The MAPI type of the extended property.
+     */
+    constructor(propertySetId: Guid, id: number, mapiType: MapiPropertyType);
     constructor(
-        mapiType?: MapiPropertyType,
-        tagOrNameOrId?: number | string,
-        propertySetOrPropertySetId?: DefaultExtendedPropertySet | Guid) {
+        mapiTypeTagPropertySetOrPropertySetId?: MapiPropertyType | number | DefaultExtendedPropertySet | Guid,
+        mapiTypeNameOrId?: MapiPropertyType | string | number,
+        mapiType?: MapiPropertyType) {
         super();
         var argsLength = arguments.length;
+        this.mapiType = MapiPropertyType.String;
+        switch (argsLength) {
+            case 1:
+                this.mapiType = <MapiPropertyType>mapiTypeTagPropertySetOrPropertySetId;
+                break;
+            case 2:
+                this.mapiType = <MapiPropertyType>mapiTypeNameOrId;
+                if (<number>mapiTypeTagPropertySetOrPropertySetId < 0 || <number>mapiTypeTagPropertySetOrPropertySetId > 65535 /*UInt16.MaxValue*/) {
+                    throw new ArgumentOutOfRangeException("tag", Strings.TagValueIsOutOfRange);
+                }
+                this.tag = <number>mapiTypeTagPropertySetOrPropertySetId;
+                break;
+            case 3:
+                this.mapiType = mapiType;
 
-        if (argsLength >= 1) {
-            this.mapiType = mapiType;
+                typeof mapiTypeNameOrId === 'string' ? this.name = mapiTypeNameOrId : this.id = mapiTypeNameOrId;
+                typeof mapiTypeTagPropertySetOrPropertySetId === 'number' ? this.propertySet = <DefaultExtendedPropertySet>mapiTypeTagPropertySetOrPropertySetId : this.propertySetId = <Guid>mapiTypeTagPropertySetOrPropertySetId;
+                break;
+            default:
+                break;
         }
-
-        if (argsLength == 2) {
-            if (<number>tagOrNameOrId < 0 || <number>tagOrNameOrId > 65535 /*UInt16.MaxValue*/) {
-                throw new ArgumentOutOfRangeException("tag", Strings.TagValueIsOutOfRange);
-            }
-            this.tag = <number>tagOrNameOrId;
-        }
-
-        if (argsLength > 2) {
-            if (typeof tagOrNameOrId === 'string') {
-                EwsUtilities.ValidateParam(tagOrNameOrId, "name");
-                this.name = tagOrNameOrId;
-            }
-            else {
-                this.id = tagOrNameOrId;
-            }
-            if (propertySetOrPropertySetId instanceof Guid) {
-                this.propertySetId = propertySetOrPropertySetId;
-            }
-            else if (typeof propertySetOrPropertySetId === 'number') {
-                this.propertySet = propertySetOrPropertySetId;
-            }
-        }
-
-    }
-    xconstructor(tag?: number,
-        name?: string,
-        mapiType?: MapiPropertyType,
-        propertySet?: DefaultExtendedPropertySet) {
-        //super();
-        this.tag = tag || 0;
-        this.mapiType = mapiType || MapiPropertyType.String;
-        this.propertySet = propertySet;
-        this.name = name || (typeof tag === 'undefined') ? undefined : tag.toString();
     }
 
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any { throw new Error("ExtendedPropertyDefinition.ts - AddJsonProperties : Not implemented."); }
+    /**
+     * Determines whether a given extended property definition is equal to this extended property definition.
+     *
+     * @param   {any}   obj   The object to check for equality.
+     * @return  {boolean}         True if the properties definitions define the same extended property.
+     */
     Equals(obj: any): boolean {
         var propertyDefinition = <ExtendedPropertyDefinition>obj;
         return ExtendedPropertyDefinition.IsEqualTo(propertyDefinition, this);
     }
+
+    /**
+     * @internal Formats the field.
+     *
+     * @type    <T>        Type of field value. 
+     * @param   {string}   name         The name.
+     * @param   {string}   fieldValue   The field value.
+     * @return  {string}                Formatted value.
+     */
     FormatField(name: string, fieldValue: string): string {
         debugger;
         return (fieldValue != null)
             ? StringHelper.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
             : "";
     }
+
+    /**
+     * Serves as a hash function for a particular type.
+     *
+     * @return  {number}      A hash code for the current System.Object.
+     */
     GetHashCode(): number { throw new Error("ExtendedPropertyDefinition.ts - GetHashCode : Not implemented."); }
-    //GetJsonType(): string { throw new Error("ExtendedPropertyDefinition.ts - GetJsonType : Not implemented."); }
+
+    /**
+     * @internal Gets the property definition's printable name.
+     *
+     * @return  {string}      The property definition's printable name.
+     */
     GetPrintableName(): string {
-        debugger;
         var sb = "";
         sb += "{";
         sb += this.FormatField(ExtendedPropertyDefinition.NameFieldName, this.Name);
@@ -117,7 +203,21 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         sb += "}";
         return sb;
     }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
     GetXmlElementName(): string { return XmlElementNames.ExtendedFieldURI; }
+
+    /**
+     * @internal Determines whether two specified instances of ExtendedPropertyDefinition are equal.
+     *
+     * @param   {ExtendedPropertyDefinition}    extPropDef1   First extended property definition.
+     * @param   {ExtendedPropertyDefinition}    extPropDef2   Second extended property definition.
+     * @return  {boolean}                       True if extended property definitions are equal.
+     */
     static IsEqualTo(extPropDef1: ExtendedPropertyDefinition, extPropDef2: ExtendedPropertyDefinition): boolean {
         return extPropDef1 === extPropDef2 ||
             (extPropDef1 && extPropDef2 &&
@@ -128,14 +228,19 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
                 extPropDef1.PropertySet == extPropDef2.PropertySet &&
                 extPropDef1.propertySetId == extPropDef2.propertySetId);
     }
-    //LoadFromJson(jsonObject: JsonObject): any { throw new Error("ExtendedPropertyDefinition.ts - LoadFromJson : Not implemented."); }
+
+    /**
+     * @internal Loads from XMLJsObject.
+     *
+     * @param   {any}   jsObject   The json object.
+     */
     LoadPropertyValueFromXmlJsObject(jsObject: any): void {
 
         for (var key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.DistinguishedPropertySetId:
                     debugger;
-                    this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet> +(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
+                    this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet>+(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
                     break;
                 case XmlAttributeNames.PropertySetId:
                     debugger;
@@ -151,40 +256,19 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
                     this.id = Convert.toInt(jsObject[key]);//jsObject.ReadAsInt(key);
                     break;
                 case XmlAttributeNames.PropertyType:
-                    this.mapiType = isNaN(jsObject[key]) ? MapiPropertyType[jsObject[key]] : <any><MapiPropertyType> +(jsObject[key]);// jsObject.ReadEnumValue<MapiPropertyType>(key);
+                    this.mapiType = isNaN(jsObject[key]) ? MapiPropertyType[jsObject[key]] : <any><MapiPropertyType>+(jsObject[key]);// jsObject.ReadEnumValue<MapiPropertyType>(key);
                     break;
                 default:
                     break;
             }
         }
     }
-    private LoadFromXml(reader: EwsServiceXmlReader): void {
-        var attributeValue: string;
 
-        attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.DistinguishedPropertySetId);
-        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
-            this.propertySet = DefaultExtendedPropertySet[attributeValue];
-        }
-
-        attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertySetId);
-        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
-            this.propertySetId = new Guid(attributeValue);
-        }
-
-        attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyTag);
-        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
-            this.tag = +(attributeValue);// Convert.ToUInt16(attributeValue, 16);
-        }
-
-        this.name = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyName);
-
-        attributeValue = reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyId);
-        if (!StringHelper.IsNullOrEmpty(attributeValue)) {
-            this.id = +(attributeValue);// int.Parse(attributeValue);
-        }
-
-        this.mapiType = MapiPropertyType[reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.PropertyType)];
-    }
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (this.propertySet) {
             writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, this.propertySet);
@@ -206,4 +290,15 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     }
 }
 
-
+/**
+ * ExtendedPropertyDefinition interface to be used with TypeContainer - removes circular dependency
+ */
+export interface IExtendedPropertyDefinition {
+    new (): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType, tag: number): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType, name: string, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType, id: number, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType, name: string, propertySetId: Guid): ExtendedPropertyDefinition;
+    new (mapiType: MapiPropertyType, id: number, propertySetId: Guid): ExtendedPropertyDefinition;
+}

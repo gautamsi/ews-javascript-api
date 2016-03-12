@@ -7,23 +7,69 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {MeetingMessageSchema} from "./MeetingMessageSchema";
 
+/**
+ * Field URIs for meeting response.
+ */
 module FieldUris {
     export var ProposedStart: string = "meeting:ProposedStart";
     export var ProposedEnd: string = "meeting:ProposedEnd";
 }
 
+/**
+ * Represents the schema for meeting response
+ */
 export class MeetingResponseSchema extends MeetingMessageSchema {
+
+    /**
+     * Defines the **Start** property.
+     */
     public Start: PropertyDefinition;
+
+    /**
+     * Defines the **End** property.
+     */
     public End: PropertyDefinition;
+
+    /**
+     * Defines the **Location** property.
+     */
     public Location: PropertyDefinition;
+
+    /**
+     * Defines the **AppointmentType** property.
+     */
     public AppointmentType: PropertyDefinition;
+
+    /**
+     * Defines the **Recurrence** property.
+     */
     public Recurrence: PropertyDefinition;
+
+    /**
+     * Defines the **ProposedStart** property.
+     */
     public ProposedStart: PropertyDefinition;
+
+    /**
+     * Defines the **ProposedEnd** property.
+     */
     public ProposedEnd: PropertyDefinition;
+
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
     public EnhancedLocation: PropertyDefinition;
 
+    /**
+     * @internal Instance of **MeetingResponseSchema** 
+     */
     static Instance: MeetingResponseSchema = new MeetingResponseSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.Start);
@@ -46,18 +92,18 @@ export class MeetingResponseSchema extends MeetingMessageSchema {
         this.ProposedStart = new ScopedDateTimePropertyDefinition(
             "ProposedStart",
             XmlElementNames.ProposedStart,
-            ExchangeVersion.Exchange2013,
             FieldUris.ProposedStart,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013,
             (version: ExchangeVersion) => { return Schemas.AppointmentSchema.StartTimeZone; }
         );
 
         this.ProposedEnd = new ScopedDateTimePropertyDefinition(
             "ProposedEnd",
             XmlElementNames.ProposedEnd,
-            ExchangeVersion.Exchange2013,
             FieldUris.ProposedEnd,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013,
             (version: ExchangeVersion) => { return Schemas.AppointmentSchema.EndTimeZone; }
         );
 

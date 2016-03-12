@@ -11,6 +11,9 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {EmailMessageSchema} from "./EmailMessageSchema";
 
+/**
+ * Field URIs for MeetingMessage.
+ */
 module FieldUris {
     export var AssociatedCalendarItemId: string = "meeting:AssociatedCalendarItemId";
     export var IsDelegated: string = "meeting:IsDelegated";
@@ -20,19 +23,66 @@ module FieldUris {
     export var IsOrganizer: string = "cal:IsOrganizer";
 }
 
+/**
+ * Represents the schema for meeting messages.
+ */
 export class MeetingMessageSchema extends EmailMessageSchema {
+
+    /**
+     * Defines the **AssociatedAppointmentId** property.
+     */
     public AssociatedAppointmentId: PropertyDefinition;
+
+    /**
+     * Defines the **IsDelegated** property.
+     */
     public IsDelegated: PropertyDefinition;
+
+    /**
+     * Defines the **IsOutOfDate** property.
+     */
     public IsOutOfDate: PropertyDefinition;
+
+    /**
+     * Defines the **HasBeenProcessed** property.
+     */
     public HasBeenProcessed: PropertyDefinition;
+
+    /**
+     * Defines the **ResponseType** property.
+     */
     public ResponseType: PropertyDefinition;
+
+    /**
+     * Defines the **ICalUid** property.
+     */
     public ICalUid: PropertyDefinition;
+
+    /**
+     * Defines the **ICalRecurrenceId** property.
+     */
     public ICalRecurrenceId: PropertyDefinition;
+
+    /**
+     * Defines the **ICalDateTimeStamp** property.
+     */
     public ICalDateTimeStamp: PropertyDefinition;
+
+    /**
+     * Defines the **IsOrganizer** property.
+     */
     public IsOrganizer: PropertyDefinition;
 
+    /**
+     * @internal Instance of **MeetingMessageSchema** 
+     */
     static Instance: MeetingMessageSchema = new MeetingMessageSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.AssociatedAppointmentId);
@@ -51,41 +101,41 @@ export class MeetingMessageSchema extends EmailMessageSchema {
         this.AssociatedAppointmentId = new ComplexPropertyDefinition<ItemId>(
             "AssociatedCalendarItemId",
             XmlElementNames.AssociatedCalendarItemId,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.AssociatedCalendarItemId,
             PropertyDefinitionFlags.None,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new ItemId(); }
         );
 
         this.IsDelegated = new BoolPropertyDefinition(
             "IsDelegated",
             XmlElementNames.IsDelegated,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IsDelegated,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsOutOfDate = new BoolPropertyDefinition(
             "IsOutOfDate",
             XmlElementNames.IsOutOfDate,
-            ExchangeVersion.Exchange2007_SP1,
-            FieldUris.IsOutOfDate
+            FieldUris.IsOutOfDate,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.HasBeenProcessed = new BoolPropertyDefinition(
             "HasBeenProcessed",
             XmlElementNames.HasBeenProcessed,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.HasBeenProcessed,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ResponseType = new GenericPropertyDefinition<MeetingResponseType>(
             "ResponseType",
             XmlElementNames.ResponseType,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ResponseType,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ICalUid = Schemas.AppointmentSchema.ICalUid;
@@ -97,9 +147,9 @@ export class MeetingMessageSchema extends EmailMessageSchema {
         this.IsOrganizer = new GenericPropertyDefinition<boolean>(
             "IsOrganizer",
             XmlElementNames.IsOrganizer,
-            ExchangeVersion.Exchange2013,
             "cal:IsOrganizer",
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2013
         );
     }
 }

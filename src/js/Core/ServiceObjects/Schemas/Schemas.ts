@@ -44,6 +44,6 @@ export class Schemas {
     static ServiceObjectSchema: ServiceObjectSchema;
     static TaskSchema: TaskSchema;
     private static throwError(): any {
-        throw "Bootstartcode not initiated this Schema";
+        throw "Bootstrapcode not initiated this Schema";
     }
 }

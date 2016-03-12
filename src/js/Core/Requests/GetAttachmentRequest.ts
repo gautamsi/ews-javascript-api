@@ -25,7 +25,7 @@ export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachm
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetAttachmentRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetResponseMessageXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
     GetResponseXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetXmlElementName : Not implemented."); }
+    //GetXmlElementName(): string { throw new Error("GetAttachmentRequest.ts - GetXmlElementName : Not implemented."); }
     Validate(): any { throw new Error("GetAttachmentRequest.ts - Validate : Not implemented."); }
     WriteAttachmentIdXml(writer: EwsServiceXmlWriter, attachmentId: string): any { throw new Error("GetAttachmentRequest.ts - WriteAttachmentIdXml : Not implemented."); }
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }

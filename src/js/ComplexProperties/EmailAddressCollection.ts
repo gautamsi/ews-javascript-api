@@ -2,6 +2,8 @@
 import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {EwsUtilities} from "../Core/EwsUtilities";
 import {Strings} from "../Strings";
+import {XmlElementNames} from "../Core/XmlElementNames";
+
 import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
 /**
  * Represents a collection of e-mail addresses.
@@ -11,24 +13,24 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
      * XML element name
      */
     private collectionItemXmlElementName: string = null;
-    
+
     /**
-     * Initializes a new instance of the **EmailAddressCollection** class.
+     * @internal Initializes a new instance of the **EmailAddressCollection** class.
      *
      * @remarks Note that XmlElementNames.Mailbox is the collection element name for ArrayOfRecipientsType, not ArrayOfEmailAddressesType.
      */
     constructor();
     /**
-     * Initializes a new instance of the **EmailAddressCollection** class.
+     * @internal Initializes a new instance of the **EmailAddressCollection** class.
      *
      * @param   {string}   collectionItemXmlElementName   Name of the collection item XML element.
      */
     constructor(collectionItemXmlElementName: string);
-    constructor(collectionItemXmlElementName: string = null) {
+    constructor(collectionItemXmlElementName?: string) {
         super();
-        this.collectionItemXmlElementName = collectionItemXmlElementName;
+        this.collectionItemXmlElementName = collectionItemXmlElementName || XmlElementNames.Mailbox;
     }
-    
+
     /**
      * Adds an e-mail address to the collection.
      *
@@ -67,7 +69,7 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
         this.InternalAdd(emailAddress);
         return emailAddress;
     }
-    
+
     /**
      * Adds multiple e-mail addresses to the collection.
      *
@@ -89,14 +91,14 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
             this.InternalAdd(emailAddress);
         }
     }
-    
+
     /**
      * Clears the collection.
      */
     Clear(): void { this.InternalClear(); }
 
     /**
-     * Creates an EmailAddress object from an XML element name.
+     * @internal Creates an EmailAddress object from an XML element name.
      *
      * @param   {string}   xmlElementName   The XML element name from which to create the e-mail address.
      * @return  {EmailAddress}              An EmailAddress object.
@@ -111,14 +113,14 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
     }
 
     /**
-     * Creates the default complex property.
+     * @internal Creates the default complex property.
      *
      * @return  {EmailAddress}      default instance of EmailAddress
      */
     CreateDefaultComplexProperty(): EmailAddress { return new EmailAddress(); }
 
     /**
-     * Retrieves the XML element name corresponding to the provided EmailAddress object.
+     * @internal Retrieves the XML element name corresponding to the provided EmailAddress object.
      *
      * @param   {EmailAddress}   emailAddress   The EmailAddress object from which to determine the XML element name.
      * @return  {string}        The XML element name corresponding to the provided EmailAddress object.
@@ -149,7 +151,7 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
     }
 
     /**
-     * Determine whether we should write collection to XML or not.
+     * @internal Determine whether we should write collection to XML or not.
      *
      * @return  {true}      Always true, even if the collection is empty.
      */

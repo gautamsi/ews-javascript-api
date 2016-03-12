@@ -31,44 +31,40 @@ export class TimeZoneDefinition extends ComplexProperty {
     constructor(timezoneInfo?: TimeZoneInfo) {
         super()
         if (typeof timezoneInfo !== 'undefined' && timezoneInfo !== TimeZoneInfo.Utc) {
-            EwsLogging.Assert(false,"TimeZoneDefinition.ts - ctor","timezone not implemented properly, always default to UTC")  
+            EwsLogging.Assert(false, "TimeZoneDefinition.ts - ctor", "timezone not implemented properly, always default to UTC")
             //throw new Error("TimeZoneDefinition.ts - ctor - timezone not implemented")
         }
     }
 
     CompareTransitions(x: TimeZoneTransition, y: TimeZoneTransition): number {
-        if (x == y)
-            {
-                return 0;
-            }
-            else if (x instanceof TimeZoneTransition)
-            {
-                return -1;
-            }
-            else if (y instanceof TimeZoneTransition)
-            {
-                return 1;
-            }
-            else
-            {
-                var firstTransition :AbsoluteDateTransition= <AbsoluteDateTransition>x;
-                var secondTransition:AbsoluteDateTransition = <AbsoluteDateTransition>y;
+        if (x == y) {
+            return 0;
+        }
+        else if (x instanceof TimeZoneTransition) {
+            return -1;
+        }
+        else if (y instanceof TimeZoneTransition) {
+            return 1;
+        }
+        else {
+            var firstTransition: AbsoluteDateTransition = <AbsoluteDateTransition>x;
+            var secondTransition: AbsoluteDateTransition = <AbsoluteDateTransition>y;
 
-                return DateTime.Compare(firstTransition.DateTime, secondTransition.DateTime);
-            }
+            return DateTime.Compare(firstTransition.DateTime, secondTransition.DateTime);
+        }
     }
-    
+
     CreateTransitionGroupToPeriod(timeZonePeriod: TimeZonePeriod): TimeZoneTransitionGroup {
         var transitionToPeriod: TimeZoneTransition = new TimeZoneTransition(this, timeZonePeriod);
 
         var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
         transitionGroup.Transitions.push(transitionToPeriod);
-        
+
         this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
 
         return transitionGroup;
     }
-    
+
     //InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - InternalToJson : Not implemented."); }
     //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
@@ -131,9 +127,9 @@ export class TimeZoneDefinition extends ComplexProperty {
         // this.transitions.Sort(this.CompareTransitions);
     }
     //ReadAttributesFromXmlJsObject(reader: any): any { throw new Error("TimeZoneDefinition.ts - ReadAttributesFromXml : Not implemented."); }
-    ToTimeZoneInfo(): any /*System.TimeZoneInfo*/ { throw new Error("TimeZoneDefinition.ts - ToTimeZoneInfo : Not implemented."); }
+    ToTimeZoneInfo(service?: ExchangeService): any /*System.TimeZoneInfo*/ { throw new Error("TimeZoneDefinition.ts - ToTimeZoneInfo : Not implemented."); }
     //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("TimeZoneDefinition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    
+
     Validate(): void {
         // The definition must have at least one period, one transition group and one transition,
         // and there must be as many transitions as there are transition groups.
@@ -210,8 +206,8 @@ export class TimeZoneDefinition extends ComplexProperty {
             }
         }
     }
-    WriteToXml(writer: EwsServiceXmlWriter): void {
-        super.WriteToXml(writer, XmlElementNames.TimeZoneDefinition, this.Namespace);
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string): void {
+        super.WriteToXml(writer, xmlElementName || XmlElementNames.TimeZoneDefinition, this.Namespace);
     }
 }
 

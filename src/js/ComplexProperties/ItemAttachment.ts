@@ -167,7 +167,7 @@ export class ItemAttachment extends Attachment {
     ReadElementsFromXmlJsObjectToPatch(reader: any): boolean { throw new Error("ItemAttachment.ts - TryReadElementFromXmlToPatch : Not implemented."); }
 
     /**
-     * Validates this instance.
+     * @internal Validates this instance.
      *
      * @param   {number}   attachmentIndex   Index of this attachment.
      */

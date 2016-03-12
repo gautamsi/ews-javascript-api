@@ -13,7 +13,7 @@ import {ServiceLocalException} from '../Exceptions/ServiceLocalException';
 /**
  * Represents a collection of properties that can be sent to and retrieved from EWS.
  * 
- * @type TComplexProperty   ComplexProperty type.
+ * @type <TComplexProperty>   ComplexProperty type.
  */
 import {ComplexProperty} from "./ComplexProperty";
 export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty {
@@ -27,33 +27,33 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     private removedItems: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
 
     /**
-     * Gets the items.
+     * @internal Gets the items.
      * 
      * @return The items.
      */
     get Items(): TComplexProperty[] { return this.items; }  //System.Collections.Generic.List<TComplexProperty>;
-    
+
     /**
-     * Gets the added items.
+     * @internal Gets the added items.
      *
      * @return The added items.
      */
     get AddedItems(): TComplexProperty[] { return this.addedItems; }  //System.Collections.Generic.List<TComplexProperty>;
-    
+
     /**
-     * Gets the modified items.
+     * @internal Gets the modified items.
      *
      * @return The modified items
      */
     get ModifiedItems(): TComplexProperty[] { return this.modifiedItems; }  //System.Collections.Generic.List<TComplexProperty>;
-    
+
     /**
-     * Gets the removed items.
+     * @internal Gets the removed items.
      * 
      * @return The removed items.
      */
     get RemovedItems(): TComplexProperty[] { return this.removedItems; }  //System.Collections.Generic.List<TComplexProperty>;
-    
+
     /**
      * Gets the total number of properties in the collection.
      */
@@ -73,7 +73,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     }
 
     /**
-     * Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the  class.
      *
      */
     constructor() {
@@ -81,14 +81,14 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     }
 
     /**
-     * Clears the change log.
+     * @internal Clears the change log.
      */
     ClearChangeLog(): void {
         this.removedItems.splice(0);
         this.addedItems.splice(0);
         this.modifiedItems.splice(0);
     }
-    
+
     /**
      * Determines whether a specific property is in the collection.
      *
@@ -96,43 +96,38 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
      * @return  {boolean}           True if the property was found in the collection, false otherwise.
      */
     Contains(complexProperty: TComplexProperty): boolean { return this.items.indexOf(complexProperty) >= 0; }
-    
+
     /**
-     * Creates the complex property.
+     * @internal Creates the complex property.
      *
      * @param   {string}   xmlElementName   Name of the XML element.
      * @return  {TComplexProperty}          Complex property instance.
      */
     CreateComplexProperty(xmlElementName: string): TComplexProperty { throw new Error("abstract - ComplexPropertyCollection.ts - CreateComplexProperty : Not implemented."); }
-    
+
     /**
-     * Creates the default complex property.
+     * @internal Creates the default complex property.
      *
      * @return  {TComplexProperty}      Complex property instance.
      */
     CreateDefaultComplexProperty(): TComplexProperty { throw new Error("abstract - ComplexPropertyCollection.ts - CreateDefaultComplexProperty : Not implemented."); }
 
     /**
-     * Loads from XMLJsObject collection to create a new collection item.
+     * @internal Loads from XMLJsObject collection to create a new collection item.
      *
      * @interface   IJsonCollectionDeserializer
      * 
      * @param   {any}               jsObjectCollection   The json collection.
      * @param   {ExchangeService}   service          The service.
      */
-    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
-        debugger;
-        debugger;
-        debugger;
-        debugger;
-        debugger;
+    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {        
         let collection: TComplexProperty[] = [];
-        for (var key in jsObjectCollection) {
-            if ((<string>key).indexOf("__") === 0) //skip xnljsobject conversion entries like __type and __prefix
+        for (let key in jsObjectCollection) {
+            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
                 continue;
 
             if (jsObjectCollection.hasOwnProperty(key)) {
-                var collectionObj = undefined;
+                let collectionObj = undefined;
                 if (ArrayHelper.isArray(jsObjectCollection[key])) {
                     collectionObj = jsObjectCollection[key];
                 }
@@ -165,16 +160,16 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             }
         }
     }
-    
+
     /**
-     * Gets the name of the collection item XML element.
+     * @internal Gets the name of the collection item XML element.
      *
      * @param   {TComplexProperty}   complexProperty   The complex property.
      * @return  {string}            XML element name.
      */
     GetCollectionItemXmlElementName(complexProperty: TComplexProperty): string { throw new Error("abstract - ComplexPropertyCollection.ts - GetCollectionItemXmlElementName : Not implemented."); }
     //GetEnumerator(): any { throw new Error("ComplexPropertyCollection.ts - GetEnumerator : Not implemented."); }
-    
+
     /**
      * Searches for a specific property and return its zero-based index within the collection.
      *
@@ -184,13 +179,13 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     IndexOf(complexProperty: TComplexProperty): number { return this.items.indexOf(complexProperty); }
 
     /**
-     * Add complex property.
+     * @internal Add complex property.
      *
      * @param   {TComplexProperty}   complexProperty   The complex property.
      */
     InternalAdd(complexProperty: TComplexProperty): void;
     /**
-     * Add complex property.
+     * @private Add complex property.
      *
      * @param   {TComplexProperty}   complexProperty   The complex property.
      * @param   {boolean}   loading           If true, collection is being loaded.
@@ -212,18 +207,18 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             this.Changed();
         }
     }
-    
+
     /**
-     * Clear collection.
+     * @internal Clear collection.
      */
     InternalClear(): void {
         while (this.Count > 0) {
             this.InternalRemoveAt(0);
         }
     }
-    
+
     /**
-     * Remove specified complex property.
+     * @internal Remove specified complex property.
      *
      * @param   {TComplexProperty}   complexProperty   The complex property.
      * @return  {boolean}           True if the complex property was successfully removed from the collection, false otherwise.
@@ -235,7 +230,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             "complexProperty is null");
 
         if (ArrayHelper.RemoveEntry(this.items, complexProperty)) { // this.items.Remove(complexProperty))
-            
+
             ArrayHelper.RemoveEntry(complexProperty.OnChange, this.ItemChanged);// complexProperty.OnChange -= this.ItemChanged;
 
             if (this.addedItems.indexOf(complexProperty) < 0) {
@@ -252,9 +247,9 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             return false;
         }
     }
-    
+
     /**
-     * Remote entry at index.
+     * @internal Remote entry at index.
      *
      * @param   {number}   index   The index.
      */
@@ -267,15 +262,15 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
         this.InternalRemove(this.items[index]);
     }
     InternalToJson(service: ExchangeService): any { throw new Error("ComplexPropertyCollection.ts - InternalToJson : Not implemented."); }
-    
+
     /**
-     * Item changed.
+     * @internal Item changed.
      *
      * @param   {ComplexProperty}   complexProperty   The complex property.
      */
     ItemChanged(complexProperty: ComplexProperty): void {
         //TComplexProperty property = complexProperty as TComplexProperty;
-        var property = complexProperty;
+        let property = complexProperty;
         // EwsLogging.Assert(
         //     property != null,
         //     "ComplexPropertyCollection.ItemChanged",
@@ -290,9 +285,9 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     }
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
     //LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXml : Not implemented."); }
-    
+
     /**
-     * Removes from change log.
+     * @internal Removes from change log.
      *
      * @param   {TComplexProperty}   complexProperty   The complex property.
      */
@@ -301,9 +296,9 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
         ArrayHelper.RemoveEntry(this.modifiedItems, complexProperty);    //this.modifiedItems.Remove(complexProperty);
         ArrayHelper.RemoveEntry(this.addedItems, complexProperty);       //this.addedItems.Remove(complexProperty);
     }
-    
+
     /**
-     * Determine whether we should write collection to XML or not.
+     * @internal Determine whether we should write collection to XML or not.
      *
      * @return  {boolean}      True if collection contains at least one element.
      */
@@ -311,9 +306,9 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
         // Only write collection if it has at least one element.
         return this.Count > 0;
     }
-    
+
     /**
-     * Loads from XMLJsObject collection to update collection Items.
+     * @internal Loads from XMLJsObject collection to update collection Items.
      *
      * @interface   IJsonCollectionDeserializer
      * 
@@ -322,12 +317,12 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
      */
     UpdateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
         let collection: TComplexProperty[] = [];
-        for (var key in jsObjectCollection) {
-            if ((<string>key).indexOf("__") === 0) //skip xnljsobject conversion entries like __type and __prefix
+        for (let key in jsObjectCollection) {
+            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
                 continue;
 
             if (jsObjectCollection.hasOwnProperty(key)) {
-                var collectionObj = undefined;
+                let collectionObj = undefined;
                 if (ArrayHelper.isArray(jsObjectCollection[key])) {
                     collectionObj = jsObjectCollection[key];
                 }
@@ -367,20 +362,20 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             }
         }
     }
-    
+
     /**
-     * Writes elements to XML.
+     * @internal Writes elements to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        for (var complexProperty of this.items) {
+        for (let complexProperty of this.items) {
             complexProperty.WriteToXml(writer, this.GetCollectionItemXmlElementName(complexProperty));
         }
     }
-    
+
     /**
-     * Writes to XML.
+     * @internal Writes to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer           The writer.
      * @param   {XmlNamespace}          xmlNamespace     The XML namespace.
@@ -394,12 +389,12 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
                 xmlNamespace);
         }
     }
-    
-    
+
+
     //ICustomUpdateSerializer
-    
+
     /**
-     * Writes the update to XML.
+     * @internal Writes the update to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer               The writer.
      * @param   {ServiceObject}         ewsObject            The ews object.
@@ -422,9 +417,9 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             return false;
         }
     }
-    
+
     /**
-     * Writes the deletion update to XML.
+     * @internal Writes the deletion update to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer      The writer.
      * @param   {ServiceObject}         ewsObject   The ews object.

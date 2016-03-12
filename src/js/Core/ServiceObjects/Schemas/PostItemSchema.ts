@@ -7,22 +7,68 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {ItemSchema} from "./ItemSchema";
 
+/**
+ * Field URIs for PostItem.
+ */
 module FieldUris {
     export var PostedTime: string = "postitem:PostedTime";
 }
 
+/**
+ * Represents the schema for post items.
+ */
 export class PostItemSchema extends ItemSchema {
+    
+    /**
+     * Defines the **ConversationIndex** property.
+     */
     public ConversationIndex: PropertyDefinition;
+    
+    /**
+     * Defines the **ConversationTopic** property.
+     */
     public ConversationTopic: PropertyDefinition;
+    
+    /**
+     * Defines the **From** property.
+     */
     public From: PropertyDefinition;
+    
+    /**
+     * Defines the **InternetMessageId** property.
+     */
     public InternetMessageId: PropertyDefinition;
+    
+    /**
+     * Defines the **IsRead** property.
+     */
     public IsRead: PropertyDefinition;
+    
+    /**
+     * Defines the **PostedTime** property.
+     */
     public PostedTime: PropertyDefinition;
+    
+    /**
+     * Defines the **References** property.
+     */
     public References: PropertyDefinition;
+    
+    /**
+     * Defines the **Sender** property.
+     */
     public Sender: PropertyDefinition;
 
+    /**
+     * @internal Instance of **PostItemSchema** 
+     */
     static Instance: PostItemSchema = new PostItemSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.ConversationIndex);
@@ -45,9 +91,9 @@ export class PostItemSchema extends ItemSchema {
         this.PostedTime = new DateTimePropertyDefinition(
             "PostedTime",
             XmlElementNames.PostedTime,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.PostedTime,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.References = Schemas.EmailMessageSchema.References;

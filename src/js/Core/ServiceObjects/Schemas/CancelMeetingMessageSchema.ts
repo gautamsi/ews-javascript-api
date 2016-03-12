@@ -9,11 +9,26 @@ import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPro
 import {Schemas} from "./Schemas";
 
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
 export class CancelMeetingMessageSchema extends ServiceObjectSchema {
+    
+    /**
+     * Defines the **Body** property.
+     */
     public Body: PropertyDefinition;
 
+    /**
+     * @internal Instance of **CancelMeetingMessageSchema** 
+     */
     static Instance: CancelMeetingMessageSchema;
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(Schemas.EmailMessageSchema.IsReadReceiptRequested);
@@ -27,9 +42,8 @@ export class CancelMeetingMessageSchema extends ServiceObjectSchema {
         this.Body = new ComplexPropertyDefinition<MessageBody>(
             "Body",
             XmlElementNames.NewBodyContent,
-            ExchangeVersion.Exchange2007_SP1,
-            null,
             PropertyDefinitionFlags.CanSet,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new MessageBody(); }
         );
     }

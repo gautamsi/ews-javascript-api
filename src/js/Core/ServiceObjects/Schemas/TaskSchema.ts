@@ -1,4 +1,5 @@
-﻿import {TaskMode} from "../../../Enumerations/TaskMode";
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {TaskMode} from "../../../Enumerations/TaskMode";
 import {TaskStatus} from "../../../Enumerations/TaskStatus";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
@@ -17,6 +18,9 @@ import {Schemas} from "./Schemas";
 
 import {ItemSchema} from "./ItemSchema";
 
+/**
+ * Field URIs for tasks.
+ */
 module FieldUris {
     export var ActualWork: string = "task:ActualWork";
     export var AssignedTime: string = "task:AssignedTime";
@@ -42,32 +46,131 @@ module FieldUris {
     export var TotalWork: string = "task:TotalWork";
 }
 
+/**
+ * Represents the schema for task items.
+ */
 export class TaskSchema extends ItemSchema {
+
+    /**
+     * Defines the **ActualWork** property.
+     */
     public ActualWork: PropertyDefinition;
+
+    /**
+     * Defines the **AssignedTime** property.
+     */
     public AssignedTime: PropertyDefinition;
+
+    /**
+     * Defines the **BillingInformation** property.
+     */
     public BillingInformation: PropertyDefinition;
+
+    /**
+     * Defines the **ChangeCount** property.
+     */
     public ChangeCount: PropertyDefinition;
+
+    /**
+     * Defines the **Companies** property.
+     */
     public Companies: PropertyDefinition;
+
+    /**
+     * Defines the **CompleteDate** property.
+     */
     public CompleteDate: PropertyDefinition;
+
+    /**
+     * Defines the **Contacts** property.
+     */
     public Contacts: PropertyDefinition;
+
+    /**
+     * Defines the **DelegationState** property.
+     */
     public DelegationState: PropertyDefinition;
+
+    /**
+     * Defines the **Delegator** property.
+     */
     public Delegator: PropertyDefinition;
+
+    /**
+     * Defines the **DueDate** property.
+     */
     public DueDate: PropertyDefinition;
+
+    /**
+     * Defines the **Mode** property.
+     */
     public Mode: PropertyDefinition;
+
+    /**
+     * Defines the **IsComplete** property.
+     */
     public IsComplete: PropertyDefinition;
+
+    /**
+     * Defines the **IsRecurring** property.
+     */
     public IsRecurring: PropertyDefinition;
+
+    /**
+     * Defines the **IsTeamTask** property.
+     */
     public IsTeamTask: PropertyDefinition;
+
+    /**
+     * Defines the **Mileage** property.
+     */
     public Mileage: PropertyDefinition;
+
+    /**
+     * Defines the **Owner** property.
+     */
     public Owner: PropertyDefinition;
+
+    /**
+     * Defines the **PercentComplete** property.
+     */
     public PercentComplete: PropertyDefinition;
+
+    /**
+     * Defines the **Recurrence** property.
+     */
     public Recurrence: PropertyDefinition;
+
+    /**
+     * Defines the **StartDate** property.
+     */
     public StartDate: PropertyDefinition;
+
+    /**
+     * Defines the **Status** property.
+     */
     public Status: PropertyDefinition;
+
+    /**
+     * Defines the **StatusDescription** property.
+     */
     public StatusDescription: PropertyDefinition;
+
+    /**
+     * Defines the **TotalWork** property.
+     */
     public TotalWork: PropertyDefinition;
 
+    /**
+     * @internal Instance of **TaskSchema** 
+     */
     static Instance: TaskSchema = new TaskSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.ActualWork);
@@ -98,185 +201,185 @@ export class TaskSchema extends ItemSchema {
         super.init();
         this.ActualWork = new IntPropertyDefinition(
             "ActualWork",
-            "ActualWork",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.ActualWork,
             FieldUris.ActualWork,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.AssignedTime = new DateTimePropertyDefinition(
             "AssignedTime",
-            "AssignedTime",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.AssignedTime,
             FieldUris.AssignedTime,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.BillingInformation = new StringPropertyDefinition(
             "BillingInformation",
-            "BillingInformation",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.BillingInformation,
             FieldUris.BillingInformation,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ChangeCount = new IntPropertyDefinition(
             "ChangeCount",
-            "ChangeCount",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.ChangeCount,
             FieldUris.ChangeCount,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Companies = new ComplexPropertyDefinition<StringList>(
             "Companies",
-            "Companies",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Companies,
             FieldUris.Companies,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new StringList(); }
         );
 
         this.CompleteDate = new DateTimePropertyDefinition(
             "CompleteDate",
-            "CompleteDate",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.CompleteDate,
             FieldUris.CompleteDate,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.Contacts = new ComplexPropertyDefinition<StringList>(
             "Contacts",
-            "Contacts",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Contacts,
             FieldUris.Contacts,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new StringList(); }
         );
 
         this.DelegationState = new TaskDelegationStatePropertyDefinition(
             "DelegationState",
-            "DelegationState",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.DelegationState,
             FieldUris.DelegationState,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Delegator = new StringPropertyDefinition(
             "Delegator",
-            "Delegator",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Delegator,
             FieldUris.Delegator,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.DueDate = new DateTimePropertyDefinition(
             "DueDate",
-            "DueDate",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.DueDate,
             FieldUris.DueDate,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.Mode = new GenericPropertyDefinition<TaskMode>(
             "IsAssignmentEditable",
-            "IsAssignmentEditable",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.IsAssignmentEditable,
             FieldUris.IsAssignmentEditable,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsComplete = new BoolPropertyDefinition(
             "IsComplete",
-            "IsComplete",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.IsComplete,
             FieldUris.IsComplete,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsRecurring = new BoolPropertyDefinition(
             "IsRecurring",
-            "IsRecurring",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.IsRecurring,
             FieldUris.IsRecurring,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsTeamTask = new BoolPropertyDefinition(
             "IsTeamTask",
-            "IsTeamTask",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.IsTeamTask,
             FieldUris.IsTeamTask,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Mileage = new StringPropertyDefinition(
             "Mileage",
-            "Mileage",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Mileage,
             FieldUris.Mileage,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Owner = new StringPropertyDefinition(
             "Owner",
-            "Owner",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Owner,
             FieldUris.Owner,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.PercentComplete = new DoublePropertyDefinition(
             "PercentComplete",
-            "PercentComplete",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.PercentComplete,
             FieldUris.PercentComplete,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.Recurrence = new RecurrencePropertyDefinition(
             "Recurrence",
-            "Recurrence",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Recurrence,
             FieldUris.Recurrence,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.StartDate = new DateTimePropertyDefinition(
             "StartDate",
-            "StartDate",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.StartDate,
             FieldUris.StartDate,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.Status = new GenericPropertyDefinition<TaskStatus>(
             "Status",
-            "Status",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.Status,
             FieldUris.Status,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.StatusDescription = new StringPropertyDefinition(
             "StatusDescription",
-            "StatusDescription",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.StatusDescription,
             FieldUris.StatusDescription,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.TotalWork = new IntPropertyDefinition(
             "TotalWork",
-            "TotalWork",
-            ExchangeVersion.Exchange2007_SP1,
+            XmlElementNames.TotalWork,
             FieldUris.TotalWork,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
     }

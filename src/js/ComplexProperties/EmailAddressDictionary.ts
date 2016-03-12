@@ -14,15 +14,27 @@ import {EmailAddressEntry} from "./EmailAddressEntry";
 import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
 import {DictionaryProperty} from "./DictionaryProperty";
 export class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, EmailAddressEntry> {
-    
+
     constructor() {
         super(DictionaryKeyType.EmailAddressKey);
     }
 
+    /**
+     * Gets or sets the e-mail address at the specified key.
+     *
+     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
+     * @return  {EmailAddress}         The e-mail address at the specified key.
+     */
     _getItem(key: EmailAddressKey): EmailAddress {
         return this.Entries.get(key).EmailAddress;
     }
 
+    /**
+     * Gets or sets the e-mail address at the specified key.
+     *
+     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
+     * @return  {EmailAddress}         The e-mail address at the specified key.
+     */
     _setItem(key: EmailAddressKey, value: EmailAddress) {
         if (value == null) {
             this.InternalRemove(key);
@@ -40,7 +52,40 @@ export class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, 
             }
         }
     }
+
+    /**
+     * @internal Creates instance of dictionary entry.
+     *
+     * @return  {EmailAddressEntry}      New instance.
+     */
     CreateEntryInstance(): EmailAddressEntry { return new EmailAddressEntry(); }
-    GetFieldURI(): string { throw new Error("EmailAddressDictionary.ts - GetFieldURI : Not implemented."); }
-    TryGetValue(key: EmailAddressKey, emailAddress: any): boolean { throw new Error("EmailAddressDictionary.ts - TryGetValue : Not implemented."); }
+
+    /**
+     * @internal Gets the field URI.
+     *
+     * @return  {string}      Field URI.
+     */
+    GetFieldURI(): string { return "contacts:EmailAddress"; }
+
+    /**
+     * Tries to get the e-mail address associated with the specified key.
+     *
+     * @param   {EmailAddressKey}   key            The key.
+     * @param   {IOutParam<EmailAddress>}   emailAddress   When this method returns, contains the e-mail address associated with the specified key, if the key is found; otherwise, null. This parameter is passed uninitialized.
+     * @return  {boolean}                  true if the Dictionary contains an e-mail address associated with the specified key; otherwise, false.
+     */
+    TryGetValue(key: EmailAddressKey, emailAddress: IOutParam<EmailAddress>): boolean {
+        let entry: IOutParam<EmailAddressEntry> = null;
+
+        if (this.Entries.tryGetValue(key, entry)) {
+            emailAddress = entry.outValue.EmailAddress;
+
+            return true;
+        }
+        else {
+            emailAddress = null;
+
+            return false;
+        }
+    }
 }

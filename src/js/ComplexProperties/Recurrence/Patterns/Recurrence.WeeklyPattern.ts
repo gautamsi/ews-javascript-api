@@ -5,7 +5,7 @@ import {ExchangeService} from "../../../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
 import {DayOfTheWeekCollection} from "../DayOfTheWeekCollection";
 			
-import {IntervalPattern} from "./Recurrence_IntervalPattern";
+import {IntervalPattern} from "./Recurrence.IntervalPattern";
 export class WeeklyPattern extends IntervalPattern {
 	XmlElementName: string;
 	DaysOfTheWeek: DayOfTheWeekCollection;

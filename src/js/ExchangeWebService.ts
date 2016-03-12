@@ -109,7 +109,14 @@ TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneD
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
 
+/**
+ * Bootstrap typecontainer
+ */
+import {TypeContainer} from "./TypeContainer";
+TypeContainer.ServiceObjectSchema = ServiceObjectSchema;
+
 import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
+import {Folder} from "./Core/ServiceObjects/Folders/Folder";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
 import {Item} from "./Core/ServiceObjects/Items/Item";
 import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
@@ -120,8 +127,11 @@ import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 
 import {ExchangeService} from "./Core/ExchangeService";
 
-import {TypeContainer} from "./TypeContainer"
+import {IndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
+import {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedPropertyDefinition";
+
 TypeContainer.ServiceObject = ServiceObject;
+TypeContainer.Folder = Folder;
 TypeContainer.Item = Item;
 TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
@@ -131,7 +141,11 @@ TypeContainer.ItemAttachment = ItemAttachment;
 TypeContainer.ItemAttachmentOf = ItemAttachmentOf
 TypeContainer.ExchangeService = ExchangeService;
 
-export {ServiceObject, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse}
+TypeContainer.IndexedPropertyDefinition = IndexedPropertyDefinition;
+TypeContainer.ExtendedPropertyDefinition = ExtendedPropertyDefinition;
+
+
+export {ServiceObject, Folder, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
 /**#endregion BootStrap code */
 
 
@@ -365,7 +379,6 @@ export {ExpandGroupResults} from "./Misc/ExpandGroupResults";
 export {ExtendedAttributes} from "./MailboxSearch/ExtendedAttributes";
 export {ExtendedProperty} from "./ComplexProperties/ExtendedProperty";
 export {ExtendedPropertyCollection} from "./ComplexProperties/ExtendedPropertyCollection";
-export {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedPropertyDefinition";
 export {ExtensionInstallScope} from "./Enumerations/ExtensionInstallScope";
 export {DOMParser, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper, xml2JsObject} from "./ExtensionMethods";
 
@@ -386,7 +399,6 @@ export {FindItemsResults} from "./Search/FindItemsResults";
 export {FindRequest} from "./Core/Requests/FindRequest";
 export {Flag} from "./ComplexProperties/Flag";
 export {FlaggedForAction} from "./Enumerations/FlaggedForAction";
-export {Folder} from "./Core/ServiceObjects/Folders/Folder";
 export {FolderChange} from "./Sync/FolderChange";
 export {FolderEvent} from "./Notifications/FolderEvent";
 export {FolderId} from "./ComplexProperties/FolderId";
@@ -502,7 +514,6 @@ export {ImAddressEntry} from "./ComplexProperties/ImAddressEntry";
 export {ImAddressKey} from "./Enumerations/ImAddressKey";
 export {ImpersonatedUserId} from "./Misc/ImpersonatedUserId";
 export {Importance} from "./Enumerations/Importance";
-export {IndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
 export {InstallAppRequest} from "./Core/Requests/InstallAppRequest";
 export {InstallAppResponse} from "./Core/Responses/InstallAppResponse";
 export {InternetMessageHeader} from "./ComplexProperties/InternetMessageHeader";
@@ -667,17 +678,17 @@ export {ProtocolConnectionCollection} from "./Autodiscover/ProtocolConnectionCol
 export {PullSubscription} from "./Notifications/PullSubscription";
 export {PushSubscription} from "./Notifications/PushSubscription";
 export {Recurrence} from "./ComplexProperties/Recurrence/Patterns/Recurrence";
-export {DailyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_DailyPattern";
-export {DailyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_DailyRegenerationPattern";
-export {IntervalPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_IntervalPattern";
-export {MonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_MonthlyPattern";
-export {MonthlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_MonthlyRegenerationPattern";
-export {RelativeMonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_RelativeMonthlyPattern";
-export {RelativeYearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_RelativeYearlyPattern";
-export {WeeklyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_WeeklyPattern";
-export {WeeklyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_WeeklyRegenerationPattern";
-export {YearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_YearlyPattern";
-export {YearlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_YearlyRegenerationPattern";
+export {DailyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyPattern";
+export {DailyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyRegenerationPattern";
+export {IntervalPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.IntervalPattern";
+export {MonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.MonthlyPattern";
+export {MonthlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.MonthlyRegenerationPattern";
+export {RelativeMonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.RelativeMonthlyPattern";
+export {RelativeYearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.RelativeYearlyPattern";
+export {WeeklyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.WeeklyPattern";
+export {WeeklyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.WeeklyRegenerationPattern";
+export {YearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.YearlyPattern";
+export {YearlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.YearlyRegenerationPattern";
 export {RecurrencePropertyDefinition} from "./PropertyDefinitions/RecurrencePropertyDefinition";
 export {RecurrenceRange} from "./ComplexProperties/Recurrence/Ranges/RecurrenceRange";
 export {RecurringAppointmentMasterId} from "./ComplexProperties/RecurringAppointmentMasterId";
@@ -716,19 +727,19 @@ export {SafeXmlFactory} from "./Security/SafeXmlFactory";
 export {ScopedDateTimePropertyDefinition} from "./PropertyDefinitions/ScopedDateTimePropertyDefinition";
 export {SearchableMailbox} from "./MailboxSearch/SearchableMailbox";
 export {SearchFilter} from "./Search/Filters/SearchFilter";
-export {ContainsSubstring} from "./Search/Filters/SearchFilter_ContainsSubstring";
-export {ExcludesBitmask} from "./Search/Filters/SearchFilter_ExcludesBitmask";
-export {Exists} from "./Search/Filters/SearchFilter_Exists";
-export {IsEqualTo} from "./Search/Filters/SearchFilter_IsEqualTo";
-export {IsGreaterThan} from "./Search/Filters/SearchFilter_IsGreaterThan";
-export {IsGreaterThanOrEqualTo} from "./Search/Filters/SearchFilter_IsGreaterThanOrEqualTo";
-export {IsLessThan} from "./Search/Filters/SearchFilter_IsLessThan";
-export {IsLessThanOrEqualTo} from "./Search/Filters/SearchFilter_IsLessThanOrEqualTo";
-export {IsNotEqualTo} from "./Search/Filters/SearchFilter_IsNotEqualTo";
-export {Not} from "./Search/Filters/SearchFilter_Not";
-export {PropertyBasedFilter} from "./Search/Filters/SearchFilter_PropertyBasedFilter";
-export {RelationalFilter} from "./Search/Filters/SearchFilter_RelationalFilter";
-export {SearchFilterCollection} from "./Search/Filters/SearchFilter_SearchFilterCollection";
+export {ContainsSubstring} from "./Search/Filters/SearchFilter.ContainsSubstring";
+export {ExcludesBitmask} from "./Search/Filters/SearchFilter.ExcludesBitmask";
+export {Exists} from "./Search/Filters/SearchFilter.Exists";
+export {IsEqualTo} from "./Search/Filters/SearchFilter.IsEqualTo";
+export {IsGreaterThan} from "./Search/Filters/SearchFilter.IsGreaterThan";
+export {IsGreaterThanOrEqualTo} from "./Search/Filters/SearchFilter.IsGreaterThanOrEqualTo";
+export {IsLessThan} from "./Search/Filters/SearchFilter.IsLessThan";
+export {IsLessThanOrEqualTo} from "./Search/Filters/SearchFilter.IsLessThanOrEqualTo";
+export {IsNotEqualTo} from "./Search/Filters/SearchFilter.IsNotEqualTo";
+export {Not} from "./Search/Filters/SearchFilter.Not";
+export {PropertyBasedFilter} from "./Search/Filters/SearchFilter.PropertyBasedFilter";
+export {RelationalFilter} from "./Search/Filters/SearchFilter.RelationalFilter";
+export {SearchFilterCollection} from "./Search/Filters/SearchFilter.SearchFilterCollection";
 export {SearchFolder} from "./Core/ServiceObjects/Folders/SearchFolder";
 export {SearchFolderParameters} from "./ComplexProperties/SearchFolderParameters";
 export {SearchFolderTraversal} from "./Enumerations/SearchFolderTraversal";

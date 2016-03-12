@@ -7,7 +7,7 @@ import {ServiceRemoteException} from "./ServiceRemoteException";
 /**
  * Represents a remote service exception that can have multiple service responses.
  * 
- * @typeParam {TResponse}       The type of the response.
+ * @type {TResponse}       The type of the response.
  */
 export class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {
     /**

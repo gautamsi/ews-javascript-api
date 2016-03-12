@@ -14,6 +14,9 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {ItemSchema} from "./ItemSchema";
 
+/**
+ * Field URIs for EmailMessage.
+ */
 module FieldUris {
     export var ConversationIndex: string = "message:ConversationIndex";
     export var ConversationTopic: string = "message:ConversationTopic";
@@ -35,28 +38,111 @@ module FieldUris {
     export var VotingInformation: string = "message:VotingInformation";
 }
 
+/**
+ * Represents the schema for e-mail messages.
+ */
 export class EmailMessageSchema extends ItemSchema {
+
+    /**
+     * Defines the **ToRecipients** property.
+     */
     public ToRecipients: PropertyDefinition;
+
+    /**
+     * Defines the **BccRecipients** property.
+     */
     public BccRecipients: PropertyDefinition;
+
+    /**
+     * Defines the **CcRecipients** property.
+     */
     public CcRecipients: PropertyDefinition;
+
+    /**
+     * Defines the **ConversationIndex** property.
+     */
     public ConversationIndex: PropertyDefinition;
+
+    /**
+     * Defines the **ConversationTopic** property.
+     */
     public ConversationTopic: PropertyDefinition;
+
+    /**
+     * Defines the **From** property.
+     */
     public From: PropertyDefinition;
+
+    /**
+     * Defines the **IsDeliveryReceiptRequested** property.
+     */
     public IsDeliveryReceiptRequested: PropertyDefinition;
+
+    /**
+     * Defines the **IsRead** property.
+     */
     public IsRead: PropertyDefinition;
+
+    /**
+     * Defines the **IsReadReceiptRequested** property.
+     */
     public IsReadReceiptRequested: PropertyDefinition;
+
+    /**
+     * Defines the **IsResponseRequested** property.
+     */
     public IsResponseRequested: PropertyDefinition;
+
+    /**
+     * Defines the **InternetMessageId** property.
+     */
     public InternetMessageId: PropertyDefinition;
+
+    /**
+     * Defines the **References** property.
+     */
     public References: PropertyDefinition;
+
+    /**
+     * Defines the **ReplyTo** property.
+     */
     public ReplyTo: PropertyDefinition;
+
+    /**
+     * Defines the **Sender** property.
+     */
     public Sender: PropertyDefinition;
+
+    /**
+     * Defines the **ReceivedBy** property.
+     */
     public ReceivedBy: PropertyDefinition;
+
+    /**
+     * Defines the **ReceivedRepresenting** property.
+     */
     public ReceivedRepresenting: PropertyDefinition;
+
+    /**
+     * Defines the **ApprovalRequestData** property.
+     */
     public ApprovalRequestData: PropertyDefinition;
+
+    /**
+     * Defines the **VotingInformation** property.
+     */
     public VotingInformation: PropertyDefinition;
 
+    /**
+     * @internal Instance of **EmailMessageSchema** 
+     */
     static Instance: EmailMessageSchema = new EmailMessageSchema();
 
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
         super.RegisterProperty(this.Sender);
@@ -84,111 +170,111 @@ export class EmailMessageSchema extends ItemSchema {
         this.ToRecipients = new ComplexPropertyDefinition<EmailAddressCollection>(
             "ToRecipients",
             XmlElementNames.ToRecipients,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ToRecipients,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddressCollection(); }
         );
 
         this.BccRecipients = new ComplexPropertyDefinition<EmailAddressCollection>(
             "BccRecipients",
             XmlElementNames.BccRecipients,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.BccRecipients,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddressCollection(); }
         );
 
         this.CcRecipients = new ComplexPropertyDefinition<EmailAddressCollection>(
             "CcRecipients",
             XmlElementNames.CcRecipients,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.CcRecipients,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddressCollection(); }
         );
 
         this.ConversationIndex = new ByteArrayPropertyDefinition(
             "ConversationIndex",
             XmlElementNames.ConversationIndex,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ConversationIndex,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ConversationTopic = new StringPropertyDefinition(
             "ConversationTopic",
             XmlElementNames.ConversationTopic,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ConversationTopic,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.From = new ContainedPropertyDefinition<EmailAddress>(
             "From",
             XmlElementNames.From,
             XmlElementNames.Mailbox,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.From,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddress(); }
         );
 
         this.IsDeliveryReceiptRequested = new BoolPropertyDefinition(
             "IsDeliveryReceiptRequested",
             XmlElementNames.IsDeliveryReceiptRequested,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IsDeliveryReceiptRequested,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsRead = new BoolPropertyDefinition(
             "IsRead",
             XmlElementNames.IsRead,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IsRead,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsReadReceiptRequested = new BoolPropertyDefinition(
             "IsReadReceiptRequested",
             XmlElementNames.IsReadReceiptRequested,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IsReadReceiptRequested,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.IsResponseRequested = new BoolPropertyDefinition(
             "IsResponseRequested",
             XmlElementNames.IsResponseRequested,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.IsResponseRequested,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             true
         );
 
         this.InternetMessageId = new StringPropertyDefinition(
             "InternetMessageId",
             XmlElementNames.InternetMessageId,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.InternetMessageId,
-            PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.References = new StringPropertyDefinition(
             "References",
             XmlElementNames.References,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.References,
-            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
+            PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1
         );
 
         this.ReplyTo = new ComplexPropertyDefinition<EmailAddressCollection>(
             "ReplyTo",
             XmlElementNames.ReplyTo,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ReplyTo,
             PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddressCollection(); }
         );
 
@@ -196,9 +282,9 @@ export class EmailMessageSchema extends ItemSchema {
             "Sender",
             XmlElementNames.Sender,
             XmlElementNames.Mailbox,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.Sender,
             PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddress(); }
         );
 
@@ -206,9 +292,9 @@ export class EmailMessageSchema extends ItemSchema {
             "ReceivedBy",
             XmlElementNames.ReceivedBy,
             XmlElementNames.Mailbox,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ReceivedBy,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddress(); }
         );
 
@@ -216,27 +302,27 @@ export class EmailMessageSchema extends ItemSchema {
             "ReceivedRepresenting",
             XmlElementNames.ReceivedRepresenting,
             XmlElementNames.Mailbox,
-            ExchangeVersion.Exchange2007_SP1,
             FieldUris.ReceivedRepresenting,
             PropertyDefinitionFlags.CanFind,
+            ExchangeVersion.Exchange2007_SP1,
             () => { return new EmailAddress(); }
         );
 
         this.ApprovalRequestData = new ComplexPropertyDefinition<ApprovalRequestData>(
             "ApprovalRequestData",
             XmlElementNames.ApprovalRequestData,
-            ExchangeVersion.Exchange2013,
             FieldUris.ApprovalRequestData,
             PropertyDefinitionFlags.None,
+            ExchangeVersion.Exchange2013,
             () => { return new ApprovalRequestData(); }
         );
 
         this.VotingInformation = new ComplexPropertyDefinition<VotingInformation>(
             "VotingInformation",
             XmlElementNames.VotingInformation,
-            ExchangeVersion.Exchange2013,
             FieldUris.VotingInformation,
             PropertyDefinitionFlags.None,
+            ExchangeVersion.Exchange2013,
             () => { return new VotingInformation(); }
         );
     }

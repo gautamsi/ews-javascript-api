@@ -2,15 +2,28 @@
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {ExchangeService} from "../Core/ExchangeService";
 import {PropertyBag} from "../Core/PropertyBag";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {JsonObject} from "../Core/JsonObject";
 import {StringHelper} from "../ExtensionMethods";
 import {PropertyDefinition} from "./PropertyDefinition";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
-    IsNullable: boolean;
+
+    /**
+     * @internal Gets a value indicating whether this property definition is for a nullable type (ref, int?, bool?...).
+     */
+    get IsNullable(): boolean { return false; }
+
+    /**
+     * Gets the property type.
+     */
     Type: any;//System.Type;
-    static GetResponseAction(responseActionString: string): ResponseActions {
+
+    /**
+     * Gets the response action.
+     *
+     * @param   {string}   responseActionString   The response action string.
+     * @return  {ResponseActions}       ResponseActions
+     */
+    private static GetResponseAction(responseActionString: string): ResponseActions {
         var value: ResponseActions = ResponseActions.None;
 
         switch (responseActionString) {
@@ -47,27 +60,33 @@ export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
         }
         return value;
     }
-    LoadPropertyValueFromJson(value: any, service: ExchangeService, propertyBag: PropertyBag): any { throw new Error("ResponseObjectsPropertyDefinition.ts - LoadPropertyValueFromJson : Not implemented."); }
-    LoadPropertyValueFromXmlJsObject(jsonObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        //debug: //todo: validate
-        var responseActionValue: ResponseActions = ResponseActions.None;
 
-        var jsonResponseActions: any[] = jsonObject;// as object[];
-        //debug: //ref: check for missing aray 
-        if (jsonResponseActions != null) {
-            for (var jsonResponseAction of jsonResponseActions) {
-                if (jsonResponseAction.__type) {
-                    var actionString: string = jsonResponseAction.__type;
+    /**
+     * @internal Loads the property value from json.
+     *
+     * @param   {any}               jsObject         The JSON value.  Can be a JsonObject, string, number, bool, array, or null.
+     * @param   {ExchangeService}   service       The service.
+     * @param   {PropertyBag}       propertyBag   The property bag.
+     */
+    LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
+        let responseActionValue: ResponseActions = ResponseActions.None;
+        for (let key in jsObject) {
+            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
+                continue;
 
-                    if (!StringHelper.IsNullOrEmpty(actionString)) {
-                        responseActionValue |= ResponseObjectsPropertyDefinition.GetResponseAction(actionString);
-                    }
-                }
+            if (jsObject.hasOwnProperty(key)) {
+                responseActionValue |= ResponseObjectsPropertyDefinition.GetResponseAction(key);
             }
         }
-
         propertyBag._setItem(this, responseActionValue);
     }
-    WriteJsonValue(jsonObject: JsonObject, propertyBag: PropertyBag, service: ExchangeService, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer              The writer.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
+     */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void { /* ResponseObjects is a read-only property, no need to implement this.*/ }
 }
