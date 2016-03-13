@@ -1,8 +1,11 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+
 import {Item} from "./Item";
 /**
  * ## *Not Implemented* 
  */
+@AttachableAttribute(true)
 export class PostItem extends Item {
     ////////ConversationIndex: System.Byte[];
     ////////ConversationTopic: string;

@@ -41,7 +41,7 @@ export class FindFoldersResults {   //: IEnumerable<Folder>
         return this.folders;
     }
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **FindFoldersResults** class.
      *
      */
     constructor(){}

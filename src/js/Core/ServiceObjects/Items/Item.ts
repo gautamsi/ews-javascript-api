@@ -41,16 +41,19 @@ import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
 import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
 import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
 import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {ItemSchema} from "../Schemas/ItemSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {IOutParam} from "../../../Interfaces/IOutParam";
 import {StringHelper, ArrayHelper} from "../../../ExtensionMethods";
 import {PromiseFactory} from "../../../PromiseFactory";
+import {TypeContainer} from "../../../TypeContainer";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {ServiceObject} from "../ServiceObject";
 /**
  * Represents a generic **Item**. Properties available on items are defined in the *ItemSchema* class.
  *
  */
+@AttachableAttribute(true)
 export class Item extends ServiceObject {
 
     private parentAttachment: ItemAttachment = null;
@@ -108,10 +111,10 @@ export class Item extends ServiceObject {
      *
      */
     get MimeContent(): MimeContent {
-        return <MimeContent>this.PropertyBag._getItem(ItemSchema.MimeContent);
+        return <MimeContent>this.PropertyBag._getItem(Schemas.ItemSchema.MimeContent);
     }
     set MimeContent(value: MimeContent) {
-        this.PropertyBag._setItem(ItemSchema.MimeContent, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.MimeContent, value);
     }
     
     /**
@@ -119,7 +122,7 @@ export class Item extends ServiceObject {
      *
      */
     get ParentFolderId(): FolderId {
-        return <FolderId>this.PropertyBag._getItem(ItemSchema.ParentFolderId);
+        return <FolderId>this.PropertyBag._getItem(Schemas.ItemSchema.ParentFolderId);
     }
     
     /**
@@ -127,10 +130,10 @@ export class Item extends ServiceObject {
      *
      */
     get Sensitivity(): Sensitivity {
-        return <Sensitivity>this.PropertyBag._getItem(ItemSchema.Sensitivity);
+        return <Sensitivity>this.PropertyBag._getItem(Schemas.ItemSchema.Sensitivity);
     }
     set Sensitivity(value: Sensitivity) {
-        this.PropertyBag._setItem(ItemSchema.Sensitivity, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Sensitivity, value);
     }
     
     /**
@@ -138,7 +141,7 @@ export class Item extends ServiceObject {
      *
      */
     get Attachments(): AttachmentCollection {
-        return <AttachmentCollection>this.PropertyBag._getItem(ItemSchema.Attachments);
+        return <AttachmentCollection>this.PropertyBag._getItem(Schemas.ItemSchema.Attachments);
     }
     
     /**
@@ -146,7 +149,7 @@ export class Item extends ServiceObject {
      *
      */
     get DateTimeReceived(): Date {
-        return <Date>this.PropertyBag._getItem(ItemSchema.DateTimeReceived);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.DateTimeReceived);
     }
     
     /**
@@ -154,7 +157,7 @@ export class Item extends ServiceObject {
      *
      */
     get Size(): number {
-        return <number>this.PropertyBag._getItem(ItemSchema.Size);
+        return <number>this.PropertyBag._getItem(Schemas.ItemSchema.Size);
     }
     
     /**
@@ -162,10 +165,10 @@ export class Item extends ServiceObject {
      *
      */
     get Categories(): StringList {
-        return <StringList>this.PropertyBag._getItem(ItemSchema.Categories);
+        return <StringList>this.PropertyBag._getItem(Schemas.ItemSchema.Categories);
     }
     set Categories(value: StringList) {
-        this.PropertyBag._setItem(ItemSchema.Categories, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Categories, value);
     }
     
     /**
@@ -173,10 +176,10 @@ export class Item extends ServiceObject {
      *
      */
     get Culture(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.Culture);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.Culture);
     }
     set Culture(value: string) {
-        this.PropertyBag._setItem(ItemSchema.Culture, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Culture, value);
     }
     
     /**
@@ -184,10 +187,10 @@ export class Item extends ServiceObject {
      *
      */
     get Importance(): Importance {
-        return <Importance>this.PropertyBag._getItem(ItemSchema.Importance);
+        return <Importance>this.PropertyBag._getItem(Schemas.ItemSchema.Importance);
     }
     set Importance(value: Importance) {
-        this.PropertyBag._setItem(ItemSchema.Importance, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Importance, value);
     }
     
     /**
@@ -195,10 +198,10 @@ export class Item extends ServiceObject {
      *
      */
     get InReplyTo(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.InReplyTo);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.InReplyTo);
     }
     set InReplyTo(value: string) {
-        this.PropertyBag._setItem(ItemSchema.InReplyTo, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.InReplyTo, value);
     }
     
     /**
@@ -206,7 +209,7 @@ export class Item extends ServiceObject {
      *
      */
     get IsSubmitted(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsSubmitted);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsSubmitted);
     }
     
     /**
@@ -214,7 +217,7 @@ export class Item extends ServiceObject {
      *
      */
     get IsAssociated(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsAssociated);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsAssociated);
     }
     
     /**
@@ -222,7 +225,7 @@ export class Item extends ServiceObject {
      *
      */
     get IsDraft(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsDraft);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsDraft);
     }
     
     /**
@@ -230,7 +233,7 @@ export class Item extends ServiceObject {
      *
      */
     get IsFromMe(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsFromMe);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsFromMe);
     }
     
     /**
@@ -238,7 +241,7 @@ export class Item extends ServiceObject {
      *
      */    
     get IsResend(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsResend);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsResend);
     }
     
     /**
@@ -246,7 +249,7 @@ export class Item extends ServiceObject {
      *
      */    
     get IsUnmodified(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsUnmodified);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsUnmodified);
     }
     
     /**
@@ -254,7 +257,7 @@ export class Item extends ServiceObject {
      *
      */    
     get InternetMessageHeaders(): InternetMessageHeaderCollection {
-        return <InternetMessageHeaderCollection>this.PropertyBag._getItem(ItemSchema.InternetMessageHeaders);
+        return <InternetMessageHeaderCollection>this.PropertyBag._getItem(Schemas.ItemSchema.InternetMessageHeaders);
     }
     
     /**
@@ -262,7 +265,7 @@ export class Item extends ServiceObject {
      *
      */    
     get DateTimeSent(): Date {
-        return <Date>this.PropertyBag._getItem(ItemSchema.DateTimeSent);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.DateTimeSent);
     }
     
     /**
@@ -270,7 +273,7 @@ export class Item extends ServiceObject {
      *
      */    
     get DateTimeCreated(): Date {
-        return <Date>this.PropertyBag._getItem(ItemSchema.DateTimeCreated);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.DateTimeCreated);
     }
     
     /**
@@ -278,7 +281,7 @@ export class Item extends ServiceObject {
      *
      */    
     get AllowedResponseActions(): ResponseActions {
-        return <ResponseActions>this.PropertyBag._getItem(ItemSchema.AllowedResponseActions);
+        return <ResponseActions>this.PropertyBag._getItem(Schemas.ItemSchema.AllowedResponseActions);
     }
     
     /**
@@ -286,10 +289,10 @@ export class Item extends ServiceObject {
      *
      */    
     get ReminderDueBy(): Date {
-        return <Date>this.PropertyBag._getItem(ItemSchema.ReminderDueBy);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.ReminderDueBy);
     }
     set ReminderDueBy(value: Date) {
-        this.PropertyBag._setItem(ItemSchema.ReminderDueBy, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.ReminderDueBy, value);
     }
     
     /**
@@ -297,10 +300,10 @@ export class Item extends ServiceObject {
      *
      */    
     get IsReminderSet(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.IsReminderSet);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.IsReminderSet);
     }
     set IsReminderSet(value: boolean) {
-        this.PropertyBag._setItem(ItemSchema.IsReminderSet, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.IsReminderSet, value);
     }
     
     /**
@@ -308,10 +311,10 @@ export class Item extends ServiceObject {
      *
      */    
     get ReminderMinutesBeforeStart(): number {
-        return <number>this.PropertyBag._getItem(ItemSchema.ReminderMinutesBeforeStart);
+        return <number>this.PropertyBag._getItem(Schemas.ItemSchema.ReminderMinutesBeforeStart);
     }
     set ReminderMinutesBeforeStart(value: number) {
-        this.PropertyBag._setItem(ItemSchema.ReminderMinutesBeforeStart, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.ReminderMinutesBeforeStart, value);
     }
     
     /**
@@ -319,7 +322,7 @@ export class Item extends ServiceObject {
      *
      */    
     get DisplayCc(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.DisplayCc);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.DisplayCc);
     }
     
     /**
@@ -327,7 +330,7 @@ export class Item extends ServiceObject {
      *
      */    
     get DisplayTo(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.DisplayTo);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.DisplayTo);
     }
     
     /**
@@ -335,7 +338,7 @@ export class Item extends ServiceObject {
      *
      */    
     get HasAttachments(): boolean {
-        return <boolean>this.PropertyBag._getItem(ItemSchema.HasAttachments);
+        return <boolean>this.PropertyBag._getItem(Schemas.ItemSchema.HasAttachments);
     }
     
     /**
@@ -343,10 +346,10 @@ export class Item extends ServiceObject {
      *
      */    
     get Body(): MessageBody {
-        return <MessageBody>this.PropertyBag._getItem(ItemSchema.Body);
+        return <MessageBody>this.PropertyBag._getItem(Schemas.ItemSchema.Body);
     }
     set Body(value: MessageBody) {
-        this.PropertyBag._setItem(ItemSchema.Body, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Body, value);
     }
     
     /**
@@ -354,10 +357,10 @@ export class Item extends ServiceObject {
      *
      */    
     get ItemClass(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.ItemClass);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.ItemClass);
     }
     set ItemClass(value: string) {
-        this.PropertyBag._setItem(ItemSchema.ItemClass, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.ItemClass, value);
     }
     
     /**
@@ -365,7 +368,7 @@ export class Item extends ServiceObject {
      *
      */    
     get Subject(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.Subject);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.Subject);
     }
     set Subject(value: string) {
         this.SetSubject(value);
@@ -376,7 +379,7 @@ export class Item extends ServiceObject {
      *
      */    
     get WebClientReadFormQueryString(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.WebClientReadFormQueryString);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.WebClientReadFormQueryString);
     }
     
     /**
@@ -384,7 +387,7 @@ export class Item extends ServiceObject {
      *
      */    
     get WebClientEditFormQueryString(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.WebClientEditFormQueryString);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.WebClientEditFormQueryString);
     }
     
     /**
@@ -400,7 +403,7 @@ export class Item extends ServiceObject {
      *
      */    
     get EffectiveRights(): EffectiveRights {
-        return <EffectiveRights>this.PropertyBag._getItem(ItemSchema.EffectiveRights);
+        return <EffectiveRights>this.PropertyBag._getItem(Schemas.ItemSchema.EffectiveRights);
     }
     
     /**
@@ -408,7 +411,7 @@ export class Item extends ServiceObject {
      *
      */    
     get LastModifiedName(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.LastModifiedName);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.LastModifiedName);
     }
     
     /**
@@ -416,7 +419,7 @@ export class Item extends ServiceObject {
      *
      */    
     get LastModifiedTime(): Date {
-        return <Date>this.PropertyBag._getItem(ItemSchema.LastModifiedTime);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.LastModifiedTime);
     }
     
     /**
@@ -424,7 +427,7 @@ export class Item extends ServiceObject {
      *
      */    
     get ConversationId(): ConversationId {
-        return <ConversationId>this.PropertyBag._getItem(ItemSchema.ConversationId);
+        return <ConversationId>this.PropertyBag._getItem(Schemas.ItemSchema.ConversationId);
     }
     
     /**
@@ -432,7 +435,7 @@ export class Item extends ServiceObject {
      *
      */    
     get UniqueBody(): UniqueBody {
-        return <UniqueBody>this.PropertyBag._getItem(ItemSchema.UniqueBody);
+        return <UniqueBody>this.PropertyBag._getItem(Schemas.ItemSchema.UniqueBody);
     }
     
     /**
@@ -440,7 +443,7 @@ export class Item extends ServiceObject {
      *
      */    
     get StoreEntryId(): number[] {
-        return <number[]>this.PropertyBag._getItem(ItemSchema.StoreEntryId);
+        return <number[]>this.PropertyBag._getItem(Schemas.ItemSchema.StoreEntryId);
     }
     
     /**
@@ -448,7 +451,7 @@ export class Item extends ServiceObject {
      *
      */    
     get InstanceKey(): number[] {
-        return <number[]>this.PropertyBag._getItem(ItemSchema.InstanceKey);
+        return <number[]>this.PropertyBag._getItem(Schemas.ItemSchema.InstanceKey);
     }
     
     /**
@@ -456,10 +459,10 @@ export class Item extends ServiceObject {
      *
      */    
     get Flag(): Flag {
-        return <Flag>this.PropertyBag._getItem(ItemSchema.Flag);
+        return <Flag>this.PropertyBag._getItem(Schemas.ItemSchema.Flag);
     }
     set Flag(value: Flag) {
-        this.PropertyBag._setItem(ItemSchema.Flag, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.Flag, value);
     }
     
     /**
@@ -467,7 +470,7 @@ export class Item extends ServiceObject {
      *
      */    
     get NormalizedBody(): NormalizedBody {
-        return <NormalizedBody>this.PropertyBag._getItem(ItemSchema.NormalizedBody);
+        return <NormalizedBody>this.PropertyBag._getItem(Schemas.ItemSchema.NormalizedBody);
     }
     
     /**
@@ -475,7 +478,7 @@ export class Item extends ServiceObject {
      *
      */    
     get EntityExtractionResult(): EntityExtractionResult {
-        return <EntityExtractionResult>this.PropertyBag._getItem(ItemSchema.EntityExtractionResult);
+        return <EntityExtractionResult>this.PropertyBag._getItem(Schemas.ItemSchema.EntityExtractionResult);
     }
     
     /**
@@ -483,10 +486,10 @@ export class Item extends ServiceObject {
      *
      */    
     get PolicyTag(): PolicyTag {
-        return <PolicyTag>this.PropertyBag._getItem(ItemSchema.PolicyTag);
+        return <PolicyTag>this.PropertyBag._getItem(Schemas.ItemSchema.PolicyTag);
     }
     set PolicyTag(value: PolicyTag) {
-        this.PropertyBag._setItem(ItemSchema.PolicyTag, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.PolicyTag, value);
     }
     
     /**
@@ -494,10 +497,10 @@ export class Item extends ServiceObject {
      *
      */    
     get ArchiveTag(): ArchiveTag {
-        return <ArchiveTag>this.PropertyBag._getItem(ItemSchema.ArchiveTag);
+        return <ArchiveTag>this.PropertyBag._getItem(Schemas.ItemSchema.ArchiveTag);
     }
     set ArchiveTag(value: ArchiveTag) {
-        this.PropertyBag._setItem(ItemSchema.ArchiveTag, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.ArchiveTag, value);
     }
     
     /**
@@ -505,7 +508,7 @@ export class Item extends ServiceObject {
      *
      */    
     get RetentionDate(): Date { //Nullable
-        return <Date>this.PropertyBag._getItem(ItemSchema.RetentionDate);
+        return <Date>this.PropertyBag._getItem(Schemas.ItemSchema.RetentionDate);
     }
     
     /**
@@ -513,7 +516,7 @@ export class Item extends ServiceObject {
      *
      */    
     get Preview(): string {
-        return <string>this.PropertyBag._getItem(ItemSchema.Preview);
+        return <string>this.PropertyBag._getItem(Schemas.ItemSchema.Preview);
     }
     
     /**
@@ -521,7 +524,7 @@ export class Item extends ServiceObject {
      *
      */    
     get TextBody(): TextBody {
-        return <TextBody>this.PropertyBag._getItem(ItemSchema.TextBody);
+        return <TextBody>this.PropertyBag._getItem(Schemas.ItemSchema.TextBody);
     }
     
     /**
@@ -529,7 +532,7 @@ export class Item extends ServiceObject {
      *
      */    
     get IconIndex(): IconIndex {
-        return <IconIndex>this.PropertyBag._getItem(ItemSchema.IconIndex);
+        return <IconIndex>this.PropertyBag._getItem(Schemas.ItemSchema.IconIndex);
     }
     
     /**
@@ -586,17 +589,17 @@ export class Item extends ServiceObject {
      * @param   {ExchangeService | ItemAttachment}   service   The ExchangeService object to which the item will be bound.
      */
     constructor(obj: ExchangeService | ItemAttachment)
-    constructor(obj: ExchangeService | ItemAttachment) {
-        super(obj instanceof ItemAttachment ? obj.Service : <ExchangeService>obj);//todo:fix -can not user instanceof with exchangeservice, creates circular loop with ewsutility 
+    constructor(obj: ExchangeService | ItemAttachment) {        
+        super(obj instanceof TypeContainer.ExchangeService ? <ExchangeService>obj: obj instanceof TypeContainer.ItemAttachment? (<ItemAttachment>obj).Service : null);//info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround 
 
-        if (obj instanceof ItemAttachment) {
+        if (obj instanceof TypeContainer.ItemAttachment) {
             var parentAttachment = obj;
             EwsLogging.Assert(
                 parentAttachment != null,
                 "Item.ctor",
                 "parentAttachment is null");
 
-            this.parentAttachment = parentAttachment;
+            this.parentAttachment = <ItemAttachment>parentAttachment;
         }
     }
     
@@ -667,7 +670,7 @@ export class Item extends ServiceObject {
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      * @param   {boolean}   suppressReadReceipts   Whether to suppress read receipts
      */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>    
     Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): IPromise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
 
     /**
@@ -682,7 +685,7 @@ export class Item extends ServiceObject {
      *
      * @return  {PropertyDefinition}      A PropertyDefinition instance.
      */
-    GetIdPropertyDefinition(): PropertyDefinition { return ItemSchema.Id; }
+    GetIdPropertyDefinition(): PropertyDefinition { return Schemas.ItemSchema.Id; }
     
     /**
      * Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
@@ -697,7 +700,7 @@ export class Item extends ServiceObject {
         debugger;//filtering of specific type needed.
         if (!isUpdateOperation &&
             (this.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP2)) {
-            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof ItemAttachment))//.OfType<ItemAttachment>())
+            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof TypeContainer.ItemAttachment))//.OfType<ItemAttachment>()) //info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround
             {
                 if ((itemAttachment.Item != null) && itemAttachment.Item.GetIsTimeZoneHeaderRequired(false /* isUpdateOperation */)) {
                     return true;
@@ -720,7 +723,7 @@ export class Item extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return ItemSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.ItemSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML
@@ -861,7 +864,7 @@ export class Item extends ServiceObject {
                 suppressReadReceipts);
         }
 
-        return PromiseFactory.wrap(returnedItem);
+        return PromiseFactory.resolve(returnedItem);
     }
     
     /**
@@ -952,7 +955,7 @@ export class Item extends ServiceObject {
      * @internal Sets the subject.
      * 
      */
-    SetSubject(subject: string): void { this.PropertyBag._setItem(ItemSchema.Subject, subject); }
+    SetSubject(subject: string): void { this.PropertyBag._setItem(Schemas.ItemSchema.Subject, subject); }
     
     /**
      * Throws exception if this is attachment.
@@ -1000,7 +1003,7 @@ export class Item extends ServiceObject {
         // Flag parameter is only valid for Exchange2013 or higher
         //
         var flag: IOutParam<Flag> = { outValue: null };
-        if (this.TryGetProperty<Flag>(ItemSchema.Flag, flag) && flag.outValue != null) {
+        if (this.TryGetProperty<Flag>(Schemas.ItemSchema.Flag, flag) && flag.outValue != null) {
             if (this.Service.RequestedServerVersion < ExchangeVersion.Exchange2013) {
                 throw new ServiceVersionException(
                     StringHelper.Format(
@@ -1012,10 +1015,5 @@ export class Item extends ServiceObject {
             flag.outValue.Validate();
         }
     }
-
-    /**
-     * @internal ~~created this to help find serviceobject type, ServiceObjectInstance instanceof Item fails by creating circular dependency in javascript/typescript~~
-     */
-    get InstanceType(): string { return XmlElementNames.Item; }
 
 }

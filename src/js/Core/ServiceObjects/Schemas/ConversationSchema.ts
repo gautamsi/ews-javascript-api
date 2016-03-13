@@ -14,12 +14,14 @@ import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyD
 import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
 import {ItemIdCollection} from "../../../ComplexProperties/ItemIdCollection";
 import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {Schemas} from "./Schemas";
 
+import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
-
-//module ConversationSchema {
+/**
+ * Field URIs for Conversation.
+ */
 module FieldUris {
     export var ConversationId: string = "conversation:ConversationId";
     export var ConversationTopic: string = "conversation:ConversationTopic";
@@ -58,350 +60,629 @@ module FieldUris {
     export var HasIrm: string = "conversation:HasIrm";
     export var GlobalHasIrm: string = "conversation:GlobalHasIrm";
 }
-//}
+
+/**
+ * Represents the schema for Conversation.
+ */
 export class ConversationSchema extends ServiceObjectSchema {
-    
-    static Id: PropertyDefinition = new ComplexPropertyDefinition<ConversationId>(
-        "ConversationId", 
-        XmlElementNames.ConversationId, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.ConversationId, 
-        PropertyDefinitionFlags.CanFind, 
+
+    /**
+     * Defines the **Id** property.
+     */
+    public static Id: PropertyDefinition = new ComplexPropertyDefinition<ConversationId>(
+        "ConversationId",
+        XmlElementNames.ConversationId,
+        FieldUris.ConversationId,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new ConversationId(); }
-        );
-    
-    static Topic: PropertyDefinition = new StringPropertyDefinition(
-        "ConversationTopic", 
-        XmlElementNames.ConversationTopic, 
+    );
+
+    /**
+     * Defines the **Topic** property.
+     */
+    public static Topic: PropertyDefinition = new StringPropertyDefinition(
+        "ConversationTopic",
+        XmlElementNames.ConversationTopic,
+        FieldUris.ConversationTopic,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **UniqueRecipients** property.
+     */
+    public static UniqueRecipients: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "UniqueRecipients",
+        XmlElementNames.UniqueRecipients,
+        FieldUris.UniqueRecipients,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.ConversationTopic, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static UniqueRecipients: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "UniqueRecipients", 
-        XmlElementNames.UniqueRecipients, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.UniqueRecipients, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new StringList(); }
-        );
-    
-    static GlobalUniqueRecipients: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "GlobalUniqueRecipients", 
-        XmlElementNames.GlobalUniqueRecipients, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalUniqueRecipients, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **GlobalUniqueRecipients** property.
+     */
+    public static GlobalUniqueRecipients: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "GlobalUniqueRecipients",
+        XmlElementNames.GlobalUniqueRecipients,
+        FieldUris.GlobalUniqueRecipients,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static UniqueUnreadSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "UniqueUnreadSenders", 
-        XmlElementNames.UniqueUnreadSenders, 
-        ExchangeVersion.Exchange2010_SP1, 
+    );
+
+    /**
+     * Defines the **UniqueUnreadSenders** property.
+     */
+    public static UniqueUnreadSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "UniqueUnreadSenders",
+        XmlElementNames.UniqueUnreadSenders,
         FieldUris.UniqueUnreadSenders,
-        PropertyDefinitionFlags.CanFind, 
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static GlobalUniqueUnreadSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "GlobalUniqueUnreadSenders", 
-        XmlElementNames.GlobalUniqueUnreadSenders, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalUniqueUnreadSenders, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **GlobalUniqueUnreadSenders** property.
+     */
+    public static GlobalUniqueUnreadSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "GlobalUniqueUnreadSenders",
+        XmlElementNames.GlobalUniqueUnreadSenders,
+        FieldUris.GlobalUniqueUnreadSenders,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static UniqueSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "UniqueSenders", 
-        XmlElementNames.UniqueSenders, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.UniqueSenders, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **UniqueSenders** property.
+     */
+    public static UniqueSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "UniqueSenders",
+        XmlElementNames.UniqueSenders,
+        FieldUris.UniqueSenders,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static GlobalUniqueSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "GlobalUniqueSenders", 
-        XmlElementNames.GlobalUniqueSenders, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalUniqueSenders, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **GlobalUniqueSenders** property.
+     */
+    public static GlobalUniqueSenders: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "GlobalUniqueSenders",
+        XmlElementNames.GlobalUniqueSenders,
+        FieldUris.GlobalUniqueSenders,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static LastDeliveryTime: PropertyDefinition = new DateTimePropertyDefinition(
-        "LastDeliveryTime", 
-        XmlElementNames.LastDeliveryTime, 
+    );
+
+    /**
+     * Defines the **LastDeliveryTime** property.
+     */
+    public static LastDeliveryTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "LastDeliveryTime",
+        XmlElementNames.LastDeliveryTime,
+        FieldUris.LastDeliveryTime,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalLastDeliveryTime** property.
+     */
+    public static GlobalLastDeliveryTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "GlobalLastDeliveryTime",
+        XmlElementNames.GlobalLastDeliveryTime,
+        FieldUris.GlobalLastDeliveryTime,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **Categories** property.
+     */
+    public static Categories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "Categories",
+        XmlElementNames.Categories,
+        FieldUris.Categories,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.LastDeliveryTime, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalLastDeliveryTime: PropertyDefinition = new DateTimePropertyDefinition(
-        "GlobalLastDeliveryTime", 
-        XmlElementNames.GlobalLastDeliveryTime, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalLastDeliveryTime, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Categories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "Categories", 
-        XmlElementNames.Categories, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.Categories, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new StringList(); }
-        );
-    
-    static GlobalCategories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "GlobalCategories", 
-        XmlElementNames.GlobalCategories, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalCategories, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **GlobalCategories** property.
+     */
+    public static GlobalCategories: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "GlobalCategories",
+        XmlElementNames.GlobalCategories,
+        FieldUris.GlobalCategories,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList(); }
-        );
-    
-    static FlagStatus: PropertyDefinition = new GenericPropertyDefinition<ConversationFlagStatus>(
-        "FlagStatus", 
-        XmlElementNames.FlagStatus, 
+    );
+
+    /**
+     * Defines the **FlagStatus** property.
+     */
+    public static FlagStatus: PropertyDefinition = new GenericPropertyDefinition<ConversationFlagStatus>(
+        "FlagStatus",
+        XmlElementNames.FlagStatus,
+        FieldUris.FlagStatus,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalFlagStatus** property.
+     */
+    public static GlobalFlagStatus: PropertyDefinition = new GenericPropertyDefinition<ConversationFlagStatus>(
+        "GlobalFlagStatus",
+        XmlElementNames.GlobalFlagStatus,
+        FieldUris.GlobalFlagStatus,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **HasAttachments** property.
+     */
+    public static HasAttachments: PropertyDefinition = new BoolPropertyDefinition(
+        "HasAttachments",
+        XmlElementNames.HasAttachments,
+        FieldUris.HasAttachments,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalHasAttachments** property.
+     */
+    public static GlobalHasAttachments: PropertyDefinition = new BoolPropertyDefinition(
+        "GlobalHasAttachments",
+        XmlElementNames.GlobalHasAttachments,
+        FieldUris.GlobalHasAttachments,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **MessageCount** property.
+     */
+    public static MessageCount: PropertyDefinition = new IntPropertyDefinition(
+        "MessageCount",
+        XmlElementNames.MessageCount,
+        FieldUris.MessageCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalMessageCount** property.
+     */
+    public static GlobalMessageCount: PropertyDefinition = new IntPropertyDefinition(
+        "GlobalMessageCount",
+        XmlElementNames.GlobalMessageCount,
+        FieldUris.GlobalMessageCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **UnreadCount** property.
+     */
+    public static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
+        "UnreadCount",
+        XmlElementNames.UnreadCount,
+        FieldUris.UnreadCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalUnreadCount** property.
+     */
+    public static GlobalUnreadCount: PropertyDefinition = new IntPropertyDefinition(
+        "GlobalUnreadCount",
+        XmlElementNames.GlobalUnreadCount,
+        FieldUris.GlobalUnreadCount,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **Size** property.
+     */
+    public static Size: PropertyDefinition = new IntPropertyDefinition(
+        "Size",
+        XmlElementNames.Size,
+        FieldUris.Size,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalSize** property.
+     */
+    public static GlobalSize: PropertyDefinition = new IntPropertyDefinition(
+        "GlobalSize",
+        XmlElementNames.GlobalSize,
+        FieldUris.GlobalSize,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **ItemClasses** property.
+     */
+    public static ItemClasses: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "ItemClasses",
+        XmlElementNames.ItemClasses,
+        FieldUris.ItemClasses,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.FlagStatus, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalFlagStatus: PropertyDefinition = new GenericPropertyDefinition<ConversationFlagStatus>(
-        "GlobalFlagStatus", 
-        XmlElementNames.GlobalFlagStatus, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalFlagStatus, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static HasAttachments: PropertyDefinition = new BoolPropertyDefinition(
-        "HasAttachments", 
-        XmlElementNames.HasAttachments, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.HasAttachments, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalHasAttachments: PropertyDefinition = new BoolPropertyDefinition(
-        "GlobalHasAttachments", 
-        XmlElementNames.GlobalHasAttachments, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalHasAttachments, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static MessageCount: PropertyDefinition = new IntPropertyDefinition(
-        "MessageCount", 
-        XmlElementNames.MessageCount, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.MessageCount, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalMessageCount: PropertyDefinition = new IntPropertyDefinition(
-        "GlobalMessageCount", 
-        XmlElementNames.GlobalMessageCount, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalMessageCount, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static UnreadCount: PropertyDefinition = new IntPropertyDefinition(
-        "UnreadCount", 
-        XmlElementNames.UnreadCount, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.UnreadCount, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalUnreadCount: PropertyDefinition = new IntPropertyDefinition(
-        "GlobalUnreadCount", 
-        XmlElementNames.GlobalUnreadCount, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalUnreadCount, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Size: PropertyDefinition = new IntPropertyDefinition(
-        "Size", 
-        XmlElementNames.Size, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.Size, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalSize: PropertyDefinition = new IntPropertyDefinition(
-        "GlobalSize", 
-        XmlElementNames.GlobalSize, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalSize, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static ItemClasses: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "ItemClasses", 
-        XmlElementNames.ItemClasses, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.ItemClasses, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new StringList("ItemClass"); }
-        );
-    
-    static GlobalItemClasses: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "GlobalItemClasses", 
-        XmlElementNames.GlobalItemClasses, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalItemClasses, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **GlobalItemClasses** property.
+     */
+    public static GlobalItemClasses: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "GlobalItemClasses",
+        XmlElementNames.GlobalItemClasses,
+        FieldUris.GlobalItemClasses,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new StringList("ItemClass"); }
-        );
-    
-    static Importance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
-        "Importance", 
-        XmlElementNames.Importance, 
+    );
+
+    /**
+     * Defines the **Importance** property.
+     */
+    public static Importance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
+        "Importance",
+        XmlElementNames.Importance,
+        FieldUris.Importance,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **GlobalImportance** property.
+     */
+    public static GlobalImportance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
+        "GlobalImportance",
+        XmlElementNames.GlobalImportance,
+        FieldUris.GlobalImportance,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **ItemIds** property.
+     */
+    public static ItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
+        "ItemIds",
+        XmlElementNames.ItemIds,
+        FieldUris.ItemIds,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.Importance, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalImportance: PropertyDefinition = new GenericPropertyDefinition<Importance>(
-        "GlobalImportance", 
-        XmlElementNames.GlobalImportance, 
+        () => { return new ItemIdCollection(); }
+    );
+
+    /**
+     * Defines the **GlobalItemIds** property.
+     */
+    public static GlobalItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
+        "GlobalItemIds",
+        XmlElementNames.GlobalItemIds,
+        FieldUris.GlobalItemIds,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.GlobalImportance, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static ItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
-        "ItemIds", 
-        XmlElementNames.ItemIds, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.ItemIds, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new ItemIdCollection(); }
-        );
-    
-    static GlobalItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
-        "GlobalItemIds", 
-        XmlElementNames.GlobalItemIds, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.GlobalItemIds, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **LastModifiedTime** property.
+     */
+    public static LastModifiedTime: PropertyDefinition = new DateTimePropertyDefinition(
+        "LastModifiedTime",
+        XmlElementNames.LastModifiedTime,
+        FieldUris.LastModifiedTime,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **InstanceKey** property.
+     */
+    public static InstanceKey: PropertyDefinition = new ByteArrayPropertyDefinition(
+        "InstanceKey",
+        XmlElementNames.InstanceKey,
+        FieldUris.InstanceKey,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **Preview** property.
+     */
+    public static Preview: PropertyDefinition = new StringPropertyDefinition(
+        "Preview",
+        XmlElementNames.Preview,
+        FieldUris.Preview,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **IconIndex** property.
+     */
+    public static IconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
+        "IconIndex",
+        XmlElementNames.IconIndex,
+        FieldUris.IconIndex,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **GlobalIconIndex** property.
+     */
+    public static GlobalIconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
+        "GlobalIconIndex",
+        XmlElementNames.GlobalIconIndex,
+        FieldUris.GlobalIconIndex,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **DraftItemIds** property.
+     */
+    public static DraftItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
+        "DraftItemIds",
+        XmlElementNames.DraftItemIds,
+        FieldUris.DraftItemIds,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
         () => { return new ItemIdCollection(); }
-        );
-    
-    static LastModifiedTime: PropertyDefinition = new DateTimePropertyDefinition(
-        "LastModifiedTime", 
-        XmlElementNames.LastModifiedTime, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.LastModifiedTime, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static InstanceKey: PropertyDefinition = new ByteArrayPropertyDefinition(
-        "InstanceKey", 
-        XmlElementNames.InstanceKey, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.InstanceKey, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Preview: PropertyDefinition = new StringPropertyDefinition(
-        "Preview", 
-        XmlElementNames.Preview, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.Preview, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static IconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
-        "IconIndex", 
-        XmlElementNames.IconIndex, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.IconIndex, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalIconIndex: PropertyDefinition = new GenericPropertyDefinition<IconIndex>(
-        "GlobalIconIndex", 
-        XmlElementNames.GlobalIconIndex, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.GlobalIconIndex, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static DraftItemIds: PropertyDefinition = new ComplexPropertyDefinition<ItemIdCollection>(
-        "DraftItemIds", 
-        XmlElementNames.DraftItemIds, 
-        ExchangeVersion.Exchange2013, 
-        FieldUris.DraftItemIds, 
-        PropertyDefinitionFlags.CanFind, 
-        () => { return new ItemIdCollection(); }
-        );
-    
-    static HasIrm: PropertyDefinition = new BoolPropertyDefinition(
-        "HasIrm", 
-        XmlElementNames.HasIrm, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.HasIrm, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GlobalHasIrm: PropertyDefinition = new BoolPropertyDefinition(
-        "GlobalHasIrm", 
-        XmlElementNames.GlobalHasIrm, 
-        ExchangeVersion.Exchange2013,
-        FieldUris.GlobalHasIrm, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
+    );
+
+    /**
+     * Defines the **HasIrm** property.
+     */
+    public static HasIrm: PropertyDefinition = new BoolPropertyDefinition(
+        "HasIrm",
+        XmlElementNames.HasIrm,
+        FieldUris.HasIrm,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * Defines the **GlobalHasIrm** property.
+     */
+    public static GlobalHasIrm: PropertyDefinition = new BoolPropertyDefinition(
+        "GlobalHasIrm",
+        XmlElementNames.GlobalHasIrm,
+        FieldUris.GlobalHasIrm,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
+
+    /**
+     * @internal Instance of **ConversationSchema** 
+     */
     static Instance: ConversationSchema = new ConversationSchema();
-    
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ConversationSchema.Id);
-        super.RegisterProperty(ConversationSchema.Topic);
-        super.RegisterProperty(ConversationSchema.UniqueRecipients);
-        super.RegisterProperty(ConversationSchema.GlobalUniqueRecipients);
-        super.RegisterProperty(ConversationSchema.UniqueUnreadSenders);
-        super.RegisterProperty(ConversationSchema.GlobalUniqueUnreadSenders);
-        super.RegisterProperty(ConversationSchema.UniqueSenders);
-        super.RegisterProperty(ConversationSchema.GlobalUniqueSenders);
-        super.RegisterProperty(ConversationSchema.LastDeliveryTime);
-        super.RegisterProperty(ConversationSchema.GlobalLastDeliveryTime);
-        super.RegisterProperty(ConversationSchema.Categories);
-        super.RegisterProperty(ConversationSchema.GlobalCategories);
-        super.RegisterProperty(ConversationSchema.FlagStatus);
-        super.RegisterProperty(ConversationSchema.GlobalFlagStatus);
-        super.RegisterProperty(ConversationSchema.HasAttachments);
-        super.RegisterProperty(ConversationSchema.GlobalHasAttachments);
-        super.RegisterProperty(ConversationSchema.MessageCount);
-        super.RegisterProperty(ConversationSchema.GlobalMessageCount);
-        super.RegisterProperty(ConversationSchema.UnreadCount);
-        super.RegisterProperty(ConversationSchema.GlobalUnreadCount);
-        super.RegisterProperty(ConversationSchema.Size);
-        super.RegisterProperty(ConversationSchema.GlobalSize);
-        super.RegisterProperty(ConversationSchema.ItemClasses);
-        super.RegisterProperty(ConversationSchema.GlobalItemClasses);
-        super.RegisterProperty(ConversationSchema.Importance);
-        super.RegisterProperty(ConversationSchema.GlobalImportance);
-        super.RegisterProperty(ConversationSchema.ItemIds);
-        super.RegisterProperty(ConversationSchema.GlobalItemIds);
-        super.RegisterProperty(ConversationSchema.LastModifiedTime);
-        super.RegisterProperty(ConversationSchema.InstanceKey);
-        super.RegisterProperty(ConversationSchema.Preview);
-        super.RegisterProperty(ConversationSchema.IconIndex);
-        super.RegisterProperty(ConversationSchema.GlobalIconIndex);
-        super.RegisterProperty(ConversationSchema.DraftItemIds);
-        super.RegisterProperty(ConversationSchema.HasIrm);
-        super.RegisterProperty(ConversationSchema.GlobalHasIrm);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Id);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Topic);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.UniqueRecipients);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalUniqueRecipients);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.UniqueUnreadSenders);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalUniqueUnreadSenders);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.UniqueSenders);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalUniqueSenders);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.LastDeliveryTime);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalLastDeliveryTime);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Categories);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalCategories);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.FlagStatus);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalFlagStatus);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.HasAttachments);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalHasAttachments);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.MessageCount);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalMessageCount);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.UnreadCount);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalUnreadCount);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Size);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalSize);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.ItemClasses);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalItemClasses);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Importance);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalImportance);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.ItemIds);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalItemIds);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.LastModifiedTime);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.InstanceKey);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.Preview);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.IconIndex);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalIconIndex);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.DraftItemIds);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.HasIrm);
+        this.RegisterProperty(ConversationSchema, ConversationSchema.GlobalHasIrm);
     }
+}
+
+/**
+ * Represents the schema for Conversation.
+ */
+export interface ConversationSchema {
+    /**
+     * Defines the **Id** property.
+     */
+    Id: PropertyDefinition;
+    /**
+     * Defines the **Topic** property.
+     */
+    Topic: PropertyDefinition;
+    /**
+     * Defines the **UniqueRecipients** property.
+     */
+    UniqueRecipients: PropertyDefinition;
+    /**
+     * Defines the **GlobalUniqueRecipients** property.
+     */
+    GlobalUniqueRecipients: PropertyDefinition;
+    /**
+     * Defines the **UniqueUnreadSenders** property.
+     */
+    UniqueUnreadSenders: PropertyDefinition;
+    /**
+     * Defines the **GlobalUniqueUnreadSenders** property.
+     */
+    GlobalUniqueUnreadSenders: PropertyDefinition;
+    /**
+     * Defines the **UniqueSenders** property.
+     */
+    UniqueSenders: PropertyDefinition;
+    /**
+     * Defines the **GlobalUniqueSenders** property.
+     */
+    GlobalUniqueSenders: PropertyDefinition;
+    /**
+     * Defines the **LastDeliveryTime** property.
+     */
+    LastDeliveryTime: PropertyDefinition;
+    /**
+     * Defines the **GlobalLastDeliveryTime** property.
+     */
+    GlobalLastDeliveryTime: PropertyDefinition;
+    /**
+     * Defines the **Categories** property.
+     */
+    Categories: PropertyDefinition;
+    /**
+     * Defines the **GlobalCategories** property.
+     */
+    GlobalCategories: PropertyDefinition;
+    /**
+     * Defines the **FlagStatus** property.
+     */
+    FlagStatus: PropertyDefinition;
+    /**
+     * Defines the **GlobalFlagStatus** property.
+     */
+    GlobalFlagStatus: PropertyDefinition;
+    /**
+     * Defines the **HasAttachments** property.
+     */
+    HasAttachments: PropertyDefinition;
+    /**
+     * Defines the **GlobalHasAttachments** property.
+     */
+    GlobalHasAttachments: PropertyDefinition;
+    /**
+     * Defines the **MessageCount** property.
+     */
+    MessageCount: PropertyDefinition;
+    /**
+     * Defines the **GlobalMessageCount** property.
+     */
+    GlobalMessageCount: PropertyDefinition;
+    /**
+     * Defines the **UnreadCount** property.
+     */
+    UnreadCount: PropertyDefinition;
+    /**
+     * Defines the **GlobalUnreadCount** property.
+     */
+    GlobalUnreadCount: PropertyDefinition;
+    /**
+     * Defines the **Size** property.
+     */
+    Size: PropertyDefinition;
+    /**
+     * Defines the **GlobalSize** property.
+     */
+    GlobalSize: PropertyDefinition;
+    /**
+     * Defines the **ItemClasses** property.
+     */
+    ItemClasses: PropertyDefinition;
+    /**
+     * Defines the **GlobalItemClasses** property.
+     */
+    GlobalItemClasses: PropertyDefinition;
+    /**
+     * Defines the **Importance** property.
+     */
+    Importance: PropertyDefinition;
+    /**
+     * Defines the **GlobalImportance** property.
+     */
+    GlobalImportance: PropertyDefinition;
+    /**
+     * Defines the **ItemIds** property.
+     */
+    ItemIds: PropertyDefinition;
+    /**
+     * Defines the **GlobalItemIds** property.
+     */
+    GlobalItemIds: PropertyDefinition;
+    /**
+     * Defines the **LastModifiedTime** property.
+     */
+    LastModifiedTime: PropertyDefinition;
+    /**
+     * Defines the **InstanceKey** property.
+     */
+    InstanceKey: PropertyDefinition;
+    /**
+     * Defines the **Preview** property.
+     */
+    Preview: PropertyDefinition;
+    /**
+     * Defines the **IconIndex** property.
+     */
+    IconIndex: PropertyDefinition;
+    /**
+     * Defines the **GlobalIconIndex** property.
+     */
+    GlobalIconIndex: PropertyDefinition;
+    /**
+     * Defines the **DraftItemIds** property.
+     */
+    DraftItemIds: PropertyDefinition;
+    /**
+     * Defines the **HasIrm** property.
+     */
+    HasIrm: PropertyDefinition;
+    /**
+     * Defines the **GlobalHasIrm** property.
+     */
+    GlobalHasIrm: PropertyDefinition;
+    /**
+     * @internal Instance of **ConversationSchema**
+     */
+    Instance: ConversationSchema;
+}
+
+/**
+ * Represents the schema for Conversation.
+ */
+export interface ConversationSchemaStatic extends ConversationSchema {
 }

@@ -1,50 +1,96 @@
 ﻿
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {TypeContainer} from "../TypeContainer";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-
+import {TypeSystem} from "../Extensionmethods";
 import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
+import {IndexedPropertyDefinition} from "./IndexedPropertyDefinition";
+import {ExtendedPropertyDefinition} from "./ExtendedPropertyDefinition";
 
-import {IOutParam} from "../Interfaces/IOutParam";
-export class PropertyDefinitionBase {
+/**
+ * Represents the base class for all property definitions.
+ */
+export abstract class PropertyDefinitionBase {
+
+    /**
+     * Gets the minimum Exchange version that supports this property.
+     *
+     * @value {ExchangeVersion} The version.
+     */
     Version: ExchangeVersion;
-    Type: any; //System.Type;
+
+    /**
+     * Gets the type of the property.
+     */
+    get Type(): any { return PropertyDefinitionBase } //System.Type;
+
+    /**
+     * @internal Initializes a new instance of the **PropertyDefinitionBase** class.
+     */
     constructor() { }
-    //AddJsonProperties(jsonPropertyDefinition: JsonObject, service: ExchangeService): any{ throw new Error("PropertyDefinitionBase.ts - AddJsonProperties : Not implemented.");}
-    //GetJsonType(): string{ throw new Error("PropertyDefinitionBase.ts - GetJsonType : Not implemented.");}
-    GetPrintableName(): string { throw new Error("PropertyDefinitionBase - GetPrintableName: abstract methos, must implement"); }
-    GetXmlElementName(): string { throw new Error("PropertyDefinitionBase - GetXmlElementName: abstract methos, must implement"); }
+
+    /**
+     * @internal Gets the property definition's printable name.
+     *
+     * @return  {string}      The property definition's printable name.
+     */
+    abstract GetPrintableName(): string;
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
+    abstract GetXmlElementName(): string;
     ToString(): string { return this.GetPrintableName(); }
     //TryLoadFromJson(jsonObject: JsonObject): PropertyDefinitionBase{ throw new Error("PropertyDefinitionBase.ts - TryLoadFromJson : Not implemented.");}
 
-    //ToDO --------------removed due to circular dependency issuew ith commonjs and requirejs --------------find fix if needed based on searchfilter.propertybasedFilter------------ move to separate file so that it does not attract circular dependency
-    ////static TryLoadFromXml(reader: EwsServiceXmlReader, outParam: IOutParam<PropertyDefinitionBase> /* propertyDefinition: any*/): boolean {
-    ////    //var propertyDefinition = null;
-    ////    outParam.value = null;
-    ////    switch (reader.LocalName) {
-    ////        case XmlElementNames.FieldURI:
-    ////            debugger;//todo: implement serviceobjectschema method
-    ////            outParam.value /*propertyDefinition*/ = ServiceObjectSchema.FindPropertyDefinition(reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI));
-    ////            reader.SkipCurrentElement();
-    ////            return true;
-    ////        case XmlElementNames.IndexedFieldURI:
-    ////            outParam.value = new IndexedPropertyDefinition(
-    ////                reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldURI),
-    ////                reader.ReadAttributeValue(XmlNamespace.NotSpecified, XmlAttributeNames.FieldIndex));
-    ////            reader.SkipCurrentElement();
-    ////            return true;
-    ////        case XmlElementNames.ExtendedFieldURI:
-    ////            outParam.value = new ExtendedPropertyDefinition();
-    ////            (<ExtendedPropertyDefinition>outParam.value).LoadFromXml(reader);
-    ////            return true;
-    ////        default:
-    ////            return false;
-    ////    }
-    ////}
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { throw new Error("PropertyDefinitionBase - WriteAttributesToXml: abstract methos, must implement"); }
+    /**
+     * @internal load from XMLJsObject.
+     *
+     * @param   {any}   jsonObject   The json object.
+     * @return  {PropertyDefinitionBase}        True if property was loaded.
+     */
+    static LoadFromXmlJsObject(jsObject: any): PropertyDefinitionBase {
+        debugger;
+        debugger;
+        console.log("PropertyDefinitionBase.ts - static LoadFromXmlJsObject - was called, debug and check if values are returned properly");
+        debugger;
+        debugger;
+        debugger;
+        let typeName = TypeSystem.GetJsObjectTypeName(jsObject);
+
+        switch (typeName) {
+            case XmlElementNames.FieldURI:
+                return TypeContainer.ServiceObjectSchema.FindPropertyDefinition(XmlAttributeNames.FieldURI);
+            case XmlElementNames.IndexedFieldURI:
+                return new TypeContainer.IndexedPropertyDefinition(
+                    jsObject[XmlAttributeNames.FieldURI],
+                    jsObject[XmlAttributeNames.FieldIndex])
+            case XmlElementNames.ExtendedFieldURI:
+                let propertyDefiniton: ExtendedPropertyDefinition = new TypeContainer.ExtendedPropertyDefinition();
+                propertyDefiniton.LoadPropertyValueFromXmlJsObject(jsObject);
+                return propertyDefiniton;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    abstract WriteAttributesToXml(writer: EwsServiceXmlWriter): void;
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.GetXmlElementName());
         this.WriteAttributesToXml(writer);

@@ -28,110 +28,110 @@ import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
 import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import {FolderSchema} from "../Schemas/FolderSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {EwsLogging} from "../../EwsLogging";
 import {IPromise} from "../../../Interfaces";
 import {XmlElementNames} from "../../XmlElementNames";
 
 import {ServiceObject} from "../ServiceObject";
 export class Folder extends ServiceObject {
-    
+
     /**
      * Gets the Id of the folder.
      * 
      */
     get Id(): FolderId { return <FolderId>this.PropertyBag._getItem(this.GetIdPropertyDefinition()); }
-    
+
     /**
      * Gets the Id of this folder's parent folder.
      * 
      */
-    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(FolderSchema.ParentFolderId); }
-    
+    get ParentFolderId(): FolderId { return <FolderId>this.PropertyBag._getItem(Schemas.FolderSchema.ParentFolderId); }
+
     /**
      * Gets the number of child folders this folder has.
      * 
      */
-    get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.ChildFolderCount); }
-    
+    get ChildFolderCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.ChildFolderCount); }
+
     /**
      * Gets or sets the display name of the folder.
      * 
      */
-    get DisplayName(): string { return <string>this.PropertyBag._getItem(FolderSchema.DisplayName); }
-    set DisplayName(value: string) { this.PropertyBag._setItem(FolderSchema.DisplayName, value); }
-    
+    get DisplayName(): string { return <string>this.PropertyBag._getItem(Schemas.FolderSchema.DisplayName); }
+    set DisplayName(value: string) { this.PropertyBag._setItem(Schemas.FolderSchema.DisplayName, value); }
+
     /**
      * Gets or sets the custom class name of this folder.
      * 
      */
-    get FolderClass(): string { return <string>this.PropertyBag._getItem(FolderSchema.FolderClass); }
-    set FolderClass(value: string) { this.PropertyBag._setItem(FolderSchema.FolderClass, value); }
-    
+    get FolderClass(): string { return <string>this.PropertyBag._getItem(Schemas.FolderSchema.FolderClass); }
+    set FolderClass(value: string) { this.PropertyBag._setItem(Schemas.FolderSchema.FolderClass, value); }
+
     /**
      * Gets the total number of items contained in the folder.
      * 
      */
-    get TotalCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.TotalCount); }
-    
+    get TotalCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.TotalCount); }
+
     /**
      * Gets a list of extended properties associated with the folder. **Unstable Need testing**
      * 
      */
-    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._getItem(FolderSchema.ExtendedProperties); }
-    
+    get ExtendedProperties(): ExtendedPropertyCollection { return <ExtendedPropertyCollection>this.PropertyBag._getItem(ServiceObjectSchema.ExtendedProperties); }
+
     /**
      * Gets the Email Lifecycle Management (ELC) information associated with the folder.
      * 
      */
-    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._getItem(FolderSchema.ManagedFolderInformation); }
-    
+    get ManagedFolderInformation(): ManagedFolderInformation { return <ManagedFolderInformation>this.PropertyBag._getItem(Schemas.FolderSchema.ManagedFolderInformation); }
+
     /**
      * Gets a value indicating the effective rights the current authenticated user has on the folder.
      * 
      */
-    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._getItem(FolderSchema.EffectiveRights); }
-    
+    get EffectiveRights(): EffectiveRights { return <EffectiveRights>this.PropertyBag._getItem(Schemas.FolderSchema.EffectiveRights); }
+
     /**
      * Gets a list of permissions for the folder.
      * 
      */
-    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._getItem(FolderSchema.Permissions); }
-    
+    get Permissions(): FolderPermissionCollection { return <FolderPermissionCollection>this.PropertyBag._getItem(Schemas.FolderSchema.Permissions); }
+
     /**
      * Gets the number of unread items in the folder.
      * 
      */
-    get UnreadCount(): number { return <number>this.PropertyBag._getItem(FolderSchema.UnreadCount); }
-    
+    get UnreadCount(): number { return <number>this.PropertyBag._getItem(Schemas.FolderSchema.UnreadCount); }
+
     /**
      * Gets or sets the policy tag.
      * 
      */
-    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._getItem(FolderSchema.PolicyTag); }
-    set PolicyTag(value: PolicyTag) { this.PropertyBag._setItem(FolderSchema.PolicyTag, value); }
-    
+    get PolicyTag(): PolicyTag { return <PolicyTag>this.PropertyBag._getItem(Schemas.FolderSchema.PolicyTag); }
+    set PolicyTag(value: PolicyTag) { this.PropertyBag._setItem(Schemas.FolderSchema.PolicyTag, value); }
+
     /**
      * Gets or sets the archive tag.
      * 
      */
-    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._getItem(FolderSchema.ArchiveTag); }
-    set ArchiveTag(value) { this.PropertyBag._setItem(FolderSchema.ArchiveTag, value); }
-    
+    get ArchiveTag(): ArchiveTag { return <ArchiveTag>this.PropertyBag._getItem(Schemas.FolderSchema.ArchiveTag); }
+    set ArchiveTag(value) { this.PropertyBag._setItem(Schemas.FolderSchema.ArchiveTag, value); }
+
     /**
      * Gets the well known name of this folder, if any, as a string.
      * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
      * 
      */
-    get WellKnownFolderNameAsString(): string { return WellKnownFolderName[<WellKnownFolderName>this.PropertyBag._getItem(FolderSchema.WellKnownFolderName)]; }
-    
+    get WellKnownFolderNameAsString(): string { return WellKnownFolderName[<WellKnownFolderName>this.PropertyBag._getItem(Schemas.FolderSchema.WellKnownFolderName)]; }
+
     /**
      * Gets the well known name of this folder, if any.
      * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
      * 
      */
     get WellKnownFolderName(): WellKnownFolderName { return WellKnownFolderName[this.WellKnownFolderNameAsString] || null; }
-    
+
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
@@ -224,14 +224,14 @@ export class Folder extends ServiceObject {
 
         return this.Service.CopyFolder(this.Id, folderId);
     }
-    
+
     /**
      * Deletes the folder. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode   Deletion mode.
      */
     Delete(deleteMode: DeleteMode): IPromise<void> { return this.InternalDelete(deleteMode, null, null); }
-    
+
     /**
      * Empties the folder. Calling this method results in a call to EWS.
      *
@@ -245,7 +245,7 @@ export class Folder extends ServiceObject {
             deleteMode,
             deleteSubFolders);
     }
-    
+
     /**
      * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
      *
@@ -343,7 +343,7 @@ export class Folder extends ServiceObject {
         if (argsLength < 1 && argsLength > 3) {
             throw new Error("invalid arguments, check documentation and try again.");
         }
-        
+
         //todo: better argument check with ewsutilities
         //EwsUtilities.ValidateParam(groupBy, "groupBy");
         //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
@@ -369,7 +369,7 @@ export class Folder extends ServiceObject {
 
         var groupResultBy: Grouping = null;
         var isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
-        
+
         //position 2 - viewOrGroupBy
         if (argsLength >= 3) {
             if (viewOrGroupBy instanceof Grouping) {
@@ -386,7 +386,7 @@ export class Folder extends ServiceObject {
                 throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 2nd position, must be Itemsview or Grouping");
             }
         }
-        
+
         //position 3 - groupBy
         if (argsLength === 3) {
             if (!(viewOrGroupBy instanceof ItemView)) {
@@ -414,56 +414,56 @@ export class Folder extends ServiceObject {
      * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.Folder; }
-    
+
     /**
      * @internal Gets the name of the change XML element.
      *
      * @return  {string}      XML element name,
      */
     GetChangeXmlElementName(): string { return XmlElementNames.FolderChange; }
-    
+
     /**
      * @internal Gets the name of the delete field XML element.
      *
      * @return  {string}      XML element name,
      */
     GetDeleteFieldXmlElementName(): string { return XmlElementNames.DeleteFolderField; }
-    
+
     /**
      * @internal Gets a list of extended properties defined on this object.
      *
      * @return  {ExtendedPropertyCollection}      Extended properties collection.
      */
     GetExtendedProperties(): ExtendedPropertyCollection { return this.ExtendedProperties; }
-    
+
     /**
      * @internal Get the property definition for the Id property.
      *
      * @return  {PropertyDefinition}      A PropertyDefinition instance.
      */
-    GetIdPropertyDefinition(): PropertyDefinition { return FolderSchema.Id; }
-    
+    GetIdPropertyDefinition(): PropertyDefinition { return Schemas.FolderSchema.Id; }
+
     /**
      * @internal Gets the minimum required server version.
      *
      * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
-    
+
     /**
      * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return FolderSchema.Instance; }
-    
+    GetSchema(): ServiceObjectSchema { return Schemas.FolderSchema.Instance; }
+
     /**
      * @internal Gets the name of the set field XML element.
      *
      * @return  {string}      XML element name,
      */
     GetSetFieldXmlElementName(): string { return XmlElementNames.SetFolderField; }
-    
+
     /**
      * @internal Deletes the object.
      *
@@ -475,7 +475,7 @@ export class Folder extends ServiceObject {
         this.ThrowIfThisIsNew();
         return this.Service.DeleteFolder(this.Id, deleteMode);
     }
-    
+
     /**
      * @internal Find items.
      *
@@ -527,7 +527,7 @@ export class Folder extends ServiceObject {
         this.ThrowIfThisIsNew();
         return this.Service.LoadPropertiesForFolder(this, propertySet);
     }
-    
+
     /**
      * Marks all items in folder as read. Calling this method results in a call to EWS.
      *
@@ -540,7 +540,7 @@ export class Folder extends ServiceObject {
             true,
             suppressReadReceipts);
     }
-    
+
     /**
      * Marks all items in folder as read. Calling this method results in a call to EWS.
      *
@@ -553,7 +553,7 @@ export class Folder extends ServiceObject {
             false,
             suppressReadReceipts);
     }
-    
+
     /**
      * Moves this folder to the specified folder. Calling this method results in a call to EWS.
      *
@@ -575,14 +575,14 @@ export class Folder extends ServiceObject {
             throw new Error("unknow parameter type. this should not be  reached");
         }
         //EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
-        
+
         var folderId: FolderId = <FolderId>destinationFolderIdOrName;
         if (typeof destinationFolderIdOrName === 'number')
             folderId = new FolderId(destinationFolderIdOrName);
 
         return this.Service.MoveFolder(this.Id, folderId);
     }
-    
+
     /**
      * Removes an extended property.
      *
@@ -622,7 +622,7 @@ export class Folder extends ServiceObject {
 
 
     }
-    
+
     /**
      * Sets the extended property.
      *
@@ -630,7 +630,7 @@ export class Folder extends ServiceObject {
      * @param   {any}                           value                        The value.
      */
     SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void { this.ExtendedProperties.SetExtendedProperty(extendedPropertyDefinition, value); }
-    
+
     /**
      * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
      *
@@ -643,7 +643,7 @@ export class Folder extends ServiceObject {
         }
         return undefined;
     }
-    
+
     /**
      * @internal Validates this instance.
      * 
@@ -652,13 +652,8 @@ export class Folder extends ServiceObject {
         super.Validate();
 
         // Validate folder permissions
-        if (this.PropertyBag.Contains(FolderSchema.Permissions)) {
+        if (this.PropertyBag.Contains(Schemas.FolderSchema.Permissions)) {
             this.Permissions.Validate();
         }
-    }
-    
-    /**
-     * @internal ~~created this to help find serviceobject type, ServiceObjectInstance instanceof Item fails by creating circular dependency in javascript/typescript~~
-     */
-    get InstanceType(): string { return XmlElementNames.Folder; }
+    }    
 }

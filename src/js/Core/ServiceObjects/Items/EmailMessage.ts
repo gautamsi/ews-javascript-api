@@ -1,7 +1,6 @@
 import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
 import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
 import {SuppressReadReceipt} from "../ResponseObjects/SuppressReadReceipt";
-import {ItemSchema} from "../Schemas/ItemSchema";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
 import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
@@ -14,18 +13,21 @@ import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
 import {MessageBody} from "../../../ComplexProperties/MessageBody";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {EmailMessageSchema} from "../Schemas/EmailMessageSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {FolderId} from "../../../ComplexProperties/FolderId";
 import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
 import {IPromise} from "../../../Interfaces";
+import {PromiseFactory} from '../../../PromiseFactory';
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents an **e-mail message**. Properties available on e-mail messages are defined in the *EmailMessageSchema* class.
  *
  */
+@AttachableAttribute(true)
 export class EmailMessage extends Item {
 
     /**
@@ -33,52 +35,52 @@ export class EmailMessage extends Item {
      *
      */
     get ToRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ToRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ToRecipients);
     }
-    
+
     /**
      * Gets the list of Bcc recipients for the e-mail message.
      *
      */
     get BccRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.BccRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.BccRecipients);
     }
-    
+
     /**
      * Gets the list of Cc recipients for the e-mail message.
      *
      */
     get CcRecipients(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.CcRecipients);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.CcRecipients);
     }
-    
+
     /**
      * Gets the conversation topic of the e-mail message.
      *
      */
     get ConversationTopic(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.ConversationTopic);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ConversationTopic);
     }
-    
+
     /**
      * Gets the conversation index of the e-mail message.
      *
      */
     get ConversationIndex(): number[] {
-        return <number[]>this.PropertyBag._getItem(EmailMessageSchema.ConversationIndex);
+        return <number[]>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ConversationIndex);
     }
-    
+
     /**
      * Gets or sets the "on behalf" sender of the e-mail message.
      *
      */
     get From(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.From);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.From);
     }
     set From(value: EmailAddress) {
-        this.PropertyBag._setItem(EmailMessageSchema.From, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.From, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether this is an associated message.
      *
@@ -87,123 +89,123 @@ export class EmailMessage extends Item {
         return this.IsAssociated;
     }
     set IsAssociated(value: boolean) {
-        this.PropertyBag._setItem(ItemSchema.IsAssociated, value);
+        this.PropertyBag._setItem(Schemas.ItemSchema.IsAssociated, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether a read receipt is requested for the e-mail message.
      *
      */
     get IsDeliveryReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsDeliveryReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
     }
     set IsDeliveryReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsDeliveryReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether the e-mail message is read.
      *
      */
     get IsRead(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsRead);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsRead);
     }
     set IsRead(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsRead, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsRead, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether a read receipt is requested for the e-mail message.
      *
      */
     get IsReadReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsReadReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsReadReceiptRequested);
     }
     set IsReadReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsReadReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsReadReceiptRequested, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether a response is requested for the e-mail message.
      *
      */
     get IsResponseRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsResponseRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsResponseRequested);
     }
     set IsResponseRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsResponseRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsResponseRequested, value);
     }
-    
+
     /**
      * Gets the Internat Message Id of the e-mail message.
      *
      */
     get InternetMessageId(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.InternetMessageId);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.InternetMessageId);
     }
-    
+
     /**
      * Gets or sets the references of the e-mail message.
      *
      */
     get References(): string {
-        return <string>this.PropertyBag._getItem(EmailMessageSchema.References);
+        return <string>this.PropertyBag._getItem(Schemas.EmailMessageSchema.References);
     }
     set References(value: string) {
-        this.PropertyBag._setItem(EmailMessageSchema.References, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.References, value);
     }
-    
+
     /**
      * Gets a list of e-mail addresses to which replies should be addressed.
      *
      */
     get ReplyTo(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(EmailMessageSchema.ReplyTo);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReplyTo);
     }
-    
+
     /**
      * Gets or sets the sender of the e-mail message.
      *
      */
     get Sender(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.Sender);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.Sender);
     }
     set Sender(value: EmailAddress) {
-        this.PropertyBag._setItem(EmailMessageSchema.Sender, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.Sender, value);
     }
-    
+
     /**
      * Gets the ReceivedBy property of the e-mail message.
      *
      */
     get ReceivedBy(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedBy);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReceivedBy);
     }
-    
+
     /**
      * Gets the ReceivedRepresenting property of the e-mail message.
      *
      */
     get ReceivedRepresenting(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(EmailMessageSchema.ReceivedRepresenting);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ReceivedRepresenting);
     }
-    
+
     /**
      * Gets the ApprovalRequestData property of the e-mail message.
      *
      */
     get ApprovalRequestData(): ApprovalRequestData {
-        return <ApprovalRequestData>this.PropertyBag._getItem(EmailMessageSchema.ApprovalRequestData);
+        return <ApprovalRequestData>this.PropertyBag._getItem(Schemas.EmailMessageSchema.ApprovalRequestData);
     }
-    
+
     /**
      * Gets the VotingInformation property of the e-mail message.
      *
      */
     get VotingInformation(): VotingInformation {
-        return <VotingInformation>this.PropertyBag._getItem(EmailMessageSchema.VotingInformation);
-    }    
-    
+        return <VotingInformation>this.PropertyBag._getItem(Schemas.EmailMessageSchema.VotingInformation);
+    }
+
     /**
      * Initializes an unsaved local instance of . To bind to an existing e-mail message, use EmailMessage.Bind() instead.
      *
@@ -211,7 +213,7 @@ export class EmailMessage extends Item {
      */
     constructor(service: ExchangeService);
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **EmailMessage** class.
      *
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
@@ -241,7 +243,7 @@ export class EmailMessage extends Item {
     static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<EmailMessage> {
         return service.BindToItem<EmailMessage>(id, propertySet, EmailMessage);
     }
-    
+
     /**
      * Creates a forward response to the message.
      *
@@ -251,7 +253,7 @@ export class EmailMessage extends Item {
         this.ThrowIfThisIsNew();
         return new ResponseMessage(this, ResponseMessageType.Forward);
     }
-    
+
     /**
      * Creates a reply response to the message.
      *
@@ -264,7 +266,7 @@ export class EmailMessage extends Item {
             this,
             replyAll ? ResponseMessageType.ReplyAll : ResponseMessageType.Reply);
     }
-    
+
     //Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
     //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
     /**
@@ -281,28 +283,28 @@ export class EmailMessage extends Item {
 
         return responseMessage.SendAndSaveCopy();
     }
-    
+
     /**
      * @internal Gets the minimum required server version.
      *
      * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
-    
+
     /**
      * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return EmailMessageSchema.Instance; }
-    
+    GetSchema(): ServiceObjectSchema { return Schemas.EmailMessageSchema.Instance; }
+
     /**
      * @internal Gets the element name of item in XML
      * 
      * @return  {string} name of elelment
      */
     GetXmlElementName(): string { return XmlElementNames.Message; }
-    
+
     /**
      * Send message.
      *
@@ -321,7 +323,7 @@ export class EmailMessage extends Item {
             }
             else {
                 // If the message has attachments, save as a draft (and add attachments) before sending.
-                this.InternalCreate(
+                return this.InternalCreate(
                     null,                           // null means use the Drafts folder in the mailbox of the authenticated user.
                     MessageDisposition.SaveOnly,
                     null).then((results) => {
@@ -332,30 +334,26 @@ export class EmailMessage extends Item {
         else {
             // Regardless of whether item is dirty or not, if it has unprocessed
             // attachment changes, process them now.
-            
-            debugger; //todo: check - check for attachment save() promise. 
-            
-            // Validate and save attachments before sending.
-            if (this.HasUnprocessedAttachmentChanges()) {
-                this.Attachments.Validate();
-                this.Attachments.Save();
-            }
 
-            debugger; //todo: check - check for attachment save() promise.
-            
-            if (this.PropertyBag.GetIsUpdateCallNecessary()) {
-                this.InternalUpdate(
-                    parentFolderId,
-                    ConflictResolutionMode.AutoResolve,
-                    messageDisposition,
-                    null);
-            }
-            else {
-                return this.Service.SendItem(this, parentFolderId);
-            }
+            debugger; //todo: check - check for attachment save() promise. 
+            return PromiseFactory.resolve(
+                // Validate and save attachments before sending.
+                this.HasUnprocessedAttachmentChanges() ? this.Attachments.ValidateAndSave() : void 0)
+                .then(() => {
+                    if (this.PropertyBag.GetIsUpdateCallNecessary()) {
+                        return <any>this.InternalUpdate( //ref: //info: <any> to supress cast error, returning promise is required, this time it is not void but no action is taken on this promise. 
+                            parentFolderId,
+                            ConflictResolutionMode.AutoResolve,
+                            messageDisposition,
+                            null);
+                    }
+                    else {
+                        return this.Service.SendItem(this, parentFolderId);
+                    }
+                });
         }
     }
-    
+
     /**
      * Replies to the message. Calling this method results in a call to EWS.
      *
@@ -369,12 +367,12 @@ export class EmailMessage extends Item {
 
         return responseMessage.SendAndSaveCopy();
     }
-    
+
     /**
      * Sends this e-mail message. Calling this method results in at least one call to EWS.
      */
     Send(): IPromise<void> { return this.InternalSend(null, MessageDisposition.SendOnly); }
-    
+
     /**
      * Sends this e-mail message and saves a copy of it in the Sent Items folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
@@ -406,7 +404,7 @@ export class EmailMessage extends Item {
         }
         return this.InternalSend(destinationFolderId, MessageDisposition.SendAndSaveCopy);
     }
-    
+
     /**
      * Suppresses the read receipt on the message. Calling this method results in a call to EWS.
      *

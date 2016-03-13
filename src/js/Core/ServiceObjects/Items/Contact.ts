@@ -21,17 +21,19 @@ import {ExchangeService} from "../../ExchangeService";
 import {EwsUtilities} from "../../EwsUtilities";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {XmlElementNames} from "../../XmlElementNames";
-import {ContactSchema} from "../Schemas/ContactSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
 import {DateTime} from "../../../DateTime";
 import {IPromise} from "../../../Interfaces";
 import {IOutParam} from "../../../Interfaces/IOutParam";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
  * 
  */
+@AttachableAttribute(true)
 export class Contact extends Item {
     private static ContactPictureName: string = "ContactPicture.jpg";
     
@@ -40,10 +42,10 @@ export class Contact extends Item {
      *
      */
     get FileAs(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.FileAs);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.FileAs);
     }
     set FileAs(value: string) {
-        this.PropertyBag._setItem(ContactSchema.FileAs, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.FileAs, value);
     }
     
     /**
@@ -51,10 +53,10 @@ export class Contact extends Item {
      * 
      */
     get FileAsMapping(): FileAsMapping {
-        return <FileAsMapping>this.PropertyBag._getItem(ContactSchema.FileAsMapping);
+        return <FileAsMapping>this.PropertyBag._getItem(Schemas.ContactSchema.FileAsMapping);
     }
     set FileAsMapping(value: FileAsMapping) {
-        this.PropertyBag._setItem(ContactSchema.FileAsMapping, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.FileAsMapping, value);
     }
     
     /**
@@ -62,10 +64,10 @@ export class Contact extends Item {
      * 
      */
     get DisplayName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.DisplayName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.DisplayName);
     }
     set DisplayName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.DisplayName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.DisplayName, value);
     }
     
     /**
@@ -73,10 +75,10 @@ export class Contact extends Item {
      * 
      */    
     get GivenName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.GivenName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.GivenName);
     }
     set GivenName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.GivenName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.GivenName, value);
     }
     
     /**
@@ -84,10 +86,10 @@ export class Contact extends Item {
      * 
      */    
     get Initials(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Initials);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Initials);
     }
     set Initials(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Initials, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Initials, value);
     }
     
     /**
@@ -95,10 +97,10 @@ export class Contact extends Item {
      * 
      */    
     get MiddleName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.MiddleName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.MiddleName);
     }
     set MiddleName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.MiddleName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.MiddleName, value);
     }
     
     /**
@@ -106,10 +108,10 @@ export class Contact extends Item {
      * 
      */    
     get NickName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.NickName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.NickName);
     }
     set NickName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.NickName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.NickName, value);
     }
     
     /**
@@ -117,7 +119,7 @@ export class Contact extends Item {
      * 
      */    
     get CompleteName(): CompleteName {
-        return <CompleteName>this.PropertyBag._getItem(ContactSchema.CompleteName);
+        return <CompleteName>this.PropertyBag._getItem(Schemas.ContactSchema.CompleteName);
     }
     
     /**
@@ -125,10 +127,10 @@ export class Contact extends Item {
      * 
      */    
     get CompanyName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.CompanyName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.CompanyName);
     }
     set CompanyName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.CompanyName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.CompanyName, value);
     }
     
     /**
@@ -137,7 +139,7 @@ export class Contact extends Item {
      * 
      */    
     get EmailAddresses(): EmailAddressDictionary {
-        return <EmailAddressDictionary>this.PropertyBag._getItem(ContactSchema.EmailAddresses);
+        return <EmailAddressDictionary>this.PropertyBag._getItem(Schemas.ContactSchema.EmailAddresses);
     }
     
     /**
@@ -146,7 +148,7 @@ export class Contact extends Item {
      * 
      */    
     get PhysicalAddresses(): PhysicalAddressDictionary {
-        return <PhysicalAddressDictionary>this.PropertyBag._getItem(ContactSchema.PhysicalAddresses);
+        return <PhysicalAddressDictionary>this.PropertyBag._getItem(Schemas.ContactSchema.PhysicalAddresses);
     }
     
     /**
@@ -155,7 +157,7 @@ export class Contact extends Item {
      * 
      */    
     get PhoneNumbers(): PhoneNumberDictionary {
-        return <PhoneNumberDictionary>this.PropertyBag._getItem(ContactSchema.PhoneNumbers);
+        return <PhoneNumberDictionary>this.PropertyBag._getItem(Schemas.ContactSchema.PhoneNumbers);
     }
     
     /**
@@ -163,10 +165,10 @@ export class Contact extends Item {
      * 
      */    
     get AssistantName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.AssistantName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.AssistantName);
     }
     set AssistantName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.AssistantName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.AssistantName, value);
     }
     
     /**
@@ -174,10 +176,10 @@ export class Contact extends Item {
      * 
      */    
     get Birthday(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(ContactSchema.Birthday);
+        return <DateTime>this.PropertyBag._getItem(Schemas.ContactSchema.Birthday);
     }
     set Birthday(value: DateTime) {
-        this.PropertyBag._setItem(ContactSchema.Birthday, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Birthday, value);
     }
     
     /**
@@ -185,10 +187,10 @@ export class Contact extends Item {
      * 
      */    
     get BusinessHomePage(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.BusinessHomePage);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.BusinessHomePage);
     }
     set BusinessHomePage(value: string) {
-        this.PropertyBag._setItem(ContactSchema.BusinessHomePage, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.BusinessHomePage, value);
     }
     
     /**
@@ -196,10 +198,10 @@ export class Contact extends Item {
      * 
      */    
     get Children(): StringList {
-        return <StringList>this.PropertyBag._getItem(ContactSchema.Children);
+        return <StringList>this.PropertyBag._getItem(Schemas.ContactSchema.Children);
     }
     set Children(value: StringList) {
-        this.PropertyBag._setItem(ContactSchema.Children, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Children, value);
     }
     
     /**
@@ -207,10 +209,10 @@ export class Contact extends Item {
      * 
      */    
     get Companies(): StringList {
-        return <StringList>this.PropertyBag._getItem(ContactSchema.Companies);
+        return <StringList>this.PropertyBag._getItem(Schemas.ContactSchema.Companies);
     }
     set Companies(value: StringList) {
-        this.PropertyBag._setItem(ContactSchema.Companies, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Companies, value);
     }
     
     /**
@@ -218,7 +220,7 @@ export class Contact extends Item {
      * 
      */    
     get ContactSource(): ContactSource {
-        return <ContactSource>this.PropertyBag._getItem(ContactSchema.ContactSource);
+        return <ContactSource>this.PropertyBag._getItem(Schemas.ContactSchema.ContactSource);
     }
     
     /**
@@ -226,10 +228,10 @@ export class Contact extends Item {
      * 
      */    
     get Department(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Department);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Department);
     }
     set Department(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Department, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Department, value);
     }
     
     /**
@@ -237,10 +239,10 @@ export class Contact extends Item {
      * 
      */    
     get Generation(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Generation);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Generation);
     }
     set Generation(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Generation, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Generation, value);
     }
     
     /**
@@ -249,7 +251,7 @@ export class Contact extends Item {
      * 
      */    
     get ImAddresses(): ImAddressDictionary {
-        return <ImAddressDictionary>this.PropertyBag._getItem(ContactSchema.ImAddresses);
+        return <ImAddressDictionary>this.PropertyBag._getItem(Schemas.ContactSchema.ImAddresses);
     }
     
     /**
@@ -257,10 +259,10 @@ export class Contact extends Item {
      * 
      */    
     get JobTitle(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.JobTitle);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.JobTitle);
     }
     set JobTitle(value: string) {
-        this.PropertyBag._setItem(ContactSchema.JobTitle, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.JobTitle, value);
     }
     
     /**
@@ -268,10 +270,10 @@ export class Contact extends Item {
      * 
      */    
     get Manager(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Manager);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Manager);
     }
     set Manager(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Manager, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Manager, value);
     }
     
     /**
@@ -279,10 +281,10 @@ export class Contact extends Item {
      * 
      */    
     get Mileage(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Mileage);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Mileage);
     }
     set Mileage(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Mileage, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Mileage, value);
     }
     
     /**
@@ -290,10 +292,10 @@ export class Contact extends Item {
      * 
      */    
     get OfficeLocation(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.OfficeLocation);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.OfficeLocation);
     }
     set OfficeLocation(value: string) {
-        this.PropertyBag._setItem(ContactSchema.OfficeLocation, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.OfficeLocation, value);
     }
     
     /**
@@ -301,10 +303,10 @@ export class Contact extends Item {
      * 
      */    
     get PostalAddressIndex(): PhysicalAddressIndex {
-        return <PhysicalAddressIndex>this.PropertyBag._getItem(ContactSchema.PostalAddressIndex);
+        return <PhysicalAddressIndex>this.PropertyBag._getItem(Schemas.ContactSchema.PostalAddressIndex);
     }
     set PostalAddressIndex(value: PhysicalAddressIndex) {
-        this.PropertyBag._setItem(ContactSchema.PostalAddressIndex, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.PostalAddressIndex, value);
     }
     
     /**
@@ -312,10 +314,10 @@ export class Contact extends Item {
      * 
      */    
     get Profession(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Profession);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Profession);
     }
     set Profession(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Profession, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Profession, value);
     }
     
     /**
@@ -323,10 +325,10 @@ export class Contact extends Item {
      * 
      */    
     get SpouseName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.SpouseName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.SpouseName);
     }
     set SpouseName(value: string) {
-        this.PropertyBag._setItem(ContactSchema.SpouseName, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.SpouseName, value);
     }
     
     /**
@@ -334,10 +336,10 @@ export class Contact extends Item {
      * 
      */    
     get Surname(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Surname);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Surname);
     }
     set Surname(value: string) {
-        this.PropertyBag._setItem(ContactSchema.Surname, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.Surname, value);
     }
     
     /**
@@ -345,10 +347,10 @@ export class Contact extends Item {
      * 
      */    
     get WeddingAnniversary(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(ContactSchema.WeddingAnniversary);
+        return <DateTime>this.PropertyBag._getItem(Schemas.ContactSchema.WeddingAnniversary);
     }
     set WeddingAnniversary(value: DateTime) {
-        this.PropertyBag._setItem(ContactSchema.WeddingAnniversary, value);
+        this.PropertyBag._setItem(Schemas.ContactSchema.WeddingAnniversary, value);
     }
     
     /**
@@ -356,7 +358,7 @@ export class Contact extends Item {
      * 
      */    
     get HasPicture(): boolean {
-        return <boolean>this.PropertyBag._getItem(ContactSchema.HasPicture);
+        return <boolean>this.PropertyBag._getItem(Schemas.ContactSchema.HasPicture);
     }
     
     /**
@@ -364,7 +366,7 @@ export class Contact extends Item {
      * 
      */    
     get PhoneticFullName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.PhoneticFullName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.PhoneticFullName);
     }
     
     /**
@@ -372,7 +374,7 @@ export class Contact extends Item {
      * 
      */    
     get PhoneticFirstName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.PhoneticFirstName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.PhoneticFirstName);
     }
     
     /**
@@ -380,7 +382,7 @@ export class Contact extends Item {
      * 
      */    
     get PhoneticLastName(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.PhoneticLastName);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.PhoneticLastName);
     }
     
     /**
@@ -388,7 +390,7 @@ export class Contact extends Item {
      * 
      */    
     get Alias(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Alias);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Alias);
     }
     
     /**
@@ -396,7 +398,7 @@ export class Contact extends Item {
      * 
      */    
     get Notes(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.Notes);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.Notes);
     }
     
     /**
@@ -404,7 +406,7 @@ export class Contact extends Item {
      * 
      */    
     get DirectoryPhoto(): number[] {
-        return <number[]>this.PropertyBag._getItem(ContactSchema.Photo);
+        return <number[]>this.PropertyBag._getItem(Schemas.ContactSchema.Photo);
     }
     
     /**
@@ -413,7 +415,7 @@ export class Contact extends Item {
      * 
      */    
     get UserSMIMECertificate(): string[] { 
-        var byteArrayArray: ByteArrayArray = <ByteArrayArray>this.PropertyBag._getItem(ContactSchema.UserSMIMECertificate);
+        var byteArrayArray: ByteArrayArray = <ByteArrayArray>this.PropertyBag._getItem(Schemas.ContactSchema.UserSMIMECertificate);
         return byteArrayArray.Content;
     }
     
@@ -423,7 +425,7 @@ export class Contact extends Item {
      * 
      */    
     get MSExchangeCertificate(): string[] { 
-        var byteArrayArray: ByteArrayArray = <ByteArrayArray>this.PropertyBag._getItem(ContactSchema.MSExchangeCertificate);
+        var byteArrayArray: ByteArrayArray = <ByteArrayArray>this.PropertyBag._getItem(Schemas.ContactSchema.MSExchangeCertificate);
         return byteArrayArray.Content;
     }
     
@@ -432,7 +434,7 @@ export class Contact extends Item {
      * 
      */    
     get DirectoryId(): string {
-        return <string>this.PropertyBag._getItem(ContactSchema.DirectoryId);
+        return <string>this.PropertyBag._getItem(Schemas.ContactSchema.DirectoryId);
     }
     
     /**
@@ -440,7 +442,7 @@ export class Contact extends Item {
      * 
      */    
     get ManagerMailbox(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(ContactSchema.ManagerMailbox);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.ContactSchema.ManagerMailbox);
     }
     
     /**
@@ -448,7 +450,7 @@ export class Contact extends Item {
      * 
      */    
     get DirectReports(): EmailAddressCollection {
-        return <EmailAddressCollection>this.PropertyBag._getItem(ContactSchema.DirectReports);
+        return <EmailAddressCollection>this.PropertyBag._getItem(Schemas.ContactSchema.DirectReports);
     }
 
     /**
@@ -458,7 +460,7 @@ export class Contact extends Item {
      */
     constructor(service: ExchangeService);
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **Contact** class.
      *
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
@@ -501,7 +503,7 @@ export class Contact extends Item {
     GetContactPictureAttachment(): FileAttachment {
         EwsUtilities.ValidateMethodVersion(this.Service, ExchangeVersion.Exchange2010, "GetContactPictureAttachment");
 
-        if (!this.PropertyBag.IsPropertyLoaded(ContactSchema.Attachments)) {
+        if (!this.PropertyBag.IsPropertyLoaded(Schemas.ContactSchema.Attachments)) {
             throw new PropertyException(Strings.AttachmentCollectionNotLoaded);
         }
 
@@ -527,7 +529,7 @@ export class Contact extends Item {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return ContactSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.ContactSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML
@@ -560,7 +562,7 @@ export class Contact extends Item {
     RemoveContactPicture(): void {
         EwsUtilities.ValidateMethodVersion(this.Service, ExchangeVersion.Exchange2010, "RemoveContactPicture");
 
-        if (!this.PropertyBag.IsPropertyLoaded(ContactSchema.Attachments)) {
+        if (!this.PropertyBag.IsPropertyLoaded(Schemas.ContactSchema.Attachments)) {
             throw new PropertyException(Strings.AttachmentCollectionNotLoaded);
         }
 
@@ -583,7 +585,7 @@ export class Contact extends Item {
         super.Validate();
 
         var fileAsMapping: IOutParam<any> = { outValue: null };
-        if (this.TryGetProperty(ContactSchema.FileAsMapping, fileAsMapping)) {
+        if (this.TryGetProperty(Schemas.ContactSchema.FileAsMapping, fileAsMapping)) {
             // FileAsMapping is extended by 5 new values in 2010 mode. Validate that they are used according the version.
             EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.FileAsMapping, fileAsMapping.outValue, this.Service.RequestedServerVersion);
         }

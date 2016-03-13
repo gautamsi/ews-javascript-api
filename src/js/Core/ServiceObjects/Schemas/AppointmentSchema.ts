@@ -30,7 +30,9 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 
 import {ItemSchema} from "./ItemSchema";
 
-//module AppointmentSchema {
+/**
+ * Field URIs for Appointment.
+ */
 module FieldUris {
     export var Start: string = "calendar:Start";
     export var End: string = "calendar:End";
@@ -79,841 +81,798 @@ module FieldUris {
     export var JoinOnlineMeetingUrl: string = "calendar:JoinOnlineMeetingUrl";
     export var OnlineMeetingSettings: string = "calendar:OnlineMeetingSettings";
 }
-//}
+
+/**
+ * Represents the schema for appointment and meeting requests.
+ */
 export class AppointmentSchema extends ItemSchema {
-    StartTimeZone: PropertyDefinition = new StartTimeZonePropertyDefinition(
-        "StartTimeZone",
-        XmlElementNames.StartTimeZone,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.StartTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
 
-    EndTimeZone: PropertyDefinition = new TimeZonePropertyDefinition(
-        "EndTimeZone",
-        XmlElementNames.EndTimeZone,
-        ExchangeVersion.Exchange2010,
-        FieldUris.EndTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    Start: PropertyDefinition = new ScopedDateTimePropertyDefinition(
-        "Start",
-        XmlElementNames.Start,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Start,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { return this.StartTimeZone; }
-        );
-
-    End: PropertyDefinition = new ScopedDateTimePropertyDefinition(
-        "End",
-        XmlElementNames.End,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.End,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => {
-            if (version !== ExchangeVersion.Exchange2007_SP1) {
-                return this.EndTimeZone;
-            }
-            return this.StartTimeZone;
-        });
-    OriginalStart: PropertyDefinition = new DateTimePropertyDefinition(
-        "OriginalStart",
-        XmlElementNames.OriginalStart,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.OriginalStart,
-        PropertyDefinitionFlags.None
-        );
-
-    IsAllDayEvent: PropertyDefinition = new BoolPropertyDefinition(
-        "IsAllDayEvent",
-        XmlElementNames.IsAllDayEvent,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsAllDayEvent,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    LegacyFreeBusyStatus: PropertyDefinition = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
-        "LegacyFreeBusyStatus",
-        XmlElementNames.LegacyFreeBusyStatus,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.LegacyFreeBusyStatus,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    Location: PropertyDefinition = new StringPropertyDefinition(
-        "Location",
-        XmlElementNames.Location,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Location,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    When: PropertyDefinition = new StringPropertyDefinition(
-        "When",
-        XmlElementNames.When,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.When,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    IsMeeting: PropertyDefinition = new BoolPropertyDefinition(
-        "IsMeeting",
-        XmlElementNames.IsMeeting,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsMeeting,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    IsCancelled: PropertyDefinition = new BoolPropertyDefinition(
-        "IsCancelled",
-        XmlElementNames.IsCancelled,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsCancelled,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    IsRecurring: PropertyDefinition = new BoolPropertyDefinition(
-        "IsRecurring",
-        XmlElementNames.IsRecurring,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsRecurring,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    MeetingRequestWasSent: PropertyDefinition = new BoolPropertyDefinition(
-        "MeetingRequestWasSent",
-        XmlElementNames.MeetingRequestWasSent,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MeetingRequestWasSent,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    IsResponseRequested: PropertyDefinition = new BoolPropertyDefinition(
-        "IsResponseRequested",
-        XmlElementNames.IsResponseRequested,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsResponseRequested,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    AppointmentType: PropertyDefinition = new GenericPropertyDefinition<AppointmentType>(
-        "CalendarItemType",
-        XmlElementNames.CalendarItemType,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.CalendarItemType,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    MyResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
-        "MyResponseType",
-        XmlElementNames.MyResponseType,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MyResponseType,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    Organizer: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
-        "Organizer",
-        XmlElementNames.Organizer,
-        XmlElementNames.Mailbox,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Organizer,
-        PropertyDefinitionFlags.CanFind,
-        () => { return new EmailAddress(); }
-        );
-
-    RequiredAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
-        "RequiredAttendees",
-        XmlElementNames.RequiredAttendees,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.RequiredAttendees,
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-        () => { return new AttendeeCollection(); }
-        );
-
-    OptionalAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
-        "OptionalAttendees",
-        XmlElementNames.OptionalAttendees,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.OptionalAttendees,
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-        () => { return new AttendeeCollection(); }
-        );
-
-    Resources: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
-        "Resources",
-        XmlElementNames.Resources,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Resources,
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
-        () => { return new AttendeeCollection(); }
-        );
-
-    ConflictingMeetingCount: PropertyDefinition = new IntPropertyDefinition(
-        "ConflictingMeetingCount",
-        XmlElementNames.ConflictingMeetingCount,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ConflictingMeetingCount,
-        PropertyDefinitionFlags.None
-        );
-
-    AdjacentMeetingCount: PropertyDefinition = new IntPropertyDefinition(
-        "AdjacentMeetingCount",
-        XmlElementNames.AdjacentMeetingCount,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AdjacentMeetingCount,
-        PropertyDefinitionFlags.None
-        );
-
-    ConflictingMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
-        "ConflictingMeetings",
-        XmlElementNames.ConflictingMeetings,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ConflictingMeetings,
-        PropertyDefinitionFlags.None,
-        () => { return new ItemCollection<Appointment>(); }
-        );
-
-    AdjacentMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
-        "AdjacentMeetings",
-        XmlElementNames.AdjacentMeetings,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AdjacentMeetings,
-        PropertyDefinitionFlags.None,
-        () => { return new ItemCollection<Appointment>(); }
-        );
-
-    Duration: PropertyDefinition = new TimeSpanPropertyDefinition(
-        "Duration",
-        XmlElementNames.Duration,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Duration,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    TimeZone: PropertyDefinition = new StringPropertyDefinition(
-        "TimeZone",
-        XmlElementNames.TimeZone,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.TimeZone,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    AppointmentReplyTime: PropertyDefinition = new DateTimePropertyDefinition(
-        "AppointmentReplyTime",
-        XmlElementNames.AppointmentReplyTime,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AppointmentReplyTime,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    AppointmentSequenceNumber: PropertyDefinition = new IntPropertyDefinition(
-        "AppointmentSequenceNumber",
-        XmlElementNames.AppointmentSequenceNumber,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AppointmentSequenceNumber,
-        PropertyDefinitionFlags.None
-        );
-
-    AppointmentState: PropertyDefinition = new IntPropertyDefinition(
-        "AppointmentState",
-        XmlElementNames.AppointmentState,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AppointmentState,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    Recurrence: PropertyDefinition = new RecurrencePropertyDefinition(
-        "Recurrence",
-        XmlElementNames.Recurrence,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Recurrence,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
-        );
-
-    FirstOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
-        "FirstOccurrence",
-        XmlElementNames.FirstOccurrence,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.FirstOccurrence,
-        PropertyDefinitionFlags.None,
-        () => { return new OccurrenceInfo(); }
-        );
-
-    LastOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
-        "LastOccurrence",
-        XmlElementNames.LastOccurrence,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.LastOccurrence,
-        PropertyDefinitionFlags.None,
-        () => { return new OccurrenceInfo(); }
-        );
-
-    ModifiedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfoCollection>(
-        "ModifiedOccurrences",
-        XmlElementNames.ModifiedOccurrences,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ModifiedOccurrences,
-        PropertyDefinitionFlags.None,
-        () => { return new OccurrenceInfoCollection(); }
-        );
-
-    DeletedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
-        "DeletedOccurrences",
-        XmlElementNames.DeletedOccurrences,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DeletedOccurrences,
-        PropertyDefinitionFlags.None,
-        () => { return new DeletedOccurrenceInfoCollection(); }
-        );
-
-    MeetingTimeZone: PropertyDefinition = new MeetingTimeZonePropertyDefinition(
-        "MeetingTimeZone",
-        XmlElementNames.MeetingTimeZone,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MeetingTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate
-        );
-
-    ConferenceType: PropertyDefinition = new IntPropertyDefinition(
-        "ConferenceType",
-        XmlElementNames.ConferenceType,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ConferenceType,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    AllowNewTimeProposal: PropertyDefinition = new BoolPropertyDefinition(
-        "AllowNewTimeProposal",
-        XmlElementNames.AllowNewTimeProposal,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AllowNewTimeProposal,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    IsOnlineMeeting: PropertyDefinition = new BoolPropertyDefinition(
-        "IsOnlineMeeting",
-        XmlElementNames.IsOnlineMeeting,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.IsOnlineMeeting,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    MeetingWorkspaceUrl: PropertyDefinition = new StringPropertyDefinition(
-        "MeetingWorkspaceUrl",
-        XmlElementNames.MeetingWorkspaceUrl,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MeetingWorkspaceUrl,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    NetShowUrl: PropertyDefinition = new StringPropertyDefinition(
-        "NetShowUrl",
-        XmlElementNames.NetShowUrl,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.NetShowUrl,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
-
-    ICalUid: PropertyDefinition = new StringPropertyDefinition(
-        "ICalUid",
-        XmlElementNames.Uid,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Uid,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
-
-    ICalRecurrenceId: PropertyDefinition = new DateTimePropertyDefinition(
-        "ICalRecurrenceId",
-        XmlElementNames.RecurrenceId,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.RecurrenceId,
-        PropertyDefinitionFlags.CanFind,
-        true
-        );
-
-    ICalDateTimeStamp: PropertyDefinition = new DateTimePropertyDefinition(
-        "ICalDateTimeStamp",
-        XmlElementNames.DateTimeStamp,
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DateTimeStamp,
-        PropertyDefinitionFlags.CanFind,
-        true
-        );
-
-    EnhancedLocation: PropertyDefinition = new ComplexPropertyDefinition<EnhancedLocation>(
-        "EnhancedLocation",
-        XmlElementNames.EnhancedLocation,
-        ExchangeVersion.Exchange2013,
-        FieldUris.EnhancedLocation,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        () => { return new EnhancedLocation(); }
-        );
-
-    JoinOnlineMeetingUrl: PropertyDefinition = new StringPropertyDefinition(
-        "JoinOnlineMeetingUrl",
-        XmlElementNames.JoinOnlineMeetingUrl,
-        ExchangeVersion.Exchange2013,
-        FieldUris.JoinOnlineMeetingUrl,
-        PropertyDefinitionFlags.CanFind
-        );
-
-    OnlineMeetingSettings: PropertyDefinition = new ComplexPropertyDefinition<OnlineMeetingSettings>(
-        "OnlineMeetingSettings",
-        XmlElementNames.OnlineMeetingSettings,
-        ExchangeVersion.Exchange2013,
-        FieldUris.OnlineMeetingSettings,
-        PropertyDefinitionFlags.CanFind,
-        () => { return new OnlineMeetingSettings(); }
-        );
-
-    static Instance: AppointmentSchema = new AppointmentSchema();
     /**
-     *
+     * Defines the **StartTimeZone** property.
      */
-    constructor() {
-        super();
-        //if (AppointmentSchema.Instance) throw new Error("can not create another instance");
-    }
-    RegisterProperties(): void {
-        this.init();
-        super.RegisterProperties();
-        super.RegisterProperty(this.ICalUid);
-        super.RegisterProperty(this.ICalRecurrenceId);
-        super.RegisterProperty(this.ICalDateTimeStamp);
-        super.RegisterProperty(this.Start);
-        super.RegisterProperty(this.End);
-        super.RegisterProperty(this.OriginalStart);
-        super.RegisterProperty(this.IsAllDayEvent);
-        super.RegisterProperty(this.LegacyFreeBusyStatus);
-        super.RegisterProperty(this.Location);
-        super.RegisterProperty(this.When);
-        super.RegisterProperty(this.IsMeeting);
-        super.RegisterProperty(this.IsCancelled);
-        super.RegisterProperty(this.IsRecurring);
-        super.RegisterProperty(this.MeetingRequestWasSent);
-        super.RegisterProperty(this.IsResponseRequested);
-        super.RegisterProperty(this.AppointmentType);
-        super.RegisterProperty(this.MyResponseType);
-        super.RegisterProperty(this.Organizer);
-        super.RegisterProperty(this.RequiredAttendees);
-        super.RegisterProperty(this.OptionalAttendees);
-        super.RegisterProperty(this.Resources);
-        super.RegisterProperty(this.ConflictingMeetingCount);
-        super.RegisterProperty(this.AdjacentMeetingCount);
-        super.RegisterProperty(this.ConflictingMeetings);
-        super.RegisterProperty(this.AdjacentMeetings);
-        super.RegisterProperty(this.Duration);
-        super.RegisterProperty(this.TimeZone);
-        super.RegisterProperty(this.AppointmentReplyTime);
-        super.RegisterProperty(this.AppointmentSequenceNumber);
-        super.RegisterProperty(this.AppointmentState);
-        super.RegisterProperty(this.Recurrence);
-        super.RegisterProperty(this.FirstOccurrence);
-        super.RegisterProperty(this.LastOccurrence);
-        super.RegisterProperty(this.ModifiedOccurrences);
-        super.RegisterProperty(this.DeletedOccurrences);
-        super.RegisterInternalProperty(this.MeetingTimeZone);
-        super.RegisterProperty(this.StartTimeZone);
-        super.RegisterProperty(this.EndTimeZone);
-        super.RegisterProperty(this.ConferenceType);
-        super.RegisterProperty(this.AllowNewTimeProposal);
-        super.RegisterProperty(this.IsOnlineMeeting);
-        super.RegisterProperty(this.MeetingWorkspaceUrl);
-        super.RegisterProperty(this.NetShowUrl);
-        super.RegisterProperty(this.EnhancedLocation);
-        super.RegisterProperty(this.JoinOnlineMeetingUrl);
-        super.RegisterProperty(this.OnlineMeetingSettings);
-    }
-    init():void{
-        this.StartTimeZone = new StartTimeZonePropertyDefinition(
+    public static StartTimeZone: PropertyDefinition = new StartTimeZonePropertyDefinition(
         "StartTimeZone",
         XmlElementNames.StartTimeZone,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.StartTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.EndTimeZone = new TimeZonePropertyDefinition(
+    /**
+     * Defines the **EndTimeZone** property.
+     */
+    public static EndTimeZone: PropertyDefinition = new TimeZonePropertyDefinition(
         "EndTimeZone",
         XmlElementNames.EndTimeZone,
-        ExchangeVersion.Exchange2010,
         FieldUris.EndTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010
+    );
 
-    this.Start = new ScopedDateTimePropertyDefinition(
+    /**
+     * Defines the **Start** property.
+     */
+    public static Start: PropertyDefinition = new ScopedDateTimePropertyDefinition(
         "Start",
         XmlElementNames.Start,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Start,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        (version: ExchangeVersion) => { return this.StartTimeZone; }
-        );
+        ExchangeVersion.Exchange2007_SP1,
+        (version: ExchangeVersion) => { return AppointmentSchema.StartTimeZone; }
+    );
 
-    this.End = new ScopedDateTimePropertyDefinition(
+    /**
+     * Defines the **End** property.
+     */
+    public static End: PropertyDefinition = new ScopedDateTimePropertyDefinition(
         "End",
         XmlElementNames.End,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.End,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         (version: ExchangeVersion) => {
             if (version !== ExchangeVersion.Exchange2007_SP1) {
-                return this.EndTimeZone;
+                return AppointmentSchema.EndTimeZone;
             }
-            return this.StartTimeZone;
+            return AppointmentSchema.StartTimeZone;
         });
-    this.OriginalStart = new DateTimePropertyDefinition(
+    /**
+     * Defines the **OriginalStart** property.
+     */
+    public static OriginalStart: PropertyDefinition = new DateTimePropertyDefinition(
         "OriginalStart",
         XmlElementNames.OriginalStart,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.OriginalStart,
-        PropertyDefinitionFlags.None
-        );
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsAllDayEvent = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsAllDayEvent** property.
+     */
+    public static IsAllDayEvent: PropertyDefinition = new BoolPropertyDefinition(
         "IsAllDayEvent",
         XmlElementNames.IsAllDayEvent,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsAllDayEvent,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.LegacyFreeBusyStatus = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
+    /**
+     * Defines the **LegacyFreeBusyStatus** property.
+     */
+    public static LegacyFreeBusyStatus: PropertyDefinition = new GenericPropertyDefinition<LegacyFreeBusyStatus>(
         "LegacyFreeBusyStatus",
         XmlElementNames.LegacyFreeBusyStatus,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.LegacyFreeBusyStatus,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.Location = new StringPropertyDefinition(
+    /**
+     * Defines the **Location** property.
+     */
+    public static Location: PropertyDefinition = new StringPropertyDefinition(
         "Location",
         XmlElementNames.Location,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Location,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.When = new StringPropertyDefinition(
+    /**
+     * Defines the **When** property.
+     */
+    public static When: PropertyDefinition = new StringPropertyDefinition(
         "When",
         XmlElementNames.When,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.When,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsMeeting = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsMeeting** property.
+     */
+    public static IsMeeting: PropertyDefinition = new BoolPropertyDefinition(
         "IsMeeting",
         XmlElementNames.IsMeeting,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsMeeting,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsCancelled = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsCancelled** property.
+     */
+    public static IsCancelled: PropertyDefinition = new BoolPropertyDefinition(
         "IsCancelled",
         XmlElementNames.IsCancelled,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsCancelled,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsRecurring = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsRecurring** property.
+     */
+    public static IsRecurring: PropertyDefinition = new BoolPropertyDefinition(
         "IsRecurring",
         XmlElementNames.IsRecurring,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsRecurring,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.MeetingRequestWasSent = new BoolPropertyDefinition(
+    /**
+     * Defines the **MeetingRequestWasSent** property.
+     */
+    public static MeetingRequestWasSent: PropertyDefinition = new BoolPropertyDefinition(
         "MeetingRequestWasSent",
         XmlElementNames.MeetingRequestWasSent,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.MeetingRequestWasSent,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsResponseRequested = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsResponseRequested** property.
+     */
+    public static IsResponseRequested: PropertyDefinition = new BoolPropertyDefinition(
         "IsResponseRequested",
         XmlElementNames.IsResponseRequested,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsResponseRequested,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AppointmentType = new GenericPropertyDefinition<AppointmentType>(
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    public static AppointmentType: PropertyDefinition = new GenericPropertyDefinition<AppointmentType>(
         "CalendarItemType",
         XmlElementNames.CalendarItemType,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.CalendarItemType,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.MyResponseType = new GenericPropertyDefinition<MeetingResponseType>(
+    /**
+     * Defines the **MyResponseType** property.
+     */
+    public static MyResponseType: PropertyDefinition = new GenericPropertyDefinition<MeetingResponseType>(
         "MyResponseType",
         XmlElementNames.MyResponseType,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.MyResponseType,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.Organizer = new ContainedPropertyDefinition<EmailAddress>(
+    /**
+     * Defines the **Organizer** property.
+     */
+    public static Organizer: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
         "Organizer",
         XmlElementNames.Organizer,
-        XmlElementNames.Mailbox,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Organizer,
+        XmlElementNames.Mailbox,
         PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new EmailAddress(); }
-        );
+    );
 
-    this.RequiredAttendees = new ComplexPropertyDefinition<AttendeeCollection>(
+    /**
+     * Defines the **RequiredAttendees** property.
+     */
+    public static RequiredAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
         "RequiredAttendees",
         XmlElementNames.RequiredAttendees,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.RequiredAttendees,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new AttendeeCollection(); }
-        );
+    );
 
-    this.OptionalAttendees = new ComplexPropertyDefinition<AttendeeCollection>(
+    /**
+     * Defines the **OptionalAttendees** property.
+     */
+    public static OptionalAttendees: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
         "OptionalAttendees",
         XmlElementNames.OptionalAttendees,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.OptionalAttendees,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new AttendeeCollection(); }
-        );
+    );
 
-    this.Resources = new ComplexPropertyDefinition<AttendeeCollection>(
+    /**
+     * Defines the **Resources** property.
+     */
+    public static Resources: PropertyDefinition = new ComplexPropertyDefinition<AttendeeCollection>(
         "Resources",
         XmlElementNames.Resources,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Resources,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new AttendeeCollection(); }
-        );
+    );
 
-    this.ConflictingMeetingCount = new IntPropertyDefinition(
+    /**
+     * Defines the **ConflictingMeetingCount** property.
+     */
+    public static ConflictingMeetingCount: PropertyDefinition = new IntPropertyDefinition(
         "ConflictingMeetingCount",
         XmlElementNames.ConflictingMeetingCount,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.ConflictingMeetingCount,
-        PropertyDefinitionFlags.None
-        );
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AdjacentMeetingCount = new IntPropertyDefinition(
+    /**
+     * Defines the **AdjacentMeetingCount** property.
+     */
+    public static AdjacentMeetingCount: PropertyDefinition = new IntPropertyDefinition(
         "AdjacentMeetingCount",
         XmlElementNames.AdjacentMeetingCount,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AdjacentMeetingCount,
-        PropertyDefinitionFlags.None
-        );
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.ConflictingMeetings = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+    /**
+     * Defines the **ConflictingMeetings** property.
+     */
+    public static ConflictingMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
         "ConflictingMeetings",
         XmlElementNames.ConflictingMeetings,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.ConflictingMeetings,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new ItemCollection<Appointment>(); }
-        );
+    );
 
-    this.AdjacentMeetings = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
+    /**
+     * Defines the **AdjacentMeetings** property.
+     */
+    public static AdjacentMeetings: PropertyDefinition = new ComplexPropertyDefinition<ItemCollection<Appointment>>(
         "AdjacentMeetings",
         XmlElementNames.AdjacentMeetings,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AdjacentMeetings,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new ItemCollection<Appointment>(); }
-        );
+    );
 
-    this.Duration = new TimeSpanPropertyDefinition(
+    /**
+     * Defines the **Duration** property.
+     */
+    public static Duration: PropertyDefinition = new TimeSpanPropertyDefinition(
         "Duration",
         XmlElementNames.Duration,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Duration,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.TimeZone = new StringPropertyDefinition(
+    /**
+     * Defines the **TimeZone** property.
+     */
+    public static TimeZone: PropertyDefinition = new StringPropertyDefinition(
         "TimeZone",
         XmlElementNames.TimeZone,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.TimeZone,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AppointmentReplyTime = new DateTimePropertyDefinition(
+    /**
+     * Defines the **AppointmentReplyTime** property.
+     */
+    public static AppointmentReplyTime: PropertyDefinition = new DateTimePropertyDefinition(
         "AppointmentReplyTime",
         XmlElementNames.AppointmentReplyTime,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AppointmentReplyTime,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AppointmentSequenceNumber = new IntPropertyDefinition(
+    /**
+     * Defines the **AppointmentSequenceNumber** property.
+     */
+    public static AppointmentSequenceNumber: PropertyDefinition = new IntPropertyDefinition(
         "AppointmentSequenceNumber",
         XmlElementNames.AppointmentSequenceNumber,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AppointmentSequenceNumber,
-        PropertyDefinitionFlags.None
-        );
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AppointmentState = new IntPropertyDefinition(
+    /**
+     * Defines the **AppointmentState** property.
+     */
+    public static AppointmentState: PropertyDefinition = new IntPropertyDefinition(
         "AppointmentState",
         XmlElementNames.AppointmentState,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AppointmentState,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.Recurrence = new RecurrencePropertyDefinition(
+    /**
+     * Defines the **Recurrence** property.
+     */
+    public static Recurrence: PropertyDefinition = new RecurrencePropertyDefinition(
         "Recurrence",
         XmlElementNames.Recurrence,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Recurrence,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.FirstOccurrence = new ComplexPropertyDefinition<OccurrenceInfo>(
+    /**
+     * Defines the **FirstOccurrence** property.
+     */
+    public static FirstOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
         "FirstOccurrence",
         XmlElementNames.FirstOccurrence,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.FirstOccurrence,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new OccurrenceInfo(); }
-        );
+    );
 
-    this.LastOccurrence = new ComplexPropertyDefinition<OccurrenceInfo>(
+    /**
+     * Defines the **LastOccurrence** property.
+     */
+    public static LastOccurrence: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfo>(
         "LastOccurrence",
         XmlElementNames.LastOccurrence,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.LastOccurrence,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new OccurrenceInfo(); }
-        );
+    );
 
-    this.ModifiedOccurrences = new ComplexPropertyDefinition<OccurrenceInfoCollection>(
+    /**
+     * Defines the **ModifiedOccurrences** property.
+     */
+    public static ModifiedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<OccurrenceInfoCollection>(
         "ModifiedOccurrences",
         XmlElementNames.ModifiedOccurrences,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.ModifiedOccurrences,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new OccurrenceInfoCollection(); }
-        );
+    );
 
-    this.DeletedOccurrences = new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
+    /**
+     * Defines the **DeletedOccurrences** property.
+     */
+    public static DeletedOccurrences: PropertyDefinition = new ComplexPropertyDefinition<DeletedOccurrenceInfoCollection>(
         "DeletedOccurrences",
         XmlElementNames.DeletedOccurrences,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.DeletedOccurrences,
         PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new DeletedOccurrenceInfoCollection(); }
-        );
+    );
 
-    this.MeetingTimeZone = new MeetingTimeZonePropertyDefinition(
+    /**
+     * Defines the **MeetingTimeZone** property.
+     */
+    public static MeetingTimeZone: PropertyDefinition = new MeetingTimeZonePropertyDefinition(
         "MeetingTimeZone",
         XmlElementNames.MeetingTimeZone,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.MeetingTimeZone,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.ConferenceType = new IntPropertyDefinition(
+    /**
+     * Defines the **ConferenceType** property.
+     */
+    public static ConferenceType: PropertyDefinition = new IntPropertyDefinition(
         "ConferenceType",
         XmlElementNames.ConferenceType,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.ConferenceType,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.AllowNewTimeProposal = new BoolPropertyDefinition(
+    /**
+     * Defines the **AllowNewTimeProposal** property.
+     */
+    public static AllowNewTimeProposal: PropertyDefinition = new BoolPropertyDefinition(
         "AllowNewTimeProposal",
         XmlElementNames.AllowNewTimeProposal,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.AllowNewTimeProposal,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.IsOnlineMeeting = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsOnlineMeeting** property.
+     */
+    public static IsOnlineMeeting: PropertyDefinition = new BoolPropertyDefinition(
         "IsOnlineMeeting",
         XmlElementNames.IsOnlineMeeting,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.IsOnlineMeeting,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.MeetingWorkspaceUrl = new StringPropertyDefinition(
+    /**
+     * Defines the **MeetingWorkspaceUrl** property.
+     */
+    public static MeetingWorkspaceUrl: PropertyDefinition = new StringPropertyDefinition(
         "MeetingWorkspaceUrl",
         XmlElementNames.MeetingWorkspaceUrl,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.MeetingWorkspaceUrl,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.NetShowUrl = new StringPropertyDefinition(
+    /**
+     * Defines the **NetShowUrl** property.
+     */
+    public static NetShowUrl: PropertyDefinition = new StringPropertyDefinition(
         "NetShowUrl",
         XmlElementNames.NetShowUrl,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.NetShowUrl,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.ICalUid = new StringPropertyDefinition(
+    /**
+     * Defines the **ICalUid** property.
+     */
+    public static ICalUid: PropertyDefinition = new StringPropertyDefinition(
         "ICalUid",
         XmlElementNames.Uid,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.Uid,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    this.ICalRecurrenceId = new DateTimePropertyDefinition(
+    /**
+     * Defines the **ICalRecurrenceId** property.
+     */
+    public static ICalRecurrenceId: PropertyDefinition = new DateTimePropertyDefinition(
         "ICalRecurrenceId",
         XmlElementNames.RecurrenceId,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.RecurrenceId,
         PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    this.ICalDateTimeStamp = new DateTimePropertyDefinition(
+    /**
+     * Defines the **ICalDateTimeStamp** property.
+     */
+    public static ICalDateTimeStamp: PropertyDefinition = new DateTimePropertyDefinition(
         "ICalDateTimeStamp",
         XmlElementNames.DateTimeStamp,
-        ExchangeVersion.Exchange2007_SP1,
         FieldUris.DateTimeStamp,
         PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    this.EnhancedLocation = new ComplexPropertyDefinition<EnhancedLocation>(
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    public static EnhancedLocation: PropertyDefinition = new ComplexPropertyDefinition<EnhancedLocation>(
         "EnhancedLocation",
         XmlElementNames.EnhancedLocation,
-        ExchangeVersion.Exchange2013,
         FieldUris.EnhancedLocation,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
         () => { return new EnhancedLocation(); }
-        );
+    );
 
-    this.JoinOnlineMeetingUrl = new StringPropertyDefinition(
+    /**
+     * Defines the **JoinOnlineMeetingUrl** property.
+     */
+    public static JoinOnlineMeetingUrl: PropertyDefinition = new StringPropertyDefinition(
         "JoinOnlineMeetingUrl",
         XmlElementNames.JoinOnlineMeetingUrl,
-        ExchangeVersion.Exchange2013,
         FieldUris.JoinOnlineMeetingUrl,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
+    );
 
-    this.OnlineMeetingSettings = new ComplexPropertyDefinition<OnlineMeetingSettings>(
+    /**
+     * Defines the **OnlineMeetingSettings** property.
+     */
+    public static OnlineMeetingSettings: PropertyDefinition = new ComplexPropertyDefinition<OnlineMeetingSettings>(
         "OnlineMeetingSettings",
         XmlElementNames.OnlineMeetingSettings,
-        ExchangeVersion.Exchange2013,
         FieldUris.OnlineMeetingSettings,
         PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013,
         () => { return new OnlineMeetingSettings(); }
-        );
+    );
+
+
+    /**
+     * @internal Instance of **AppointmentSchema** 
+     */
+    static Instance: AppointmentSchema = new AppointmentSchema();
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
+    RegisterProperties(): void {
+        super.RegisterProperties();
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ICalUid);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ICalRecurrenceId);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ICalDateTimeStamp);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Start);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.End);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.OriginalStart);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsAllDayEvent);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.LegacyFreeBusyStatus);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Location);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.When);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsMeeting);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsCancelled);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsRecurring);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.MeetingRequestWasSent);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsResponseRequested);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AppointmentType);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.MyResponseType);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Organizer);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.RequiredAttendees);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.OptionalAttendees);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Resources);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ConflictingMeetingCount);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AdjacentMeetingCount);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ConflictingMeetings);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AdjacentMeetings);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Duration);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.TimeZone);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AppointmentReplyTime);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AppointmentSequenceNumber);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AppointmentState);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.Recurrence);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.FirstOccurrence);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.LastOccurrence);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ModifiedOccurrences);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.DeletedOccurrences);
+        this.RegisterInternalProperty(AppointmentSchema, AppointmentSchema.MeetingTimeZone);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.StartTimeZone);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.EndTimeZone);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.ConferenceType);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.AllowNewTimeProposal);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.IsOnlineMeeting);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.MeetingWorkspaceUrl);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.NetShowUrl);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.EnhancedLocation);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.JoinOnlineMeetingUrl);
+        this.RegisterProperty(AppointmentSchema, AppointmentSchema.OnlineMeetingSettings);
     }
+}
+
+/**
+ * Represents the schema for appointment and meeting requests.
+ */
+export interface AppointmentSchema {
+
+    /**
+     * Defines the **StartTimeZone** property.
+     */
+    StartTimeZone: PropertyDefinition;
+    /**
+     * Defines the **EndTimeZone** property.
+     */
+    EndTimeZone: PropertyDefinition;
+    /**
+     * Defines the **Start** property.
+     */
+    Start: PropertyDefinition;
+    /**
+     * Defines the **End** property.
+     */
+    End: PropertyDefinition;
+    /**
+     * Defines the **OriginalStart** property.
+     */
+    OriginalStart: PropertyDefinition;
+    /**
+     * Defines the **IsAllDayEvent** property.
+     */
+    IsAllDayEvent: PropertyDefinition;
+    /**
+     * Defines the **LegacyFreeBusyStatus** property.
+     */
+    LegacyFreeBusyStatus: PropertyDefinition;
+    /**
+     * Defines the **Location** property.
+     */
+    Location: PropertyDefinition;
+    /**
+     * Defines the **When** property.
+     */
+    When: PropertyDefinition;
+    /**
+     * Defines the **IsMeeting** property.
+     */
+    IsMeeting: PropertyDefinition;
+    /**
+     * Defines the **IsCancelled** property.
+     */
+    IsCancelled: PropertyDefinition;
+    /**
+     * Defines the **IsRecurring** property.
+     */
+    IsRecurring: PropertyDefinition;
+    /**
+     * Defines the **MeetingRequestWasSent** property.
+     */
+    MeetingRequestWasSent: PropertyDefinition;
+    /**
+     * Defines the **IsResponseRequested** property.
+     */
+    IsResponseRequested: PropertyDefinition;
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    AppointmentType: PropertyDefinition;
+    /**
+     * Defines the **MyResponseType** property.
+     */
+    MyResponseType: PropertyDefinition;
+    /**
+     * Defines the **Organizer** property.
+     */
+    Organizer: PropertyDefinition;
+    /**
+     * Defines the **RequiredAttendees** property.
+     */
+    RequiredAttendees: PropertyDefinition;
+    /**
+     * Defines the **OptionalAttendees** property.
+     */
+    OptionalAttendees: PropertyDefinition;
+    /**
+     * Defines the **Resources** property.
+     */
+    Resources: PropertyDefinition;
+    /**
+     * Defines the **ConflictingMeetingCount** property.
+     */
+    ConflictingMeetingCount: PropertyDefinition;
+    /**
+     * Defines the **AdjacentMeetingCount** property.
+     */
+    AdjacentMeetingCount: PropertyDefinition;
+    /**
+     * Defines the **ConflictingMeetings** property.
+     */
+    ConflictingMeetings: PropertyDefinition;
+    /**
+     * Defines the **AdjacentMeetings** property.
+     */
+    AdjacentMeetings: PropertyDefinition;
+    /**
+     * Defines the **Duration** property.
+     */
+    Duration: PropertyDefinition;
+    /**
+     * Defines the **TimeZone** property.
+     */
+    TimeZone: PropertyDefinition;
+    /**
+     * Defines the **AppointmentReplyTime** property.
+     */
+    AppointmentReplyTime: PropertyDefinition;
+    /**
+     * Defines the **AppointmentSequenceNumber** property.
+     */
+    AppointmentSequenceNumber: PropertyDefinition;
+    /**
+     * Defines the **AppointmentState** property.
+     */
+    AppointmentState: PropertyDefinition;
+    /**
+     * Defines the **Recurrence** property.
+     */
+    Recurrence: PropertyDefinition;
+    /**
+     * Defines the **FirstOccurrence** property.
+     */
+    FirstOccurrence: PropertyDefinition;
+    /**
+     * Defines the **LastOccurrence** property.
+     */
+    LastOccurrence: PropertyDefinition;
+    /**
+     * Defines the **ModifiedOccurrences** property.
+     */
+    ModifiedOccurrences: PropertyDefinition;
+    /**
+     * Defines the **DeletedOccurrences** property.
+     */
+    DeletedOccurrences: PropertyDefinition;
+    /**
+     * Defines the **MeetingTimeZone** property.
+     */
+    MeetingTimeZone: PropertyDefinition;
+    /**
+     * Defines the **ConferenceType** property.
+     */
+    ConferenceType: PropertyDefinition;
+    /**
+     * Defines the **AllowNewTimeProposal** property.
+     */
+    AllowNewTimeProposal: PropertyDefinition;
+    /**
+     * Defines the **IsOnlineMeeting** property.
+     */
+    IsOnlineMeeting: PropertyDefinition;
+    /**
+     * Defines the **MeetingWorkspaceUrl** property.
+     */
+    MeetingWorkspaceUrl: PropertyDefinition;
+    /**
+     * Defines the **NetShowUrl** property.
+     */
+    NetShowUrl: PropertyDefinition;
+    /**
+     * Defines the **ICalUid** property.
+     */
+    ICalUid: PropertyDefinition;
+    /**
+     * Defines the **ICalRecurrenceId** property.
+     */
+    ICalRecurrenceId: PropertyDefinition;
+    /**
+     * Defines the **ICalDateTimeStamp** property.
+     */
+    ICalDateTimeStamp: PropertyDefinition;
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    EnhancedLocation: PropertyDefinition;
+    /**
+     * Defines the **JoinOnlineMeetingUrl** property.
+     */
+    JoinOnlineMeetingUrl: PropertyDefinition;
+    /**
+     * Defines the **OnlineMeetingSettings** property.
+     */
+    OnlineMeetingSettings: PropertyDefinition;
+    /**
+     * @internal Instance of **AppointmentSchema**
+     */
+    Instance: AppointmentSchema;
+
+}
+
+/**
+ * Represents the schema for appointment and meeting requests.
+ */
+export interface AppointmentSchemaStatic extends AppointmentSchema{    
 }

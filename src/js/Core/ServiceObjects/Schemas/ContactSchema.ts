@@ -22,10 +22,13 @@ import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
 import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
+import {Schemas} from "./Schemas";
 
 import {ItemSchema} from "./ItemSchema";
 
-//module ContactSchema {
+/**
+ * FieldURIs for contacts.
+ */
 module FieldUris {
     export var FileAs: string = "contacts:FileAs";
     export var FileAsMapping: string = "contacts:FileAsMapping";
@@ -78,639 +81,1242 @@ module FieldUris {
     export var ManagerMailbox: string = "contacts:ManagerMailbox";
     export var DirectReports: string = "contacts:DirectReports";
 }
-//}
+
+/**
+ * Represents the schem for contacts.
+ */
 export class ContactSchema extends ItemSchema {
-    static FileAs: PropertyDefinition = new StringPropertyDefinition(
-        "FileAs", 
-        XmlElementNames.FileAs, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.FileAs, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static FileAsMapping: PropertyDefinition = new GenericPropertyDefinition<FileAsMapping>(
-        "FileAsMapping", 
-        XmlElementNames.FileAsMapping, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.FileAsMapping, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static DisplayName: PropertyDefinition = new StringPropertyDefinition(
-        "DisplayName", 
-        XmlElementNames.DisplayName, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.DisplayName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static GivenName: PropertyDefinition = new StringPropertyDefinition(
-        "GivenName", 
-        XmlElementNames.GivenName, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.GivenName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Initials: PropertyDefinition = new StringPropertyDefinition(
-        "Initials", 
-        XmlElementNames.Initials, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Initials, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static MiddleName: PropertyDefinition = new StringPropertyDefinition(
-        "MiddleName", 
-        XmlElementNames.MiddleName, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.MiddleName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static NickName: PropertyDefinition = new StringPropertyDefinition(
-        "Nickname", 
+
+    /**
+     * Defines the **FileAs** property.
+     */
+    public static FileAs: PropertyDefinition = new StringPropertyDefinition(
+        "FileAs",
+        XmlElementNames.FileAs,
+        FieldUris.FileAs,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **FileAsMapping** property.
+     */
+    public static FileAsMapping: PropertyDefinition = new GenericPropertyDefinition<FileAsMapping>(
+        "FileAsMapping",
+        XmlElementNames.FileAsMapping,
+        FieldUris.FileAsMapping,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **DisplayName** property.
+     */
+    public static DisplayName: PropertyDefinition = new StringPropertyDefinition(
+        "DisplayName",
+        XmlElementNames.DisplayName,
+        FieldUris.DisplayName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **GivenName** property.
+     */
+    public static GivenName: PropertyDefinition = new StringPropertyDefinition(
+        "GivenName",
+        XmlElementNames.GivenName,
+        FieldUris.GivenName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Initials** property.
+     */
+    public static Initials: PropertyDefinition = new StringPropertyDefinition(
+        "Initials",
+        XmlElementNames.Initials,
+        FieldUris.Initials,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **MiddleName** property.
+     */
+    public static MiddleName: PropertyDefinition = new StringPropertyDefinition(
+        "MiddleName",
+        XmlElementNames.MiddleName,
+        FieldUris.MiddleName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **NickName** property.
+     */
+    public static NickName: PropertyDefinition = new StringPropertyDefinition(
+        "Nickname",
         XmlElementNames.NickName,
+        FieldUris.NickName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **CompleteName** property.
+     */
+    public static CompleteName: PropertyDefinition = new ComplexPropertyDefinition<CompleteName>(
+        "CompleteName",
+        XmlElementNames.CompleteName,
+        FieldUris.CompleteName,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2007_SP1,
-        FieldUris.NickName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static CompleteName: PropertyDefinition = new ComplexPropertyDefinition<CompleteName>(
-        "CompleteName", 
-        XmlElementNames.CompleteName, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.CompleteName, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new CompleteName(); }
-            );
-    
-    static CompanyName: PropertyDefinition = new StringPropertyDefinition(
-        "CompanyName", 
-        XmlElementNames.CompanyName, 
+    );
+
+    /**
+     * Defines the **CompanyName** property.
+     */
+    public static CompanyName: PropertyDefinition = new StringPropertyDefinition(
+        "CompanyName",
+        XmlElementNames.CompanyName,
+        FieldUris.CompanyName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **EmailAddresses** property.
+     */
+    public static EmailAddresses: PropertyDefinition = new ComplexPropertyDefinition<EmailAddressDictionary>(
+        "EmailAddresses",
+        XmlElementNames.EmailAddresses,
+        FieldUris.EmailAddresses,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
         ExchangeVersion.Exchange2007_SP1,
-        FieldUris.CompanyName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static EmailAddresses: PropertyDefinition = new ComplexPropertyDefinition<EmailAddressDictionary>(
-        "EmailAddresses", 
-        XmlElementNames.EmailAddresses, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.EmailAddresses, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate, 
         () => { return new EmailAddressDictionary(); }
-            );
-    static PhysicalAddresses: PropertyDefinition = new ComplexPropertyDefinition<PhysicalAddressDictionary>(
-        "PhysicalAddresses", 
-        XmlElementNames.PhysicalAddresses, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.PhysicalAddresses, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate, 
+    );
+    /**
+     * Defines the **PhysicalAddresses** property.
+     */
+    public static PhysicalAddresses: PropertyDefinition = new ComplexPropertyDefinition<PhysicalAddressDictionary>(
+        "PhysicalAddresses",
+        XmlElementNames.PhysicalAddresses,
+        FieldUris.PhysicalAddresses,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new PhysicalAddressDictionary(); }
-            );
-    
-    static PhoneNumbers: PropertyDefinition = new ComplexPropertyDefinition<PhoneNumberDictionary>(
-        "PhoneNumbers", 
-        XmlElementNames.PhoneNumbers, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.PhoneNumbers, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate, 
+    );
+
+    /**
+     * Defines the **PhoneNumbers** property.
+     */
+    public static PhoneNumbers: PropertyDefinition = new ComplexPropertyDefinition<PhoneNumberDictionary>(
+        "PhoneNumbers",
+        XmlElementNames.PhoneNumbers,
+        FieldUris.PhoneNumbers,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new PhoneNumberDictionary(); }
-            );
-    
-    static AssistantName: PropertyDefinition = new StringPropertyDefinition(
-        "AssistantName", 
-        XmlElementNames.AssistantName, 
+    );
+
+    /**
+     * Defines the **AssistantName** property.
+     */
+    public static AssistantName: PropertyDefinition = new StringPropertyDefinition(
+        "AssistantName",
+        XmlElementNames.AssistantName,
+        FieldUris.AssistantName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Birthday** property.
+     */
+    public static Birthday: PropertyDefinition = new DateTimePropertyDefinition(
+        "Birthday",
+        XmlElementNames.Birthday,
+        FieldUris.Birthday,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **BusinessHomePage** property.
+     */
+    public static BusinessHomePage: PropertyDefinition = new StringPropertyDefinition(
+        "BusinessHomePage",
+        XmlElementNames.BusinessHomePage,
+        FieldUris.BusinessHomePage,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Children** property.
+     */
+    public static Children: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "Children",
+        XmlElementNames.Children,
+        FieldUris.Children,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2007_SP1,
-        FieldUris.AssistantName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Birthday: PropertyDefinition = new DateTimePropertyDefinition(
-        "Birthday", 
-        XmlElementNames.Birthday, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Birthday, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static BusinessHomePage: PropertyDefinition = new StringPropertyDefinition(
-        "BusinessHomePage", 
-        XmlElementNames.BusinessHomePage, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.BusinessHomePage, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Children: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "Children", 
-        XmlElementNames.Children, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.Children, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind, 
         () => { return new StringList(); }
-        );
-    
-    static Companies: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
-        "Companies", 
-        XmlElementNames.Companies, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.Companies, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **Companies** property.
+     */
+    public static Companies: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+        "Companies",
+        XmlElementNames.Companies,
+        FieldUris.Companies,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new StringList(); }
-        );
-    
-    static ContactSource: PropertyDefinition = new GenericPropertyDefinition<ContactSource>(
-        "ContactSource", 
-        XmlElementNames.ContactSource, 
+    );
+
+    /**
+     * Defines the **ContactSource** property.
+     */
+    public static ContactSource: PropertyDefinition = new GenericPropertyDefinition<ContactSource>(
+        "ContactSource",
+        XmlElementNames.ContactSource,
+        FieldUris.ContactSource,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Department** property.
+     */
+    public static Department: PropertyDefinition = new StringPropertyDefinition(
+        "Department",
+        XmlElementNames.Department,
+        FieldUris.Department,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Generation** property.
+     */
+    public static Generation: PropertyDefinition = new StringPropertyDefinition(
+        "Generation",
+        XmlElementNames.Generation,
+        FieldUris.Generation,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **ImAddresses** property.
+     */
+    public static ImAddresses: PropertyDefinition = new ComplexPropertyDefinition<ImAddressDictionary>(
+        "ImAddresses",
+        XmlElementNames.ImAddresses,
+        FieldUris.ImAddresses,
+        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
         ExchangeVersion.Exchange2007_SP1,
-        FieldUris.ContactSource, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Department: PropertyDefinition = new StringPropertyDefinition(
-        "Department", 
-        XmlElementNames.Department, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Department, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Generation: PropertyDefinition = new StringPropertyDefinition(
-        "Generation", 
-        XmlElementNames.Generation, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Generation, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static ImAddresses: PropertyDefinition = new ComplexPropertyDefinition<ImAddressDictionary>(
-        "ImAddresses", 
-        XmlElementNames.ImAddresses, 
-        ExchangeVersion.Exchange2007_SP1, 
-        FieldUris.ImAddresses, 
-        PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate, 
         () => { return new ImAddressDictionary(); }
-        );
-    
-    static JobTitle: PropertyDefinition = new StringPropertyDefinition(
-        "JobTitle", 
-        XmlElementNames.JobTitle, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.JobTitle, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Manager: PropertyDefinition = new StringPropertyDefinition(
-        "Manager", 
-        XmlElementNames.Manager, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Manager, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Mileage: PropertyDefinition = new StringPropertyDefinition(
-        "Mileage", 
-        XmlElementNames.Mileage, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Mileage, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static OfficeLocation: PropertyDefinition = new StringPropertyDefinition(
-        "OfficeLocation", 
-        XmlElementNames.OfficeLocation, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.OfficeLocation, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static PostalAddressIndex: PropertyDefinition = new GenericPropertyDefinition<PhysicalAddressIndex>(
-        "PostalAddressIndex", 
-        XmlElementNames.PostalAddressIndex, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.PostalAddressIndex, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Profession: PropertyDefinition = new StringPropertyDefinition(
-        "Profession", 
-        XmlElementNames.Profession, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Profession, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static SpouseName: PropertyDefinition = new StringPropertyDefinition(
-        "SpouseName", 
-        XmlElementNames.SpouseName, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.SpouseName, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Surname: PropertyDefinition = new StringPropertyDefinition(
-        "Surname", 
-        XmlElementNames.Surname, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.Surname, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static WeddingAnniversary: PropertyDefinition = new DateTimePropertyDefinition(
-        "WeddingAnniversary", 
-        XmlElementNames.WeddingAnniversary, 
-        ExchangeVersion.Exchange2007_SP1,
-        FieldUris.WeddingAnniversary, 
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind 
-        );
-    
-    static HasPicture: PropertyDefinition = new BoolPropertyDefinition(
-        "HasPicture", 
-        XmlElementNames.HasPicture, 
-        ExchangeVersion.Exchange2010,
-        FieldUris.HasPicture, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static PhoneticFullName: PropertyDefinition = new StringPropertyDefinition(
-        "PhoneticFullName", 
-        XmlElementNames.PhoneticFullName, 
+    );
+
+    /**
+     * Defines the **JobTitle** property.
+     */
+    public static JobTitle: PropertyDefinition = new StringPropertyDefinition(
+        "JobTitle",
+        XmlElementNames.JobTitle,
+        FieldUris.JobTitle,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Manager** property.
+     */
+    public static Manager: PropertyDefinition = new StringPropertyDefinition(
+        "Manager",
+        XmlElementNames.Manager,
+        FieldUris.Manager,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Mileage** property.
+     */
+    public static Mileage: PropertyDefinition = new StringPropertyDefinition(
+        "Mileage",
+        XmlElementNames.Mileage,
+        FieldUris.Mileage,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **OfficeLocation** property.
+     */
+    public static OfficeLocation: PropertyDefinition = new StringPropertyDefinition(
+        "OfficeLocation",
+        XmlElementNames.OfficeLocation,
+        FieldUris.OfficeLocation,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **PostalAddressIndex** property.
+     */
+    public static PostalAddressIndex: PropertyDefinition = new GenericPropertyDefinition<PhysicalAddressIndex>(
+        "PostalAddressIndex",
+        XmlElementNames.PostalAddressIndex,
+        FieldUris.PostalAddressIndex,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Profession** property.
+     */
+    public static Profession: PropertyDefinition = new StringPropertyDefinition(
+        "Profession",
+        XmlElementNames.Profession,
+        FieldUris.Profession,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **SpouseName** property.
+     */
+    public static SpouseName: PropertyDefinition = new StringPropertyDefinition(
+        "SpouseName",
+        XmlElementNames.SpouseName,
+        FieldUris.SpouseName,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **Surname** property.
+     */
+    public static Surname: PropertyDefinition = new StringPropertyDefinition(
+        "Surname",
+        XmlElementNames.Surname,
+        FieldUris.Surname,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **WeddingAnniversary** property.
+     */
+    public static WeddingAnniversary: PropertyDefinition = new DateTimePropertyDefinition(
+        "WeddingAnniversary",
+        XmlElementNames.WeddingAnniversary,
+        FieldUris.WeddingAnniversary,
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
+
+    /**
+     * Defines the **HasPicture** property.
+     */
+    public static HasPicture: PropertyDefinition = new BoolPropertyDefinition(
+        "HasPicture",
+        XmlElementNames.HasPicture,
+        FieldUris.HasPicture,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010
+    );
+
+    /**
+     * Defines the **PhoneticFullName** property.
+     */
+    public static PhoneticFullName: PropertyDefinition = new StringPropertyDefinition(
+        "PhoneticFullName",
+        XmlElementNames.PhoneticFullName,
+        FieldUris.PhoneticFullName,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **PhoneticFirstName** property.
+     */
+    public static PhoneticFirstName: PropertyDefinition = new StringPropertyDefinition(
+        "PhoneticFirstName",
+        XmlElementNames.PhoneticFirstName,
+        FieldUris.PhoneticFirstName,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **PhoneticLastName** property.
+     */
+    public static PhoneticLastName: PropertyDefinition = new StringPropertyDefinition(
+        "PhoneticLastName",
+        XmlElementNames.PhoneticLastName,
+        FieldUris.PhoneticLastName,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **Alias** property.
+     */
+    public static Alias: PropertyDefinition = new StringPropertyDefinition(
+        "Alias",
+        XmlElementNames.Alias,
+        FieldUris.Alias,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **Notes** property.
+     */
+    public static Notes: PropertyDefinition = new StringPropertyDefinition(
+        "Notes",
+        XmlElementNames.Notes,
+        FieldUris.Notes,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **Photo** property.
+     */
+    public static Photo: PropertyDefinition = new ByteArrayPropertyDefinition(
+        "Photo",
+        XmlElementNames.Photo,
+        FieldUris.Photo,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **UserSMIMECertificate** property.
+     */
+    public static UserSMIMECertificate: PropertyDefinition = new ComplexPropertyDefinition<ByteArrayArray>(
+        "UserSMIMECertificate",
+        XmlElementNames.UserSMIMECertificate,
+        FieldUris.UserSMIMECertificate,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.PhoneticFullName, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static PhoneticFirstName: PropertyDefinition = new StringPropertyDefinition(
-        "PhoneticFirstName", 
-        XmlElementNames.PhoneticFirstName, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.PhoneticFirstName, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static PhoneticLastName: PropertyDefinition = new StringPropertyDefinition(
-        "PhoneticLastName", 
-        XmlElementNames.PhoneticLastName, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.PhoneticLastName, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Alias: PropertyDefinition = new StringPropertyDefinition(
-        "Alias", 
-        XmlElementNames.Alias, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.Alias, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Notes: PropertyDefinition = new StringPropertyDefinition(
-        "Notes", 
-        XmlElementNames.Notes, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.Notes, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static Photo: PropertyDefinition = new ByteArrayPropertyDefinition(
-        "Photo", 
-        XmlElementNames.Photo, 
-        ExchangeVersion.Exchange2010_SP1,
-        FieldUris.Photo, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static UserSMIMECertificate: PropertyDefinition = new ComplexPropertyDefinition<ByteArrayArray>(
-        "UserSMIMECertificate", 
-        XmlElementNames.UserSMIMECertificate, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.UserSMIMECertificate, 
-        PropertyDefinitionFlags.CanFind, 
         () => { return new ByteArrayArray(); }
-        );
-    
-    static MSExchangeCertificate: PropertyDefinition = new ComplexPropertyDefinition<ByteArrayArray>(
-        "MSExchangeCertificate", 
-        XmlElementNames.MSExchangeCertificate, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.MSExchangeCertificate, 
-        PropertyDefinitionFlags.CanFind, 
-        () => { return new ByteArrayArray(); }
-        );
-    
-    static DirectoryId: PropertyDefinition = new StringPropertyDefinition(
-        "DirectoryId", 
-        XmlElementNames.DirectoryId, 
+    );
+
+    /**
+     * Defines the **MSExchangeCertificate** property.
+     */
+    public static MSExchangeCertificate: PropertyDefinition = new ComplexPropertyDefinition<ByteArrayArray>(
+        "MSExchangeCertificate",
+        XmlElementNames.MSExchangeCertificate,
+        FieldUris.MSExchangeCertificate,
+        PropertyDefinitionFlags.CanFind,
         ExchangeVersion.Exchange2010_SP1,
-        FieldUris.DirectoryId, 
-        PropertyDefinitionFlags.CanFind 
-        );
-    
-    static ManagerMailbox: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
-        "ManagerMailbox", 
-        XmlElementNames.ManagerMailbox, 
-        XmlElementNames.Mailbox, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.ManagerMailbox, 
-        PropertyDefinitionFlags.CanFind, 
+        () => { return new ByteArrayArray(); }
+    );
+
+    /**
+     * Defines the **DirectoryId** property.
+     */
+    public static DirectoryId: PropertyDefinition = new StringPropertyDefinition(
+        "DirectoryId",
+        XmlElementNames.DirectoryId,
+        FieldUris.DirectoryId,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1
+    );
+
+    /**
+     * Defines the **ManagerMailbox** property.
+     */
+    public static ManagerMailbox: PropertyDefinition = new ContainedPropertyDefinition<EmailAddress>(
+        "ManagerMailbox",
+        XmlElementNames.ManagerMailbox,
+        FieldUris.ManagerMailbox,
+        XmlElementNames.Mailbox,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new EmailAddress(); }
-        );
-    
-    static DirectReports: PropertyDefinition = new ComplexPropertyDefinition<EmailAddressCollection>(
-        "DirectReports", 
-        XmlElementNames.DirectReports, 
-        ExchangeVersion.Exchange2010_SP1, 
-        FieldUris.DirectReports, 
-        PropertyDefinitionFlags.CanFind, 
+    );
+
+    /**
+     * Defines the **DirectReports** property.
+     */
+    public static DirectReports: PropertyDefinition = new ComplexPropertyDefinition<EmailAddressCollection>(
+        "DirectReports",
+        XmlElementNames.DirectReports,
+        FieldUris.DirectReports,
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2010_SP1,
         () => { return new EmailAddressCollection(); }
-        );
-    
-    static EmailAddress1: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.EmailAddress, 
+    );
+
+    /**
+     * Defines the **EmailAddress1** property.
+     */
+    public static EmailAddress1: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.EmailAddress,
         "EmailAddress1"
-        );
-    
-    static EmailAddress2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.EmailAddress, 
+    );
+
+    /**
+     * Defines the **EmailAddress2** property.
+     */
+    public static EmailAddress2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.EmailAddress,
         "EmailAddress2"
-        );
-    
-    static EmailAddress3: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.EmailAddress, 
+    );
+
+    /**
+     * Defines the **EmailAddress3** property.
+     */
+    public static EmailAddress3: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.EmailAddress,
         "EmailAddress3"
-        );
-    
-    static ImAddress1: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.ImAddress, 
+    );
+
+    /**
+     * Defines the **ImAddress1** property.
+     */
+    public static ImAddress1: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.ImAddress,
         "ImAddress1"
-        );
-    
-    static ImAddress2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.ImAddress, 
+    );
+
+    /**
+     * Defines the **ImAddress2** property.
+     */
+    public static ImAddress2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.ImAddress,
         "ImAddress2"
-        );
-    
-    static ImAddress3: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.ImAddress, 
+    );
+
+    /**
+     * Defines the **ImAddress3** property.
+     */
+    public static ImAddress3: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.ImAddress,
         "ImAddress3"
-        );
-    
-    static AssistantPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **AssistantPhone** property.
+     */
+    public static AssistantPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "AssistantPhone"
-        );
-    
-    static BusinessFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **BusinessFax** property.
+     */
+    public static BusinessFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "BusinessFax"
-        );
-    
-    static BusinessPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **BusinessPhone** property.
+     */
+    public static BusinessPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "BusinessPhone"
-        );
-    
-    static BusinessPhone2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **BusinessPhone2** property.
+     */
+    public static BusinessPhone2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "BusinessPhone2"
-        );
-    
-    static Callback: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **Callback** property.
+     */
+    public static Callback: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "Callback"
-        );
-    
-    static CarPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **CarPhone** property.
+     */
+    public static CarPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "CarPhone"
-        );
-    
-    static CompanyMainPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **CompanyMainPhone** property.
+     */
+    public static CompanyMainPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "CompanyMainPhone"
-        );
-    
-    static HomeFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **HomeFax** property.
+     */
+    public static HomeFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "HomeFax"
-        );
-    
-    static HomePhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **HomePhone** property.
+     */
+    public static HomePhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "HomePhone"
-        );
-    
-    static HomePhone2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **HomePhone2** property.
+     */
+    public static HomePhone2: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "HomePhone2"
-        );
-    
-    static Isdn: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **Isdn** property.
+     */
+    public static Isdn: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "Isdn"
-        );
-    
-    static MobilePhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **MobilePhone** property.
+     */
+    public static MobilePhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "MobilePhone"
-        );
-    
-    static OtherFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **OtherFax** property.
+     */
+    public static OtherFax: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "OtherFax"
-        );
-    
-    static OtherTelephone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **OtherTelephone** property.
+     */
+    public static OtherTelephone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "OtherTelephone"
-        );
-    
-    static Pager: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **Pager** property.
+     */
+    public static Pager: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "Pager"
-        );
-    
-    static PrimaryPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **PrimaryPhone** property.
+     */
+    public static PrimaryPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "PrimaryPhone"
-        );
-    
-    static RadioPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **RadioPhone** property.
+     */
+    public static RadioPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "RadioPhone"
-        );
-    
-    static Telex: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **Telex** property.
+     */
+    public static Telex: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "Telex"
-        );
-    
-    static TtyTddPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhoneNumber, 
+    );
+
+    /**
+     * Defines the **TtyTddPhone** property.
+     */
+    public static TtyTddPhone: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhoneNumber,
         "TtyTddPhone"
-        );
-    
-    static BusinessAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressStreet, 
+    );
+
+    /**
+     * Defines the **BusinessAddressStreet** property.
+     */
+    public static BusinessAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressStreet,
         "Business"
-        );
-    
-    static BusinessAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCity, 
+    );
+
+    /**
+     * Defines the **BusinessAddressCity** property.
+     */
+    public static BusinessAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCity,
         "Business"
-        );
-    
-    static BusinessAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressState, 
+    );
+
+    /**
+     * Defines the **BusinessAddressState** property.
+     */
+    public static BusinessAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressState,
         "Business"
-        );
-    
-    static BusinessAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCountryOrRegion, 
+    );
+
+    /**
+     * Defines the **BusinessAddressCountryOrRegion** property.
+     */
+    public static BusinessAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCountryOrRegion,
         "Business"
-        );
-    
-    static BusinessAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressPostalCode, 
+    );
+
+    /**
+     * Defines the **BusinessAddressPostalCode** property.
+     */
+    public static BusinessAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressPostalCode,
         "Business"
-        );
-    
-    static HomeAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressStreet, 
+    );
+
+    /**
+     * Defines the **HomeAddressStreet** property.
+     */
+    public static HomeAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressStreet,
         "Home"
-        );
-    
-    static HomeAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCity, 
+    );
+
+    /**
+     * Defines the **HomeAddressCity** property.
+     */
+    public static HomeAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCity,
         "Home"
-        );
-    
-    static HomeAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressState, 
+    );
+
+    /**
+     * Defines the **HomeAddressState** property.
+     */
+    public static HomeAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressState,
         "Home"
-        );
-    
-    static HomeAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCountryOrRegion, 
+    );
+
+    /**
+     * Defines the **HomeAddressCountryOrRegion** property.
+     */
+    public static HomeAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCountryOrRegion,
         "Home"
-        );
-    
-    static HomeAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressPostalCode, 
+    );
+
+    /**
+     * Defines the **HomeAddressPostalCode** property.
+     */
+    public static HomeAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressPostalCode,
         "Home"
-        );
-    
-    static OtherAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressStreet, 
+    );
+
+    /**
+     * Defines the **OtherAddressStreet** property.
+     */
+    public static OtherAddressStreet: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressStreet,
         "Other"
-        );
-    
-    static OtherAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCity, 
+    );
+
+    /**
+     * Defines the **OtherAddressCity** property.
+     */
+    public static OtherAddressCity: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCity,
         "Other"
-        );
-    
-    static OtherAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressState, 
+    );
+
+    /**
+     * Defines the **OtherAddressState** property.
+     */
+    public static OtherAddressState: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressState,
         "Other"
-        );
-    
-    static OtherAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressCountryOrRegion, 
+    );
+
+    /**
+     * Defines the **OtherAddressCountryOrRegion** property.
+     */
+    public static OtherAddressCountryOrRegion: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressCountryOrRegion,
         "Other"
-        );
-    
-    static OtherAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
-        FieldUris.PhysicalAddressPostalCode, 
+    );
+
+    /**
+     * Defines the **OtherAddressPostalCode** property.
+     */
+    public static OtherAddressPostalCode: IndexedPropertyDefinition = new IndexedPropertyDefinition(
+        FieldUris.PhysicalAddressPostalCode,
         "Other"
-        );
-    
+    );
+
+    /**
+     * @internal Instance of **ContactSchema** 
+     */
     static Instance: ContactSchema = new ContactSchema();
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ContactSchema.FileAs);
-        super.RegisterProperty(ContactSchema.FileAsMapping);
-        super.RegisterProperty(ContactSchema.DisplayName);
-        super.RegisterProperty(ContactSchema.GivenName);
-        super.RegisterProperty(ContactSchema.Initials);
-        super.RegisterProperty(ContactSchema.MiddleName);
-        super.RegisterProperty(ContactSchema.NickName);
-        super.RegisterProperty(ContactSchema.CompleteName);
-        super.RegisterProperty(ContactSchema.CompanyName);
-        super.RegisterProperty(ContactSchema.EmailAddresses);
-        super.RegisterProperty(ContactSchema.PhysicalAddresses);
-        super.RegisterProperty(ContactSchema.PhoneNumbers);
-        super.RegisterProperty(ContactSchema.AssistantName);
-        super.RegisterProperty(ContactSchema.Birthday);
-        super.RegisterProperty(ContactSchema.BusinessHomePage);
-        super.RegisterProperty(ContactSchema.Children);
-        super.RegisterProperty(ContactSchema.Companies);
-        super.RegisterProperty(ContactSchema.ContactSource);
-        super.RegisterProperty(ContactSchema.Department);
-        super.RegisterProperty(ContactSchema.Generation);
-        super.RegisterProperty(ContactSchema.ImAddresses);
-        super.RegisterProperty(ContactSchema.JobTitle);
-        super.RegisterProperty(ContactSchema.Manager);
-        super.RegisterProperty(ContactSchema.Mileage);
-        super.RegisterProperty(ContactSchema.OfficeLocation);
-        super.RegisterProperty(ContactSchema.PostalAddressIndex);
-        super.RegisterProperty(ContactSchema.Profession);
-        super.RegisterProperty(ContactSchema.SpouseName);
-        super.RegisterProperty(ContactSchema.Surname);
-        super.RegisterProperty(ContactSchema.WeddingAnniversary);
-        super.RegisterProperty(ContactSchema.HasPicture);
-        super.RegisterProperty(ContactSchema.PhoneticFullName);
-        super.RegisterProperty(ContactSchema.PhoneticFirstName);
-        super.RegisterProperty(ContactSchema.PhoneticLastName);
-        super.RegisterProperty(ContactSchema.Alias);
-        super.RegisterProperty(ContactSchema.Notes);
-        super.RegisterProperty(ContactSchema.Photo);
-        super.RegisterProperty(ContactSchema.UserSMIMECertificate);
-        super.RegisterProperty(ContactSchema.MSExchangeCertificate);
-        super.RegisterProperty(ContactSchema.DirectoryId);
-        super.RegisterProperty(ContactSchema.ManagerMailbox);
-        super.RegisterProperty(ContactSchema.DirectReports);
-        super.RegisterIndexedProperty(ContactSchema.EmailAddress1);
-        super.RegisterIndexedProperty(ContactSchema.EmailAddress2);
-        super.RegisterIndexedProperty(ContactSchema.EmailAddress3);
-        super.RegisterIndexedProperty(ContactSchema.ImAddress1);
-        super.RegisterIndexedProperty(ContactSchema.ImAddress2);
-        super.RegisterIndexedProperty(ContactSchema.ImAddress3);
-        super.RegisterIndexedProperty(ContactSchema.AssistantPhone);
-        super.RegisterIndexedProperty(ContactSchema.BusinessFax);
-        super.RegisterIndexedProperty(ContactSchema.BusinessPhone);
-        super.RegisterIndexedProperty(ContactSchema.BusinessPhone2);
-        super.RegisterIndexedProperty(ContactSchema.Callback);
-        super.RegisterIndexedProperty(ContactSchema.CarPhone);
-        super.RegisterIndexedProperty(ContactSchema.CompanyMainPhone);
-        super.RegisterIndexedProperty(ContactSchema.HomeFax);
-        super.RegisterIndexedProperty(ContactSchema.HomePhone);
-        super.RegisterIndexedProperty(ContactSchema.HomePhone2);
-        super.RegisterIndexedProperty(ContactSchema.Isdn);
-        super.RegisterIndexedProperty(ContactSchema.MobilePhone);
-        super.RegisterIndexedProperty(ContactSchema.OtherFax);
-        super.RegisterIndexedProperty(ContactSchema.OtherTelephone);
-        super.RegisterIndexedProperty(ContactSchema.Pager);
-        super.RegisterIndexedProperty(ContactSchema.PrimaryPhone);
-        super.RegisterIndexedProperty(ContactSchema.RadioPhone);
-        super.RegisterIndexedProperty(ContactSchema.Telex);
-        super.RegisterIndexedProperty(ContactSchema.TtyTddPhone);
-        super.RegisterIndexedProperty(ContactSchema.BusinessAddressStreet);
-        super.RegisterIndexedProperty(ContactSchema.BusinessAddressCity);
-        super.RegisterIndexedProperty(ContactSchema.BusinessAddressState);
-        super.RegisterIndexedProperty(ContactSchema.BusinessAddressCountryOrRegion);
-        super.RegisterIndexedProperty(ContactSchema.BusinessAddressPostalCode);
-        super.RegisterIndexedProperty(ContactSchema.HomeAddressStreet);
-        super.RegisterIndexedProperty(ContactSchema.HomeAddressCity);
-        super.RegisterIndexedProperty(ContactSchema.HomeAddressState);
-        super.RegisterIndexedProperty(ContactSchema.HomeAddressCountryOrRegion);
-        super.RegisterIndexedProperty(ContactSchema.HomeAddressPostalCode);
-        super.RegisterIndexedProperty(ContactSchema.OtherAddressStreet);
-        super.RegisterIndexedProperty(ContactSchema.OtherAddressCity);
-        super.RegisterIndexedProperty(ContactSchema.OtherAddressState);
-        super.RegisterIndexedProperty(ContactSchema.OtherAddressCountryOrRegion);
-        super.RegisterIndexedProperty(ContactSchema.OtherAddressPostalCode);
+        this.RegisterProperty(ContactSchema, ContactSchema.FileAs);
+        this.RegisterProperty(ContactSchema, ContactSchema.FileAsMapping);
+        this.RegisterProperty(ContactSchema, ContactSchema.DisplayName);
+        this.RegisterProperty(ContactSchema, ContactSchema.GivenName);
+        this.RegisterProperty(ContactSchema, ContactSchema.Initials);
+        this.RegisterProperty(ContactSchema, ContactSchema.MiddleName);
+        this.RegisterProperty(ContactSchema, ContactSchema.NickName);
+        this.RegisterProperty(ContactSchema, ContactSchema.CompleteName);
+        this.RegisterProperty(ContactSchema, ContactSchema.CompanyName);
+        this.RegisterProperty(ContactSchema, ContactSchema.EmailAddresses);
+        this.RegisterProperty(ContactSchema, ContactSchema.PhysicalAddresses);
+        this.RegisterProperty(ContactSchema, ContactSchema.PhoneNumbers);
+        this.RegisterProperty(ContactSchema, ContactSchema.AssistantName);
+        this.RegisterProperty(ContactSchema, ContactSchema.Birthday);
+        this.RegisterProperty(ContactSchema, ContactSchema.BusinessHomePage);
+        this.RegisterProperty(ContactSchema, ContactSchema.Children);
+        this.RegisterProperty(ContactSchema, ContactSchema.Companies);
+        this.RegisterProperty(ContactSchema, ContactSchema.ContactSource);
+        this.RegisterProperty(ContactSchema, ContactSchema.Department);
+        this.RegisterProperty(ContactSchema, ContactSchema.Generation);
+        this.RegisterProperty(ContactSchema, ContactSchema.ImAddresses);
+        this.RegisterProperty(ContactSchema, ContactSchema.JobTitle);
+        this.RegisterProperty(ContactSchema, ContactSchema.Manager);
+        this.RegisterProperty(ContactSchema, ContactSchema.Mileage);
+        this.RegisterProperty(ContactSchema, ContactSchema.OfficeLocation);
+        this.RegisterProperty(ContactSchema, ContactSchema.PostalAddressIndex);
+        this.RegisterProperty(ContactSchema, ContactSchema.Profession);
+        this.RegisterProperty(ContactSchema, ContactSchema.SpouseName);
+        this.RegisterProperty(ContactSchema, ContactSchema.Surname);
+        this.RegisterProperty(ContactSchema, ContactSchema.WeddingAnniversary);
+        this.RegisterProperty(ContactSchema, ContactSchema.HasPicture);
+        this.RegisterProperty(ContactSchema, ContactSchema.PhoneticFullName);
+        this.RegisterProperty(ContactSchema, ContactSchema.PhoneticFirstName);
+        this.RegisterProperty(ContactSchema, ContactSchema.PhoneticLastName);
+        this.RegisterProperty(ContactSchema, ContactSchema.Alias);
+        this.RegisterProperty(ContactSchema, ContactSchema.Notes);
+        this.RegisterProperty(ContactSchema, ContactSchema.Photo);
+        this.RegisterProperty(ContactSchema, ContactSchema.UserSMIMECertificate);
+        this.RegisterProperty(ContactSchema, ContactSchema.MSExchangeCertificate);
+        this.RegisterProperty(ContactSchema, ContactSchema.DirectoryId);
+        this.RegisterProperty(ContactSchema, ContactSchema.ManagerMailbox);
+        this.RegisterProperty(ContactSchema, ContactSchema.DirectReports);
+        this.RegisterIndexedProperty(ContactSchema.EmailAddress1);
+        this.RegisterIndexedProperty(ContactSchema.EmailAddress2);
+        this.RegisterIndexedProperty(ContactSchema.EmailAddress3);
+        this.RegisterIndexedProperty(ContactSchema.ImAddress1);
+        this.RegisterIndexedProperty(ContactSchema.ImAddress2);
+        this.RegisterIndexedProperty(ContactSchema.ImAddress3);
+        this.RegisterIndexedProperty(ContactSchema.AssistantPhone);
+        this.RegisterIndexedProperty(ContactSchema.BusinessFax);
+        this.RegisterIndexedProperty(ContactSchema.BusinessPhone);
+        this.RegisterIndexedProperty(ContactSchema.BusinessPhone2);
+        this.RegisterIndexedProperty(ContactSchema.Callback);
+        this.RegisterIndexedProperty(ContactSchema.CarPhone);
+        this.RegisterIndexedProperty(ContactSchema.CompanyMainPhone);
+        this.RegisterIndexedProperty(ContactSchema.HomeFax);
+        this.RegisterIndexedProperty(ContactSchema.HomePhone);
+        this.RegisterIndexedProperty(ContactSchema.HomePhone2);
+        this.RegisterIndexedProperty(ContactSchema.Isdn);
+        this.RegisterIndexedProperty(ContactSchema.MobilePhone);
+        this.RegisterIndexedProperty(ContactSchema.OtherFax);
+        this.RegisterIndexedProperty(ContactSchema.OtherTelephone);
+        this.RegisterIndexedProperty(ContactSchema.Pager);
+        this.RegisterIndexedProperty(ContactSchema.PrimaryPhone);
+        this.RegisterIndexedProperty(ContactSchema.RadioPhone);
+        this.RegisterIndexedProperty(ContactSchema.Telex);
+        this.RegisterIndexedProperty(ContactSchema.TtyTddPhone);
+        this.RegisterIndexedProperty(ContactSchema.BusinessAddressStreet);
+        this.RegisterIndexedProperty(ContactSchema.BusinessAddressCity);
+        this.RegisterIndexedProperty(ContactSchema.BusinessAddressState);
+        this.RegisterIndexedProperty(ContactSchema.BusinessAddressCountryOrRegion);
+        this.RegisterIndexedProperty(ContactSchema.BusinessAddressPostalCode);
+        this.RegisterIndexedProperty(ContactSchema.HomeAddressStreet);
+        this.RegisterIndexedProperty(ContactSchema.HomeAddressCity);
+        this.RegisterIndexedProperty(ContactSchema.HomeAddressState);
+        this.RegisterIndexedProperty(ContactSchema.HomeAddressCountryOrRegion);
+        this.RegisterIndexedProperty(ContactSchema.HomeAddressPostalCode);
+        this.RegisterIndexedProperty(ContactSchema.OtherAddressStreet);
+        this.RegisterIndexedProperty(ContactSchema.OtherAddressCity);
+        this.RegisterIndexedProperty(ContactSchema.OtherAddressState);
+        this.RegisterIndexedProperty(ContactSchema.OtherAddressCountryOrRegion);
+        this.RegisterIndexedProperty(ContactSchema.OtherAddressPostalCode);
     }
+}
+
+/**
+ * Represents the schem for contacts.
+ */
+export interface ContactSchema {
+    /**
+     * Defines the **FileAs** property.
+     */
+    FileAs: PropertyDefinition;
+    /**
+     * Defines the **FileAsMapping** property.
+     */
+    FileAsMapping: PropertyDefinition;
+    /**
+     * Defines the **DisplayName** property.
+     */
+    DisplayName: PropertyDefinition;
+    /**
+     * Defines the **GivenName** property.
+     */
+    GivenName: PropertyDefinition;
+    /**
+     * Defines the **Initials** property.
+     */
+    Initials: PropertyDefinition;
+    /**
+     * Defines the **MiddleName** property.
+     */
+    MiddleName: PropertyDefinition;
+    /**
+     * Defines the **NickName** property.
+     */
+    NickName: PropertyDefinition;
+    /**
+     * Defines the **CompleteName** property.
+     */
+    CompleteName: PropertyDefinition;
+    /**
+     * Defines the **CompanyName** property.
+     */
+    CompanyName: PropertyDefinition;
+    /**
+     * Defines the **EmailAddresses** property.
+     */
+    EmailAddresses: PropertyDefinition;
+    /**
+     * Defines the **PhysicalAddresses** property.
+     */
+    PhysicalAddresses: PropertyDefinition;
+    /**
+     * Defines the **PhoneNumbers** property.
+     */
+    PhoneNumbers: PropertyDefinition;
+    /**
+     * Defines the **AssistantName** property.
+     */
+    AssistantName: PropertyDefinition;
+    /**
+     * Defines the **Birthday** property.
+     */
+    Birthday: PropertyDefinition;
+    /**
+     * Defines the **BusinessHomePage** property.
+     */
+    BusinessHomePage: PropertyDefinition;
+    /**
+     * Defines the **Children** property.
+     */
+    Children: PropertyDefinition;
+    /**
+     * Defines the **Companies** property.
+     */
+    Companies: PropertyDefinition;
+    /**
+     * Defines the **ContactSource** property.
+     */
+    ContactSource: PropertyDefinition;
+    /**
+     * Defines the **Department** property.
+     */
+    Department: PropertyDefinition;
+    /**
+     * Defines the **Generation** property.
+     */
+    Generation: PropertyDefinition;
+    /**
+     * Defines the **ImAddresses** property.
+     */
+    ImAddresses: PropertyDefinition;
+    /**
+     * Defines the **JobTitle** property.
+     */
+    JobTitle: PropertyDefinition;
+    /**
+     * Defines the **Manager** property.
+     */
+    Manager: PropertyDefinition;
+    /**
+     * Defines the **Mileage** property.
+     */
+    Mileage: PropertyDefinition;
+    /**
+     * Defines the **OfficeLocation** property.
+     */
+    OfficeLocation: PropertyDefinition;
+    /**
+     * Defines the **PostalAddressIndex** property.
+     */
+    PostalAddressIndex: PropertyDefinition;
+    /**
+     * Defines the **Profession** property.
+     */
+    Profession: PropertyDefinition;
+    /**
+     * Defines the **SpouseName** property.
+     */
+    SpouseName: PropertyDefinition;
+    /**
+     * Defines the **Surname** property.
+     */
+    Surname: PropertyDefinition;
+    /**
+     * Defines the **WeddingAnniversary** property.
+     */
+    WeddingAnniversary: PropertyDefinition;
+    /**
+     * Defines the **HasPicture** property.
+     */
+    HasPicture: PropertyDefinition;
+    /**
+     * Defines the **PhoneticFullName** property.
+     */
+    PhoneticFullName: PropertyDefinition;
+    /**
+     * Defines the **PhoneticFirstName** property.
+     */
+    PhoneticFirstName: PropertyDefinition;
+    /**
+     * Defines the **PhoneticLastName** property.
+     */
+    PhoneticLastName: PropertyDefinition;
+    /**
+     * Defines the **Alias** property.
+     */
+    Alias: PropertyDefinition;
+    /**
+     * Defines the **Notes** property.
+     */
+    Notes: PropertyDefinition;
+    /**
+     * Defines the **Photo** property.
+     */
+    Photo: PropertyDefinition;
+    /**
+     * Defines the **UserSMIMECertificate** property.
+     */
+    UserSMIMECertificate: PropertyDefinition;
+    /**
+     * Defines the **MSExchangeCertificate** property.
+     */
+    MSExchangeCertificate: PropertyDefinition;
+    /**
+     * Defines the **DirectoryId** property.
+     */
+    DirectoryId: PropertyDefinition;
+    /**
+     * Defines the **ManagerMailbox** property.
+     */
+    ManagerMailbox: PropertyDefinition;
+    /**
+     * Defines the **DirectReports** property.
+     */
+    DirectReports: PropertyDefinition;
+    /**
+     * Defines the **EmailAddress1** property.
+     */
+    EmailAddress1: IndexedPropertyDefinition;
+    /**
+     * Defines the **EmailAddress2** property.
+     */
+    EmailAddress2: IndexedPropertyDefinition;
+    /**
+     * Defines the **EmailAddress3** property.
+     */
+    EmailAddress3: IndexedPropertyDefinition;
+    /**
+     * Defines the **ImAddress1** property.
+     */
+    ImAddress1: IndexedPropertyDefinition;
+    /**
+     * Defines the **ImAddress2** property.
+     */
+    ImAddress2: IndexedPropertyDefinition;
+    /**
+     * Defines the **ImAddress3** property.
+     */
+    ImAddress3: IndexedPropertyDefinition;
+    /**
+     * Defines the **AssistantPhone** property.
+     */
+    AssistantPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessFax** property.
+     */
+    BusinessFax: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessPhone** property.
+     */
+    BusinessPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessPhone2** property.
+     */
+    BusinessPhone2: IndexedPropertyDefinition;
+    /**
+     * Defines the **Callback** property.
+     */
+    Callback: IndexedPropertyDefinition;
+    /**
+     * Defines the **CarPhone** property.
+     */
+    CarPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **CompanyMainPhone** property.
+     */
+    CompanyMainPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeFax** property.
+     */
+    HomeFax: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomePhone** property.
+     */
+    HomePhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomePhone2** property.
+     */
+    HomePhone2: IndexedPropertyDefinition;
+    /**
+     * Defines the **Isdn** property.
+     */
+    Isdn: IndexedPropertyDefinition;
+    /**
+     * Defines the **MobilePhone** property.
+     */
+    MobilePhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherFax** property.
+     */
+    OtherFax: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherTelephone** property.
+     */
+    OtherTelephone: IndexedPropertyDefinition;
+    /**
+     * Defines the **Pager** property.
+     */
+    Pager: IndexedPropertyDefinition;
+    /**
+     * Defines the **PrimaryPhone** property.
+     */
+    PrimaryPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **RadioPhone** property.
+     */
+    RadioPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **Telex** property.
+     */
+    Telex: IndexedPropertyDefinition;
+    /**
+     * Defines the **TtyTddPhone** property.
+     */
+    TtyTddPhone: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessAddressStreet** property.
+     */
+    BusinessAddressStreet: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessAddressCity** property.
+     */
+    BusinessAddressCity: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessAddressState** property.
+     */
+    BusinessAddressState: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessAddressCountryOrRegion** property.
+     */
+    BusinessAddressCountryOrRegion: IndexedPropertyDefinition;
+    /**
+     * Defines the **BusinessAddressPostalCode** property.
+     */
+    BusinessAddressPostalCode: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeAddressStreet** property.
+     */
+    HomeAddressStreet: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeAddressCity** property.
+     */
+    HomeAddressCity: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeAddressState** property.
+     */
+    HomeAddressState: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeAddressCountryOrRegion** property.
+     */
+    HomeAddressCountryOrRegion: IndexedPropertyDefinition;
+    /**
+     * Defines the **HomeAddressPostalCode** property.
+     */
+    HomeAddressPostalCode: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherAddressStreet** property.
+     */
+    OtherAddressStreet: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherAddressCity** property.
+     */
+    OtherAddressCity: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherAddressState** property.
+     */
+    OtherAddressState: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherAddressCountryOrRegion** property.
+     */
+    OtherAddressCountryOrRegion: IndexedPropertyDefinition;
+    /**
+     * Defines the **OtherAddressPostalCode** property.
+     */
+    OtherAddressPostalCode: IndexedPropertyDefinition;
+    /**
+     * @internal Instance of **ContactSchema**
+     */
+    Instance: ContactSchema;
+}
+
+/**
+ * Represents the schem for contacts.
+ */
+export interface ContactSchemaStatic extends ContactSchema {
 }

@@ -2,6 +2,9 @@
 ###################
 credentials.json
 
+# Ignore project related excludes
+###################
+npm_release
 
 # Ignore Visual Studio  Project #
 ###################

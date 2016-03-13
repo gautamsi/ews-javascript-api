@@ -1,3 +1,17 @@
+/*@Updated <from SourceTree description>
+ * Commit: 154dbc66ac018d861c73ce489839cd9f58a1b0cd [154dbc6]
+ * Parents: 67756e1846, a9a3297c0f
+ * Author: David Claux <dclaux@users.noreply.github.com>
+ * Date: Friday, December 4, 2015 3:14:27 AM
+ * Labels: upstream/master, origin/master, master
+ * Merge pull request #71 from ysanghi/master
+ * 
+ * Publishing Latest Updates from Microsoft
+ */
+import {XmlElementNames} from "./XmlElementNames";
+/**
+ * XML attribute names.
+ */
 export module XmlAttributeNames {
     export var XmlNs: string = "xmlns";
     export var Id: string = "Id";
@@ -22,7 +36,7 @@ export module XmlAttributeNames {
     export var DeleteSubFolders: string = "DeleteSubFolders";
     export var AffectedTaskOccurrences: string = "AffectedTaskOccurrences";
     export var SendMeetingCancellations: string = "SendMeetingCancellations";
-    export var SuppressReadReceipts: string = "SuppressReadReceipts";
+    export var SuppressReadReceipts: string = "SuppressReadReceipts"; //XmlElementNames.SuppressReadReceipts;
     export var FieldURI: string = "FieldURI";
     export var FieldIndex: string = "FieldIndex";
     export var ConflictResolution: string = "ConflictResolution";
@@ -85,9 +99,12 @@ export module XmlAttributeNames {
     export var ClientExtensionMarketplaceContentMarket: string = "MarketplaceContentMarket";
     export var ClientExtensionAppStatus: string = "AppStatus";
     export var ClientExtensionEtoken: string = "Etoken";
+    export var ClientExtensionInstalledDateTime: string = "InstalledDateTime";
     export var IsTruncated: string = "IsTruncated";
     export var IsJunk: string = "IsJunk";
     export var MoveItem: string = "MoveItem";
+
+    // xsi attributes
     export var Nil: string = "nil";
     export var Type: string = "type";
 }

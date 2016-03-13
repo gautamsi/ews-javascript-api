@@ -15,27 +15,30 @@ import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionExcep
 
 import {DateTimePropertyDefinition} from "./DateTimePropertyDefinition";
 /**
- * Represents a property definition for DateTime values scoped to a specific time zone property.
+ * @internal Represents a property definition for DateTime values scoped to a specific time zone property.
  */
 export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition {
+
     private getPropertyDefinitionCallback: GetPropertyDefinitionCallback;
+
     /**
-     * Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **ScopedDateTimePropertyDefinition** class.
      *
-     * @param   {type}   xmlElementName                  Name of the XML element.
-     * @param   {type}   uri                             The URI.
-     * @param   {type}   flags                           The flags.
-     * @param   {type}   version                         The version.
-     * @param   {type}   getPropertyDefinitionCallback   The callback that will be used to retrieve the time zone property.
+     * @param   {string}                            propertyName                    Name of the property.
+     * @param   {string}                            xmlElementName                  Name of the XML element.
+     * @param   {ExchangeVersion}                   version                         The version.
+     * @param   {string}                            uri                             The URI.
+     * @param   {PropertyDefinitionFlags}           flags                           The flags.
+     * @param   {GetPropertyDefinitionCallback}     getPropertyDefinitionCallback   The callback that will be used to retrieve the time zone property.
      */
     constructor(
         propertyName: string,
         xmlElementName: string,
+        uri: string,
+        flags: PropertyDefinitionFlags,
         version: ExchangeVersion,
-        uri?: string,
-        flags?: PropertyDefinitionFlags,
-        getPropertyDefinitionCallback?: GetPropertyDefinitionCallback) {
-        super(propertyName, xmlElementName, version, uri, flags);
+        getPropertyDefinitionCallback: GetPropertyDefinitionCallback) {
+        super(propertyName, xmlElementName, uri, flags, version);
         EwsLogging.Assert(
             getPropertyDefinitionCallback != null,
             "ScopedDateTimePropertyDefinition.ctor",
@@ -43,13 +46,14 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
         this.getPropertyDefinitionCallback = getPropertyDefinitionCallback;
 
     }
+
     /**
      * Gets the time zone property to which to scope times.
      *
-     * @param   {type}   version   The EWS version for which the property is to be retrieved.
-     * @return  {type}             The PropertyDefinition of the scoping time zone property.
+     * @param   {ExchangeVersion}   version   The EWS version for which the property is to be retrieved.
+     * @return  {PropertyDefinition}             The PropertyDefinition of the scoping time zone property.
      */
-    GetTimeZoneProperty(version: ExchangeVersion): PropertyDefinition {
+    private GetTimeZoneProperty(version: ExchangeVersion): PropertyDefinition {
         var timeZoneProperty: PropertyDefinition = this.getPropertyDefinitionCallback(version);
 
         EwsLogging.Assert(
@@ -59,16 +63,18 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
 
         return timeZoneProperty;
     }
+
     /**
-     * Scopes the date time property to the appropriate time zone, if necessary.
+     * @internal Scopes the date time property to the appropriate time zone, if necessary.
      *
-     * @param   {type}   service             The service emitting the request.
-     * @param   {type}   dateTime            The date time.
-     * @param   {type}   propertyBag         The property bag.
-     * @param   {type}   isUpdateOperation   Indicates whether the scoping is to be performed in the context of an update operation.
-     * @return  {type}                       The converted DateTime.
+     * @param   {ExchangeServiceBase}   service             The service emitting the request.
+     * @param   {DateTime}              dateTime            The date time.
+     * @param   {PropertyBag}           propertyBag         The property bag.
+     * @param   {boolean}               isUpdateOperation   Indicates whether the scoping is to be performed in the context of an update operation.
+     * @return  {DateTime}              The converted DateTime.
      */
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: DateTime, propertyBag: PropertyBag, isUpdateOperation: boolean): DateTime {
+        EwsLogging.Assert(false, "ScopedDateTimePropertyDefinition.ScopeToTimeZone", "TimeZone info could be misleading, It should be used as UTC in all cases until fixed");
         if (!propertyBag.Owner.GetIsCustomDateTimeScopingRequired()) {
             // Most item types do not require a custom scoping mechanism. For those item types,
             // use the default scoping mechanism.
@@ -134,8 +140,9 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
         }
     }
 }
+
 /**
- * Defines a callback method used to get a reference to a property definition.
+ * @internal Defines a callback method used to get a reference to a property definition.
  *
  * @param   {ExchangeVersion}   version   The EWS version for which the property is to be retrieved.
  */

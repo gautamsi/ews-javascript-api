@@ -1,4 +1,4 @@
-import {ResponseObjectSchema} from "../Schemas/ResponseObjectSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {ItemId} from "../../../ComplexProperties/ItemId";
 import {XmlElementNames} from "../../XmlElementNames";
 import {Item} from "../Items/Item";
@@ -21,7 +21,7 @@ import {ServiceObject} from "../ServiceObject";
 export class SuppressReadReceipt extends ServiceObject {
     private referenceItem: Item = null;
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **SuppressReadReceipt** class.
      *
      * @param   {Item}   referenceItem   The reference item.
      */
@@ -42,7 +42,7 @@ export class SuppressReadReceipt extends ServiceObject {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return ResponseObjectSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema.Instance; }
     GetXmlElementName(): string { return XmlElementNames.SuppressReadReceipt; }
     /**
      * Create the response object.
@@ -51,7 +51,7 @@ export class SuppressReadReceipt extends ServiceObject {
      * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
     InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
-        (<ItemId>this.PropertyBag._getItem(ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
+        (<ItemId>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
 
         return <any>this.Service.InternalCreateResponseObject(
             this,

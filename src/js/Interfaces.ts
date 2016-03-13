@@ -26,7 +26,9 @@ export interface IPromise<T> {
 
 export interface IPromiseApi{
 	create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T>;
-	wrap<U>(value?: U): IPromise<U>;
+	resolve<U>(value?: U | IPromise<U>): IPromise<U>;
+	reject<U>(value?: U | IPromise<U>): IPromise<U>;
+	//delay(ms: number): IPromise<void>;    
 	type:string;
 }
 export interface IXHRApi{

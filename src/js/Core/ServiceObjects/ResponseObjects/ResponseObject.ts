@@ -1,7 +1,6 @@
 import {EmailMessage} from "../Items/EmailMessage";
-import {EmailMessageSchema} from "../Schemas/EmailMessageSchema";
 import {EwsLogging} from "../../EwsLogging";
-import {ResponseObjectSchema} from "../Schemas/ResponseObjectSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {Item} from "../Items/Item";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
 import {FolderId} from "../../../ComplexProperties/FolderId";
@@ -24,22 +23,22 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
      * Gets or sets a value indicating whether read receipts will be requested from recipients of this response.
      */
     get IsReadReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsReadReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsReadReceiptRequested);
     }
     set IsReadReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsReadReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsReadReceiptRequested, value);
     }
     /**
      * Gets or sets a value indicating whether delivery receipts should be sent to the sender.
      */
     get IsDeliveryReceiptRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(EmailMessageSchema.IsDeliveryReceiptRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
     }
     set IsDeliveryReceiptRequested(value: boolean) {
-        this.PropertyBag._setItem(EmailMessageSchema.IsDeliveryReceiptRequested, value);
+        this.PropertyBag._setItem(Schemas.EmailMessageSchema.IsDeliveryReceiptRequested, value);
     }
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **ResponseObject** class.
      *
      * @param   {type}   referenceItem   The reference item.
      */
@@ -54,7 +53,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return ResponseObjectSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.ResponseObjectSchema.Instance; }
     /**
     * Create the response object.
     *
@@ -63,7 +62,7 @@ export class ResponseObject<TMessage extends EmailMessage> extends ServiceObject
     * @return  {IPromise<Item[]>}               The list of items returned by EWS.
     */
     InternalCreate(destinationFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
-        (<ItemId>this.PropertyBag._getItem(ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
+        (<ItemId>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
 
         return this.Service.InternalCreateResponseObject(
             this,

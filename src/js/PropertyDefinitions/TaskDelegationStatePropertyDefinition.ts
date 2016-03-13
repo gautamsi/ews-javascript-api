@@ -1,11 +1,84 @@
-﻿import {TaskDelegationState} from "../Enumerations/TaskDelegationState";
+﻿import {EwsUtilities} from "../Core/EwsUtilities";
+import {EwsLogging} from "../Core/EwsLogging";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+import {PropertyBag} from "../Core/PropertyBag";
+import {ExchangeService} from "../Core/ExchangeService";
+import {StringHelper} from "../ExtensionMethods";
+
+import {TaskDelegationState} from "../Enumerations/TaskDelegationState";
 import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+/**
+ * @internal Represents a task delegation property definition.
+ */
 export class TaskDelegationStatePropertyDefinition extends GenericPropertyDefinition<TaskDelegationState> {
     private static NoMatch: string = "NoMatch";
     private static OwnNew: string = "OwnNew";
     private static Owned: string = "Owned";
     private static Accepted: string = "Accepted";
 
-    Parse(value: string): any { throw new Error("TaskDelegationStatePropertyDefinition.ts - Parse : Not implemented."); }
-    ToString(value?: any): string { throw new Error("TaskDelegationStatePropertyDefinition.ts - ToString : Not implemented."); }
+    /**
+     * @internal Initializes a new instance of the **TaskDelegationStatePropertyDefinition** class.
+     *
+     * @param   {string}                    propertyName     Name of the property (added to workaround reflection based initialization of Names).
+     * @param   {string}                    xmlElementName   Name of the XML element.
+     * @param   {string}                    uri              The URI.
+     * @param   {PropertyDefinitionFlags}   flags            The flags.
+     * @param   {ExchangeVersion}           version          The version.
+     */
+    constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
+        super(propertyName, xmlElementName, uri, flags, version);
+    }
+
+    /**
+     * @internal Parses the specified value (added to workaround Generic based value conversion in c#).
+     *
+     * @param   {string}    value   The value.
+     * @return  {any}       Value of string.
+     */
+    Parse(value: string): any {
+        switch (value) {
+            case TaskDelegationStatePropertyDefinition.NoMatch:
+                return TaskDelegationState.NoDelegation;
+            case TaskDelegationStatePropertyDefinition.OwnNew:
+                return TaskDelegationState.Unknown;
+            case TaskDelegationStatePropertyDefinition.Owned:
+                return TaskDelegationState.Accepted;
+            case TaskDelegationStatePropertyDefinition.Accepted:
+                return TaskDelegationState.Declined;
+            default:
+                EwsLogging.Assert(
+                    false,
+                    "TaskDelegationStatePropertyDefinition.Parse",
+                    StringHelper.Format("TaskDelegationStatePropertyDefinition.Parse(): value {0} cannot be handled.", value));
+                return null; // To keep the compiler happy
+        }
+    }
+
+    /**
+     * Convert instance to string.
+     *
+     * @param   {any}       value   The value.
+     * @return  {string}    TaskDelegationState value.
+     */
+    ToString(value?: any): string {
+        let taskDelegationState: TaskDelegationState = <TaskDelegationState>value;
+
+        switch (taskDelegationState) {
+            case TaskDelegationState.NoDelegation:
+                return TaskDelegationStatePropertyDefinition.NoMatch;
+            case TaskDelegationState.Unknown:
+                return TaskDelegationStatePropertyDefinition.OwnNew;
+            case TaskDelegationState.Accepted:
+                return TaskDelegationStatePropertyDefinition.Owned;
+            case TaskDelegationState.Declined:
+                return TaskDelegationStatePropertyDefinition.Accepted;
+            default:
+                EwsLogging.Assert(
+                    false,
+                    "TaskDelegationStatePropertyDefinition.ToString",
+                    "Invalid TaskDelegationState value.");
+                return null; // To keep the compiler happy
+        }
+    }
 }

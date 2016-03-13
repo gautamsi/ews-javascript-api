@@ -9,13 +9,31 @@
 			// Type of configuration. Possible values: "node", "mono".
 			"type": "node",
 			// Workspace relative or absolute path to the program.
-			"program": "./build/output/node/test/ManualLiveTesting/app.js",
+			"program": "${workspaceRoot}//build/output/node/test/ManualLiveTesting/app.js",
 			// Automatically stop program after launch.
 			"stopOnEntry": false,
 			// Command line arguments passed to the program.
 			"args": [],
 			// Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
-			"cwd": ".",
+			"cwd": "${workspaceRoot}",
+			// Workspace relative or absolute path to the runtime executable to be used. Default is the runtime executable on the PATH.
+			"runtimeExecutable": null,
+			// Environment variables passed to the program.
+			"env": { }
+		},
+        {
+			// Name of configuration; appears in the launch configuration drop down menu.
+			"name": "Launch AttachmentTest.js",
+			// Type of configuration. Possible values: "node", "mono".
+			"type": "node",
+			// Workspace relative or absolute path to the program.
+			"program": "${workspaceRoot}/build/output/node/test/ManualLiveTesting/AttachmentTest.js",
+			// Automatically stop program after launch.
+			"stopOnEntry": false,
+			// Command line arguments passed to the program.
+			"args": [],
+			// Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
+			"cwd": "${workspaceRoot}",
 			// Workspace relative or absolute path to the runtime executable to be used. Default is the runtime executable on the PATH.
 			"runtimeExecutable": null,
 			// Environment variables passed to the program.
@@ -24,10 +42,19 @@
 		{
 			"name": "Attach",
 			"type": "node",
+            "request": "attach",
 			// TCP/IP address. Default is "localhost".
 			"address": "localhost",
 			// Port to attach to.
 			"port": 5858
+		},
+        {
+			"name": "Run Mocha Test",
+			"type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": ["${workspaceRoot}/build/output/node/test/mocha/**/*.js"]			
 		}
 	]
 }

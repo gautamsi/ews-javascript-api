@@ -1,4 +1,5 @@
 ﻿import {ExchangeService} from "../Core/ExchangeService";
+import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {NameResolution} from "./NameResolution";
 import {EwsLogging} from "../Core/EwsLogging";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
@@ -27,7 +28,7 @@ export class NameResolutionCollection { //IEnumerable<NameResolution>
 
     _getItem(index: number): NameResolution {
         if (index < 0 || index >= this.Count) {
-            throw new Error(Strings.IndexIsOutOfRange); //ArgumentOutOfRangeException("index",
+            throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
         }
         return this.items[index];
     }

@@ -1,9 +1,11 @@
 ﻿import {XmlElementNames} from "../../XmlElementNames";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {EmailMessage} from "./EmailMessage";
 /**
  * ## *Not Implemented* 
  */
+@AttachableAttribute(false)
 export class MeetingMessage extends EmailMessage {
     ////////AssociatedAppointmentId: ItemId;
     ////////IsDelegated: boolean;

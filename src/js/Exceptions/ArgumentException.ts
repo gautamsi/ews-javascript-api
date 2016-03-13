@@ -1,52 +1,82 @@
 import {Exception} from "./Exception";
 export class ArgumentException extends Exception {
-    Name: string;
-    ParamName: string;
+    ParamName: string = null;
     constructor();
     constructor(message: string);
     constructor(message: string, paramName: string);
     constructor(message: string, innerException: Exception);
     constructor(message: string, paramName: string, innerException: Exception);
-    constructor(message?: string, paramNameOrInnerException?: string | Exception, innerException: Exception = null) {
-        super(message);
-        //this.Name = name;
-        if (paramNameOrInnerException instanceof Exception) {
-            this.InnerException = paramNameOrInnerException;
+    constructor(message: string = null, paramNameOrInnerException: string | Exception = null, innerException: Exception = null) {
+        super(message, innerException || (paramNameOrInnerException instanceof Exception ? paramNameOrInnerException : null));
+        if (typeof paramNameOrInnerException === 'string') {
+            this.ParamName = message
         }
-        else if (typeof paramNameOrInnerException === 'string') {
-            this.ParamName = paramNameOrInnerException;
-        }
-        if (innerException != null) {
-            this.InnerException = innerException;
-        }
-
     }
 }
 
-export class ArgumentOutOfRangeException extends ArgumentException {
-    Name: string;
-    ParamName: string;
+export class ArgumentNullException extends ArgumentException {
     constructor();
     constructor(paramName: string);
     constructor(paramName: string, message: string);
     constructor(message: string, innerException: Exception);
-    //constructor(paramName: string, objectValue: any, message: string);
-    constructor(paramNameOrMessage?: string, messageOrObjValueOrException?: string | Exception) { //, message:string = null) {
-        super(paramNameOrMessage);
-        //this.Name = name;
+    constructor(message: string, paramName: string, innerException: Exception);
+    constructor(paramNameOrMessage: string = null, paramNameOrInnerException: string | Exception = null, innerException: Exception = null) {
         var argsLength = arguments.length;
-        if (argsLength >= 1) {
-            this.ParamName = paramNameOrMessage;
+        switch (argsLength) {
+            case 1:
+                super("Argument is Null", paramNameOrMessage);
+                break;
+            case 2:
+                if (typeof paramNameOrInnerException === 'string') {
+                    super(paramNameOrInnerException, paramNameOrMessage);
+                }
+                else {
+                    super(paramNameOrMessage, paramNameOrInnerException);
+                }
+                break;
+            default:
+                super("Argument is Null");
+                break;
         }
-        if (argsLength >= 2) {
-            if (messageOrObjValueOrException instanceof Exception) {
-                this.ParamName = null;
-                this.Message = paramNameOrMessage;
-                this.InnerException = messageOrObjValueOrException;
-            }
-            else if (typeof messageOrObjValueOrException === 'string') {
-                this.Message = messageOrObjValueOrException;
-            }
+    }
+}
+
+export class ArgumentOutOfRangeException extends ArgumentException {
+    actualValue: any;
+    /**
+     * Gets the value of the argument that caused the exception.
+     */
+    get ActualValue(): any { return this.actualValue; }
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(paramName: string, actualValue: any, message: string);
+    constructor(paramNameOrMessage?: string, messageOrActualValueOrException?: string | Exception, message: string = null) {
+        //super((message || messageOrObjValueOrException instanceof Exception ? paramNameOrMessage : null);
+        var argsLength = arguments.length;
+        switch (argsLength) {
+            case 0:
+                super();
+                break;
+            case 1:
+                super(null, paramNameOrMessage);
+                break;
+            case 2:
+                if (typeof messageOrActualValueOrException === 'string') {
+                    super(messageOrActualValueOrException, paramNameOrMessage);
+                }
+                else {
+                    super(paramNameOrMessage, messageOrActualValueOrException);
+                }
+                break;
+            case 3:
+                super(message, paramNameOrMessage);
+                this.actualValue = messageOrActualValueOrException;
+                break;
+            default:
+                super();
+                break;
         }
     }
 }

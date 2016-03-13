@@ -5,11 +5,11 @@
 
 
 /** Promise type setup */
-import {IPromiseApi,IXHRApi, IPromise, IXHROptions} from "./Interfaces";
-export {IPromiseApi,IXHRApi, IPromise, IXHROptions};
+import {IPromiseApi, IXHRApi, IPromise, IXHROptions} from "./Interfaces";
+export {IPromiseApi, IXHRApi, IPromise, IXHROptions};
 import {PromiseFactory} from "./PromiseFactory";
 export function useCustomPromise(promiseObj: IPromiseApi) {
-	PromiseFactory.switchPromise(promiseObj);
+    PromiseFactory.switchPromise(promiseObj);
 }
 import {setPromise} from "./Promise_WinJS";
 //export {Promise_Q} from "./Promise_Q";
@@ -19,16 +19,75 @@ export {PromiseFactory}
 /** XHR setup */
 import {XHRFactory} from "./XHRFactory";
 export function useCustomXhr(xhrApiObj: IXHRApi) {
-	XHRFactory.switchXhr(xhrApiObj);
+    XHRFactory.switchXhr(xhrApiObj);
 }
 import {setXhr} from "./XHRFactory_WinJS";
 setXhr();
 
-/**ServiceObject Schema and AppointmentSchema */
+/**Schema Bootstrapping */
+import {Schemas} from "./Core/ServiceObjects/Schemas/Schemas";
 import {ServiceObjectSchema} from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
-import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema";
-ServiceObjectSchema.AppointmentSchema = AppointmentSchema.Instance;
-export {ServiceObjectSchema, AppointmentSchema}
+
+import {ConversationSchema} from "./Core/ServiceObjects/Schemas/ConversationSchema"; // [ServiceObjectSchema]
+Schemas.ConversationSchema = <any>ConversationSchema;
+
+import {FolderSchema} from "./Core/ServiceObjects/Schemas/FolderSchema"; // [ServiceObjectSchema]
+Schemas.FolderSchema = <any>FolderSchema;
+
+import {SearchFolderSchema} from "./Core/ServiceObjects/Schemas/SearchFolderSchema"; // [FolderSchema]
+Schemas.SearchFolderSchema = <any>SearchFolderSchema;
+
+import {ItemSchema} from "./Core/ServiceObjects/Schemas/ItemSchema"; // [ServiceObjectSchema] AppointmentSchema
+Schemas.ItemSchema = <any>ItemSchema;
+
+import {AppointmentSchema} from "./Core/ServiceObjects/Schemas/AppointmentSchema"; // [ItemSchema]
+Schemas.AppointmentSchema = <any>AppointmentSchema;
+
+import {ContactSchema} from "./Core/ServiceObjects/Schemas/ContactSchema"; // [ItemSchema]
+Schemas.ContactSchema = <any>ContactSchema;
+
+import {ContactGroupSchema} from "./Core/ServiceObjects/Schemas/ContactGroupSchema"; // [ItemSchema] ContactSchema
+Schemas.ContactGroupSchema = <any>ContactGroupSchema;
+
+import {EmailMessageSchema} from "./Core/ServiceObjects/Schemas/EmailMessageSchema"; // [ItemSchema]
+Schemas.EmailMessageSchema = <any>EmailMessageSchema;
+
+import {MeetingMessageSchema} from "./Core/ServiceObjects/Schemas/MeetingMessageSchema"; // [EmailMessageSchema] AppointmentSchema
+Schemas.MeetingMessageSchema = <any>MeetingMessageSchema;
+
+import {MeetingCancellationSchema} from "./Core/ServiceObjects/Schemas/MeetingCancellationSchema"; // [MeetingMessageSchema] AppointmentSchema
+Schemas.MeetingCancellationSchema = <any>MeetingCancellationSchema;
+
+import {MeetingResponseSchema} from "./Core/ServiceObjects/Schemas/MeetingResponseSchema"; // [MeetingMessageSchema] AppointmentSchema
+Schemas.MeetingResponseSchema = <any>MeetingResponseSchema;
+
+import {MeetingRequestSchema} from "./Core/ServiceObjects/Schemas/MeetingRequestSchema"; // [MeetingMessageSchema] AppointmentSchema
+Schemas.MeetingRequestSchema = <any>MeetingRequestSchema;
+
+import {PostItemSchema} from "./Core/ServiceObjects/Schemas/PostItemSchema"; // [ItemSchema] EmailMessageSchema
+Schemas.PostItemSchema = <any>PostItemSchema;
+
+import {TaskSchema} from "./Core/ServiceObjects/Schemas/TaskSchema"; // [ItemSchema]
+Schemas.TaskSchema = <any>TaskSchema;
+
+import {ResponseObjectSchema} from "./Core/ServiceObjects/Schemas/ResponseObjectSchema"; // [ServiceObjectSchema]
+Schemas.ResponseObjectSchema = <any>ResponseObjectSchema;
+
+import {PostReplySchema} from "./Core/ServiceObjects/Schemas/PostReplySchema"; // [ServiceObjectSchema] ItemSchema, ResponseObjectSchema
+Schemas.PostReplySchema = <any>PostReplySchema;
+
+import {ResponseMessageSchema} from "./Core/ServiceObjects/Schemas/ResponseMessageSchema"; // [ServiceObjectSchema] ItemSchema, EmailMessageSchema, ResponseObjectSchema
+Schemas.ResponseMessageSchema = <any>ResponseMessageSchema;
+
+import {CancelMeetingMessageSchema} from "./Core/ServiceObjects/Schemas/CancelMeetingMessageSchema"; // [ServiceObjectSchema] EmailMessageSchema, ResponseObjectSchema
+Schemas.CancelMeetingMessageSchema = <any>CancelMeetingMessageSchema;
+
+import {CalendarResponseObjectSchema} from "./Core/ServiceObjects/Schemas/CalendarResponseObjectSchema"; // [ServiceObjectSchema] ItemSchema, EmailMessageSchema, ResponseObjectSchema
+Schemas.CalendarResponseObjectSchema = <any>CalendarResponseObjectSchema;
+
+export {ServiceObjectSchema, ConversationSchema, FolderSchema, SearchFolderSchema, ItemSchema, AppointmentSchema, ContactSchema, ContactGroupSchema, EmailMessageSchema,
+MeetingMessageSchema, MeetingCancellationSchema, MeetingResponseSchema, MeetingRequestSchema, PostItemSchema, TaskSchema, ResponseObjectSchema, PostReplySchema,
+ResponseMessageSchema, CancelMeetingMessageSchema, CalendarResponseObjectSchema}
 
 import {TimeZoneTransition} from "./ComplexProperties/TimeZones/TimeZoneTransition";
 import {AbsoluteDateTransition} from "./ComplexProperties/TimeZones/AbsoluteDateTransition";
@@ -39,31 +98,54 @@ import {TimeZoneDefinition} from "./ComplexProperties/TimeZones/TimeZoneDefiniti
 import {TimeZonePeriod} from "./ComplexProperties/TimeZones/TimeZonePeriod";
 
 TimeZoneTransition.AbsoluteDateTransition = (timeZoneDefinition: TimeZoneDefinition) => {
-	return new AbsoluteDateTransition(timeZoneDefinition);
+    return new AbsoluteDateTransition(timeZoneDefinition);
 }
 TimeZoneTransition.AbsoluteDayOfMonthTransition = (timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod) => {
-	return new AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod);
+    return new AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod);
 }
 TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod) => {
-	return new RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod);
+    return new RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod);
 }
 
 export {TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition}
 
-import {Item} from "./Core/ServiceObjects/Items/Item";
+/**
+ * Bootstrap typecontainer
+ */
+import {TypeContainer} from "./TypeContainer";
+TypeContainer.ServiceObjectSchema = <any>ServiceObjectSchema;
+
+import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
+import {Folder} from "./Core/ServiceObjects/Folders/Folder";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
+import {Item} from "./Core/ServiceObjects/Items/Item";
+import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
+import {ItemAttachmentOf} from "./ComplexProperties/ItemAttachmentOf";
 import {MeetingCancellation} from "./Core/ServiceObjects/Items/MeetingCancellation";
 import {MeetingRequest} from "./Core/ServiceObjects/Items/MeetingRequest";
 import {MeetingResponse} from "./Core/ServiceObjects/Items/MeetingResponse";
 
-import {TypeContainer} from "./TypeContainer"
+import {ExchangeService} from "./Core/ExchangeService";
+
+import {IndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
+import {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedPropertyDefinition";
+
+TypeContainer.ServiceObject = ServiceObject;
+TypeContainer.Folder = Folder;
 TypeContainer.Item = Item;
 TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
 TypeContainer.MeetingResponse = MeetingResponse;
 TypeContainer.MeetingCancellation = MeetingCancellation;
+TypeContainer.ItemAttachment = ItemAttachment;
+TypeContainer.ItemAttachmentOf = ItemAttachmentOf
+TypeContainer.ExchangeService = ExchangeService;
 
-export {Item, Appointment, MeetingCancellation, MeetingRequest, MeetingResponse}
+TypeContainer.IndexedPropertyDefinition = IndexedPropertyDefinition;
+TypeContainer.ExtendedPropertyDefinition = ExtendedPropertyDefinition;
+
+
+export {ServiceObject, Folder, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
 /**#endregion BootStrap code */
 
 
@@ -133,10 +215,8 @@ export {CalendarEventDetails} from "./ComplexProperties/Availability/CalendarEve
 export {CalendarFolder} from "./Core/ServiceObjects/Folders/CalendarFolder";
 export {CalendarResponseMessage} from "./Core/ServiceObjects/ResponseObjects/CalendarResponseMessage";
 export {CalendarResponseMessageBase} from "./Core/ServiceObjects/ResponseObjects/CalendarResponseMessageBase";
-export {CalendarResponseObjectSchema} from "./Core/ServiceObjects/Schemas/CalendarResponseObjectSchema";
 export {CalendarView} from "./Search/CalendarView";
 export {CancelMeetingMessage} from "./Core/ServiceObjects/ResponseObjects/CancelMeetingMessage";
-export {CancelMeetingMessageSchema} from "./Core/ServiceObjects/Schemas/CancelMeetingMessageSchema";
 export {Change} from "./Sync/Change";
 export {ChangeCollection} from "./Sync/ChangeCollection";
 export {ChangeHighlights} from "./ComplexProperties/ChangeHighlights";
@@ -166,10 +246,8 @@ export {Contact} from "./Core/ServiceObjects/Items/Contact";
 export {ContactEntity} from "./ComplexProperties/ContactEntity";
 export {ContactEntityCollection} from "./ComplexProperties/ContactEntityCollection";
 export {ContactGroup} from "./Core/ServiceObjects/Items/ContactGroup";
-export {ContactGroupSchema} from "./Core/ServiceObjects/Schemas/ContactGroupSchema";
 export {ContactPhoneEntity} from "./ComplexProperties/ContactPhoneEntity";
 export {ContactPhoneEntityCollection} from "./ComplexProperties/ContactPhoneEntityCollection";
-export {ContactSchema} from "./Core/ServiceObjects/Schemas/ContactSchema";
 export {ContactsFolder} from "./Core/ServiceObjects/Folders/ContactsFolder";
 export {ContactSource} from "./Enumerations/ContactSource";
 export {ContainedPropertyDefinition} from "./PropertyDefinitions/ContainedPropertyDefinition";
@@ -185,7 +263,6 @@ export {ConversationNodeCollection} from "./ComplexProperties/ConversationNodeCo
 export {ConversationQueryTraversal} from "./Enumerations/ConversationQueryTraversal";
 export {ConversationRequest} from "./ComplexProperties/ConversationRequest";
 export {ConversationResponse} from "./ComplexProperties/ConversationResponse";
-export {ConversationSchema} from "./Core/ServiceObjects/Schemas/ConversationSchema";
 export {ConversationSortOrder} from "./Enumerations/ConversationSortOrder";
 export {ConvertIdRequest} from "./Core/Requests/ConvertIdRequest";
 export {ConvertIdResponse} from "./Core/Responses/ConvertIdResponse";
@@ -265,7 +342,6 @@ export {EmailAddressEntityCollection} from "./ComplexProperties/EmailAddressEnti
 export {EmailAddressEntry} from "./ComplexProperties/EmailAddressEntry";
 export {EmailAddressKey} from "./Enumerations/EmailAddressKey";
 export {EmailMessage} from "./Core/ServiceObjects/Items/EmailMessage";
-export {EmailMessageSchema} from "./Core/ServiceObjects/Schemas/EmailMessageSchema";
 
 export {EmailPosition} from "./Enumerations/EmailPosition";
 export {EmailUserEntity} from "./ComplexProperties/EmailUserEntity";
@@ -291,7 +367,6 @@ export {ExchangeCredentials} from "./Credentials/ExchangeCredentials";
 
 export {ExchangeResourceManager} from "./ResourceManager/ExchangeResourceManager";
 export {ExchangeServerInfo} from "./Core/ExchangeServerInfo";
-export {ExchangeService} from "./Core/ExchangeService";
 
 export {ExchangeServiceBase} from "./Core/ExchangeServiceBase";
 export {ExchangeVersion} from "./Enumerations/ExchangeVersion";
@@ -304,7 +379,6 @@ export {ExpandGroupResults} from "./Misc/ExpandGroupResults";
 export {ExtendedAttributes} from "./MailboxSearch/ExtendedAttributes";
 export {ExtendedProperty} from "./ComplexProperties/ExtendedProperty";
 export {ExtendedPropertyCollection} from "./ComplexProperties/ExtendedPropertyCollection";
-export {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedPropertyDefinition";
 export {ExtensionInstallScope} from "./Enumerations/ExtensionInstallScope";
 export {DOMParser, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper, xml2JsObject} from "./ExtensionMethods";
 
@@ -325,7 +399,6 @@ export {FindItemsResults} from "./Search/FindItemsResults";
 export {FindRequest} from "./Core/Requests/FindRequest";
 export {Flag} from "./ComplexProperties/Flag";
 export {FlaggedForAction} from "./Enumerations/FlaggedForAction";
-export {Folder} from "./Core/ServiceObjects/Folders/Folder";
 export {FolderChange} from "./Sync/FolderChange";
 export {FolderEvent} from "./Notifications/FolderEvent";
 export {FolderId} from "./ComplexProperties/FolderId";
@@ -338,13 +411,11 @@ export {FolderPermission} from "./ComplexProperties/FolderPermission";
 export {FolderPermissionCollection} from "./ComplexProperties/FolderPermissionCollection";
 export {FolderPermissionLevel} from "./Enumerations/FolderPermissionLevel";
 export {FolderPermissionReadAccess} from "./Enumerations/FolderPermissionReadAccess";
-export {FolderSchema} from "./Core/ServiceObjects/Schemas/FolderSchema";
 export {FolderTraversal} from "./Enumerations/FolderTraversal";
 export {FolderView} from "./Search/FolderView";
 export {FolderWrapper} from "./Misc/FolderWrapper";
 export {FreeBusyViewType} from "./Enumerations/FreeBusyViewType";
 //export {FreeType} from "./Enumerations/FreeType"; - with DnsNativeMethods
-export {GenericItemAttachment} from "./ComplexProperties/GenericItemAttachment";
 export {GenericPropertyDefinition} from "./PropertyDefinitions/GenericPropertyDefinition";
 export {GetAppManifestsRequest} from "./Core/Requests/GetAppManifestsRequest";
 export {GetAppManifestsResponse} from "./Core/Responses/GetAppManifestsResponse";
@@ -443,7 +514,6 @@ export {ImAddressEntry} from "./ComplexProperties/ImAddressEntry";
 export {ImAddressKey} from "./Enumerations/ImAddressKey";
 export {ImpersonatedUserId} from "./Misc/ImpersonatedUserId";
 export {Importance} from "./Enumerations/Importance";
-export {IndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
 export {InstallAppRequest} from "./Core/Requests/InstallAppRequest";
 export {InstallAppResponse} from "./Core/Responses/InstallAppResponse";
 export {InternetMessageHeader} from "./ComplexProperties/InternetMessageHeader";
@@ -455,7 +525,6 @@ export {IRefParam} from "./Interfaces/IRefParam";
 export {ISearchStringProvider} from "./Interfaces/ISearchStringProvider";
 export {ISelfValidate} from "./Interfaces/ISelfValidate";
 
-export {ItemAttachment} from "./ComplexProperties/ItemAttachment";
 export {ItemChange} from "./Sync/ItemChange";
 export {ItemCollection} from "./ComplexProperties/ItemCollection";
 export {ItemEvent} from "./Notifications/ItemEvent";
@@ -467,7 +536,6 @@ export {ItemIdWrapper} from "./Misc/ItemIdWrapper";
 export {ItemIdWrapperList} from "./Misc/ItemIdWrapperList";
 export {ItemIndexError} from "./Enumerations/ItemIndexError";
 export {ItemInfo} from "./Core/ServiceObjects/Items/ItemInfo";
-export {ItemSchema} from "./Core/ServiceObjects/Schemas/ItemSchema";
 
 export {ItemTraversal} from "./Enumerations/ItemTraversal";
 export {ItemView} from "./Search/ItemView";
@@ -512,15 +580,11 @@ export {MarkAsJunkRequest} from "./Core/Requests/MarkAsJunkRequest";
 export {MarkAsJunkResponse} from "./Core/Responses/MarkAsJunkResponse";
 export {MeetingAttendeeType} from "./Enumerations/MeetingAttendeeType";
 
-export {MeetingCancellationSchema} from "./Core/ServiceObjects/Schemas/MeetingCancellationSchema";
 export {MeetingMessage} from "./Core/ServiceObjects/Items/MeetingMessage";
-export {MeetingMessageSchema} from "./Core/ServiceObjects/Schemas/MeetingMessageSchema";
 
-export {MeetingRequestSchema} from "./Core/ServiceObjects/Schemas/MeetingRequestSchema";
 export {MeetingRequestsDeliveryScope} from "./Enumerations/MeetingRequestsDeliveryScope";
 export {MeetingRequestType} from "./Enumerations/MeetingRequestType";
 
-export {MeetingResponseSchema} from "./Core/ServiceObjects/Schemas/MeetingResponseSchema";
 export {MeetingResponseType} from "./Enumerations/MeetingResponseType";
 export {MeetingSuggestion} from "./ComplexProperties/MeetingSuggestion";
 export {MeetingSuggestionCollection} from "./ComplexProperties/MeetingSuggestionCollection";
@@ -594,9 +658,7 @@ export {PlayOnPhoneRequest} from "./Core/Requests/PlayOnPhoneRequest";
 export {PlayOnPhoneResponse} from "./Core/Responses/PlayOnPhoneResponse";
 export {PolicyTag} from "./ComplexProperties/PolicyTag";
 export {PostItem} from "./Core/ServiceObjects/Items/PostItem";
-export {PostItemSchema} from "./Core/ServiceObjects/Schemas/PostItemSchema";
 export {PostReply} from "./Core/ServiceObjects/ResponseObjects/PostReply";
-export {PostReplySchema} from "./Core/ServiceObjects/Schemas/PostReplySchema";
 export {Presenters} from "./Enumerations/Presenters";
 export {PreviewItemBaseShape} from "./Enumerations/PreviewItemBaseShape";
 export {PreviewItemMailbox} from "./MailboxSearch/PreviewItemMailbox";
@@ -616,17 +678,17 @@ export {ProtocolConnectionCollection} from "./Autodiscover/ProtocolConnectionCol
 export {PullSubscription} from "./Notifications/PullSubscription";
 export {PushSubscription} from "./Notifications/PushSubscription";
 export {Recurrence} from "./ComplexProperties/Recurrence/Patterns/Recurrence";
-export {DailyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_DailyPattern";
-export {DailyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_DailyRegenerationPattern";
-export {IntervalPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_IntervalPattern";
-export {MonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_MonthlyPattern";
-export {MonthlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_MonthlyRegenerationPattern";
-export {RelativeMonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_RelativeMonthlyPattern";
-export {RelativeYearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_RelativeYearlyPattern";
-export {WeeklyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_WeeklyPattern";
-export {WeeklyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_WeeklyRegenerationPattern";
-export {YearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_YearlyPattern";
-export {YearlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence_YearlyRegenerationPattern";
+export {DailyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyPattern";
+export {DailyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyRegenerationPattern";
+export {IntervalPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.IntervalPattern";
+export {MonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.MonthlyPattern";
+export {MonthlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.MonthlyRegenerationPattern";
+export {RelativeMonthlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.RelativeMonthlyPattern";
+export {RelativeYearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.RelativeYearlyPattern";
+export {WeeklyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.WeeklyPattern";
+export {WeeklyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.WeeklyRegenerationPattern";
+export {YearlyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.YearlyPattern";
+export {YearlyRegenerationPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.YearlyRegenerationPattern";
 export {RecurrencePropertyDefinition} from "./PropertyDefinitions/RecurrencePropertyDefinition";
 export {RecurrenceRange} from "./ComplexProperties/Recurrence/Ranges/RecurrenceRange";
 export {RecurringAppointmentMasterId} from "./ComplexProperties/RecurringAppointmentMasterId";
@@ -639,10 +701,8 @@ export {ResolveNamesRequest} from "./Core/Requests/ResolveNamesRequest";
 export {ResolveNamesResponse} from "./Core/Responses/ResolveNamesResponse";
 export {ResponseActions} from "./Enumerations/ResponseActions";
 export {ResponseMessage} from "./Core/ServiceObjects/ResponseObjects/ResponseMessage";
-export {ResponseMessageSchema} from "./Core/ServiceObjects/Schemas/ResponseMessageSchema";
 export {ResponseMessageType} from "./Enumerations/ResponseMessageType";
 export {ResponseObject} from "./Core/ServiceObjects/ResponseObjects/ResponseObject";
-export {ResponseObjectSchema} from "./Core/ServiceObjects/Schemas/ResponseObjectSchema";
 export {ResponseObjectsPropertyDefinition} from "./PropertyDefinitions/ResponseObjectsPropertyDefinition";
 export {RetentionActionType} from "./Enumerations/RetentionActionType";
 export {RetentionPolicyTag} from "./Elc/RetentionPolicyTag";
@@ -664,26 +724,24 @@ export {RuleProperty} from "./Enumerations/RuleProperty";
 //export {SafeXmlDocument} from "./Security/SafeXmlDocument";
 export {SafeXmlFactory} from "./Security/SafeXmlFactory";
 //export {SafeXmlSchema} from "./Security/SafeXmlSchema";
-//export {Schemas} from "./Core/ServiceObjects/Schemas/Schemas"; - need to delete
 export {ScopedDateTimePropertyDefinition} from "./PropertyDefinitions/ScopedDateTimePropertyDefinition";
 export {SearchableMailbox} from "./MailboxSearch/SearchableMailbox";
 export {SearchFilter} from "./Search/Filters/SearchFilter";
-export {ContainsSubstring} from "./Search/Filters/SearchFilter_ContainsSubstring";
-export {ExcludesBitmask} from "./Search/Filters/SearchFilter_ExcludesBitmask";
-export {Exists} from "./Search/Filters/SearchFilter_Exists";
-export {IsEqualTo} from "./Search/Filters/SearchFilter_IsEqualTo";
-export {IsGreaterThan} from "./Search/Filters/SearchFilter_IsGreaterThan";
-export {IsGreaterThanOrEqualTo} from "./Search/Filters/SearchFilter_IsGreaterThanOrEqualTo";
-export {IsLessThan} from "./Search/Filters/SearchFilter_IsLessThan";
-export {IsLessThanOrEqualTo} from "./Search/Filters/SearchFilter_IsLessThanOrEqualTo";
-export {IsNotEqualTo} from "./Search/Filters/SearchFilter_IsNotEqualTo";
-export {Not} from "./Search/Filters/SearchFilter_Not";
-export {PropertyBasedFilter} from "./Search/Filters/SearchFilter_PropertyBasedFilter";
-export {RelationalFilter} from "./Search/Filters/SearchFilter_RelationalFilter";
-export {SearchFilterCollection} from "./Search/Filters/SearchFilter_SearchFilterCollection";
+export {ContainsSubstring} from "./Search/Filters/SearchFilter.ContainsSubstring";
+export {ExcludesBitmask} from "./Search/Filters/SearchFilter.ExcludesBitmask";
+export {Exists} from "./Search/Filters/SearchFilter.Exists";
+export {IsEqualTo} from "./Search/Filters/SearchFilter.IsEqualTo";
+export {IsGreaterThan} from "./Search/Filters/SearchFilter.IsGreaterThan";
+export {IsGreaterThanOrEqualTo} from "./Search/Filters/SearchFilter.IsGreaterThanOrEqualTo";
+export {IsLessThan} from "./Search/Filters/SearchFilter.IsLessThan";
+export {IsLessThanOrEqualTo} from "./Search/Filters/SearchFilter.IsLessThanOrEqualTo";
+export {IsNotEqualTo} from "./Search/Filters/SearchFilter.IsNotEqualTo";
+export {Not} from "./Search/Filters/SearchFilter.Not";
+export {PropertyBasedFilter} from "./Search/Filters/SearchFilter.PropertyBasedFilter";
+export {RelationalFilter} from "./Search/Filters/SearchFilter.RelationalFilter";
+export {SearchFilterCollection} from "./Search/Filters/SearchFilter.SearchFilterCollection";
 export {SearchFolder} from "./Core/ServiceObjects/Folders/SearchFolder";
 export {SearchFolderParameters} from "./ComplexProperties/SearchFolderParameters";
-export {SearchFolderSchema} from "./Core/ServiceObjects/Schemas/SearchFolderSchema";
 export {SearchFolderTraversal} from "./Enumerations/SearchFolderTraversal";
 export {SearchMailboxesParameters} from "./MailboxSearch/SearchMailboxesParameters";
 export {SearchMailboxesRequest} from "./Core/Requests/SearchMailboxesRequest";
@@ -708,7 +766,6 @@ export {ServiceErrorHandling} from "./Enumerations/ServiceErrorHandling";
 export {ServiceId} from "./ComplexProperties/ServiceId";
 export {ServiceJsonDeserializationException} from "./Exceptions/ServiceJsonDeserializationException";
 export {ServiceLocalException} from "./Exceptions/ServiceLocalException";
-export {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 export {ServiceObjectInfo} from "./Core/ServiceObjects/ServiceObjectInfo";
 export {ServiceObjectPropertyDefinition} from "./PropertyDefinitions/ServiceObjectPropertyDefinition";
 export {ServiceObjectPropertyException} from "./Exceptions/ServiceObjectPropertyException";
@@ -769,7 +826,6 @@ export {Task} from "./Core/ServiceObjects/Items/Task";
 export {TaskDelegationState} from "./Enumerations/TaskDelegationState";
 export {TaskDelegationStatePropertyDefinition} from "./PropertyDefinitions/TaskDelegationStatePropertyDefinition";
 export {TaskMode} from "./Enumerations/TaskMode";
-export {TaskSchema} from "./Core/ServiceObjects/Schemas/TaskSchema";
 export {TasksFolder} from "./Core/ServiceObjects/Folders/TasksFolder";
 export {TaskStatus} from "./Enumerations/TaskStatus";
 export {TaskSuggestion} from "./ComplexProperties/TaskSuggestion";

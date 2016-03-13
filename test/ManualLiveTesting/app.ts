@@ -1,7 +1,7 @@
 import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
-UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping,
-EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
-ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody} from "../../src/js/ExchangeWebService";
+    UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
+    EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
+    ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
@@ -27,7 +27,22 @@ export class Greeter {
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        EwsLogging.DebugLogEnabled = true;
+        EwsLogging.DebugLogEnabled = false;
+
+        var msgattach = new EmailMessage(exch);
+        msgattach.Subject = "Dentist Appointment";
+        msgattach.Body = new MessageBody("The appointment is with Dr. Smith.");
+        msgattach.ToRecipients.Add("grouptest@mysupport.in")
+        var file = msgattach.Attachments.AddFileAttachment("filename to attach.txt", "c29tZSB0ZXh0");
+        //file.
+        msgattach.Send().then(() => {
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+        return;
 
         var appointment = new Appointment(exch);
         appointment.Subject = "Dentist Appointment";
@@ -41,7 +56,7 @@ export class Greeter {
             console.log(ei.stack, ei.stack.split("\n"));
             console.log("------------");
         });
-return;
+        return;
 
 
         exch.TimeZoneDefinition = new TimeZoneDefinition();
@@ -58,7 +73,7 @@ return;
         exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
-                EwsLogging.Log(fi, true, true);                
+                EwsLogging.Log(fi, true, true);
                 console.log("------------");
             }, (ei: any) => {
                 EwsLogging.Log(ei, true, true);
@@ -71,20 +86,20 @@ return;
 
         var mockXhr = new MockXHRApi();
         exch.XHRApi = mockXhr
-        mockXhr.requestXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView;
-        mockXhr.responseXml = MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse;
+        mockXhr.requestXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView];
+        mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemViewResponse];
         var PR_TRANSPORT_MESSAGE_HEADERS = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x007D);
         var EX_normalized_Subject = new ExtendedPropertyDefinition(MapiPropertyType.String, 0x0E1D); //https://willcode4foodblog.wordpress.com/2012/04/14/understanding-sharing-invitation-requests-ews-managed-api-1-2-part-2/
-        var EX_prop2 = new ExtendedPropertyDefinition(MapiPropertyType.String,"Content-Class", DefaultExtendedPropertySet.InternetHeaders);
-        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS,EX_normalized_Subject]);
+        var EX_prop2 = new ExtendedPropertyDefinition(DefaultExtendedPropertySet.InternetHeaders, "Content-Class", MapiPropertyType.String);
+        var psPropSet = new PropertySet(BasePropertySet.IdOnly, [PR_TRANSPORT_MESSAGE_HEADERS, EX_normalized_Subject]);
         exch.FindItems(WellKnownFolderName.Inbox, new ItemView(1))
             .then((response) => {
                 for (var item of response.Items) {
-                    mockXhr.requestXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader;
-                    mockXhr.responseXml = MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse;
+                    mockXhr.requestXml = [MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeader];
+                    mockXhr.responseXml = [MockXHRData.Operations.ItemOperations.GetItemRequestWithIDandExtendedPropertyHeaderResponse];
 
                     var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
-                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MapiPropertyType.String, "Expiration Date", MyPropertySetId);
+                    var extendedPropertyDefinition: ExtendedPropertyDefinition = new ExtendedPropertyDefinition(MyPropertySetId, "Expiration Date", MapiPropertyType.String);
                     item.SetExtendedProperty(extendedPropertyDefinition, DateTime.Now.Add(2, "days").ToISOString());
 
                     item.Update(ConflictResolutionMode.AutoResolve)
@@ -109,8 +124,8 @@ return;
 
 
         return;
-        mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
-        mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
+        mockXhr.requestXml = [MockXHRData.Operations.ADOperations.DLExpansionRequest];
+        mockXhr.responseXml = [MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse];
         exch.ExpandGroup("group@contoso.com").then((response) => {
             EwsLogging.Log(response, true, true);
             EwsLogging.Log("-------------- request complete ----------", true, true);
@@ -121,8 +136,8 @@ return;
 
 
 
-        mockXhr.requestXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest;
-        mockXhr.responseXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire;
+        mockXhr.requestXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest];
+        mockXhr.responseXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire];
         exch.GetPasswordExpirationDate("gstest@singhs.pro").then((response) => {
             EwsLogging.Log(response, true, true);
             EwsLogging.Log("-------------- request complete ----------", true, true);
@@ -201,8 +216,8 @@ return;
             .then((fi) => {
                 //console.log("------found folder------" + fi.DisplayName + "--" + WellKnownFolderName[sr.ParentFolderId.FolderName]);
                 EwsLogging.Log(fi, true, true);
-                for(var res in fi.SuggestionsResponse)
-                console.log("------------");
+                for (var res in fi.SuggestionsResponse)
+                    console.log("------------");
             }, (ei: any) => {
                 EwsLogging.Log(ei, true, true);
                 console.log(ei.stack, ei.stack.split("\n"));
@@ -216,8 +231,8 @@ return;
         view.PropertySet = PropertySet.FirstClassProperties;
         //var sf = new SearchFilter.ContainsSubstring(ItemSchema.Subject,"test");
         var groupBy = new Grouping();
-        groupBy.GroupOn = EmailMessageSchema.Subject;
-        groupBy.AggregateOn = ItemSchema.DateTimeReceived;
+        groupBy.GroupOn = EmailMessageSchema.Instance.Subject;
+        groupBy.AggregateOn = ItemSchema.Instance.DateTimeReceived;
         groupBy.AggregateType = AggregateType.Minimum;
         groupBy.SortDirection = SortDirection.Descending;
         exch.FindItems(new FolderId(WellKnownFolderName.SentItems), view, groupBy)

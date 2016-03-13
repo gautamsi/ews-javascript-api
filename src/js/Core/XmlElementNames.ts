@@ -1,3 +1,16 @@
+/*@Updated <from SourceTree description>
+ * Commit: 154dbc66ac018d861c73ce489839cd9f58a1b0cd [154dbc6]
+ * Parents: 67756e1846, a9a3297c0f
+ * Author: David Claux <dclaux@users.noreply.github.com>
+ * Date: Friday, December 4, 2015 3:14:27 AM
+ * Labels: upstream/master, origin/master, master
+ * Merge pull request #71 from ysanghi/master
+ * 
+ * Publishing Latest Updates from Microsoft
+ */
+/**
+ * XML element names.
+ */
 export module XmlElementNames {
     export var AllProperties: string = "AllProperties";
     export var ParentFolderIds: string = "ParentFolderIds";
@@ -6,6 +19,7 @@ export module XmlElementNames {
     export var ItemIds: string = "ItemIds";
     export var FolderId: string = "FolderId";
     export var FolderIds: string = "FolderIds";
+    export var SourceId: string = "SourceId";
     export var OccurrenceItemId: string = "OccurrenceItemId";
     export var RecurringMasterItemId: string = "RecurringMasterItemId";
     export var ItemShape: string = "ItemShape";
@@ -56,6 +70,7 @@ export module XmlElementNames {
     export var FolderClass: string = "FolderClass";
     export var Subject: string = "Subject";
     export var MimeContent: string = "MimeContent";
+    export var MimeContentUTF8: string = "MimeContentUTF8";
     export var Sensitivity: string = "Sensitivity";
     export var Attachments: string = "Attachments";
     export var DateTimeReceived: string = "DateTimeReceived";
@@ -67,8 +82,11 @@ export module XmlElementNames {
     export var IsAssociated: string = "IsAssociated";
     export var IsDraft: string = "IsDraft";
     export var IsFromMe: string = "IsFromMe";
+    export var IsHidden: string = "IsHidden";
+    export var IsQuickContact: string = "IsQuickContact";
     export var IsResend: string = "IsResend";
     export var IsUnmodified: string = "IsUnmodified";
+    export var IsWritable: string = "IsWritable";
     export var InternetMessageHeader: string = "InternetMessageHeader";
     export var InternetMessageHeaders: string = "InternetMessageHeaders";
     export var DateTimeSent: string = "DateTimeSent";
@@ -594,6 +612,9 @@ export module XmlElementNames {
     export var VotingInformation: string = "VotingInformation";
     export var UserOptions: string = "UserOptions";
     export var VotingResponse: string = "VotingResponse";
+    export var NumberOfDays: string = "NumberOfDays";
+    export var AcceptanceState: string = "AcceptanceState";
+
     export var NlgEntityExtractionResult: string = "EntityExtractionResult";
     export var NlgAddresses: string = "Addresses";
     export var NlgAddress: string = "Address";
@@ -628,6 +649,7 @@ export module XmlElementNames {
     export var NlgType: string = "Type";
     export var NlgName: string = "Name";
     export var NlgUserId: string = "UserId";
+
     export var GetClientAccessToken: string = "GetClientAccessToken";
     export var GetClientAccessTokenResponse: string = "GetClientAccessTokenResponse";
     export var GetClientAccessTokenResponseMessage: string = "GetClientAccessTokenResponseMessage";
@@ -637,10 +659,156 @@ export module XmlElementNames {
     export var TokenValue: string = "TokenValue";
     export var TTL: string = "TTL";
     export var Tokens: string = "Tokens";
+
     export var MarkAsJunk: string = "MarkAsJunk";
     export var MarkAsJunkResponse: string = "MarkAsJunkResponse";
     export var MarkAsJunkResponseMessage: string = "MarkAsJunkResponseMessage";
     export var MovedItemId: string = "MovedItemId";
+
+    /* #region Persona */
+
+    export var CreationTime: string = "CreationTime";
+    export var People: string = "People";
+    export var Persona: string = "Persona";
+    export var PersonaId: string = "PersonaId";
+    export var PersonaShape: string = "PersonaShape";
+    export var RelevanceScore: string = "RelevanceScore";
+    export var TotalNumberOfPeopleInView: string = "TotalNumberOfPeopleInView";
+    export var FirstMatchingRowIndex: string = "FirstMatchingRowIndex";
+    export var FirstLoadedRowIndex: string = "FirstLoadedRowIndex";
+    export var YomiCompanyName: string = "YomiCompanyName";
+    export var Emails1: string = "Emails1";
+    export var Emails2: string = "Emails2";
+    export var Emails3: string = "Emails3";
+    export var HomeAddresses: string = "HomeAddresses";
+    export var BusinessAddresses: string = "BusinessAddresses";
+    export var OtherAddresses: string = "OtherAddresses";
+    export var BusinessPhoneNumbers: string = "BusinessPhoneNumbers";
+    export var BusinessPhoneNumbers2: string = "BusinessPhoneNumbers2";
+    export var AssistantPhoneNumbers: string = "AssistantPhoneNumbers";
+    export var TTYTDDPhoneNumbers: string = "TTYTDDPhoneNumbers";
+    export var HomePhones: string = "HomePhones";
+    export var HomePhones2: string = "HomePhones2";
+    export var MobilePhones: string = "MobilePhones";
+    export var MobilePhones2: string = "MobilePhones2";
+    export var CallbackPhones: string = "CallbackPhones";
+    export var CarPhones: string = "CarPhones";
+    export var HomeFaxes: string = "HomeFaxes";
+    export var OrganizationMainPhones: string = "OrganizationMainPhones";
+    export var OtherFaxes: string = "OtherFaxes";
+    export var OtherTelephones: string = "OtherTelephones";
+    export var OtherPhones2: string = "OtherPhones2";
+    export var Pagers: string = "Pagers";
+    export var RadioPhones: string = "RadioPhones";
+    export var TelexNumbers: string = "TelexNumbers";
+    export var WorkFaxes: string = "WorkFaxes";
+    export var FileAses: string = "FileAses";
+    export var CompanyNames: string = "CompanyNames";
+    export var DisplayNames: string = "DisplayNames";
+    export var DisplayNamePrefixes: string = "DisplayNamePrefixes";
+    export var GivenNames: string = "GivenNames";
+    export var MiddleNames: string = "MiddleNames";
+    export var Surnames: string = "Surnames";
+    export var Generations: string = "Generations";
+    export var Nicknames: string = "Nicknames";
+    export var YomiCompanyNames: string = "YomiCompanyNames";
+    export var YomiFirstNames: string = "YomiFirstNames";
+    export var YomiLastNames: string = "YomiLastNames";
+    export var Managers: string = "Managers";
+    export var AssistantNames: string = "AssistantNames";
+    export var Professions: string = "Professions";
+    export var SpouseNames: string = "SpouseNames";
+    export var Departments: string = "Departments";
+    export var Titles: string = "Titles";
+    export var ImAddresses2: string = "ImAddresses2";
+    export var ImAddresses3: string = "ImAddresses3";
+    export var DisplayNamePrefix: string = "DisplayNamePrefix";
+    export var DisplayNameFirstLast: string = "DisplayNameFirstLast";
+    export var DisplayNameLastFirst: string = "DisplayNameLastFirst";
+    export var DisplayNameFirstLastHeader: string = "DisplayNameFirstLastHeader";
+    export var DisplayNameLastFirstHeader: string = "DisplayNameLastFirstHeader";
+    export var IsFavorite: string = "IsFavorite";
+    export var Schools: string = "Schools";
+    export var Hobbies: string = "Hobbies";
+    export var Locations: string = "Locations";
+    export var OfficeLocations: string = "OfficeLocations";
+    export var BusinessHomePages: string = "BusinessHomePages";
+    export var PersonalHomePages: string = "PersonalHomePages";
+    export var ThirdPartyPhotoUrls: string = "ThirdPartyPhotoUrls";
+    export var Attribution: string = "Attribution";
+    export var Attributions: string = "Attributions";
+    export var StringAttributedValue: string = "StringAttributedValue";
+    export var DisplayNameFirstLastSortKey: string = "DisplayNameFirstLastSortKey";
+    export var DisplayNameLastFirstSortKey: string = "DisplayNameLastFirstSortKey";
+    export var CompanyNameSortKey: string = "CompanyNameSortKey";
+    export var HomeCitySortKey: string = "HomeCitySortKey";
+    export var WorkCitySortKey: string = "WorkCitySortKey";
+    export var FileAsId: string = "FileAsId";
+    export var FileAsIds: string = "FileAsIds";
+    export var HomeCity: string = "HomeCity";
+    export var WorkCity: string = "WorkCity";
+    export var PersonaType: string = "PersonaType";
+    export var Birthdays: string = "Birthdays";
+    export var BirthdaysLocal: string = "BirthdaysLocal";
+    export var WeddingAnniversaries: string = "WeddingAnniversaries";
+    export var WeddingAnniversariesLocal: string = "WeddingAnniversariesLocal";
+    export var OriginalDisplayName: string = "OriginalDisplayName";
+
+    /* #endregion */
+
+    /* #region People Insights */
+    export var Person: string = "Person";
+    export var Insights: string = "Insights";
+    export var Insight: string = "Insight";
+    export var InsightGroupType: string = "InsightGroupType";
+    export var InsightType: string = "InsightType";
+    export var InsightSourceType: string = "InsightSourceType";
+    export var InsightValue: string = "InsightValue";
+    export var InsightSource: string = "InsightSource";
+    export var UpdatedUtcTicks: string = "UpdatedUtcTicks";
+    export var StringInsightValue: string = "StringInsightValue";
+    export var ProfileInsightValue: string = "ProfileInsightValue";
+    export var JobInsightValue: string = "JobInsightValue";
+    export var UserProfilePicture: string = "UserProfilePicture";
+    export var EducationInsightValue: string = "EducationInsightValue";
+    export var SkillInsightValue: string = "SkillInsightValue";
+    export var DelveDoc: string = "DelveDoc";
+    export var CompanyInsightValue: string = "CompanyInsightValue";
+    export var ArrayOfInsightValue: string = "ArrayOfInsightValue";
+    export var InsightContent: string = "InsightContent";
+    export var SingleValueInsightContent: string = "SingleValueInsightContent";
+    export var MultiValueInsightContent: string = "MultiValueInsightContent";
+    export var ArrayOfInsight: string = "ArrayOfInsight";
+    export var PersonType: string = "PersonType";
+    export var SatoriId: string = "SatoriId";
+    export var DescriptionAttribution: string = "DescriptionAttribution";
+    export var ImageUrl: string = "ImageUrl";
+    export var ImageUrlAttribution: string = "ImageUrlAttribution";
+    export var YearFound: string = "YearFound";
+    export var FinanceSymbol: string = "FinanceSymbol";
+    export var WebsiteUrl: string = "WebsiteUrl";
+    export var Rank: string = "Rank";
+    export var Author: string = "Author";
+    export var Created: string = "Created";
+    export var DefaultEncodingURL: string = "DefaultEncodingURL";
+    export var FileType: string = "FileType";
+    export var Data: string = "Data";
+    export var ItemList: string = "ItemList";
+    export var Avatar: string = "Avatar";
+    export var JoinedUtcTicks: string = "JoinedUtcTicks";
+    export var Company: string = "Company";
+    export var StartUtcTicks: string = "StartUtcTicks";
+    export var EndUtcTicks: string = "EndUtcTicks";
+    export var Blob: string = "Blob";
+    export var PhotoSize: string = "PhotoSize";
+    export var Institute: string = "Institute";
+    export var Degree: string = "Degree";
+    export var Strength: string = "Strength";
+        
+    /* #endregion */
+
+    /* #region Conversations */
+
     export var Conversations: string = "Conversations";
     export var Conversation: string = "Conversation";
     export var UniqueRecipients: string = "UniqueRecipients";
@@ -670,6 +838,8 @@ export module XmlElementNames {
     export var IndexedOffset: string = "IndexedOffset";
     export var ConversationShape: string = "ConversationShape";
     export var MailboxScope: string = "MailboxScope";
+
+    // ApplyConversationAction
     export var ApplyConversationAction: string = "ApplyConversationAction";
     export var ConversationActions: string = "ConversationActions";
     export var ConversationAction: string = "ConversationAction";
@@ -690,20 +860,37 @@ export module XmlElementNames {
     export var DeleteType: string = "DeleteType";
     export var RetentionPolicyType: string = "RetentionPolicyType";
     export var RetentionPolicyTagId: string = "RetentionPolicyTagId";
+
+    // GetConversationItems
     export var FoldersToIgnore: string = "FoldersToIgnore";
     export var ParentInternetMessageId: string = "ParentInternetMessageId";
     export var ConversationNode: string = "ConversationNode";
     export var ConversationNodes: string = "ConversationNodes";
     export var MaxItemsToReturn: string = "MaxItemsToReturn";
+
+    /* #endregion */
+
+    /* #region TeamMailbox */
+
     export var SetTeamMailbox: string = "SetTeamMailbox";
     export var SetTeamMailboxResponse: string = "SetTeamMailboxResponse";
     export var UnpinTeamMailbox: string = "UnpinTeamMailbox";
     export var UnpinTeamMailboxResponse: string = "UnpinTeamMailboxResponse";
+
+    /* #endregion */
+
+    /* #region RoomList & Room */
+
     export var RoomLists: string = "RoomLists";
     export var Rooms: string = "Rooms";
     export var Room: string = "Room";
     export var RoomList: string = "RoomList";
     export var RoomId: string = "Id";
+
+    /* #endregion */
+
+    /* #region Autodiscover */
+
     export var Autodiscover: string = "Autodiscover";
     export var BinarySecret: string = "BinarySecret";
     export var Response: string = "Response";
@@ -726,7 +913,7 @@ export module XmlElementNames {
     export var AD: string = "AD";
     export var AuthPackage: string = "AuthPackage";
     export var MdbDN: string = "MdbDN";
-    export var EWSUrl: string = "EwsUrl";
+    export var EWSUrl: string = "EwsUrl"; // Server side emits "Ews", not "EWS".
     export var EwsPartnerUrl: string = "EwsPartnerUrl";
     export var EmwsUrl: string = "EmwsUrl";
     export var ASUrl: string = "ASUrl";
@@ -823,7 +1010,9 @@ export module XmlElementNames {
     export var AutoDiscoverSMTPAddress: string = "AutoDiscoverSMTPAddress";
     export var CertPrincipalName: string = "CertPrincipalName";
     export var GroupingInformation: string = "GroupingInformation";
-    export var MapiHttpEnabled: string = "MapiHttpEnabled";
+    /* #endregion */
+
+    /* #region InboxRule */
     export var MailboxSmtpAddress: string = "MailboxSmtpAddress";
     export var RuleId: string = "RuleId";
     export var Priority: string = "Priority";
@@ -892,6 +1081,9 @@ export module XmlElementNames {
     export var OperationIndex: string = "OperationIndex";
     export var ValidationErrors: string = "ValidationErrors";
     export var FieldValue: string = "FieldValue";
+    /* #endregion */
+
+    /* #region Restrictions */
     export var Not: string = "Not";
     export var Bitmask: string = "Bitmask";
     export var Constant: string = "Constant";
@@ -909,6 +1101,9 @@ export module XmlElementNames {
     export var IsGreaterThanOrEqualTo: string = "IsGreaterThanOrEqualTo";
     export var IsLessThan: string = "IsLessThan";
     export var IsLessThanOrEqualTo: string = "IsLessThanOrEqualTo";
+    /* #endregion */
+        
+    /* #region Directory only contact properties */
     export var PhoneticFullName: string = "PhoneticFullName";
     export var PhoneticFirstName: string = "PhoneticFirstName";
     export var PhoneticLastName: string = "PhoneticLastName";
@@ -920,94 +1115,178 @@ export module XmlElementNames {
     export var DirectoryId: string = "DirectoryId";
     export var ManagerMailbox: string = "ManagerMailbox";
     export var DirectReports: string = "DirectReports";
+    /* #endregion */
+
+    /* #region Photos */
+
+    export var SizeRequested: string = "SizeRequested";
+    export var HasChanged: string = "HasChanged";
+    export var PictureData: string = "PictureData";
+
+    /* #endregion */
+
+    /* #region Request/response element names */
     export var ResponseMessage: string = "ResponseMessage";
     export var ResponseMessages: string = "ResponseMessages";
+
+    // FindConversation
     export var FindConversation: string = "FindConversation";
     export var FindConversationResponse: string = "FindConversationResponse";
     export var FindConversationResponseMessage: string = "FindConversationResponseMessage";
+
+    // GetConversationItems
     export var GetConversationItems: string = "GetConversationItems";
     export var GetConversationItemsResponse: string = "GetConversationItemsResponse";
     export var GetConversationItemsResponseMessage: string = "GetConversationItemsResponseMessage";
+
+    // FindItem
     export var FindItem: string = "FindItem";
     export var FindItemResponse: string = "FindItemResponse";
     export var FindItemResponseMessage: string = "FindItemResponseMessage";
+
+    // GetItem
     export var GetItem: string = "GetItem";
     export var GetItemResponse: string = "GetItemResponse";
     export var GetItemResponseMessage: string = "GetItemResponseMessage";
+
+    // CreateItem
     export var CreateItem: string = "CreateItem";
     export var CreateItemResponse: string = "CreateItemResponse";
     export var CreateItemResponseMessage: string = "CreateItemResponseMessage";
+
+    // SendItem
     export var SendItem: string = "SendItem";
     export var SendItemResponse: string = "SendItemResponse";
     export var SendItemResponseMessage: string = "SendItemResponseMessage";
+
+    // DeleteItem
     export var DeleteItem: string = "DeleteItem";
     export var DeleteItemResponse: string = "DeleteItemResponse";
     export var DeleteItemResponseMessage: string = "DeleteItemResponseMessage";
+
+    // UpdateItem
     export var UpdateItem: string = "UpdateItem";
     export var UpdateItemResponse: string = "UpdateItemResponse";
     export var UpdateItemResponseMessage: string = "UpdateItemResponseMessage";
+
+    // CopyItem
     export var CopyItem: string = "CopyItem";
     export var CopyItemResponse: string = "CopyItemResponse";
     export var CopyItemResponseMessage: string = "CopyItemResponseMessage";
+
+    // MoveItem
     export var MoveItem: string = "MoveItem";
     export var MoveItemResponse: string = "MoveItemResponse";
     export var MoveItemResponseMessage: string = "MoveItemResponseMessage";
+
+    // ArchiveItem
     export var ArchiveItem: string = "ArchiveItem";
     export var ArchiveItemResponse: string = "ArchiveItemResponse";
     export var ArchiveItemResponseMessage: string = "ArchiveItemResponseMessage";
     export var ArchiveSourceFolderId: string = "ArchiveSourceFolderId";
+
+    // FindFolder
     export var FindFolder: string = "FindFolder";
     export var FindFolderResponse: string = "FindFolderResponse";
     export var FindFolderResponseMessage: string = "FindFolderResponseMessage";
+
+    // GetFolder
     export var GetFolder: string = "GetFolder";
     export var GetFolderResponse: string = "GetFolderResponse";
     export var GetFolderResponseMessage: string = "GetFolderResponseMessage";
+
+    // CreateFolder
     export var CreateFolder: string = "CreateFolder";
     export var CreateFolderResponse: string = "CreateFolderResponse";
     export var CreateFolderResponseMessage: string = "CreateFolderResponseMessage";
+
+    // DeleteFolder
     export var DeleteFolder: string = "DeleteFolder";
     export var DeleteFolderResponse: string = "DeleteFolderResponse";
     export var DeleteFolderResponseMessage: string = "DeleteFolderResponseMessage";
+
+    // EmptyFolder
     export var EmptyFolder: string = "EmptyFolder";
     export var EmptyFolderResponse: string = "EmptyFolderResponse";
     export var EmptyFolderResponseMessage: string = "EmptyFolderResponseMessage";
+
+    // UpdateFolder
     export var UpdateFolder: string = "UpdateFolder";
     export var UpdateFolderResponse: string = "UpdateFolderResponse";
     export var UpdateFolderResponseMessage: string = "UpdateFolderResponseMessage";
+
+    // CopyFolder
     export var CopyFolder: string = "CopyFolder";
     export var CopyFolderResponse: string = "CopyFolderResponse";
     export var CopyFolderResponseMessage: string = "CopyFolderResponseMessage";
+
+    // MoveFolder
     export var MoveFolder: string = "MoveFolder";
     export var MoveFolderResponse: string = "MoveFolderResponse";
     export var MoveFolderResponseMessage: string = "MoveFolderResponseMessage";
+
+    // MarkAllItemsAsRead
     export var MarkAllItemsAsRead: string = "MarkAllItemsAsRead";
     export var MarkAllItemsAsReadResponse: string = "MarkAllItemsAsReadResponse";
     export var MarkAllItemsAsReadResponseMessage: string = "MarkAllItemsAsReadResponseMessage";
+
+    // FindPeople
+    export var FindPeople: string = "FindPeople";
+    export var FindPeopleResponse: string = "FindPeopleResponse";
+    export var FindPeopleResponseMessage: string = "FindPeopleResponseMessage";
+
+    // GetPeopleInsights
+    export var GetPeopleInsights: string = "GetPeopleInsights";
+    export var GetPeopleInsightsResponse: string = "GetPeopleInsightsResponse";
+    export var GetPeopleInsightsResponseMessage: string = "GetPeopleInsightsResponseMessage";
+
+    // GetUserPhoto
+    export var GetUserPhoto: string = "GetUserPhoto";
+    export var GetUserPhotoResponse: string = "GetUserPhotoResponse";
+    export var GetUserPhotoResponseMessage: string = "GetUserPhotoResponseMessage";
+
+    // GetAttachment
     export var GetAttachment: string = "GetAttachment";
     export var GetAttachmentResponse: string = "GetAttachmentResponse";
     export var GetAttachmentResponseMessage: string = "GetAttachmentResponseMessage";
+
+    // CreateAttachment
     export var CreateAttachment: string = "CreateAttachment";
     export var CreateAttachmentResponse: string = "CreateAttachmentResponse";
     export var CreateAttachmentResponseMessage: string = "CreateAttachmentResponseMessage";
+
+    // DeleteAttachment
     export var DeleteAttachment: string = "DeleteAttachment";
     export var DeleteAttachmentResponse: string = "DeleteAttachmentResponse";
     export var DeleteAttachmentResponseMessage: string = "DeleteAttachmentResponseMessage";
+
+    // ResolveNames
     export var ResolveNames: string = "ResolveNames";
     export var ResolveNamesResponse: string = "ResolveNamesResponse";
     export var ResolveNamesResponseMessage: string = "ResolveNamesResponseMessage";
+
+    // ExpandDL
     export var ExpandDL: string = "ExpandDL";
     export var ExpandDLResponse: string = "ExpandDLResponse";
     export var ExpandDLResponseMessage: string = "ExpandDLResponseMessage";
+
+    // Subscribe
     export var Subscribe: string = "Subscribe";
     export var SubscribeResponse: string = "SubscribeResponse";
     export var SubscribeResponseMessage: string = "SubscribeResponseMessage";
     export var SubscriptionRequest: string = "SubscriptionRequest";
+
+    // Unsubscribe
     export var Unsubscribe: string = "Unsubscribe";
     export var UnsubscribeResponse: string = "UnsubscribeResponse";
     export var UnsubscribeResponseMessage: string = "UnsubscribeResponseMessage";
+
+    // GetEvents
     export var GetEvents: string = "GetEvents";
     export var GetEventsResponse: string = "GetEventsResponse";
     export var GetEventsResponseMessage: string = "GetEventsResponseMessage";
+
+    // GetStreamingEvents
     export var GetStreamingEvents: string = "GetStreamingEvents";
     export var GetStreamingEventsResponse: string = "GetStreamingEventsResponse";
     export var GetStreamingEventsResponseMessage: string = "GetStreamingEventsResponseMessage";
@@ -1015,82 +1294,146 @@ export module XmlElementNames {
     export var ErrorSubscriptionIds: string = "ErrorSubscriptionIds";
     export var ConnectionTimeout: string = "ConnectionTimeout";
     export var HeartbeatFrequency: string = "HeartbeatFrequency";
+
+    // SyncFolderItems
     export var SyncFolderItems: string = "SyncFolderItems";
     export var SyncFolderItemsResponse: string = "SyncFolderItemsResponse";
     export var SyncFolderItemsResponseMessage: string = "SyncFolderItemsResponseMessage";
+
+    // SyncFolderHierarchy
     export var SyncFolderHierarchy: string = "SyncFolderHierarchy";
     export var SyncFolderHierarchyResponse: string = "SyncFolderHierarchyResponse";
     export var SyncFolderHierarchyResponseMessage: string = "SyncFolderHierarchyResponseMessage";
+
+    // GetUserOofSettings
     export var GetUserOofSettingsRequest: string = "GetUserOofSettingsRequest";
     export var GetUserOofSettingsResponse: string = "GetUserOofSettingsResponse";
+
+    // SetUserOofSettings
     export var SetUserOofSettingsRequest: string = "SetUserOofSettingsRequest";
     export var SetUserOofSettingsResponse: string = "SetUserOofSettingsResponse";
+
+    // GetUserAvailability
     export var GetUserAvailabilityRequest: string = "GetUserAvailabilityRequest";
     export var GetUserAvailabilityResponse: string = "GetUserAvailabilityResponse";
     export var FreeBusyResponseArray: string = "FreeBusyResponseArray";
     export var FreeBusyResponse: string = "FreeBusyResponse";
     export var SuggestionsResponse: string = "SuggestionsResponse";
+
+    // GetRoomLists
     export var GetRoomListsRequest: string = "GetRoomLists";
     export var GetRoomListsResponse: string = "GetRoomListsResponse";
+
+    // GetRooms
     export var GetRoomsRequest: string = "GetRooms";
     export var GetRoomsResponse: string = "GetRoomsResponse";
+
+    // ConvertId
     export var ConvertId: string = "ConvertId";
     export var ConvertIdResponse: string = "ConvertIdResponse";
     export var ConvertIdResponseMessage: string = "ConvertIdResponseMessage";
+
+    // AddDelegate
     export var AddDelegate: string = "AddDelegate";
     export var AddDelegateResponse: string = "AddDelegateResponse";
     export var DelegateUserResponseMessageType: string = "DelegateUserResponseMessageType";
+
+    // RemoveDelegte
     export var RemoveDelegate: string = "RemoveDelegate";
     export var RemoveDelegateResponse: string = "RemoveDelegateResponse";
+
+    // GetDelegate
     export var GetDelegate: string = "GetDelegate";
     export var GetDelegateResponse: string = "GetDelegateResponse";
+
+    // UpdateDelegate
     export var UpdateDelegate: string = "UpdateDelegate";
     export var UpdateDelegateResponse: string = "UpdateDelegateResponse";
+
+    // CreateUserConfiguration
     export var CreateUserConfiguration: string = "CreateUserConfiguration";
     export var CreateUserConfigurationResponse: string = "CreateUserConfigurationResponse";
     export var CreateUserConfigurationResponseMessage: string = "CreateUserConfigurationResponseMessage";
+
+    // DeleteUserConfiguration
     export var DeleteUserConfiguration: string = "DeleteUserConfiguration";
     export var DeleteUserConfigurationResponse: string = "DeleteUserConfigurationResponse";
     export var DeleteUserConfigurationResponseMessage: string = "DeleteUserConfigurationResponseMessage";
+
+    // GetUserConfiguration
     export var GetUserConfiguration: string = "GetUserConfiguration";
     export var GetUserConfigurationResponse: string = "GetUserConfigurationResponse";
     export var GetUserConfigurationResponseMessage: string = "GetUserConfigurationResponseMessage";
+
+    // UpdateUserConfiguration
     export var UpdateUserConfiguration: string = "UpdateUserConfiguration";
     export var UpdateUserConfigurationResponse: string = "UpdateUserConfigurationResponse";
     export var UpdateUserConfigurationResponseMessage: string = "UpdateUserConfigurationResponseMessage";
+
+    // PlayOnPhone
     export var PlayOnPhone: string = "PlayOnPhone";
     export var PlayOnPhoneResponse: string = "PlayOnPhoneResponse";
+
+    // GetPhoneCallInformation
     export var GetPhoneCall: string = "GetPhoneCallInformation";
     export var GetPhoneCallResponse: string = "GetPhoneCallInformationResponse";
+
+    // DisconnectCall
     export var DisconnectPhoneCall: string = "DisconnectPhoneCall";
     export var DisconnectPhoneCallResponse: string = "DisconnectPhoneCallResponse";
+
+    // GetServerTimeZones
     export var GetServerTimeZones: string = "GetServerTimeZones";
     export var GetServerTimeZonesResponse: string = "GetServerTimeZonesResponse";
     export var GetServerTimeZonesResponseMessage: string = "GetServerTimeZonesResponseMessage";
+
+    // GetInboxRules
     export var GetInboxRules: string = "GetInboxRules";
     export var GetInboxRulesResponse: string = "GetInboxRulesResponse";
+
+    // UpdateInboxRules
     export var UpdateInboxRules: string = "UpdateInboxRules";
     export var UpdateInboxRulesResponse: string = "UpdateInboxRulesResponse";
+
+    // ExecuteDiagnosticMethod
     export var ExecuteDiagnosticMethod: string = "ExecuteDiagnosticMethod";
     export var ExecuteDiagnosticMethodResponse: string = "ExecuteDiagnosticMethodResponse";
     export var ExecuteDiagnosticMethodResponseMEssage: string = "ExecuteDiagnosticMethodResponseMessage";
+
+    //GetPasswordExpirationDate
     export var GetPasswordExpirationDateRequest: string = "GetPasswordExpirationDate";
     export var GetPasswordExpirationDateResponse: string = "GetPasswordExpirationDateResponse";
+
+    // GetSearchableMailboxes
     export var GetSearchableMailboxes: string = "GetSearchableMailboxes";
     export var GetSearchableMailboxesResponse: string = "GetSearchableMailboxesResponse";
+
+    // GetDiscoverySearchConfiguration
     export var GetDiscoverySearchConfiguration: string = "GetDiscoverySearchConfiguration";
     export var GetDiscoverySearchConfigurationResponse: string = "GetDiscoverySearchConfigurationResponse";
+
+    // GetHoldOnMailboxes
     export var GetHoldOnMailboxes: string = "GetHoldOnMailboxes";
     export var GetHoldOnMailboxesResponse: string = "GetHoldOnMailboxesResponse";
+
+    // SetHoldOnMailboxes
     export var SetHoldOnMailboxes: string = "SetHoldOnMailboxes";
     export var SetHoldOnMailboxesResponse: string = "SetHoldOnMailboxesResponse";
+
+    // SearchMailboxes
     export var SearchMailboxes: string = "SearchMailboxes";
     export var SearchMailboxesResponse: string = "SearchMailboxesResponse";
     export var SearchMailboxesResponseMessage: string = "SearchMailboxesResponseMessage";
+
+    // GetNonIndexableItemDetails
     export var GetNonIndexableItemDetails: string = "GetNonIndexableItemDetails";
     export var GetNonIndexableItemDetailsResponse: string = "GetNonIndexableItemDetailsResponse";
+
+    // GetNonIndexableItemStatistics
     export var GetNonIndexableItemStatistics: string = "GetNonIndexableItemStatistics";
     export var GetNonIndexableItemStatisticsResponse: string = "GetNonIndexableItemStatisticsResponse";
+
+    // eDiscovery
     export var SearchQueries: string = "SearchQueries";
     export var SearchQuery: string = "SearchQuery";
     export var MailboxQuery: string = "MailboxQuery";
@@ -1175,16 +1518,22 @@ export module XmlElementNames {
     export var ExtendedAttributeName: string = "Name";
     export var ExtendedAttributeValue: string = "Value";
     export var SearchScopeType: string = "SearchScopeType";
+
+    // GetAppManifests
     export var GetAppManifestsRequest: string = "GetAppManifests";
     export var GetAppManifestsResponse: string = "GetAppManifestsResponse";
     export var Manifests: string = "Manifests";
     export var Manifest: string = "Manifest";
+
+    // GetAppManifests for TargetServerVersion > 2.5
     export var Apps: string = "Apps";
     export var App: string = "App";
     export var Metadata: string = "Metadata";
     export var ActionUrl: string = "ActionUrl";
     export var AppStatus: string = "AppStatus";
     export var EndNodeUrl: string = "EndNodeUrl";
+
+    // GetClientExtension/SetClientExtension
     export var GetClientExtensionRequest: string = "GetClientExtension";
     export var ClientExtensionUserRequest: string = "UserParameters";
     export var ClientExtensionUserEnabled: string = "UserEnabledExtensions";
@@ -1201,24 +1550,50 @@ export module XmlElementNames {
     export var SetClientExtensionAction: string = "Action";
     export var SetClientExtensionResponse: string = "SetClientExtensionResponse";
     export var SetClientExtensionResponseMessage: string = "SetClientExtensionResponseMessage";
+
+    // GetEncryptionConfiguration/SetEncryptionConfiguration
     export var GetEncryptionConfigurationRequest: string = "GetEncryptionConfiguration";
     export var SetEncryptionConfigurationRequest: string = "SetEncryptionConfiguration";
     export var EncryptionConfigurationImageBase64: string = "ImageBase64";
     export var EncryptionConfigurationEmailText: string = "EmailText";
     export var EncryptionConfigurationPortalText: string = "PortalText";
     export var EncryptionConfigurationDisclaimerText: string = "DisclaimerText";
+    export var EncryptionConfigurationOTPEnabled: string = "OTPEnabled";
     export var GetEncryptionConfigurationResponse: string = "GetEncryptionConfigurationResponse";
     export var SetEncryptionConfigurationResponse: string = "SetEncryptionConfigurationResponse";
+
+    // GetOMEConfiguration/SetOMEConfiguration
+    export var GetOMEConfigurationRequest: string = "GetOMEConfiguration";
+    export var SetOMEConfigurationRequest: string = "SetOMEConfiguration";
+    export var OMEConfigurationXml: string = "Xml";
+    export var GetOMEConfigurationResponse: string = "GetOMEConfigurationResponse";
+    export var SetOMEConfigurationResponse: string = "SetOMEConfigurationResponse";
+
+    // InstallApp
     export var InstallAppRequest: string = "InstallApp";
     export var InstallAppResponse: string = "InstallAppResponse";
+
+    // UninstallApp
     export var UninstallAppRequest: string = "UninstallApp";
     export var UninstallAppResponse: string = "UninstallAppResponse";
+
+    // DisableApp
     export var DisableAppRequest: string = "DisableApp";
     export var DisableAppResponse: string = "DisableAppResponse";
+
+    // RegisterConsent
+    export var RegisterConsentRequest: string = "RegisterConsent";
+    export var RegisterConsentResponse: string = "RegisterConsentResponse";
+
+    // GetAppMarketplaceUrl
     export var GetAppMarketplaceUrlRequest: string = "GetAppMarketplaceUrl";
     export var GetAppMarketplaceUrlResponse: string = "GetAppMarketplaceUrlResponse";
+
+    // GetUserRetentionPolicyTags
     export var GetUserRetentionPolicyTags: string = "GetUserRetentionPolicyTags";
     export var GetUserRetentionPolicyTagsResponse: string = "GetUserRetentionPolicyTagsResponse";
+
+    // MRM
     export var RetentionPolicyTags: string = "RetentionPolicyTags";
     export var RetentionPolicyTag: string = "RetentionPolicyTag";
     export var RetentionId: string = "RetentionId";
@@ -1228,6 +1603,48 @@ export module XmlElementNames {
     export var IsVisible: string = "IsVisible";
     export var OptedInto: string = "OptedInto";
     export var IsArchive: string = "IsArchive";
+
+    /* #endregion */
+
+    /* #region Groups */
+
+    // GetUserUnifiedGroups
+    export var GetUserUnifiedGroups: string = "GetUserUnifiedGroups";
+    export var RequestedGroupsSets: string = "RequestedGroupsSets";
+    export var RequestedUnifiedGroupsSetItem: string = "RequestedUnifiedGroupsSet";
+    export var SortType: string = "SortType";
+    export var FilterType: string = "FilterType";
+    export var SortDirection: string = "SortDirection";
+    export var GroupsLimit: string = "GroupsLimit";
+    export var UserSmtpAddress: string = "UserSmtpAddress";
+
+    export var GetUserUnifiedGroupsResponseMessage: string = "GetUserUnifiedGroupsResponseMessage";
+    export var GroupsSets: string = "GroupsSets";
+    export var UnifiedGroupsSet: string = "UnifiedGroupsSet";
+    export var TotalGroups: string = "TotalGroups";
+    export var GroupsTag: string = "Groups";
+    export var UnifiedGroup: string = "UnifiedGroup";
+    export var MailboxGuid: string = "MailboxGuid";
+    export var LastVisitedTimeUtc: string = "LastVisitedTimeUtc";
+    export var AccessType: string = "AccessType";
+    export var ExternalDirectoryObjectId: string = "ExternalDirectoryObjectId";
+
+    // GetUnifiedGroupUnseenCount
+    export var GetUnifiedGroupUnseenCount: string = "GetUnifiedGroupUnseenCount";
+    export var GroupIdentity: string = "GroupIdentity";
+    export var GroupIdentityType: string = "IdentityType";
+    export var GroupIdentityValue: string = "Value";
+
+    export var GetUnifiedGroupUnseenCountResponseMessage: string = "GetUnifiedGroupUnseenCountResponseMessage";
+    export var UnseenCount: string = "UnseenCount";
+
+    // SetUnifiedGroupLastVisitedTimeRequest
+    export var SetUnifiedGroupLastVisitedTime: string = "SetUnifiedGroupLastVisitedTime";
+    export var SetUnifiedGroupLastVisitedTimeResponseMessage: string = "SetUnifiedGroupLastVisitedTimeResponseMessage";
+    /* #endregion */
+
+    /* #region SOAP element names */
+
     export var SOAPEnvelopeElementName: string = "Envelope";
     export var SOAPHeaderElementName: string = "Header";
     export var SOAPBodyElementName: string = "Body";
@@ -1240,6 +1657,8 @@ export module XmlElementNames {
     export var EwsMessageElementName: string = "Message";
     export var EwsLineElementName: string = "Line";
     export var EwsPositionElementName: string = "Position";
-    export var EwsErrorCodeElementName: string = "ErrorCode";
-    export var EwsExceptionTypeElementName: string = "ExceptionType";
+    export var EwsErrorCodeElementName: string = "ErrorCode";         // Generated by Availability
+    export var EwsExceptionTypeElementName: string = "ExceptionType"; // Generated by UM
+
+    /* #endregion */
 }

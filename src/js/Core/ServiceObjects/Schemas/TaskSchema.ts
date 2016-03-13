@@ -1,4 +1,5 @@
-﻿import {TaskMode} from "../../../Enumerations/TaskMode";
+﻿import {XmlElementNames} from "../../XmlElementNames";
+import {TaskMode} from "../../../Enumerations/TaskMode";
 import {TaskStatus} from "../../../Enumerations/TaskStatus";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
@@ -12,10 +13,14 @@ import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPro
 import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
 import {DoublePropertyDefinition} from "../../../PropertyDefinitions/DoublePropertyDefinition";
 import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
-import {ItemSchema} from "./ItemSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {Schemas} from "./Schemas";
 
-//module TaskSchema {
+import {ItemSchema} from "./ItemSchema";
+
+/**
+ * Field URIs for tasks.
+ */
 module FieldUris {
     export var ActualWork: string = "task:ActualWork";
     export var AssignedTime: string = "task:AssignedTime";
@@ -40,216 +45,399 @@ module FieldUris {
     export var StatusDescription: string = "task:StatusDescription";
     export var TotalWork: string = "task:TotalWork";
 }
-//}
+
+/**
+ * Represents the schema for task items.
+ */
 export class TaskSchema extends ItemSchema {
-    static ActualWork: PropertyDefinition = new IntPropertyDefinition(
+
+    /**
+     * Defines the **ActualWork** property.
+     */
+    public static ActualWork: PropertyDefinition = new IntPropertyDefinition(
         "ActualWork",
-        "ActualWork",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.ActualWork,
         FieldUris.ActualWork,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    static AssignedTime: PropertyDefinition = new DateTimePropertyDefinition(
+    /**
+     * Defines the **AssignedTime** property.
+     */
+    public static AssignedTime: PropertyDefinition = new DateTimePropertyDefinition(
         "AssignedTime",
-        "AssignedTime",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.AssignedTime,
         FieldUris.AssignedTime,
         PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    static BillingInformation: PropertyDefinition = new StringPropertyDefinition(
+    /**
+     * Defines the **BillingInformation** property.
+     */
+    public static BillingInformation: PropertyDefinition = new StringPropertyDefinition(
         "BillingInformation",
-        "BillingInformation",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.BillingInformation,
         FieldUris.BillingInformation,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static ChangeCount: PropertyDefinition = new IntPropertyDefinition(
+    /**
+     * Defines the **ChangeCount** property.
+     */
+    public static ChangeCount: PropertyDefinition = new IntPropertyDefinition(
         "ChangeCount",
-        "ChangeCount",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.ChangeCount,
         FieldUris.ChangeCount,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static Companies: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+    /**
+     * Defines the **Companies** property.
+     */
+    public static Companies: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
         "Companies",
-        "Companies",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.Companies,
         FieldUris.Companies,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new StringList(); }
-        );
+    );
 
-    static CompleteDate: PropertyDefinition = new DateTimePropertyDefinition(
+    /**
+     * Defines the **CompleteDate** property.
+     */
+    public static CompleteDate: PropertyDefinition = new DateTimePropertyDefinition(
         "CompleteDate",
-        "CompleteDate",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.CompleteDate,
         FieldUris.CompleteDate,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    static Contacts: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
+    /**
+     * Defines the **Contacts** property.
+     */
+    public static Contacts: PropertyDefinition = new ComplexPropertyDefinition<StringList>(
         "Contacts",
-        "Contacts",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.Contacts,
         FieldUris.Contacts,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new StringList(); }
-        );
+    );
 
-    static DelegationState: PropertyDefinition = new TaskDelegationStatePropertyDefinition(
+    /**
+     * Defines the **DelegationState** property.
+     */
+    public static DelegationState: PropertyDefinition = new TaskDelegationStatePropertyDefinition(
         "DelegationState",
-        "DelegationState",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.DelegationState,
         FieldUris.DelegationState,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static Delegator: PropertyDefinition = new StringPropertyDefinition(
+    /**
+     * Defines the **Delegator** property.
+     */
+    public static Delegator: PropertyDefinition = new StringPropertyDefinition(
         "Delegator",
-        "Delegator",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.Delegator,
         FieldUris.Delegator,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static DueDate: PropertyDefinition = new DateTimePropertyDefinition(
+    /**
+     * Defines the **DueDate** property.
+     */
+    public static DueDate: PropertyDefinition = new DateTimePropertyDefinition(
         "DueDate",
-        "DueDate",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.DueDate,
         FieldUris.DueDate,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    static Mode: PropertyDefinition = new GenericPropertyDefinition<TaskMode>(
+    /**
+     * Defines the **Mode** property.
+     */
+    public static Mode: PropertyDefinition = new GenericPropertyDefinition<TaskMode>(
         "IsAssignmentEditable",
-        "IsAssignmentEditable",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.IsAssignmentEditable,
         FieldUris.IsAssignmentEditable,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static IsComplete: PropertyDefinition = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsComplete** property.
+     */
+    public static IsComplete: PropertyDefinition = new BoolPropertyDefinition(
         "IsComplete",
-        "IsComplete",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.IsComplete,
         FieldUris.IsComplete,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static IsRecurring: PropertyDefinition = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsRecurring** property.
+     */
+    public static IsRecurring: PropertyDefinition = new BoolPropertyDefinition(
         "IsRecurring",
-        "IsRecurring",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.IsRecurring,
         FieldUris.IsRecurring,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static IsTeamTask: PropertyDefinition = new BoolPropertyDefinition(
+    /**
+     * Defines the **IsTeamTask** property.
+     */
+    public static IsTeamTask: PropertyDefinition = new BoolPropertyDefinition(
         "IsTeamTask",
-        "IsTeamTask",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.IsTeamTask,
         FieldUris.IsTeamTask,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static Mileage: PropertyDefinition = new StringPropertyDefinition(
+    /**
+     * Defines the **Mileage** property.
+     */
+    public static Mileage: PropertyDefinition = new StringPropertyDefinition(
         "Mileage",
-        "Mileage",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.Mileage,
         FieldUris.Mileage,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static Owner: PropertyDefinition = new StringPropertyDefinition(
+    /**
+     * Defines the **Owner** property.
+     */
+    public static Owner: PropertyDefinition = new StringPropertyDefinition(
         "Owner",
-        "Owner",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.Owner,
         FieldUris.Owner,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static PercentComplete: PropertyDefinition = new DoublePropertyDefinition(
+    /**
+     * Defines the **PercentComplete** property.
+     */
+    public static PercentComplete: PropertyDefinition = new DoublePropertyDefinition(
         "PercentComplete",
-        "PercentComplete",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.PercentComplete,
         FieldUris.PercentComplete,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static Recurrence: PropertyDefinition = new RecurrencePropertyDefinition(
+    /**
+     * Defines the **Recurrence** property.
+     */
+    public static Recurrence: PropertyDefinition = new RecurrencePropertyDefinition(
         "Recurrence",
-        "Recurrence",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.Recurrence,
         FieldUris.Recurrence,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static StartDate: PropertyDefinition = new DateTimePropertyDefinition(
+    /**
+     * Defines the **StartDate** property.
+     */
+    public static StartDate: PropertyDefinition = new DateTimePropertyDefinition(
         "StartDate",
-        "StartDate",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.StartDate,
         FieldUris.StartDate,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
-    static Status: PropertyDefinition = new GenericPropertyDefinition<TaskStatus>(
+    /**
+     * Defines the **Status** property.
+     */
+    public static Status: PropertyDefinition = new GenericPropertyDefinition<TaskStatus>(
         "Status",
-        "Status",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.Status,
         FieldUris.Status,
-        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static StatusDescription: PropertyDefinition = new StringPropertyDefinition(
+    /**
+     * Defines the **StatusDescription** property.
+     */
+    public static StatusDescription: PropertyDefinition = new StringPropertyDefinition(
         "StatusDescription",
-        "StatusDescription",
-        ExchangeVersion.Exchange2007_SP1,
+        XmlElementNames.StatusDescription,
         FieldUris.StatusDescription,
-        PropertyDefinitionFlags.CanFind
-        );
+        PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1
+    );
 
-    static TotalWork: PropertyDefinition = new IntPropertyDefinition(
+    /**
+     * Defines the **TotalWork** property.
+     */
+    public static TotalWork: PropertyDefinition = new IntPropertyDefinition(
         "TotalWork",
-        "TotalWork",
-        ExchangeVersion.Exchange2007_SP1, 
+        XmlElementNames.TotalWork,
         FieldUris.TotalWork,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2007_SP1,
         true
-        );
+    );
 
+    /**
+     * @internal Instance of **TaskSchema** 
+     */
     static Instance: TaskSchema = new TaskSchema();
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(TaskSchema.ActualWork);
-        super.RegisterProperty(TaskSchema.AssignedTime);
-        super.RegisterProperty(TaskSchema.BillingInformation);
-        super.RegisterProperty(TaskSchema.ChangeCount);
-        super.RegisterProperty(TaskSchema.Companies);
-        super.RegisterProperty(TaskSchema.CompleteDate);
-        super.RegisterProperty(TaskSchema.Contacts);
-        super.RegisterProperty(TaskSchema.DelegationState);
-        super.RegisterProperty(TaskSchema.Delegator);
-        super.RegisterProperty(TaskSchema.DueDate);
-        super.RegisterProperty(TaskSchema.Mode);
-        super.RegisterProperty(TaskSchema.IsComplete);
-        super.RegisterProperty(TaskSchema.IsRecurring);
-        super.RegisterProperty(TaskSchema.IsTeamTask);
-        super.RegisterProperty(TaskSchema.Mileage);
-        super.RegisterProperty(TaskSchema.Owner);
-        super.RegisterProperty(TaskSchema.PercentComplete);
-        super.RegisterProperty(TaskSchema.Recurrence);
-        super.RegisterProperty(TaskSchema.StartDate);
-        super.RegisterProperty(TaskSchema.Status);
-        super.RegisterProperty(TaskSchema.StatusDescription);
-        super.RegisterProperty(TaskSchema.TotalWork);
+        this.RegisterProperty(TaskSchema, TaskSchema.ActualWork);
+        this.RegisterProperty(TaskSchema, TaskSchema.AssignedTime);
+        this.RegisterProperty(TaskSchema, TaskSchema.BillingInformation);
+        this.RegisterProperty(TaskSchema, TaskSchema.ChangeCount);
+        this.RegisterProperty(TaskSchema, TaskSchema.Companies);
+        this.RegisterProperty(TaskSchema, TaskSchema.CompleteDate);
+        this.RegisterProperty(TaskSchema, TaskSchema.Contacts);
+        this.RegisterProperty(TaskSchema, TaskSchema.DelegationState);
+        this.RegisterProperty(TaskSchema, TaskSchema.Delegator);
+        this.RegisterProperty(TaskSchema, TaskSchema.DueDate);
+        this.RegisterProperty(TaskSchema, TaskSchema.Mode);
+        this.RegisterProperty(TaskSchema, TaskSchema.IsComplete);
+        this.RegisterProperty(TaskSchema, TaskSchema.IsRecurring);
+        this.RegisterProperty(TaskSchema, TaskSchema.IsTeamTask);
+        this.RegisterProperty(TaskSchema, TaskSchema.Mileage);
+        this.RegisterProperty(TaskSchema, TaskSchema.Owner);
+        this.RegisterProperty(TaskSchema, TaskSchema.PercentComplete);
+        this.RegisterProperty(TaskSchema, TaskSchema.Recurrence);
+        this.RegisterProperty(TaskSchema, TaskSchema.StartDate);
+        this.RegisterProperty(TaskSchema, TaskSchema.Status);
+        this.RegisterProperty(TaskSchema, TaskSchema.StatusDescription);
+        this.RegisterProperty(TaskSchema, TaskSchema.TotalWork);
     }
+}
+
+/**
+ * Represents the schema for task items.
+ */
+export interface TaskSchema {
+    /**
+     * Defines the **ActualWork** property.
+     */
+    ActualWork: PropertyDefinition;
+    /**
+     * Defines the **AssignedTime** property.
+     */
+    AssignedTime: PropertyDefinition;
+    /**
+     * Defines the **BillingInformation** property.
+     */
+    BillingInformation: PropertyDefinition;
+    /**
+     * Defines the **ChangeCount** property.
+     */
+    ChangeCount: PropertyDefinition;
+    /**
+     * Defines the **Companies** property.
+     */
+    Companies: PropertyDefinition;
+    /**
+     * Defines the **CompleteDate** property.
+     */
+    CompleteDate: PropertyDefinition;
+    /**
+     * Defines the **Contacts** property.
+     */
+    Contacts: PropertyDefinition;
+    /**
+     * Defines the **DelegationState** property.
+     */
+    DelegationState: PropertyDefinition;
+    /**
+     * Defines the **Delegator** property.
+     */
+    Delegator: PropertyDefinition;
+    /**
+     * Defines the **DueDate** property.
+     */
+    DueDate: PropertyDefinition;
+    /**
+     * Defines the **Mode** property.
+     */
+    Mode: PropertyDefinition;
+    /**
+     * Defines the **IsComplete** property.
+     */
+    IsComplete: PropertyDefinition;
+    /**
+     * Defines the **IsRecurring** property.
+     */
+    IsRecurring: PropertyDefinition;
+    /**
+     * Defines the **IsTeamTask** property.
+     */
+    IsTeamTask: PropertyDefinition;
+    /**
+     * Defines the **Mileage** property.
+     */
+    Mileage: PropertyDefinition;
+    /**
+     * Defines the **Owner** property.
+     */
+    Owner: PropertyDefinition;
+    /**
+     * Defines the **PercentComplete** property.
+     */
+    PercentComplete: PropertyDefinition;
+    /**
+     * Defines the **Recurrence** property.
+     */
+    Recurrence: PropertyDefinition;
+    /**
+     * Defines the **StartDate** property.
+     */
+    StartDate: PropertyDefinition;
+    /**
+     * Defines the **Status** property.
+     */
+    Status: PropertyDefinition;
+    /**
+     * Defines the **StatusDescription** property.
+     */
+    StatusDescription: PropertyDefinition;
+    /**
+     * Defines the **TotalWork** property.
+     */
+    TotalWork: PropertyDefinition;
+    /**
+     * @internal Instance of **TaskSchema**
+     */
+    Instance: TaskSchema;
+}
+
+/**
+ * Represents the schema for task items.
+ */
+export interface TaskSchemaStatic extends TaskSchema {
 }

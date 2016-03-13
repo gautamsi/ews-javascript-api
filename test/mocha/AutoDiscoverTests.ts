@@ -17,9 +17,9 @@ describe.skip("AutoDiscover tests", () => {
 		autod.Credentials = new ExchangeCredentials("username", "password");
 		var mockXhr = new MockXHRApi();
 		it("GetUserSetting with single user", () => {
-			mockXhr.requestXml = MockXHRData.AutoDiscover.autodiscoverRequestWithSingleUserRequest;
+			mockXhr.requestXml = [MockXHRData.AutoDiscover.autodiscoverRequestWithSingleUserRequest];
 			mockXhr
-			mockXhr.responseXml = MockXHRData.AutoDiscover.autodiscoverRequestWithSingleUserResponse;
+			mockXhr.responseXml = [MockXHRData.AutoDiscover.autodiscoverRequestWithSingleUserResponse];
 			autod.XHRApi = mockXhr;
 			EwsLogging.DebugLogEnabled = false;
 			var promise = autod.GetUserSettings("gstest@singhspro.onmicrosoft.com", [UserSettingName.ActiveDirectoryServer, UserSettingName.AutoDiscoverSMTPAddress, UserSettingName.CasVersion, UserSettingName.ExternalEcpPhotoUrl, UserSettingName.ExternalEwsUrl,

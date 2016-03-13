@@ -1,14 +1,52 @@
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+/**
+ * Defines the type of an EmailAddress object.
+ */
 export enum MailboxType {
-    Unknown = 0,
-    OneOff = 1,
-    Mailbox = 2,
-    PublicFolder = 3,
-    PublicGroup = 4,
-    ContactGroup = 5,
-    Contact = 6
+    /**
+     * Unknown mailbox type (Exchange 2010 or later).
+     */
+    Unknown,
+
+    /**
+     * The EmailAddress represents a one-off contact (Exchange 2010 or later).
+     */
+    OneOff,
+
+    /**
+     * The EmailAddress represents a mailbox.
+     */
+    Mailbox,
+
+    /**
+     * The EmailAddress represents a public folder.
+     */
+    PublicFolder,
+
+    /**
+     * The EmailAddress represents a Public Group.
+     */
+    PublicGroup,
+
+    /**
+     * The EmailAddress represents a Contact Group.
+     */
+    ContactGroup,
+
+    /**
+     * The EmailAddress represents a store contact or AD mail contact.
+     */
+    Contact,
+
+    /**
+     * The EmailAddress represents a GroupMailbox
+     */
+    GroupMailbox,
 }
+/**
+ * This is to workaround **EwsEnumAttribute**
+ */
 export class MailboxTypeParser {
     static ToString(value: MailboxType): string {
         switch (value) {

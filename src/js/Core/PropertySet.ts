@@ -232,8 +232,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
             }
         }
     }
-    //WriteAdditionalPropertiesToJson(jsonItemShape: JsonObject, service: ExchangeService, propertyDefinitions: System.Collections.Generic.IEnumerable<T>): any { throw new Error("PropertySet.ts - WriteAdditionalPropertiesToJson : Not implemented."); }
-    WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void {
+    static WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AdditionalProperties);
 
         for (var propertyDefinition of propertyDefinitions) {
@@ -324,7 +323,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
         }
 
         if (this.additionalProperties.length > 0) {
-            this.WriteAdditionalPropertiesToXml(writer, this.additionalProperties);
+            PropertySet.WriteAdditionalPropertiesToXml(writer, this.additionalProperties);
         }
 
         writer.WriteEndElement(); // Item/FolderShape

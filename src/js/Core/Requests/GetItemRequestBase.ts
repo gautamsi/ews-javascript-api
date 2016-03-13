@@ -1,5 +1,5 @@
 ﻿import {Item} from "../ServiceObjects/Items/Item";
-import {ItemSchema} from "../ServiceObjects/Schemas/ItemSchema";
+import {Schemas} from "../ServiceObjects/Schemas/Schemas";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -18,7 +18,7 @@ export class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRe
     get EmitTimeZoneHeader(): boolean {
         // currently we do not emit "ItemResponseShapeType.IncludeMimeContent".
         //
-        return this.PropertySet.Contains(ItemSchema.MimeContent);
+        return this.PropertySet.Contains(Schemas.ItemSchema.MimeContent);
     }
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);

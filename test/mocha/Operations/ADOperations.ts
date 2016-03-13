@@ -17,8 +17,8 @@ describe.skip("AD Operation tests", () => {
 	exch.Credentials = new ExchangeCredentials("username", "password");
 	var mockXhr = new MockXHRApi();
 	it("GetPasswordExpirationDate Operation ", () => {
-		mockXhr.requestXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest;
-		mockXhr.responseXml = MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire;
+		mockXhr.requestXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest];
+		mockXhr.responseXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationResponse_NeverExpire];
 
 		exch.XHRApi = mockXhr;
 		//EwsLogging.DebugLogEnabled = false;
@@ -27,8 +27,8 @@ describe.skip("AD Operation tests", () => {
 	});
 
 	it("ExpandGroup Operation ", () => {
-		mockXhr.requestXml = MockXHRData.Operations.ADOperations.DLExpansionRequest;
-        mockXhr.responseXml = MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse;
+		mockXhr.requestXml = [MockXHRData.Operations.ADOperations.DLExpansionRequest];
+        mockXhr.responseXml = [MockXHRData.Operations.ADOperations.DLExpansionMultipleMembersSMTPtypeResponse];
         exch.XHRApi = mockXhr;
 		//EwsLogging.DebugLogEnabled = false;
 		var promise = exch.ExpandGroup("group@contoso.com");

@@ -6,22 +6,60 @@ import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinitio
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import {Schemas} from "./Schemas";
+
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
 export class CancelMeetingMessageSchema extends ServiceObjectSchema {
-    static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
+
+    /**
+     * Defines the **Body** property.
+     */
+    public static Body: PropertyDefinition = new ComplexPropertyDefinition<MessageBody>(
         "Body",
         XmlElementNames.NewBodyContent,
-        ExchangeVersion.Exchange2007_SP1,
-        null,
         PropertyDefinitionFlags.CanSet,
+        ExchangeVersion.Exchange2007_SP1,
         () => { return new MessageBody(); }
-        );
+    );
+
+    /**
+     * @internal Instance of **CancelMeetingMessageSchema** 
+     */
     static Instance: CancelMeetingMessageSchema;
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(EmailMessageSchema.IsReadReceiptRequested);
-        super.RegisterProperty(EmailMessageSchema.IsDeliveryReceiptRequested);
-        super.RegisterProperty(ResponseObjectSchema.ReferenceItemId);
-        super.RegisterProperty(CancelMeetingMessageSchema.Body);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.EmailMessageSchema.IsReadReceiptRequested);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.EmailMessageSchema.IsDeliveryReceiptRequested);
+        this.RegisterProperty(CancelMeetingMessageSchema, Schemas.ResponseObjectSchema.ReferenceItemId);
+        this.RegisterProperty(CancelMeetingMessageSchema, CancelMeetingMessageSchema.Body);
     }
+}
+
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
+export interface CancelMeetingMessageSchema {
+    /**
+     * Defines the **Body** property.
+     */
+    Body: PropertyDefinition;
+    /**
+     * @internal Instance of **CancelMeetingMessageSchema**
+     */
+    Instance: CancelMeetingMessageSchema;
+}
+
+/**
+ * Represents CancelMeetingMessage schema definition.
+ */
+export interface CancelMeetingMessageSchemaStatic extends CancelMeetingMessageSchema {
 }

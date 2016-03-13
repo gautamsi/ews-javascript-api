@@ -1,5 +1,6 @@
 ﻿import {ServiceObject} from "./ServiceObject";
 import {IndexerWithStringKey} from "../../AltDictionary";
+import {Item} from "./Items/Item";
 
 import {CreateServiceObjectWithAttachmentParam, CreateServiceObjectWithServiceParam} from "../../Misc/DelegateTypes";
 
@@ -34,7 +35,7 @@ export class ServiceObjectInfo {
             this.serviceObjectConstructorsWithAttachmentParam[xmlElementName] = createServiceObjectWithAttachmentParam;
         }
     }
-    
+
     InitializeServiceObjectClassMap(): any {
         throw new Error("abstract - ServiceObjectInfo.ts - InitializeServiceObjectClassMap: must be implemented")
         
@@ -179,11 +180,22 @@ export class ServiceObjectInfo {
         if (creationDelegate) {
             return creationDelegate(service);
         }
-        else return null;
+        else {
+            return null;
+        }
 
     }
 
-    //CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item { throw new Error("ServiceObjectInfo.ts - CreateItemFromItemClass : Not implemented."); }
+    CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string  /*System.Type*/, isNew: boolean): Item {
+        var creationDelegate = this.ServiceObjectConstructorsWithAttachmentParam[itemClass];
+
+        if (creationDelegate) {
+            return creationDelegate(itemAttachment, isNew);
+        }
+        else {
+            return null;
+        }
+    }
 }
 
 

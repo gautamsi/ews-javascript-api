@@ -1,4 +1,4 @@
-﻿import {IntervalPattern} from "./Recurrence_IntervalPattern";
+﻿import {IntervalPattern} from "./Recurrence.IntervalPattern";
 export class DailyRegenerationPattern extends IntervalPattern {
 	XmlElementName: string;
 	IsRegenerationPattern: boolean;

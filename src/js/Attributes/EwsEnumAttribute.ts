@@ -1,12 +1,6 @@
-//			
-// class EwsEnumAttribute extends System.Attribute {
-//	SchemaName: string;
-//	private schemaName: string;
-//}
-//export = EwsEnumAttribute;
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
-
-
-			
+import 'reflect-metadata';
+export function EwsEnumAttribute(schemaName: string) {
+    return function(target: Function) {
+        Reflect.defineMetadata("EwsEnumAttribute", schemaName, target);
+    }
+}

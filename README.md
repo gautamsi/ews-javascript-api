@@ -28,6 +28,14 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api)
 
 
+# Whats new v0.2
+
+* Attachment Operations
+    * GetAttachment method - load attachment information from Attachemnt or AttachmentId
+    * Create email message with attachment, sample code in Wiki
+
+
+
 # Getting Started
 ## install
 ```shell
@@ -128,6 +136,7 @@ ExpandGroup
 FindAppointments  
 FindFolders  
 FindItems  
+GetAttachments *new  
 GetPasswordExpirationDate  
 GetUserAvailability  
 LoadPropertiesForItems  

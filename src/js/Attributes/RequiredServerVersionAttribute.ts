@@ -1,13 +1,7 @@
-//import ExchangeVersion = require("../Enumerations/ExchangeVersion");
-//			
-// class RequiredServerVersionAttribute extends System.Attribute {
-//	Version: ExchangeVersion;
-//	private version: ExchangeVersion;
-//}
-//export = RequiredServerVersionAttribute;
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data------------
-
-
-			
+import 'reflect-metadata';
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+export function RequiredServerVersionAttribute(version: ExchangeVersion) {
+    return function(target: Function) {
+        Reflect.defineMetadata("AttachableAttribute", version, target);
+    }
+}

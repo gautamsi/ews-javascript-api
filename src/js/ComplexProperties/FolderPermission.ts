@@ -297,7 +297,7 @@ export class FolderPermission extends ComplexProperty {
         for (var key in FolderPermission.defaultPermissions.Member) {
             var value = FolderPermission.defaultPermissions.Member[key];
             if (this.IsEqualTo(value)) {
-                this.permissionLevel = <FolderPermissionLevel>key;
+                this.permissionLevel = <FolderPermissionLevel><any>key;
                 return;
             }
         }

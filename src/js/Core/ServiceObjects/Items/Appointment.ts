@@ -24,7 +24,7 @@ import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode
 import {SendInvitationsMode} from "../../../Enumerations/SendInvitationsMode";
 import {SendInvitationsOrCancellationsMode} from "../../../Enumerations/SendInvitationsOrCancellationsMode";
 import {DateTime, TimeSpan, TimeZoneInfo} from "../../../DateTime";
-import {AppointmentSchema} from "../Schemas/AppointmentSchema";
+import {Schemas} from "../Schemas/Schemas";
 import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
 import {AppointmentType} from "../../../Enumerations/AppointmentType";
 import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
@@ -41,11 +41,13 @@ import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
 import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
 import {XmlElementNames} from "../../XmlElementNames";
 import {IPromise} from "../../../Interfaces";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
+@AttachableAttribute(true)
 export class Appointment extends Item implements ICalendarActionProvider {
     //todo: attachable attribute missing. 
     
@@ -76,116 +78,116 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * Gets or sets the start time of the appointment.
      */
     get Start(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.Start);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.Start);
     }
     set Start(value: DateTime) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.Start, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.Start, value);
     }
     
     /**
      * Gets or sets the end time of the appointment.
      */
     get End(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.End);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.End);
     }
     set End(value: DateTime) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.End, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.End, value);
     }
     
     /**
      * Gets the original start time of this appointment.
      */
     get OriginalStart(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.OriginalStart);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.OriginalStart);
     }
     
     /**
      * Gets or sets a value indicating whether this appointment is an all day event.
      */
     get IsAllDayEvent(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsAllDayEvent);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsAllDayEvent);
     }
     set IsAllDayEvent(value: boolean) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.IsAllDayEvent, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.IsAllDayEvent, value);
     }
     
     /**
      * Gets or sets a value indicating the free/busy status of the owner of this appointment. 
      */
     get LegacyFreeBusyStatus(): LegacyFreeBusyStatus {
-        return <LegacyFreeBusyStatus>this.PropertyBag._getItem(AppointmentSchema.Instance.LegacyFreeBusyStatus);
+        return <LegacyFreeBusyStatus>this.PropertyBag._getItem(Schemas.AppointmentSchema.LegacyFreeBusyStatus);
     }
     set LegacyFreeBusyStatus(value: LegacyFreeBusyStatus) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.LegacyFreeBusyStatus, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.LegacyFreeBusyStatus, value);
     }
     
     /**
      * Gets or sets the location of this appointment.
      */
     get Location(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.Location);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.Location);
     }
     set Location(value: string) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.Location, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.Location, value);
     }
     
     /**
      * Gets a text indicating when this appointment occurs. The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
      */
     get When(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.When);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.When);
     }
     
     /**
      * Gets a value indicating whether the appointment is a meeting.
      */
     get IsMeeting(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsMeeting);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsMeeting);
     }
     
     /**
      * Gets a value indicating whether the appointment has been cancelled.
      */
     get IsCancelled(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsCancelled);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsCancelled);
     }
     
     /**
      * Gets a value indicating whether the appointment is recurring.
      */
     get IsRecurring(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsRecurring);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsRecurring);
     }
     
     /**
      * Gets a value indicating whether the meeting request has already been sent.
      */
     get MeetingRequestWasSent(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.MeetingRequestWasSent);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.MeetingRequestWasSent);
     }
     set IsResponseRequested(value: boolean) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.IsResponseRequested, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.IsResponseRequested, value);
     }
     
     /**
      * Gets or sets a value indicating whether responses are requested when invitations are sent for this meeting.
      */
     get IsResponseRequested(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsResponseRequested);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsResponseRequested);
     }
     
     /**
      * Gets a value indicating the type of this appointment.
      */
     get AppointmentType(): AppointmentType {
-        return <AppointmentType>this.PropertyBag._getItem(AppointmentSchema.Instance.AppointmentType);
+        return <AppointmentType>this.PropertyBag._getItem(Schemas.AppointmentSchema.AppointmentType);
     }
     
     /**
      * Gets a value indicating what was the last response of the user that loaded this meeting.
      */
     get MyResponseType(): MeetingResponseType {
-        return <MeetingResponseType>this.PropertyBag._getItem(AppointmentSchema.Instance.MyResponseType);
+        return <MeetingResponseType>this.PropertyBag._getItem(Schemas.AppointmentSchema.MyResponseType);
     }
     
     /**
@@ -193,91 +195,91 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * The organizer of a meeting is automatically set to the user that created the meeting.
      */
     get Organizer(): EmailAddress {
-        return <EmailAddress>this.PropertyBag._getItem(AppointmentSchema.Instance.Organizer);
+        return <EmailAddress>this.PropertyBag._getItem(Schemas.AppointmentSchema.Organizer);
     }
     
     /**
      * Gets a list of required attendees for this meeting.
      */
     get RequiredAttendees(): AttendeeCollection {
-        return <AttendeeCollection>this.PropertyBag._getItem(AppointmentSchema.Instance.RequiredAttendees);
+        return <AttendeeCollection>this.PropertyBag._getItem(Schemas.AppointmentSchema.RequiredAttendees);
     }
     
     /**
      * Gets a list of optional attendeed for this meeting.
      */
     get OptionalAttendees(): AttendeeCollection {
-        return <AttendeeCollection>this.PropertyBag._getItem(AppointmentSchema.Instance.OptionalAttendees);
+        return <AttendeeCollection>this.PropertyBag._getItem(Schemas.AppointmentSchema.OptionalAttendees);
     }
     
     /**
      * Gets a list of resources for this meeting.
      */
     get Resources(): AttendeeCollection {
-        return <AttendeeCollection>this.PropertyBag._getItem(AppointmentSchema.Instance.Resources);
+        return <AttendeeCollection>this.PropertyBag._getItem(Schemas.AppointmentSchema.Resources);
     }
     
     /**
      * Gets the number of calendar entries that conflict with this appointment in the authenticated user's calendar.
      */
     get ConflictingMeetingCount(): number {
-        return <number>this.PropertyBag._getItem(AppointmentSchema.Instance.ConflictingMeetingCount);
+        return <number>this.PropertyBag._getItem(Schemas.AppointmentSchema.ConflictingMeetingCount);
     }
     
     /**
      * Gets the number of calendar entries that are adjacent to this appointment in the authenticated user's calendar.
      */
     get AdjacentMeetingCount(): number {
-        return <number>this.PropertyBag._getItem(AppointmentSchema.Instance.AdjacentMeetingCount);
+        return <number>this.PropertyBag._getItem(Schemas.AppointmentSchema.AdjacentMeetingCount);
     }
     
     /**
      * Gets a list of meetings that conflict with this appointment in the authenticated user's calendar.
      */
     get ConflictingMeetings(): ItemCollection<Appointment> {
-        return <ItemCollection<Appointment>>this.PropertyBag._getItem(AppointmentSchema.Instance.ConflictingMeetings);
+        return <ItemCollection<Appointment>>this.PropertyBag._getItem(Schemas.AppointmentSchema.ConflictingMeetings);
     }
     
     /**
      * Gets a list of meetings that is adjacent to this appointment in the authenticated user's calendar.
      */
     get AdjacentMeetings(): ItemCollection<Appointment> {
-        return <ItemCollection<Appointment>>this.PropertyBag._getItem(AppointmentSchema.Instance.AdjacentMeetings);
+        return <ItemCollection<Appointment>>this.PropertyBag._getItem(Schemas.AppointmentSchema.AdjacentMeetings);
     }
     
     /**
      * Gets the duration of this appointment.
      */
     get Duration(): TimeSpan {
-        return <TimeSpan>this.PropertyBag._getItem(AppointmentSchema.Instance.Duration);
+        return <TimeSpan>this.PropertyBag._getItem(Schemas.AppointmentSchema.Duration);
     }
     
     /**
      * Gets the name of the time zone this appointment is defined in.
      */
     get TimeZone(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.TimeZone);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.TimeZone);
     }
     
     /**
      * Gets the time when the attendee replied to the meeting request.
      */
     get AppointmentReplyTime(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.AppointmentReplyTime);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.AppointmentReplyTime);
     }
     
     /**
      * Gets the sequence number of this appointment.
      */
     get AppointmentSequenceNumber(): number {
-        return <number>this.PropertyBag._getItem(AppointmentSchema.Instance.AppointmentSequenceNumber);
+        return <number>this.PropertyBag._getItem(Schemas.AppointmentSchema.AppointmentSequenceNumber);
     }
     
     /**
      * Gets the state of this appointment.
      */
     get AppointmentState(): number {
-        return <number>this.PropertyBag._getItem(AppointmentSchema.Instance.AppointmentState);
+        return <number>this.PropertyBag._getItem(Schemas.AppointmentSchema.AppointmentState);
     }
     
     /**
@@ -285,159 +287,159 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * Recurrence.DailyPattern, Recurrence.MonthlyPattern and Recurrence.YearlyPattern.
      */
     get Recurrence(): Recurrence {
-        return <Recurrence>this.PropertyBag._getItem(AppointmentSchema.Instance.Recurrence);
+        return <Recurrence>this.PropertyBag._getItem(Schemas.AppointmentSchema.Recurrence);
     }
     set Recurrence(value: Recurrence) {
         if (value !== null && value.IsRegenerationPattern) {
             throw new ServiceLocalException(Strings.RegenerationPatternsOnlyValidForTasks);
         }
-        this.PropertyBag._setItem(AppointmentSchema.Instance.Recurrence, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.Recurrence, value);
     }
     
     /**
      * Gets an OccurrenceInfo identifying the first occurrence of this meeting.
      */
     get FirstOccurrence(): OccurrenceInfo {
-        return <OccurrenceInfo>this.PropertyBag._getItem(AppointmentSchema.Instance.FirstOccurrence);
+        return <OccurrenceInfo>this.PropertyBag._getItem(Schemas.AppointmentSchema.FirstOccurrence);
     }
     
     /**
      * Gets an OccurrenceInfo identifying the last occurrence of this meeting.
      */
     get LastOccurrence(): OccurrenceInfo {
-        return <OccurrenceInfo>this.PropertyBag._getItem(AppointmentSchema.Instance.LastOccurrence);
+        return <OccurrenceInfo>this.PropertyBag._getItem(Schemas.AppointmentSchema.LastOccurrence);
     }
     
     /**
      * Gets a list of modified occurrences for this meeting.
      */
     get ModifiedOccurrences(): OccurrenceInfoCollection {
-        return <OccurrenceInfoCollection>this.PropertyBag._getItem(AppointmentSchema.Instance.ModifiedOccurrences);
+        return <OccurrenceInfoCollection>this.PropertyBag._getItem(Schemas.AppointmentSchema.ModifiedOccurrences);
     }
     
     /**
      * Gets a list of deleted occurrences for this meeting.
      */
     get DeletedOccurrences(): DeletedOccurrenceInfoCollection {
-        return <DeletedOccurrenceInfoCollection>this.PropertyBag._getItem(AppointmentSchema.Instance.DeletedOccurrences);
+        return <DeletedOccurrenceInfoCollection>this.PropertyBag._getItem(Schemas.AppointmentSchema.DeletedOccurrences);
     }
     
     /**
      * Gets or sets time zone of the start property of this appointment.
      */
     get StartTimeZone(): TimeZoneInfo {
-        return <TimeZoneInfo>this.PropertyBag._getItem(AppointmentSchema.Instance.StartTimeZone);
+        return <TimeZoneInfo>this.PropertyBag._getItem(Schemas.AppointmentSchema.StartTimeZone);
     }
     set StartTimeZone(value: TimeZoneInfo) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.StartTimeZone, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.StartTimeZone, value);
     }
     
     /**
      * Gets or sets time zone of the end property of this appointment.
      */
     get EndTimeZone(): TimeZoneInfo {
-        return <TimeZoneInfo>this.PropertyBag._getItem(AppointmentSchema.Instance.EndTimeZone);
+        return <TimeZoneInfo>this.PropertyBag._getItem(Schemas.AppointmentSchema.EndTimeZone);
     }
     set EndTimeZone(value: TimeZoneInfo) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.EndTimeZone, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.EndTimeZone, value);
     }
     
     /**
      * Gets or sets the type of conferencing that will be used during the meeting.
      */
     get ConferenceType(): number {
-        return <number>this.PropertyBag._getItem(AppointmentSchema.Instance.ConferenceType);
+        return <number>this.PropertyBag._getItem(Schemas.AppointmentSchema.ConferenceType);
     }
     set ConferenceType(value: number) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.ConferenceType, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.ConferenceType, value);
     }
     
     /**
      * Gets or sets a value indicating whether new time proposals are allowed for attendees of this meeting.
      */
     get AllowNewTimeProposal(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.AllowNewTimeProposal);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.AllowNewTimeProposal);
     }
     set AllowNewTimeProposal(value: boolean) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.AllowNewTimeProposal, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.AllowNewTimeProposal, value);
     }
     
     /**
      * Gets or sets a value indicating whether this is an online meeting.
      */
     get IsOnlineMeeting(): boolean {
-        return <boolean>this.PropertyBag._getItem(AppointmentSchema.Instance.IsOnlineMeeting);
+        return <boolean>this.PropertyBag._getItem(Schemas.AppointmentSchema.IsOnlineMeeting);
     }
     set IsOnlineMeeting(value: boolean) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.IsOnlineMeeting, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.IsOnlineMeeting, value);
     }
     
     /**
      * Gets or sets the URL of the meeting workspace. A meeting workspace is a shared Web site for planning meetings and tracking results.
      */
     get MeetingWorkspaceUrl(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.MeetingWorkspaceUrl);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.MeetingWorkspaceUrl);
     }
     set MeetingWorkspaceUrl(value: string) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.MeetingWorkspaceUrl, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.MeetingWorkspaceUrl, value);
     }
     
     /**
      * Gets or sets the URL of the Microsoft NetShow online meeting.
      */
     get NetShowUrl(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.NetShowUrl);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.NetShowUrl);
     }
     set NetShowUrl(value: string) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.NetShowUrl, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.NetShowUrl, value);
     }
     
     /**
      * Gets or sets the ICalendar Uid.
      */
     get ICalUid(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.ICalUid);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.ICalUid);
     }
     set ICalUid(value: string) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.ICalUid, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.ICalUid, value);
     }
     
     /**
      * Gets the ICalendar RecurrenceId.
      */
     get ICalRecurrenceId(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.ICalRecurrenceId);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.ICalRecurrenceId);
     }
     
     /**
      * Gets the ICalendar DateTimeStamp.
      */
     get ICalDateTimeStamp(): DateTime {
-        return <DateTime>this.PropertyBag._getItem(AppointmentSchema.Instance.ICalDateTimeStamp);
+        return <DateTime>this.PropertyBag._getItem(Schemas.AppointmentSchema.ICalDateTimeStamp);
     }
     
     /**
      * Gets or sets the Enhanced location object.
      */
     get EnhancedLocation(): EnhancedLocation {
-        return <EnhancedLocation>this.PropertyBag._getItem(AppointmentSchema.Instance.EnhancedLocation);
+        return <EnhancedLocation>this.PropertyBag._getItem(Schemas.AppointmentSchema.EnhancedLocation);
     }
     set EnhancedLocation(value: EnhancedLocation) {
-        this.PropertyBag._setItem(AppointmentSchema.Instance.EnhancedLocation, value);
+        this.PropertyBag._setItem(Schemas.AppointmentSchema.EnhancedLocation, value);
     }
     
     /**
      * Gets the Url for joining an online meeting
      */
     get JoinOnlineMeetingUrl(): string {
-        return <string>this.PropertyBag._getItem(AppointmentSchema.Instance.JoinOnlineMeetingUrl);
+        return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.JoinOnlineMeetingUrl);
     }
     
     /**
      * Gets the Online Meeting Settings
      */
     get OnlineMeetingSettings(): OnlineMeetingSettings {
-        return <OnlineMeetingSettings>this.PropertyBag._getItem(AppointmentSchema.Instance.OnlineMeetingSettings);
+        return <OnlineMeetingSettings>this.PropertyBag._getItem(Schemas.AppointmentSchema.OnlineMeetingSettings);
     }
 
     /**
@@ -580,19 +582,19 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {boolean}   tentative   Specifies whether the meeting will be tentatively accepted.
      * @return  {AcceptMeetingInvitationMessage}  An AcceptMeetingInvitationMessage representing the meeting acceptance message.
      */
-    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { return new AcceptMeetingInvitationMessage(this, tentative); }
+    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { return new AcceptMeetingInvitationMessage(<any><any>this, tentative); }
     /**
      * Creates a local meeting cancellation message that can be customized and sent.
      *
      * @return  {CancelMeetingMessage}    A CancelMeetingMessage representing the meeting cancellation message.
      */
-    CreateCancelMeetingMessage(): CancelMeetingMessage { return new CancelMeetingMessage(this); }
+    CreateCancelMeetingMessage(): CancelMeetingMessage { return new CancelMeetingMessage(<any><any>this); }
     /**
      * Creates a local meeting declination message that can be customized and sent.
      *
      * @return  {DeclineMeetingInvitationMessage}      A DeclineMeetingInvitation representing the meeting declination message.
      */
-    CreateDeclineMessage(): DeclineMeetingInvitationMessage { return new DeclineMeetingInvitationMessage(this); }
+    CreateDeclineMessage(): DeclineMeetingInvitationMessage { return new DeclineMeetingInvitationMessage(<any><any>this); }
     /**
      * Creates a forward message from this appointment.
      *
@@ -601,7 +603,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
     CreateForward(): ResponseMessage {
         this.ThrowIfThisIsNew();
 
-        return new ResponseMessage(this, ResponseMessageType.Forward);
+        return new ResponseMessage(<any><any>this, ResponseMessageType.Forward);
     }
     
     /**
@@ -614,7 +616,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
         this.ThrowIfThisIsNew();
 
         return new ResponseMessage(
-            this,
+            <any><any>this,
             replyAll ? ResponseMessageType.ReplyAll : ResponseMessageType.Reply);
     }
     
@@ -682,8 +684,8 @@ export class Appointment extends Item implements ICalendarActionProvider {
             return false;
         }
         else {
-            var isStartTimeZoneSetOrUpdated: boolean = this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.StartTimeZone);
-            var isEndTimeZoneSetOrUpdated: boolean = this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.EndTimeZone);
+            var isStartTimeZoneSetOrUpdated: boolean = this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.StartTimeZone);
+            var isEndTimeZoneSetOrUpdated: boolean = this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.EndTimeZone);
 
             if (isStartTimeZoneSetOrUpdated && isEndTimeZoneSetOrUpdated) {
                 // If both StartTimeZone and EndTimeZone have been set or updated and are the same as the service's
@@ -691,8 +693,8 @@ export class Appointment extends Item implements ICalendarActionProvider {
                 var startTimeZone: IOutParam<TimeZoneInfo> = { outValue: null };
                 var endTimeZone: IOutParam<TimeZoneInfo> = { outValue: null };;
 
-                this.PropertyBag.TryGetPropertyAs<TimeZoneInfo>(AppointmentSchema.Instance.StartTimeZone, startTimeZone);
-                this.PropertyBag.TryGetPropertyAs<TimeZoneInfo>(AppointmentSchema.Instance.EndTimeZone, endTimeZone);
+                this.PropertyBag.TryGetPropertyAs<TimeZoneInfo>(Schemas.AppointmentSchema.StartTimeZone, startTimeZone);
+                this.PropertyBag.TryGetPropertyAs<TimeZoneInfo>(Schemas.AppointmentSchema.EndTimeZone, endTimeZone);
 
                 return startTimeZone.outValue == this.Service.TimeZone || endTimeZone.outValue == this.Service.TimeZone;
             }
@@ -714,7 +716,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return AppointmentSchema.Instance; }
+    GetSchema(): ServiceObjectSchema { return Schemas.AppointmentSchema.Instance; }
     
     /**
      * @internal Gets the element name of item in XML
@@ -836,12 +838,12 @@ export class Appointment extends Item implements ICalendarActionProvider {
         //  the StartTimeZone property, we just set it to its current value.
         if ((this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) &&
             !this.Service.Exchange2007CompatibilityMode) {
-            if (this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.Start) ||
-                this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.End) ||
-                this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.IsAllDayEvent) ||
-                this.PropertyBag.IsPropertyUpdated(AppointmentSchema.Instance.Recurrence)) {
+            if (this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.Start) ||
+                this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.End) ||
+                this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.IsAllDayEvent) ||
+                this.PropertyBag.IsPropertyUpdated(Schemas.AppointmentSchema.Recurrence)) {
                 //  If the property isn't in the property bag, throw....
-                if (!this.PropertyBag.Contains(AppointmentSchema.Instance.StartTimeZone)) {
+                if (!this.PropertyBag.Contains(Schemas.AppointmentSchema.StartTimeZone)) {
                     throw new ServiceLocalException(Strings.StartTimeZoneRequired);
                 }
 

@@ -1,5 +1,6 @@
 ﻿import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
 import {Strings} from "../Strings";
+import {TypeContainer} from "../TypeContainer";
 import {LazyMember} from "./LazyMember";
 import {DictionaryWithStringKey, DictionaryWithNumericKey} from "../AltDictionary";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
@@ -26,6 +27,7 @@ import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTrave
 import {FileAsMapping} from "../Enumerations/FileAsMapping";
 
 import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
+import {ArgumentException, ArgumentNullException} from "../Exceptions/ArgumentException";
 import {ISelfValidate} from "../Interfaces/ISelfValidate";
 
 import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
@@ -191,6 +193,8 @@ export class EwsUtilities {
                         return ExchangeVersion.Exchange2010;
                     if (value <= 6) //<=MailboxType.Contact
                         return ExchangeVersion.Exchange2007_SP1;
+                    if (value <= 7) //<=MailboxType.GroupMailbox
+                        return ExchangeVersion.Exchange2015;
 
                     return ExchangeVersion.Exchange_Version_Not_Updated;
                 };
@@ -498,7 +502,7 @@ export class EwsUtilities {
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
         var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
         if (xsDuration.match(regex) === null) {
-            throw new Error(Strings.XsDurationCouldNotBeParsed);//ArgumentException
+            throw new ArgumentException(Strings.XsDurationCouldNotBeParsed);
         }
         return new TimeSpan(xsDuration);//using moment, it recognize the format.
         
@@ -517,6 +521,14 @@ export class EwsUtilities {
         //    }
         //}
     }
+    
+    /**
+     * Validates the enum value against the request version.
+     *
+     * @param   {EnumToExchangeVersionMappingHelper}   enumType        The enum type mapping helper - specific to ews-javascript-api.
+     * @param   {number}   enumValue        The enum value.
+     * @param   {ExchangeVersion}   requestVersion   The request version.
+     */
     static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper, enumValue: number, requestVersion: ExchangeVersion): void {
         var enumVersion = this.GetExchangeVersionFromEnumDelegate(enumType, enumValue);
         if (requestVersion < enumVersion) {
@@ -558,16 +570,42 @@ export class EwsUtilities {
                     minimumServerVersion));
         }
     }
-    static ValidateNonBlankStringParam(param: string, paramName: string): any { throw new Error("EwsUtilities.ts - static ValidateNonBlankStringParam : Not implemented."); }
+    
+    /**
+     * Validates string parameter to be non-empty string (null value not allowed).
+     *
+     * @param   {}   param       The string parameter.
+     * @param   {}   paramName   Name of the parameter.
+     */
+    static ValidateNonBlankStringParam(param: string, paramName: string): void {
+        if (param == null) {
+            throw new ArgumentNullException(paramName);
+        }
+
+        this.ValidateNonBlankStringParamAllowNull(param, paramName);
+    }
+
+    /**
+     * Validates string parameter to be non-empty string (null value allowed).
+     *
+     * @param   {string}   param       The string parameter.
+     * @param   {string}   paramName   Name of the parameter.
+     */
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
-        if (param != null) {
-            //debug: //todo: implement this somehow
+        if (param) {            
             // Non-empty string has at least one character which is *not* a whitespace character
-            //if (param.length == param.CountMatchingChars((c) => Char.IsWhiteSpace(c))) {
-            //    throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);
-            //}
+            if (param.replace(/\s*/g, '').length === 0) {
+                throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);
+            }
         }
     }
+    
+    /**
+     * Validates parameter (null value not allowed).
+     *
+     * @param   {any}       param       The param.
+     * @param   {string}    paramName   Name of the param.
+     */
     static ValidateParam(param: any, paramName: string): void {
         var isValid = false;
 
@@ -579,39 +617,88 @@ export class EwsUtilities {
         }
 
         if (!isValid) {
-            throw new Error("parameter null exception: " + paramName);// ArgumentNullException(paramName);
+            throw new ArgumentNullException(paramName);
         }
 
-        EwsUtilities.ValidateParamAllowNull(param, paramName);
+        this.ValidateParamAllowNull(param, paramName);
     }
+
+    /**
+     * Validates parameter (and allows null value).
+     *
+     * @param   {any}       param       The param.
+     * @param   {string}    paramName   Name of the param.
+     */
     static ValidateParamAllowNull(param: any, paramName: string): void {
-        return;
-        throw new Error("//todo: fix circular with service object")
         var selfValidate: ISelfValidate = param;
 
-        if (selfValidate.Validate) {
+        if (selfValidate.Validate && false) {//todo: interface detection for ISelfValidate
             try {
                 selfValidate.Validate();
             }
             catch (e) {
-                throw new Error(" validation failed for parameter:" + paramName + ". Error: " + JSON.stringify(e));
-                //ArgumentException(
-                //    Strings.ValidationFailed,
-                //    paramName,
-                //    e);
+                throw new ArgumentException(
+                    Strings.ValidationFailed,
+                    paramName,
+                    e);
             }
         }
 
-        var ewsObject: ServiceObject = param;
+        let ewsObject: ServiceObject = param;
 
-        //        if (ewsObject instanceof ServiceObject) {
-        //            if (ewsObject.IsNew) {
-        //                throw new Error("object does not have Id, parameter:" + paramName);// ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
-        //            }
-        //        }
+        if (ewsObject instanceof TypeContainer.ServiceObject) {
+            if (ewsObject.IsNew) {
+                throw new ArgumentException(Strings.ObjectDoesNotHaveId, paramName);
+            }
+        }
     }
-    static ValidateParamCollection(collection: any, paramName: string): void { return; throw new Error("EwsUtilities.ts - static ValidateParamCollection : Not implemented."); }
-    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void { throw new Error("EwsUtilities.ts - static ValidatePropertyVersion : Not implemented."); }
+    
+    /**
+     * Validates parameter collection.
+     *
+     * @param   {any[]}     collection   The collection.
+     * @param   {string}    paramName    Name of the param.
+     */
+    static ValidateParamCollection(collection: any[], paramName: string): void {
+        this.ValidateParam(collection, paramName);
+
+        let count: number = 0;
+
+        for (let obj of collection) {
+            try {
+                this.ValidateParam(obj, StringHelper.Format("collection[{0}]", count));
+            }
+            catch (e) {
+                throw new ArgumentException(
+                    StringHelper.Format("The element at position {0} is invalid", count),
+                    paramName,
+                    e);
+            }
+
+            count++;
+        }
+
+        if (count == 0) {
+            throw new ArgumentException(Strings.CollectionIsEmpty, paramName);
+        }
+    }
+    
+    /**
+     * Validates property version against the request version.
+     *
+     * @param   {ExchangeService}   service                The Exchange service.
+     * @param   {ExchangeVersion}   minimumServerVersion   The minimum server version that supports the property.
+     * @param   {string}            propertyName           Name of the property.
+     */
+    static ValidatePropertyVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, propertyName: string): void {
+        if (service.RequestedServerVersion < minimumServerVersion) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.PropertyIncompatibleWithRequestVersion,
+                    propertyName,
+                    minimumServerVersion));
+        }
+    }
     static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }
     //static WriteTraceStartElement(writer: System.Xml.XmlWriter, traceTag: string, includeVersion: boolean): any{ throw new Error("EwsUtilities.ts - static WriteTraceStartElement : Not implemented.");}
 }

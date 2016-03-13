@@ -1,22 +1,99 @@
-﻿import {AppointmentSchema} from "./AppointmentSchema";
-import {MeetingMessageSchema} from "./MeetingMessageSchema";
+﻿import {Schemas} from "./Schemas";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+
+import {MeetingMessageSchema} from "./MeetingMessageSchema";
+/**
+ * Represents the schema for meeting cancellation.
+ */
 export class MeetingCancellationSchema extends MeetingMessageSchema {
-    static Start: PropertyDefinition = AppointmentSchema.Instance.Start;
-    static End: PropertyDefinition = AppointmentSchema.Instance.End;
-    static Location: PropertyDefinition = AppointmentSchema.Instance.Location;
-    static AppointmentType: PropertyDefinition = AppointmentSchema.Instance.AppointmentType;
-    static Recurrence: PropertyDefinition = AppointmentSchema.Instance.Recurrence;
-    static EnhancedLocation: PropertyDefinition = AppointmentSchema.Instance.EnhancedLocation;
+
+    /**
+     * Defines the **Start** property.
+     */
+    public static Start: PropertyDefinition = Schemas.AppointmentSchema.Start;
+
+    /**
+     * Defines the **End** property.
+     */
+    public static End: PropertyDefinition = Schemas.AppointmentSchema.End;
+
+    /**
+     * Defines the **Location** property.
+     */
+    public static Location: PropertyDefinition = Schemas.AppointmentSchema.Location;
+
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    public static AppointmentType: PropertyDefinition = Schemas.AppointmentSchema.AppointmentType;
+
+    /**
+     * Defines the **Recurrence** property.
+     */
+    public static Recurrence: PropertyDefinition = Schemas.AppointmentSchema.Recurrence;
+
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    public static EnhancedLocation: PropertyDefinition = Schemas.AppointmentSchema.EnhancedLocation;
+
+    /**
+     * @internal Instance of **MeetingCancellationSchema** 
+     */
     static Instance: MeetingCancellationSchema = new MeetingCancellationSchema();
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(MeetingCancellationSchema.Start);
-        super.RegisterProperty(MeetingCancellationSchema.End);
-        super.RegisterProperty(MeetingCancellationSchema.Location);
-        super.RegisterProperty(MeetingCancellationSchema.Recurrence);
-        super.RegisterProperty(MeetingCancellationSchema.AppointmentType);
-        super.RegisterProperty(MeetingCancellationSchema.EnhancedLocation);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.Start);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.End);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.Location);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.Recurrence);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.AppointmentType);
+        this.RegisterProperty(MeetingCancellationSchema, MeetingCancellationSchema.EnhancedLocation);
     }
 }
 
+/**
+ * Represents the schema for meeting cancellation.
+ */
+export interface MeetingCancellationSchema {
+    /**
+     * Defines the **Start** property.
+     */
+    Start: PropertyDefinition;
+    /**
+     * Defines the **End** property.
+     */
+    End: PropertyDefinition;
+    /**
+     * Defines the **Location** property.
+     */
+    Location: PropertyDefinition;
+    /**
+     * Defines the **AppointmentType** property.
+     */
+    AppointmentType: PropertyDefinition;
+    /**
+     * Defines the **Recurrence** property.
+     */
+    Recurrence: PropertyDefinition;
+    /**
+     * Defines the **EnhancedLocation** property.
+     */
+    EnhancedLocation: PropertyDefinition;
+    /**
+     * @internal Instance of **MeetingCancellationSchema**
+     */
+    Instance: MeetingCancellationSchema;
+}
+
+/**
+ * Represents the schema for meeting cancellation.
+ */
+export interface MeetingCancellationSchemaStatic extends MeetingCancellationSchema {
+}

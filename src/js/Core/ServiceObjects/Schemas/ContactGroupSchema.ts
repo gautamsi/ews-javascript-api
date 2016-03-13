@@ -4,30 +4,90 @@ import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPro
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 import {GroupMemberCollection} from "../../../ComplexProperties/GroupMemberCollection";
-import {ItemSchema} from "./ItemSchema";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {Schemas} from "./Schemas";
 
-//module ContactGroupSchema {
+import {ItemSchema} from "./ItemSchema";
+
+/**
+ * Field URIs for Members.
+ */
 module FieldUris {
+    /**
+     * FieldUri for members.
+     */
     export var Members: string = "distributionlist:Members";
 }
-//}
+
+/**
+ * Represents the schema for contact groups.
+ */
 export class ContactGroupSchema extends ItemSchema {
-    static DisplayName: PropertyDefinition = ContactSchema.DisplayName;
-    static FileAs: PropertyDefinition = ContactSchema.FileAs;
-    static Members: PropertyDefinition = new ComplexPropertyDefinition<GroupMemberCollection>(
+
+    /**
+     * Defines the **DisplayName** property.
+     */
+    public static DisplayName: PropertyDefinition = Schemas.ContactSchema.DisplayName;
+
+    /**
+     * Defines the **FileAs** property.
+     */
+    public static FileAs: PropertyDefinition = Schemas.ContactSchema.FileAs;
+
+    /**
+     * Defines the **Members** property.
+     */
+    public static Members: PropertyDefinition = new ComplexPropertyDefinition<GroupMemberCollection>(
         "Members",
         XmlElementNames.Members,
-        ExchangeVersion.Exchange2010,
         FieldUris.Members,
         PropertyDefinitionFlags.AutoInstantiateOnRead | PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate,
+        ExchangeVersion.Exchange2010,
         () => { return new GroupMemberCollection(); }
-        );
+    );
+
+    /**
+     * @internal Instance of **ContactGroupSchema** 
+     */
     static Instance: ContactGroupSchema = new ContactGroupSchema();
+
+    /**
+     * Registers properties.
+     * 
+     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     */
     RegisterProperties(): void {
         super.RegisterProperties();
-        super.RegisterProperty(ContactGroupSchema.DisplayName);
-        super.RegisterProperty(ContactGroupSchema.FileAs);
-        super.RegisterProperty(ContactGroupSchema.Members);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.DisplayName);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.FileAs);
+        this.RegisterProperty(ContactGroupSchema, ContactGroupSchema.Members);
     }
+}
+
+/**
+ * Represents the schema for contact groups.
+ */
+export interface ContactGroupSchema {
+    /**
+     * Defines the **DisplayName** property.
+     */
+    DisplayName: PropertyDefinition;
+    /**
+     * Defines the **FileAs** property.
+     */
+    FileAs: PropertyDefinition;
+    /**
+     * Defines the **Members** property.
+     */
+    Members: PropertyDefinition;
+    /**
+     * @internal Instance of **ContactGroupSchema**
+     */
+    Instance: ContactGroupSchema;
+}
+
+/**
+ * Represents the schema for contact groups.
+ */
+export interface ContactGroupSchemaStatic extends ContactGroupSchema {
 }

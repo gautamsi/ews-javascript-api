@@ -14,6 +14,9 @@ import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
+import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
+import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
+import {DeleteAttachmentRequest} from "./Requests/DeleteAttachmentRequest";
 import {GetItemRequest} from "./Requests/GetItemRequest";
 import {CopyItemRequest} from "./Requests/CopyItemRequest";
 import {CreateItemRequest} from "./Requests/CreateItemRequest";
@@ -22,7 +25,10 @@ import {SendItemRequest} from "./Requests/SendItemRequest";
 import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
+import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetItemResponse} from "./Responses/GetItemResponse";
+import {CreateAttachmentResponse} from "./Responses/CreateAttachmentResponse";
+import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
 import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
 import {MarkAsJunkResponse} from "./Responses/MarkAsJunkResponse";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
@@ -60,6 +66,7 @@ import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliv
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {ServiceResponse} from "./Responses/ServiceResponse";
 import {Mailbox} from "../ComplexProperties/Mailbox";
+import {Attachment} from "../ComplexProperties/Attachment";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
 import {EwsUtilities} from "./EwsUtilities";
 import {AutodiscoverService} from "../Autodiscover/AutodiscoverService";
@@ -67,6 +74,7 @@ import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/Auto
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {RenderingMode} from "../Enumerations/RenderingMode";
+import {BodyType} from "../Enumerations/BodyType";
 import {MessageDisposition} from "../Enumerations/MessageDisposition";
 import {UserSettingName} from "../Enumerations/UserSettingName";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
@@ -100,6 +108,8 @@ import {IPromise, IXHROptions} from "../Interfaces";
 import {PromiseFactory} from "../PromiseFactory";
 import {XHRFactory}  from "../XHRFactory";
 import {DateTime, TimeZoneInfo} from "../DateTime";
+import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
+
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 /**
@@ -1342,12 +1352,112 @@ export class ExchangeService extends ExchangeServiceBase {
     
     /* #region Attachment operations */
     
-    //CreateAttachments(parentItemId: string, attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<CreateAttachmentResponse> { throw new Error("ExchangeService.ts - CreateAttachments : Not implemented."); }
-    //DeleteAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<DeleteAttachmentResponse> { throw new Error("ExchangeService.ts - DeleteAttachments : Not implemented."); }
-    //GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): any { throw new Error("ExchangeService.ts - GetAttachment : Not implemented."); }
-    ////GetAttachments(attachments: any, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetAttachments : Not implemented."); }
-    ////GetAttachments(attachmentIds: System.String[], bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetAttachments : Not implemented."); }
-    //InternalGetAttachments(attachments: any[] /*System.Collections.Generic.IEnumerable<T>*/, bodyType: BodyType, additionalProperties: any[] /*System.Collections.Generic.IEnumerable<T>*/, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetAttachments : Not implemented."); }
+    /**
+     * @internal Creates attachments.
+     *
+     * @param   {string}            parentItemId   The parent item id.
+     * @param   {Attachment[]}      attachments            The attachments.
+     * @return  {IPromise<ServiceResponseCollection<CreateAttachmentResponse>>}     Service response collection :Promise.
+     */
+    CreateAttachments(parentItemId: string, attachments: Attachment[]): IPromise<ServiceResponseCollection<CreateAttachmentResponse>> {
+        let request: CreateAttachmentRequest = new CreateAttachmentRequest(this, ServiceErrorHandling.ReturnErrors);
+
+        request.ParentItemId = parentItemId;
+        ArrayHelper.AddRange(request.Attachments, attachments); //request.Attachments.AddRange(attachments);
+
+        return request.Execute();
+    }
+
+    /**
+     * @internal Deletes attachments.
+     *
+     * @param   {Attachment[]}   attachments   The attachments.
+     * @return  {IPromise<ServiceResponseCollection<DeleteAttachmentResponse>>}     Service response collection :Promise.
+     */
+    DeleteAttachments(attachments: Attachment[]): IPromise<ServiceResponseCollection<DeleteAttachmentResponse>> {
+        let request: DeleteAttachmentRequest = new DeleteAttachmentRequest(this, ServiceErrorHandling.ReturnErrors);
+
+        ArrayHelper.AddRange(request.Attachments, attachments); //request.Attachments.AddRange(attachments);
+
+        return request.Execute();
+    }
+    
+    /**
+     * @internal Gets an attachment.
+     *
+     * @param   {Attachment}                    attachment             The attachment.
+     * @param   {BodyType}                      bodyType               Type of the body.
+     * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
+     */
+    GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<void> {
+        return this.InternalGetAttachments(
+            [attachment],
+            bodyType,
+            additionalProperties,
+            ServiceErrorHandling.ThrowOnError).then((results) => {
+
+            });
+    }
+    /**
+     * Gets attachments.
+     *
+     * @param   {Attachment[]}                  attachments            The attachments.
+     * @param   {BodyType}                      bodyType               Type of the body.
+     * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
+     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     */
+    GetAttachments(attachments: Attachment[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<ServiceResponseCollection<GetAttachmentResponse>>;
+    /**
+     * Gets attachments.
+     *
+     * @param   {string[]}                      attachmentIds          The attachment ids.
+     * @param   {BodyType}                      bodyType               Type of the body.
+     * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
+     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     */
+    GetAttachments(attachmentIds: string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<ServiceResponseCollection<GetAttachmentResponse>>;
+    GetAttachments(attachmentsOrIds: Attachment[] | string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<ServiceResponseCollection<GetAttachmentResponse>> {
+        var ids = ArrayHelper.OfType<string, any[]>(<any[]>attachmentsOrIds, (attachment: any) => { return typeof attachment === 'string'; });
+        if (ids && ids.length > 0) {
+            var request: GetAttachmentRequest = new GetAttachmentRequest(this, ServiceErrorHandling.ReturnErrors);
+            ArrayHelper.AddRange(request.AttachmentIds, <string[]>attachmentsOrIds);
+            request.BodyType = bodyType;
+
+            if (additionalProperties != null) {
+                ArrayHelper.AddRange(request.AdditionalProperties, additionalProperties);
+                //request.AdditionalProperties.AddRange(additionalProperties);
+            }
+            return request.Execute();
+
+        }
+        else {
+            return this.InternalGetAttachments(
+                <Attachment[]>attachmentsOrIds,
+                bodyType,
+                additionalProperties,
+                ServiceErrorHandling.ReturnErrors);
+        }
+    }
+    /**
+     * Gets attachments.
+     *
+     * @param   {string[]}                      attachmentIds          The attachment ids.
+     * @param   {BodyType}                      bodyType               Type of the body.
+     * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
+     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     */
+    private InternalGetAttachments(attachments: Attachment[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[], errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<GetAttachmentResponse>> {
+        var request: GetAttachmentRequest = new GetAttachmentRequest(this, errorHandling);
+        ArrayHelper.AddRange(request.Attachments, attachments);
+        request.BodyType = bodyType;
+
+        if (additionalProperties != null) {
+            ArrayHelper.AddRange(request.AdditionalProperties, additionalProperties);
+            //request.AdditionalProperties.AddRange(additionalProperties);
+        }
+        return request.Execute();
+    }
+    
     /* #endregion Attachment operations */
     
     
@@ -1440,7 +1550,7 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
      * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
      * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
-     */    
+     */
     ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
@@ -1646,7 +1756,7 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
      * @param   {AvailabilityOptions}   options             The options controlling the information returned.
      * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
-     */    
+     */
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): IPromise<GetUserAvailabilityResults>;
     GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): IPromise<GetUserAvailabilityResults> {
         EwsUtilities.ValidateParamCollection(attendees, "attendees");
@@ -2086,7 +2196,7 @@ export class ExchangeService extends ExchangeServiceBase {
         return request;
     }
     
-    //ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeService.ts - ProcessHttpErrorResponse : Not implemented."); }
+    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): void { }
     
     /**
      * Sets the type of the content.

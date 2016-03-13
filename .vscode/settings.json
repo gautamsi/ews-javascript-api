@@ -1,5 +1,12 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-	// Controls the rendering size of tabs in characters. Accepted values: "auto", 2, 4, 6, etc. If set to "auto", the value will be guessed when a file is opened.
-	"editor.tabSize": "4"
+    // Controls the rendering size of tabs in characters. Accepted values: "auto", 2, 4, 6, etc. If set to "auto", the value will be guessed when a file is opened.
+    "editor.tabSize": 4,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "build": true,
+        "node_modules": true,
+        "projects": true
+    }
 }
