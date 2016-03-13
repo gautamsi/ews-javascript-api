@@ -2196,7 +2196,7 @@ export class ExchangeService extends ExchangeServiceBase {
         return request;
     }
     
-    //ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeService.ts - ProcessHttpErrorResponse : Not implemented."); }
+    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): void { }
     
     /**
      * Sets the type of the content.

@@ -161,7 +161,7 @@ export class ServiceRequestBase {
     //GetResponseStream(response: IEwsHttpWebResponse, readTimeout: number):any /*System.IO.Stream*/{ throw new Error("ServiceRequestBase.ts - GetResponseStream : Not implemented.");}
     //GetWebRequestStream(request: IEwsHttpWebRequest): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
     protected ProcessWebException(webException: XMLHttpRequest): void {
-        if (webException.response) {
+        if (webException) {
             //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
             var soapFaultDetails: SoapFaultDetails = null;
 

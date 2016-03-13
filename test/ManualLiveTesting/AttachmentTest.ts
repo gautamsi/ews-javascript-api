@@ -27,7 +27,9 @@ import {MockXHRData} from "../MockXHRData";
             .then(() => {
                 debugger;
                 debugger;
-
+                
+                var attachment = respFind.Items[0].Attachments.Items[0];
+                
                 respFind.Items[0].Attachments.Items[0].Load().then(() => {
                     debugger;
                     debugger;
