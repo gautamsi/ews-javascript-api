@@ -38,7 +38,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
 	/**
 	 * The item owner that owns this attachment collection
 	 */
-    private owner: Item;
+    private owner: Item = null;
     /**
      * @interface:IOwnedProperty The owner of this attachment collection.
      */

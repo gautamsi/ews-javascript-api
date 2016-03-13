@@ -138,7 +138,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             }
         }
         for (let jsonObject of collection) {
-            let jsonProperty = jsonObject;;
+            let jsonProperty = jsonObject;
 
             if (jsonProperty != null) {
                 let complexProperty: TComplexProperty = null;

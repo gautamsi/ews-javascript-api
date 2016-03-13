@@ -65,7 +65,7 @@ export class ItemAttachment extends Attachment {
      * @return  {string}      The XML element name.
      */
     GetXmlElementName(): string { return XmlElementNames.ItemAttachment; }
-    
+
     //InternalToJson(service: ExchangeService): any { throw new Error("ItemAttachment.ts - InternalToJson : Not implemented."); }
 
     /**
@@ -78,7 +78,7 @@ export class ItemAttachment extends Attachment {
             this.Owner.PropertyBag.Changed();
         }
     }
-    
+
     //Load(...additionalProperties: PropertyDefinitionBase[]): IPromise<void>;
     /**
      * Loads this attachment.
@@ -96,36 +96,20 @@ export class ItemAttachment extends Attachment {
     Load(bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]  /** System.Collections.Generic.IEnumerable<PropertyDefinitionBase> */): IPromise<void>;
     Load(bodyTypeOrPeoperties: BodyType | PropertyDefinitionBase[], additionalProperties?: PropertyDefinitionBase[]): IPromise<void> {
         let argsLength = arguments.length;
-        let props: PropertyDefinitionBase[] = [];
+        let props: PropertyDefinitionBase[] = null;
         let bodyType: BodyType = null;
         if (argsLength === 1) {
-            if (Array.isArray(bodyTypeOrPeoperties)) {
-                props = bodyTypeOrPeoperties;
-            }
-            else {
-                throw new Error("ItemAttachment.ts - Load with " + argsLength + " parameters, incorrect uses of parameter at 1st position, it must be array of PropertyDefinitionBase or its derived type");
-            } throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters - incorrect uses of parameter at 1st position, it must be ExchangeVersion when using TimeZoneInfo at 2nd place");
-
+            props = <PropertyDefinitionBase[]>bodyTypeOrPeoperties;
         }
         if (argsLength === 2) {
-            if (typeof bodyTypeOrPeoperties === "number") {
-
-                bodyType = bodyTypeOrPeoperties;
-                props = additionalProperties;
-            }
-            else {
-                throw new Error("ItemAttachment.ts - Load with " + argsLength + " parameters, incorrect uses of parameter at 1st position, it must be BodyType enumeration");
-            }
-            if (!Array.isArray(additionalProperties)) {
-                throw new Error("ItemAttachment.ts - Load with " + argsLength + " parameters, incorrect uses of parameter at 2nd position, it must be array of PropertyDefinitionBase or its derived type");
-            }
+            bodyType = <BodyType>bodyTypeOrPeoperties;
         }
         if (argsLength > 2) {
             throw new Error("ItemAttachment.ts - Load with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
         }
         return this.InternalLoad(bodyType, props);
     }
-    
+
     /**
      * @internal Loads from XMLjsObject.
      *
@@ -162,7 +146,7 @@ export class ItemAttachment extends Attachment {
             }
         }
     }
-    
+
     //ReadElementsFromXmlJsObject(reader: any): void { throw new Error("ItemAttachment.ts - TryReadElementFromXmlJsObject : Not implemented."); }    
     ReadElementsFromXmlJsObjectToPatch(reader: any): boolean { throw new Error("ItemAttachment.ts - TryReadElementFromXmlToPatch : Not implemented."); }
 

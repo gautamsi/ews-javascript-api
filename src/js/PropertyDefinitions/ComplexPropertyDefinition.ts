@@ -77,9 +77,10 @@ export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty>
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
 
         var complexProperty: TComplexProperty = this.propertyCreationDelegate();
-        //todo: better Interface detection mechanism
+        //todo: fix better interface detection by some other means, checking property directly
+        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
         let ownedProperty: IOwnedProperty = <any>complexProperty;
-        if (ownedProperty.Owner) {
+        if (isIOwnedProperty) {
             ownedProperty.Owner = owner;
         }
 

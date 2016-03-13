@@ -1,14 +1,53 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {Attachment} from "../../ComplexProperties/Attachment";
-import {JsonObject} from "../JsonObject";
+﻿import {Attachment} from "../../ComplexProperties/Attachment";
+import {FileAttachment} from "../../ComplexProperties/FileAttachment";
+import {ItemAttachment} from "../../ComplexProperties/ItemAttachment";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {StringHelper, ArrayHelper} from "../../ExtensionMethods";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * Represents the response to an individual attachment retrieval request.
  */
 export class GetAttachmentResponse extends ServiceResponse {
-    Attachment: Attachment;
-    private attachment: Attachment;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetAttachmentResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetAttachmentResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+    private attachment: Attachment = null;
+    get Attachment(): Attachment {
+        return this.attachment;
+    }
+
+    /**
+     * @internal Initializes a new instance of the  class.
+     *
+     * @param   {Attachment}   attachment   The attachment.
+     */
+    constructor(attachment: Attachment) {
+        super();
+        this.attachment = attachment;
+    }
+
+    /**
+     * @internal Reads response elements from XMLJsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service          The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+
+        if (jsObject[XmlElementNames.Attachments]) {
+            let attachmentContainer = jsObject[XmlElementNames.Attachments];
+            let attachment = attachmentContainer[XmlElementNames.FileAttachment] || attachmentContainer[XmlElementNames.ItemAttachment] || attachmentContainer;
+            if (this.attachment == null) {
+                if (attachmentContainer[XmlElementNames.FileAttachment]) {
+                    this.attachment = new FileAttachment(service);
+                }
+                else if (attachmentContainer[XmlElementNames.ItemAttachment]) {
+                    this.attachment = <any><any>new ItemAttachment(service);
+                }
+            }
+
+            if (this.attachment != null) {
+                this.attachment.LoadFromXmlJsObject(attachment, service);
+            }
+        }
+    }
 }
