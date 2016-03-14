@@ -5,7 +5,7 @@ import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {TypeSystem} from "../Extensionmethods";
+import {TypeSystem} from "../ExtensionMethods";
 import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
 import {IndexedPropertyDefinition} from "./IndexedPropertyDefinition";
 import {ExtendedPropertyDefinition} from "./ExtendedPropertyDefinition";
