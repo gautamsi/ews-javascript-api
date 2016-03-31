@@ -631,8 +631,8 @@ export class EwsUtilities {
      */
     static ValidateParamAllowNull(param: any, paramName: string): void {
         var selfValidate: ISelfValidate = param;
-
-        if (selfValidate.Validate && false) {//todo: interface detection for ISelfValidate
+        // look for null/undefined
+        if (false && selfValidate && selfValidate.Validate) {//todo: interface detection for ISelfValidate
             try {
                 selfValidate.Validate();
             }
