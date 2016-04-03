@@ -1,36 +1,36 @@
-﻿import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
-import {FindItemsResults} from "../../../Search/FindItemsResults";
-import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
+﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
 import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
+import {EwsLogging} from "../../EwsLogging";
+import {ExchangeService} from "../../ExchangeService";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {FindFoldersResults} from "../../../Search/FindFoldersResults";
+import {FindItemResponse} from "../../Responses/FindItemResponse";
+import {FindItemsResults} from "../../../Search/FindItemsResults";
+import {FolderId} from "../../../ComplexProperties/FolderId";
 import {FolderPermissionCollection} from "../../../ComplexProperties/FolderPermissionCollection";
-import {SearchFilter} from "../../../Search/Filters/SearchFilter";
+import {FolderView} from "../../../Search/FolderView";
 import {GroupedFindItemsResults} from "../../../Search/GroupedFindItemsResults";
+import {Grouping} from "../../../Search/Grouping";
+import {IPromise} from "../../../Interfaces";
 import {ItemView} from "../../../Search/ItemView";
 import {Item} from "../Items/Item";
-import {ServiceResponseCollection} from "../../Responses/ServiceResponseCollection";
-import {FindItemResponse} from "../../Responses/FindItemResponse";
-import {Grouping} from "../../../Search/Grouping";
-import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {ViewBase} from "../../../Search/ViewBase";
-import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
+import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {ServiceResponse} from "../../Responses/ServiceResponse";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {PropertySet} from "../../PropertySet";
-import {FindFoldersResults} from "../../../Search/FindFoldersResults";
-import {FolderView} from "../../../Search/FolderView";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {ExchangeService} from "../../ExchangeService";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
-import {FolderId} from "../../../ComplexProperties/FolderId";
 import {Schemas} from "../Schemas/Schemas";
-import {EwsLogging} from "../../EwsLogging";
-import {IPromise} from "../../../Interfaces";
+import {SearchFilter} from "../../../Search/Filters/SearchFilter";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {ServiceResponseCollection} from "../../Responses/ServiceResponseCollection";
+import {ServiceResponse} from "../../Responses/ServiceResponse";
+import {ViewBase} from "../../../Search/ViewBase";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
 
 import {ServiceObject} from "../ServiceObject";
@@ -135,11 +135,11 @@ export class Folder extends ServiceObject {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
-    get _FolderType(): string { return XmlElementNames.Folder; }
+    //get _FolderType(): string { return XmlElementNames.Folder; }
 
 
     /**
-     * Initializes an unsaved local instance of . To bind to an existing folder, use Folder.Bind() instead.
+     * Initializes an unsaved local instance of **Folder**. To bind to an existing folder, use Folder.Bind() instead.
      *
      * @param   {ExchangeService}   service   EWS service to which this object belongs.
      */

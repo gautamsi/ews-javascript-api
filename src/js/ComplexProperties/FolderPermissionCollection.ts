@@ -1,6 +1,6 @@
 ﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {Folder} from "../Core/ServiceObjects/Folders/Folder";
-//import CalendarFolder = require("../Core/ServiceObjects/Folders/Calendar____Folder");
+import {TypeContainer} from "../TypeContainer";
 import {FolderPermission} from "./FolderPermission";
 import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -15,7 +15,7 @@ export class FolderPermissionCollection extends ComplexPropertyCollection<Folder
     get UnknownEntries(): string[] { return this.unknownEntries; }// System.Collections.ObjectModel.Collection<string>;
     constructor(owner: Folder) {
         super();
-        this.isCalendarFolder = owner._FolderType === XmlElementNames.CalendarFolder; //owner instanceof CalendarFolder;
+        this.isCalendarFolder = owner instanceof TypeContainer.CalendarFolder;// owner instanceof CalendarFolder;
         
     }
     Add(permission: FolderPermission): void { this.InternalAdd(permission); }

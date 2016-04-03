@@ -3,7 +3,7 @@ import {Strings} from "../Strings";
 import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {ArrayHelper} from "../ExtensionMethods";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ComplexProperty} from "./ComplexProperty";
 export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
@@ -15,7 +15,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
     constructor();
     constructor(itemXmlElementName: string);
     constructor(strings: string[]);
-    constructor(stringOrItemXmlElementName?: string| string[]) {
+    constructor(stringOrItemXmlElementName?: string | string[]) {
         super();
         if (typeof stringOrItemXmlElementName !== 'undefined') {
             if (typeof stringOrItemXmlElementName === 'string') {
@@ -88,7 +88,7 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
         this.Changed();
     }
     ToString(): string { return this.items.join(","); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); return null; }
+    //ReadElementsFromXmlJsObject(reader: any): boolean { debugger; throw new Error("StringList.ts - TryReadElementFromXmlJsObject : Not implemented."); return null; }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var item of this.items) {
             writer.WriteStartElement(XmlNamespace.Types, this.itemXmlElementName);
@@ -96,16 +96,19 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
             writer.WriteEndElement();
         }
     }
-    
-    
-    //IJsonCollectionDeserializer.CreateFromJsonCollection
-    CreateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void {
-            for (var element of jsonCollection)
-            {
-                this.Add(<string>element);
-            }
+
+    CreateFromXmlJsObjectCollection(jsObjectCollection: any[], service: ExchangeService): void {
+        var collection = jsObjectCollection[this.itemXmlElementName];
+        if (!ArrayHelper.isArray(collection)) {
+            collection = [collection];
+        }
+
+        for (var item of collection) {
+            this.Add(<string>item);
+        }
     }
-    //IJsonCollectionDeserializer.UpdateFromJsonCollection
-    UpdateFromJsonCollection(jsonCollection: any[], service: ExchangeService): void {
+
+    UpdateFromXmlJsObjectCollection(jsObjectCollection: any[], service: ExchangeService): void {
+        throw new Error("StringList.ts - UpdateFromXmlJsObjectCollection : Not implemented.");
     }
 }
