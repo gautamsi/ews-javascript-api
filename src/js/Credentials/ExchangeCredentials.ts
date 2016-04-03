@@ -4,8 +4,15 @@ import {IXHROptions} from "../Interfaces";
 export class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
+
     UserName: string = null;
-    Password: string = null
+    /** Hiding password field from console.log */
+    getPassword: () => string;
+    setPassword: (value: string) => void;
+
+    get Password(): string { return this.getPassword(); }
+    set Password(value: string) { this.setPassword(value); }
+
     constructor();
     constructor(userName: string, password: string)
     constructor(userName: string = null, password: string = null) {
@@ -13,7 +20,10 @@ export class ExchangeCredentials {
             throw new Error("ExchangeCredentials.ctor, must provide username and password value.")
         }
         this.UserName = userName;
-        this.Password = password;
+        var pwd = password;
+        this.setPassword = (value) => { pwd = value; };
+        this.getPassword = () => { return pwd; }
+        //this.Password = password;
     }
 
     AdjustUrl(url: Uri): Uri { return new Uri(ExchangeCredentials.GetUriWithoutSuffix(url)); }
