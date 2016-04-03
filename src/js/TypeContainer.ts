@@ -13,9 +13,13 @@ export class TypeContainer {
 	 */
     public static ServiceObject: any;
     /**
-     * Type object of ExchangeService (not instance)
+     * Type object of Folder (not instance)
      */
     public static Folder: any;
+    /**
+     * Type object of CalendarFolder (not instance)
+     */
+    public static CalendarFolder: any;
     /**
 	 * Type object of ServiceObjectSchema (not instance)
 	 */

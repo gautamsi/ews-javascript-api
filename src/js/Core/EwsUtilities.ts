@@ -500,7 +500,8 @@ export class EwsUtilities {
             this.numPad(timeSpan.seconds(), 2));
     }
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
-        var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+        var regex: RegExp = /(-)?P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.([0-9]+))?S)?)?/; //ref: info: not using \\, may be a bug in EWS managed api. does not match "-P2Y6M5DT12H35M30.4S" with \\ //old /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+                                    
         if (xsDuration.match(regex) === null) {
             throw new ArgumentException(Strings.XsDurationCouldNotBeParsed);
         }

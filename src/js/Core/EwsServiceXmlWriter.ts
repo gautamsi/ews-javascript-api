@@ -4,6 +4,7 @@ import {ExchangeServiceBase} from "./ExchangeServiceBase";
 import {EwsUtilities} from "./EwsUtilities";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {StringHelper, base64Helper} from "../ExtensionMethods";
+import {DateTime} from "../DateTime";
 
 /**
  * XML writer
@@ -110,7 +111,8 @@ export class EwsServiceXmlWriter {
         var strValue: string = null;
 
         if (value === null) return null;
-        if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) throw new Error("value can not be of type object");
+        // // // // if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) 
+        // // // // throw new Error("value can not be of type object");
 
         if (value != null) {
             switch (typeof (value)) {
@@ -125,12 +127,18 @@ export class EwsServiceXmlWriter {
                 case "string":
                     return value;
                 default:
+                    if (value instanceof DateTime) {
+                        return this.service.ConvertDateTimeToUniversalDateTimeString(value as DateTime);
+                        //return EwsUtilities.DateTimeToXSDateTime(value as DateTime);
+                    }
                     try {
-                        if (typeof value.GetSearchString !== 'undefined') // checking - ISearchStringProvider
-                            strValue = value.GetSearchString();
+                        if (typeof value.GetSearchString === 'function') // checking - ISearchStringProvider
+                            return value.GetSearchString();
+                        else
+                            throw new Error("value can not be of type object");
                     }
                     catch (e) {
-                        strValue = value;
+                        throw e;
                     }
 
                     break;
@@ -219,8 +227,8 @@ export class EwsServiceXmlWriter {
         var value: any = valueToWrite;
         var alwaysWriteEmptyString: boolean = false;
         var namespacePrefix: string = null;
-        var callWithNameSpacePrifix:boolean = false;
-        
+        var callWithNameSpacePrifix: boolean = false;
+
         if (argsLength === 2) {
             value = localNameOrAlwaysWriteEmptyStringOrValue;
         }
@@ -239,7 +247,7 @@ export class EwsServiceXmlWriter {
         var stringValue: string = this.ConvertObjectToString(value);
         if (!StringHelper.IsNullOrEmpty(stringValue) || alwaysWriteEmptyString) {
             this.WriteAttributeString(
-                callWithNameSpacePrifix? namespacePrefix:"",
+                callWithNameSpacePrifix ? namespacePrefix : "",
                 localName,
                 stringValue);
         }
@@ -255,7 +263,7 @@ export class EwsServiceXmlWriter {
     WriteBase64ElementValue(buffer: any): void {
         this.WriteValue(base64Helper.btoa(buffer), null);
     }
-    
+
     /**
      * Writes the element value.
      *
@@ -295,7 +303,7 @@ export class EwsServiceXmlWriter {
             EwsLogging.Assert(stringValue !== 'undefined', 'WriteElementValue', StringHelper.Format(
                 Strings.ElementValueCannotBeSerialized,
                 typeof (value), localName));
-                
+
             // throw new Error(StringHelper.Format(
             //     Strings.ElementValueCannotBeSerialized,
             //     typeof (value), localName));
