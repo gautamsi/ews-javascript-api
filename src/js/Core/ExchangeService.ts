@@ -3,6 +3,7 @@ import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {AvailabilityData} from "../Enumerations/AvailabilityData";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
+import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
@@ -11,6 +12,8 @@ import {FindItemRequest} from "./Requests/FindItemRequest";
 import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
 import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
+import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
+import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
@@ -262,9 +265,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Folders = [folder];
         request.ParentFolderId = parentFolderId;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
 
     /**
@@ -278,9 +279,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.FolderIds.Add(folderId);
         request.DeleteMode = deleteMode;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Empties a folder. Calling this method results in a call to EWS.
@@ -295,9 +294,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.DeleteMode = deleteMode;
         request.DeleteSubFolders = deleteSubFolders;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
 
     /**
@@ -424,9 +421,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folder);
         request.PropertySet = propertySet;
 
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Marks all items in folder as read/unread. Calling this method results in a call to EWS.
@@ -442,9 +437,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.ReadFlag = readFlag;
         request.SuppressReadReceipts = suppressReadReceipts;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Move a folder.
@@ -621,14 +614,12 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for item of type Appointment. Required if item is an Appointment instance.
      */
     CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
-        return this.InternalCreateItems(
+        return <any>this.InternalCreateItems(
             [item],
             parentFolderId,
             messageDisposition,
             sendInvitationsMode,
-            ServiceErrorHandling.ThrowOnError).then((result) => {
-                //return void 0;
-            });;
+            ServiceErrorHandling.ThrowOnError);
     }
     /**
      * Creates multiple items in a single EWS call. Supported item classes are EmailMessage, Appointment, Contact, PostItem, Task and Item. CreateItems does not support items that have unsaved attachments.
@@ -679,15 +670,13 @@ export class ExchangeService extends ExchangeServiceBase {
     DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean = false): IPromise<void> {
         EwsUtilities.ValidateParam(itemId, "itemId");
 
-        return this.InternalDeleteItems(
+        return <any>this.InternalDeleteItems(
             [itemId],
             deleteMode,
             sendCancellationsMode,
             affectedTaskOccurrences,
             ServiceErrorHandling.ThrowOnError,
-            suppressReadReceipts).then((response) => {
-
-            });
+            suppressReadReceipts);
     }
     /**
      * Deletes multiple items in a single call to EWS.
@@ -1250,9 +1239,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Items = [item];
         request.SavedCopyDestinationFolderId = savedCopyDestinationFolderId;
-        return request.Execute().then((response) => {
-
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Updates an item.
@@ -1377,13 +1364,11 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
      */
     GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<void> {
-        return this.InternalGetAttachments(
+        return <any>this.InternalGetAttachments(
             [attachment],
             bodyType,
             additionalProperties,
-            ServiceErrorHandling.ThrowOnError).then((results) => {
-
-            });
+            ServiceErrorHandling.ThrowOnError);
     }
     /**
      * Gets attachments.
@@ -1761,8 +1746,35 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-    //GetUserOofSettings(smtpAddress: string): OofSettings { throw new Error("ExchangeService.ts - GetUserOofSettings : Not implemented."); }
-    //SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): any { throw new Error("ExchangeService.ts - SetUserOofSettings : Not implemented."); }
+
+    /**
+     * Gets Out of Office (OOF) settings for a specific user. Calling this method results in a call to EWS.
+     *
+     * @param   {}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
+     * @return  {}                 An OofSettings instance containing OOF information for the specified user.
+     */
+    GetUserOofSettings(smtpAddress: string): IPromise<OofSettings> {
+        EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
+
+        var request: GetUserOofSettingsRequest = new GetUserOofSettingsRequest(this);
+
+        request.SmtpAddress = smtpAddress;
+
+        return request.Execute().then((response) => {
+            return response.OofSettings;
+        });
+    }
+    SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): IPromise<void> {
+        EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
+        EwsUtilities.ValidateParam(oofSettings, "oofSettings");
+
+        var request: SetUserOofSettingsRequest = new SetUserOofSettingsRequest(this);
+
+        request.SmtpAddress = smtpAddress;
+        request.OofSettings = oofSettings;
+
+        return <any>request.Execute();
+    }
     /* #endregion Availability operations */
 
 

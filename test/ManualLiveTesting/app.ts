@@ -2,7 +2,7 @@ import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, T
     UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
     EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
     ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody,
-    CalendarView} from "../../src/js/ExchangeWebService";
+    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
@@ -32,6 +32,37 @@ export class Greeter {
         
         var mockXhr = new MockXHRApi();        
         //exch.XHRApi = mockXhr;
+        
+        var oof = new OofSettings();
+        oof.State = OofState.Enabled;
+        oof.InternalReply = new OofReply("internal message");
+        oof.ExternalReply = new OofReply("external message");
+        //oof.AllowExternalOof = OofExternalAudience.All;        
+        oof.ExternalAudience = OofExternalAudience.All;
+        
+        exch.SetUserOofSettings("grouptest@mysupport.in",oof).then((resp)=>{
+            //EwsLogging.Log(resp,true, true);
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });   
+        
+        return;
+        exch.GetUserOofSettings("grouptest@mysupport.in").then((resp)=>{
+            EwsLogging.Log(resp,true, true);
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });       
+        
+        
+        
+        
+        return;
         mockXhr.requestXml.push(MockXHRData.Operations.CalendarOperations.FindAppointmentRequest);
         mockXhr.responseXml.push(MockXHRData.Operations.CalendarOperations.FindAppointmentRequestResponseWith3results);
         exch.FindAppointments(WellKnownFolderName.Calendar,new CalendarView(DateTime.Now.Add(-7,"days"), DateTime.Now)).then((resp)=>{

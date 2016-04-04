@@ -4,6 +4,3 @@ export enum OofExternalAudience {
     Known = 1,
     All = 2
 }
-
-
-
