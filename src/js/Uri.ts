@@ -20,6 +20,11 @@ export class Uri {
     ToString(): string {
         return this.url;
     }
+    
+    toString(): string{
+        return this.url;
+    }
+    
     // GetDomain(): string {
     //     return UriHelper.getDomain(this.url);
     // }

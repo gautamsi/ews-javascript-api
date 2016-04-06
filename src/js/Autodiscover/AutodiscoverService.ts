@@ -456,7 +456,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
                 // Next-to-last chance: try unauthenticated GET over HTTP to be redirected to appropriate service endpoint.
                 return this.GetRedirectUrl(domainName).then((autodiscoverUrl) => {
                     if ((autodiscoverUrl != null) &&
-                        this.CallRedirectionUrlValidationCallback(autodiscoverUrl.toString())) {
+                        this.CallRedirectionUrlValidationCallback(autodiscoverUrl.ToString())) {
                         return this.TryGetAutodiscoverEndpointUrl(autodiscoverUrl.Host, { outValue: autodiscoverUrl }).then((value) => {
                             if (value) {
                                 return getSettingsMethod(
