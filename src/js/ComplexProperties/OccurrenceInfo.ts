@@ -1,23 +1,79 @@
-﻿import {ItemId} from "./ItemId";
-import {ComplexProperty} from "./ComplexProperty";
-import {JsonObject} from "../Core/JsonObject";
+﻿import {DateTime} from "../DateTime";
 import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {ItemId} from "./ItemId";
+import {XmlElementNames} from "../Core/XmlElementNames";
+
+import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Encapsulates information on the occurrence of a recurring appointment.
+ */
 export class OccurrenceInfo extends ComplexProperty {
-    ItemId: ItemId;
-    Start: Date;
-    End: Date;
-    OriginalStart: Date;
-    private itemId: ItemId;
-    private start: Date;
-    private end: Date;
-    private originalStart: Date;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("OccurrenceInfo.ts - LoadFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("OccurrenceInfo.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+
+    private itemId: ItemId = null;
+    private start: DateTime = null;
+    private end: DateTime = null;
+    private originalStart: DateTime = null;
+
+    /**
+     * Gets the Id of the occurrence.
+     */
+    get ItemId(): ItemId {
+        return this.itemId;
+    }
+
+    /**
+     * Gets the start date and time of the occurrence.
+     */
+    get Start(): DateTime {
+        return this.start;
+    }
+
+    /**
+     * Gets the end date and time of the occurrence.
+     */
+    get End(): DateTime {
+        return this.end;
+    }
+
+    /**
+     * Gets the original start date and time of the occurrence.
+     */
+    get OriginalStart(): DateTime {
+        return this.originalStart;
+    }
+
+    /**
+     *  @internal Initializes a new instance of the **OccurrenceInfo** class.
+     */
+    constructor() {
+        super();
+    }
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {ExchangeService}     service                 The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        for (let key in jsObject) {
+            switch (key) {
+                case XmlElementNames.ItemId:
+                    this.itemId = new ItemId();
+                    this.itemId.LoadFromXmlJsObject(jsObject[key], service);
+                    break;
+                case XmlElementNames.Start:
+                    this.start = service.ConvertUniversalDateTimeStringToLocalDateTime(jsObject[key]);
+                    break;
+                case XmlElementNames.End:
+                    this.end = service.ConvertUniversalDateTimeStringToLocalDateTime(jsObject[key]);
+                    break;
+                case XmlElementNames.OriginalStart:
+                    this.originalStart = service.ConvertUniversalDateTimeStringToLocalDateTime(jsObject[key]);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
-
-
-//}
-
-
-

@@ -69,7 +69,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
     get MaximumBodySize(): number { return this.maximumBodySize; }
     set MaximumBodySize(value) { this.ThrowIfReadonly(); this.maximumBodySize = value; }
 
-    get_Item(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
+    _getItem(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
 
 
 
