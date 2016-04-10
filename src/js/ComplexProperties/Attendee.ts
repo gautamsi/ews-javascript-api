@@ -65,7 +65,7 @@ export class Attendee extends EmailAddress {
             case 1:
                 super(smtpAddressOrNameOrMailbox);
                 if (typeof smtpAddressOrNameOrMailbox === 'string') {
-                    EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
+                    EwsUtilities.ValidateParam(smtpAddressOrNameOrMailbox, "smtpAddress");
                 }
                 break;
             case 2:

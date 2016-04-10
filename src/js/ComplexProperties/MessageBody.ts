@@ -35,10 +35,9 @@ export class MessageBody extends ComplexProperty {
         var strText = text;
         if (argslength === 1 && typeof bodyTypeOrText === "string") {
             strText = bodyTypeOrText;
-        }
+        }        
         if (argslength === 2 && typeof bodyTypeOrText === "number") {
             bodyType = bodyTypeOrText;
-            return;
         }
         this.bodyType = bodyType;
         this.text = strText;

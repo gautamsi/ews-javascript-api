@@ -70,7 +70,7 @@ export class OnlineMeetingSettings extends ComplexProperty {
         switch (arguments.length) {
             case 1:
                 let onlineMeetingSettings = <OnlineMeetingSettings>lobbyBypassOrOnlineMeetingSettings;
-                EwsUtilities.ValidateParam(onlineMeetingSettings, "OnlineMeetingSettings");
+                EwsUtilities.ValidateParam(lobbyBypassOrOnlineMeetingSettings, "OnlineMeetingSettings");
 
                 this.LobbyBypass = onlineMeetingSettings.LobbyBypass;
                 this.AccessLevel = onlineMeetingSettings.AccessLevel;
