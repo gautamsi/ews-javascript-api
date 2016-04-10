@@ -1,23 +1,103 @@
-﻿import {ExchangeService} from "../../Core/ExchangeService";
-import {JsonObject} from "../../Core/JsonObject";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+﻿import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../../Core/ExchangeService";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+/**
+ * Represents an Out of Office response.
+ */
 export class OofReply {
-    Culture: string;
-    Message: string;
-    private culture: string;
-    private message: string;
-    InternalToJson(service: ExchangeService): JsonObject { throw new Error("OofReply.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonObject: JsonObject, service: ExchangeService): any { throw new Error("OofReply.ts - LoadFromJson : Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader, xmlElementName: string): any { throw new Error("OofReply.ts - LoadFromXml : Not implemented."); }
-    ToString(): string { throw new Error("OofReply.ts - ToString : Not implemented."); }
-    WriteEmptyReplyToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("OofReply.ts - WriteEmptyReplyToXml : Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): any { throw new Error("OofReply.ts - WriteToXml : Not implemented."); }
+
+    private culture: string = ''; //todo: implement CultureInfo //  CultureInfo.CurrentCulture.Name;
+    private message: string = null;
+    
+    /**
+     * Gets or sets the culture of the reply.
+     */
+    get Culture(): string {
+        return this.culture;
+    }
+    set Culture(value: string) {
+        this.culture = value;
+    }
+    
+    /**
+     * Gets or sets the culture of the reply.
+     */
+    get Message(): string {
+        return this.message;
+    }
+    set Message(value: string) {
+        this.message = value;
+    }
+
+    /**
+     * Initializes a new instance of the **OofReply** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **OofReply** class.
+     *
+     * @param   {string}   message   The reply message.
+     */
+    constructor(message: string);
+    constructor(message: string = null) {
+        this.message = message;
+    }
+
+    /**
+     * @internal Loads from xmlJsObject.
+     *
+     * @param   {any}   jsObject   The xmlJsObject object.
+     * @param   {ExchangeService}   service      The service.
+     */
+    LoadFromXmlJsObject(jsonObject: any, service: ExchangeService): void {
+        if (jsonObject["xml:lang"]) {
+            this.culture = jsonObject["xml:lang"];
+        }
+        this.message = jsonObject[XmlElementNames.Message];
+    }
+
+    /**
+     * Obtains a string representation of the reply.
+     *
+     * @return  {string}      A string containing the reply message.
+     */
+    ToString(): string { return this.Message; }
+    toString(): string { return this.Message; }
+
+    /**
+     * @internal Writes an empty OofReply to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     */
+    static WriteEmptyReplyToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
+        writer.WriteStartElement(XmlNamespace.Types, xmlElementName);
+        writer.WriteEndElement(); // xmlElementName
+    }
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
+        writer.WriteStartElement(XmlNamespace.Types, xmlElementName);
+
+        if (this.Culture != null) {
+            writer.WriteAttributeValue(
+                "xml",
+                "lang",
+                this.Culture);
+        }
+
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.Message,
+            this.Message);
+
+        writer.WriteEndElement(); // xmlElementName
+    }
 }
-
-
-
-//}
-
-
-

@@ -97,7 +97,7 @@ export class ExchangeServiceBase {
     constructor(
         versionServiceorTZ?: ExchangeVersion | ExchangeServiceBase | TimeZoneInfo,
         versionOrTZ?: ExchangeVersion | TimeZoneInfo
-        ) {
+    ) {
         var argsLength = arguments.length;
         if (argsLength > 2) {
             throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
@@ -187,7 +187,20 @@ export class ExchangeServiceBase {
         //debug://todo:iso string should work
         return dateTime.ToISOString();// ISO string should work .ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
     }
-    ConvertStartDateToUnspecifiedDateTime(value: string): DateTime { throw new Error("ExchangeServiceBase.ts - ConvertStartDateToUnspecifiedDateTime : Not implemented."); }
+    ConvertStartDateToUnspecifiedDateTime(value: string): DateTime {
+        EwsLogging.Log("ExchangeServiceBase.ConvConvertStartDateToUnspecifiedDateTime : DateTimeOffset not implemented, check date values")
+        if (StringHelper.IsNullOrEmpty(value)) {
+            return null;
+        }
+        else {
+            return DateTime.Parse(value);
+
+            //let dateTimeOffset:DateTimeOffset = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
+
+            // Return only the date part with the kind==Unspecified.
+            //return dateTimeOffset.Date;
+        }
+    }
     ConvertUniversalDateTimeStringToLocalDateTime(value: string): DateTime {
         if (StringHelper.IsNullOrEmpty(value)) {
             return null;
@@ -197,7 +210,7 @@ export class ExchangeServiceBase {
             //ref: //fix: hard convert to UTC date as no request contains TZ information.
             if (value.toLowerCase().indexOf("z") < 0)
                 value += "Z";
-                
+
             var dateTime: DateTime = DateTime.Parse(
                 value);
             // CultureInfo.InvariantCulture,
@@ -252,7 +265,7 @@ export class ExchangeServiceBase {
         this.SetContentType(request);
 
         request.type = "POST";
-        
+
         //request.headers["User-Agent"] = this.UserAgent || ExchangeServiceBase.defaultUserAgent; //todo:fix -> Noje.js is refusing to set this unsafe header -//
         //request.AllowAutoRedirect = allowAutoRedirect;
 

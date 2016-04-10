@@ -3,6 +3,7 @@ import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {AvailabilityData} from "../Enumerations/AvailabilityData";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
+import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
@@ -11,6 +12,8 @@ import {FindItemRequest} from "./Requests/FindItemRequest";
 import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
 import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
+import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
+import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
@@ -117,12 +120,12 @@ import {ExchangeServiceBase} from "./ExchangeServiceBase";
  *
  */
 export class ExchangeService extends ExchangeServiceBase {
-    
+
     /* #region Constants */
     private static TargetServerVersionHeaderName: string = "X-EWS-TargetVersion";
     /* #endregion Constants */
-    
-    
+
+
     /* #region Fields */
     private url: Uri = null;
     //private preferredCulture: any = null;// System.Globalization.CultureInfo;
@@ -138,8 +141,8 @@ export class ExchangeService extends ExchangeServiceBase {
     private targetServerVersion: string = null;
     //private exchange2007CompatibilityMode: boolean = false;
     /* #endregion Fields */
-    
-    
+
+
     /* #region Properties */
     Url: Uri;
     ImpersonatedUserId: ImpersonatedUserId = null;
@@ -169,9 +172,9 @@ export class ExchangeService extends ExchangeServiceBase {
         this.targetServerVersion = value;
     }
     /* #region Properties */
-    
-    
-    
+
+
+
     /* #region Response object operations */
     /**
      * @internal Create response object.
@@ -191,25 +194,9 @@ export class ExchangeService extends ExchangeServiceBase {
         });
     }
     /* #endregion Response object operations */
-    
-    
-    /* #region Folder operations */
 
-    //todo: delete soon;  BindToFolderAs<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet): IPromise<TFolder> {
-    //     // debugger;
-    //     return this.BindToFolder(folderId, propertySet);
-    //     // if (result instanceof ServiceObject) //todo: implement instanceOf TFolder
-    //     // {
-    //     //     return <any>result;//<TFolder>
-    //     // }
-    //     // else {
-    //     //     //throw new ServiceLocalException(
-    //     //     //    string.Format(
-    //     //     //        Strings.FolderTypeNotCompatible,
-    //     //     //        result.GetType().Name,
-    //     //     //        typeof (TFolder).Name));
-    //     // }
-    // }
+
+    /* #region Folder operations */
 
     /**
      * @internal Binds to folder.
@@ -278,11 +265,9 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Folders = [folder];
         request.ParentFolderId = parentFolderId;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
-    
+
     /**
      * @internal Deletes a folder. Calling this method results in a call to EWS.
      *
@@ -294,9 +279,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
         request.FolderIds.Add(folderId);
         request.DeleteMode = deleteMode;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Empties a folder. Calling this method results in a call to EWS.
@@ -311,9 +294,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.DeleteMode = deleteMode;
         request.DeleteSubFolders = deleteSubFolders;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
 
     /**
@@ -363,7 +344,7 @@ export class ExchangeService extends ExchangeServiceBase {
         if (argsLength < 2 && argsLength > 3) {
             throw new Error("ExchangeService.ts - FindFolders - invalid number of arguments, check documentation and try again.");
         }
-        
+
         //position 1 - parentFolderIdOrName
         var parentFolderIds: FolderId[] = []
         if (typeof parentFolderIdOrName === 'number') {
@@ -378,7 +359,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
         var searchFilter: SearchFilter = null;
         var view: FolderView = null;
-        
+
         //position 2 - viewOrSearchFilter
         if (viewOrSearchFilter instanceof SearchFilter) {
             if (!(folderView instanceof FolderView)) {
@@ -440,9 +421,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folder);
         request.PropertySet = propertySet;
 
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Marks all items in folder as read/unread. Calling this method results in a call to EWS.
@@ -458,9 +437,7 @@ export class ExchangeService extends ExchangeServiceBase {
         request.FolderIds.Add(folderId);
         request.ReadFlag = readFlag;
         request.SuppressReadReceipts = suppressReadReceipts;
-        return request.Execute().then((value) => {
-            return null;
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Move a folder.
@@ -490,10 +467,10 @@ export class ExchangeService extends ExchangeServiceBase {
         });
     }
     /* #endregion Folder operations */
-    
-    
+
+
     /* #region Item operations */
-    
+
     /**
      * Archives multiple items in a single call to EWS.
      *
@@ -637,14 +614,12 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for item of type Appointment. Required if item is an Appointment instance.
      */
     CreateItem(item: Item, parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
-        return this.InternalCreateItems(
+        return <any>this.InternalCreateItems(
             [item],
             parentFolderId,
             messageDisposition,
             sendInvitationsMode,
-            ServiceErrorHandling.ThrowOnError).then((result) => {
-                //return void 0;
-            });;
+            ServiceErrorHandling.ThrowOnError);
     }
     /**
      * Creates multiple items in a single EWS call. Supported item classes are EmailMessage, Appointment, Contact, PostItem, Task and Item. CreateItems does not support items that have unsaved attachments.
@@ -695,15 +670,13 @@ export class ExchangeService extends ExchangeServiceBase {
     DeleteItem(itemId: ItemId, deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean = false): IPromise<void> {
         EwsUtilities.ValidateParam(itemId, "itemId");
 
-        return this.InternalDeleteItems(
+        return <any>this.InternalDeleteItems(
             [itemId],
             deleteMode,
             sendCancellationsMode,
             affectedTaskOccurrences,
             ServiceErrorHandling.ThrowOnError,
-            suppressReadReceipts).then((response) => {
-
-            });
+            suppressReadReceipts);
     }
     /**
      * Deletes multiple items in a single call to EWS.
@@ -901,8 +874,10 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {ServiceErrorHandling}      errorHandlingMode   Indicates the type of error handling should be done.
      * @return  {IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>}      Service response collection :Promise.
      */
-    FindItems<TItem extends Item>(parentFolderIds: FolderId[], searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;    
-    //skipped: not needed, no calls coming in to this internal function in ews managed api, future use possible until them keep it muted   - FindItems<TItem extends Item>(parentFolderId: FolderId,                 searchFilter: SearchFilter,     view: ViewBase,                     groupBy: Grouping                                                                           ): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    FindItems<TItem extends Item>(parentFolderIds: FolderId[], searchFilter: SearchFilter, queryString: string, view: ViewBase, groupBy: Grouping, errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    //skipped: not needed, no calls coming in to this internal function in ews managed api, future use possible until them keep it muted   - 
+    //FindItems<TItem extends Item>(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+
     FindItems<TItem extends Item>(
         nameIdOrIds: WellKnownFolderName | FolderId | FolderId[],
         viewQueryStringOrSearchFilter: ViewBase | string | SearchFilter,
@@ -911,7 +886,7 @@ export class ExchangeService extends ExchangeServiceBase {
         groupBy?: Grouping,
         errorHandlingMode: ServiceErrorHandling = ServiceErrorHandling.ThrowOnError
     ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item> | ServiceResponseCollection<FindItemResponse<TItem>>> {
-        
+
         //todo: better argument check with ewsutilities
 
         //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
@@ -928,7 +903,7 @@ export class ExchangeService extends ExchangeServiceBase {
         if (argsLength < 2 && argsLength > 6) {
             throw new Error("ExchangeService.ts - FindItems - invalid number of arguments, check documentation and try again.");
         }
-        
+
         //position 1 - nameIdOrIds
         var parentIds: FolderId[] = []
         if (typeof nameIdOrIds === 'number') {
@@ -944,25 +919,26 @@ export class ExchangeService extends ExchangeServiceBase {
         var queryString: string = null;
         var searchFilter: SearchFilter = null;
         var view: ViewBase = null;
-        
+
         //position 2 - viewQueryStringOrSearchFilter
-        if (typeof viewQueryStringOrSearchFilter === 'string') {
-            queryString = viewQueryStringOrSearchFilter;
-        }
-        else if (viewQueryStringOrSearchFilter instanceof SearchFilter) {
-            searchFilter = viewQueryStringOrSearchFilter;
-        }
-        else if (viewQueryStringOrSearchFilter instanceof ViewBase) {
-            view = viewQueryStringOrSearchFilter;
-        }
-        else {
-            throw new Error("ExchangeService.ts - FindItems - incorrect uses of parameters at 2nd position, must be string, ViewBase or SearchFilter");
-        }
+        if (argsLength == 2)
+            if (typeof viewQueryStringOrSearchFilter === 'string') {
+                queryString = viewQueryStringOrSearchFilter;
+            }
+            else if (viewQueryStringOrSearchFilter instanceof SearchFilter) {
+                searchFilter = viewQueryStringOrSearchFilter;
+            }
+            else if (viewQueryStringOrSearchFilter instanceof ViewBase) {
+                view = viewQueryStringOrSearchFilter;
+            }
+            else if (viewQueryStringOrSearchFilter) { //error if not null
+                throw new Error("ExchangeService.ts - FindItems - incorrect uses of parameters at 2nd position, must be string, ViewBase or SearchFilter");
+            }
 
         var groupResultBy: Grouping = null;
         var returnHighlightTerms: boolean = false;
         var isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
-        
+
         //position 3 - groupByViewRHTOrQueryString
         if (argsLength >= 3) {
             if (groupByViewRHTOrQueryString instanceof Grouping) {
@@ -982,11 +958,11 @@ export class ExchangeService extends ExchangeServiceBase {
                 returnHighlightTerms = groupByViewRHTOrQueryString;
                 EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "FindItems");
             }
-            else {
+            else if (groupByViewRHTOrQueryString) {//error if not null
                 throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, must be string, boolean, ViewBase or Grouping");
             }
         }
-        
+
         //position 4 - groupByOrView
         if (argsLength >= 4) {
             if (groupByOrView instanceof Grouping) {
@@ -999,14 +975,14 @@ export class ExchangeService extends ExchangeServiceBase {
             else if (groupByOrView instanceof ViewBase) {
                 view = groupByOrView;
             }
-            else {
+            else if (groupByOrView) {//error if not null
                 throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 4th  position, must be  ViewBase or Grouping");
             }
         }
-        
+
         //position 5 - groupBy
         if (argsLength >= 5) {
-            if (!(groupByOrView instanceof ViewBase)) {
+            if (groupByOrView && !(groupByOrView instanceof ViewBase)) {//error if not null
                 throw new Error("ExchangeService.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 4th position, it must be ViewBase when using Grouping at 5th place");
             }
             groupResultBy = groupBy;
@@ -1263,9 +1239,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
         request.Items = [item];
         request.SavedCopyDestinationFolderId = savedCopyDestinationFolderId;
-        return request.Execute().then((response) => {
-
-        });
+        return <any>request.Execute();
     }
     /**
      * @internal Updates an item.
@@ -1348,10 +1322,10 @@ export class ExchangeService extends ExchangeServiceBase {
             suppressReadReceipts);
     }
     /* #endregion Item operations 47*/
- 
-    
+
+
     /* #region Attachment operations */
-    
+
     /**
      * @internal Creates attachments.
      *
@@ -1381,7 +1355,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    
+
     /**
      * @internal Gets an attachment.
      *
@@ -1390,13 +1364,11 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
      */
     GetAttachment(attachment: Attachment, bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<void> {
-        return this.InternalGetAttachments(
+        return <any>this.InternalGetAttachments(
             [attachment],
             bodyType,
             additionalProperties,
-            ServiceErrorHandling.ThrowOnError).then((results) => {
-
-            });
+            ServiceErrorHandling.ThrowOnError);
     }
     /**
      * Gets attachments.
@@ -1457,10 +1429,10 @@ export class ExchangeService extends ExchangeServiceBase {
         }
         return request.Execute();
     }
-    
+
     /* #endregion Attachment operations */
-    
-    
+
+
     /* #region AD related operations */
 
     /**
@@ -1597,12 +1569,12 @@ export class ExchangeService extends ExchangeServiceBase {
         if (argsLength < 1 && argsLength > 5) {
             throw new Error("ExchangeService.ts - ResolveName - invalid number of arguments, check documentation and try again.");
         }
-        
+
         //position 1 - nameToResolve - no change, same for all overload
-        
+
         var searchScope: ResolveNameSearchLocation = null;
         var parentFolderIds: FolderId[] = null;
-                
+
         //position 2 - parentFolderIdsOrSearchScope
         if (argsLength >= 2) {
             if (typeof parentFolderIdsOrSearchScope === 'number') {
@@ -1618,7 +1590,7 @@ export class ExchangeService extends ExchangeServiceBase {
         }
 
         var returnContactDetails: boolean = false;
-        
+
         //position 3 - searchScopeOrReturnContactDetails
         if (argsLength >= 3) {
             if (typeof searchScopeOrReturnContactDetails === 'boolean') {
@@ -1637,7 +1609,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 3rd position, must be boolean, or ResolveNameSearchLocation");
             }
         }
-        
+
         //position 4 - returnContactDetailsOrContactDataPropertySet
         if (argsLength >= 4) {
             if (returnContactDetailsOrContactDataPropertySet instanceof PropertySet) {
@@ -1656,7 +1628,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 throw new Error("ExchangeService.ts - ResolveName with " + argsLength + " parameters - incorrect uses of parameter at 4th  position, must be  PropertySet or boolean");
             }
         }
-        
+
         //position 5 - contactDataPropertySet
         if (argsLength >= 5) {
             if (typeof returnContactDetailsOrContactDataPropertySet !== 'boolean') {
@@ -1676,12 +1648,12 @@ export class ExchangeService extends ExchangeServiceBase {
             return response.__thisIndexer(0).Resolutions;
         });
     }
-    
+
     /* #endregion AD related operations */
-    
-    
+
+
     /* #region Notification operations */
-    
+
     // BeginGetEvents(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string, watermark: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetEvents : Not implemented."); }
     // BeginSubscribeToPullNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPullNotifications : Not implemented."); }
     // BeginSubscribeToPullNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, timeout: number, watermark: string, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToPullNotificationsOnAllFolders : Not implemented."); }
@@ -1715,17 +1687,17 @@ export class ExchangeService extends ExchangeServiceBase {
     //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
     //Unsubscribe(subscriptionId: string): any { throw new Error("ExchangeService.ts - Unsubscribe : Not implemented."); }
     /* #endregion Notification operations */
-    
-    
+
+
     /* #region Synchronization operations */
-    
+
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     //BuildSyncFolderItemsRequest(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): SyncFolderItemsRequest { throw new Error("ExchangeService.ts - BuildSyncFolderItemsRequest : Not implemented."); }
     //EndSyncFolderItems(asyncResult: Function /*System.IAsyncResult*/): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - EndSyncFolderItems : Not implemented."); }
     //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
     //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
-    
+
     // BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     //BuildSyncFolderHierarchyRequest(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): SyncFolderHierarchyRequest { throw new Error("ExchangeService.ts - BuildSyncFolderHierarchyRequest : Not implemented."); }
@@ -1733,10 +1705,10 @@ export class ExchangeService extends ExchangeServiceBase {
     ////SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
     //SyncFolderHierarchy(propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
     /* #endregion Synchronization operations */
-    
-    
+
+
     /* #region Availability operations */
-    
+
     //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
     //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
     /**
@@ -1774,14 +1746,41 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-    //GetUserOofSettings(smtpAddress: string): OofSettings { throw new Error("ExchangeService.ts - GetUserOofSettings : Not implemented."); }
-    //SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): any { throw new Error("ExchangeService.ts - SetUserOofSettings : Not implemented."); }
+
+    /**
+     * Gets Out of Office (OOF) settings for a specific user. Calling this method results in a call to EWS.
+     *
+     * @param   {}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
+     * @return  {}                 An OofSettings instance containing OOF information for the specified user.
+     */
+    GetUserOofSettings(smtpAddress: string): IPromise<OofSettings> {
+        EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
+
+        var request: GetUserOofSettingsRequest = new GetUserOofSettingsRequest(this);
+
+        request.SmtpAddress = smtpAddress;
+
+        return request.Execute().then((response) => {
+            return response.OofSettings;
+        });
+    }
+    SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): IPromise<void> {
+        EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
+        EwsUtilities.ValidateParam(oofSettings, "oofSettings");
+
+        var request: SetUserOofSettingsRequest = new SetUserOofSettingsRequest(this);
+
+        request.SmtpAddress = smtpAddress;
+        request.OofSettings = oofSettings;
+
+        return <any>request.Execute();
+    }
     /* #endregion Availability operations */
-    
-    
+
+
     /* #region Conversation */
-    
-    
+
+
     // ApplyConversationAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, conversationIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, processRightAway: boolean, categories: StringList, enableAlwaysDelete: boolean, destinationFolderId: FolderId, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ApplyConversationAction<TResponse extends ServiceResponse> : Not implemented."); }
     // ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ApplyConversationOneTimeAction<TResponse extends ServiceResponse> : Not implemented."); }
     //DisableAlwaysCategorizeItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysCategorizeItemsInConversations : Not implemented."); }
@@ -1798,7 +1797,7 @@ export class ExchangeService extends ExchangeServiceBase {
     ////GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder): ConversationResponse { throw new Error("ExchangeService.ts - GetConversationItems : Not implemented."); }
     ////GetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetConversationItems : Not implemented."); }
     //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
-    
+
     //CopyItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItemsInConversations : Not implemented."); }
     //DeleteItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, deleteMode: DeleteMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItemsInConversations : Not implemented."); }
     //MoveItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItemsInConversations : Not implemented."); }
@@ -1807,18 +1806,18 @@ export class ExchangeService extends ExchangeServiceBase {
     ////SetReadStateForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, isRead: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetReadStateForItemsInConversations : Not implemented."); }
     //SetRetentionPolicyForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetRetentionPolicyForItemsInConversations : Not implemented."); }
     /* #end region Conversation */
-    
-    
+
+
     /** #region Id conversion operations */
-    
+
     //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("ExchangeService.ts - ConvertId : Not implemented."); }
     //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ConvertIds : Not implemented."); }
     //InternalConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalConvertIds : Not implemented."); }
     /* #endregion Id conversion operations */
-    
-    
+
+
     /* #region Delegate management operations */
-    
+
     // AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
     // //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
     //GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateInformation { throw new Error("ExchangeService.ts - GetDelegates : Not implemented."); }
@@ -1828,29 +1827,29 @@ export class ExchangeService extends ExchangeServiceBase {
     //UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - UpdateDelegates : Not implemented."); }
     ////UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - UpdateDelegates : Not implemented."); }
     /* #endregion Delegate management operations */
-    
-    
+
+
     /* #region UserConfiguration operations */
-    
+
     //CreateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - CreateUserConfiguration : Not implemented."); }
     //DeleteUserConfiguration(name: string, parentFolderId: FolderId): any { throw new Error("ExchangeService.ts - DeleteUserConfiguration : Not implemented."); }
     //GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): UserConfiguration { throw new Error("ExchangeService.ts - GetUserConfiguration : Not implemented."); }
     //LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): any { throw new Error("ExchangeService.ts - LoadPropertiesForUserConfiguration : Not implemented."); }
     //UpdateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - UpdateUserConfiguration : Not implemented."); }
     /* #endregion UserConfiguration operations */
-    
-    
+
+
     /* #region InboxRule operations */
-    
+
     //GetInboxRules(): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
     ////GetInboxRules(mailboxSmtpAddress: string): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
     //UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
     ////UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
     /* #endregion InboxRule operations */
-    
-    
+
+
     /* #region eDiscovery/Compliance operations */
-    
+
     // BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemDetails : Not implemented."); }
     // BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemStatistics : Not implemented."); }
     // BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSearchMailboxes : Not implemented."); }
@@ -1876,16 +1875,16 @@ export class ExchangeService extends ExchangeServiceBase {
     //GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
     ////GetNonIndexableItemStatistics(mailboxes: System.String[]): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
     /* #endregion eDiscovery/Compliance operations */
-    
-    
+
+
     /* #region MRM operations */
-    
+
     //GetUserRetentionPolicyTags(): GetUserRetentionPolicyTagsResponse { throw new Error("ExchangeService.ts - GetUserRetentionPolicyTags : Not implemented."); }
     /* #endregion MRM operations */
-    
-    
+
+
     /* #region Autodiscover */
-    
+
     /**
      * Adjusts the service URI based on the current type of credentials.
      *
@@ -2043,15 +2042,15 @@ export class ExchangeService extends ExchangeServiceBase {
         throw new AutodiscoverLocalException(Strings.AutodiscoverDidNotReturnEwsUrl);
     }
     /* #endregion Autodiscover */
-    
-    
+
+
     /* #region ClientAccessTokens */
-    
+
     //GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
     ////GetClientAccessToken(idAndTypes: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
     /* #end region ClientAccessTokens */
-    
-    
+
+
     /* #region Client Extensibility */
     //GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): System.Collections.ObjectModel.Collection<ClientApp> { throw new Error("ExchangeService.ts - GetAppManifests : Not implemented."); }
     ////GetAppManifests(): System.Collections.ObjectModel.Collection<System.Xml.XmlDocument> { throw new Error("ExchangeService.ts - GetAppManifests : Not implemented."); }
@@ -2065,14 +2064,14 @@ export class ExchangeService extends ExchangeServiceBase {
     //GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
     //SetEncryptionConfiguration(imageBase64: string, emailText: string, portalText: string, disclaimerText: string): any { throw new Error("ExchangeService.ts - SetEncryptionConfiguration : Not implemented."); }
     /* #endregion Client Extensibility */
-    
-    
+
+
     /* #region Diagnostic Method -- Only used by test */
-    
+
     //ExecuteDiagnosticMethod(verb: string, parameter: System.Xml.XmlNode): System.Xml.XmlDocument { throw new Error("ExchangeService.ts - ExecuteDiagnosticMethod : Not implemented."); }    
     /* #endregion Diagnostic Method -- Only used by test */
-    
-    
+
+
     /* #region Validation */
 
     static IsMajorMinor(versionPart: string): boolean {
@@ -2161,10 +2160,10 @@ export class ExchangeService extends ExchangeServiceBase {
         }
     }
     /* #endregion Validation */
-    
-    
+
+
     /* #region Utilities */
-        
+
     /**
      * @internal Creates an IXHROptions instance and initializes it with the appropriate parameters, based on the configuration of this service object.
      *
@@ -2195,9 +2194,9 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request;
     }
-    
+
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): void { }
-    
+
     /**
      * Sets the type of the content.
      *
@@ -2215,7 +2214,7 @@ export class ExchangeService extends ExchangeServiceBase {
         else {
             super.SetContentType(request);
         }
-    }        
+    }
     /* #endregion Utilities */
 
 

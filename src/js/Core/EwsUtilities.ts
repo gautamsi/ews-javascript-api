@@ -11,6 +11,7 @@ import {ExchangeService} from "./ExchangeService";
 import {TimeSpan, moment} from "../DateTime";
 
 import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
+import {DayOfWeek} from "../Enumerations/DayOfWeek";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {EwsLogging} from "./EwsLogging";
@@ -105,7 +106,7 @@ export class EwsUtilities {
     //     });
     // private static enumToSchemaDictionaries: LazyMember<DictionaryWithNumericKey<DictionaryWithNumericKey<string>>>;
     //private static typeNameToShortNameMap: LazyMember<T>;
-    
+
     static BoolToXSBool(value: boolean): string {
         var boolvalue = Convert.toBool(value)
         return boolvalue ? EwsUtilities.XSTrue : EwsUtilities.XSFalse;
@@ -298,7 +299,19 @@ export class EwsUtilities {
 
         return emailAddressParts[1];
     }
-    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): any/*System.DayOfWeek*/ /*todo: fix system enums here*/ { throw new Error("EwsUtilities.ts - static EwsToSystemDayOfWeek : Not implemented."); }
+    static EwsToSystemDayOfWeek(dayOfTheWeek: DayOfTheWeek): DayOfWeek {
+        if (dayOfTheWeek == DayOfTheWeek.Day ||
+            dayOfTheWeek == DayOfTheWeek.Weekday ||
+            dayOfTheWeek == DayOfTheWeek.WeekendDay) {
+            throw new ArgumentException(
+                StringHelper.Format("Cannot convert {0} to System.DayOfWeek enum value", dayOfTheWeek),
+                "dayOfTheWeek");
+        }
+        else {
+            return <DayOfWeek><any>dayOfTheWeek;
+        }
+    }
+
     static FindFirstItemOfType<T extends Item>(items: Item[], type: any): T {
         for (var item of items) {
             if (item instanceof type) {
@@ -470,7 +483,11 @@ export class EwsUtilities {
         }
     }
     //static SerializeEnum(value: any): string{ throw new Error("EwsUtilities.ts - static SerializeEnum : Not implemented.");}
-    //static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek{ throw new Error("EwsUtilities.ts - static SystemToEwsDayOfTheWeek : Not implemented.");}
+
+    static SystemToEwsDayOfTheWeek(dayOfWeek: DayOfWeek): DayOfTheWeek {
+        return <DayOfTheWeek><any>dayOfWeek;
+    }
+
     static TimeSpanToXSDuration(timeSpan: TimeSpan): string {
         // Optional '-' offset
         var offsetStr: string = (timeSpan.TotalSeconds < 0) ? "-" : StringHelper.Empty;
@@ -500,12 +517,13 @@ export class EwsUtilities {
             this.numPad(timeSpan.seconds(), 2));
     }
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
-        var regex: RegExp = /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+        var regex: RegExp = /(-)?P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.([0-9]+))?S)?)?/; //ref: info: not using \\, may be a bug in EWS managed api. does not match "-P2Y6M5DT12H35M30.4S" with \\ //old /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;
+
         if (xsDuration.match(regex) === null) {
             throw new ArgumentException(Strings.XsDurationCouldNotBeParsed);
         }
         return new TimeSpan(xsDuration);//using moment, it recognize the format.
-        
+
     }
     //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("EwsUtilities.ts - static TrueForAll : Not implemented.");}
     static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("EwsUtilities.ts - static ValidateClassVersion : Not implemented."); }
@@ -521,7 +539,7 @@ export class EwsUtilities {
         //    }
         //}
     }
-    
+
     /**
      * Validates the enum value against the request version.
      *
@@ -570,7 +588,7 @@ export class EwsUtilities {
                     minimumServerVersion));
         }
     }
-    
+
     /**
      * Validates string parameter to be non-empty string (null value not allowed).
      *
@@ -592,14 +610,14 @@ export class EwsUtilities {
      * @param   {string}   paramName   Name of the parameter.
      */
     static ValidateNonBlankStringParamAllowNull(param: string, paramName: string): void {
-        if (param) {            
+        if (param) {
             // Non-empty string has at least one character which is *not* a whitespace character
             if (param.replace(/\s*/g, '').length === 0) {
                 throw new ArgumentException(Strings.ArgumentIsBlankString, paramName);
             }
         }
     }
-    
+
     /**
      * Validates parameter (null value not allowed).
      *
@@ -631,8 +649,8 @@ export class EwsUtilities {
      */
     static ValidateParamAllowNull(param: any, paramName: string): void {
         var selfValidate: ISelfValidate = param;
-
-        if (selfValidate.Validate && false) {//todo: interface detection for ISelfValidate
+        // look for null/undefined
+        if (false && selfValidate && selfValidate.Validate) {//todo: interface detection for ISelfValidate
             try {
                 selfValidate.Validate();
             }
@@ -652,7 +670,7 @@ export class EwsUtilities {
             }
         }
     }
-    
+
     /**
      * Validates parameter collection.
      *
@@ -682,7 +700,7 @@ export class EwsUtilities {
             throw new ArgumentException(Strings.CollectionIsEmpty, paramName);
         }
     }
-    
+
     /**
      * Validates property version against the request version.
      *

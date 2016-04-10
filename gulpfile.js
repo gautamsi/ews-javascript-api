@@ -16,7 +16,7 @@ var colors = $.util.colors;
 var envenv = $.util.env;
 var gulp_typedoc = require("gulp-typedoc");
 var typedoc = require('typedoc');
-    
+
 
 
 /**
@@ -29,7 +29,7 @@ var typedoc = require('typedoc');
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
  * --startServers: Will start servers for midway tests on the test task.
  */
- 
+
 /**
  * List the available gulp tasks
  */
@@ -37,7 +37,7 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 gulp.task('build', ['ts-compile']);
-gulp.task('build-all', ['ts-compile', 'ts-compile-amd', 'ts-compile-tests', 'ts-compile-amd-tests']);
+gulp.task('build-all', ['ts-compile', 'ts-compile-amd']);//, 'ts-compile-tests', 'ts-compile-amd-tests']);
 
 //gulp.task('ts-clean', function(done) {
 //    clean(config.ts.output, done);
@@ -135,8 +135,8 @@ gulp.task('ts-compile-amd', function (done) {
 
 gulp.task('tests', [], function (done) {
     return gulp.src([
-        './build/output/node/test/mocha/**/*.js',                
-        ], { read: false })
+        './build/output/node/test/mocha/**/*.js',
+    ], { read: false })
         .pipe(mocha({ reporter: 'spec' }))
         .on('error', gutil.log);
 });
@@ -173,7 +173,7 @@ gulp.task('serve-dev', function (done) {
 });
 
 gulp.task("npm-prep", function () {
-    return gulp.src([
+    gulp.src([
         "./README.md",
         "./LICENSE",
         "./COPYRIGHT",
@@ -253,68 +253,74 @@ function log(msg) {
 /**
  * replace line [reflection.name = '"' + _this.basePath.trim(name) + '"';] with [reflection.name = _this.basePath.trim(name);] to avoid '"' in names
  */
-gulp.task("typedocX", function() {
+gulp.task("typedocX", function () {
     process.chdir("./src/js/");
-	return gulp
-		.src(config.typedocFiles)
-		.pipe(gulp_typedoc({ 
-			// TypeScript options (see typescript docs) 
-			module: "commonjs", 
-			target: "es5",
-			includeDeclarations: true,
-			
-			// Output options (see typedoc docs) 
-			out: "./build/docs", 
-			//json: "./build/docs/file.json",
- 
-			// TypeDoc options (see typedoc docs) 
-			name: "EWS JavaScript Api", 
-			theme: "default",
-			//plugins: ["my", "plugins"],
-			ignoreCompilerErrors: true,
-			//version: true,
-		}));
+    return gulp
+        .src(config.typedocFiles)
+        .pipe(gulp_typedoc({
+            // TypeScript options (see typescript docs) 
+            module: "commonjs",
+            target: "es5",
+            includeDeclarations: true,
+
+            // Output options (see typedoc docs) 
+            out: "./build/docs",
+            //json: "./build/docs/file.json",
+
+            // TypeDoc options (see typedoc docs) 
+            name: "EWS JavaScript Api",
+            theme: "default",
+            //plugins: ["my", "plugins"],
+            ignoreCompilerErrors: true,
+            //version: true,
+        }));
 });
 
 
-gulp.task("typedocFile", function() {
+gulp.task("typedocFile", function () {
     var options = {
-        target:"ES5",
-        module:"commonjs",
-        ignoreCompilerErrors:true,
-        name:"Ews JavaScript Api",
-        verbose:false,
+        target: "ES5",
+        module: "commonjs",
+        //experimentalDecorators: true,
+        //emitDecoratorMetadata: true,
+        //allowUnreachableCode: true,
+        ignoreCompilerErrors: true,
+        name: "Ews JavaScript Api",
+        verbose: false,
         //entryPoint:'"Core/ExchangeService"',
         exclude: "**/*.d*.ts",
-        excludeExternals:true,
-        theme:"default",
-        mode:"File",
-        readme:"none"                  
+        excludeExternals: true,
+        theme: "default",
+        mode: "File",
+        readme: "none"
     }
     var app = new typedoc.Application(options);
     return app.generateDocs(app.expandInputFiles(['.\\src\\js']), ".\\build\\docs\\FileMode");
     //return app.generateDocs(app.expandInputFiles(['.\\src\\js\\Core\\ServiceObjects\\Items']), ".\\build\\doc\\File");
 
 });
-gulp.task("typedocModules", function() {
+gulp.task("typedocModules", function () {
     var options = {
-        target:"ES5",
-        module:"commonjs",
-        ignoreCompilerErrors:true,
-        name:"Ews JavaScript Api",
-        verbose:false,
+        target: "ES5",
+        module: "commonjs",
+        //experimentalDecorators: true,
+        //emitDecoratorMetadata: true,
+        //allowUnreachableCode: true,
+        ignoreCompilerErrors: true,
+        name: "Ews JavaScript Api",
+        verbose: false,
         //entryPoint:'Core/ExchangeService',
         exclude: "**/*.d*.ts",
-        excludeExternals:true,
-        theme:"default",
-        mode:"Modules" ,
-        readme:"none"        
+        excludeExternals: true,
+        theme: "default",
+        mode: "Modules",
+        readme: "none"
     }
     var app = new typedoc.Application(options);
     return app.generateDocs(app.expandInputFiles(['.\\src\\js']), ".\\build\\docs\\ModulesMode");
 
 });
 
-gulp.task("typedoc",["typedocFile","typedocModules"]);
+gulp.task("typedoc", ["typedocFile", "typedocModules"]);
 
 module.exports = gulp;

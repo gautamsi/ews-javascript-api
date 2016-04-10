@@ -1,58 +1,150 @@
-﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ItemId} from "./ItemId";
-import {IRefParam} from "../interfaces/IRefParam";
-import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {StringHelper} from "../ExtensionMethods";
-import {ExchangeService} from "../Core/ExchangeService";
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../Core/ExchangeService";
+import {IRefParam} from "../interfaces/IRefParam";
+import {ItemId} from "./ItemId";
+import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
+import {StringHelper} from "../ExtensionMethods";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+
 import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Represents an e-mail address.
+ */
 export class EmailAddress extends ComplexProperty {
+
+    /**
+     * SMTP routing type.
+     */
     static SmtpRoutingType: string = "SMTP";
+
+    /**
+     * Display name.
+     */
     private name: string = null;
+
+    /**
+     * Email address.
+     */
     private address: string = null;
+
+    /**
+     * Routing type.
+     */
     private routingType: string = null;
+
+    /**
+     * Mailbox type. 
+     */
     private mailboxType: MailboxType = null;
+
+    /**
+     * ItemId - Contact or PDL.
+     */
     private id: ItemId = null;
+
+    /**
+     * Gets or sets the name associated with the e-mail address.
+     */
+    get Name(): string {
+        return this.name;
+    }
     set Name(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.name, setValue: (updateValue) => { this.name = updateValue } }, value);
     }
-    get Name(): string {
-        return this.name;
+
+    /**
+     * Gets or sets the actual address associated with the e-mail address. The type of the Address property must match the specified routing type. If RoutingType is not set, Address is assumed to be an SMTP address.
+     */
+    get Address(): string {
+        return this.address;
     }
     set Address(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.address, setValue: (updateValue) => { this.address = updateValue } }, value);
     }
-    get Address(): string {
-        return this.address;
+
+    /**
+     * Gets or sets the routing type associated with the e-mail address. If RoutingType is not set, Address is assumed to be an SMTP address.
+     */
+    get RoutingType(): string {
+        return this.routingType;
     }
     set RoutingType(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.routingType, setValue: (updateValue) => { this.routingType = updateValue } }, value);
     }
-    get RoutingType(): string {
-        return this.routingType;
+
+    /**
+     * Gets or sets the type of the e-mail address.
+     */
+    get MailboxType(): MailboxType {
+        return this.mailboxType;
     }
     set MailboxType(value: MailboxType) {
         this.SetFieldValue<MailboxType>({ getValue: () => this.mailboxType, setValue: (updateValue) => { this.mailboxType = updateValue } }, value);
     }
-    get MailboxType(): MailboxType {
-        return this.mailboxType;
+
+    /**
+     * Gets or sets the Id of the contact the e-mail address represents. When Id is specified, Address should be set to null.
+     */
+    get Id(): ItemId {
+        return this.id;
     }
     set Id(value: ItemId) {
         this.SetFieldValue<ItemId>({ getValue: () => this.id, setValue: (updateValue) => { this.id = updateValue } }, value);
     }
-    get Id(): ItemId {
-        return this.id;
-    }
 
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     */
     constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     */
     constructor(name: string, smtpAddress: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     */
     constructor(name: string, address: string, routingType: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
+     */
     constructor(name: string, address: string, routingType: string, mailboxType: MailboxType);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
+     * @param   {ItemId}        itemId        ItemId of a Contact or PDL.
+     */
     constructor(name: string, address: string, routingType: string, mailboxType: MailboxType, itemId: ItemId);
+    /**
+     * Initializes a new instance of the **EmailAddress** class from another EmailAddress instance.
+     *
+     * @param   {EmailAddress}   mailbox   EMailAddress instance to copy.
+     */
     constructor(mailbox: EmailAddress);
+    constructor(smtpAddressOrMailbox: string | EmailAddress); //for Attendee to call super() easily
     constructor(smtpAddressOrNameOrMailbox?: EmailAddress | string, smtpAddressOrAddress?: string, routingType?: string, mailboxType?: MailboxType, itemId?: ItemId) {
         super();
         if (smtpAddressOrNameOrMailbox instanceof EmailAddress) {
@@ -65,7 +157,7 @@ export class EmailAddress extends ComplexProperty {
             this.Id = smtpAddressOrNameOrMailbox.Id;
         }
         else {
-            var argsLength = arguments.length;
+            let argsLength = arguments.length;
             if (argsLength === 1) {
                 this.address = <string>smtpAddressOrNameOrMailbox;
             }
@@ -85,10 +177,56 @@ export class EmailAddress extends ComplexProperty {
         }
     }
 
-    InternalToJson(service: ExchangeService): any { throw new Error("EmailAddress.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("EmailAddress.ts - LoadFromJson : Not implemented."); }
+    /**
+     * Get a string representation for using this instance in a search filter.
+     *
+     * @return  {string}      String representation of instance.
+     */
+    GetSearchString(): string { //ISearchStringProvider ISearchStringProvider.GetSearchString
+        return this.Address;
+    }
+
+    ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("EmailAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    //todo: implement UpdateFromXmlJsObject
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {ExchangeService}     service                 The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        for (let key in jsObject) {
+            switch (key) {
+                case XmlElementNames.Name:
+                    this.name = jsObject[key];
+                    break;
+                case XmlElementNames.EmailAddress:
+                    this.address = jsObject[key];
+                    break;
+                case XmlElementNames.RoutingType:
+                    this.routingType = jsObject[key];
+                    break;
+                case XmlElementNames.MailboxType:
+                    this.mailboxType = MailboxTypeParser.FromString(jsObject[key])
+                    break;
+                case XmlElementNames.ItemId:
+                    this.id = new ItemId();
+                    this.id.LoadFromXmlJsObject(jsObject[key], service);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Returns a **string** that represents the current **object**.
+     *
+     * @return  {string}      A **string** that represents the current **object**.
+     */
     ToString(): string {
-        var addressPart: string = null;
+        let addressPart: string = null;
 
         if (StringHelper.IsNullOrEmpty(this.Address)) {
             return StringHelper.Empty;
@@ -108,33 +246,15 @@ export class EmailAddress extends ComplexProperty {
             return addressPart;
         }
     }
-    ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("EmailAddress.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    //todo: implement UpdateFromXmlJsObject
-    
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {//xmlElementName: string, xmlNamespace?: XmlNamespace
-        for (var key in jsonProperty) {
-            switch (key) {
-                case XmlElementNames.Name:
-                    this.name = jsonProperty[key];//.ReadAsString(key);
-                    break;
-                case XmlElementNames.EmailAddress:
-                    this.address = jsonProperty[key];//.ReadAsString(key);
-                    break;
-                case XmlElementNames.RoutingType:
-                    this.routingType = jsonProperty[key];//.ReadAsString(key);
-                    break;
-                case XmlElementNames.MailboxType:
-                    this.mailboxType = MailboxTypeParser.FromString(jsonProperty[key]) //.ReadEnumValue<MailboxType>(key);
-                    break;
-                case XmlElementNames.ItemId:
-                    this.id = new ItemId();
-                    this.id.LoadFromXmlJsObject(jsonProperty[key], service);
-                    break;
-                default:
-                    break;
-            }
-        }
+    toString(): string {
+        return this.ToString();
     }
+
+    /**
+     * Writes elements to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Name, this.Name);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
@@ -146,4 +266,3 @@ export class EmailAddress extends ComplexProperty {
         }
     }
 }
-

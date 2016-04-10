@@ -1,11 +1,43 @@
-﻿import {ComplexProperty} from "./ComplexProperty";
-import {JsonObject} from "../Core/JsonObject";
+﻿import {DateTime} from "../DateTime";
 import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-export class DeletedOccurrenceInfo extends ComplexProperty {
-    OriginalStart: Date;
-    private originalStart: Date;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("DeletedOccurrenceInfo.ts - LoadFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("DeletedOccurrenceInfo.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-}
+import {XmlElementNames} from "../Core/XmlElementNames";
 
+import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Encapsulates information on the deleted occurrence of a recurring appointment.
+ */
+export class DeletedOccurrenceInfo extends ComplexProperty {
+
+    /**
+     * The original start date and time of the deleted occurrence.
+     *
+     * @remarks The EWS schema contains a Start property for deleted occurrences but it's really the original start date and time of the occurrence.
+     */
+    private originalStart: DateTime = null;
+
+    /**
+     * Gets the original start date and time of the deleted occurrence.
+     */
+    get OriginalStart(): DateTime {
+        return this.originalStart;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **DeletedOccurrenceInfo** class.
+     */
+    constructor() {
+        super();
+    }
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {ExchangeService}     service                 The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        if (jsObject[XmlElementNames.Start]) {
+            this.originalStart = service.ConvertUniversalDateTimeStringToLocalDateTime(jsObject[XmlElementNames.Start]);
+        }
+    }
+}

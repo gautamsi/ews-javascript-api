@@ -7,7 +7,7 @@ export class TasksFolder extends Folder {
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
      */
-    get _FolderType(): string { return XmlElementNames.TasksFolder; }
+    //get _FolderType(): string { return XmlElementNames.TasksFolder; }
     
     ////////Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): TasksFolder { throw new Error("TasksFolder.ts - Bind : Not implemented."); }
     ////////Bind(service: ExchangeService, id: FolderId): TasksFolder { throw new Error("TasksFolder.ts - Bind : Not implemented."); }

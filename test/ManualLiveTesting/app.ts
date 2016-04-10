@@ -1,11 +1,12 @@
 import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
     UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
     EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
-    ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody} from "../../src/js/ExchangeWebService";
+    ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody,
+    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType} from "../../src/js/ExchangeWebService";
 
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
-
+    
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
     credentials = require("./credentials");
@@ -27,8 +28,74 @@ export class Greeter {
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
         exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        EwsLogging.DebugLogEnabled = false;
+        EwsLogging.DebugLogEnabled = true;
 
+        var appt = new Appointment(exch);
+        appt.Start = new DateTime().Add(48, 'hour');
+        appt.End = new DateTime().Add(49, 'hour');
+        appt.Subject = "some subject";
+        appt.Location = "Plot 371 2nd floor";
+        appt.Body = new MessageBody(BodyType.HTML, "Some body text");
+        appt.RequiredAttendees.Add("gs@mysupport.in");
+        appt.RequiredAttendees.Add("mailtosinghs@gmail.com");
+
+        appt.Save(SendInvitationsMode.SendToAllAndSaveCopy).then(() => {
+            console.log("------------");
+        }, (ei) => {
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("error");
+        });
+
+        return;
+
+
+
+        var mockXhr = new MockXHRApi();
+        //exch.XHRApi = mockXhr;
+
+        var oof = new OofSettings();
+        oof.State = OofState.Enabled;
+        oof.InternalReply = new OofReply("internal message");
+        oof.ExternalReply = new OofReply("external message");
+        //oof.AllowExternalOof = OofExternalAudience.All;        
+        oof.ExternalAudience = OofExternalAudience.All;
+
+        exch.SetUserOofSettings("grouptest@mysupport.in", oof).then((resp) => {
+            //EwsLogging.Log(resp,true, true);
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+
+        return;
+        exch.GetUserOofSettings("grouptest@mysupport.in").then((resp) => {
+            EwsLogging.Log(resp, true, true);
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+
+
+
+
+        return;
+        mockXhr.requestXml.push(MockXHRData.Operations.CalendarOperations.FindAppointmentRequest);
+        mockXhr.responseXml.push(MockXHRData.Operations.CalendarOperations.FindAppointmentRequestResponseWith3results);
+        exch.FindAppointments(WellKnownFolderName.Calendar, new CalendarView(DateTime.Now.Add(-7, "days"), DateTime.Now)).then((resp) => {
+            EwsLogging.Log(resp, true, true);
+            console.log("------------");
+        }, (ei) => {
+            EwsLogging.Log(ei, true, true);
+            console.log(ei.stack, ei.stack.split("\n"));
+            console.log("------------");
+        });
+
+
+        return;
         var msgattach = new EmailMessage(exch);
         msgattach.Subject = "Dentist Appointment";
         msgattach.Body = new MessageBody("The appointment is with Dr. Smith.");

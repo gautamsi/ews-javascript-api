@@ -34,6 +34,15 @@ Api document generated using TypeDoc and is hosted at [ews-javascript-api.github
     * GetAttachment method - load attachment information from Attachemnt or AttachmentId
     * Create email message with attachment, sample code in Wiki
 
+# Whats new v0.2.3
+
+* Appointment/CalendarItem code update
+    * Appointment can be created using `new Appointment()`
+    * Appointment can be saved with `Appointment.Save()`
+    * Meeting invitation can be send using `Appointment.Save(SendInvitationsMode.SendToAllAndSaveCopy)`
+    * issue - HTML Body is not working using `Appointment`
+* `GetUserOofSettings` and `SetUserOofSettings` on ExchangeService is ready to be used.
+* fix: Autodiscover issue fixed, where it throws exception when redirecting to office 365 using 302 redirect from CNAME dns record
 
 
 # Getting Started
@@ -124,7 +133,7 @@ exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndS
 
 Review Core/ExchangeService methods in api document, Any method not marked private oe internal (internal marker is in description of method) is posted and can be used, open issue if it doe snot work
 
-## List of ExchangeService methods ported  
+## List of ExchangeService methods available  
 > ArchiveItems  
 AutodiscoverUrl  
 BindToGroupItems  
@@ -143,10 +152,12 @@ LoadPropertiesForItems
 MarkAsJunk  
 MoveItems  
 ResolveName  
-UpdateItems 
+UpdateItems  
+GetUserOofSettings  
+SetUserOofSettings   
 
 
-## List of Folder object methods ported
+## List of Folder object methods available
 
 > BindToFolder  
 CopyFolder  
@@ -163,7 +174,7 @@ MoveFolder
 Save  
 UpdateFolder 
 
-## List of Item object methods ported
+## List of Item object methods available
 
 >ArchiveItem  
 BindToItem  

@@ -1,9 +1,28 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {OofSettings} from "../../ComplexProperties/Availability/OofSettings";
+﻿import {OofSettings} from "../../ComplexProperties/Availability/OofSettings";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal Represents response to GetUserOofSettings request.
  */
 export class GetUserOofSettingsResponse extends ServiceResponse {
-    OofSettings: OofSettings;
-    private oofSettings: OofSettings;
+    private oofSettings: OofSettings = null;
+
+    /**
+     * Gets or sets the OOF settings.
+     *
+     * @value The oof settings.
+     */
+    get OofSettings(): OofSettings {
+        return this.oofSettings;
+    }
+    set OofSettings(value: OofSettings) {
+        this.oofSettings = value;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **GetUserOofSettingsResponse** class.
+     */
+    constructor() {
+        super();
+    }
 }

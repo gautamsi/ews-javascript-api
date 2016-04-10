@@ -117,6 +117,7 @@ TypeContainer.ServiceObjectSchema = <any>ServiceObjectSchema;
 
 import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 import {Folder} from "./Core/ServiceObjects/Folders/Folder";
+import {CalendarFolder} from "./Core/ServiceObjects/Folders/CalendarFolder";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
 import {Item} from "./Core/ServiceObjects/Items/Item";
 import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
@@ -132,6 +133,7 @@ import {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedProperty
 
 TypeContainer.ServiceObject = ServiceObject;
 TypeContainer.Folder = Folder;
+TypeContainer.CalendarFolder = CalendarFolder;
 TypeContainer.Item = Item;
 TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
@@ -145,7 +147,7 @@ TypeContainer.IndexedPropertyDefinition = IndexedPropertyDefinition;
 TypeContainer.ExtendedPropertyDefinition = ExtendedPropertyDefinition;
 
 
-export {ServiceObject, Folder, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
+export {ServiceObject, Folder, CalendarFolder, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
 /**#endregion BootStrap code */
 
 
@@ -212,7 +214,6 @@ export {CalendarActionResults} from "./Misc/CalendarActionResults";
 
 export {CalendarEvent} from "./ComplexProperties/Availability/CalendarEvent";
 export {CalendarEventDetails} from "./ComplexProperties/Availability/CalendarEventDetails";
-export {CalendarFolder} from "./Core/ServiceObjects/Folders/CalendarFolder";
 export {CalendarResponseMessage} from "./Core/ServiceObjects/ResponseObjects/CalendarResponseMessage";
 export {CalendarResponseMessageBase} from "./Core/ServiceObjects/ResponseObjects/CalendarResponseMessageBase";
 export {CalendarView} from "./Search/CalendarView";

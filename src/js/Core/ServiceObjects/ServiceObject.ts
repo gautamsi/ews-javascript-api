@@ -25,7 +25,12 @@ import {IPromise} from "../../Interfaces";
 export abstract class ServiceObject {
 
     private lockObject: any = {};
-    private service: ExchangeService;
+
+    //private service: ExchangeService;
+    /** workaround for service variable exposer in console.log */
+    private getService: () => ExchangeService;
+    private setService: (service: ExchangeService) => void;
+
     private propertyBag: PropertyBag;
     private xmlElementName: string;
 
@@ -41,8 +46,8 @@ export abstract class ServiceObject {
     /**
      * Gets the ExchangeService the object is bound to.
      */
-    get Service(): ExchangeService { return this.service; }
-    set Service(value: ExchangeService) { this.service = value; }
+    get Service(): ExchangeService { return this.getService(); }
+    set Service(value: ExchangeService) { this.setService(value); }
 
     /**
      * Indicates whether this object is a real store item, or if it's a local object that has yet to be saved.
@@ -72,7 +77,10 @@ export abstract class ServiceObject {
         //EwsUtilities.ValidateParam(service, "service");
         //EwsUtilities.ValidateServiceObjectVersion(this, service.RequestedServerVersion);
 
-        this.Service = service;
+        //this.Service = service;
+        var innerService = service;
+        this.setService = (service) => { innerService = service; }
+        this.getService = () => { return innerService; }
         this.propertyBag = new PropertyBag(this);
     }
 
@@ -217,7 +225,7 @@ export abstract class ServiceObject {
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
     GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
-    
+
     /**
      * Gets the name of the set field XML element.
      *
