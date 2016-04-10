@@ -484,7 +484,7 @@ export class EwsUtilities {
     }
     //static SerializeEnum(value: any): string{ throw new Error("EwsUtilities.ts - static SerializeEnum : Not implemented.");}
 
-    static SystemToEwsDayOfTheWeek(dayOfWeek: System.DayOfWeek): DayOfTheWeek {
+    static SystemToEwsDayOfTheWeek(dayOfWeek: DayOfWeek): DayOfTheWeek {
         return <DayOfTheWeek><any>dayOfWeek;
     }
 
