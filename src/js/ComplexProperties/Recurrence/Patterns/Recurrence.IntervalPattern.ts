@@ -1,10 +1,9 @@
 ﻿import {ArgumentOutOfRangeException} from "../../../Exceptions/ArgumentException";
 import {DateTime} from "../../../DateTime";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
 import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
 import {ExchangeService} from "../../../Core/ExchangeService";
-import {JsonObject} from "../../../Core/JsonObject";
 import {Strings} from "../../../Strings";
+import {XmlElementNames} from "../../../Core/XmlElementNames";
 import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
 
 import {Recurrence} from "./Recurrence";
@@ -40,9 +39,10 @@ export abstract class IntervalPattern extends Recurrence {
      * @param   {number}    interval    The number of days between each occurrence.
      */
     constructor(startDate: DateTime, interval: number);
-    constructor(startDate?: DateTime, interval?: number) {
+    constructor(startDate?: DateTime, interval: number = 1) {
         if (arguments.length === 0) {
             super();
+            this.interval = 1;
             return;
         }
         super(startDate);

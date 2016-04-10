@@ -91,7 +91,7 @@ export class Attendee extends EmailAddress {
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (let key in jsObject) {
-            if (key.indexOf("_") === 0) {
+            if (key.indexOf("__") === 0) {
                 continue;
             }
             switch (key) {

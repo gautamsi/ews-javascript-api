@@ -3,7 +3,7 @@ import {XmlElementNames} from "../../../Core/XmlElementNames";
 
 import {IntervalPattern} from "./Recurrence.IntervalPattern";
 /**
- * Contains nested type Recurrence.DailyPattern.
+ * Represents a recurrence pattern where each occurrence happens a specific number of days after the previous one.
  */
 export class DailyPattern extends IntervalPattern {
 
@@ -13,7 +13,7 @@ export class DailyPattern extends IntervalPattern {
      * @value   The name of the XML element.
      */
     get XmlElementName(): string {
-        return XmlElementNames.NoEndRecurrence;
+        return XmlElementNames.DailyRecurrence;
     }
 
     /**

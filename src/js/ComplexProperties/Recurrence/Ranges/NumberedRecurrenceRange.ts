@@ -20,7 +20,7 @@ export class NumberedRecurrenceRange extends RecurrenceRange {
      * @value   The name of the XML element.
      */
     get XmlElementName(): string {
-        return XmlElementNames.NoEndRecurrence;
+        return XmlElementNames.NumberedRecurrence;
     }
 
     /**

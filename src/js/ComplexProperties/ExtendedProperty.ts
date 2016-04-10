@@ -66,7 +66,7 @@ export class ExtendedProperty extends ComplexProperty {
 
                     var stringList: StringList = new StringList(XmlElementNames.Value);
                     var jsonCollection = EwsServiceJsonReader.ReadAsArray(jsonProperty, key);
-                    stringList.CreateFromJsonCollection(jsonCollection, service);
+                    stringList.CreateFromXmlJsObjectCollection(jsonCollection, service);
                     this.value = MapiTypeConverter.ConvertToValue(this.PropertyDefinition.MapiType, stringList.Items);
                     break;
                 default:
