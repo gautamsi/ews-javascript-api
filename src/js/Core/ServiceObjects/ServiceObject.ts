@@ -294,7 +294,7 @@ export abstract class ServiceObject {
     /**
      * Loads service object from XML.
      *
-     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.
      * @param   {boolean}             clearPropertyBag        if set to true [clear property bag].
      * @param   {PropertySet}         requestedPropertySet    The property set.

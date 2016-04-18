@@ -183,7 +183,7 @@ export class Recurrence extends ComplexProperty {
     /**
      * @internal Loads service object from XML.
      *
-     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
@@ -225,17 +225,16 @@ export class Recurrence extends ComplexProperty {
     }
 }
 
-
 export module Recurrence {
-    export var DailyPattern: any = DailyPattern;
-    export var DailyRegenerationPattern: any = DailyRegenerationPattern;
-    export var IntervalPattern: any = IntervalPattern;
-    export var MonthlyPattern: any = MonthlyPattern;
-    export var MonthlyRegenerationPattern: any = MonthlyRegenerationPattern;
-    export var RelativeMonthlyPattern: any = RelativeMonthlyPattern;
-    export var RelativeYearlyPattern: any = RelativeYearlyPattern;
-    export var WeeklyPattern: any = WeeklyPattern;
-    export var WeeklyRegenerationPattern: any = WeeklyRegenerationPattern;
-    export var YearlyPattern: any = YearlyPattern;
-    export var YearlyRegenerationPattern: any = YearlyRegenerationPattern;
+    export var DailyPattern: new () => DailyPattern;
+    export var DailyRegenerationPattern: new () => DailyRegenerationPattern;
+    export var IntervalPattern: new () => IntervalPattern;
+    export var MonthlyPattern: new () => MonthlyPattern;
+    export var MonthlyRegenerationPattern: new () => MonthlyRegenerationPattern;
+    export var RelativeMonthlyPattern: new () => RelativeMonthlyPattern;
+    export var RelativeYearlyPattern: new () => RelativeYearlyPattern;
+    export var WeeklyPattern: new () => WeeklyPattern;
+    export var WeeklyRegenerationPattern: new () => WeeklyRegenerationPattern;
+    export var YearlyPattern: new () => YearlyPattern;
+    export var YearlyRegenerationPattern: new () => YearlyRegenerationPattern;
 }
