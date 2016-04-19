@@ -229,6 +229,14 @@ export class TypeSystem {
         return undefined;
 
     }
+    
+    static IsGenericType(value:any):boolean{
+        if(value === null || typeof value === 'undefined'){
+            return false;
+        }
+        let valueType = typeof value;
+        return valueType === 'string' || valueType === 'boolean' || valueType === 'number';
+    }
 }
 
 //use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
