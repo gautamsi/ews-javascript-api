@@ -118,6 +118,9 @@ TypeContainer.ServiceObjectSchema = <any>ServiceObjectSchema;
 import {ServiceObject} from "./Core/ServiceObjects/ServiceObject";
 import {Folder} from "./Core/ServiceObjects/Folders/Folder";
 import {CalendarFolder} from "./Core/ServiceObjects/Folders/CalendarFolder";
+import {ContactsFolder} from "./Core/ServiceObjects/Folders/ContactsFolder";
+import {SearchFolder} from "./Core/ServiceObjects/Folders/SearchFolder";
+import {TasksFolder} from "./Core/ServiceObjects/Folders/TasksFolder";
 import {Appointment} from "./Core/ServiceObjects/Items/Appointment";
 import {Item} from "./Core/ServiceObjects/Items/Item";
 import {ItemAttachment} from "./ComplexProperties/ItemAttachment";
@@ -134,6 +137,9 @@ import {ExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedProperty
 TypeContainer.ServiceObject = ServiceObject;
 TypeContainer.Folder = Folder;
 TypeContainer.CalendarFolder = CalendarFolder;
+TypeContainer.ContactsFolder = ContactsFolder;
+TypeContainer.SearchFolder = SearchFolder;
+TypeContainer.TasksFolder = TasksFolder;
 TypeContainer.Item = Item;
 TypeContainer.Appointment = Appointment;
 TypeContainer.MeetingRequest = MeetingRequest;
@@ -147,7 +153,9 @@ TypeContainer.IndexedPropertyDefinition = IndexedPropertyDefinition;
 TypeContainer.ExtendedPropertyDefinition = ExtendedPropertyDefinition;
 
 
-export {ServiceObject, Folder, CalendarFolder, Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation, MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
+export {ServiceObject, Folder, CalendarFolder, ContactsFolder, SearchFolder, TasksFolder}
+export {Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation}
+export {MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition}
 
 import {Recurrence} from "./ComplexProperties/Recurrence/Patterns/Recurrence";
 import {DailyPattern} from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyPattern";
@@ -308,7 +316,6 @@ export {ContactEntityCollection} from "./ComplexProperties/ContactEntityCollecti
 export {ContactGroup} from "./Core/ServiceObjects/Items/ContactGroup";
 export {ContactPhoneEntity} from "./ComplexProperties/ContactPhoneEntity";
 export {ContactPhoneEntityCollection} from "./ComplexProperties/ContactPhoneEntityCollection";
-export {ContactsFolder} from "./Core/ServiceObjects/Folders/ContactsFolder";
 export {ContactSource} from "./Enumerations/ContactSource";
 export {ContainedPropertyDefinition} from "./PropertyDefinitions/ContainedPropertyDefinition";
 export {ContainmentMode} from "./Enumerations/ContainmentMode";
@@ -774,7 +781,6 @@ export {SafeXmlFactory} from "./Security/SafeXmlFactory";
 //export {SafeXmlSchema} from "./Security/SafeXmlSchema";
 export {ScopedDateTimePropertyDefinition} from "./PropertyDefinitions/ScopedDateTimePropertyDefinition";
 export {SearchableMailbox} from "./MailboxSearch/SearchableMailbox";
-export {SearchFolder} from "./Core/ServiceObjects/Folders/SearchFolder";
 export {SearchFolderParameters} from "./ComplexProperties/SearchFolderParameters";
 export {SearchFolderTraversal} from "./Enumerations/SearchFolderTraversal";
 export {SearchMailboxesParameters} from "./MailboxSearch/SearchMailboxesParameters";
@@ -860,7 +866,6 @@ export {Task} from "./Core/ServiceObjects/Items/Task";
 export {TaskDelegationState} from "./Enumerations/TaskDelegationState";
 export {TaskDelegationStatePropertyDefinition} from "./PropertyDefinitions/TaskDelegationStatePropertyDefinition";
 export {TaskMode} from "./Enumerations/TaskMode";
-export {TasksFolder} from "./Core/ServiceObjects/Folders/TasksFolder";
 export {TaskStatus} from "./Enumerations/TaskStatus";
 export {TaskSuggestion} from "./ComplexProperties/TaskSuggestion";
 export {TaskSuggestionCollection} from "./ComplexProperties/TaskSuggestionCollection";
