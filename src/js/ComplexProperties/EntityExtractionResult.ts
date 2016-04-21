@@ -1,14 +1,13 @@
 ﻿import {AddressEntityCollection} from "./AddressEntityCollection";
-import {MeetingSuggestionCollection} from "./MeetingSuggestionCollection";
-import {TaskSuggestionCollection} from "./TaskSuggestionCollection";
-import {EmailAddressEntityCollection} from "./EmailAddressEntityCollection";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ExchangeService} from "../Core/ExchangeService";
-import {XmlElementNames} from "../Core/XmlElementNames";
 import {ContactEntityCollection} from "./ContactEntityCollection";
-import {UrlEntityCollection} from "./UrlEntityCollection";
+import {EmailAddressEntityCollection} from "./EmailAddressEntityCollection";
+import {ExchangeService} from "../Core/ExchangeService";
+import {MeetingSuggestionCollection} from "./MeetingSuggestionCollection";
 import {PhoneEntityCollection} from "./PhoneEntityCollection";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {TaskSuggestionCollection} from "./TaskSuggestionCollection";
+import {UrlEntityCollection} from "./UrlEntityCollection";
+import {XmlElementNames} from "../Core/XmlElementNames";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
 import {ComplexProperty} from "./ComplexProperty";
 /**
@@ -62,7 +61,7 @@ export class EntityExtractionResult extends ComplexProperty {
     /**
      * @internal Read element from XMLJsObject.
      *
-     * @param   {}   jsObject   xmljsonObject
+     * @param   {any}   jsObject   xmljsonObject
      * @return  {ExchangeService} the ExchangeService
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
@@ -103,7 +102,6 @@ export class EntityExtractionResult extends ComplexProperty {
                         this.PhoneNumbers = new PhoneEntityCollection();
                         this.PhoneNumbers.LoadFromXmlJsObject(jsObject[key], service);
                         break;
-
                     default:
                         break;
                 }

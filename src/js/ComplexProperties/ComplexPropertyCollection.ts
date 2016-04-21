@@ -120,7 +120,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
      * @param   {any}               jsObjectCollection   The json collection.
      * @param   {ExchangeService}   service          The service.
      */
-    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {        
+    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
         let collection: TComplexProperty[] = [];
         for (let key in jsObjectCollection) {
             if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
@@ -283,7 +283,10 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             }
         }
     }
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        EwsLogging.Assert(false, "ComplexPropertyCollection.LoadFromXmlJsObject", "LoadFromXmlJsObject was called, should not be calling. Fix it to direct to Create or Update call instad.")
+        this.CreateFromXmlJsObjectCollection(jsObject, service);
+    }
     //LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXml : Not implemented."); }
 
     /**

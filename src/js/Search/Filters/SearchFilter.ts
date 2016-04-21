@@ -1,22 +1,22 @@
-﻿import {ContainsSubstring, IContainsSubstring} from "./SearchFilter.ContainsSubstring";
+﻿import {ContainmentMode} from "../../Enumerations/ContainmentMode";
+import {ContainsSubstring, IContainsSubstring} from "./SearchFilter.ContainsSubstring";
 import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 import {ExchangeService} from "../../Core/ExchangeService";
 import {ExcludesBitmask, IExcludesBitmask} from "./SearchFilter.ExcludesBitmask";
 import {Exists, IExists} from "./SearchFilter.Exists";
-import {LogicalOperator} from "../../Enumerations/LogicalOperator";
 import {IsEqualTo, IIsEqualTo} from "./SearchFilter.IsEqualTo";
-import {IsGreaterThanOrEqualTo, IIsGreaterThanOrEqualTo} from "./SearchFilter.IsGreaterThanOrEqualTo";
 import {IsGreaterThan, IIsGreaterThan} from "./SearchFilter.IsGreaterThan";
-import {IsLessThanOrEqualTo, IIsLessThanOrEqualTo} from "./SearchFilter.IsLessThanOrEqualTo";
+import {IsGreaterThanOrEqualTo, IIsGreaterThanOrEqualTo} from "./SearchFilter.IsGreaterThanOrEqualTo";
 import {IsLessThan, IIsLessThan} from "./SearchFilter.IsLessThan";
+import {IsLessThanOrEqualTo, IIsLessThanOrEqualTo} from "./SearchFilter.IsLessThanOrEqualTo";
 import {IsNotEqualTo, IIsNotEqualTo} from "./SearchFilter.IsNotEqualTo";
+import {LogicalOperator} from "../../Enumerations/LogicalOperator";
 import {Not, INot} from "./SearchFilter.Not";
 import {PropertyBasedFilter, IPropertyBasedFilter} from "./SearchFilter.PropertyBasedFilter";
 import {RelationalFilter, IRelationalFilter} from "./SearchFilter.RelationalFilter";
 import {SearchFilterCollection, ISearchFilterCollection} from "./SearchFilter.SearchFilterCollection";
-import {XmlElementNames} from "../../Core/XmlElementNames";
 import {TypeSystem} from '../../ExtensionMethods';
-import {ContainmentMode} from "../../Enumerations/ContainmentMode";
+import {XmlElementNames} from "../../Core/XmlElementNames";
 
 import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
 /**
@@ -30,8 +30,6 @@ export abstract class SearchFilter extends ComplexProperty {
     constructor() {
         super();
     }
-
-
 
     /**
      * Gets the search filter instance.
@@ -114,7 +112,7 @@ export abstract class SearchFilter extends ComplexProperty {
     }
 
     /**
-     * Writes to XML.
+     * @internal Writes to XML.
      * 
      * @param {EwsServiceXmlWriter} writer  The writer.
      */

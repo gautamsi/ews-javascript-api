@@ -1,69 +1,89 @@
-﻿import {ComplexProperty} from "./ComplexProperty";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {JsonObject} from "../Core/JsonObject";
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {StringHelper} from '../ExtensionMethods';
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-export class MimeContentBase extends ComplexProperty {
+import {XmlElementNames} from "../Core/XmlElementNames";
+
+import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Represents the MIME content of an item.
+ */
+export abstract class MimeContentBase extends ComplexProperty {
+
+    /**
+     * characterSet returned 
+     */
     private characterSet: string;
-    private content: any[];//byte[]
-    
-    
-    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void {
-        //this.characterSet = reader.ReadAttributeValue<string>(XmlAttributeNames.CharacterSet);
+
+    /**
+     * content received
+     */
+    private content: string;//byte[]
+
+    /**
+     * to set XMLElementName when reading XML JsObject value.
+     */
+    protected xmlElementName: string = XmlElementNames.MimeContent;
+
+    /**
+     * Gets or sets the character set of the content.
+     */
+    get CharacterSet(): string {
+        return this.characterSet;
     }
-    ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): void {
-        //this.content = System.Convert.FromBase64String(reader.ReadValue());
+    set CharacterSet(value: string) {
+        this.SetFieldValue<string>({ getValue: () => this.characterSet, setValue: (updateValue) => { this.characterSet = updateValue } }, value);
     }
 
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void {
-        //            foreach (string key in jsonProperty.Keys)
-        //            {
-        //                switch (key)
-        //                {
-        //                    case XmlAttributeNames.CharacterSet:
-        //                        this.characterSet = jsonProperty.ReadAsString(key);
-        //                        break;
-        //                    case JsonObject.JsonValueString:
-        //                        this.content = jsonProperty.ReadAsBase64Content(key);
-        //                        break;
-        //                    default:
-        //                        break;
-        //                }
-        //            }
+    /**
+     * Gets or sets the content.  - ews-javascript-api this is base64 value without encoding applied.
+     */
+    get Content(): string {
+        return this.content;
     }
+    set Content(value: string) {
+        this.SetFieldValue<string>({ getValue: () => this.content, setValue: (updateValue) => { this.content = updateValue } }, value);
+    }
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any/*JsonObject*/, service: ExchangeService): void {
+        for (let key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.CharacterSet:
+                    this.characterSet = jsObject[key];
+                    break;
+                case this.xmlElementName: //ref: text value in xml2jsobject
+                    this.content = jsObject[key];;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @internal Writes attributes to XML.
+     * 
+     * @param {EwsServiceXmlWriter} writer  The writer.
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.CharacterSet, this.CharacterSet);
     }
+
+    /**
+     * @internal Writes elements to XML.
+     * 
+     * @param {EwsServiceXmlWriter} writer  The writer.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        if (this.Content != null && this.Content.length > 0) {
+        if (!StringHelper.IsNullOrEmpty(this.Content)) {
+            writer.WriteValue(this.Content, this.xmlElementName);
             //writer.WriteBase64ElementValue(this.Content);
         }
     }
-    InternalToJson(service: ExchangeService): any {
-        //            JsonObject jsonProperty = new JsonObject();
-        //
-        //            jsonProperty.Add(XmlAttributeNames.ChangeKey, this.CharacterSet);
-        //
-        //            if (this.Content != null && this.Content.Length > 0)
-        //            {
-        //                jsonProperty.AddBase64(JsonObject.JsonValueString, this.Content);
-        //            }
-        //
-        //            return jsonProperty;
-    }
-
-    CharacterSet: string;
-    //        {
-    //            get { return this.characterSet; }
-    //            set { this.SetFieldValue<string>(ref this.characterSet, value); }
-    //        }
-
-    Content: any[];//byte[]
-    //        {
-    //            get { return this.content; }
-    //            set { this.SetFieldValue<byte[]>(ref this.content, value); }
-    //        }
 }
-
-

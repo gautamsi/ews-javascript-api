@@ -1,40 +1,36 @@
-﻿import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
-import {Strings} from "../Strings";
-import {TypeContainer} from "../TypeContainer";
-import {LazyMember} from "./LazyMember";
-import {DictionaryWithStringKey, DictionaryWithNumericKey} from "../AltDictionary";
-import {ServiceObject} from "./ServiceObjects/ServiceObject";
-import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
-import {Item} from "./ServiceObjects/Items/Item";
-
-import {ExchangeService} from "./ExchangeService";
-import {TimeSpan, moment} from "../DateTime";
-
+﻿import {ArgumentException, ArgumentNullException} from "../Exceptions/ArgumentException";
+import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
+import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
 import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
 import {DayOfWeek} from "../Enumerations/DayOfWeek";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsLogging} from "./EwsLogging";
 import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
+import {DictionaryWithStringKey, DictionaryWithNumericKey} from "../AltDictionary";
 import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
-import {ImAddressKey} from "../Enumerations/ImAddressKey";
-import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
-import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
 import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
 import {EnumToSchemaMappingHelper} from "../Enumerations/EnumToSchemaMappingHelper";
-import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
-import {ItemTraversal} from "../Enumerations/ItemTraversal";
-import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
+import {EwsLogging} from "./EwsLogging";
+import {ExchangeService} from "./ExchangeService";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {FileAsMapping} from "../Enumerations/FileAsMapping";
-
-import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
-import {ArgumentException, ArgumentNullException} from "../Exceptions/ArgumentException";
 import {ISelfValidate} from "../Interfaces/ISelfValidate";
-
+import {ImAddressKey} from "../Enumerations/ImAddressKey";
 import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
-
+import {ItemTraversal} from "../Enumerations/ItemTraversal";
+import {Item} from "./ServiceObjects/Items/Item";
+import {LazyMember} from "./LazyMember";
+import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
+import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
+import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
 import {StringHelper, Convert} from "../ExtensionMethods";
-import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
+import {Strings} from "../Strings";
+import {TimeSpan, moment} from "../DateTime";
+import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
+import {TypeContainer} from "../TypeContainer";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
+
 export class EwsUtilities {
 
     //#region constants in c# - typescript static
@@ -592,10 +588,10 @@ export class EwsUtilities {
     /**
      * Validates string parameter to be non-empty string (null value not allowed).
      *
-     * @param   {}   param       The string parameter.
-     * @param   {}   paramName   Name of the parameter.
+     * @param   {string}   param       The string parameter.
+     * @param   {string}   paramName   Name of the parameter.
      */
-    static ValidateNonBlankStringParam(param: string, paramName: string): void {
+    static ValidateNonBlankStringParam(param: DayOfTheWeek[], paramName: string): void {
         if (param == null) {
             throw new ArgumentNullException(paramName);
         }

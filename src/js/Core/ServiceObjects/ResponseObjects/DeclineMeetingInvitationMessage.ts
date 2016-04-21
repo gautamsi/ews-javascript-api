@@ -12,7 +12,7 @@ export class DeclineMeetingInvitationMessage extends CalendarResponseMessage<Mee
     /**
      * Initializes a new instance of the **DeclineMeetingInvitationMessage** class.
      *
-     * @param   {}   referenceItem   The reference item.
+     * @param   {Item}   referenceItem   The reference item.
      */
     constructor(referenceItem: Item) {
         super(referenceItem);
