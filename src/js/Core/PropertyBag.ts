@@ -160,7 +160,7 @@ export class PropertyBag {
                 var complexPropertyDefinition = <ComplexPropertyDefinitionBase>propertyDefinition;
 
                 EwsLogging.Assert(
-                    !(complexPropertyDefinition instanceof ComplexPropertyDefinitionBase),
+                    (complexPropertyDefinition instanceof ComplexPropertyDefinitionBase),
                     "PropertyBag.get_this[]",
                     "propertyDefinition is marked with AutoInstantiateOnRead but is not a descendant of ComplexPropertyDefinitionBase");
 

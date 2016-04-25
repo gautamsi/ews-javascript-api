@@ -45,7 +45,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
     get Owner(): ServiceObject { return this.owner; };
     set Owner(value) {
         EwsLogging.Assert(
-            value != null && !(value instanceof TypeContainer.Item), // instanceof Item), //info: can not check instanceof to avoid circular dependency in js. TypeContainer is workaround
+            value != null && (value instanceof TypeContainer.Item), // instanceof Item), //info: can not check instanceof to avoid circular dependency in js. TypeContainer is workaround
             "AttachmentCollection.IOwnedProperty.set_Owner",
             "value is not a descendant of ItemBase");
         this.owner = <Item>value;
