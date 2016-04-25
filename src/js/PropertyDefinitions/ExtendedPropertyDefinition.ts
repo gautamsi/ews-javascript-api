@@ -271,7 +271,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (this.propertySet) {
-            writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, this.propertySet);
+            writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, DefaultExtendedPropertySet[this.propertySet]);
         }
         if (this.propertySetId) {
             writer.WriteAttributeValue(XmlAttributeNames.PropertySetId, this.propertySetId.ToString());
