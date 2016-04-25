@@ -29,7 +29,7 @@ export class Dictionary<TKey, TValue>{
     /** get all keys */
     get Keys(): TKey[] {
         var keys: TKey[] = [];
-        for (var key in this.keys) {
+        for (var key of this.keys) {
             keys.push(this.keysToObjs[key]);
         }
         return keys;
@@ -37,7 +37,7 @@ export class Dictionary<TKey, TValue>{
     /**get all items in key,value pair array */
     get Items(): KeyValuePair<TKey, TValue>[] {
         var items: KeyValuePair<TKey, TValue>[] = [];
-        for (var k in this.keys) {
+        for (var k of this.keys) {
             items.push({ key: this.keysToObjs[k], value: this.objects[k] });
         }
         return items;
@@ -46,7 +46,7 @@ export class Dictionary<TKey, TValue>{
     /** get all values */
     get Values(): TValue[] {
         var ret: TValue[] = [];
-        for (var key in this.keys) {
+        for (var key of this.keys) {
             ret.push(this.objects[key]);
         }
         return ret;
