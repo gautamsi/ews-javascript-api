@@ -920,7 +920,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var view: ViewBase = null;
 
         //position 2 - viewQueryStringOrSearchFilter
-        if (argsLength == 2)
+        if (argsLength >= 2)
             if (typeof viewQueryStringOrSearchFilter === 'string') {
                 queryString = viewQueryStringOrSearchFilter;
             }
