@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
