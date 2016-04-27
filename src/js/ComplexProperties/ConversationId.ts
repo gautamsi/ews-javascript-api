@@ -8,11 +8,16 @@ export class ConversationId extends ServiceId {
 
     /**
      * Initializes a new instance of **ConversationId**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ConversationId**.
      *
      * @param   {string}   uniqueId   The unique Id used to initialize the **ConversationId**.
      */
-    constructor(uniqueId: string) {
-        super(uniqueId);
+    constructor(uniqueId: string);
+    constructor(uniqueId?: string) {
+        arguments.length === 0 ? super() : super(uniqueId);
     }
 
     /**
