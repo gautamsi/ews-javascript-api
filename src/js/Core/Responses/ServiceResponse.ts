@@ -145,7 +145,6 @@ export class ServiceResponse {
             if (responseObject[XmlElementNames.MessageXml]) {
                 this.ParseMessageXml(responseObject[XmlElementNames.MessageXml]);
             }
-
         }
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {

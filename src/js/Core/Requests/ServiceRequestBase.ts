@@ -188,8 +188,8 @@ export abstract class ServiceRequestBase {
         //}
     }
     BuildResponseObjectFromJson(jsObject: any): any {
-        if (jsObject["Header"]) {
-            this.ReadSoapHeader(jsObject["Header"]);
+        if (jsObject[XmlElementNames.SOAPHeaderElementName]) {
+            this.ReadSoapHeader(jsObject[XmlElementNames.SOAPHeaderElementName]);
         }
 
         return this.ParseResponse(jsObject[XmlElementNames.SOAPBodyElementName]);
@@ -534,14 +534,14 @@ export abstract class ServiceRequestBase {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      * 
      * @remarks Subclass will override if it has XML attributes.
-     */    
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { }
-    
+
     /**
      * @internal Writes XML body.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
-     */    
+     */
     WriteBodyToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, this.GetXmlElementName());
         this.WriteAttributesToXml(writer);
