@@ -279,7 +279,18 @@ export class SoapFaultDetails {
                             this.errorDetails.Add(name, value[key]);
                         }
                     });
+                case XmlElementNames.EwsLineElementName:
+                case "LineNumber":
+                    this.LineNumber = Convert.toNumber(jsObject[key]);
+                    break;
+                case XmlElementNames.EwsPositionElementName:
+                case "LinePosition":
+                    this.PositionWithinLine = Convert.toNumber(jsObject[key]);
+                    break;
                 default:
+                    if (typeof jsObject[key] === "string") {
+                        this.errorDetails.addUpdate(key, jsObject[key])
+                    }
                     EwsLogging.Assert(false, "SoapFaultDetails.ParseMessageXml", "Element: " + key + " - Please report example of this operation to ews-javascript-api repo to improve SoapFault parsing");
                     break;
             }
