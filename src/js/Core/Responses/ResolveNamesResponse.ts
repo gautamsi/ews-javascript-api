@@ -20,9 +20,8 @@ export class ResolveNamesResponse extends ServiceResponse {
             super.InternalThrowIfNecessary();
         }
     }
-    ReadElementsFromJson(responseObject: any, service: ExchangeService): void { throw new Error("ResolveNamesResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromJson(responseObject, service);
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
         this.Resolutions.LoadFromXmlJsObject(responseObject[XmlElementNames.ResolutionSet], service);
     }

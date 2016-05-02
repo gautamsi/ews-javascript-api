@@ -35,10 +35,9 @@ export class UpdateItemResponse extends ServiceResponse {
             this.item.ClearChangeLog();
         }
     }
-    // ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("UpdateItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
         debugger;
-        super.ReadElementsFromJson(responseObject, service);
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
         EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
             responseObject,

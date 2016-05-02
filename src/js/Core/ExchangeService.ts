@@ -46,6 +46,7 @@ import {FolderView} from "../Search/FolderView";
 import {Folder} from "./ServiceObjects/Folders/Folder";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
+import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
@@ -98,6 +99,7 @@ import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceResponse} from "./Responses/ServiceResponse";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
+import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {Strings} from "../Strings";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
@@ -1673,7 +1675,9 @@ export class ExchangeService extends ExchangeServiceBase {
     //EndSubscribeToPushNotifications(asyncResult: Function /*System.IAsyncResult*/): PushSubscription { throw new Error("ExchangeService.ts - EndSubscribeToPushNotifications : Not implemented."); }
     //EndSubscribeToStreamingNotifications(asyncResult: Function /*System.IAsyncResult*/): StreamingSubscription { throw new Error("ExchangeService.ts - EndSubscribeToStreamingNotifications : Not implemented."); }
     //EndUnsubscribe(asyncResult: Function /*System.IAsyncResult*/): any { throw new Error("ExchangeService.ts - EndUnsubscribe : Not implemented."); }
-    //GetEvents(subscriptionId: string, watermark: string): GetEventsResults { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+
+    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+
     //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
     //SubscribeToPullNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotifications : Not implemented."); }
     //SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotificationsOnAllFolders : Not implemented."); }
@@ -1684,7 +1688,9 @@ export class ExchangeService extends ExchangeServiceBase {
     //SubscribeToStreamingNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotifications : Not implemented."); }
     //SubscribeToStreamingNotificationsOnAllFolders(eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
     //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
-    //Unsubscribe(subscriptionId: string): any { throw new Error("ExchangeService.ts - Unsubscribe : Not implemented."); }
+
+    Unsubscribe(subscriptionId: string): IPromise<void> { throw new Error("ExchangeService.ts - Unsubscribe : Not implemented."); }
+
     /* #endregion Notification operations */
 
 
@@ -2169,7 +2175,7 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {string}   methodName   Name of the method.
      * @return  {IXHROptions}           An instance of IXHROptions to call web service with.
      */
-    PrepareHttpWebRequest(methodName: string): IXHROptions { //info: PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
+    PrepareHttpWebRequest(methodName: string): IXHROptions {
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
@@ -2194,7 +2200,19 @@ export class ExchangeService extends ExchangeServiceBase {
         return request;
     }
 
-    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): void { }
+    /**
+     * @internal Processes an HTTP error response.
+     *
+     * @param   {XMLHttpRequest}   httpWebResponse      The HTTP web response.
+     * @param   {SoapFaultDetails}   soapFault          The SoapFault Instance.
+     */
+    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, soapFault: SoapFaultDetails): void {
+        this.InternalProcessHttpErrorResponse(
+            httpWebResponse,
+            soapFault,
+            TraceFlags.EwsResponseHttpHeaders,
+            TraceFlags.EwsResponse);
+    }
 
     /**
      * Sets the type of the content.

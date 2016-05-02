@@ -58,8 +58,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
                 }
             }, (resperr: XMLHttpRequest) => {
                 EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
-                this.ProcessWebException(resperr);
-                if (errorDelegate) errorDelegate(this.SoapFaultDetails || resperr);
+                if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             });
         });
 

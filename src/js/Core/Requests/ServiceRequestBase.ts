@@ -1,84 +1,151 @@
-﻿import {ServiceResponse} from "../Responses/ServiceResponse";
-import {Strings} from "../../Strings";
-import {ExchangeService} from "../ExchangeService";
-import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+﻿import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
+import {EwsLogging} from "../EwsLogging";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {XmlAttributeNames} from "../XmlAttributeNames";
 import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeServerInfo} from "../ExchangeServerInfo";
-import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
-import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {RenderingMode} from "../../Enumerations/RenderingMode";
-import {EwsLogging} from "../EwsLogging";
-
-import {StringHelper} from "../../ExtensionMethods";
-
+import {ExchangeService} from "../ExchangeService";
+import {ArgumentNullException} from "../../Exceptions/ArgumentException";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {IPromise, IXHROptions, IXHRApi} from "../../Interfaces";
 import {PromiseFactory} from "../../PromiseFactory"
+import {RenderingMode} from "../../Enumerations/RenderingMode";
+import {ServiceResponse} from "../Responses/ServiceResponse";
+import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
+import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
+import {StringHelper} from "../../ExtensionMethods";
+import {Strings} from "../../Strings";
 import {XHRFactory} from "../../XHRFactory"
-export class ServiceRequestBase {
+import {XmlAttributeNames} from "../XmlAttributeNames";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+/**
+ * @internal Represents an abstract service request.
+ */
+export abstract class ServiceRequestBase {
 
     //#region private static and const
     //ref:this may be from newer code overall i am using, update when updating from ews base code library //todo:
-    /**        /// <summary>
-     *   /// The two contants below are used to set the AnchorMailbox and ExplicitLogonUser values
-     *   /// in the request header.
-     *   /// </summary>
-     *   /// <remarks>
-     *   /// Note: Setting this values will route the request directly to the backend hosting the 
-     *   /// AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where
-     *   /// a request needs to be routed directly to the group mailbox versus the user mailbox.
-     *   /// </remarks>
-         */
+
+    /**
+     * The two contants below are used to set the AnchorMailbox and ExplicitLogonUser values in the request header.
+     * 
+     * @remarks Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
+     */
     private static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
     private static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
 
+    private static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
     private static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
     private static XMLSchemaInstanceNamespace: string = "http://www.w3.org/2001/XMLSchema-instance";
     private static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
-    private static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
-    private static clientStatisticsCache: string[] = [];//System.Collections.Generic.List<string>;
-    get Service(): ExchangeService { return this.service; }
-    private service: ExchangeService;
-    //#endregion
-    AnchorMailbox: string = null;
-    SoapFaultDetails: SoapFaultDetails;
 
-    // #region abstract Methods for subclasses to override
-    get EmitTimeZoneHeader(): boolean { return false; }
-    
-    
-    
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ServiceRequestBase"/> class.
-    /// </summary>
-    /// <param name="service">The service.</param>
+    /**
+     * Maintains the collection of client side statistics for requests already completed
+     */
+    private static clientStatisticsCache: string[] = [];
+
+    private service: ExchangeService;
+
+    /**
+     * @internal Gets the service.
+     * 
+     * @value   The service.
+     */
+    get Service(): ExchangeService {
+        return this.service;
+    }
+    //#endregion
+
+    /**
+     * @internal Gets or sets the anchor mailbox associated with the request
+     *
+     * @remarks Setting this value will add special headers to the request which in turn will route the request directly to the mailbox server against which the request is to be executed.
+     */
+    AnchorMailbox: string = null;
+
+    /** ews-javascript-api specific */
+    private SoapFaultDetails: SoapFaultDetails;
+
+
+    /**
+     *  @internal Initializes a new instance of the **ServiceRequestBase** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
     constructor(service: ExchangeService) {
+        if (service == null) {
+            throw new ArgumentNullException("service");
+        }
         this.service = service;
         this.ThrowIfNotSupportedByRequestedServerVersion();
     }
 
+    // #region abstract Methods for subclasses to override
+
+    /**
+     *  @internal Gets a value indicating whether the TimeZoneContext SOAP header should be eimitted.
+     * 
+     * @value   true if the time zone should be emitted; otherwise, false.
+     */
+    get EmitTimeZoneHeader(): boolean {
+        return false;
+    }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetXmlElementName(): string { throw new Error("abstract method, must override"); }
+
+    /**
+     * @internal Gets the minimum server version required to process this request.
+     *
+     * @return  {ExchangeVersion}      Exchange server version.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must override"); }
+
+    /**
+     * @internal Gets the name of the response XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetResponseXmlElementName(): string { throw new Error("abstract method, must override"); }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        var serviceResponse: ServiceResponse = new ServiceResponse();
+        serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
+        return serviceResponse;
+    }
+
+    /**
+     * @internal Writes XML elements.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { throw new Error("abstract method, must override"); }
+
+    //#endregion
+
+    /**
+     * @internal Allows the subclasses to add their own header information
+     *
+     * @param   {any}   webHeaderCollection   The HTTP request headers
+     */
     AddHeaders(webHeaderCollection: any /*WebHeaderCollection*/): void {
         if (!StringHelper.IsNullOrEmpty(this.AnchorMailbox)) {
             webHeaderCollection.Set(ServiceRequestBase.AnchorMailboxHeaderName, this.AnchorMailbox);
             webHeaderCollection.Set(ServiceRequestBase.ExplicitLogonUserHeaderName, this.AnchorMailbox);
         }
     }
-    GetXmlElementName(): string { throw new Error("abstract method, must override"); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must override"); }
-    GetResponseXmlElementName(): string { throw new Error("abstract method, must override"); }
-    //ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("abstract method, must override"); }
-    ParseResponse(jsonBody: any/*JsonObject*/): any {
-        var serviceResponse: ServiceResponse = new ServiceResponse();
-        serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
-        return serviceResponse;
-    }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("abstract method, must override"); }
-    //#endregion
 
     //BuildEwsHttpWebRequest(): IEwsHttpWebRequest { throw new Error("Could not implemented."); }
     BuildXHR(): IXHROptions {
@@ -129,7 +196,13 @@ export class ServiceRequestBase {
     }
     //CreateJsonHeaders(): JsonObject { throw new Error("Could not implemented."); }
     //CreateJsonRequest(): JsonObject { throw new Error("Could not implemented."); }
-    EmitRequest(request: IXHROptions /*IEwsHttpWebRequest*/): void {
+
+    /**
+     * Emits the request.
+     *
+     * @param   {IXHROptions}   request   The request.
+     */
+    private EmitRequest(request: IXHROptions): void {
         if (this.Service.RenderingMethod === RenderingMode.Xml) {
 
             var writer: EwsServiceXmlWriter = new EwsServiceXmlWriter(this.service);//writer.Service
@@ -149,7 +222,14 @@ export class ServiceRequestBase {
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
     GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
-    GetRequestedServiceVersionString(): string {
+
+    /**
+     * Gets string representation of requested server version.
+     *
+     * @remarks In order to support E12 RTM servers, ExchangeService has another flag indicating that we should use "Exchange2007" as the server version string rather than Exchange2007_SP1.
+     * @return  {string}      String representation of requested server version.
+     */
+    private GetRequestedServiceVersionString(): string {
         if (this.Service.Exchange2007CompatibilityMode && this.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
             return "Exchange2007";
         }
@@ -160,7 +240,14 @@ export class ServiceRequestBase {
     //GetResponseStream(response: IEwsHttpWebResponse): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
     //GetResponseStream(response: IEwsHttpWebResponse, readTimeout: number):any /*System.IO.Stream*/{ throw new Error("ServiceRequestBase.ts - GetResponseStream : Not implemented.");}
     //GetWebRequestStream(request: IEwsHttpWebRequest): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
-    protected ProcessWebException(webException: XMLHttpRequest): void {
+
+    /**
+     * Processes the web exception.
+     *
+     * @param   {XMLHttpRequest}   webException   The web response XHR object.
+     * @return  {SoapFaultDetails}      Soap fault details if any.
+     */
+    protected ProcessWebException(webException: XMLHttpRequest): SoapFaultDetails {
         if (webException) {
             //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
             var soapFaultDetails: SoapFaultDetails = null;
@@ -226,7 +313,7 @@ export class ServiceRequestBase {
                 //}
                 //todo: fix tracing and other operations here
                 var reader = new EwsServiceXmlReader(webException.responseText, this.Service);
-                soapFaultDetails = this.ReadSoapFault(reader);
+                soapFaultDetails = this.ReadSoapFault(reader.JsObject);
 
                 if (soapFaultDetails != null) {
                     //todo: implement soap fault error throw
@@ -267,14 +354,21 @@ export class ServiceRequestBase {
                 }
             }
             else {
-                //todo: fix this
-                debugger;
-                this.Service.ProcessHttpErrorResponse(webException, webException);
+                soapFaultDetails = new SoapFaultDetails();
+                this.Service.ProcessHttpErrorResponse(webException, soapFaultDetails);
             }
+
+            return soapFaultDetails;
         }
     }
 
-    protected ReadResponseXmlJsObject(jsObject: any): any /*object return*/ {
+    /**
+     * Reads the response from converted XML JS Object Soap enevlop is is omited, object has Body and Header as direct member.
+     *
+     * @param   {any}   jsObject    The converted XMl JS Object.
+     * @return  {any}               Service response.
+     */
+    protected ReadResponseXmlJsObject(jsObject: any): any {
         if (jsObject[XmlElementNames.SOAPHeaderElementName]) {
             this.ReadSoapHeader(jsObject[XmlElementNames.SOAPHeaderElementName]);
         }
@@ -283,78 +377,51 @@ export class ServiceRequestBase {
             throw new Error("invalid soap message");
         }
         var serviceResponse: any;
-        jsObject = jsObject[XmlElementNames.SOAPBodyElementName]
-        jsObject = jsObject[this.GetResponseXmlElementName()];
-        serviceResponse = this.ParseResponse(jsObject);
+        let jsBody = jsObject[XmlElementNames.SOAPBodyElementName]
+        let jsResponse = jsBody[this.GetResponseXmlElementName()];
+        serviceResponse = this.ParseResponse(jsResponse);
         return serviceResponse;
     }
 
-    ReadSoapFault(reader: EwsServiceXmlReader): SoapFaultDetails {
-        var soapFaultDetails: SoapFaultDetails = null;
-        debugger;
-        try {
-            //this.ReadXmlDeclaration(reader);
+    /**
+     * Reads the SOAP fault.
+     *
+     * @param   {any}   jsonSoapFault   The SOAP fault.
+     * @return  {SoapFaultDetails}      Parsed SoapFaultDetails
+     */
+    private ReadSoapFault(jsSoapFault: any): SoapFaultDetails {
+        let soapFaultDetails: SoapFaultDetails = null;
 
-            reader.Read();
-            if (reader.LocalName != XmlElementNames.SOAPEnvelopeElementName) {
-                return soapFaultDetails;
-            }
-
-            // EWS can sometimes return SOAP faults using the SOAP 1.2 namespace. Get the
-            // namespace URI from the envelope element and use it for the rest of the parsing.
-            // If it's not 1.1 or 1.2, we can't continue.
-            var soapNamespace: XmlNamespace = EwsUtilities.GetNamespaceFromUri(reader.NamespaceUri);
-            if (soapNamespace == XmlNamespace.NotSpecified) {
-                return soapFaultDetails;
-            }
-
-            reader.Read();
-
-            // EWS doesn't always return a SOAP header. If this response contains a header element,
-            // read the server version information contained in the header.
-            if (reader.IsElement(soapNamespace, XmlElementNames.SOAPHeaderElementName)) {
-                do {
-                    reader.Read();
-
-                    if (reader.IsElement(XmlNamespace.Types, XmlElementNames.ServerVersionInfo)) {
-                        this.Service.ServerInfo = ExchangeServerInfo.Parse(reader);
-                    }
-                }
-                while (reader.HasRecursiveParent(XmlElementNames.SOAPHeaderElementName));
-
-                // Queue up the next read
-                //reader.Read(); - not needed as this is done as part of TreeWalker
-            }
-
-            // Parse the fault element contained within the SOAP body.
-            if (reader.IsElement(soapNamespace, XmlElementNames.SOAPBodyElementName)) {
-                do {
-                    reader.Read();
-
-                    // Parse Fault element
-                    if (reader.IsElement(soapNamespace, XmlElementNames.SOAPFaultElementName)) {
-                        soapFaultDetails = SoapFaultDetails.Parse(reader, soapNamespace);
-                    }
-                }
-                while (reader.HasRecursiveParent(XmlElementNames.SOAPBodyElementName));
-            }
-
-            //reader.ReadEndElement(soapNamespace, XmlElementNames.SOAPEnvelopeElementName); - not needed, treewalker reads it to the next node
+        if (jsSoapFault[XmlElementNames.SOAPHeaderElementName]) {
+            this.ReadSoapHeader(jsSoapFault[XmlElementNames.SOAPHeaderElementName]);
         }
-        catch (XmlException) {
-            // If response doesn't contain a valid SOAP fault, just ignore exception and
-            // return null for SOAP fault details.
+
+        if (jsSoapFault[XmlElementNames.SOAPBodyElementName]) {
+            let jsSoapBody = jsSoapFault[XmlElementNames.SOAPBodyElementName];
+            if (jsSoapBody[XmlElementNames.SOAPFaultElementName]) {
+                soapFaultDetails = SoapFaultDetails.Parse(jsSoapBody[XmlElementNames.SOAPFaultElementName]);
+            }
         }
 
         return soapFaultDetails;
     }
 
-    ReadSoapHeader(jsObject: any): any {
+    /**
+     * Read SOAP header and extract server version
+     *
+     * @param   {any}   jsObject   Header value in JsObject
+     */
+    private ReadSoapHeader(jsObject: any): void {
         if (jsObject[XmlElementNames.ServerVersionInfo]) {
             this.Service.ServerInfo = ExchangeServerInfo.Parse(jsObject[XmlElementNames.ServerVersionInfo]);
         }
     }
 
+    /**
+     * @internal Throw exception if request is not supported in requested server version.
+     * 
+     * @exception   {ServiceVersionException}   Raised if request requires a later version of Exchange.
+     */
     ThrowIfNotSupportedByRequestedServerVersion(): void {
 
         if (this.Service.RequestedServerVersion < this.GetMinimumRequiredServerVersion()) {
@@ -365,13 +432,27 @@ export class ServiceRequestBase {
                     ExchangeVersion[this.GetMinimumRequiredServerVersion()]), null);
         }
     }
+
     //TraceAndEmitRequest(request: IEwsHttpWebRequest, needSignature: boolean, needTrace: boolean): any { throw new Error("Could not implemented."); }
     //TraceJsonRequest(requestObject: JsonObject): any { throw new Error("Could not implemented."); }
     //TraceResponseJson(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
     //TraceResponseXml(response: IEwsHttpWebResponse, memoryStream: any): any { throw new Error("Could not implemented."); }
     //TraceXmlRequest(memoryStream: any): any { throw new Error("Could not implemented."); }
-    Validate(): void { this.Service.Validate(); }
-    ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        this.Service.Validate();
+    }
+
+    /**
+     * Validates request parameters, and emits the request to the server.
+     *
+     * @param   {IXHROptions}               request   The request.
+     * @return  {IPromise<XMLHttpRequest>}  The response returned by the server.
+     */
+    protected ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
         this.Validate();
 
         //var request = this.BuildXHR();
@@ -390,7 +471,7 @@ export class ServiceRequestBase {
             if (!StringHelper.IsNullOrEmpty(clientStatisticsToAdd)) {
                 if (request.headers[ServiceRequestBase.ClientStatisticsRequestHeader]) {
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] =
-                    request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;
+                        request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] + clientStatisticsToAdd;
                 }
                 else {
                     request.headers[ServiceRequestBase.ClientStatisticsRequestHeader] = clientStatisticsToAdd;
@@ -444,19 +525,23 @@ export class ServiceRequestBase {
 
         //return response;
     }
+
     //WrapStream(responseStream: any /*System.IO.Stream*/, contentEncoding: string): any /*System.IO.Stream*/ { throw new Error("Could not implemented."); }
-    /// <summary>
-    /// Writes XML attributes.
-    /// </summary>
-    /// <remarks>
-    /// Subexport class will override if it has XML attributes.
-    /// </remarks>
-    /// <param name="writer">The writer.</param>
+
+    /**
+     * @internal Writes XML attributes.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     * 
+     * @remarks Subclass will override if it has XML attributes.
+     */    
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { }
-    /// <summary>
-    /// Writes XML body.
-    /// </summary>
-    /// <param name="writer">The writer.</param>
+    
+    /**
+     * @internal Writes XML body.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */    
     WriteBodyToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, this.GetXmlElementName());
         this.WriteAttributesToXml(writer);
@@ -465,10 +550,12 @@ export class ServiceRequestBase {
     }
 
     //#region HttpWebRequest-based implementation
-    /// <summary>
-    /// Writes XML.
-    /// </summary>
-    /// <param name="writer">The writer.</param>
+
+    /**
+     * @internal Writes XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Soap, XmlElementNames.SOAPEnvelopeElementName);
         writer.WriteAttributeValue("xmlns", EwsUtilities.EwsXmlSchemaInstanceNamespacePrefix, EwsUtilities.EwsXmlSchemaInstanceNamespace);

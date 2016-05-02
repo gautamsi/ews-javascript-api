@@ -522,7 +522,17 @@ export class EwsUtilities {
 
     }
     //static TrueForAll(collection: System.Collections.Generic.IEnumerable<T>, predicate: any): boolean{ throw new Error("EwsUtilities.ts - static TrueForAll : Not implemented.");}
-    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): any { throw new Error("EwsUtilities.ts - static ValidateClassVersion : Not implemented."); }
+
+    static ValidateClassVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, className: string): void {
+        if (service.RequestedServerVersion < minimumServerVersion) {
+            throw new ServiceVersionException(
+                StringHelper.Format(
+                    Strings.ClassIncompatibleWithRequestVersion,
+                    className,
+                    minimumServerVersion));
+        }
+    }
+
     static ValidateDomainNameAllowNull(domainName: string, paramName: string): void {
 
         //todo: validate domain names per ews managed api
@@ -591,7 +601,7 @@ export class EwsUtilities {
      * @param   {string}   param       The string parameter.
      * @param   {string}   paramName   Name of the parameter.
      */
-    static ValidateNonBlankStringParam(param: DayOfTheWeek[], paramName: string): void {
+    static ValidateNonBlankStringParam(param: string, paramName: string): void {
         if (param == null) {
             throw new ArgumentNullException(paramName);
         }

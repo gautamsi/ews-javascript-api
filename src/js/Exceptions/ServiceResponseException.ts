@@ -1,29 +1,54 @@
-﻿import {Strings} from "../Strings";
-import {ServiceResponse} from "../Core/Responses/ServiceResponse";
-
+﻿import {Exception} from "./Exception";
 import {ServiceError} from "../Enumerations/ServiceError";
-
+import {ServiceResponse} from "../Core/Responses/ServiceResponse";
 import {StringHelper} from "../ExtensionMethods";
-import {Exception} from "./Exception";
+import {Strings} from "../Strings";
+
 import {ServiceRemoteException} from "./ServiceRemoteException";
+/**
+ * Represents a remote service exception that has a single response.
+ */
 export class ServiceResponseException extends ServiceRemoteException {
+    
+    /**
+     * Error details Value keys
+     */
     private static ExceptionClassKey: string = "ExceptionClass";
     private static ExceptionMessageKey: string = "ExceptionMessage";
     private static StackTraceKey: string = "StackTrace";
 
-    get Response(): ServiceResponse { return this.response; }
-    get ErrorCode(): ServiceError { return this.response ? this.response.ErrorCode : null; }
+    /**
+     * ServiceResponse when service operation failed remotely.
+     */
+    private response: ServiceResponse;
+    
+    /**
+     * Gets the ServiceResponse for the exception.
+     */
+    get Response(): ServiceResponse { 
+        return this.response; 
+    }
+    
+    /**
+     * Gets the service error code.
+     */
+    get ErrorCode(): ServiceError { 
+        return this.response ? this.response.ErrorCode : null; 
+    }
+    
+    /**
+     * Gets a message that describes the current exception.
+     * 
+     * @returns The error message that explains the reason for the exception.
+     */
     get Message(): string {
         // Special case for Internal Server Error. If the server returned
         // stack trace information, include it in the exception message.
         if (this.Response.ErrorCode == ServiceError.ErrorInternalServerError) {
-            var exceptionClass = this.Response.ErrorDetails[ServiceResponseException.ExceptionClassKey];
-            var exceptionMessage = this.Response.ErrorDetails[ServiceResponseException.ExceptionMessageKey];
-            var stackTrace = this.Response.ErrorDetails[ServiceResponseException.StackTraceKey];
+            var exceptionClass = this.Response.ErrorDetails.get(ServiceResponseException.ExceptionClassKey);
+            var exceptionMessage = this.Response.ErrorDetails.get(ServiceResponseException.ExceptionMessageKey);
+            var stackTrace = this.Response.ErrorDetails.get(ServiceResponseException.StackTraceKey);
 
-            //if (this.Response.ErrorDetails.TryGetValue(ExceptionClassKey, out exceptionClass) &&
-            //    this.Response.ErrorDetails.TryGetValue(ExceptionMessageKey, out exceptionMessage) &&
-            //    this.Response.ErrorDetails.TryGetValue(StackTraceKey, out stackTrace)) {
             if (!StringHelper.IsNullOrEmpty(exceptionClass) && !StringHelper.IsNullOrEmpty(exceptionMessage) && !StringHelper.IsNullOrEmpty(stackTrace)) {
                 return StringHelper.Format(
                     Strings.ServerErrorAndStackTraceDetails,
@@ -37,17 +62,13 @@ export class ServiceResponseException extends ServiceRemoteException {
         return this.Response.ErrorMessage;
     }
 
-    private response: ServiceResponse;
-
+    /**
+     * @internal Initializes a new instance of the **ServiceResponseException** class.
+     *
+     * @param   {ServiceResponse}   response   The ServiceResponse when service operation failed remotely.
+     */
     constructor(response: ServiceResponse) {
-        super(response ? response.ErrorMessage : "", undefined);
+        super();
         this.response = response;
     }
-
-    //constructor(message?: string, innerException?: any) {
-    //    //todo: implement base class
-    //    super();
-
-    //}
-
 }

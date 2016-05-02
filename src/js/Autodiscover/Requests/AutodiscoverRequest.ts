@@ -272,7 +272,7 @@ export class AutodiscoverRequest {
         if (reader.JsObject && reader.JsObject[XmlElementNames.SOAPBodyElementName]) {
             var obj = reader.JsObject[XmlElementNames.SOAPBodyElementName];
             if (obj[XmlElementNames.SOAPFaultElementName])
-                soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
+                soapFaultDetails = SoapFaultDetails.Parse(obj[XmlElementNames.SOAPFaultElementName]);
         }
 
         return soapFaultDetails;

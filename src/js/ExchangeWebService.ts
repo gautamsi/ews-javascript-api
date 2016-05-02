@@ -538,7 +538,7 @@ export {GetSearchableMailboxesResponse} from "./Core/Responses/GetSearchableMail
 export {GetServerTimeZonesRequest} from "./Core/Requests/GetServerTimeZonesRequest";
 export {GetServerTimeZonesResponse} from "./Core/Responses/GetServerTimeZonesResponse";
 export {GetStreamingEventsRequest} from "./Core/Requests/GetStreamingEventsRequest";
-export {GetStreamingEventsResponse, ConnectionStatus} from "./Core/Responses/GetStreamingEventsResponse";
+export {GetStreamingEventsResponse} from "./Core/Responses/GetStreamingEventsResponse";
 export {GetStreamingEventsResults} from "./Notifications/GetStreamingEventsResults";
 export {GetUserAvailabilityRequest} from "./Core/Requests/GetUserAvailabilityRequest";
 export {GetUserAvailabilityResults} from "./Misc/Availability/GetUserAvailabilityResults";

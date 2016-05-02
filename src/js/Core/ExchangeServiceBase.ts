@@ -14,12 +14,15 @@ import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {IXHROptions, IXHRApi} from "../Interfaces";
 import {XHRFactory} from "../XHRFactory";
+import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 
 import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 import {Uri} from "../Uri";
 
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {AccountIsLockedException} from "../Exceptions/AccountIsLockedException";
+
 export class ExchangeServiceBase {
     static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
@@ -248,7 +251,54 @@ export class ExchangeServiceBase {
             this.OnSerializeCustomSoapHeaders(writer);
         }
     }
-    InternalProcessHttpErrorResponse(httpWebResponse: any, webException: any, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): any { throw new Error("ExchangeServiceBase.ts - InternalProcessHttpErrorResponse : Not implemented."); }
+
+    /**
+     * @internal Processes an HTTP error response
+     *
+     * @param   {XMLHttpRequest}    httpWebResponse            The HTTP web response.
+     * @param   {SoapFaultDetails}  webException               The web exception.
+     * @param   {TraceFlags}        responseHeadersTraceFlag   The trace flag for response headers.
+     * @param   {TraceFlags}        responseTraceFlag          The trace flag for responses.
+     * 
+     * @remarks his method doesn't handle 500 ISE errors. This is handled by the caller since 500 ISE typically indicates that a SOAP fault has occurred and the handling of a SOAP fault is currently service specific.
+     */
+    InternalProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, soapFault: SoapFaultDetails, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): void {
+        EwsLogging.Assert(
+            httpWebResponse.status != 500, // HttpStatusCode.InternalServerError,
+            "ExchangeServiceBase.InternalProcessHttpErrorResponse",
+            "InternalProcessHttpErrorResponse does not handle 500 ISE errors, the caller is supposed to handle this.");
+
+        this.ProcessHttpResponseHeaders(responseHeadersTraceFlag, httpWebResponse);
+
+        // Deal with new HTTP error code indicating that account is locked.
+        // The "unlock" URL is returned as the status description in the response.
+        if (httpWebResponse.status == ExchangeServiceBase.AccountIsLocked) {
+            EwsLogging.Assert(false, "ExchangeServiceBase.InternalProcessHttpErrorResponse", "Please report back to ews-javascript-api with example or response XML for future improvements of this code.");
+
+            let location: string = httpWebResponse.getResponseHeader("StatusDescription");
+
+            let accountUnlockUrl: Uri = null;
+
+            //if (Uri.IsWellFormedUriString(location, UriKind.Absolute)) {
+            if (Uri.ParseString(location).authority) { //todo: implement better Url parsing in Uri.
+                accountUnlockUrl = new Uri(location);
+            }
+
+            this.TraceMessage(responseTraceFlag, StringHelper.Format("Account is locked. Unlock URL is {0}", accountUnlockUrl.ToString()));
+
+            let exception = new AccountIsLockedException(
+                StringHelper.Format(Strings.AccountIsLocked, accountUnlockUrl),
+                accountUnlockUrl,
+                null);
+            if (soapFault !== null) {
+                soapFault.Exception = exception;
+            }
+            else {
+                throw exception;
+            }
+        }
+    }
+
     IsTraceEnabledFor(traceFlags: TraceFlags): boolean { return this.TraceEnabled && ((this.TraceFlags & traceFlags) != 0); }
     PrepareHttpWebRequestForUrl(url: Uri, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions /*IEwsHttpWebRequest*/ {
         // Verify that the protocol is something that we can handle

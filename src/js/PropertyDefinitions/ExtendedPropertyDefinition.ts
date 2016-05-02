@@ -296,9 +296,9 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
 export interface IExtendedPropertyDefinition {
     new (): ExtendedPropertyDefinition;
     new (mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, tag: number): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, name: string, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, id: number, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, name: string, propertySetId: Guid): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, id: number, propertySetId: Guid): ExtendedPropertyDefinition;
+    new (tag: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySet: DefaultExtendedPropertySet, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySet: DefaultExtendedPropertySet, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySetId: Guid, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySetId: Guid, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
 }
