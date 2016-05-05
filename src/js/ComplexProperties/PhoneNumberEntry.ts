@@ -28,6 +28,6 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         this.Key = <PhoneNumberKey><any>PhoneNumberKey[jsonProperty[XmlAttributeNames.Key]];
-        this.phoneNumber = jsonProperty[XmlElementNames.PhoneNumber];
+        this.phoneNumber = jsonProperty[XmlElementNames.Entry];//PhoneNumber
     } WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
 }

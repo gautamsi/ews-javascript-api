@@ -1,14 +1,15 @@
-﻿import {ExchangeService} from "../Core/ExchangeService";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../Core/ExchangeService";
 import {StringHelper} from "../ExtensionMethods";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+import {XmlElementNames} from "../Core/XmlElementNames";
 
 import {ComplexProperty} from "./ComplexProperty";
 /**
  * Represents an Internet message header.
  */
 export class InternetMessageHeader extends ComplexProperty {
+    
     private name: string = null;
     private value: string = null;
 
@@ -39,15 +40,13 @@ export class InternetMessageHeader extends ComplexProperty {
         super();
     }
 
-    //InternalToJson(service: ExchangeService): any { throw new Error("InternetMessageHeader.ts - InternalToJson : Not implemented."); }
-
     /**
      * @internal Loads from XMLJsObject.
      *
      * @param   {any}   jsonProperty   The json property.
      * @param   {ExchangeService}   service        The ExchangeService instance
      */
-    LoadFromXmlJsObject(jsObject: any/*JsonObject*/, service: ExchangeService): void {
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (let key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.HeaderName:
@@ -61,9 +60,6 @@ export class InternetMessageHeader extends ComplexProperty {
             }
         }
     }
-
-    ReadAttributesFromXmlJsObject(reader: any): any { throw new Error("InternetMessageHeader.ts - ReadAttributesFromXml : Not implemented."); }
-    ReadTextValueFromXmlJsObject(reader: any): any { throw new Error("InternetMessageHeader.ts - ReadTextValueFromXml : Not implemented."); }
 
     /**
      * Obtains a string representation of the header.

@@ -132,7 +132,7 @@ export class RelativeYearlyPattern extends Recurrence {
     /**
      * @internal Loads service object from XML.
      *
-     * @param   {any}                 jsObject                Jason Object converted from XML.
+     * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {

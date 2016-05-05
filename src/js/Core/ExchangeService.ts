@@ -1,117 +1,122 @@
-import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
-import {TimeWindow} from "../Misc/Availability/TimeWindow";
-import {AvailabilityData} from "../Enumerations/AvailabilityData";
-import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
-import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
-import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
-import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
-import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
-import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
-import {FindItemsResults} from "../Search/FindItemsResults";
-import {FindItemRequest} from "./Requests/FindItemRequest";
-import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
-import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
-import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
-import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
-import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
-import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
-import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
-import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
-import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
-import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
-import {DeleteAttachmentRequest} from "./Requests/DeleteAttachmentRequest";
-import {GetItemRequest} from "./Requests/GetItemRequest";
-import {CopyItemRequest} from "./Requests/CopyItemRequest";
-import {CreateItemRequest} from "./Requests/CreateItemRequest";
-import {MoveItemRequest} from "./Requests/MoveItemRequest";
-import {SendItemRequest} from "./Requests/SendItemRequest";
-import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
-import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
-import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
-import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
-import {GetItemResponse} from "./Responses/GetItemResponse";
-import {CreateAttachmentResponse} from "./Responses/CreateAttachmentResponse";
-import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
-import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
-import {MarkAsJunkResponse} from "./Responses/MarkAsJunkResponse";
-import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
-import {MoveFolderRequest} from "./Requests/MoveFolderRequest";
-import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
-import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
-import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
-import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
-import {FindFolderRequest} from "./Requests/FindFolderRequest";
-import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
-import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
-import {Appointment} from "./ServiceObjects/Items/Appointment";
-import {Item} from "./ServiceObjects/Items/Item";
-import {ViewBase} from "../Search/ViewBase";
-import {CalendarView} from "../Search/CalendarView";
-import {Grouping} from "../Search/Grouping";
-import {MoveCopyItemResponse} from "./Responses/MoveCopyItemResponse";
-import {FindItemResponse} from "./Responses/FindItemResponse";
-import {FindFolderResponse} from "./Responses/FindFolderResponse";
-import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
-import {Strings} from "../Strings";
-import {ManagementRoles} from "../Misc/ManagementRoles";
-import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
-import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
-import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
-import {ExpandGroupResults} from "../Misc/ExpandGroupResults";
-import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
-import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
-import {RetentionType} from "../Enumerations/RetentionType";
-import {DeleteMode} from "../Enumerations/DeleteMode";
-//import DelegateUserResponse = require("./Responses/DelegateUserResponse");
-import {ConversationActionType} from "../Enumerations/ConversationActionType";
-import {SendInvitationsOrCancellationsMode} from "../Enumerations/SendInvitationsOrCancellationsMode";
-import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliveryScope";
-import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
-import {ServiceResponse} from "./Responses/ServiceResponse";
-import {Mailbox} from "../ComplexProperties/Mailbox";
-import {Attachment} from "../ComplexProperties/Attachment";
-import {ServiceObject} from "./ServiceObjects/ServiceObject";
-import {EwsUtilities} from "./EwsUtilities";
-import {AutodiscoverService} from "../Autodiscover/AutodiscoverService";
-import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/AutodiscoverServiceDelegates";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {TraceFlags} from "../Enumerations/TraceFlags";
-import {RenderingMode} from "../Enumerations/RenderingMode";
-import {BodyType} from "../Enumerations/BodyType";
-import {MessageDisposition} from "../Enumerations/MessageDisposition";
-import {UserSettingName} from "../Enumerations/UserSettingName";
-import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
-import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
-import {GetFolderRequest} from "./Requests/GetFolderRequest";
-import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
-import {GetFolderResponse} from "./Responses/GetFolderResponse";
-import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
-import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
-import {SendInvitationsMode} from "../Enumerations/SendInvitationsMode";
-import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
-import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
-import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
-import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
-import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
-import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
-import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
-import {SearchFilter} from "../Search/Filters/SearchFilter";
-import {FindFoldersResults} from "../Search/FindFoldersResults";
-import {FolderView} from "../Search/FolderView";
-import {Uri} from "../Uri";
-import {Folder} from "./ServiceObjects/Folders/Folder";
-import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
-import {FolderId} from "../ComplexProperties/FolderId";
-import {ItemId} from "../ComplexProperties/ItemId";
-import {EmailAddress} from "../ComplexProperties/EmailAddress";
-import {PropertySet} from "./PropertySet";
-import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
-import {IPromise, IXHROptions} from "../Interfaces";
-import {PromiseFactory} from "../PromiseFactory";
-import {XHRFactory}  from "../XHRFactory";
-import {DateTime, TimeZoneInfo} from "../DateTime";
 import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
+import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
+import {Appointment} from "./ServiceObjects/Items/Appointment";
+import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
+import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
+import {Attachment} from "../ComplexProperties/Attachment";
+import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
+import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
+import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
+import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/AutodiscoverServiceDelegates";
+import {AutodiscoverService} from "../Autodiscover/AutodiscoverService";
+import {AvailabilityData} from "../Enumerations/AvailabilityData";
+import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
+import {BodyType} from "../Enumerations/BodyType";
+import {CalendarView} from "../Search/CalendarView";
+import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
+import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
+import {CopyItemRequest} from "./Requests/CopyItemRequest";
+import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
+import {CreateAttachmentResponse} from "./Responses/CreateAttachmentResponse";
+import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
+import {CreateItemRequest} from "./Requests/CreateItemRequest";
+import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
+import {DateTime, TimeZoneInfo} from "../DateTime";
+import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
+import {DeleteAttachmentRequest} from "./Requests/DeleteAttachmentRequest";
+import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
+import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
+import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
+import {DeleteMode} from "../Enumerations/DeleteMode";
+import {EmailAddress} from "../ComplexProperties/EmailAddress";
+import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
+import {EventType} from "../Enumerations/EventType";
+import {EwsUtilities} from "./EwsUtilities";
+import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
+import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
+import {ExpandGroupResults} from "../Misc/ExpandGroupResults";
+import {FindFolderRequest} from "./Requests/FindFolderRequest";
+import {FindFolderResponse} from "./Responses/FindFolderResponse";
+import {FindFoldersResults} from "../Search/FindFoldersResults";
+import {FindItemRequest} from "./Requests/FindItemRequest";
+import {FindItemResponse} from "./Responses/FindItemResponse";
+import {FindItemsResults} from "../Search/FindItemsResults";
+import {FolderId} from "../ComplexProperties/FolderId";
+import {FolderView} from "../Search/FolderView";
+import {Folder} from "./ServiceObjects/Folders/Folder";
+import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
+import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
+import {GetEventsResults} from "../Notifications/GetEventsResults";
+import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
+import {GetFolderRequest} from "./Requests/GetFolderRequest";
+import {GetFolderResponse} from "./Responses/GetFolderResponse";
+import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
+import {GetItemRequest} from "./Requests/GetItemRequest";
+import {GetItemResponse} from "./Responses/GetItemResponse";
+import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
+import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
+import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
+import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
+import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
+import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
+import {Grouping} from "../Search/Grouping";
+import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
+import {IPromise, IXHROptions} from "../Interfaces";
+import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
+import {ItemId} from "../ComplexProperties/ItemId";
+import {Item} from "./ServiceObjects/Items/Item";
+import {Mailbox} from "../ComplexProperties/Mailbox";
+import {ManagementRoles} from "../Misc/ManagementRoles";
+import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
+import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
+import {MarkAsJunkResponse} from "./Responses/MarkAsJunkResponse";
+import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliveryScope";
+import {MessageDisposition} from "../Enumerations/MessageDisposition";
+import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
+import {MoveCopyItemResponse} from "./Responses/MoveCopyItemResponse";
+import {MoveFolderRequest} from "./Requests/MoveFolderRequest";
+import {MoveItemRequest} from "./Requests/MoveItemRequest";
+import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
+import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
+import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
+import {PromiseFactory} from "../PromiseFactory";
+import {PropertySet} from "./PropertySet";
+import {RenderingMode} from "../Enumerations/RenderingMode";
+import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
+import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
+import {RetentionType} from "../Enumerations/RetentionType";
+import {SearchFilter} from "../Search/Filters/SearchFilter";
+import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
+import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
+import {SendInvitationsMode} from "../Enumerations/SendInvitationsMode";
+import {SendInvitationsOrCancellationsMode} from "../Enumerations/SendInvitationsOrCancellationsMode";
+import {SendItemRequest} from "./Requests/SendItemRequest";
+import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
+import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ServiceObject} from "./ServiceObjects/ServiceObject";
+import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
+import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
+import {ServiceResponse} from "./Responses/ServiceResponse";
+import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
+import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
+import {StreamingSubscription} from "../Notifications/StreamingSubscription";
+import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
+import {Strings} from "../Strings";
+import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
+import {TimeWindow} from "../Misc/Availability/TimeWindow";
+import {TraceFlags} from "../Enumerations/TraceFlags";
+import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
+import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
+import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
+import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
+import {Uri} from "../Uri";
+import {UserSettingName} from "../Enumerations/UserSettingName";
+import {ViewBase} from "../Search/ViewBase";
+import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
+import {XHRFactory}  from "../XHRFactory";
 
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
@@ -921,7 +926,7 @@ export class ExchangeService extends ExchangeServiceBase {
         var view: ViewBase = null;
 
         //position 2 - viewQueryStringOrSearchFilter
-        if (argsLength == 2)
+        if (argsLength >= 2)
             if (typeof viewQueryStringOrSearchFilter === 'string') {
                 queryString = viewQueryStringOrSearchFilter;
             }
@@ -1667,14 +1672,51 @@ export class ExchangeService extends ExchangeServiceBase {
     //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
     //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
     //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
-    //BuildSubscribeToStreamingNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): SubscribeToStreamingNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToStreamingNotificationsRequest : Not implemented."); }
-    //BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest { throw new Error("ExchangeService.ts - BuildUnsubscribeRequest : Not implemented."); }
+
+    /**
+     * Builds request to subscribe to streaming notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToStreamingNotificationsRequest}      A request to subscribe to streaming notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToStreamingNotificationsRequest(folderIds: FolderId[], eventTypes: EventType[]): SubscribeToStreamingNotificationsRequest {
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToStreamingNotificationsRequest = new SubscribeToStreamingNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        ArrayHelper.AddRange(request.EventTypes, eventTypes); //request.EventTypes.AddRange(eventTypes);
+
+        return request;
+    }
+
+    /**
+     * Buids a request to unsubscribe from a subscription.
+     *
+     * @param   {string}   subscriptionId   The Id of the subscription for which to get the events.
+     * @return  {UnsubscribeRequest}        A request to unsubscribe from a subscription.
+     */
+    private BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest {
+        EwsUtilities.ValidateParam(subscriptionId, "subscriptionId");
+
+        let request: UnsubscribeRequest = new UnsubscribeRequest(this);
+
+        request.SubscriptionId = subscriptionId;
+
+        return request;
+    }
     //EndGetEvents(asyncResult: Function /*System.IAsyncResult*/): GetEventsResults { throw new Error("ExchangeService.ts - EndGetEvents : Not implemented."); }
     //EndSubscribeToPullNotifications(asyncResult: Function /*System.IAsyncResult*/): PullSubscription { throw new Error("ExchangeService.ts - EndSubscribeToPullNotifications : Not implemented."); }
     //EndSubscribeToPushNotifications(asyncResult: Function /*System.IAsyncResult*/): PushSubscription { throw new Error("ExchangeService.ts - EndSubscribeToPushNotifications : Not implemented."); }
     //EndSubscribeToStreamingNotifications(asyncResult: Function /*System.IAsyncResult*/): StreamingSubscription { throw new Error("ExchangeService.ts - EndSubscribeToStreamingNotifications : Not implemented."); }
     //EndUnsubscribe(asyncResult: Function /*System.IAsyncResult*/): any { throw new Error("ExchangeService.ts - EndUnsubscribe : Not implemented."); }
-    //GetEvents(subscriptionId: string, watermark: string): GetEventsResults { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+
+    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+
     //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
     //SubscribeToPullNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotifications : Not implemented."); }
     //SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotificationsOnAllFolders : Not implemented."); }
@@ -1682,10 +1724,55 @@ export class ExchangeService extends ExchangeServiceBase {
     ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
     //SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
     ////SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    //SubscribeToStreamingNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotifications : Not implemented."); }
-    //SubscribeToStreamingNotificationsOnAllFolders(eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
+    
+    /**
+     * Subscribes to streaming notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}   folderIds    The Ids of the folder to subscribe to.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     */    
+    SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): IPromise<StreamingSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "SubscribeToStreamingNotifications");
+
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        return this.BuildSubscribeToStreamingNotificationsRequest(folderIds, eventTypes).Execute().then((responses) => {
+            return responses.__thisIndexer(0).Subscription;
+        });
+
+    }
+    
+    /**
+     * Subscribes to streaming notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     */    
+    SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): IPromise<StreamingSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "SubscribeToStreamingNotificationsOnAllFolders");
+
+        return this.BuildSubscribeToStreamingNotificationsRequest(null, eventTypes).Execute().then((responses) => {
+            return responses.__thisIndexer(0).Subscription;
+        });
+    }
     //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
-    //Unsubscribe(subscriptionId: string): any { throw new Error("ExchangeService.ts - Unsubscribe : Not implemented."); }
+
+    /**
+     * @internal Unsubscribes from a subscription. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription to unsubscribe from.
+     */
+    Unsubscribe(subscriptionId: string): IPromise<void> {
+        return <any>this.BuildUnsubscribeRequest(subscriptionId).Execute();
+    }
+
     /* #endregion Notification operations */
 
 
@@ -1750,8 +1837,8 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Gets Out of Office (OOF) settings for a specific user. Calling this method results in a call to EWS.
      *
-     * @param   {}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
-     * @return  {}                 An OofSettings instance containing OOF information for the specified user.
+     * @param   {string}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
+     * @return  {IPromise<OofSettings>}     An OofSettings instance containing OOF information for the specified user.
      */
     GetUserOofSettings(smtpAddress: string): IPromise<OofSettings> {
         EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
@@ -2170,7 +2257,7 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {string}   methodName   Name of the method.
      * @return  {IXHROptions}           An instance of IXHROptions to call web service with.
      */
-    PrepareHttpWebRequest(methodName: string): IXHROptions { //info: PrepareHttpWebRequest(methodName: string): IEwsHttpWebRequest { throw new Error("ExchangeService.ts - PrepareHttpWebRequest : Not implemented."); }
+    PrepareHttpWebRequest(methodName: string): IXHROptions {
         var endpoint = this.Url;
         //this.RegisterCustomBasicAuthModule();
 
@@ -2195,7 +2282,19 @@ export class ExchangeService extends ExchangeServiceBase {
         return request;
     }
 
-    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest /*IEwsHttpWebResponse*/, webException: any): void { }
+    /**
+     * @internal Processes an HTTP error response.
+     *
+     * @param   {XMLHttpRequest}   httpWebResponse      The HTTP web response.
+     * @param   {SoapFaultDetails}   soapFault          The SoapFault Instance.
+     */
+    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, soapFault: SoapFaultDetails): void {
+        this.InternalProcessHttpErrorResponse(
+            httpWebResponse,
+            soapFault,
+            TraceFlags.EwsResponseHttpHeaders,
+            TraceFlags.EwsResponse);
+    }
 
     /**
      * Sets the type of the content.

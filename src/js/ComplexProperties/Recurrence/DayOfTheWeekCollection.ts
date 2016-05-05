@@ -44,7 +44,7 @@ export class DayOfTheWeekCollection extends ComplexProperty {
     /**
      * Adds multiple days to the collection if they are not already present.
      *
-     * @param   {}   daysOfTheWeek   The days to add.
+     * @param   {DayOfTheWeek[]}   daysOfTheWeek   The days to add.
      */
     AddRange(daysOfTheWeek: DayOfTheWeek[]): void {
         for (let dayOfTheWeek of daysOfTheWeek) {
@@ -66,7 +66,7 @@ export class DayOfTheWeekCollection extends ComplexProperty {
     /**
      * @internal Loads service object from XMLJsObject Value.
      *
-     * @param   {string}            jsObject                Jason Object converted from XML.
+     * @param   {string}            jsObject                Json Object converted from XML.
      */
     LoadFromXmlJsObjectValue(jsObjectValue: string): void {
         EwsUtilities.ParseEnumValueList<DayOfTheWeek>(

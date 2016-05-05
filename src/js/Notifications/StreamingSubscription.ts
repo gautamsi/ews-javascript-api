@@ -1,17 +1,39 @@
-﻿import {SubscriptionBase} from "./SubscriptionBase";
-import {ExchangeService} from "../Core/ExchangeService";
+﻿import {ExchangeService} from "../Core/ExchangeService";
+import {IPromise} from "../Interfaces";
+
+import {SubscriptionBase} from "./SubscriptionBase";
+/**
+ * Represents a streaming subscription.
+ * 
+ * @sealed
+ */
 export class StreamingSubscription extends SubscriptionBase {
-	Service: ExchangeService;
-	UsesWatermark: boolean;
-	BeginUnsubscribe(callback: any /*System.AsyncCallback*/, state: any): any /*System.IAsyncResult*/{ throw new Error("StreamingSubscription.ts - BeginUnsubscribe : Not implemented.");}
-	EndUnsubscribe(asyncResult: any /*System.IAsyncResult*/): void{ throw new Error("StreamingSubscription.ts - EndUnsubscribe : Not implemented.");}
-	Unsubscribe(): void{ throw new Error("StreamingSubscription.ts - Unsubscribe : Not implemented.");}
+
+	/**
+	 * Gets the service used to create this subscription.
+	 */
+	get Service(): ExchangeService {
+		return this.service;
+	}
+	/**
+	 * Gets a value indicating whether this subscription uses watermarks.
+	 */
+	protected get UsesWatermark(): boolean {
+		return false;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **StreamingSubscription** class.
+	 *
+	 * @param   {ExchangeService}   service     The service.
+	 */
+	constructor(service: ExchangeService) {
+		super(service);
+		this.service = service;
+	}
+
+	/**
+	 * Unsubscribes from the streaming subscription.
+	 */
+	Unsubscribe(): IPromise<void> { return this.Service.Unsubscribe(this.Id); }
 }
-
-
-
-
-
-
-			
-

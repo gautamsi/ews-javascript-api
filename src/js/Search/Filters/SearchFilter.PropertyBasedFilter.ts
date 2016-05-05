@@ -1,21 +1,70 @@
-﻿import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+﻿import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 import {ExchangeService} from "../../Core/ExchangeService";
-import {JsonObject} from "../../Core/JsonObject";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
+import {ServiceValidationException} from '../../Exceptions/ServiceValidationException';
+import {Strings} from "../../Strings";
+import {XmlElementNames} from "../../Core/XmlElementNames";
 
 import {SearchFilter} from "./SearchFilter";
-export class PropertyBasedFilter extends SearchFilter {
-	PropertyDefinition: PropertyDefinitionBase;
-	private propertyDefinition: PropertyDefinitionBase;
-	InternalToJson(service: ExchangeService): any{ throw new Error("SearchFilter_PropertyBasedFilter.ts - InternalToJson : Not implemented.");}
-	InternalValidate(): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - InternalValidate : Not implemented.");}
-	LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - LoadFromJson : Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean{ throw new Error("SearchFilter_PropertyBasedFilter.ts - TryReadElementFromXmlJsObject : Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("SearchFilter_PropertyBasedFilter.ts - WriteElementsToXml : Not implemented.");}
+export abstract class PropertyBasedFilter extends SearchFilter {
+
+	private propertyDefinition: PropertyDefinitionBase = null;
+
+	/**
+	 * Gets or sets the definition of the property that is involved in the search filter. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+	 */
+	get PropertyDefinition(): PropertyDefinitionBase {
+		return this.propertyDefinition;
+	}
+	set PropertyDefinition(value: PropertyDefinitionBase) {
+		this.SetFieldValue<PropertyDefinitionBase>({ getValue: () => this.propertyDefinition, setValue: (updateValue) => { this.propertyDefinition = updateValue } }, value);
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **PropertyBasedFilter** class.˝
+	 */
+	constructor();
+	/**
+	 * @internal Initializes a new instance of the **PropertyBasedFilter** class.
+	 *
+	 * @param   {PropertyDefinitionBase}   propertyDefinition   The property definition.
+	 */
+	constructor(propertyDefinition: PropertyDefinitionBase);
+	constructor(propertyDefinition?: PropertyDefinitionBase) {
+		super();
+		if (arguments.length === 1) {
+			this.propertyDefinition = propertyDefinition;
+		}
+	}
+
+	/**
+	 * @internal Validate instance.
+	 */
+	InternalValidate(): void {
+		if (this.propertyDefinition == null) {
+			throw new ServiceValidationException(Strings.PropertyDefinitionPropertyMustBeSet);
+		}
+	}
+
+	/**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+		this.PropertyDefinition = PropertyDefinitionBase.LoadFromXmlJsObject(jsObject);
+	}
+
+	/**
+	 * @internal Writes the elements to XML.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+	WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertyDefinition.WriteToXml(writer); }
 }
 
-
-
-//------------modulename->Microsoft.Exchange.WebServices.Data.SearchFilter------------
-
+export interface IPropertyBasedFilter {
+	new (): PropertyBasedFilter;
+	new (propertyDefinition: PropertyDefinitionBase): PropertyBasedFilter;
+}

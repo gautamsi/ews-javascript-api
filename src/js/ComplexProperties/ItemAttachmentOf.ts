@@ -14,7 +14,7 @@ export class ItemAttachmentOf<TItem extends Item> extends ItemAttachment {
     /**
      * @internal Initializes a new instance of the  class.
      *
-     * @param   {}   owner   The owner of the attachment.
+     * @param   {Item}   owner   The owner of the attachment.
      */
     constructor(owner: Item) {
         super(owner);

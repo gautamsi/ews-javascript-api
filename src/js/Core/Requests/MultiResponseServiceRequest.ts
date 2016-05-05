@@ -4,7 +4,7 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeService} from "../ExchangeService";
 import {EwsUtilities} from "../EwsUtilities";
 import {EwsLogging} from "../EwsLogging";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {ServiceResult} from "../../Enumerations/ServiceResult";
@@ -65,19 +65,19 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
         var serviceResponses = new ServiceResponseCollection<TResponse>();
         //set context to XmlElementNames.ResponseMessages
         //todo: this can have multiple reponse messages.
-        var jsResponseMessages: any[] = jsObject[XmlElementNames.ResponseMessages]
-        if (!Array.isArray(jsResponseMessages)) {
-            jsResponseMessages = [jsResponseMessages];
-        }
+        var jsResponseMessages: any = jsObject[XmlElementNames.ResponseMessages]
+        // if (!Array.isArray(jsResponseMessages)) {
+        //     jsResponseMessages = [jsResponseMessages];
+        // }
 
         var responseMessageXmlElementName = this.GetResponseMessageXmlElementName();
-        
+        let responseMessages = EwsServiceJsonReader.ReadAsArray(jsResponseMessages,responseMessageXmlElementName);
         //for (var i = 0; i < responses.length; i++) {
         for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
             var response: TResponse = this.CreateServiceResponse(this.Service, i);
             //ref: check need for responseMessageXmlElementName
-            var jsResponseMessage = jsResponseMessages[i];
-            response.LoadFromXmlJsObject(jsResponseMessage[responseMessageXmlElementName], this.Service)//, responseMessageXmlElementName, this.Service);
+            var jsResponseMessage = responseMessages[i];
+            response.LoadFromXmlJsObject(jsResponseMessage, this.Service)//, responseMessageXmlElementName, this.Service);
             // Add the response to the list after it has been deserialized because the response
             // list updates an overall result as individual responses are added to it.
             serviceResponses.Add(response);

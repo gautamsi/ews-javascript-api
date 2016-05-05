@@ -21,6 +21,18 @@ export class TypeContainer {
      */
     public static CalendarFolder: any;
     /**
+     * Type object of ContactsFolder (not instance)
+     */
+    public static ContactsFolder: any;
+    /**
+     * Type object of SearchFolder (not instance)
+     */
+    public static SearchFolder: any;
+    /**
+     * Type object of TasksFolder (not instance)
+     */
+    public static TasksFolder: any;
+    /**
 	 * Type object of ServiceObjectSchema (not instance)
 	 */
     public static ServiceObjectSchema: ServiceObjectSchemaStatic;

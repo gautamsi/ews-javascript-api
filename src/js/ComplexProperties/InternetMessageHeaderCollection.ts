@@ -1,5 +1,10 @@
-﻿import {InternetMessageHeader} from "./InternetMessageHeader";
+﻿import {XmlElementNames} from "../Core/XmlElementNames";
+
+import {InternetMessageHeader} from "./InternetMessageHeader";
 import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+/**
+ * Represents a collection of Internet message headers.
+ */
 export class InternetMessageHeaderCollection extends ComplexPropertyCollection<InternetMessageHeader> {
 
     /**
@@ -30,13 +35,21 @@ export class InternetMessageHeaderCollection extends ComplexPropertyCollection<I
      * @param   {string}   name   The name of the header to locate.
      * @return  {InternetMessageHeader}     An InternetMessageHeader representing the header with the specified name; null if no header with the specified name was found.
      */
-    Find(name: string): InternetMessageHeader { throw new Error("InternetMessageHeaderCollection.ts - Find : Not implemented."); }
+    Find(name: string): InternetMessageHeader {
+        for (let internetMessageHeader of this.Items) {
+            if (name.toUpperCase() === internetMessageHeader.Name.toUpperCase()) {
+                return internetMessageHeader;
+            }
+        }
+
+        return null;
+    }
 
     /**
      * @internal Gets the name of the collection item XML element.
      *
-     * @param   {InternetMessageHeader}   complexProperty   The complex property.
-     * @return  {string}                     XML element name.
+     * @param   {InternetMessageHeader}     complexProperty   The complex property.
+     * @return  {string}                    XML element name.
      */
-    GetCollectionItemXmlElementName(complexProperty: InternetMessageHeader): string { throw new Error("InternetMessageHeaderCollection.ts - GetCollectionItemXmlElementName : Not implemented."); }
+    GetCollectionItemXmlElementName(complexProperty: InternetMessageHeader): string { return XmlElementNames.InternetMessageHeader; }
 }

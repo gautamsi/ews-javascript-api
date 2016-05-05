@@ -10,7 +10,9 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowUnreachableCode": true,
-        "pretty": false
+        "pretty": false,
+        "inlineSourceMap": false,
+        "stripInternal": true
     },
     "compileOnSave": false,
     "exclude": [

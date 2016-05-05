@@ -1,52 +1,52 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
-import {IPromise} from "../../../Interfaces";
-import {Strings} from "../../../Strings";
-import {ServiceVersionException} from "../../../Exceptions/ServiceVersionException";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {MimeContent} from "../../../ComplexProperties/MimeContent";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {Sensitivity} from "../../../Enumerations/Sensitivity";
-import {Attachment} from "../../../ComplexProperties/Attachment";
+﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
-import {StringList} from "../../../ComplexProperties/StringList";
+import {Attachment} from "../../../ComplexProperties/Attachment";
+import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
+import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
+import {EwsLogging} from "../../EwsLogging";
+import {ExchangeService} from "../../ExchangeService";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {Flag} from "../../../ComplexProperties/Flag";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {IOutParam} from "../../../Interfaces/IOutParam";
+import {IPromise} from "../../../Interfaces";
+import {IconIndex} from "../../../Enumerations/IconIndex";
 import {Importance} from "../../../Enumerations/Importance";
 import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
-import {ResponseActions} from "../../../Enumerations/ResponseActions";
+import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
+import {ItemId} from "../../../ComplexProperties/ItemId";
 import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
-import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
-import {ConversationId} from "../../../ComplexProperties/ConversationId";
-import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
-import {Flag} from "../../../ComplexProperties/Flag";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {MimeContent} from "../../../ComplexProperties/MimeContent";
 import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
-import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
 import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
-import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {TextBody} from "../../../ComplexProperties/TextBody";
-import {IconIndex} from "../../../Enumerations/IconIndex";
-import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {PromiseFactory} from "../../../PromiseFactory";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {PropertySet} from "../../PropertySet";
+import {ResponseActions} from "../../../Enumerations/ResponseActions";
+import {Schemas} from "../Schemas/Schemas";
 import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
 import {SendInvitationsMode} from "../../../Enumerations/SendInvitationsMode";
 import {SendInvitationsOrCancellationsMode} from "../../../Enumerations/SendInvitationsOrCancellationsMode";
-import {ExchangeService} from "../../ExchangeService";
-import {EwsLogging} from "../../EwsLogging";
-import {PropertySet} from "../../PropertySet";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
+import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
-import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {Schemas} from "../Schemas/Schemas";
-import {IOutParam} from "../../../Interfaces/IOutParam";
+import {ServiceVersionException} from "../../../Exceptions/ServiceVersionException";
 import {StringHelper, ArrayHelper} from "../../../ExtensionMethods";
-import {PromiseFactory} from "../../../PromiseFactory";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {Strings} from "../../../Strings";
+import {TextBody} from "../../../ComplexProperties/TextBody";
 import {TypeContainer} from "../../../TypeContainer";
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import {XmlElementNames} from "../../XmlElementNames";
 
 import {ServiceObject} from "../ServiceObject";
 /**
@@ -926,7 +926,7 @@ export class Item extends ServiceObject {
      * Saves this item in a specific folder. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added.
      *
-     * @param   {}   parentFolderId   The Id of the folder in which to save this item.
+     * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this item.
      */
     Save(parentFolderId?: FolderId): IPromise<void>;
     Save(parentFolderIdOrName: FolderId | WellKnownFolderName = null): IPromise<void> {

@@ -46,7 +46,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
     /**
      * Gets the name of the extended property.
      */
-    get Name(): string { return this.name || (typeof this.tag === 'undefined') ? null : this.tag.toString(); }
+    get Name(): string { return this.name || ((typeof this.tag === 'undefined') ? null : this.tag.toString()); }
 
     /**
      * @Nullable Gets the property set of the extended property.
@@ -219,14 +219,14 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      * @return  {boolean}                       True if extended property definitions are equal.
      */
     static IsEqualTo(extPropDef1: ExtendedPropertyDefinition, extPropDef2: ExtendedPropertyDefinition): boolean {
-        return extPropDef1 === extPropDef2 ||
+        return (extPropDef1 === extPropDef2) ||
             (extPropDef1 && extPropDef2 &&
-                extPropDef1.Id == extPropDef2.Id &&
-                extPropDef1.MapiType == extPropDef2.MapiType &&
-                extPropDef1.Tag == extPropDef2.Tag &&
-                extPropDef1.Name == extPropDef2.Name &&
-                extPropDef1.PropertySet == extPropDef2.PropertySet &&
-                extPropDef1.propertySetId == extPropDef2.propertySetId);
+                (extPropDef1.Id === extPropDef2.Id) &&
+                (extPropDef1.MapiType === extPropDef2.MapiType) &&
+                (extPropDef1.Tag === extPropDef2.Tag) &&
+                (extPropDef1.Name === extPropDef2.Name) &&
+                (extPropDef1.PropertySet === extPropDef2.PropertySet) &&
+                (extPropDef1.propertySetId === extPropDef2.propertySetId));
     }
 
     /**
@@ -271,7 +271,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (this.propertySet) {
-            writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, this.propertySet);
+            writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, DefaultExtendedPropertySet[this.propertySet]);
         }
         if (this.propertySetId) {
             writer.WriteAttributeValue(XmlAttributeNames.PropertySetId, this.propertySetId.ToString());
@@ -296,9 +296,9 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
 export interface IExtendedPropertyDefinition {
     new (): ExtendedPropertyDefinition;
     new (mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, tag: number): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, name: string, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, id: number, propertySet: DefaultExtendedPropertySet): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, name: string, propertySetId: Guid): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType, id: number, propertySetId: Guid): ExtendedPropertyDefinition;
+    new (tag: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySet: DefaultExtendedPropertySet, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySet: DefaultExtendedPropertySet, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySetId: Guid, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new (propertySetId: Guid, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
 }

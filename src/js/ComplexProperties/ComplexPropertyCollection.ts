@@ -1,14 +1,13 @@
-﻿import {Strings} from "../Strings";
-import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
-import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
-import {ExchangeService} from "../Core/ExchangeService";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+﻿import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {ArrayHelper, StringHelper, TypeSystem} from "../ExtensionMethods";
 import {EwsLogging} from "../Core/EwsLogging";
+import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../Core/ExchangeService";
+import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 import {ServiceLocalException} from '../Exceptions/ServiceLocalException';
+import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+import {Strings} from "../Strings";
+import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
 /**
  * Represents a collection of properties that can be sent to and retrieved from EWS.
@@ -120,23 +119,12 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
      * @param   {any}               jsObjectCollection   The json collection.
      * @param   {ExchangeService}   service          The service.
      */
-    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {        
-        let collection: TComplexProperty[] = [];
-        for (let key in jsObjectCollection) {
-            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
-                continue;
-
-            if (jsObjectCollection.hasOwnProperty(key)) {
-                let collectionObj = undefined;
-                if (ArrayHelper.isArray(jsObjectCollection[key])) {
-                    collectionObj = jsObjectCollection[key];
-                }
-                else {
-                    collectionObj = [jsObjectCollection[key]];
-                }
-                ArrayHelper.AddRange(collection, collectionObj);
-            }
+    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
+        let collection: TComplexProperty[] = jsObjectCollection;
+        if (!ArrayHelper.isArray(collection)) {
+            collection = [jsObjectCollection];
         }
+
         for (let jsonObject of collection) {
             let jsonProperty = jsonObject;
 
@@ -283,7 +271,10 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
             }
         }
     }
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void { throw new Error("ComplexPropertyCollection.ts - LoadFromXmlJsObject : Not implemented."); }
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        EwsLogging.Assert(false, "ComplexPropertyCollection.LoadFromXmlJsObject", "LoadFromXmlJsObject was called, should not be calling. Fix it to direct to Create or Update call instad.")
+        this.CreateFromXmlJsObjectCollection(jsObject, service);
+    }
     //LoadFromXmlJsObject(reader: EwsServiceXmlReader, localElementName: string): any { throw new Error("ComplexPropertyCollection.ts - LoadFromXml : Not implemented."); }
 
     /**
@@ -316,22 +307,11 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
      * @param   {ExchangeService}   service          The service.
      */
     UpdateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
-        let collection: TComplexProperty[] = [];
-        for (let key in jsObjectCollection) {
-            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
-                continue;
-
-            if (jsObjectCollection.hasOwnProperty(key)) {
-                let collectionObj = undefined;
-                if (ArrayHelper.isArray(jsObjectCollection[key])) {
-                    collectionObj = jsObjectCollection[key];
-                }
-                else {
-                    collectionObj = [jsObjectCollection[key]];
-                }
-                ArrayHelper.AddRange(collection, collectionObj);
-            }
+        let collection: TComplexProperty[] = jsObjectCollection;
+        if (!ArrayHelper.isArray(collection)) {
+            collection = [jsObjectCollection];
         }
+
         if (this.Count != collection.length) {
             throw new ServiceLocalException(Strings.PropertyCollectionSizeMismatch);
         }

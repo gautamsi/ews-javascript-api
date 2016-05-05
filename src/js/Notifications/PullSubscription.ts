@@ -1,20 +1,52 @@
-﻿import {SubscriptionBase} from "./SubscriptionBase";
+﻿
+import {ExchangeService} from "../Core/ExchangeService";
+import {IPromise} from "../Interfaces";
 import {GetEventsResults} from "./GetEventsResults";
+
+import {SubscriptionBase} from "./SubscriptionBase";
+/**
+ * Represents a pull subscription.
+ * 
+ * @sealed
+ */
 export class PullSubscription extends SubscriptionBase {
-	MoreEventsAvailable: boolean;
-	private moreEventsAvailable: boolean;
-	BeginGetEvents(callback: any /*System.AsyncCallback*/, state: any): any /*System.IAsyncResult*/{ throw new Error("PullSubscription.ts - BeginGetEvents : Not implemented.");}
-	BeginUnsubscribe(callback: any /*System.AsyncCallback*/, state: any): any /*System.IAsyncResult*/{ throw new Error("PullSubscription.ts - BeginUnsubscribe : Not implemented.");}
-	EndGetEvents(asyncResult: any /*System.IAsyncResult*/): GetEventsResults{ throw new Error("PullSubscription.ts - EndGetEvents : Not implemented.");}
-	EndUnsubscribe(asyncResult: any /*System.IAsyncResult*/): void{ throw new Error("PullSubscription.ts - EndUnsubscribe : Not implemented.");}
-	GetEvents(): GetEventsResults{ throw new Error("PullSubscription.ts - GetEvents : Not implemented.");}
-	Unsubscribe(): void{ throw new Error("PullSubscription.ts - Unsubscribe : Not implemented.");}
+
+	private moreEventsAvailable: boolean = null;
+	
+	/**
+	 * Gets a value indicating whether more events are available on the server.
+	 * MoreEventsAvailable is undefined (null) until GetEvents is called.
+	 */
+	get MoreEventsAvailable(): boolean {
+		return this.moreEventsAvailable;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **PullSubscription** class.
+	 *
+	 * @param   {ExchangeService}   service     The service.
+	 */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+	/**
+	 * Obtains a collection of events that occurred on the subscribed folders since the point in time defined by the Watermark property. When GetEvents succeeds, Watermark is updated.
+	 *
+	 * @return  {IPromise<GetEventsResults>}      Returns a collection of events that occurred since the last watermark	:Promise.
+	 */
+	GetEvents(): IPromise<GetEventsResults> {
+		return this.Service.GetEvents(this.Id, this.Watermark).then((results: GetEventsResults) => {
+
+            this.Watermark = results.NewWatermark;
+            this.moreEventsAvailable = results.MoreEventsAvailable;
+
+            return results;
+		});
+	}
+
+	/**
+	 * Unsubscribes from the pull subscription.
+	 */
+	Unsubscribe(): IPromise<void> { return this.Service.Unsubscribe(this.Id); }
 }
-
-
-
-
-
-
-			
-

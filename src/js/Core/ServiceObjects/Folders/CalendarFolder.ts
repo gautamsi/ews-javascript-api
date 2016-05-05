@@ -31,7 +31,7 @@ export class CalendarFolder extends Folder {
     }
 
     /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
+     * Binds to an existing calendar folder and loads its first class properties. 
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
@@ -40,7 +40,7 @@ export class CalendarFolder extends Folder {
      */
     static Bind(service: ExchangeService, id: FolderId): IPromise<CalendarFolder>;
     /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
+     * Binds to an existing calendar folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
@@ -49,7 +49,7 @@ export class CalendarFolder extends Folder {
      */
     static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<CalendarFolder>;
     /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
+     * Binds to an existing calendar folder and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
@@ -59,7 +59,7 @@ export class CalendarFolder extends Folder {
      */
     static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<CalendarFolder>;
     /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
+     * Binds to an existing calendar folder and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the folder.

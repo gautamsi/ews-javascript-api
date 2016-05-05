@@ -34,7 +34,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
     //debugger;//check how to implement with jsobject.
     EwsLogging.Assert(false,(<any>this.constructor).name + ".LoadFromXmlJsObject", "ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this.constructor).name);
-    throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this).constuctor.name)
+    throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this).constructor.name)
     // this.ReadAttributesFromXmlJsObject(jsObject);
 
     // if (!jsObject.IsEmptyElement) {

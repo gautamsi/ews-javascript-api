@@ -34,20 +34,6 @@ export class GetFolderResponse extends ServiceResponse {
             return flinfo.CreateEwsObjectFromXmlElementName<Folder>(service, xmlElementName);
         }
     }
-    ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void {
-        super.ReadElementsFromJson(responseObject, service);
-
-        var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
-            responseObject,
-            service,
-            XmlElementNames.Folders,
-            this.GetObjectInstance,
-            true,               /* clearPropertyBag */
-            this.propertySet,   /* requestedPropertySet */
-            false);             /* summaryPropertiesOnly */
-
-        this.folder = folders[0];
-    }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
         super.ReadElementsFromXmlJsObject(responseObject, service);
 

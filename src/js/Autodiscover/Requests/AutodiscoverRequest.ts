@@ -22,7 +22,7 @@ export class AutodiscoverRequest {
     get Service(): AutodiscoverService {
         return this.service;
     }
-    get Url(): Uri { 
+    get Url(): Uri {
         return this.url;
     }
 
@@ -104,11 +104,13 @@ export class AutodiscoverRequest {
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
         return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+            EwsLogging.DebugLog("sending ews request");
+            EwsLogging.DebugLog(xhrOptions, true);
             this.service.GetXHRApi.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                     var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                     //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));
-                    //Ewslogging.log(util.inspect(ewsXmlReader.JObject, { showHidden: false, depth: null, colors: true }));
+                    EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
                     if (xhrResponse.status == 200) {
 
                         //ewsXmlReader.Read();
@@ -270,7 +272,7 @@ export class AutodiscoverRequest {
         if (reader.JsObject && reader.JsObject[XmlElementNames.SOAPBodyElementName]) {
             var obj = reader.JsObject[XmlElementNames.SOAPBodyElementName];
             if (obj[XmlElementNames.SOAPFaultElementName])
-                soapFaultDetails = SoapFaultDetails.ParseFromJson(obj[XmlElementNames.SOAPFaultElementName]);
+                soapFaultDetails = SoapFaultDetails.Parse(obj[XmlElementNames.SOAPFaultElementName]);
         }
 
         return soapFaultDetails;
@@ -378,7 +380,7 @@ export class AutodiscoverRequest {
             XmlNamespace.Autodiscover,
             XmlElementNames.RequestedServerVersion,
             ExchangeVersion[this.Service.RequestedServerVersion]
-            );
+        );
 
         writer.WriteElementValue(
             XmlNamespace.WSAddressing,

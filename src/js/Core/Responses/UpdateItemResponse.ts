@@ -4,6 +4,7 @@ import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {ItemInfo} from "../ServiceObjects/Items/ItemInfo";
 import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {XmlElementNames} from "../XmlElementNames";
+import {Convert} from "../../ExtensionMethods";
 import {EwsLogging} from "../EwsLogging";
 import {ServiceResponse} from "./ServiceResponse";
 export class UpdateItemResponse extends ServiceResponse {
@@ -35,10 +36,9 @@ export class UpdateItemResponse extends ServiceResponse {
             this.item.ClearChangeLog();
         }
     }
-    // ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("UpdateItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
         debugger;
-        super.ReadElementsFromJson(responseObject, service);
+        super.ReadElementsFromXmlJsObject(responseObject, service);
 
         EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
             responseObject,
@@ -51,7 +51,7 @@ export class UpdateItemResponse extends ServiceResponse {
 
         // ConflictResults was only added in 2007 SP1 so if this was a 2007 RTM request we shouldn't expect to find the element
         if (!service.Exchange2007CompatibilityMode) {
-            this.conflictCount = responseObject.ReadAsJsonObject(XmlElementNames.ConflictResults).ReadAsInt(XmlElementNames.Count);
+            this.conflictCount = Convert.toNumber(responseObject[XmlElementNames.ConflictResults][XmlElementNames.Count]);
         }
 
         // If UpdateItem returned an item that has the same Id as the item that

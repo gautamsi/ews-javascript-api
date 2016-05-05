@@ -1,15 +1,17 @@
 ﻿import {NotificationEvent} from "./NotificationEvent";
 
-export interface NotificationGroup {
-    /// <summary>
-    /// Subscription Id
-    /// </summary>
-    SubscriptionId: string;
+/**
+ * @internal Structure to track a subscription and its associated notification events.
+ */
+export class NotificationGroup {
 
-    /// <summary>
-    /// Events in the response associated with the subscription id.
-    /// </summary>
-    Events: NotificationEvent[];//Collection<NotificationEvent>
+    /**
+     * @internal Subscription Id
+     */
+    SubscriptionId: string = null;
+
+    /**
+     * @internal Events in the response associated with the subscription id.
+     */
+    Events: NotificationEvent[] = [];
 }
-
-

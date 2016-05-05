@@ -55,28 +55,26 @@ export abstract class PropertyDefinitionBase {
      * @return  {PropertyDefinitionBase}        True if property was loaded.
      */
     static LoadFromXmlJsObject(jsObject: any): PropertyDefinitionBase {
-        debugger;
-        debugger;
-        console.log("PropertyDefinitionBase.ts - static LoadFromXmlJsObject - was called, debug and check if values are returned properly");
-        debugger;
-        debugger;
-        debugger;
-        let typeName = TypeSystem.GetJsObjectTypeName(jsObject);
-
-        switch (typeName) {
-            case XmlElementNames.FieldURI:
-                return TypeContainer.ServiceObjectSchema.FindPropertyDefinition(XmlAttributeNames.FieldURI);
-            case XmlElementNames.IndexedFieldURI:
-                return new TypeContainer.IndexedPropertyDefinition(
-                    jsObject[XmlAttributeNames.FieldURI],
-                    jsObject[XmlAttributeNames.FieldIndex])
-            case XmlElementNames.ExtendedFieldURI:
-                let propertyDefiniton: ExtendedPropertyDefinition = new TypeContainer.ExtendedPropertyDefinition();
-                propertyDefiniton.LoadPropertyValueFromXmlJsObject(jsObject);
-                return propertyDefiniton;
-            default:
-                return null;
+        for (var key in jsObject) {
+            if (key.indexOf("__") === 0) {
+                continue;
+            }
+            switch (key) {
+                case XmlElementNames.FieldURI:
+                    return TypeContainer.ServiceObjectSchema.FindPropertyDefinition(XmlAttributeNames.FieldURI);
+                case XmlElementNames.IndexedFieldURI:
+                    return new TypeContainer.IndexedPropertyDefinition(
+                        jsObject[XmlAttributeNames.FieldURI],
+                        jsObject[XmlAttributeNames.FieldIndex])
+                case XmlElementNames.ExtendedFieldURI:
+                    let propertyDefiniton: ExtendedPropertyDefinition = new TypeContainer.ExtendedPropertyDefinition();
+                    propertyDefiniton.LoadPropertyValueFromXmlJsObject(jsObject);
+                    return propertyDefiniton;
+                default:
+                    break;
+            }
         }
+        return null;
     }
 
     /**
