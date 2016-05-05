@@ -11,7 +11,8 @@
         "emitDecoratorMetadata": true,
         "allowUnreachableCode": true,
         "pretty": false,
-        "inlineSourceMap": false
+        "inlineSourceMap": false,
+        "stripInternal": true
     },
     "compileOnSave": false,
     "exclude": [

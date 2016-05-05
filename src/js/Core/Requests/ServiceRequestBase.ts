@@ -33,18 +33,18 @@ export abstract class ServiceRequestBase {
      * 
      * @remarks Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
      */
-    private static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
-    private static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
+    protected static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
+    protected static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
 
-    private static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
-    private static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
-    private static XMLSchemaInstanceNamespace: string = "http://www.w3.org/2001/XMLSchema-instance";
-    private static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
+    protected static RequestIdResponseHeaders: string[] = ["RequestId", "request-id"];
+    protected static XMLSchemaNamespace: string = "http://www.w3.org/2001/XMLSchema";
+    protected static XMLSchemaInstanceNamespace: string = "http://www.w3.org/2001/XMLSchema-instance";
+    protected static ClientStatisticsRequestHeader: string = "X-ClientStatistics";
 
     /**
      * Maintains the collection of client side statistics for requests already completed
      */
-    private static clientStatisticsCache: string[] = [];
+    protected static clientStatisticsCache: string[] = [];
 
     private service: ExchangeService;
 

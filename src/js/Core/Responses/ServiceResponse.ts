@@ -125,8 +125,16 @@ export class ServiceResponse {
      */
     Loaded(): void { /* virtual void to be implemented throw new Error("Not implemented.");*/ }
 
-    //ref: info: LoadExtraErrorDetailsFromXml is bypassed, no use when reading converted xml object
-    //LoadExtraErrorDetailsFromXml(EwsServiceXmlReader reader, string xmlElementName)
+    /**
+     * @internal Loads extra error details from XML
+     *
+     * @param   {any}   responseObject      Json Object converted from XML.
+     */
+    LoadExtraErrorDetailsFromXml(responseObject: any): void {
+        if (responseObject[XmlElementNames.MessageXml]) {
+            this.ParseMessageXml(responseObject[XmlElementNames.MessageXml]);
+        }
+    }
 
     /**
      * @internal Loads service object from XML.
@@ -142,9 +150,7 @@ export class ServiceResponse {
         // TODO: Deal with a JSON version of "LoadExtraDetailsFromXml"
         if (this.result == ServiceResult.Warning || this.result == ServiceResult.Error) {
             this.errorMessage = responseObject[XmlElementNames.MessageText];
-            if (responseObject[XmlElementNames.MessageXml]) {
-                this.ParseMessageXml(responseObject[XmlElementNames.MessageXml]);
-            }
+            this.LoadExtraErrorDetailsFromXml(responseObject);
         }
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {

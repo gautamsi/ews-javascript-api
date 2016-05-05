@@ -31,6 +31,7 @@ import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
 import {DeleteMode} from "../Enumerations/DeleteMode";
 import {EmailAddress} from "../ComplexProperties/EmailAddress";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
+import {EventType} from "../Enumerations/EventType";
 import {EwsUtilities} from "./EwsUtilities";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
@@ -100,11 +101,14 @@ import {ServiceResponse} from "./Responses/ServiceResponse";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
+import {StreamingSubscription} from "../Notifications/StreamingSubscription";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {Strings} from "../Strings";
+import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
 import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
@@ -1668,8 +1672,43 @@ export class ExchangeService extends ExchangeServiceBase {
     //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
     //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
     //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
-    //BuildSubscribeToStreamingNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): SubscribeToStreamingNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToStreamingNotificationsRequest : Not implemented."); }
-    //BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest { throw new Error("ExchangeService.ts - BuildUnsubscribeRequest : Not implemented."); }
+
+    /**
+     * Builds request to subscribe to streaming notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToStreamingNotificationsRequest}      A request to subscribe to streaming notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToStreamingNotificationsRequest(folderIds: FolderId[], eventTypes: EventType[]): SubscribeToStreamingNotificationsRequest {
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToStreamingNotificationsRequest = new SubscribeToStreamingNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        ArrayHelper.AddRange(request.EventTypes, eventTypes); //request.EventTypes.AddRange(eventTypes);
+
+        return request;
+    }
+
+    /**
+     * Buids a request to unsubscribe from a subscription.
+     *
+     * @param   {string}   subscriptionId   The Id of the subscription for which to get the events.
+     * @return  {UnsubscribeRequest}        A request to unsubscribe from a subscription.
+     */
+    private BuildUnsubscribeRequest(subscriptionId: string): UnsubscribeRequest {
+        EwsUtilities.ValidateParam(subscriptionId, "subscriptionId");
+
+        let request: UnsubscribeRequest = new UnsubscribeRequest(this);
+
+        request.SubscriptionId = subscriptionId;
+
+        return request;
+    }
     //EndGetEvents(asyncResult: Function /*System.IAsyncResult*/): GetEventsResults { throw new Error("ExchangeService.ts - EndGetEvents : Not implemented."); }
     //EndSubscribeToPullNotifications(asyncResult: Function /*System.IAsyncResult*/): PullSubscription { throw new Error("ExchangeService.ts - EndSubscribeToPullNotifications : Not implemented."); }
     //EndSubscribeToPushNotifications(asyncResult: Function /*System.IAsyncResult*/): PushSubscription { throw new Error("ExchangeService.ts - EndSubscribeToPushNotifications : Not implemented."); }
@@ -1685,11 +1724,54 @@ export class ExchangeService extends ExchangeServiceBase {
     ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
     //SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
     ////SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    //SubscribeToStreamingNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotifications : Not implemented."); }
-    //SubscribeToStreamingNotificationsOnAllFolders(eventTypes: any): StreamingSubscription { throw new Error("ExchangeService.ts - SubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
+    
+    /**
+     * Subscribes to streaming notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}   folderIds    The Ids of the folder to subscribe to.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     */    
+    SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): IPromise<StreamingSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "SubscribeToStreamingNotifications");
+
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        return this.BuildSubscribeToStreamingNotificationsRequest(folderIds, eventTypes).Execute().then((responses) => {
+            return responses.__thisIndexer(0).Subscription;
+        });
+
+    }
+    
+    /**
+     * Subscribes to streaming notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     */    
+    SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): IPromise<StreamingSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "SubscribeToStreamingNotificationsOnAllFolders");
+
+        return this.BuildSubscribeToStreamingNotificationsRequest(null, eventTypes).Execute().then((responses) => {
+            return responses.__thisIndexer(0).Subscription;
+        });
+    }
     //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
 
-    Unsubscribe(subscriptionId: string): IPromise<void> { throw new Error("ExchangeService.ts - Unsubscribe : Not implemented."); }
+    /**
+     * @internal Unsubscribes from a subscription. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription to unsubscribe from.
+     */
+    Unsubscribe(subscriptionId: string): IPromise<void> {
+        return <any>this.BuildUnsubscribeRequest(subscriptionId).Execute();
+    }
 
     /* #endregion Notification operations */
 

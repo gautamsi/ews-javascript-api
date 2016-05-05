@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/gautamsi/ews-javascript-api",
   "dependencies": {
     "base64-js": "0.0.8",
+    "fetch": "^1.0.1",
     "moment": "^2.10.3",
     "moment-timezone": "^0.4.0",
     "node-uuid": "^1.4.3",

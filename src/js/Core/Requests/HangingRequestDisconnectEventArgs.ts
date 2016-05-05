@@ -1,30 +1,35 @@
-﻿import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
-import {Exception} from "../../Exceptions/Exception";
+﻿import {Exception} from "../../Exceptions/Exception";
+import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
+
 /**
- * ## *Not Implemented* 
+ * Represents a collection of arguments for the HangingServiceRequestBase.HangingRequestDisconnectHandler delegate method.
  */
-export class HangingRequestDisconnectEventArgs //extends  EventArgs
-{
-	/// <summary>
-	/// Initializes a new instance of the <see cref="HangingRequestDisconnectEventArgs"/> class.
-	/// </summary>
-	/// <param name="reason">The reason.</param>
-	/// <param name="exception">The exception.</param>
+export class HangingRequestDisconnectEventArgs {  //extends  EventArgs{
+
+	/**
+	 * Gets the reason that the user was disconnected.
+	 * 
+	 * @internal set
+	 */
+	Reason: HangingRequestDisconnectReason;
+
+	/**
+	 * Gets the exception that caused the disconnection. Can be null.
+	 * 
+	 * @internal set
+	 */
+	Exception: Exception;
+
+	/**
+	 * Initializes a new instance of the  class.
+	 *
+	 * @param   {HangingRequestDisconnectReason}   	reason      The reason.
+	 * @param   {Exception}   						exception   The exception.
+	 */
 	constructor(
 		reason: HangingRequestDisconnectReason,
 		exception: Exception) {
 		this.Reason = reason;
 		this.Exception = exception;
 	}
-
-	/// <summary>
-	/// Gets the reason that the user was disconnected.
-	/// </summary>
-	Reason: HangingRequestDisconnectReason;
-       
-
-	/// <summary>
-	/// Gets the exception that caused the disconnection. Can be null.
-	/// </summary>
-	Exception: Exception;
 }
