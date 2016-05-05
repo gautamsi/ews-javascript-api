@@ -31,7 +31,7 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 # Whats new v0.2.7 (including 0.2.5 and 0.2.6)
 
 * new: Streaming Notification code updated, see issue #24 for example. More details at [How to: Stream notifications about mailbox events by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn458792(v=exchg.150).aspx)
-* new: Pull Subscription should also work [MSDN](https://msdn.microsoft.com/en-us/library/office/dn458790(v=exchg.150).aspx)
+* ~~new: Pull Subscription should also work [MSDN](https://msdn.microsoft.com/en-us/library/office/dn458790(v=exchg.150).aspx)~~ not updated yet, pushed to 0.2.8
 * new: `SearchFilter` code update. See official MSDN link for examples [How to: Use search filters with EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn579422(v=exchg.150).aspx)
 * new: Some use of `ExtendedPropertyDefinition` works, see #23 for an example.
 * new: `Grouping` class updated, it can be applied on `FindItems`
