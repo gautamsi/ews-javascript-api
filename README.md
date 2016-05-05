@@ -25,14 +25,24 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 
 
 ## Documentation
-Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api)
+Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
+Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
+# Whats new v0.2.7 (including 0.2.5 and 0.2.6)
 
-# Whats new v0.2
-
-* Attachment Operations
-    * GetAttachment method - load attachment information from Attachemnt or AttachmentId
-    * Create email message with attachment, sample code in Wiki
+* new: Streaming Notification code updated, see issue #24 for example. More details at [How to: Stream notifications about mailbox events by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn458792(v=exchg.150).aspx)
+* new: Pull Subscription should also work [MSDN](https://msdn.microsoft.com/en-us/library/office/dn458790(v=exchg.150).aspx)
+* new: `SearchFilter` code update. See official MSDN link for examples [How to: Use search filters with EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn579422(v=exchg.150).aspx)
+* new: Some use of `ExtendedPropertyDefinition` works, see #23 for an example.
+* new: `Grouping` class updated, it can be applied on `FindItems`
+* new: `AccountLockout` detection in failed conenction. *Does not work with Office 365*
+* improvements: `Contact` object related code udpate, fix code errors
+* improvement: `SoapFaultDetails` updated for improved error handling, most EWS operation not return instance of `SoapFaultDetails` in case of any failure, it contains `Exception` property with information of failures oe exception in operation.
+* fix: `FindItems` improvements
+    * bug fixed where code was not updated to handle correct constructor overload
+    * SearchFilter can be used
+    * Grouping can be used
+* 
 
 # Whats new v0.2.3
 
@@ -43,6 +53,13 @@ Api document generated using TypeDoc and is hosted at [ews-javascript-api.github
     * issue - HTML Body is not working using `Appointment`
 * `GetUserOofSettings` and `SetUserOofSettings` on ExchangeService is ready to be used.
 * fix: Autodiscover issue fixed, where it throws exception when redirecting to office 365 using 302 redirect from CNAME dns record
+
+
+# Whats new v0.2
+
+* Attachment Operations
+    * GetAttachment method - load attachment information from Attachemnt or AttachmentId
+    * Create email message with attachment, sample code in Wiki
 
 
 # Getting Started
@@ -155,6 +172,11 @@ ResolveName
 UpdateItems  
 GetUserOofSettings  
 SetUserOofSettings   
+SubscribeToStreamingNotifications   
+SubscribeToStreamingNotificationsOnAllFolders  
+GetUserOofSettings   
+SetUserOofSettings 
+
 
 
 ## List of Folder object methods available
@@ -170,6 +192,8 @@ Load
 LoadPropertiesForFolder  
 MarkAllItemsAsRead  
 MarkAllItemsAsUnread  
+RemoveExtendedProperty  
+SetExtendedProperty  
 MoveFolder  
 Save  
 UpdateFolder 
@@ -183,12 +207,17 @@ CreateItem
 DeleteItem[s]  
 FindAppointments  
 FindItems  
+LoadPropertiesForItems  
 MarkAsJunk  
 MoveItem  
 SendItem  
 Save  
-UpdateItem[s] 
-
+UpdateItem[s]   
+RemoveExtendedProperty  
+SetExtendedProperty  
+AcceptTentatively  *[Appointment]*  
+AcceptTentatively  *[Appointment]*  
+Decline            *[Appointment]*   
 
 
 ## Use in Cordova
