@@ -1,8 +1,8 @@
-import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
 import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
 import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
+import {ArgumentException, ArgumentOutOfRangeException, ArgumentNullException} from "../Exceptions/ArgumentException";
 import {Attachment} from "../ComplexProperties/Attachment";
 import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
@@ -47,6 +47,7 @@ import {FolderView} from "../Search/FolderView";
 import {Folder} from "./ServiceObjects/Folders/Folder";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
+import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
@@ -81,7 +82,10 @@ import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
 import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
 import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
 import {PromiseFactory} from "../PromiseFactory";
+import {PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
 import {PropertySet} from "./PropertySet";
+import {PullSubscription} from "../Notifications/PullSubscription";
+import {PushSubscription} from "../Notifications/PushSubscription";
 import {RenderingMode} from "../Enumerations/RenderingMode";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
@@ -99,15 +103,20 @@ import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
 import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceResponse} from "./Responses/ServiceResponse";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import {SetTeamMailboxRequest} from "./Requests/SetTeamMailboxRequest";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 import {StreamingSubscription} from "../Notifications/StreamingSubscription";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {Strings} from "../Strings";
+import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
+import {SubscribeToPushNotificationsRequest} from "./Requests/SubscribeToPushNotificationsRequest";
 import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
+import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleState";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
@@ -117,7 +126,6 @@ import {UserSettingName} from "../Enumerations/UserSettingName";
 import {ViewBase} from "../Search/ViewBase";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {XHRFactory}  from "../XHRFactory";
-
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 /**
@@ -1669,9 +1677,89 @@ export class ExchangeService extends ExchangeServiceBase {
     // BeginSubscribeToStreamingNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotifications : Not implemented."); }
     // BeginSubscribeToStreamingNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
     // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginUnsubscribe : Not implemented."); }
-    //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
-    //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
-    //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
+
+    /**
+     * Builds an request to retrieve the latests events associated with a pull subscription.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription for which to get the events.
+     * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
+     * @return  {GetEventsRequest}          An request to retrieve the latests events associated with a pull subscription.
+     */
+    private BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest {
+        EwsUtilities.ValidateParam(subscriptionId, "subscriptionId");
+        EwsUtilities.ValidateParam(watermark, "watermark");
+
+        let request: GetEventsRequest = new GetEventsRequest(this);
+
+        request.SubscriptionId = subscriptionId;
+        request.Watermark = watermark;
+
+        return request;
+    }
+
+    /**
+     * Builds a request to subscribe to pull notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}        timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}        watermark    An optional watermark representing a previously opened subscription.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToPullNotificationsRequest}   A request to subscribe to pull notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToPullNotificationsRequest(folderIds: FolderId[], timeout: number, watermark: string, eventTypes: EventType[]): SubscribeToPullNotificationsRequest {
+        if (timeout < 1 || timeout > 1440) {
+            throw new ArgumentOutOfRangeException("timeout", Strings.TimeoutMustBeBetween1And1440);
+        }
+
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToPullNotificationsRequest = new SubscribeToPullNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        request.Timeout = timeout;
+        ArrayHelper.AddRange(request.EventTypes, eventTypes); //request.EventTypes.AddRange(eventTypes);
+        request.Watermark = watermark;
+
+        return request;
+    }
+
+    /**
+     * Builds an request to request to subscribe to push notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}           url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}        frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}        watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}        callerData   Optional caller data that will be returned the call back.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToPushNotificationsRequest}       A request to request to subscribe to push notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToPushNotificationsRequest(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: EventType[]): SubscribeToPushNotificationsRequest {
+        EwsUtilities.ValidateParam(url, "url");
+
+        if (frequency < 1 || frequency > 1440) {
+            throw new ArgumentOutOfRangeException("frequency", Strings.FrequencyMustBeBetween1And1440);
+        }
+
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToPushNotificationsRequest = new SubscribeToPushNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        request.Url = url;
+        request.Frequency = frequency;
+        ArrayHelper.AddRange(request.EventTypes, eventTypes);//request.EventTypes.AddRange(eventTypes);
+        request.Watermark = watermark;
+        request.CallerData = callerData;
+
+        return request;
+    }
 
     /**
      * Builds request to subscribe to streaming notifications in the authenticated user's mailbox.
@@ -1715,23 +1803,188 @@ export class ExchangeService extends ExchangeServiceBase {
     //EndSubscribeToStreamingNotifications(asyncResult: Function /*System.IAsyncResult*/): StreamingSubscription { throw new Error("ExchangeService.ts - EndSubscribeToStreamingNotifications : Not implemented."); }
     //EndUnsubscribe(asyncResult: Function /*System.IAsyncResult*/): any { throw new Error("ExchangeService.ts - EndUnsubscribe : Not implemented."); }
 
-    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+    /**
+     * Retrieves the latests events associated with a pull subscription. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription for which to get the events.
+     * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
+     * @return  {IPromise<GetEventsResults>}    A GetEventsResults containing a list of events associated with the subscription.
+     */
+    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> {
+        return this.BuildGetEventsRequest(subscriptionId, watermark).Execute().then((response) => {
+            return response.__thisIndexer(0).Results;
+        });
+    }
 
-    //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
-    //SubscribeToPullNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotifications : Not implemented."); }
-    //SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotificationsOnAllFolders : Not implemented."); }
-    //SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    //SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    ////SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    
+    /**
+     * Set a TeamMailbox
+     *
+     * @param   {EmailAddress}                  emailAddress        TeamMailbox email address
+     * @param   {Uri}                           sharePointSiteUrl   SharePoint site URL
+     * @param   {TeamMailboxLifecycleState}     state               TeamMailbox lifecycle state
+     * @return  {IPromise<void>}    Promise.
+     */
+    SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): IPromise<void> {
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "SetTeamMailbox");
+
+        if (emailAddress == null) {
+            throw new ArgumentNullException("emailAddress");
+        }
+
+        if (sharePointSiteUrl == null) {
+            throw new ArgumentNullException("sharePointSiteUrl");
+        }
+
+        let request: SetTeamMailboxRequest = new SetTeamMailboxRequest(this, emailAddress, sharePointSiteUrl, state);
+        return <any>request.Execute();
+    }
+
+    /**
+     * Subscribes to pull notifications. Calling this method results in a call to EWS   :Promise.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     */
+    SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription> {
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        return this.BuildSubscribeToPullNotificationsRequest(
+            folderIds,
+            timeout,
+            watermark,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to pull notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.   :Promise.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     */
+    SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010,
+            "SubscribeToPullNotificationsOnAllFolders");
+
+        return this.BuildSubscribeToPullNotificationsRequest(
+            null,
+            timeout,
+            watermark,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to push notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     */
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    /**
+     * Subscribes to push notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}            callerData   Optional caller data that will be returned the call back.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     */
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): IPromise<PushSubscription> {
+
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        let callerData: string = null;
+
+        if (typeof callerDataOrEventTypes === 'string') {
+            callerData = callerDataOrEventTypes;
+        }
+        else {
+            eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
+        }
+
+        return this.BuildSubscribeToPushNotificationsRequest(
+            folderIds,
+            url,
+            frequency,
+            watermark,
+            callerData,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     */
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    /**
+     * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}            callerData   Optional caller data that will be returned the call back.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     */
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): IPromise<PushSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010,
+            "SubscribeToPushNotificationsOnAllFolders");
+
+        let callerData: string = null;
+
+        if (typeof callerDataOrEventTypes === 'string') {
+            callerData = callerDataOrEventTypes;
+        }
+        else {
+            eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
+        }
+
+        return this.BuildSubscribeToPushNotificationsRequest(
+            null,
+            url,
+            frequency,
+            watermark,
+            callerData,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
     /**
      * Subscribes to streaming notifications. Calling this method results in a call to EWS.
      *
      * @param   {FolderId[]}   folderIds    The Ids of the folder to subscribe to.
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
      * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
-     */    
+     */
     SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): IPromise<StreamingSubscription> {
         EwsUtilities.ValidateMethodVersion(
             this,
@@ -1745,13 +1998,13 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-    
+
     /**
      * Subscribes to streaming notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
      *
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
      * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
-     */    
+     */
     SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): IPromise<StreamingSubscription> {
         EwsUtilities.ValidateMethodVersion(
             this,
@@ -1762,7 +2015,23 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Subscription;
         });
     }
-    //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
+
+    /**
+     * Unpin a TeamMailbox
+     *
+     * @param   {EmailAddress}      emailAddress        TeamMailbox email address
+     * @return  {IPromise<void>}    Promise.
+     */
+    UnpinTeamMailbox(emailAddress: EmailAddress): IPromise<void> {
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "UnpinTeamMailbox");
+
+        if (emailAddress == null) {
+            throw new ArgumentNullException("emailAddress");
+        }
+
+        let request: UnpinTeamMailboxRequest = new UnpinTeamMailboxRequest(this, emailAddress);
+        return <any>request.Execute();
+    }
 
     /**
      * @internal Unsubscribes from a subscription. Calling this method results in a call to EWS.
@@ -2208,13 +2477,13 @@ export class ExchangeService extends ExchangeServiceBase {
         var ParameterName: string = "minimum";
 
         if (StringHelper.IsNullOrEmpty(version)) {
-            throw new Error("Target version must not be empty."); //ArgumentException
+            throw new ArgumentException("Target version must not be empty.");
         }
 
         var parts: string[] = version.trim().split(ParameterSeparator);
 
         if (parts.length > 2) {
-            throw new Error("Target version should have the form.");//ArgumentException            
+            throw new ArgumentException("Target version should have the form.");
         }
 
         var skipPart1: boolean = true;
@@ -2228,7 +2497,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 skipPart1 = false;
             }
             else {
-                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+                throw new ArgumentException("Target version must match X.Y or Exchange20XX.");
             }
         }
 
@@ -2242,7 +2511,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 // Also close enough; misses corner cases like ".5".
             }
             else {
-                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+                throw new ArgumentException("Target version must match X.Y or Exchange20XX.");
             }
         }
     }

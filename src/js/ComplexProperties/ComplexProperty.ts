@@ -33,7 +33,7 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
     readAction: (jsonProperty: any, service: ExchangeService) => void /*System.Func<T, TResult>*/): void {
     //reader.EnsureCurrentNodeIsStartElement(xmlNamespace, xmlElementName);
     //debugger;//check how to implement with jsobject.
-    EwsLogging.Assert(false,(<any>this.constructor).name + ".LoadFromXmlJsObject", "ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this.constructor).name);
+    EwsLogging.Assert(false, (<any>this.constructor).name + ".LoadFromXmlJsObject", "ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this.constructor).name);
     throw new Error("ComplexProperty - InternalLoadFromXmlJsObject: todo:convert to jsobjectload. object type = " + (<any>this).constructor.name)
     // this.ReadAttributesFromXmlJsObject(jsObject);
 
@@ -114,10 +114,16 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
   WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
   WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("ComplexProperty.ts - WriteToXml : Not implemented."); }
-  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
-    if (!xmlNamespace)
-      xmlNamespace = this.Namespace;
+  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void;
+  WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): void;
+  WriteToXml(writer: EwsServiceXmlWriter, xmlElementNameOrNameSpace: string | XmlNamespace, xmlElementName: string = null): void {
+    let xmlNamespace = this.Namespace;
+    if (typeof xmlElementNameOrNameSpace === 'number') {
+      xmlNamespace = xmlElementNameOrNameSpace;
+    }
+    else {
+      xmlElementName = xmlElementNameOrNameSpace;
+    }
 
     writer.WriteStartElement(xmlNamespace, xmlElementName);
     this.WriteAttributesToXml(writer);

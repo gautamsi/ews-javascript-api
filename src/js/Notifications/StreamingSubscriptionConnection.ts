@@ -452,7 +452,7 @@ export class StreamingSubscriptionConnection {
  * @param   {any}   					sender   The StreamingSubscriptionConnection instance that received the events.
  * @param   {NotificationEventArgs}   	args     The event data.
  */
-interface NotificationEventDelegate {
+export interface NotificationEventDelegate {
 	(sender: any, args: NotificationEventArgs): void;
 }
 
@@ -462,6 +462,6 @@ interface NotificationEventDelegate {
  * @param   {any}   						sender   The StreamingSubscriptionConnection instance within which the error occurred.
  * @param   {SubscriptionErrorEventArgs}   	args     The event data.
  */
-interface SubscriptionErrorDelegate {
+export interface SubscriptionErrorDelegate {
 	(sender: any, args: SubscriptionErrorEventArgs): void;
 }
