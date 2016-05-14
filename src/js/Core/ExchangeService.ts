@@ -2120,6 +2120,14 @@ export class ExchangeService extends ExchangeServiceBase {
             return response.OofSettings;
         });
     }
+
+    /**
+     * Sets the Out of Office (OOF) settings for a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   smtpAddress   The SMTP address of the user for which to set OOF settings.
+     * @param   {OofSettings}   oofSettings   The OOF settings.
+     * @return  {IPromise<void>}     Promise.
+     */
     SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): IPromise<void> {
         EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
         EwsUtilities.ValidateParam(oofSettings, "oofSettings");
@@ -2164,7 +2172,7 @@ export class ExchangeService extends ExchangeServiceBase {
     /* #end region Conversation */
 
 
-    /** #region Id conversion operations */
+    /* #region Id conversion operations */
 
     //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("ExchangeService.ts - ConvertId : Not implemented."); }
     //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ConvertIds : Not implemented."); }
