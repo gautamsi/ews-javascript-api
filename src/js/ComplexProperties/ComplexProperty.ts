@@ -114,21 +114,33 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   }
   WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
   WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void;
-  WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): void;
-  WriteToXml(writer: EwsServiceXmlWriter, xmlElementNameOrNameSpace: string | XmlNamespace, xmlElementName: string = null): void {
-    let xmlNamespace = this.Namespace;
-    if (typeof xmlElementNameOrNameSpace === 'number') {
-      xmlNamespace = xmlElementNameOrNameSpace;
-    }
-    else {
-      xmlElementName = xmlElementNameOrNameSpace;
-    }
+  
+  /** reverted to simplify child clarr override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
+  //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("ComplexProperty.ts - WriteToXml : Not implemented."); }
+  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+    if (!xmlNamespace)
+      xmlNamespace = this.Namespace;
 
     writer.WriteStartElement(xmlNamespace, xmlElementName);
     this.WriteAttributesToXml(writer);
     this.WriteElementsToXml(writer);
     writer.WriteEndElement();
   }
+  // WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void;
+  // WriteToXml(writer: EwsServiceXmlWriter, xmlNamespace: XmlNamespace, xmlElementName: string): void;
+  // WriteToXml(writer: EwsServiceXmlWriter, xmlElementNameOrNameSpace: string | XmlNamespace, xmlElementName: string = null): void {
+  //   let xmlNamespace = this.Namespace;
+  //   if (typeof xmlElementNameOrNameSpace === 'number') {
+  //     xmlNamespace = xmlElementNameOrNameSpace;
+  //   }
+  //   else {
+  //     xmlElementName = xmlElementNameOrNameSpace;
+  //   }
+
+  //   writer.WriteStartElement(xmlNamespace, xmlElementName);
+  //   this.WriteAttributesToXml(writer);
+  //   this.WriteElementsToXml(writer);
+  //   writer.WriteEndElement();
+  // }
 }
 

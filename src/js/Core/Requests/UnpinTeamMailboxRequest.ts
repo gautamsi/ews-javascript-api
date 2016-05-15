@@ -92,6 +92,7 @@ export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
 	 * @param   {EwsServiceXmlWriter}   writer   The writer.
 	 */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        this.emailAddress.WriteToXml(writer, XmlNamespace.Messages, XmlElementNames.EmailAddress);
+        //this.emailAddress.WriteToXml(writer, XmlNamespace.Messages, XmlElementNames.EmailAddress);
+        this.emailAddress.WriteToXml(writer, XmlElementNames.EmailAddress, XmlNamespace.Messages);
     }
 }
