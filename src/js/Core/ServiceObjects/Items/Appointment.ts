@@ -637,13 +637,16 @@ export class Appointment extends Item implements ICalendarActionProvider {
         }
     }
 
+    /** @internal - do not use on Appointment class */
+    Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): IPromise<void> //info: signature added to implement workaround @github #52
     /**
      * Deletes this appointment. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode              The deletion mode.
      * @param   {SendCancellationsMode}   sendCancellationsMode   Specifies if and how cancellations should be sent if this appointment is a meeting.
      */
-    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): IPromise<void> {
+    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): IPromise<void>; //info: signature added to implement workaround @github #52 
+    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode | any): IPromise<void> {
         return this.InternalDelete(
             deleteMode,
             sendCancellationsMode,
@@ -759,24 +762,27 @@ export class Appointment extends Item implements ICalendarActionProvider {
 
     /**
      * Saves this appointment in the Calendar folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
+     * ### sendInvitationsMode not optional, see github issue #52
      *
-     * @param   {SendInvitationsMode}   sendInvitationsMode   Specifies if and how invitations should be sent if this appointment is a meeting.
+     * @param   {SendInvitationsMode}   sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(sendInvitationsMode: SendInvitationsMode): IPromise<void>;
+    Save(sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
+     * ### sendInvitationsMode not optional, see github issue #52
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save this appointment.
-     * @param   {SendInvitationsMode}   sendInvitationsMode     Specifies if and how invitations should be sent if this appointment is a meeting.
+     * @param   {SendInvitationsMode}   sendInvitationsMode     *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode: SendInvitationsMode): IPromise<void>;
+    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
+     * ### sendInvitationsMode not optional, see github issue #52
      *
      * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save this appointment.
-     * @param   {SendInvitationsMode}     sendInvitationsMode   Specifies if and how invitations should be sent if this appointment is a meeting.
+     * @param   {SendInvitationsMode}     sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderId: FolderId, sendInvitationsMode: SendInvitationsMode): IPromise<void>;
+    Save(destinationFolderId: FolderId, sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     Save(destinationFolderNameOrIdOrSendInvitationMode: FolderId | WellKnownFolderName | SendInvitationsMode,
         sendInvitationsMode?: SendInvitationsMode): IPromise<void> {
 
@@ -804,13 +810,17 @@ export class Appointment extends Item implements ICalendarActionProvider {
         }
     }
 
+    /** @internal - do not use on Appointment class */
+    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>; //info: added signature to implement workaround @github #52 
     /**
      * Applies the local changes that have been made to this appointment. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added or removed.
+     * ### sendInvitationsOrCancellationsMode not optional, see github issue #52
      *
      * @param   {ConflictResolutionMode}   conflictResolutionMode               Specifies how conflicts should be resolved.
      * @param   {SendInvitationsOrCancellationsMode}   sendInvitationsOrCancellationsMode   Specifies if and how invitations or cancellations should be sent if this appointment is a meeting.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<void> {
+    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): IPromise<void> {
         return <any>this.InternalUpdate(
             null,
             conflictResolutionMode,

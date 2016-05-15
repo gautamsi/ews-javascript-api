@@ -85,16 +85,16 @@ export class ItemAttachment extends Attachment {
      *
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(additionalProperties: PropertyDefinitionBase[] /** System.Collections.Generic.IEnumerable<PropertyDefinitionBase> */): IPromise<void>;
-    //Load(bodyType: BodyType, ...additionalProperties: PropertyDefinitionBase[]): IPromise<void>;
+    Load(additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
+    //Load(bodyType: BodyType, ...additionalProperties: PropertyDefinitionBase[]): IPromise<void>; //info: not implemented - incompatible declaration type
     /**
      * Loads this attachment.
      *
      * @param   {BodyType}   bodyType               The body type to load.
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]  /** System.Collections.Generic.IEnumerable<PropertyDefinitionBase> */): IPromise<void>;
-    Load(bodyTypeOrPeoperties: BodyType | PropertyDefinitionBase[], additionalProperties?: PropertyDefinitionBase[]): IPromise<void> {
+    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
+    Load(bodyTypeOrPeoperties?: BodyType | PropertyDefinitionBase[], additionalProperties?: PropertyDefinitionBase[]): IPromise<void> {
         let argsLength = arguments.length;
         let props: PropertyDefinitionBase[] = null;
         let bodyType: BodyType = null;
