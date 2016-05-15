@@ -18,6 +18,7 @@ import {IPromise} from "../../Interfaces";
 import {PromiseFactory} from "../../PromiseFactory"
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+/** @internal */
 export class MultiResponseServiceRequest<TResponse extends ServiceResponse> extends SimpleServiceRequestBase {
     get ErrorHandlingMode(): ServiceErrorHandling { return this.errorHandlingMode; }
     private errorHandlingMode: ServiceErrorHandling;

@@ -13,6 +13,8 @@ import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
  * @internal Represents a GetUserOofSettings request. 
+ * 
+ * @sealed
  */
 export class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
     private smtpAddress: string = null;

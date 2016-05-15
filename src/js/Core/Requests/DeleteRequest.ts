@@ -5,6 +5,7 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class DeleteRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     private deleteMode: DeleteMode = DeleteMode.SoftDelete;
     get DeleteMode(): DeleteMode {

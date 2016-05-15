@@ -5,7 +5,7 @@ import {DelegateManagementResponse} from "../Responses/DelegateManagementRespons
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class AddDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     MeetingRequestsDeliveryScope: MeetingRequestsDeliveryScope;

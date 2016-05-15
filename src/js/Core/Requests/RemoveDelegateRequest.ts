@@ -4,7 +4,7 @@ import {DelegateManagementResponse} from "../Responses/DelegateManagementRespons
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;

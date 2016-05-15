@@ -9,6 +9,7 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
 
 import {GetRequest} from "./GetRequest";
+/** @internal */
 export class GetFolderRequestBase<TResponse extends ServiceResponse> extends GetRequest<Folder, TResponse> {
     get FolderIds(): FolderIdWrapperList { return this.folderIds; }
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();

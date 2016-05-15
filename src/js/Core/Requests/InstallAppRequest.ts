@@ -4,7 +4,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class InstallAppRequest extends SimpleServiceRequestBase {
 	private manifestStream: any /*System.IO.Stream*/;

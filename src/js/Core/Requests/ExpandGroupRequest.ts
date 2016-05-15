@@ -7,6 +7,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExpandGroupResponse} from "../Responses/ExpandGroupResponse";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupResponse> {
     private emailAddress: EmailAddress = null;
     get EmailAddress(): EmailAddress {

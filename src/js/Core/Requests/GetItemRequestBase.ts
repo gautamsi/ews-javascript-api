@@ -10,6 +10,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {GetRequest} from "./GetRequest";
+/** @internal */
 export class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRequest<Item, TResponse> {
     private itemIds: ItemIdWrapperList = new ItemIdWrapperList();
     get ItemIds(): ItemIdWrapperList {

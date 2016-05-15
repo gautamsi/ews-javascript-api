@@ -8,6 +8,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {Strings} from "../../Strings";
 import {CreateRequest} from "./CreateRequest";
+/** @internal */
 export class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> {
     get Folders(): Folder[] {
         return this.Objects;

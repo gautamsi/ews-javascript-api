@@ -7,6 +7,7 @@ import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class MarkAllItemsAsReadRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
     get FolderIds(): FolderIdWrapperList {

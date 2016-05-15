@@ -7,6 +7,7 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {PropertySet} from "../PropertySet";
 
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class GetRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> { //implements IJsonSerializable
     PropertySet: PropertySet;
     //private propertySet: PropertySet;

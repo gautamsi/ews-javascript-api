@@ -3,6 +3,7 @@ import {GetRoomListsResponse} from "../Responses/GetRoomListsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/** @internal */
 export class GetRoomListsRequest extends SimpleServiceRequestBase {
     Execute(): GetRoomListsResponse { throw new Error("GetRoomListsRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetRoomListsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }

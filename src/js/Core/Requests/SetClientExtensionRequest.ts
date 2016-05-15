@@ -4,7 +4,7 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class SetClientExtensionRequest extends MultiResponseServiceRequest<ServiceResponse> {
     private actions: any[];//System.Collections.Generic.List<T>;

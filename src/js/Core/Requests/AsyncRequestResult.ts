@@ -2,7 +2,7 @@
 import {IEwsHttpWebRequest} from "../../Interfaces/IEwsHttpWebRequest";
 import {ExchangeService} from "../ExchangeService";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class AsyncRequestResult {
 	ServiceRequest: ServiceRequestBase;

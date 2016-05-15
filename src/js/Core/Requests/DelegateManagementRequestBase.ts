@@ -3,7 +3,7 @@ import {Mailbox} from "../../ComplexProperties/Mailbox";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented*
  */
 export class DelegateManagementRequestBase<TResponse> extends SimpleServiceRequestBase {
     Mailbox: Mailbox;

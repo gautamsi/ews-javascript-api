@@ -4,6 +4,7 @@ import {ExchangeService} from "../ExchangeService";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 
 import {GetFolderRequestBase} from "./GetFolderRequestBase";
+/** @internal */
 export class GetFolderRequest extends GetFolderRequestBase<GetFolderResponse> {
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);

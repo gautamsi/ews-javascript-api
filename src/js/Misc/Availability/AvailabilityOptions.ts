@@ -103,6 +103,7 @@ export class AvailabilityOptions {
 
         EwsUtilities.ValidateParamAllowNull(this.DetailedSuggestionsWindow, "DetailedSuggestionsWindow");
     }
+    /** @internal */
     WriteToXml(writer: EwsServiceXmlWriter, request: GetUserAvailabilityRequest): void {
         if (request.IsFreeBusyViewRequested) {
             writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.FreeBusyViewOptions);

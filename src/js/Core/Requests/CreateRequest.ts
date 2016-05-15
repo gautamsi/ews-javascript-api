@@ -6,6 +6,7 @@ import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class CreateRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     private parentFolderId: FolderId = null;
     private objects: TServiceObject[] = [];// null;

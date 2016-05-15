@@ -17,6 +17,7 @@ export class ConversationIndexedItemView extends PagedView {
 	GetServiceObjectType(): ServiceObjectType{ throw new Error("ConversationIndexedItemView.ts - GetServiceObjectType : Not implemented.");}
 	GetViewJsonTypeName(): string{ throw new Error("ConversationIndexedItemView.ts - GetViewJsonTypeName : Not implemented.");}
 	GetViewXmlElementName(): string{ throw new Error("ConversationIndexedItemView.ts - GetViewXmlElementName : Not implemented.");}
+	/** @internal */
 	InternalValidate(request: ServiceRequestBase): void{ throw new Error("ConversationIndexedItemView.ts - InternalValidate : Not implemented.");}
 	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("ConversationIndexedItemView.ts - InternalWriteSearchSettingsToXml : Not implemented.");}
 	WriteAttributesToXml(writer: EwsServiceXmlWriter): void{ throw new Error("ConversationIndexedItemView.ts - WriteAttributesToXml : Not implemented.");}

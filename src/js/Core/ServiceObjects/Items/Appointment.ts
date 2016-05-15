@@ -637,7 +637,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
         }
     }
 
-    /** @internal - do not use on Appointment class */
+    /** ## internal - do not use on Appointment class */
     Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): IPromise<void> //info: signature added to implement workaround @github #52
     /**
      * Deletes this appointment. Calling this method results in a call to EWS.
@@ -810,7 +810,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
         }
     }
 
-    /** @internal - do not use on Appointment class */
+    /** ## internal - do not use on Appointment class */
     Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>; //info: added signature to implement workaround @github #52 
     /**
      * Applies the local changes that have been made to this appointment. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added or removed.

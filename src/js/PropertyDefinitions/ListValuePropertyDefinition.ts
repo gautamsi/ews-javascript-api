@@ -1,4 +1,5 @@
 ﻿import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+/** @internal */
 export class ListValuePropertyDefinition<TPropertyValue> extends GenericPropertyDefinition<TPropertyValue> {
     Parse(value: string): any {
 

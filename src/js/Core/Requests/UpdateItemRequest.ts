@@ -15,6 +15,7 @@ import {UpdateItemResponse} from "../Responses/UpdateItemResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemResponse> {//IJsonSerializable
     private items: Item[] = [];
     private savedItemsDestinationFolder: FolderId = null;

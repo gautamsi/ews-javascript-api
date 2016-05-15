@@ -7,6 +7,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {DeleteRequest} from "./DeleteRequest";
+/** @internal */
 export class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();
     get FolderIds(): FolderIdWrapperList {

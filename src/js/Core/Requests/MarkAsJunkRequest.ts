@@ -8,6 +8,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {MarkAsJunkResponse} from "../Responses/MarkAsJunkResponse";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class MarkAsJunkRequest extends MultiResponseServiceRequest<MarkAsJunkResponse> {//IJsonSerializable
     private itemIds: ItemIdWrapperList = new ItemIdWrapperList();
     get ItemIds(): ItemIdWrapperList {

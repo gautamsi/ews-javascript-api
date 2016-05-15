@@ -4,7 +4,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
 	ApiVersionSupported: string;

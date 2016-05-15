@@ -4,7 +4,7 @@ import {GetDelegateResponse} from "../Responses/GetDelegateResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
     UserIds: UserId[];//System.Collections.Generic.List<UserId>;

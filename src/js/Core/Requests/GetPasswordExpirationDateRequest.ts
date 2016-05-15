@@ -6,6 +6,7 @@ import {IPromise} from "../../Interfaces";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+/** @internal */
 export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {//IJsonSerializable
     private mailboxSmtpAddress: string = null;
     get MailboxSmtpAddress(): string {

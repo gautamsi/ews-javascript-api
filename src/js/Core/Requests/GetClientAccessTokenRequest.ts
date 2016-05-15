@@ -5,7 +5,7 @@ import {GetClientAccessTokenResponse} from "../Responses/GetClientAccessTokenRes
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetClientAccessTokenRequest extends MultiResponseServiceRequest<GetClientAccessTokenResponse> {
 	TokenRequests: ClientAccessTokenRequest[];

@@ -12,7 +12,7 @@ import {FetchStream} from "fetch";
 
 import {ServiceRequestBase} from "./ServiceRequestBase";
 /**
- * ## *Not Implemented* 
+ * @internal Represents an abstract, hanging service request.
  */
 export class HangingServiceRequestBase extends ServiceRequestBase {
     private static BufferSize: number = 4096;
@@ -414,10 +414,27 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     }
 }
 
+/**
+ * @internal interface to declare Delegate method to handle a hanging request disconnection. 
+ */
 export interface HangingRequestDisconnectHandler {
+    /**
+     * Delegate method to handle a hanging request disconnection.
+     *
+     * @param   {any}                                   sender   The object invoking the delegate.
+     * @param   {HangingRequestDisconnectEventArgs}     args     Event data.
+     */    
     (sender: any, args: HangingRequestDisconnectEventArgs): void;
 }
 
+/**
+ * @internal interface to declare Callback delegate to handle asynchronous responses.
+ */
 export interface HandleResponseObject {
+    /**
+     * Callback delegate to handle asynchronous responses.
+     *
+     * @param   {any}   response   Response received from the server
+     */    
     (response: any): void;
 }

@@ -9,7 +9,7 @@ import {GetConversationItemsResponse} from "../Responses/GetConversationItemsRes
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetConversationItemsRequest extends MultiResponseServiceRequest<GetConversationItemsResponse> {//IJsonSerializable
     Conversations: ConversationRequest[];//System.Collections.Generic.List<ConversationRequest>;

@@ -15,6 +15,7 @@ import {AttendeeAvailability} from "../Responses/AttendeeAvailability";
 import {SuggestionsResponse} from "../Responses/SuggestionsResponse";
 import {ServiceResponseCollection} from "../Responses/ServiceResponseCollection";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+/** @internal */
 export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     get EmitTimeZoneHeader(): boolean { return true; }
     get IsFreeBusyViewRequested(): boolean { return this.RequestedData == AvailabilityData.FreeBusy || this.RequestedData == AvailabilityData.FreeBusyAndSuggestions; }
