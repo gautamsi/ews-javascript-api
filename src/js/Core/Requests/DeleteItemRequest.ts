@@ -13,6 +13,7 @@ import {StringHelper} from "../../ExtensionMethods";
 import {Strings} from "../../Strings";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {DeleteRequest} from "./DeleteRequest";
+/** @internal */
 export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
 
     private itemIds: ItemIdWrapperList = new ItemIdWrapperList();

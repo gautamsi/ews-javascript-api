@@ -9,6 +9,7 @@ import {EwsLogging} from "../EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
 
 import {ServiceRequestBase} from "./ServiceRequestBase";
+/** @internal */
 export class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
     //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - EndInternalExecute : Not implemented.");}

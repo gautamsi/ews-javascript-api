@@ -26,6 +26,7 @@ export class SeekToConditionItemView extends ViewBase {
 	GetServiceObjectType(): ServiceObjectType{ throw new Error("SeekToConditionItemView.ts - GetServiceObjectType : Not implemented.");}
 	GetViewJsonTypeName(): string{ throw new Error("SeekToConditionItemView.ts - GetViewJsonTypeName : Not implemented.");}
 	GetViewXmlElementName(): string{ throw new Error("SeekToConditionItemView.ts - GetViewXmlElementName : Not implemented.");}
+	/** @internal */
 	InternalValidate(request: ServiceRequestBase): void{ throw new Error("SeekToConditionItemView.ts - InternalValidate : Not implemented.");}
 	InternalWritePagingToJson(jsonView: JsonObject, service: ExchangeService): void{ throw new Error("SeekToConditionItemView.ts - InternalWritePagingToJson : Not implemented.");}
 	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void{ throw new Error("SeekToConditionItemView.ts - InternalWriteSearchSettingsToXml : Not implemented.");}

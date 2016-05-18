@@ -5,7 +5,7 @@ import {CreateAttachmentResponse} from "../Responses/CreateAttachmentResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateAttachmentResponse> {//IJsonSerializable
     EmitTimeZoneHeader: boolean;

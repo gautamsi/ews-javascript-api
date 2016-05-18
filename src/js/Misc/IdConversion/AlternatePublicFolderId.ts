@@ -1,19 +1,68 @@
-﻿import {AlternateIdBase} from "./AlternateIdBase";
-import {JsonObject} from "../../Core/JsonObject";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+﻿import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {IdFormat} from "../../Enumerations/IdFormat";
+import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
+import {XmlElementNames} from "../../Core/XmlElementNames";
+
+import {AlternateIdBase} from "./AlternateIdBase";
+/**
+ * Represents the Id of a public folder expressed in a specific format.
+ */
 export class AlternatePublicFolderId extends AlternateIdBase {
+
+    /**
+     * @internal Name of schema type used for AlternatePublicFolderId element.
+     */
     static SchemaTypeName: string = "AlternatePublicFolderIdType";
-    FolderId: string;
-    GetXmlElementName(): string { throw new Error("AlternatePublicFolderId.ts - GetXmlElementName : Not implemented."); }
-    InternalToJson(jsonObject: JsonObject): any { throw new Error("AlternatePublicFolderId.ts - InternalToJson : Not implemented."); }
-    LoadAttributesFromJson(responseObject: JsonObject): any { throw new Error("AlternatePublicFolderId.ts - LoadAttributesFromJson : Not implemented."); }
-    LoadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("AlternatePublicFolderId.ts - LoadAttributesFromXml : Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternatePublicFolderId.ts - WriteAttributesToXml : Not implemented."); }
+
+    /**
+     * The Id of the public folder.
+     */
+    FolderId: string = null;
+
+    /**
+     * Initializes a new instance of **AlternatePublicFolderId** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **AlternatePublicFolderId** class.
+     *
+     * @param   {IdFormat}   format     The format in which the public folder Id is expressed.
+     * @param   {string}   folderId   The Id of the public folder.
+     */
+    constructor(format: IdFormat, folderId: string);
+    constructor(format: IdFormat = IdFormat.EwsLegacyId, folderId: string = null) {
+        super(format);
+        this.FolderId = folderId;
+    }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.AlternatePublicFolderId;
+    }
+
+    /**
+     * @internal Loads the attributes from Xml JsObject.
+     *
+     * @param   {any}   responseObject   The response object.
+     */
+    LoadAttributesFromXmlJsObject(responseObject: any): void {
+        super.LoadAttributesFromXmlJsObject(responseObject);
+
+        this.FolderId = responseObject[XmlAttributeNames.FolderId];
+    }
+
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+        super.WriteAttributesToXml(writer);
+
+        writer.WriteAttributeValue(XmlAttributeNames.FolderId, this.FolderId);
+    }
 }
-
-
-//}
-
-
-

@@ -15,6 +15,7 @@ export class ViewBase {
     GetServiceObjectType(): ServiceObjectType { throw new Error("abstract - ViewBase.ts - GetServiceObjectType : Not implemented."); }
     GetViewJsonTypeName(): string { return this.GetViewXmlElementName(); }
     GetViewXmlElementName(): string { throw new Error("abstract - ViewBase.ts - GetViewXmlElementName : Not implemented."); }
+    /** @internal */
     InternalValidate(request: ServiceRequestBase): void {
         if (this.PropertySet !== null && typeof this.PropertySet !== 'undefined') {
             this.PropertySet.InternalValidate();

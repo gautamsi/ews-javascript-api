@@ -4,7 +4,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase {
 	Execute(): GetUserRetentionPolicyTagsResponse{ throw new Error("GetUserRetentionPolicyTagsRequest.ts - Execute : Not implemented.");}

@@ -4,6 +4,7 @@ import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {FindRequest} from "./FindRequest";
+/** @internal */
 export class FindFolderRequest extends FindRequest<FindFolderResponse> {
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);

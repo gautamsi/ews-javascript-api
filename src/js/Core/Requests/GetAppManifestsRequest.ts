@@ -3,6 +3,7 @@ import {GetAppManifestsResponse} from "../Responses/GetAppManifestsResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+/** @internal */
 export class GetAppManifestsRequest extends SimpleServiceRequestBase {
 	ApiVersionSupported: string;
 	SchemaVersionSupported: string;

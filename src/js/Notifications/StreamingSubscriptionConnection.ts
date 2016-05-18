@@ -269,7 +269,7 @@ export class StreamingSubscriptionConnection {
 	 *
 	 * @param   {GetStreamingEventsResponse}   gseResponse   The GetStreamingEvents response.
 	 */
-	IssueGeneralFailure(gseResponse: GetStreamingEventsResponse): void {
+	private IssueGeneralFailure(gseResponse: GetStreamingEventsResponse): void {
 		let eventArgs: SubscriptionErrorEventArgs = new SubscriptionErrorEventArgs(
 			null,
 			new ServiceResponseException(gseResponse));
@@ -287,7 +287,7 @@ export class StreamingSubscriptionConnection {
 	 *
 	 * @param   {GetStreamingEventsResponse}   gseResponse   The GetStreamingEvents response.
 	 */
-	IssueNotificationEvents(gseResponse: GetStreamingEventsResponse): void {
+	private IssueNotificationEvents(gseResponse: GetStreamingEventsResponse): void {
 
 		for (let events of gseResponse.Results.Notifications) {
 			let subscription: StreamingSubscription = null;
@@ -452,7 +452,7 @@ export class StreamingSubscriptionConnection {
  * @param   {any}   					sender   The StreamingSubscriptionConnection instance that received the events.
  * @param   {NotificationEventArgs}   	args     The event data.
  */
-interface NotificationEventDelegate {
+export interface NotificationEventDelegate {
 	(sender: any, args: NotificationEventArgs): void;
 }
 
@@ -462,6 +462,6 @@ interface NotificationEventDelegate {
  * @param   {any}   						sender   The StreamingSubscriptionConnection instance within which the error occurred.
  * @param   {SubscriptionErrorEventArgs}   	args     The event data.
  */
-interface SubscriptionErrorDelegate {
+export interface SubscriptionErrorDelegate {
 	(sender: any, args: SubscriptionErrorEventArgs): void;
 }

@@ -8,6 +8,7 @@ import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemResponse> {//IJsonSerializable
     get Ids(): ItemIdWrapperList { return this.ids; }
     private sourceFolderId: FolderId;

@@ -5,7 +5,7 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class ApplyConversationActionRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     ConversationActions: ConversationAction[];//System.Collections.Generic.List<ConversationAction>;

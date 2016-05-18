@@ -218,6 +218,17 @@ export class TypeSystem {
         return undefined;
 
     }
+
+    static GetJsObjectOnlyChildName(obj: any): string {
+        for (var key in obj) {
+            if (key.indexOf("__") >= 0)
+                continue;
+            return key;
+        }
+        return null;
+
+    }
+
     static GetJsObjectTypeName_old(obj: any): string {
 
         for (var key in obj) {
@@ -229,9 +240,9 @@ export class TypeSystem {
         return undefined;
 
     }
-    
-    static IsGenericType(value:any):boolean{
-        if(value === null || typeof value === 'undefined'){
+
+    static IsGenericType(value: any): boolean {
+        if (value === null || typeof value === 'undefined') {
             return false;
         }
         let valueType = typeof value;
@@ -246,7 +257,8 @@ export class TypeSystem {
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 export class xml2JsObject {
     typeIncludedNS: string[] = [
-        "http://schemas.microsoft.com/exchange/services/2006/types"
+        "http://schemas.microsoft.com/exchange/services/2006/types",
+        "http://schemas.microsoft.com/exchange/services/2006/messages"
     ];
 
     parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {

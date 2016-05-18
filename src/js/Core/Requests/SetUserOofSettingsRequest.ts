@@ -13,7 +13,9 @@ import {ServiceResponse} from "../Responses/ServiceResponse";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
- * Represents a SetUserOofSettings request.
+ * @internal Represents a SetUserOofSettings request.
+ * 
+ * @sealed
  */
 export class SetUserOofSettingsRequest extends SimpleServiceRequestBase {
 

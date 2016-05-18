@@ -7,7 +7,7 @@ import {GetUserConfigurationResponse} from "../Responses/GetUserConfigurationRes
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetUserConfigurationRequest extends MultiResponseServiceRequest<GetUserConfigurationResponse> { //IJsonSerializable
     private static EnumDelimiter: string = ",";

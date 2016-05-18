@@ -7,6 +7,7 @@ import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MoveCopyRequest} from "./MoveCopyRequest";
+/** @internal */
 export class MoveCopyItemRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Item, TResponse> {
     get ItemIds(): ItemIdWrapperList { return this.itemIds; }
     ReturnNewItemIds: boolean = null;//nullable

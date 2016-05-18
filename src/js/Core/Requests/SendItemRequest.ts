@@ -9,6 +9,7 @@ import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse> {//IJsonSerializable
     
     private items: Item[] = [];

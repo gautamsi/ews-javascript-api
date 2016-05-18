@@ -1,14 +1,38 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
+﻿import {ExchangeService} from "../ExchangeService";
 import {GetEventsResults} from "../../Notifications/GetEventsResults";
-import {JsonObject} from "../JsonObject";
-import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal Represents the response to a subscription event retrieval operation.
+ * 
+ * @sealed
  */
 export class GetEventsResponse extends ServiceResponse {
-	Results: GetEventsResults;
-	private results: GetEventsResults;
-	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("GetEventsResponse.ts - ReadElementsFromJson : Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetEventsResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
+
+	private results: GetEventsResults = new GetEventsResults();
+
+	/**
+	 * @internal Gets event results from subscription.
+	 */
+	get Results(): GetEventsResults {
+		return this.results;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **GetEventsResponse** class.
+	 */
+	constructor() {
+		super();
+	}
+
+	/**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+		//super.ReadElementsFromXmlJsObject(jsObject, service);
+		this.results.LoadFromXmlJsObject(jsObject, service);
+	}
 }

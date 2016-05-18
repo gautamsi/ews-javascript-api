@@ -5,7 +5,7 @@ import {DeleteAttachmentResponse} from "../Responses/DeleteAttachmentResponse";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
     Attachments: Attachment[];//System.Collections.Generic.List<Attachment>;

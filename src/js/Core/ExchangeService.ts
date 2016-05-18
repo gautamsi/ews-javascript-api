@@ -1,8 +1,9 @@
-import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
 import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
+import {AlternateIdBase} from "../Misc/IdConversion/AlternateIdBase";
 import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
+import {ArgumentException, ArgumentOutOfRangeException, ArgumentNullException} from "../Exceptions/ArgumentException";
 import {Attachment} from "../ComplexProperties/Attachment";
 import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
@@ -13,8 +14,13 @@ import {AvailabilityData} from "../Enumerations/AvailabilityData";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
 import {BodyType} from "../Enumerations/BodyType";
 import {CalendarView} from "../Search/CalendarView";
+import {ChangeCollection} from "../Sync/ChangeCollection";
+import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
+import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {ConvertIdRequest} from "./Requests/ConvertIdRequest";
+import {ConvertIdResponse} from "./Responses/ConvertIdResponse";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
 import {CopyItemRequest} from "./Requests/CopyItemRequest";
 import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
@@ -30,6 +36,7 @@ import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
 import {DeleteMode} from "../Enumerations/DeleteMode";
 import {EmailAddress} from "../ComplexProperties/EmailAddress";
+import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {EventType} from "../Enumerations/EventType";
 import {EwsUtilities} from "./EwsUtilities";
@@ -42,30 +49,39 @@ import {FindFoldersResults} from "../Search/FindFoldersResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
 import {FindItemResponse} from "./Responses/FindItemResponse";
 import {FindItemsResults} from "../Search/FindItemsResults";
+import {Folder} from "./ServiceObjects/Folders/Folder";
+import {FolderChange} from "../Sync/FolderChange";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {FolderView} from "../Search/FolderView";
-import {Folder} from "./ServiceObjects/Folders/Folder";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
+import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
+import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
+import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
-import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
+import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
-import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemRequest} from "./Requests/GetItemRequest";
+import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemResponse} from "./Responses/GetItemResponse";
 import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
+import {GetRoomListsRequest} from "./Requests/GetRoomListsRequest";
+import {GetRoomsRequest} from "./Requests/GetRoomsRequest";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {Grouping} from "../Search/Grouping";
+import {IdFormat} from "../Enumerations/IdFormat";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
-import {IPromise, IXHROptions} from "../Interfaces";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
-import {ItemId} from "../ComplexProperties/ItemId";
+import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
+import {ItemChange} from "../Sync/ItemChange";
+import {ItemId} from "../ComplexProperties/ItemId";
+import {KeyValuePair} from "../AltDictionary";
 import {Mailbox} from "../ComplexProperties/Mailbox";
 import {ManagementRoles} from "../Misc/ManagementRoles";
 import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
@@ -81,7 +97,10 @@ import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
 import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
 import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
 import {PromiseFactory} from "../PromiseFactory";
+import {PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
 import {PropertySet} from "./PropertySet";
+import {PullSubscription} from "../Notifications/PullSubscription";
+import {PushSubscription} from "../Notifications/PushSubscription";
 import {RenderingMode} from "../Enumerations/RenderingMode";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
@@ -96,18 +115,26 @@ import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
 import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
-import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceResponse} from "./Responses/ServiceResponse";
+import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import {SetTeamMailboxRequest} from "./Requests/SetTeamMailboxRequest";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 import {StreamingSubscription} from "../Notifications/StreamingSubscription";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {Strings} from "../Strings";
+import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
+import {SubscribeToPushNotificationsRequest} from "./Requests/SubscribeToPushNotificationsRequest";
 import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
+import {SyncFolderHierarchyRequest} from "./Requests/SyncFolderHierarchyRequest";
+import {SyncFolderItemsRequest} from "./Requests/SyncFolderItemsRequest";
+import {SyncFolderItemsScope} from "../Enumerations/SyncFolderItemsScope";
+import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleState";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
@@ -117,7 +144,6 @@ import {UserSettingName} from "../Enumerations/UserSettingName";
 import {ViewBase} from "../Search/ViewBase";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
 import {XHRFactory}  from "../XHRFactory";
-
 
 import {ExchangeServiceBase} from "./ExchangeServiceBase";
 /**
@@ -1669,9 +1695,89 @@ export class ExchangeService extends ExchangeServiceBase {
     // BeginSubscribeToStreamingNotifications(callback: Function /*System.AsyncCallback*/, state: any, folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotifications : Not implemented."); }
     // BeginSubscribeToStreamingNotificationsOnAllFolders(callback: Function /*System.AsyncCallback*/, state: any, eventTypes: any): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSubscribeToStreamingNotificationsOnAllFolders : Not implemented."); }
     // BeginUnsubscribe(callback: Function /*System.AsyncCallback*/, state: any, subscriptionId: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginUnsubscribe : Not implemented."); }
-    //BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest { throw new Error("ExchangeService.ts - BuildGetEventsRequest : Not implemented."); }
-    //BuildSubscribeToPullNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): SubscribeToPullNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPullNotificationsRequest : Not implemented."); }
-    //BuildSubscribeToPushNotificationsRequest(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): SubscribeToPushNotificationsRequest { throw new Error("ExchangeService.ts - BuildSubscribeToPushNotificationsRequest : Not implemented."); }
+
+    /**
+     * Builds an request to retrieve the latests events associated with a pull subscription.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription for which to get the events.
+     * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
+     * @return  {GetEventsRequest}          An request to retrieve the latests events associated with a pull subscription.
+     */
+    private BuildGetEventsRequest(subscriptionId: string, watermark: string): GetEventsRequest {
+        EwsUtilities.ValidateParam(subscriptionId, "subscriptionId");
+        EwsUtilities.ValidateParam(watermark, "watermark");
+
+        let request: GetEventsRequest = new GetEventsRequest(this);
+
+        request.SubscriptionId = subscriptionId;
+        request.Watermark = watermark;
+
+        return request;
+    }
+
+    /**
+     * Builds a request to subscribe to pull notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}        timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}        watermark    An optional watermark representing a previously opened subscription.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToPullNotificationsRequest}   A request to subscribe to pull notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToPullNotificationsRequest(folderIds: FolderId[], timeout: number, watermark: string, eventTypes: EventType[]): SubscribeToPullNotificationsRequest {
+        if (timeout < 1 || timeout > 1440) {
+            throw new ArgumentOutOfRangeException("timeout", Strings.TimeoutMustBeBetween1And1440);
+        }
+
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToPullNotificationsRequest = new SubscribeToPullNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        request.Timeout = timeout;
+        ArrayHelper.AddRange(request.EventTypes, eventTypes); //request.EventTypes.AddRange(eventTypes);
+        request.Watermark = watermark;
+
+        return request;
+    }
+
+    /**
+     * Builds an request to request to subscribe to push notifications in the authenticated user's mailbox.
+     *
+     * @param   {FolderId[]}    folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}           url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}        frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}        watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}        callerData   Optional caller data that will be returned the call back.
+     * @param   {EventType[]}   eventTypes   The event types to subscribe to.
+     * @return  {SubscribeToPushNotificationsRequest}       A request to request to subscribe to push notifications in the authenticated user's mailbox.
+     */
+    private BuildSubscribeToPushNotificationsRequest(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: EventType[]): SubscribeToPushNotificationsRequest {
+        EwsUtilities.ValidateParam(url, "url");
+
+        if (frequency < 1 || frequency > 1440) {
+            throw new ArgumentOutOfRangeException("frequency", Strings.FrequencyMustBeBetween1And1440);
+        }
+
+        EwsUtilities.ValidateParamCollection(eventTypes, "eventTypes");
+
+        let request: SubscribeToPushNotificationsRequest = new SubscribeToPushNotificationsRequest(this);
+
+        if (folderIds != null) {
+            request.FolderIds.AddRange(folderIds);
+        }
+
+        request.Url = url;
+        request.Frequency = frequency;
+        ArrayHelper.AddRange(request.EventTypes, eventTypes);//request.EventTypes.AddRange(eventTypes);
+        request.Watermark = watermark;
+        request.CallerData = callerData;
+
+        return request;
+    }
 
     /**
      * Builds request to subscribe to streaming notifications in the authenticated user's mailbox.
@@ -1715,23 +1821,188 @@ export class ExchangeService extends ExchangeServiceBase {
     //EndSubscribeToStreamingNotifications(asyncResult: Function /*System.IAsyncResult*/): StreamingSubscription { throw new Error("ExchangeService.ts - EndSubscribeToStreamingNotifications : Not implemented."); }
     //EndUnsubscribe(asyncResult: Function /*System.IAsyncResult*/): any { throw new Error("ExchangeService.ts - EndUnsubscribe : Not implemented."); }
 
-    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> { throw new Error("ExchangeService.ts - GetEvents : Not implemented."); }
+    /**
+     * Retrieves the latests events associated with a pull subscription. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   subscriptionId   The Id of the pull subscription for which to get the events.
+     * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
+     * @return  {IPromise<GetEventsResults>}    A GetEventsResults containing a list of events associated with the subscription.
+     */
+    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults> {
+        return this.BuildGetEventsRequest(subscriptionId, watermark).Execute().then((response) => {
+            return response.__thisIndexer(0).Results;
+        });
+    }
 
-    //SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): any { throw new Error("ExchangeService.ts - SetTeamMailbox : Not implemented."); }
-    //SubscribeToPullNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotifications : Not implemented."); }
-    //SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, eventTypes: any): PullSubscription { throw new Error("ExchangeService.ts - SubscribeToPullNotificationsOnAllFolders : Not implemented."); }
-    //SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    ////SubscribeToPushNotifications(folderIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotifications : Not implemented."); }
-    //SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    ////SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, eventTypes: any): PushSubscription { throw new Error("ExchangeService.ts - SubscribeToPushNotificationsOnAllFolders : Not implemented."); }
-    
+    /**
+     * Set a TeamMailbox
+     *
+     * @param   {EmailAddress}                  emailAddress        TeamMailbox email address
+     * @param   {Uri}                           sharePointSiteUrl   SharePoint site URL
+     * @param   {TeamMailboxLifecycleState}     state               TeamMailbox lifecycle state
+     * @return  {IPromise<void>}    Promise.
+     */
+    SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): IPromise<void> {
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "SetTeamMailbox");
+
+        if (emailAddress == null) {
+            throw new ArgumentNullException("emailAddress");
+        }
+
+        if (sharePointSiteUrl == null) {
+            throw new ArgumentNullException("sharePointSiteUrl");
+        }
+
+        let request: SetTeamMailboxRequest = new SetTeamMailboxRequest(this, emailAddress, sharePointSiteUrl, state);
+        return <any>request.Execute();
+    }
+
+    /**
+     * Subscribes to pull notifications. Calling this method results in a call to EWS   :Promise.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     */
+    SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription> {
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        return this.BuildSubscribeToPullNotificationsRequest(
+            folderIds,
+            timeout,
+            watermark,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to pull notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.   :Promise.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     */
+    SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010,
+            "SubscribeToPullNotificationsOnAllFolders");
+
+        return this.BuildSubscribeToPullNotificationsRequest(
+            null,
+            timeout,
+            watermark,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to push notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     */
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    /**
+     * Subscribes to push notifications. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId[]}        folderIds    The Ids of the folder to subscribe to.
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}            callerData   Optional caller data that will be returned the call back.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     */
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): IPromise<PushSubscription> {
+
+        EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
+
+        let callerData: string = null;
+
+        if (typeof callerDataOrEventTypes === 'string') {
+            callerData = callerDataOrEventTypes;
+        }
+        else {
+            eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
+        }
+
+        return this.BuildSubscribeToPushNotificationsRequest(
+            folderIds,
+            url,
+            frequency,
+            watermark,
+            callerData,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
+    /**
+     * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     */
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    /**
+     * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Uri}               url          The URL of the Web Service endpoint the Exchange server should push events to.
+     * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
+     * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
+     * @param   {string}            callerData   Optional caller data that will be returned the call back.
+     * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
+     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     */
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): IPromise<PushSubscription> {
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010,
+            "SubscribeToPushNotificationsOnAllFolders");
+
+        let callerData: string = null;
+
+        if (typeof callerDataOrEventTypes === 'string') {
+            callerData = callerDataOrEventTypes;
+        }
+        else {
+            eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
+        }
+
+        return this.BuildSubscribeToPushNotificationsRequest(
+            null,
+            url,
+            frequency,
+            watermark,
+            callerData,
+            eventTypes).Execute().then((response) => {
+                return response.__thisIndexer(0).Subscription;
+            });
+    }
+
     /**
      * Subscribes to streaming notifications. Calling this method results in a call to EWS.
      *
      * @param   {FolderId[]}   folderIds    The Ids of the folder to subscribe to.
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
      * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
-     */    
+     */
     SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): IPromise<StreamingSubscription> {
         EwsUtilities.ValidateMethodVersion(
             this,
@@ -1745,13 +2016,13 @@ export class ExchangeService extends ExchangeServiceBase {
         });
 
     }
-    
+
     /**
      * Subscribes to streaming notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
      *
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
      * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
-     */    
+     */
     SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): IPromise<StreamingSubscription> {
         EwsUtilities.ValidateMethodVersion(
             this,
@@ -1762,7 +2033,23 @@ export class ExchangeService extends ExchangeServiceBase {
             return responses.__thisIndexer(0).Subscription;
         });
     }
-    //UnpinTeamMailbox(emailAddress: EmailAddress): any { throw new Error("ExchangeService.ts - UnpinTeamMailbox : Not implemented."); }
+
+    /**
+     * Unpin a TeamMailbox
+     *
+     * @param   {EmailAddress}      emailAddress        TeamMailbox email address
+     * @return  {IPromise<void>}    Promise.
+     */
+    UnpinTeamMailbox(emailAddress: EmailAddress): IPromise<void> {
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "UnpinTeamMailbox");
+
+        if (emailAddress == null) {
+            throw new ArgumentNullException("emailAddress");
+        }
+
+        let request: UnpinTeamMailboxRequest = new UnpinTeamMailboxRequest(this, emailAddress);
+        return <any>request.Execute();
+    }
 
     /**
      * @internal Unsubscribes from a subscription. Calling this method results in a call to EWS.
@@ -1780,24 +2067,201 @@ export class ExchangeService extends ExchangeServiceBase {
 
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
-    //BuildSyncFolderItemsRequest(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): SyncFolderItemsRequest { throw new Error("ExchangeService.ts - BuildSyncFolderItemsRequest : Not implemented."); }
+
+    /**
+     * Builds a request to synchronize the items of a specific folder.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {SyncFolderItemsRequest}        A request to synchronize the items of a specific folder.
+     */
+    private BuildSyncFolderItemsRequest(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): SyncFolderItemsRequest {
+        EwsUtilities.ValidateParam(syncFolderId, "syncFolderId");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        let request: SyncFolderItemsRequest = new SyncFolderItemsRequest(this);
+
+        request.SyncFolderId = syncFolderId;
+        request.PropertySet = propertySet;
+        if (ignoredItemIds != null) {
+            request.IgnoredItemIds.AddRange(ignoredItemIds);
+        }
+        request.MaxChangesReturned = maxChangesReturned;
+        request.NumberOfDays = numberOfDays;
+        request.SyncScope = syncScope;
+        request.SyncState = syncState;
+
+        return request;
+    }
     //EndSyncFolderItems(asyncResult: Function /*System.IAsyncResult*/): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - EndSyncFolderItems : Not implemented."); }
-    //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
-    //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
+
+    /**
+     * Synchronizes the items of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    /**
+     * Synchronizes the items of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    SyncFolderItems(
+        syncFolderId: FolderId,
+        propertySet: PropertySet,
+        ignoredItemIds: ItemId[],
+        maxChangesReturned: number,
+        numberOfDaysOrSyncScope: number | SyncFolderItemsScope,
+        syncScopeOrSyncState: SyncFolderItemsScope | string,
+        syncState: string = null): IPromise<ChangeCollection<ItemChange>> {
+
+        let numberOfDays: number = 0;
+        let syncScope: SyncFolderItemsScope;
+
+        if (arguments.length === 6) {
+            syncState = <string>syncScopeOrSyncState;
+            syncScope = numberOfDaysOrSyncScope;
+        }
+        else {
+            numberOfDays = numberOfDaysOrSyncScope;
+            syncScope = <SyncFolderItemsScope>syncScopeOrSyncState;
+        }
+
+        return this.BuildSyncFolderItemsRequest(
+            syncFolderId,
+            propertySet,
+            ignoredItemIds,
+            maxChangesReturned,
+            numberOfDays,
+            syncScope,
+            syncState).Execute().then((responses) => {
+                return responses.__thisIndexer(0).Changes;
+            });
+    }
 
     // BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
-    //BuildSyncFolderHierarchyRequest(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): SyncFolderHierarchyRequest { throw new Error("ExchangeService.ts - BuildSyncFolderHierarchyRequest : Not implemented."); }
+
+    /**
+     * Builds a request to synchronize the specified folder hierarchy of the mailbox this Service is connected to.
+     *
+     * @param   {FolderId}      syncFolderId   The Id of the folder containing the items to synchronize with. A null value indicates the root folder of the mailbox.
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {SyncFolderHierarchyRequest}        A request to synchronize the specified folder hierarchy of the mailbox this Service is connected to.
+     */
+    private BuildSyncFolderHierarchyRequest(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): SyncFolderHierarchyRequest {
+        EwsUtilities.ValidateParamAllowNull(syncFolderId, "syncFolderId");  // Null syncFolderId is allowed
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        let request: SyncFolderHierarchyRequest = new SyncFolderHierarchyRequest(this);
+
+        request.PropertySet = propertySet;
+        request.SyncFolderId = syncFolderId;
+        request.SyncState = syncState;
+
+        return request;
+    }
+
     //EndSyncFolderHierarchy(asyncResult: Function /*System.IAsyncResult*/): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - EndSyncFolderHierarchy : Not implemented."); }
-    ////SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
-    //SyncFolderHierarchy(propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
+
+    /**
+     * Synchronizes the sub-folders of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      syncFolderId   The Id of the folder containing the items to synchronize with. A null value indicates the root folder of the mailbox.
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    /**
+     * Synchronizes the entire folder hierarchy of the mailbox this Service is connected to. Calling this method results in a call to EWS.
+     *
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderHierarchy(propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    SyncFolderHierarchy(
+        syncFolderIdOrPropertySet: FolderId | PropertySet,
+        propertySetOrSyncState: PropertySet | string,
+        syncState: string = null): IPromise<ChangeCollection<FolderChange>> {
+
+        let syncFolderId: FolderId = null;
+        let propertySet: PropertySet;
+
+        if (arguments.length === 2) {
+            propertySet = <PropertySet>syncFolderIdOrPropertySet;
+            syncState = <string>propertySetOrSyncState;
+        }
+        else {
+            syncFolderId = <FolderId>syncFolderIdOrPropertySet;
+            propertySet = <PropertySet>propertySetOrSyncState;
+        }
+
+        return this.BuildSyncFolderHierarchyRequest(
+            syncFolderId,
+            propertySet,
+            syncState).Execute().then((responses) => {
+                return responses.__thisIndexer(0).Changes;
+            });
+    }
     /* #endregion Synchronization operations */
 
 
     /* #region Availability operations */
 
-    //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
-    //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
+    /**
+     * Retrieves a collection of all room lists in the organization.
+     *
+     * @return  {IPromise<EmailAddressCollection[]>}    A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
+     */
+    GetRoomLists(): IPromise<EmailAddressCollection> {
+        let request: GetRoomListsRequest = new GetRoomListsRequest(this);
+
+        return request.Execute().then((response) => {
+            return response.RoomLists;
+        });
+    }
+
+    /**
+     * Retrieves a collection of all rooms in the specified room list in the organization.
+     *
+     * @param   {EmailAddress}   emailAddress   The e-mail address of the room list.
+     * @return  {IPromise<EmailAddress[]>}      A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
+     */
+    GetRooms(emailAddress: EmailAddress): IPromise<EmailAddress[]> {
+        EwsUtilities.ValidateParam(emailAddress, "emailAddress");
+
+        let request: GetRoomsRequest = new GetRoomsRequest(this);
+
+        request.RoomList = emailAddress;
+
+        return request.Execute().then((response) => {
+            return response.Rooms;
+        });
+    }
+
     /**
      * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
      *
@@ -1851,6 +2315,14 @@ export class ExchangeService extends ExchangeServiceBase {
             return response.OofSettings;
         });
     }
+
+    /**
+     * Sets the Out of Office (OOF) settings for a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {string}   smtpAddress   The SMTP address of the user for which to set OOF settings.
+     * @param   {OofSettings}   oofSettings   The OOF settings.
+     * @return  {IPromise<void>}     Promise.
+     */
     SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): IPromise<void> {
         EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
         EwsUtilities.ValidateParam(oofSettings, "oofSettings");
@@ -1895,11 +2367,60 @@ export class ExchangeService extends ExchangeServiceBase {
     /* #end region Conversation */
 
 
-    /** #region Id conversion operations */
+    /* #region Id conversion operations */
 
-    //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("ExchangeService.ts - ConvertId : Not implemented."); }
-    //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ConvertIds : Not implemented."); }
-    //InternalConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalConvertIds : Not implemented."); }
+    /**
+     * Converts Id from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase}   id                 The Id to convert.
+     * @param   {IdFormat}          destinationFormat   The destination format.
+     * @return  {IPromise<AlternateIdBase>}    The converted Id :Promise.
+     */
+    ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): IPromise<AlternateIdBase> {
+        EwsUtilities.ValidateParam(id, "id");
+
+        return this.InternalConvertIds(
+            [id],
+            destinationFormat,
+            ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<ConvertIdResponse>) => {
+                return responses.__thisIndexer(0).ConvertedId;
+            })
+
+    }
+
+    /**
+     * Converts multiple Ids from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
+     * @param   {IdFormat}              destinationFormat   The destination format.
+     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     */
+    ConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat): IPromise<ServiceResponseCollection<ConvertIdResponse>> {
+        EwsUtilities.ValidateParamCollection(ids, "ids");
+
+        return this.InternalConvertIds(
+            ids,
+            destinationFormat,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Converts multiple Ids from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
+     * @param   {IdFormat}              destinationFormat   The destination format.
+     * @param   {ServiceErrorHandling}  errorHandling       Type of error handling to perform.
+     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     */
+    private InternalConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ConvertIdResponse>> {
+        EwsUtilities.ValidateParamCollection(ids, "ids");
+
+        let request: ConvertIdRequest = new ConvertIdRequest(this, errorHandling);
+        ArrayHelper.AddRange(request.Ids, ids);//request.Ids.AddRange(ids);
+        request.DestinationFormat = destinationFormat;
+
+        return request.Execute();
+    }
     /* #endregion Id conversion operations */
 
 
@@ -2133,8 +2654,42 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region ClientAccessTokens */
 
-    //GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
-    ////GetClientAccessToken(idAndTypes: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
+    /**
+     * GetClientAccessToken
+     *
+     * @param   {KeyValuePair<string, ClientAccessTokenType>[]}   idAndTypes   Id and Types
+     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     */
+    GetClientAccessToken(idAndTypes: KeyValuePair<string, ClientAccessTokenType>[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    /**
+     * GetClientAccessToken
+     *
+     * @param   {ClientAccessTokenRequest[]}   tokenRequests   Token requests array
+     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     */
+    GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    GetClientAccessToken(tokenRequestsOrIdAndTypes: KeyValuePair<string, ClientAccessTokenType>[] | ClientAccessTokenRequest[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>> {
+        if (!tokenRequestsOrIdAndTypes && tokenRequestsOrIdAndTypes.length === 0) {
+            throw new ArgumentOutOfRangeException(Strings.IndexIsOutOfRange);
+        }
+
+        let requestList: ClientAccessTokenRequest[] = [];
+
+        if (tokenRequestsOrIdAndTypes[0] instanceof ClientAccessTokenRequest) {
+            requestList = <ClientAccessTokenRequest[]>tokenRequestsOrIdAndTypes;
+        }
+        else {
+
+            for (let idAndType of <KeyValuePair<string, ClientAccessTokenType>[]>tokenRequestsOrIdAndTypes) {
+                let clientAccessTokenRequest: ClientAccessTokenRequest = new ClientAccessTokenRequest(idAndType.key, idAndType.value);
+                requestList.push(clientAccessTokenRequest);
+            }
+        }
+
+        let request: GetClientAccessTokenRequest = new GetClientAccessTokenRequest(this, ServiceErrorHandling.ReturnErrors);
+        request.TokenRequests = requestList;
+        return request.Execute();
+    }
     /* #end region ClientAccessTokens */
 
 
@@ -2208,13 +2763,13 @@ export class ExchangeService extends ExchangeServiceBase {
         var ParameterName: string = "minimum";
 
         if (StringHelper.IsNullOrEmpty(version)) {
-            throw new Error("Target version must not be empty."); //ArgumentException
+            throw new ArgumentException("Target version must not be empty.");
         }
 
         var parts: string[] = version.trim().split(ParameterSeparator);
 
         if (parts.length > 2) {
-            throw new Error("Target version should have the form.");//ArgumentException            
+            throw new ArgumentException("Target version should have the form.");
         }
 
         var skipPart1: boolean = true;
@@ -2228,7 +2783,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 skipPart1 = false;
             }
             else {
-                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+                throw new ArgumentException("Target version must match X.Y or Exchange20XX.");
             }
         }
 
@@ -2242,7 +2797,7 @@ export class ExchangeService extends ExchangeServiceBase {
                 // Also close enough; misses corner cases like ".5".
             }
             else {
-                throw new Error("Target version must match X.Y or Exchange20XX."); //ArgumentException
+                throw new ArgumentException("Target version must match X.Y or Exchange20XX.");
             }
         }
     }

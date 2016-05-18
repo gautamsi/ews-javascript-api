@@ -1,11 +1,45 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {EmailAddress} from "../../ComplexProperties/EmailAddress";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import {EmailAddress} from "../../ComplexProperties/EmailAddress";
+import {ExchangeService} from "../ExchangeService";
+import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal Represents the response to a GetRooms operation.
+ * 
+ * @sealed
  */
 export class GetRoomsResponse extends ServiceResponse {
-    Rooms: EmailAddress[];//System.Collections.ObjectModel.Collection<EmailAddress>;
-    private rooms: EmailAddress[];//System.Collections.ObjectModel.Collection<EmailAddress>;
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetRoomsResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    private rooms: EmailAddress[] = [];
+
+    /**
+     * Gets collection for all rooms returned
+     */
+    get Rooms(): EmailAddress[] {
+        return this.rooms;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **GetRoomsResponse** class.
+     */
+    constructor() {
+        super();
+    }
+
+    /**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        this.rooms.splice(0);
+        let responses = EwsServiceJsonReader.ReadAsArray(responseObject[XmlElementNames.Rooms], XmlElementNames.Room);
+        for (let response of responses) {
+            let emailAddress = new EmailAddress();
+            emailAddress.LoadFromXmlJsObject(response[XmlElementNames.RoomId], service);
+            this.rooms.push(emailAddress);
+        }
+    }
 }

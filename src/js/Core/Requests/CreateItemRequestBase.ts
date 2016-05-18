@@ -8,6 +8,7 @@ import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {CreateRequest} from "./CreateRequest";
+/** @internal */
 export class CreateItemRequestBase<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends CreateRequest<TServiceObject, TResponse> {
     //private messageDisposition: MessageDisposition; - backing property not needed
     //private sendInvitationsMode: SendInvitationsMode;

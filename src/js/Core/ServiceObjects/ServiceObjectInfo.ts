@@ -38,7 +38,7 @@ export class ServiceObjectInfo {
 
     InitializeServiceObjectClassMap(): any {
         throw new Error("abstract - ServiceObjectInfo.ts - InitializeServiceObjectClassMap: must be implemented")
-        
+
         /**
          * Folder Types ->  folderinfo
               
@@ -78,7 +78,7 @@ export class ServiceObjectInfo {
             null);
             
         */
-        
+
         /**
          * Item Types -> iteminfo
         
@@ -196,6 +196,31 @@ export class ServiceObjectInfo {
             return null;
         }
     }
+
+    static IsFolderType(xmlElementName: string): boolean {
+        let folderTypes: string[] = [
+            XmlElementNames.CalendarFolder,
+            XmlElementNames.ContactsFolder,
+            XmlElementNames.Folder,
+            XmlElementNames.SearchFolder,
+            XmlElementNames.TasksFolder,
+        ];
+
+        let itemType: string[] = [
+            XmlElementNames.CalendarItem,
+            XmlElementNames.Contact,
+            XmlElementNames.DistributionList,
+            XmlElementNames.Conversation,
+            XmlElementNames.Message,
+            XmlElementNames.Item,
+            XmlElementNames.MeetingCancellation,
+            XmlElementNames.MeetingMessage,
+            XmlElementNames.MeetingRequest,
+            XmlElementNames.MeetingResponse,
+            XmlElementNames.PostItem,
+            XmlElementNames.Task,
+        ];
+
+        return folderTypes.indexOf(xmlElementName) >= 0;
+    }
 }
-
-

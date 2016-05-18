@@ -1,20 +1,81 @@
-﻿import {IdFormat} from "../../Enumerations/IdFormat";
-import {JsonObject} from "../../Core/JsonObject";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-export class AlternateIdBase {//ISelfValidate, IJsonSerializable
+﻿import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
+import {IdFormat} from "../../Enumerations/IdFormat";
+import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+/**
+ * Represents the base class for Id expressed in a specific format.
+ */
+export abstract class AlternateIdBase {//ISelfValidate, IJsonSerializable
+
+    /**
+     * Gets or sets the format in which the Id in expressed.
+     */
     Format: IdFormat;
-    GetXmlElementName(): string { throw new Error("AlternateIdBase.ts - GetXmlElementName : Not implemented."); }
-    InternalToJson(jsonObject: JsonObject): any { throw new Error("AlternateIdBase.ts - InternalToJson : Not implemented."); }
-    InternalValidate(): any { throw new Error("AlternateIdBase.ts - InternalValidate : Not implemented."); }
-    LoadAttributesFromJson(responseObject: JsonObject): any { throw new Error("AlternateIdBase.ts - LoadAttributesFromJson : Not implemented."); }
-    LoadAttributesFromXml(reader: EwsServiceXmlReader): any { throw new Error("AlternateIdBase.ts - LoadAttributesFromXml : Not implemented."); }
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternateIdBase.ts - WriteAttributesToXml : Not implemented."); }
-    WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("AlternateIdBase.ts - WriteToXml : Not implemented."); }
+
+    /**
+     * Initializes a new instance of the **AlternateIdBase** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **AlternateIdBase** class.
+     *
+     * @param   {IdFormat}   format   The format.
+     */
+    constructor(format: IdFormat);
+    constructor(format: IdFormat = IdFormat.EwsLegacyId) {
+        this.Format = format;
+    }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
+    abstract GetXmlElementName(): string;
+
+    /**
+     * @internal Validate this instance.
+     */
+    InternalValidate(): void { }
+
+    /**
+     * @internal Loads the attributes from Xml JsObject.
+     *
+     * @param   {any}   responseObject   The response object.
+     */
+    LoadAttributesFromXmlJsObject(responseObject: any): void {
+        this.Format = IdFormat[<string>responseObject[XmlAttributeNames.Format]];
+    }
+
+    /**
+     * @internal Validate this instance.
+     * 
+     * @interface   ISelfValidate
+     */
+    Validate(): void {
+        this.InternalValidate();
+    }
+
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteAttributeValue(XmlAttributeNames.Format, IdFormat[this.Format]);
+    }
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteStartElement(XmlNamespace.Types, this.GetXmlElementName());
+
+        this.WriteAttributesToXml(writer);
+
+        writer.WriteEndElement(); // this.GetXmlElementName()
+    }
 }
-
-
-//}
-
-
-

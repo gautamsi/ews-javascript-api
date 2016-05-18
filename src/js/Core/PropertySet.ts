@@ -149,6 +149,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
     Validate(): void { //void ISelfValidate.Validate()
         this.InternalValidate();
     }
+    /**@internal */
     ValidateForRequest(request: ServiceRequestBase, summaryPropertiesOnly: boolean): void {
         for (var propDefBase of this.additionalProperties) {
             //var propDefBase: PropertyDefinitionBase = propItem;

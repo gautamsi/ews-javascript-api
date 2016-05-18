@@ -7,6 +7,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class MoveCopyRequest<TServiceObject extends ServiceObject, TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     private destinationFolderId: FolderId = null;
     get DestinationFolderId(): FolderId {

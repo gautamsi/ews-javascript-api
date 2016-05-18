@@ -37,6 +37,7 @@ export class PagedView extends ViewBase {
         this.OffsetBasePoint = offsetBasePoint || this.OffsetBasePoint;
     }
     GetMaxEntriesReturned(): number { return this.PageSize; }
+    /** @internal */
     InternalValidate(request: ServiceRequestBase): void { super.InternalValidate(request); }
     InternalWritePagingToJson(jsonView: any/*JsonObject*/, service: ExchangeService): any { throw new Error("PagedView.ts - InternalWritePagingToJson : Not implemented."); }
     InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {

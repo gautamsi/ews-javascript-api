@@ -26,6 +26,7 @@ export class ItemView extends PagedView {
     GetServiceObjectType(): ServiceObjectType { return ServiceObjectType.Item; }
     GetViewJsonTypeName(): string { throw new Error("ItemView.ts - GetViewJsonTypeName : Not implemented."); }
     GetViewXmlElementName(): string { return XmlElementNames.IndexedPageItemView; }
+    /**@internal */
     InternalValidate(request: ServiceRequestBase): void {
         super.InternalValidate(request);
         EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.ItemTraversal, this.Traversal, request.Service.RequestedServerVersion);

@@ -8,6 +8,7 @@ import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {MoveCopyRequest} from "./MoveCopyRequest";
+/** @internal */
 export class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends MoveCopyRequest<Folder, TResponse> {
     get FolderIds(): FolderIdWrapperList { return this.folderIds; }
     private folderIds: FolderIdWrapperList = new FolderIdWrapperList();

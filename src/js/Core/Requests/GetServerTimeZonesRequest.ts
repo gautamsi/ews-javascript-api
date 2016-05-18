@@ -4,7 +4,7 @@ import {GetServerTimeZonesResponse} from "../Responses/GetServerTimeZonesRespons
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## *Not Implemented* 
+ * ## @internal *Not Implemented* 
  */
 export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetServerTimeZonesResponse> {
     Ids: string[];//System.Collections.Generic.IEnumerable<string>;

@@ -10,6 +10,7 @@ import {StringHelper} from "../../ExtensionMethods";
 import {Strings} from "../../Strings";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ServiceResponse} from "../Responses/ServiceResponse";
+/** @internal */
 export class UpdateFolderRequest extends MultiResponseServiceRequest<ServiceResponse> {
     private folders: Folder[] = [];
     get Folders(): Folder[] {

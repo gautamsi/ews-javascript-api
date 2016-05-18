@@ -2,7 +2,7 @@
 import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
 
 /**
- * Represents a collection of arguments for the HangingServiceRequestBase.HangingRequestDisconnectHandler delegate method.
+ * @internal Represents a collection of arguments for the HangingServiceRequestBase.HangingRequestDisconnectHandler delegate method.
  */
 export class HangingRequestDisconnectEventArgs {  //extends  EventArgs{
 

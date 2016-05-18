@@ -17,6 +17,7 @@ import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {StringHelper} from "../../ExtensionMethods";
 
 import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+/** @internal */
 export class FindRequest<TResponse extends ServiceResponse> extends MultiResponseServiceRequest<TResponse> {//IJsonSerializable
     get ParentFolderIds(): FolderIdWrapperList { return this.parentFolderIds; }
     SearchFilter: SearchFilter = null;

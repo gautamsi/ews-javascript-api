@@ -25,7 +25,7 @@ export class ServiceValidationException extends ServiceLocalException {
      * @param   {Exception}   innerException     The exception that is the cause of the current exception.
      */
     constructor(message: string, innerException: Exception);
-    constructor(message?: string, innerException?: Exception) {
+    constructor(message: string = null, innerException: Exception = null) {
         super(message, innerException);
     }
 }

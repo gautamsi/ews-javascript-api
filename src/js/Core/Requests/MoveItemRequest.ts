@@ -4,6 +4,7 @@ import {MoveCopyItemResponse} from "../Responses/MoveCopyItemResponse";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {MoveCopyItemRequest} from "./MoveCopyItemRequest";
+/** @internal */
 export class MoveItemRequest extends MoveCopyItemRequest<MoveCopyItemResponse> {
     
     constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {

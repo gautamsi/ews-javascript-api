@@ -5,6 +5,7 @@ import {CreateItemResponse} from "../Responses/CreateItemResponse";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {CreateItemRequestBase} from "./CreateItemRequestBase";
+/** @internal */
 export class CreateItemRequest extends CreateItemRequestBase<Item, ServiceResponse> {
     constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {
         super(service, errorHandlingModeServiceErrorHandling);

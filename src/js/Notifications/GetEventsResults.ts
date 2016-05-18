@@ -167,20 +167,24 @@ export class GetEventsResults {
      * @param   {ExchangeService}     service                The service.    
      */
 	LoadFromXmlJsObject(eventsResponse: any, service: ExchangeService): void {
-		for (let key in eventsResponse) {
+		let response = eventsResponse;
+		if(eventsResponse[XmlElementNames.Notification]){
+			response = eventsResponse[XmlElementNames.Notification];
+		}
+		for (let key in response) {
 			switch (key) {
 				case XmlElementNames.SubscriptionId:
-					this.subscriptionId = eventsResponse[key];
+					this.subscriptionId = response[key];
 					break;
 				case XmlElementNames.PreviousWatermark:
-					this.previousWatermark = eventsResponse[key];
+					this.previousWatermark = response[key];
 					break;
 				case XmlElementNames.MoreEvents:
-					this.moreEventsAvailable = Convert.toBool(eventsResponse[key]);
+					this.moreEventsAvailable = Convert.toBool(response[key]);
 					break;
 				default:
 					if (GetEventsResults.XmlElementNameToEventTypeMap.containsKey(key)) {
-						this.LoadEventsFromXmlJsObject(EwsServiceJsonReader.ReadAsArray(eventsResponse, key), key, service);
+						this.LoadEventsFromXmlJsObject(EwsServiceJsonReader.ReadAsArray(response, key), key, service);
 					}
 					break;
 			}

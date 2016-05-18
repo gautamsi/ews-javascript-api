@@ -4,6 +4,7 @@ import {MoveCopyFolderResponse} from "../Responses/MoveCopyFolderResponse";
 import {XmlElementNames} from "../XmlElementNames";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {MoveCopyFolderRequest} from "./MoveCopyFolderRequest";
+/** @internal */
 export class CopyFolderRequest extends MoveCopyFolderRequest<MoveCopyFolderResponse> {
     constructor(service: ExchangeService, errorHandlingMode: ServiceErrorHandling) {
         super(service, errorHandlingMode);
