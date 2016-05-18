@@ -1,14 +1,84 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetRoomListsResponse} from "../Responses/GetRoomListsResponse";
+﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-/** @internal */
+import {GetRoomListsResponse} from "../Responses/GetRoomListsResponse";
+import {IPromise} from "../../Interfaces";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+/** 
+ * @internal Represents a GetRoomList request. 
+ * 
+ * @sealed
+ */
 export class GetRoomListsRequest extends SimpleServiceRequestBase {
-    Execute(): GetRoomListsResponse { throw new Error("GetRoomListsRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetRoomListsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetRoomListsRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetRoomListsRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetRoomListsRequest.ts - ParseResponse : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetRoomListsRequest.ts - WriteElementsToXml : Not implemented."); }
+    
+    /**
+     * @internal Initializes a new instance of the **GetRoomListsRequest** class.
+     *
+     * @param   {service}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetRoomListsResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetRoomListsResponse> {
+        return this.InternalExecute().then((serviceResponse: GetRoomListsResponse) => {
+            serviceResponse.ThrowIfNecessary();
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2010;
+    }
+
+    /**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetRoomListsResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetRoomListsRequest;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetRoomListsResponse = new GetRoomListsResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        // Don't have parameter in request
+    }
 }

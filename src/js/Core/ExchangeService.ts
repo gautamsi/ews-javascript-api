@@ -33,6 +33,7 @@ import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
 import {DeleteMode} from "../Enumerations/DeleteMode";
 import {EmailAddress} from "../ComplexProperties/EmailAddress";
+import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {EventType} from "../Enumerations/EventType";
 import {EwsUtilities} from "./EwsUtilities";
@@ -59,6 +60,8 @@ import {GetItemRequest} from "./Requests/GetItemRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemResponse} from "./Responses/GetItemResponse";
 import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
+import {GetRoomListsRequest} from "./Requests/GetRoomListsRequest";
+import {GetRoomsRequest} from "./Requests/GetRoomsRequest";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
@@ -2069,8 +2072,37 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region Availability operations */
 
-    //GetRoomLists(): EmailAddressCollection { throw new Error("ExchangeService.ts - GetRoomLists : Not implemented."); }
-    //GetRooms(emailAddress: EmailAddress): System.Collections.ObjectModel.Collection<EmailAddress> { throw new Error("ExchangeService.ts - GetRooms : Not implemented."); }
+    /**
+     * Retrieves a collection of all room lists in the organization.
+     *
+     * @return  {IPromise<EmailAddressCollection[]>}    A collection of EmailAddress objects representing all the rooms within the specifed room list.
+     */
+    GetRoomLists(): IPromise<EmailAddressCollection> {
+        let request: GetRoomListsRequest = new GetRoomListsRequest(this);
+
+        return request.Execute().then((response) => {
+            return response.RoomLists;
+        });
+    }
+
+    /**
+     * Retrieves a collection of all rooms in the specified room list in the organization.
+     *
+     * @param   {EmailAddress}   emailAddress   The e-mail address of the room list.
+     * @return  {IPromise<EmailAddress[]>}      A collection of EmailAddress objects representing all the rooms within the specifed room list.
+     */
+    GetRooms(emailAddress: EmailAddress): IPromise<EmailAddress[]> {
+        EwsUtilities.ValidateParam(emailAddress, "emailAddress");
+
+        let request: GetRoomsRequest = new GetRoomsRequest(this);
+
+        request.RoomList = emailAddress;
+
+        return request.Execute().then((response) => {
+            return response.Rooms;
+        });
+    }
+    
     /**
      * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
      *

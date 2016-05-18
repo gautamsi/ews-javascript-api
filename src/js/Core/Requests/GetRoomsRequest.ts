@@ -1,19 +1,98 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {EmailAddress} from "../../ComplexProperties/EmailAddress";
-import {GetRoomsResponse} from "../Responses/GetRoomsResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import {EmailAddress} from "../../ComplexProperties/EmailAddress";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {GetRoomsResponse} from "../Responses/GetRoomsResponse";
+import {IPromise} from "../../Interfaces";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetRooms request.
+ * 
+ * @sealed
  */
 export class GetRoomsRequest extends SimpleServiceRequestBase {
-    RoomList: EmailAddress;
-    private roomList: EmailAddress;
-    Execute(): GetRoomsResponse { throw new Error("GetRoomsRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetRoomsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetRoomsRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetRoomsRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetRoomsRequest.ts - ParseResponse : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetRoomsRequest.ts - WriteElementsToXml : Not implemented."); }
+    private roomList: EmailAddress = null;
+
+    /**
+     * @internal Gets or sets the room list to retrieve rooms from.
+     */
+    get RoomList(): EmailAddress {
+        return this.roomList;
+    }
+    set RoomList(value: EmailAddress) {
+        this.roomList = value;
+    }
+
+    /**
+     * @internal Initializes a new instance of the  class.
+     *
+     * @param   {service}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetRoomsResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetRoomsResponse> {
+        return this.InternalExecute().then((serviceResponse: GetRoomsResponse) => {
+            serviceResponse.ThrowIfNecessary();
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2010;
+    }
+
+    /**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetRoomsResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetRoomsRequest;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetRoomsResponse = new GetRoomsResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        //this.RoomList.WriteToXml(writer, XmlNamespace.Messages, XmlElementNames.RoomList);
+        this.RoomList.WriteToXml(writer, XmlElementNames.RoomList, XmlNamespace.Messages); //info: temp workaround github #52 
+    }
 }
