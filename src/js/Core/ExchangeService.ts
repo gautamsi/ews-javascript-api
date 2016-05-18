@@ -1,4 +1,5 @@
 import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
+import {AlternateIdBase} from "../Misc/IdConversion/AlternateIdBase";
 import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
@@ -15,6 +16,8 @@ import {BodyType} from "../Enumerations/BodyType";
 import {CalendarView} from "../Search/CalendarView";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {ConvertIdRequest} from "./Requests/ConvertIdRequest";
+import {ConvertIdResponse} from "./Responses/ConvertIdResponse";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
 import {CopyItemRequest} from "./Requests/CopyItemRequest";
 import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
@@ -42,18 +45,18 @@ import {FindFoldersResults} from "../Search/FindFoldersResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
 import {FindItemResponse} from "./Responses/FindItemResponse";
 import {FindItemsResults} from "../Search/FindItemsResults";
+import {Folder} from "./ServiceObjects/Folders/Folder";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {FolderView} from "../Search/FolderView";
-import {Folder} from "./ServiceObjects/Folders/Folder";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
-import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
+import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
-import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemRequest} from "./Requests/GetItemRequest";
+import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemResponse} from "./Responses/GetItemResponse";
 import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
@@ -62,11 +65,12 @@ import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {Grouping} from "../Search/Grouping";
+import {IdFormat} from "../Enumerations/IdFormat";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
-import {IPromise, IXHROptions} from "../Interfaces";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
-import {ItemId} from "../ComplexProperties/ItemId";
+import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
+import {ItemId} from "../ComplexProperties/ItemId";
 import {Mailbox} from "../ComplexProperties/Mailbox";
 import {ManagementRoles} from "../Misc/ManagementRoles";
 import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
@@ -100,8 +104,8 @@ import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
 import {ServiceObject} from "./ServiceObjects/ServiceObject";
 import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
-import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceResponse} from "./Responses/ServiceResponse";
+import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {SetTeamMailboxRequest} from "./Requests/SetTeamMailboxRequest";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
@@ -2174,9 +2178,58 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region Id conversion operations */
 
-    //ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): AlternateIdBase { throw new Error("ExchangeService.ts - ConvertId : Not implemented."); }
-    //ConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ConvertIds : Not implemented."); }
-    //InternalConvertIds(ids: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalConvertIds : Not implemented."); }
+    /**
+     * Converts Id from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase}   id                 The Id to convert.
+     * @param   {IdFormat}          destinationFormat   The destination format.
+     * @return  {IPromise<AlternateIdBase>}    The converted Id :Promise.
+     */
+    ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): IPromise<AlternateIdBase> {
+        EwsUtilities.ValidateParam(id, "id");
+
+        return this.InternalConvertIds(
+            [id],
+            destinationFormat,
+            ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<ConvertIdResponse>) => {
+                return responses.__thisIndexer(0).ConvertedId;
+            })
+
+    }
+
+    /**
+     * Converts multiple Ids from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
+     * @param   {IdFormat}              destinationFormat   The destination format.
+     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     */
+    ConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat): IPromise<ServiceResponseCollection<ConvertIdResponse>> {
+        EwsUtilities.ValidateParamCollection(ids, "ids");
+
+        return this.InternalConvertIds(
+            ids,
+            destinationFormat,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Converts multiple Ids from one format to another in a single call to EWS.
+     *
+     * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
+     * @param   {IdFormat}              destinationFormat   The destination format.
+     * @param   {ServiceErrorHandling}  errorHandling       Type of error handling to perform.
+     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     */
+    private InternalConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat, errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<ConvertIdResponse>> {
+        EwsUtilities.ValidateParamCollection(ids, "ids");
+
+        let request: ConvertIdRequest = new ConvertIdRequest(this, errorHandling);
+        ArrayHelper.AddRange(request.Ids, ids);//request.Ids.AddRange(ids);
+        request.DestinationFormat = destinationFormat;
+
+        return request.Execute();
+    }
     /* #endregion Id conversion operations */
 
 
