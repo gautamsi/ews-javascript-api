@@ -27,7 +27,7 @@ export class GetRoomsRequest extends SimpleServiceRequestBase {
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **GetRoomsRequest** class.
      *
      * @param   {service}   service   The service.
      */

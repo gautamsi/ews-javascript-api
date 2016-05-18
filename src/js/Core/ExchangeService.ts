@@ -14,6 +14,8 @@ import {AvailabilityData} from "../Enumerations/AvailabilityData";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
 import {BodyType} from "../Enumerations/BodyType";
 import {CalendarView} from "../Search/CalendarView";
+import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
+import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {ConversationActionType} from "../Enumerations/ConversationActionType";
 import {ConvertIdRequest} from "./Requests/ConvertIdRequest";
@@ -51,6 +53,8 @@ import {FolderId} from "../ComplexProperties/FolderId";
 import {FolderView} from "../Search/FolderView";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
+import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
+import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
 import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
@@ -74,6 +78,7 @@ import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
 import {ItemId} from "../ComplexProperties/ItemId";
+import {KeyValuePair} from "../AltDictionary";
 import {Mailbox} from "../ComplexProperties/Mailbox";
 import {ManagementRoles} from "../Misc/ManagementRoles";
 import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
@@ -2075,7 +2080,7 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Retrieves a collection of all room lists in the organization.
      *
-     * @return  {IPromise<EmailAddressCollection[]>}    A collection of EmailAddress objects representing all the rooms within the specifed room list.
+     * @return  {IPromise<EmailAddressCollection[]>}    A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
      */
     GetRoomLists(): IPromise<EmailAddressCollection> {
         let request: GetRoomListsRequest = new GetRoomListsRequest(this);
@@ -2089,7 +2094,7 @@ export class ExchangeService extends ExchangeServiceBase {
      * Retrieves a collection of all rooms in the specified room list in the organization.
      *
      * @param   {EmailAddress}   emailAddress   The e-mail address of the room list.
-     * @return  {IPromise<EmailAddress[]>}      A collection of EmailAddress objects representing all the rooms within the specifed room list.
+     * @return  {IPromise<EmailAddress[]>}      A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
      */
     GetRooms(emailAddress: EmailAddress): IPromise<EmailAddress[]> {
         EwsUtilities.ValidateParam(emailAddress, "emailAddress");
@@ -2102,7 +2107,7 @@ export class ExchangeService extends ExchangeServiceBase {
             return response.Rooms;
         });
     }
-    
+
     /**
      * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
      *
@@ -2495,8 +2500,42 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region ClientAccessTokens */
 
-    //GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
-    ////GetClientAccessToken(idAndTypes: any[] /*System.Collections.Generic.IEnumerable<T>*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetClientAccessToken : Not implemented."); }
+    /**
+     * GetClientAccessToken
+     *
+     * @param   {KeyValuePair<string, ClientAccessTokenType>[]}   idAndTypes   Id and Types
+     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     */
+    GetClientAccessToken(idAndTypes: KeyValuePair<string, ClientAccessTokenType>[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    /**
+     * GetClientAccessToken
+     *
+     * @param   {ClientAccessTokenRequest[]}   tokenRequests   Token requests array
+     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     */
+    GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    GetClientAccessToken(tokenRequestsOrIdAndTypes: KeyValuePair<string, ClientAccessTokenType>[] | ClientAccessTokenRequest[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>> {
+        if (!tokenRequestsOrIdAndTypes && tokenRequestsOrIdAndTypes.length === 0) {
+            throw new ArgumentOutOfRangeException(Strings.IndexIsOutOfRange);
+        }
+
+        let requestList: ClientAccessTokenRequest[] = [];
+
+        if (tokenRequestsOrIdAndTypes[0] instanceof ClientAccessTokenRequest) {
+            requestList = <ClientAccessTokenRequest[]>tokenRequestsOrIdAndTypes;
+        }
+        else {
+
+            for (let idAndType of <KeyValuePair<string, ClientAccessTokenType>[]>tokenRequestsOrIdAndTypes) {
+                let clientAccessTokenRequest: ClientAccessTokenRequest = new ClientAccessTokenRequest(idAndType.key, idAndType.value);
+                requestList.push(clientAccessTokenRequest);
+            }
+        }
+
+        let request: GetClientAccessTokenRequest = new GetClientAccessTokenRequest(this, ServiceErrorHandling.ReturnErrors);
+        request.TokenRequests = requestList;
+        return request.Execute();
+    }
     /* #end region ClientAccessTokens */
 
 
