@@ -14,6 +14,7 @@ import {AvailabilityData} from "../Enumerations/AvailabilityData";
 import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
 import {BodyType} from "../Enumerations/BodyType";
 import {CalendarView} from "../Search/CalendarView";
+import {ChangeCollection} from "../Sync/ChangeCollection";
 import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
 import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
@@ -49,6 +50,7 @@ import {FindItemRequest} from "./Requests/FindItemRequest";
 import {FindItemResponse} from "./Responses/FindItemResponse";
 import {FindItemsResults} from "../Search/FindItemsResults";
 import {Folder} from "./ServiceObjects/Folders/Folder";
+import {FolderChange} from "../Sync/FolderChange";
 import {FolderId} from "../ComplexProperties/FolderId";
 import {FolderView} from "../Search/FolderView";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
@@ -77,6 +79,7 @@ import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentConten
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
+import {ItemChange} from "../Sync/ItemChange";
 import {ItemId} from "../ComplexProperties/ItemId";
 import {KeyValuePair} from "../AltDictionary";
 import {Mailbox} from "../ComplexProperties/Mailbox";
@@ -124,6 +127,9 @@ import {Strings} from "../Strings";
 import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
 import {SubscribeToPushNotificationsRequest} from "./Requests/SubscribeToPushNotificationsRequest";
 import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
+import {SyncFolderHierarchyRequest} from "./Requests/SyncFolderHierarchyRequest";
+import {SyncFolderItemsRequest} from "./Requests/SyncFolderItemsRequest";
+import {SyncFolderItemsScope} from "../Enumerations/SyncFolderItemsScope";
 import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleState";
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
@@ -2061,17 +2067,165 @@ export class ExchangeService extends ExchangeServiceBase {
 
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
     // BeginSyncFolderItems(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderItems : Not implemented."); }
-    //BuildSyncFolderItemsRequest(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): SyncFolderItemsRequest { throw new Error("ExchangeService.ts - BuildSyncFolderItemsRequest : Not implemented."); }
+
+    /**
+     * Builds a request to synchronize the items of a specific folder.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {SyncFolderItemsRequest}        A request to synchronize the items of a specific folder.
+     */
+    private BuildSyncFolderItemsRequest(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): SyncFolderItemsRequest {
+        EwsUtilities.ValidateParam(syncFolderId, "syncFolderId");
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        let request: SyncFolderItemsRequest = new SyncFolderItemsRequest(this);
+
+        request.SyncFolderId = syncFolderId;
+        request.PropertySet = propertySet;
+        if (ignoredItemIds != null) {
+            request.IgnoredItemIds.AddRange(ignoredItemIds);
+        }
+        request.MaxChangesReturned = maxChangesReturned;
+        request.NumberOfDays = numberOfDays;
+        request.SyncScope = syncScope;
+        request.SyncState = syncState;
+
+        return request;
+    }
     //EndSyncFolderItems(asyncResult: Function /*System.IAsyncResult*/): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - EndSyncFolderItems : Not implemented."); }
-    //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
-    //SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): ChangeCollection<ItemChange> { throw new Error("ExchangeService.ts - SyncFolderItems : Not implemented."); }
+
+    /**
+     * Synchronizes the items of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    /**
+     * Synchronizes the items of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}              syncFolderId         The Id of the folder containing the items to synchronize with.
+     * @param   {PropertySet}           propertySet          The set of properties to retrieve for synchronized items.
+     * @param   {ItemId[]}              ignoredItemIds       The optional list of item Ids that should be ignored.
+     * @param   {number}                maxChangesReturned   The maximum number of changes that should be returned.
+     * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
+     * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
+     * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    SyncFolderItems(
+        syncFolderId: FolderId,
+        propertySet: PropertySet,
+        ignoredItemIds: ItemId[],
+        maxChangesReturned: number,
+        numberOfDaysOrSyncScope: number | SyncFolderItemsScope,
+        syncScopeOrSyncState: SyncFolderItemsScope | string,
+        syncState: string = null): IPromise<ChangeCollection<ItemChange>> {
+
+        let numberOfDays: number = 0;
+        let syncScope: SyncFolderItemsScope;
+
+        if (arguments.length === 6) {
+            syncState = <string>syncScopeOrSyncState;
+            syncScope = numberOfDaysOrSyncScope;
+        }
+        else {
+            numberOfDays = numberOfDaysOrSyncScope;
+            syncScope = <SyncFolderItemsScope>syncScopeOrSyncState;
+        }
+
+        return this.BuildSyncFolderItemsRequest(
+            syncFolderId,
+            propertySet,
+            ignoredItemIds,
+            maxChangesReturned,
+            numberOfDays,
+            syncScope,
+            syncState).Execute().then((responses) => {
+                return responses.__thisIndexer(0).Changes;
+            });
+    }
 
     // BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
     // //BeginSyncFolderHierarchy(callback: Function /*System.AsyncCallback*/, state: any, syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSyncFolderHierarchy : Not implemented."); }
-    //BuildSyncFolderHierarchyRequest(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): SyncFolderHierarchyRequest { throw new Error("ExchangeService.ts - BuildSyncFolderHierarchyRequest : Not implemented."); }
+
+    /**
+     * Builds a request to synchronize the specified folder hierarchy of the mailbox this Service is connected to.
+     *
+     * @param   {FolderId}      syncFolderId   The Id of the folder containing the items to synchronize with. A null value indicates the root folder of the mailbox.
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {SyncFolderHierarchyRequest}        A request to synchronize the specified folder hierarchy of the mailbox this Service is connected to.
+     */
+    private BuildSyncFolderHierarchyRequest(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): SyncFolderHierarchyRequest {
+        EwsUtilities.ValidateParamAllowNull(syncFolderId, "syncFolderId");  // Null syncFolderId is allowed
+        EwsUtilities.ValidateParam(propertySet, "propertySet");
+
+        let request: SyncFolderHierarchyRequest = new SyncFolderHierarchyRequest(this);
+
+        request.PropertySet = propertySet;
+        request.SyncFolderId = syncFolderId;
+        request.SyncState = syncState;
+
+        return request;
+    }
+
     //EndSyncFolderHierarchy(asyncResult: Function /*System.IAsyncResult*/): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - EndSyncFolderHierarchy : Not implemented."); }
-    ////SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
-    //SyncFolderHierarchy(propertySet: PropertySet, syncState: string): ChangeCollection<FolderChange> { throw new Error("ExchangeService.ts - SyncFolderHierarchy : Not implemented."); }
+
+    /**
+     * Synchronizes the sub-folders of a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      syncFolderId   The Id of the folder containing the items to synchronize with. A null value indicates the root folder of the mailbox.
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    /**
+     * Synchronizes the entire folder hierarchy of the mailbox this Service is connected to. Calling this method results in a call to EWS.
+     *
+     * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
+     * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
+     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     */
+    SyncFolderHierarchy(propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    SyncFolderHierarchy(
+        syncFolderIdOrPropertySet: FolderId | PropertySet,
+        propertySetOrSyncState: PropertySet | string,
+        syncState: string = null): IPromise<ChangeCollection<FolderChange>> {
+
+        let syncFolderId: FolderId = null;
+        let propertySet: PropertySet;
+
+        if (arguments.length === 2) {
+            propertySet = <PropertySet>syncFolderIdOrPropertySet;
+            syncState = <string>propertySetOrSyncState;
+        }
+        else {
+            syncFolderId = <FolderId>syncFolderIdOrPropertySet;
+            propertySet = <PropertySet>propertySetOrSyncState;
+        }
+
+        return this.BuildSyncFolderHierarchyRequest(
+            syncFolderId,
+            propertySet,
+            syncState).Execute().then((responses) => {
+                return responses.__thisIndexer(0).Changes;
+            });
+    }
     /* #endregion Synchronization operations */
 
 

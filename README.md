@@ -28,6 +28,16 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
 Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
+# Whats new v0.3.0 (including 0.2.8)
+
+* new: ***Mailbox synchronization*** now works, `SyncFolderItems` and `SyncFolderHierarchy` ExchangeService now availbale [see MSDN for example](https://msdn.microsoft.com/en-us/library/office/dn440952(v=exchg.150).aspx)
+* new: ***Pull Subscription*** should now work [use MSDN example](https://msdn.microsoft.com/en-us/library/office/dn458790(v=exchg.150).aspx)
+* new: `SetTeamMailbox` and `UnpinTeamMailbox` ExchangeService methods now availbale. (`SetTeamMailbox` does not work with Office 365, Access Denied error, on-prem test is pending) See official MSDN reference for detail [ExchangeService.UnpinTeamMailbox method](https://msdn.microsoft.com/en-us/library/office/microsoft.exchange.webservices.data.exchangeservice.unpinteammailbox(v=exchg.80).aspx)
+* new: `GetRooms` and `GetRoomLists` ExchangeService methods now availbale. See official MSDN reference for detail [ExchangeService.GetRooms method](https://msdn.microsoft.com/en-us/library/office/microsoft.exchange.webservices.data.exchangeservice.getrooms(v=exchg.80).aspx) and [ExchangeService.GetRoomLists method](https://msdn.microsoft.com/en-us/library/office/microsoft.exchange.webservices.data.exchangeservice.getroomlists(v=exchg.80).aspx)
+* new: `ConvertId` and `ConvertIds` ExchangeService methods now availbale, see MSDN detail at [EWS Identifiers in Exchange](https://msdn.microsoft.com/EN-US/library/office/dn605828(v=exchg.150).aspx)
+* new: `GetClientAccessToken` ExchangeService method now availbale, used with "Mail App" management, App management (#41) coming later
+* fix: `ImpersonatedUserId` bug #34
+
 # Whats new v0.2.7 (including 0.2.5 and 0.2.6)
 
 * new: Streaming Notification code updated, see issue #24 for example. More details at [How to: Stream notifications about mailbox events by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn458792(v=exchg.150).aspx)
@@ -155,6 +165,8 @@ Review Core/ExchangeService methods in api document, Any method not marked priva
 AutodiscoverUrl  
 BindToGroupItems  
 BindToItems  
+ConvertId   
+ConvertIds   
 CopyItems  
 CreateItems  
 DeleteItems  
@@ -162,20 +174,28 @@ ExpandGroup
 FindAppointments  
 FindFolders  
 FindItems  
-GetAttachments *new  
+GetAttachments  
+GetClientAccessToken   
 GetPasswordExpirationDate  
+GetRoomLists  
+GetRooms   
 GetUserAvailability  
+GetUserOofSettings  
+GetUserOofSettings   
 LoadPropertiesForItems  
 MarkAsJunk  
 MoveItems  
 ResolveName  
-UpdateItems  
-GetUserOofSettings  
+SetTeamMailbox   
+SetUserOofSettings 
 SetUserOofSettings   
+SubscribeToPullNotifications   
 SubscribeToStreamingNotifications   
 SubscribeToStreamingNotificationsOnAllFolders  
-GetUserOofSettings   
-SetUserOofSettings 
+SyncFolderHierarchy   
+SyncFolderItems  
+UnpinTeamMailbox   
+UpdateItems  
 
 
 
