@@ -246,7 +246,8 @@ export class TypeSystem {
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 export class xml2JsObject {
     typeIncludedNS: string[] = [
-        "http://schemas.microsoft.com/exchange/services/2006/types"
+        "http://schemas.microsoft.com/exchange/services/2006/types",
+        "http://schemas.microsoft.com/exchange/services/2006/messages"
     ];
 
     parseXMLNode(xmlNode: Node, soapMode: boolean = false, xmlnsRoot: any = undefined): any {
