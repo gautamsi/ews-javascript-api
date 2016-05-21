@@ -1,18 +1,107 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetInboxRulesResponse} from "../Responses/GetInboxRulesResponse";
+﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {GetInboxRulesResponse} from "../Responses/GetInboxRulesResponse";
+import {IPromise} from "../../Interfaces";
+import {StringHelper} from "../../ExtensionMethods";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetInboxRules request.
+ * 
+ * @sealed
  */
 export class GetInboxRulesRequest extends SimpleServiceRequestBase {
-	MailboxSmtpAddress: string;
+
+	/**
+	 * The smtp address of the mailbox from which to get the inbox rules.
+	 */
 	private mailboxSmtpAddress: string;
-	Execute(): GetInboxRulesResponse{ throw new Error("GetInboxRulesRequest.ts - Execute : Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("GetInboxRulesRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
-	GetResponseXmlElementName(): string{ throw new Error("GetInboxRulesRequest.ts - GetResponseXmlElementName : Not implemented.");}
-	GetXmlElementName(): string{ throw new Error("GetInboxRulesRequest.ts - GetXmlElementName : Not implemented.");}
-	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetInboxRulesRequest.ts - ParseResponse : Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetInboxRulesRequest.ts - WriteElementsToXml : Not implemented.");}
+
+	/**
+	 * Gets or sets the address of the mailbox from which to get the inbox rules.
+	 */
+	get MailboxSmtpAddress(): string {
+		return this.mailboxSmtpAddress;
+	}
+	set MailboxSmtpAddress(value: string) {
+		this.mailboxSmtpAddress = value;
+	}
+
+	/**
+     * @internal Initializes a new instance of the **GetInboxRulesRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+	/**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetInboxRulesResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetInboxRulesResponse> {
+		return this.InternalExecute().then((serviceResponse: GetInboxRulesResponse) => {
+
+            serviceResponse.ThrowIfNecessary();
+            return serviceResponse;
+		});
+	}
+
+	/**
+     * @internal Gets the request version.
+     *
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+		return ExchangeVersion.Exchange2010_SP1;
+	}
+
+	/**
+     * @internal Gets the name of the response XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetResponseXmlElementName(): string {
+		return XmlElementNames.GetInboxRulesResponse;
+	}
+
+	/**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetXmlElementName(): string {
+		return XmlElementNames.GetInboxRules;
+	}
+
+	/**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+		let response: GetInboxRulesResponse = new GetInboxRulesResponse();
+		response.LoadFromXmlJsObject(jsonBody, this.Service);
+		return response;
+	}
+
+	/**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+		if (!StringHelper.IsNullOrEmpty(this.mailboxSmtpAddress)) {
+			writer.WriteElementValue(
+				XmlNamespace.Messages,
+				XmlElementNames.MailboxSmtpAddress,
+				this.mailboxSmtpAddress);
+		}
+	}
 }

@@ -57,7 +57,7 @@ export class ChangeCollection<TChange extends Change> {
      * Gets an individual change from the change collection.
      *
      * @param   {number}   index   Zero-based index.
-     * @return  {TComplexProperty}		An single change.
+     * @return  {TChange}		An single change.
      */
     __thisIndexer(index: number): TChange {
         if (index < 0 || index >= this.Count) {

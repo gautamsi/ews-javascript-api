@@ -1,11 +1,46 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
+﻿import {Convert} from "../../ExtensionMethods";
+import {ExchangeService} from "../ExchangeService";
 import {RuleCollection} from "../../ComplexProperties/RuleCollection";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal Represents the response to a GetInboxRules operation.
+ * 
+ * @sealed
  */
 export class GetInboxRulesResponse extends ServiceResponse {
-	Rules: RuleCollection;
+
+	/**
+	 * Rule collection.
+	 */
 	private ruleCollection: RuleCollection;
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetInboxRulesResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
+
+	/**
+	 * @internal Gets the rule collection in the response.
+	 */
+	get Rules(): RuleCollection {
+		return this.ruleCollection;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **GetInboxRulesResponse** class.
+	 */
+	constructor() {
+		super()
+		this.ruleCollection = new RuleCollection();
+	}
+
+	/**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+		this.ruleCollection.OutlookRuleBlobExists = Convert.toBool(responseObject[XmlElementNames.OutlookRuleBlobExists]);
+		if (responseObject[XmlElementNames.InboxRules]) {
+			this.ruleCollection.LoadFromXmlJsObject(responseObject[XmlElementNames.InboxRules], service);
+		}
+	}
 }

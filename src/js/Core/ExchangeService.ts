@@ -69,6 +69,8 @@ import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
 import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
+import {GetInboxRulesRequest} from "./Requests/GetInboxRulesRequest";
+import {GetInboxRulesResponse} from "./Responses/GetInboxRulesResponse";
 import {GetItemRequest} from "./Requests/GetItemRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemResponse} from "./Responses/GetItemResponse";
@@ -113,6 +115,8 @@ import {RenderingMode} from "../Enumerations/RenderingMode";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
 import {RetentionType} from "../Enumerations/RetentionType";
+import {RuleCollection} from "../ComplexProperties/RuleCollection";
+import {RuleOperation} from "../ComplexProperties/RuleOperation";
 import {SearchFilter} from "../Search/Filters/SearchFilter";
 import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
 import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
@@ -146,6 +150,7 @@ import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateDelegateRequest} from "./Requests/UpdateDelegateRequest";
 import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
+import {UpdateInboxRulesRequest} from "./Requests/UpdateInboxRulesRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
 import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
 import {Uri} from "../Uri";
@@ -2622,10 +2627,59 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region InboxRule operations */
 
-    //GetInboxRules(): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
-    ////GetInboxRules(mailboxSmtpAddress: string): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
-    //UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
-    ////UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
+    /**
+     * Retrieves the inbox rules of the specified user.
+     *
+     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     */    
+    GetInboxRules(): IPromise<RuleCollection>;
+    /**
+     * Retrieves the inbox rules of the specified user.
+     *
+     * @param   {string}   mailboxSmtpAddress   The SMTP address of the user whose inbox rules should be retrieved.
+     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     */    
+    GetInboxRules(mailboxSmtpAddress: string): IPromise<RuleCollection>;
+    GetInboxRules(mailboxSmtpAddress: string = null): IPromise<RuleCollection> {
+
+        let request: GetInboxRulesRequest = new GetInboxRulesRequest(this);
+        if (arguments.length > 0) {
+            EwsUtilities.ValidateParam(mailboxSmtpAddress, "MailboxSmtpAddress");
+            request.MailboxSmtpAddress = mailboxSmtpAddress;
+        }
+        return request.Execute().then((response: GetInboxRulesResponse) => {
+            return response.Rules;
+        })
+    }
+
+    /**
+     * Update the specified user's inbox rules by applying the specified operations.
+     *
+     * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
+     * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
+     * @param   {boolean}           mailboxSmtpAddress      The SMTP address of the user whose inbox rules should be updated.
+     * @return  {IPromise<void>}    Promise
+     */
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): IPromise<void>;
+    /**
+     * Update the specified user's inbox rules by applying the specified operations.
+     *
+     * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
+     * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
+     * @return  {IPromise<void>}    Promise
+     */
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean): IPromise<void>;
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress?: string): IPromise<void> {
+        let request: UpdateInboxRulesRequest = new UpdateInboxRulesRequest(this);
+        request.InboxRuleOperations = operations;
+        request.RemoveOutlookRuleBlob = removeOutlookRuleBlob;
+
+        if (arguments.length > 2) {
+            request.MailboxSmtpAddress = mailboxSmtpAddress;
+        }
+        return <any>request.Execute();
+    }
+
     /* #endregion InboxRule operations */
 
 
