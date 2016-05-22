@@ -80,6 +80,8 @@ import {GetRoomsRequest} from "./Requests/GetRoomsRequest";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
+import {GetUserRetentionPolicyTagsRequest} from "./Requests/GetUserRetentionPolicyTagsRequest";
+import {GetUserRetentionPolicyTagsResponse} from "./Responses/GetUserRetentionPolicyTagsResponse";
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {Grouping} from "../Search/Grouping";
@@ -2631,14 +2633,14 @@ export class ExchangeService extends ExchangeServiceBase {
      * Retrieves the inbox rules of the specified user.
      *
      * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
-     */    
+     */
     GetInboxRules(): IPromise<RuleCollection>;
     /**
      * Retrieves the inbox rules of the specified user.
      *
      * @param   {string}   mailboxSmtpAddress   The SMTP address of the user whose inbox rules should be retrieved.
      * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
-     */    
+     */
     GetInboxRules(mailboxSmtpAddress: string): IPromise<RuleCollection>;
     GetInboxRules(mailboxSmtpAddress: string = null): IPromise<RuleCollection> {
 
@@ -2714,7 +2716,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region MRM operations */
 
-    //GetUserRetentionPolicyTags(): GetUserRetentionPolicyTagsResponse { throw new Error("ExchangeService.ts - GetUserRetentionPolicyTags : Not implemented."); }
+    /**
+     * Get user retention policy tags.
+     *
+     * @return  {IPromise<GetUserRetentionPolicyTagsResponse>}      Service response object.
+     */
+    GetUserRetentionPolicyTags(): IPromise<GetUserRetentionPolicyTagsResponse> {
+        let request: GetUserRetentionPolicyTagsRequest = new GetUserRetentionPolicyTagsRequest(this);
+
+        return request.Execute();
+    }
     /* #endregion MRM operations */
 
 

@@ -1,5 +1,4 @@
-﻿import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {ExchangeService} from "../ExchangeService";
+﻿import {ExchangeService} from "../ExchangeService";
 import {RuleOperationErrorCollection} from "../../ComplexProperties/RuleOperationErrorCollection";
 import {XmlElementNames} from "../XmlElementNames";
 

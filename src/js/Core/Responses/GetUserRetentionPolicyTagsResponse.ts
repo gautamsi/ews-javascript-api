@@ -1,14 +1,45 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {RetentionPolicyTag} from "../../Elc/RetentionPolicyTag";
-import {JsonObject} from "../JsonObject";
+﻿import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {RetentionPolicyTag} from "../../Elc/RetentionPolicyTag";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * Represents the GetUserRetentionPolicyTagsResponse response.
+ * 
+ * @sealed
  */
 export class GetUserRetentionPolicyTagsResponse extends ServiceResponse {
-	RetentionPolicyTags: RetentionPolicyTag[];
-	private retentionPolicyTags: RetentionPolicyTag[] /*System.Collections.Generic.List<RetentionPolicyTag>*/;
-	ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): void{ throw new Error("GetUserRetentionPolicyTagsResponse.ts - ReadElementsFromJson : Not implemented.");}
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetUserRetentionPolicyTagsResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
+
+	private retentionPolicyTags: RetentionPolicyTag[] = [];
+
+	/**
+	 * Retention policy tags result.
+	 */
+	get RetentionPolicyTags(): RetentionPolicyTag[] {
+		return this.retentionPolicyTags;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **GetUserRetentionPolicyTagsResponse** class.
+	 */
+	constructor() {
+		super()
+	}
+
+	/**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+		this.retentionPolicyTags.splice(0);
+
+		if (responseObject[XmlElementNames.RetentionPolicyTags]) {
+			for (let retentionPolicyTagObject of EwsServiceJsonReader.ReadAsArray(responseObject[XmlElementNames.RetentionPolicyTags], XmlElementNames.RetentionPolicyTag)) {
+				this.retentionPolicyTags.push(RetentionPolicyTag.LoadFromXmlJsObject(retentionPolicyTagObject));
+			}
+		}
+	}
 }
