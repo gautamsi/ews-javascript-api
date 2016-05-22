@@ -118,7 +118,7 @@ export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
      */
     ParseResponse(jsonBody: any): any {
         let response: UpdateInboxRulesResponse = new UpdateInboxRulesResponse();
-        response.LoadFromXmlJsObject(jsonBody[XmlElementNames.UpdateInboxRulesResponse], this.Service);
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
         return response;
     }
 
