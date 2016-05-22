@@ -1,4 +1,5 @@
 ﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import {IPromise} from "../../Interfaces";
 import {ViewBase} from "../../Search/ViewBase";
 import {FolderIdWrapper} from "../../Misc/FolderIdWrapper";
 import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
@@ -20,7 +21,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
     private queryString: string;
     private returnHighlightTerms: boolean;
     private mailboxScope: MailboxSearchLocation;
-    Execute(): FindConversationResponse { throw new Error("FindConversationRequest.ts - Execute : Not implemented."); }
+    Execute(): IPromise<FindConversationResponse> { throw new Error("FindConversationRequest.ts - Execute : Not implemented."); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("FindConversationRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
     GetResponseXmlElementName(): string { throw new Error("FindConversationRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("FindConversationRequest.ts - GetXmlElementName : Not implemented."); }

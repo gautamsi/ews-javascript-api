@@ -17,7 +17,7 @@ export class ConversationAction {//IJsonSerializable
     SuppressReadReceipts: boolean;
     DeleteType: DeleteMode;
     Flag: Flag;
-    ConversationLastSyncTime: Date;
+    ConversationLastSyncTime: DateTime;
     ContextFolderId: FolderIdWrapper;
     DestinationFolderId: FolderIdWrapper;
     RetentionPolicyType: RetentionType;

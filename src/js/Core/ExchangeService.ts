@@ -1,6 +1,7 @@
 import {AddDelegateRequest} from "./Requests/AddDelegateRequest";
 import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
 import {AlternateIdBase} from "../Misc/IdConversion/AlternateIdBase";
+import {ApplyConversationActionRequest} from "./Requests/ApplyConversationActionRequest";
 import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
@@ -19,7 +20,13 @@ import {ChangeCollection} from "../Sync/ChangeCollection";
 import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
 import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
+import {Conversation} from "./ServiceObjects/Items/Conversation";
+import {ConversationAction} from "../Misc/ConversationAction";
 import {ConversationActionType} from "../Enumerations/ConversationActionType";
+import {ConversationId} from "../ComplexProperties/ConversationId";
+import {ConversationRequest} from "../ComplexProperties/ConversationRequest";
+import {ConversationResponse} from "../ComplexProperties/ConversationResponse";
+import {ConversationSortOrder} from "../Enumerations/ConversationSortOrder";
 import {ConvertIdRequest} from "./Requests/ConvertIdRequest";
 import {ConvertIdResponse} from "./Responses/ConvertIdResponse";
 import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
@@ -44,24 +51,33 @@ import {EmailAddress} from "../ComplexProperties/EmailAddress";
 import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
 import {EventType} from "../Enumerations/EventType";
+import {EwsLogging} from "./EwsLogging";
 import {EwsUtilities} from "./EwsUtilities";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
 import {ExpandGroupResults} from "../Misc/ExpandGroupResults";
+import {FindConversationRequest} from "./Requests/FindConversationRequest";
+import {FindConversationResponse} from "./Responses/FindConversationResponse";
+import {FindConversationResults} from "../Search/FindConversationResults";
 import {FindFolderRequest} from "./Requests/FindFolderRequest";
 import {FindFolderResponse} from "./Responses/FindFolderResponse";
 import {FindFoldersResults} from "../Search/FindFoldersResults";
 import {FindItemRequest} from "./Requests/FindItemRequest";
 import {FindItemResponse} from "./Responses/FindItemResponse";
 import {FindItemsResults} from "../Search/FindItemsResults";
+import {Flag} from "../ComplexProperties/Flag";
 import {Folder} from "./ServiceObjects/Folders/Folder";
 import {FolderChange} from "../Sync/FolderChange";
 import {FolderId} from "../ComplexProperties/FolderId";
+import {FolderIdCollection} from "../ComplexProperties/FolderIdCollection";
+import {FolderIdWrapper} from "../Misc/FolderIdWrapper";
 import {FolderView} from "../Search/FolderView";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
 import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
+import {GetConversationItemsRequest} from "./Requests/GetConversationItemsRequest";
+import {GetConversationItemsResponse} from "./Responses/GetConversationItemsResponse";
 import {GetDelegateRequest} from "./Requests/GetDelegateRequest";
 import {GetDelegateResponse} from "./Responses/GetDelegateResponse";
 import {GetEventsRequest} from "./Requests/GetEventsRequest";
@@ -85,6 +101,7 @@ import {GetUserRetentionPolicyTagsResponse} from "./Responses/GetUserRetentionPo
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {Grouping} from "../Search/Grouping";
+import {Guid} from "../Guid";
 import {IdFormat} from "../Enumerations/IdFormat";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
@@ -94,6 +111,7 @@ import {ItemChange} from "../Sync/ItemChange";
 import {ItemId} from "../ComplexProperties/ItemId";
 import {KeyValuePair} from "../AltDictionary";
 import {Mailbox} from "../ComplexProperties/Mailbox";
+import {MailboxSearchLocation} from "../Enumerations/MailboxSearchLocation";
 import {ManagementRoles} from "../Misc/ManagementRoles";
 import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
 import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
@@ -137,6 +155,7 @@ import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 import {StreamingSubscription} from "../Notifications/StreamingSubscription";
 import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
+import {StringList} from "../ComplexProperties/StringList";
 import {Strings} from "../Strings";
 import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
 import {SubscribeToPushNotificationsRequest} from "./Requests/SubscribeToPushNotificationsRequest";
@@ -2356,31 +2375,662 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region Conversation */
 
+    /**
+     * Applies ConversationAction on the specified conversation.
+     *
+     * @param   {ConversationActionType}    actionType            ConversationAction
+     * @param   {ConversationId[]}          conversationIds       The conversation ids.
+     * @param   {boolean}                   processRightAway      True to process at once . This is blocking and false to let the Assistant process it in the back ground
+     * @param   {StringList}                categories            Catgories that need to be stamped can be null or empty
+     * @param   {boolean}                   enableAlwaysDelete    True moves every current and future messages in the conversation to deleted items folder. False stops the alwasy delete action. This is applicable only if the action is AlwaysDelete
+     * @param   {FolderId}                  destinationFolderId   Applicable if the action is AlwaysMove. This moves every current message and future  message in the conversation to the specified folder. Can be null if tis is then it stops the always move action
+     * @param   {ServiceErrorHandling}      errorHandlingMode     The error handling mode.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    private ApplyConversationAction(
+        actionType: ConversationActionType,
+        conversationIds: ConversationId[],
+        processRightAway: boolean,
+        categories: StringList,
+        enableAlwaysDelete: boolean,
+        destinationFolderId: FolderId,
+        errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsLogging.Assert(
+            actionType == ConversationActionType.AlwaysCategorize ||
+            actionType == ConversationActionType.AlwaysMove ||
+            actionType == ConversationActionType.AlwaysDelete,
+            "ApplyConversationAction",
+            "Invalic actionType");
 
-    // ApplyConversationAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, conversationIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, processRightAway: boolean, categories: StringList, enableAlwaysDelete: boolean, destinationFolderId: FolderId, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ApplyConversationAction<TResponse extends ServiceResponse> : Not implemented."); }
-    // ApplyConversationOneTimeAction<TResponse extends ServiceResponse>(actionType: ConversationActionType, idTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId, deleteType: DeleteMode, isRead: boolean, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/, flag: Flag, suppressReadReceipts: boolean, errorHandlingMode: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - ApplyConversationOneTimeAction<TResponse extends ServiceResponse> : Not implemented."); }
-    //DisableAlwaysCategorizeItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysCategorizeItemsInConversations : Not implemented."); }
-    //DisableAlwaysDeleteItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysDeleteItemsInConversations : Not implemented."); }
-    //DisableAlwaysMoveItemsInConversations(conversationIds: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DisableAlwaysMoveItemsInConversations : Not implemented."); }
-    //EnableAlwaysCategorizeItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, categories: System.Collections.Generic.IEnumerable<string>, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EnableAlwaysCategorizeItemsInConversations : Not implemented."); }
-    //EnableAlwaysDeleteItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EnableAlwaysDeleteItemsInConversations : Not implemented."); }
-    //EnableAlwaysMoveItemsInConversations(conversationId: any[] /*System.Collections.Generic.IEnumerable<T>*/, destinationFolderId: FolderId, processSynchronously: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EnableAlwaysMoveItemsInConversations : Not implemented."); }
-    ////FindConversation(view: ViewBase, folderId: FolderId): System.Collections.Generic.ICollection<T> { throw new Error("ExchangeService.ts - FindConversation : Not implemented."); }
-    ////FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean): FindConversationResults { throw new Error("ExchangeService.ts - FindConversation : Not implemented."); }
-    ////FindConversation(view: ViewBase, folderId: FolderId, queryString: string): System.Collections.Generic.ICollection<T> { throw new Error("ExchangeService.ts - FindConversation : Not implemented."); }
-    ////FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean, mailboxScope: MailboxSearchLocation): FindConversationResults { throw new Error("ExchangeService.ts - FindConversation : Not implemented."); }
-    //GetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetConversationItems : Not implemented."); }
-    ////GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder): ConversationResponse { throw new Error("ExchangeService.ts - GetConversationItems : Not implemented."); }
-    ////GetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - GetConversationItems : Not implemented."); }
-    //InternalGetConversationItems(conversations: any[] /*System.Collections.Generic.IEnumerable<T>*/, propertySet: PropertySet, foldersToIgnore: any[] /*System.Collections.Generic.IEnumerable<T>*/, sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation, maxItemsToReturn: number, errorHandling: ServiceErrorHandling): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - InternalGetConversationItems : Not implemented."); }
+        EwsUtilities.ValidateParam(conversationIds, "conversationId");
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "ApplyConversationAction");
 
-    //CopyItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - CopyItemsInConversations : Not implemented."); }
-    //DeleteItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, deleteMode: DeleteMode): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - DeleteItemsInConversations : Not implemented."); }
-    //MoveItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, destinationFolderId: FolderId): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - MoveItemsInConversations : Not implemented."); }
-    //SetFlagStatusForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, flagStatus: Flag): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetFlagStatusForItemsInConversations : Not implemented."); }
-    //SetReadStateForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetReadStateForItemsInConversations : Not implemented."); }
-    ////SetReadStateForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, isRead: boolean): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetReadStateForItemsInConversations : Not implemented."); }
-    //SetRetentionPolicyForItemsInConversations(idLastSyncTimePairs: any[] /*System.Collections.Generic.IEnumerable<T>*/, contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SetRetentionPolicyForItemsInConversations : Not implemented."); }
+        let request: ApplyConversationActionRequest = new ApplyConversationActionRequest(this, errorHandlingMode);
+        let action: ConversationAction = new ConversationAction();
+
+        for (let conversationId of conversationIds) {
+            action.Action = actionType;
+            action.ConversationId = conversationId;
+            action.ProcessRightAway = processRightAway;
+            action.Categories = categories;
+            action.EnableAlwaysDelete = enableAlwaysDelete;
+            action.DestinationFolderId = destinationFolderId != null ? new FolderIdWrapper(destinationFolderId) : null;
+            request.ConversationActions.push(action);
+        }
+
+        return request.Execute();
+    }
+
+    /**
+     * Applies one time conversation action on items in specified folder inside the conversation.
+     *
+     * @param   {ConversationActionType}                        actionType             The action.
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idTimePairs            The id time pairs.
+     * @param   {FolderId}                                      contextFolderId        The context folder id.
+     * @param   {FolderId}                                      destinationFolderId    The destination folder id.
+     * @param   {DeleteMode}                                    deleteType             Type of the delete.
+     * @param   {boolean}                                       isRead                 The is read.
+     * @param   {RetentionType}                                 retentionPolicyType    Retention policy type.
+     * @param   {Guid}                                          retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
+     * @param   {Flag}                                          flag                   Flag status.
+     * @param   {boolean}                                       suppressReadReceipts   Suppress read receipts flag.
+     * @param   {ServiceErrorHandling}                          errorHandlingMode      The error handling mode.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    private ApplyConversationOneTimeAction(
+        actionType: ConversationActionType,
+        idTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs,
+        contextFolderId: FolderId,
+        destinationFolderId: FolderId,
+        deleteType: DeleteMode,
+        isRead: boolean,
+        retentionPolicyType: RetentionType,
+        retentionPolicyTagId: Guid,
+        flag: Flag,
+        suppressReadReceipts: boolean,
+        errorHandlingMode: ServiceErrorHandling): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsLogging.Assert(
+            actionType == ConversationActionType.Move ||
+            actionType == ConversationActionType.Delete ||
+            actionType == ConversationActionType.SetReadState ||
+            actionType == ConversationActionType.SetRetentionPolicy ||
+            actionType == ConversationActionType.Copy ||
+            actionType == ConversationActionType.Flag,
+            "ApplyConversationOneTimeAction",
+            "Invalid actionType");
+
+        EwsUtilities.ValidateParamCollection(idTimePairs, "idTimePairs");
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2010_SP1,
+            "ApplyConversationAction");
+
+        let request: ApplyConversationActionRequest = new ApplyConversationActionRequest(this, errorHandlingMode);
+
+        for (let idTimePair of idTimePairs) {
+            let action: ConversationAction = new ConversationAction();
+
+            action.Action = actionType;
+            action.ConversationId = idTimePair.key;
+            action.ContextFolderId = contextFolderId != null ? new FolderIdWrapper(contextFolderId) : null;
+            action.DestinationFolderId = destinationFolderId != null ? new FolderIdWrapper(destinationFolderId) : null;
+            action.ConversationLastSyncTime = idTimePair.value;
+            action.IsRead = isRead;
+            action.DeleteType = deleteType;
+            action.RetentionPolicyType = retentionPolicyType;
+            action.RetentionPolicyTagId = retentionPolicyTagId;
+            action.Flag = flag;
+            action.SuppressReadReceipts = suppressReadReceipts;
+
+            request.ConversationActions.push(action);
+        }
+
+        return request.Execute();
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer categorized. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationId         The id of the conversation.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule and removing the categories from existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    DisableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysCategorize,
+            conversationId,
+            processSynchronously,
+            null,
+            false,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer moved to Deleted Items folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationId         The id of the conversation.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule and restoring the items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    DisableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysDelete,
+            conversationId,
+            processSynchronously,
+            null,
+            false,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer moved to a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationIds        The conversation ids.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    DisableAlwaysMoveItemsInConversations(conversationIds: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysMove,
+            conversationIds,
+            processSynchronously,
+            null,
+            false,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always categorized. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationId         The id of the conversation.
+     * @param   {string[]}          categories             The categories that should be stamped on items in the conversation.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and stamping existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    EnableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], categories: string[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsUtilities.ValidateParamCollection(categories, "categories");
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysCategorize,
+            conversationId,
+            processSynchronously,
+            new StringList(categories),
+            false,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always moved to Deleted Items folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationId         The id of the conversation.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and deleting existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    EnableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysDelete,
+            conversationId,
+            processSynchronously,
+            null,
+            true,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always moved to a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ConversationId[]}  conversationId         The id of the conversation.
+     * @param   {FolderId}          destinationFolderId    The Id of the folder to which conversation items should be moved.
+     * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and moving existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    EnableAlwaysMoveItemsInConversations(conversationId: ConversationId[], destinationFolderId: FolderId, processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
+        return this.ApplyConversationAction(
+            ConversationActionType.AlwaysMove,
+            conversationId,
+            processSynchronously,
+            null,
+            false,
+            destinationFolderId,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Retrieves a collection of all Conversations in the specified Folder.
+     *
+     * @param   {ViewBase}   view       The view controlling the number of conversations returned.
+     * @param   {FolderId}   folderId   The Id of the folder in which to search for conversations.
+     * @return  {IPromise<Conversation[]>}      Collection of conversations.
+     */
+    FindConversation(view: ViewBase, folderId: FolderId): IPromise<Conversation[]>;
+    /**
+     * Retrieves a collection of all Conversations in the specified Folder.
+     *
+     * @param   {ViewBase}  view                   The view controlling the number of conversations returned.
+     * @param   {FolderId}  folderId               The Id of the folder in which to search for conversations.
+     * @param   {string}    queryString            The query string for which the search is being performed
+     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     */
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string): IPromise<Conversation[]>;
+    /**
+     * Searches for and retrieves a collection of Conversations in the specified Folder. Along with conversations, a list of highlight terms are returned.
+     *
+     * @param   {ViewBase}  view                   The view controlling the number of conversations returned.
+     * @param   {FolderId}  folderId               The Id of the folder in which to search for conversations.
+     * @param   {string}    queryString            The query string for which the search is being performed
+     * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
+     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     */
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean): IPromise<FindConversationResults>;
+    /**
+     * Searches for and retrieves a collection of Conversations in the specified Folder. Along with conversations, a list of highlight terms are returned.
+     *
+     * @param   {ViewBase}                  view                   The view controlling the number of conversations returned.
+     * @param   {FolderId}                  folderId               The Id of the folder in which to search for conversations.
+     * @param   {string}                    queryString            The query string for which the search is being performed
+     * @param   {boolean}                   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
+     * @param   {MailboxSearchLocation?}    mailboxScope           The mailbox scope to reference.
+     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     */
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean, mailboxScope: MailboxSearchLocation): IPromise<FindConversationResults>;
+    FindConversation(
+        view: ViewBase,
+        folderId: FolderId,
+        queryString: string = null,
+        returnHighlightTerms: boolean = null,
+        mailboxScope: MailboxSearchLocation = null): IPromise<FindConversationResults | Conversation[]> {
+
+        let argsLength = arguments.length;
+
+        EwsUtilities.ValidateParam(view, "view");
+        EwsUtilities.ValidateParam(folderId, "folderId");
+
+        let request: FindConversationRequest = new FindConversationRequest(this);
+        request.View = view;
+        request.FolderId = new FolderIdWrapper(folderId);
+
+        if (argsLength > 2) {
+            EwsUtilities.ValidateParamAllowNull(queryString, "queryString");
+            request.QueryString = queryString;
+        }
+
+        if (argsLength > 3) {
+            EwsUtilities.ValidateParam(returnHighlightTerms, "returnHighlightTerms");
+            request.ReturnHighlightTerms = returnHighlightTerms;
+
+            EwsUtilities.ValidateMethodVersion(
+                this,
+                ExchangeVersion.Exchange2013, // This method is only applicable for Exchange2013
+                "FindConversation");
+        }
+
+        if (argsLength > 4) {
+            request.MailboxScope = mailboxScope;
+        }
+        return request.Execute().then((responses: FindConversationResponse) => {
+            if (argsLength > 3) {
+                return responses.Conversations; // based on arguments it can return this or either Results.
+            }
+            else {
+                return responses.Results;
+            }
+        });
+    }
+
+    /**
+     * Retrieves a collection of all Conversations in the specified Folder.
+     *
+     * @param   {ViewBase}  view            The view controlling the number of conversations returned.
+     * @param   {FolderId}  folderId        The Id of the folder in which to search for conversations.
+     * @param   {string}    anchorMailbox   The anchorMailbox Smtp address to route the request directly to group mailbox.
+     * @return  {IPromise<Conversation[]>}  Collection of conversations :Promise.
+     */
+    FindGroupConversation(view: ViewBase, folderId: FolderId, anchorMailbox: string): IPromise<Conversation[]> {
+
+        EwsUtilities.ValidateParam(view, "view");
+        EwsUtilities.ValidateParam(folderId, "folderId");
+        EwsUtilities.ValidateParam(anchorMailbox, "anchorMailbox");
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2015,
+            "FindConversation");
+
+        let request: FindConversationRequest = new FindConversationRequest(this);
+
+        request.View = view;
+        request.FolderId = new FolderIdWrapper(folderId);
+        request.AnchorMailbox = anchorMailbox;
+
+        return request.Execute().then((responses: FindConversationResponse) => {
+            return responses.Conversations;
+        });
+    }
+
+    /**
+     * Gets the items for a set of conversations.
+     *
+     * @param   {ConversationRequest[]}     conversations     Conversations with items to load.
+     * @param   {PropertySet}               propertySet       The set of properties to load.
+     * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
+     * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
+     * @return  {IPromise<ServiceResponseCollection<GetConversationItemsResponse>>}     GetConversationItems response    :Promise.
+     */
+    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */): IPromise<ServiceResponseCollection<GetConversationItemsResponse>>;
+    /**
+     * Gets the items for a set of conversations.
+     *
+     * @param   {ConversationRequest[]}     conversations     Conversations with items to load.
+     * @param   {PropertySet}               propertySet       The set of properties to load.
+     * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
+     * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
+     * @param   {MailboxSearchLocation}     mailboxScope      The mailbox scope to reference.
+     * @return  {IPromise<ServiceResponseCollection<GetConversationItemsResponse>>}     GetConversationItems response    :Promise.
+     */
+    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */, mailboxScope: MailboxSearchLocation /* Nullable */): IPromise<ServiceResponseCollection<GetConversationItemsResponse>>;
+    /**
+     * Gets the items for a conversation.
+     *
+     * @param   {ConversationId}            conversationId    The conversation id.
+     * @param   {PropertySet}               propertySet       The set of properties to load.
+     * @param   {string}                    syncState         The optional sync state representing the point in time when to start the synchronization.
+     * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
+     * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
+     * @return  {IPromise<ConversationResponse>}              GetConversationItems response    :Promise.
+     */
+    GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */): IPromise<ConversationResponse>;
+    GetConversationItems(
+        conversationsOrConversationId: ConversationRequest[] | ConversationId,
+        propertySet: PropertySet,
+        foldersToIgnoreOrSyncState: FolderId[] | string,
+        sortOrderOrFoldersToIgnore: ConversationSortOrder /* Nullable */ | FolderId[],
+        mailboxScopeOrSortOrder: ConversationSortOrder | MailboxSearchLocation /* Nullable */ = null): IPromise<ServiceResponseCollection<GetConversationItemsResponse> | ConversationResponse> {
+
+        let conversations: ConversationRequest[] = [];
+        let foldersToIgnore: FolderId[] = [];
+        let syncState: string = null;
+        let sortOrder: ConversationSortOrder = null;
+        let mailboxScope: MailboxSearchLocation = null;
+        let returnConversationResponse: boolean = false;
+
+        if (conversationsOrConversationId instanceof ConversationId) {
+            conversations.push(new ConversationRequest(conversationsOrConversationId, foldersToIgnoreOrSyncState));
+            foldersToIgnore = <FolderId[]>sortOrderOrFoldersToIgnore;
+            sortOrder = <ConversationSortOrder>mailboxScopeOrSortOrder;
+            returnConversationResponse = true;
+        }
+        else {
+            conversations = conversationsOrConversationId;
+            foldersToIgnore = <FolderId[]>foldersToIgnoreOrSyncState;
+            sortOrder = <ConversationSortOrder>sortOrderOrFoldersToIgnore;
+            mailboxScope = <MailboxSearchLocation>mailboxScopeOrSortOrder;
+
+        }
+
+        return this.InternalGetConversationItems(
+            conversations,
+            propertySet,
+            foldersToIgnore,
+            sortOrder, //todo: check why official repo has passed sortOrder as nulll when requested with ConversationRequest[] varient
+            mailboxScope,           /* mailboxScope */
+            null,           /* maxItemsToReturn */
+            null, /* anchorMailbox */
+            ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<GetConversationItemsResponse>) => {
+                return returnConversationResponse ? responses.__thisIndexer(0).Conversation : responses;
+            });
+
+    }
+
+    /**
+     * Gets the items for a conversation.
+     *
+     * @param   {ConversationId}            conversationId    The conversation id.
+     * @param   {PropertySet}               propertySet       The set of properties to load.
+     * @param   {string}                    syncState         The optional sync state representing the point in time when to start the synchronization.
+     * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
+     * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
+     * @param   {string}                    anchorMailbox     The smtp address of the mailbox hosting the conversations
+     * @return  {IPromise<ConversationResponse>}              ConversationResponseType response :Promise.
+     * @remarks This API designed to be used primarily in groups scenarios where we want to set the anchor mailbox header so that request is routed directly to the group mailbox backend server.
+     */
+    GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet,
+        syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */, anchorMailbox: string): IPromise<ConversationResponse> {
+        EwsUtilities.ValidateParam(anchorMailbox, "anchorMailbox");
+
+        let conversations: ConversationRequest[] = [];
+        conversations.push(new ConversationRequest(conversationId, syncState));
+
+        return this.InternalGetConversationItems(
+            conversations,
+            propertySet,
+            foldersToIgnore,
+            sortOrder,
+            null,           /* mailboxScope */
+            null,           /* maxItemsToReturn */
+            anchorMailbox, /* anchorMailbox */
+            ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<GetConversationItemsResponse>) => {
+                return responses.__thisIndexer(0).Conversation;
+            });
+    }
+
+    /**
+     * @internal Gets the items for a set of conversations.
+     *
+     * @param   {ConversationRequest[]}     conversations      Conversations with items to load.
+     * @param   {PropertySet}               propertySet        The set of properties to load.
+     * @param   {FolderId[]}                foldersToIgnore    The folders to ignore.
+     * @param   {ConversationSortOrder?}    sortOrder          Sort order of conversation tree nodes.
+     * @param   {MailboxSearchLocation?}    mailboxScope       The mailbox scope to reference.
+     * @param   {number?}                   maxItemsToReturn   Maximum number of items to return.
+     * @param   {string}                    anchorMailbox      The smtpaddress of the mailbox that hosts the conversations
+     * @param   {ServiceErrorHandling}      errorHandling      What type of error handling should be performed.
+     * @return  {IPromise<ServiceResponseCollection<GetConversationItemsResponse>>}     GetConversationItems response.
+     */
+    InternalGetConversationItems(
+        conversations: ConversationRequest[],
+        propertySet: PropertySet,
+        foldersToIgnore: FolderId[],
+        sortOrder: ConversationSortOrder, //Nullable
+        mailboxScope: MailboxSearchLocation, //Nullable
+        maxItemsToReturn: number, //nullable
+        anchorMailbox: string,
+        errorHandling: ServiceErrorHandling): IPromise<ServiceResponseCollection<GetConversationItemsResponse>> {
+
+        EwsUtilities.ValidateParam(conversations, "conversations");
+        EwsUtilities.ValidateParam(propertySet, "itemProperties");
+        EwsUtilities.ValidateParamAllowNull(foldersToIgnore, "foldersToIgnore");
+        EwsUtilities.ValidateMethodVersion(
+            this,
+            ExchangeVersion.Exchange2013,
+            "GetConversationItems");
+
+        let request: GetConversationItemsRequest = new GetConversationItemsRequest(this, errorHandling);
+        request.ItemProperties = propertySet;
+        request.FoldersToIgnore = new FolderIdCollection(foldersToIgnore);
+        request.SortOrder = sortOrder;
+        request.MailboxScope = mailboxScope;
+        request.MaxItemsToReturn = maxItemsToReturn;
+        request.AnchorMailbox = anchorMailbox;
+        request.Conversations = conversations;
+
+        return request.Execute();
+    }
+
+    /**
+     * Copies the items in the specified conversation to the specified destination folder. Calling this method results in a call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be copied and the date and time conversation was last synced (Items received after that date will not be copied).
+     * @param   {FolderId}                                      contextFolderId       The context folder id.
+     * @param   {FolderId}                                      destinationFolderId   The destination folder id.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    CopyItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.Copy,
+            idLastSyncTimePairs,
+            contextFolderId,
+            destinationFolderId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Deletes the items in the specified conversation. Calling this method results in a call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be deleted and the date and time conversation was last synced (Items received after that date will not be deleted).
+     * @param   {FolderId}                                      contextFolderId       The Id of the folder that contains the conversation.
+     * @param   {DeleteMode}                                    deleteMode            The deletion mode.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    DeleteItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, deleteMode: DeleteMode): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.Delete,
+            idLastSyncTimePairs,
+            contextFolderId,
+            null,
+            deleteMode,
+            null,
+            null,
+            null,
+            null,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Moves the items in the specified conversation to the specified destination folder. Calling this method results in a call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be moved and the dateTime conversation was last synced (Items received after that dateTime will not be moved).
+     * @param   {FolderId}                                      contextFolderId       The Id of the folder that contains the conversation.
+     * @param   {FolderId}                                      destinationFolderId   The Id of the destination folder.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    MoveItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<ServiceResponseCollection<ServiceResponse>> {
+
+        EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.Move,
+            idLastSyncTimePairs,
+            contextFolderId,
+            destinationFolderId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets flag status for items in conversation. Calling this method would result in call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}   idLastSyncTimePairs   The pairs of Id of conversation whose items should have their read state set and the date and time conversation was last synced (Items received after that date will not have their read state set).
+     * @param   {FolderId}   contextFolderId       The Id of the folder that contains the conversation.
+     * @param   {Flag}   flagStatus            Flag status to apply to conversation items.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    SetFlagStatusForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, flagStatus: Flag): IPromise<ServiceResponseCollection<ServiceResponse>> {
+
+        EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "SetFlagStatusForItemsInConversations");
+
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.Flag,
+            idLastSyncTimePairs,
+            contextFolderId,
+            null,
+            null,
+            null,
+            null,
+            null,
+            flagStatus,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets the read state for items in conversation. Calling this method would result in call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs    The pairs of Id of conversation whose items should have their read state set and the date and time conversation was last synced (Items received after that date will not have their read state set).
+     * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
+     * @param   {boolean}                                       isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, isRead: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    /**
+     * Sets the read state for items in conversation. Calling this method would result in call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs    The pairs of Id of conversation whose items should have their read state set and the date and time conversation was last synced (Items received after that date will not have their read state set).
+     * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
+     * @param   {boolean}                                       isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
+     * @param   {boolean}                                       suppressReadReceipts   if set to *true* read receipts are suppressed.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean = null): IPromise<ServiceResponseCollection<ServiceResponse>> {
+
+        if (arguments.length === 4) {
+            EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "SetReadStateForItemsInConversations");
+        }
+
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.SetReadState,
+            idLastSyncTimePairs,
+            contextFolderId,
+            null,
+            null,
+            isRead,
+            null,
+            null,
+            null,
+            suppressReadReceipts, //null when not included in call
+            ServiceErrorHandling.ReturnErrors);
+    }
+
+    /**
+     * Sets the retention policy for items in conversation. Calling this method would result in call to EWS.
+     *
+     * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs    The pairs of Id of conversation whose items should have their retention policy set and the date and time conversation was last synced (Items received after that date will not have their retention policy set).
+     * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
+     * @param   {RetentionType}                                 retentionPolicyType    Retention policy type.
+     * @param   {Guid?}                                         retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
+     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     */
+    SetRetentionPolicyForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], // IEnumerable<KeyValuePair<ConversationId, DateTime?>> idTimePairs, - DateTime is Nullable
+        contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): IPromise<ServiceResponseCollection<ServiceResponse>> {
+        return this.ApplyConversationOneTimeAction(
+            ConversationActionType.SetRetentionPolicy,
+            idLastSyncTimePairs,
+            contextFolderId,
+            null,
+            null,
+            null,
+            retentionPolicyType,
+            retentionPolicyTagId,
+            null,
+            null,
+            ServiceErrorHandling.ReturnErrors);
+    }
     /* #end region Conversation */
 
 
