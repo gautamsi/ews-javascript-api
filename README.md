@@ -28,6 +28,13 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
 Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
+also track what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
+
+# Whats new v0.4.0
+
+* new: ***InboxRule Operations*** now works, `GetInboxRules` and `UpdateInboxRules` methods on ExchangeService now availbale [see MSDN: How to: Manage Inbox rules by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn481313(v=exchg.150).aspx)
+* new: ***Delegate management operations*** now work [see MSDN: Delegate access and EWS in Exchange](https://msdn.microsoft.com/EN-US/library/office/dn641957(v=exchg.150).aspx)
+
 # Whats new v0.3.0 (including 0.2.8)
 
 * new: ***Mailbox synchronization*** now works, `SyncFolderItems` and `SyncFolderHierarchy` ExchangeService now availbale [see MSDN for example](https://msdn.microsoft.com/en-us/library/office/dn440952(v=exchg.150).aspx)
@@ -196,8 +203,12 @@ SyncFolderHierarchy
 SyncFolderItems  
 UnpinTeamMailbox   
 UpdateItems  
-
-
+GetInboxRules   
+UpdateInboxRules   
+AddDelegates   
+GetDelegates  
+RemoveDelegates   
+UpdateDelegates
 
 ## List of Folder object methods available
 

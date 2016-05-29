@@ -1,24 +1,169 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {RuleOperation} from "../../ComplexProperties/RuleOperation";
-import {UpdateInboxRulesResponse} from "../Responses/UpdateInboxRulesResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import {ArgumentException} from "../../Exceptions/ArgumentException";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {EwsUtilities} from "../EwsUtilities";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {IPromise} from "../../Interfaces";
+import {RuleOperation} from "../../ComplexProperties/RuleOperation";
+import {ServiceResult} from "../../Enumerations/ServiceResult";
+import {StringHelper} from "../../ExtensionMethods";
+import {UpdateInboxRulesException} from "../../Exceptions/UpdateInboxRulesException";
+import {UpdateInboxRulesResponse} from "../Responses/UpdateInboxRulesResponse";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a UpdateInboxRulesRequest request.
+ * 
+ * @sealed 
  */
 export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
-    MailboxSmtpAddress: string;
-    RemoveOutlookRuleBlob: boolean;
-    InboxRuleOperations: RuleOperation[];//System.Collections.Generic.IEnumerable<RuleOperation>;
-    private mailboxSmtpAddress: string;
-    private removeOutlookRuleBlob: boolean;
-    private inboxRuleOperations: RuleOperation[];//System.Collections.Generic.IEnumerable<RuleOperation>;
-    Execute(): UpdateInboxRulesResponse { throw new Error("UpdateInboxRulesRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("UpdateInboxRulesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("UpdateInboxRulesRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("UpdateInboxRulesRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("UpdateInboxRulesRequest.ts - ParseResponse : Not implemented."); }
-    Validate(): any { throw new Error("UpdateInboxRulesRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("UpdateInboxRulesRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    /**
+     * The smtp address of the mailbox from which to get the inbox rules.
+     */
+    private mailboxSmtpAddress: string = null;
+
+    /**
+     * Remove OutlookRuleBlob or not.
+     */
+    private removeOutlookRuleBlob: boolean = false;
+
+    /**
+     * InboxRule operation collection.
+     */
+    private inboxRuleOperations: RuleOperation[] = null;
+
+
+    get MailboxSmtpAddress(): string {
+        return this.mailboxSmtpAddress;
+    }
+    set MailboxSmtpAddress(value: string) {
+        this.mailboxSmtpAddress = value;
+    }
+
+
+    get RemoveOutlookRuleBlob(): boolean {
+        return this.removeOutlookRuleBlob;
+    }
+    set RemoveOutlookRuleBlob(value: boolean) {
+        this.removeOutlookRuleBlob = value;
+    }
+
+
+    get InboxRuleOperations(): RuleOperation[] {
+        return this.inboxRuleOperations;
+    }
+    set InboxRuleOperations(value: RuleOperation[]) {
+        this.inboxRuleOperations = value;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **UpdateInboxRulesRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<UpdateInboxRulesResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<UpdateInboxRulesResponse> {
+        return this.InternalExecute().then((serviceResponse: UpdateInboxRulesResponse) => {
+
+            if (serviceResponse.Result == ServiceResult.Error) {
+                throw new UpdateInboxRulesException(serviceResponse, this.inboxRuleOperations);
+            }
+            return serviceResponse;
+        });
+    }
+
+    /**
+     * @internal Gets the request version.
+     *
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2010_SP1;
+    }
+
+    /**
+     * @internal Gets the name of the response XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.UpdateInboxRulesResponse;
+    }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.UpdateInboxRules;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: UpdateInboxRulesResponse = new UpdateInboxRulesResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        if (this.inboxRuleOperations == null) {
+            throw new ArgumentException("RuleOperations cannot be null.", "Operations");
+        }
+
+        let operationCount: number = 0;
+        for (let operation of this.inboxRuleOperations) {
+            EwsUtilities.ValidateParam(operation, "RuleOperation");
+            operationCount++;
+        }
+
+        if (operationCount == 0) {
+            throw new ArgumentException("RuleOperations cannot be empty.", "Operations");
+        }
+
+        this.Service.Validate();
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        if (!StringHelper.IsNullOrEmpty(this.mailboxSmtpAddress)) {
+            writer.WriteElementValue(
+                XmlNamespace.Messages,
+                XmlElementNames.MailboxSmtpAddress,
+                this.mailboxSmtpAddress);
+        }
+
+        writer.WriteElementValue(
+            XmlNamespace.Messages,
+            XmlElementNames.RemoveOutlookRuleBlob,
+            this.RemoveOutlookRuleBlob);
+        writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Operations);
+        for (let operation of this.inboxRuleOperations) {
+            operation.WriteToXml(writer, operation.XmlElementName);
+        }
+        writer.WriteEndElement();
+    }
 }

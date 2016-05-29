@@ -1,18 +1,96 @@
-﻿import {UserId} from "../../ComplexProperties/UserId";
-import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
-import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
+﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {EwsUtilities} from "../EwsUtilities";
+import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {UserId} from "../../ComplexProperties/UserId";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
+import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a RemoveDelete request. 
  */
 export class RemoveDelegateRequest extends DelegateManagementRequestBase<DelegateManagementResponse> {
-    UserIds: UserId[];//System.Collections.Generic.List<UserId>;
-    private userIds: UserId[];//System.Collections.Generic.List<UserId>;
-    CreateResponse(): DelegateManagementResponse { throw new Error("RemoveDelegateRequest.ts - CreateResponse : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("RemoveDelegateRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("RemoveDelegateRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("RemoveDelegateRequest.ts - GetXmlElementName : Not implemented."); }
-    Validate(): any { throw new Error("RemoveDelegateRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("RemoveDelegateRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    private userIds: UserId[] = [];
+
+    /**
+     * Gets the user ids.
+     * 
+     * @value   The user ids.
+     */
+    get UserIds(): UserId[] {
+        return this.userIds;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **RemoveDelegateRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+	 * @internal Creates the response
+	 *
+	 * @return  {DelegateManagementResponse}		Response object.
+	 */
+    CreateResponse(): DelegateManagementResponse {
+        return new DelegateManagementResponse(false, null);
+    }
+
+    /**
+     * @internal Gets the request version.
+     *
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2007_SP1;
+    }
+
+    /**
+     * @internal Gets the name of the response XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.RemoveDelegateResponse;
+    }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.RemoveDelegate;
+    }
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        super.Validate();
+        EwsUtilities.ValidateParamCollection(this.UserIds, "UserIds");
+    }
+
+    /**
+     * @internal Writes XML elements.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        super.WriteElementsToXml(writer);
+
+        writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.UserIds);
+
+        for (let userId of this.UserIds) {
+            userId.WriteToXml(writer, XmlElementNames.UserId);
+        }
+
+        writer.WriteEndElement(); // UserIds
+    }
 }

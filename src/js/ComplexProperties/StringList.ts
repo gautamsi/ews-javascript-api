@@ -6,7 +6,9 @@ import {ExchangeService} from "../Core/ExchangeService";
 import {ArrayHelper} from "../ExtensionMethods";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ComplexProperty} from "./ComplexProperty";
-export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonCollectionDeserializer
+export class StringList extends ComplexProperty {
+    ___implementsInterface: string[] = ["IEnumerable<string>", "IJsonCollectionDeserialize"];
+    
     get Count(): number { return this.items.length; }
     get Items(): string[] { return this.items; }
     private items: string[] = [];// /*System.Collections.Generic.List<string>*/;
@@ -106,6 +108,10 @@ export class StringList extends ComplexProperty { // IEnumerable<string>, IJsonC
         for (var item of collection) {
             this.Add(<string>item);
         }
+    }
+    
+    LoadFromXmlJsObject(jsObjectCollection: any[], service: ExchangeService): void {
+        this.CreateFromXmlJsObjectCollection(jsObjectCollection, service);
     }
 
     UpdateFromXmlJsObjectCollection(jsObjectCollection: any[], service: ExchangeService): void {

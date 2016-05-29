@@ -54,10 +54,11 @@ export class GetStreamingEventsResponse extends ServiceResponse {
 	/**
      * @internal Loads extra error details from XML
      *
-     * @param   {any}   responseObject      Json Object converted from XML.
+     * @param   {any}   			responseObject      Json Object converted from XML.
+     * @param   {ExchangeService}   service             The service.    
      */
-    LoadExtraErrorDetailsFromXmlJsObject(responseObject: any): void {
-		super.LoadExtraErrorDetailsFromXml(responseObject);
+    LoadExtraErrorDetailsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+		super.LoadExtraErrorDetailsFromXmlJsObject(responseObject, service);
 
 		if (responseObject[XmlElementNames.ErrorSubscriptionIds]) {
 			let errorSubscriptionIds = responseObject[XmlElementNames.ErrorSubscriptionIds];

@@ -1,3 +1,4 @@
+import {AddDelegateRequest} from "./Requests/AddDelegateRequest";
 import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
 import {AlternateIdBase} from "../Misc/IdConversion/AlternateIdBase";
 import {Appointment} from "./ServiceObjects/Items/Appointment";
@@ -30,6 +31,10 @@ import {CreateItemRequest} from "./Requests/CreateItemRequest";
 import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
 import {DateTime, TimeZoneInfo} from "../DateTime";
 import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
+import {DelegateInformation} from "../Misc/DelegateInformation";
+import {DelegateManagementResponse} from "./Responses/DelegateManagementResponse";
+import {DelegateUser} from "../ComplexProperties/DelegateUser";
+import {DelegateUserResponse} from "./Responses/DelegateUserResponse";
 import {DeleteAttachmentRequest} from "./Requests/DeleteAttachmentRequest";
 import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
@@ -57,11 +62,15 @@ import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
 import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
+import {GetDelegateRequest} from "./Requests/GetDelegateRequest";
+import {GetDelegateResponse} from "./Responses/GetDelegateResponse";
 import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
 import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
 import {GetFolderResponse} from "./Responses/GetFolderResponse";
+import {GetInboxRulesRequest} from "./Requests/GetInboxRulesRequest";
+import {GetInboxRulesResponse} from "./Responses/GetInboxRulesResponse";
 import {GetItemRequest} from "./Requests/GetItemRequest";
 import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
 import {GetItemResponse} from "./Responses/GetItemResponse";
@@ -71,6 +80,8 @@ import {GetRoomsRequest} from "./Requests/GetRoomsRequest";
 import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
 import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
 import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
+import {GetUserRetentionPolicyTagsRequest} from "./Requests/GetUserRetentionPolicyTagsRequest";
+import {GetUserRetentionPolicyTagsResponse} from "./Responses/GetUserRetentionPolicyTagsResponse";
 import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
 import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
 import {Grouping} from "../Search/Grouping";
@@ -101,10 +112,13 @@ import {PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionB
 import {PropertySet} from "./PropertySet";
 import {PullSubscription} from "../Notifications/PullSubscription";
 import {PushSubscription} from "../Notifications/PushSubscription";
+import {RemoveDelegateRequest} from "./Requests/RemoveDelegateRequest";
 import {RenderingMode} from "../Enumerations/RenderingMode";
 import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
 import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
 import {RetentionType} from "../Enumerations/RetentionType";
+import {RuleCollection} from "../ComplexProperties/RuleCollection";
+import {RuleOperation} from "../ComplexProperties/RuleOperation";
 import {SearchFilter} from "../Search/Filters/SearchFilter";
 import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
 import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
@@ -136,10 +150,13 @@ import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
 import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
+import {UpdateDelegateRequest} from "./Requests/UpdateDelegateRequest";
 import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
+import {UpdateInboxRulesRequest} from "./Requests/UpdateInboxRulesRequest";
 import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
 import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
 import {Uri} from "../Uri";
+import {UserId} from "../ComplexProperties/UserId";
 import {UserSettingName} from "../Enumerations/UserSettingName";
 import {ViewBase} from "../Search/ViewBase";
 import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
@@ -2426,14 +2443,177 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region Delegate management operations */
 
-    // AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateUserResponse[]/*System.Collections.ObjectModel.Collection<DelegateUserResponse>*/ { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
-    // //AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - AddDelegates : Not implemented."); }
-    //GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: any[] /*System.Collections.Generic.IEnumerable<T>*/): DelegateInformation { throw new Error("ExchangeService.ts - GetDelegates : Not implemented."); }
-    ////GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: any): DelegateInformation { throw new Error("ExchangeService.ts - GetDelegates : Not implemented."); }
-    //RemoveDelegates(mailbox: Mailbox, userIds: any[] /*System.Collections.Generic.IEnumerable<T>*/): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - RemoveDelegates : Not implemented."); }
-    ////RemoveDelegates(mailbox: Mailbox, userIds: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - RemoveDelegates : Not implemented."); }
-    //UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - UpdateDelegates : Not implemented."); }
-    ////UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: any[] /*System.Collections.Generic.IEnumerable<T>*/): System.Collections.ObjectModel.Collection<DelegateUserResponse> { throw new Error("ExchangeService.ts - UpdateDelegates : Not implemented."); }
+    /**
+     * Adds delegates to a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}                       mailbox                        The mailbox to add delegates to.
+     * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
+     * @param   {...DelegateUser[]}             delegateUsers                  The delegate users to add.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    /**
+     * Adds delegates to a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}                       mailbox                        The mailbox to add delegates to.
+     * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
+     * @param   {DelegateUser[]}                delegateUsers                  The delegate users to add.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]> {
+
+        if (delegateUser) { //info: rest parameters are optional for typescript
+            if (ArrayHelper.isArray(delegateUser)) {
+                ArrayHelper.AddRange(delegateUsers, <DelegateUser[]>delegateUser);
+            }
+            else {
+                delegateUsers.push(<DelegateUser>delegateUser);
+            }
+        }
+        EwsUtilities.ValidateParam(mailbox, "mailbox");
+        EwsUtilities.ValidateParamCollection(delegateUsers, "delegateUsers");
+
+        let request: AddDelegateRequest = new AddDelegateRequest(this);
+
+        request.Mailbox = mailbox;
+        ArrayHelper.AddRange(request.DelegateUsers, delegateUsers); //request.DelegateUsers.AddRange(delegateUsers);
+        request.MeetingRequestsDeliveryScope = meetingRequestsDeliveryScope;
+
+
+        return request.Execute().then((response: DelegateManagementResponse) => {
+            return response.DelegateUserResponses;
+        })
+
+    }
+
+
+    /**
+     * Retrieves the delegates of a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}       mailbox                 The mailbox to retrieve the delegates of.
+     * @param   {boolean}       includePermissions      Indicates whether detailed permissions should be returned fro each delegate.
+     * @param   {...UserId[]}   userIds                 The optional Ids of the delegate users to retrieve.
+     * @return  {IPromise<DelegateInformation>}         A GetDelegateResponse providing the results of the operation    :Promise.
+     */
+    GetDelegates(mailbox: Mailbox, includePermissions: boolean, ...userIds: UserId[]): IPromise<DelegateInformation>;
+    /**
+     * Retrieves the delegates of a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}   mailbox                 The mailbox to retrieve the delegates of.
+     * @param   {boolean}   includePermissions      Indicates whether detailed permissions should be returned fro each delegate.
+     * @param   {UserId[]}  userIds                 The optional Ids of the delegate users to retrieve.
+     * @return  {IPromise<DelegateInformation>}     A GetDelegateResponse providing the results of the operation    :Promise.
+     */
+    GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: UserId[]): IPromise<DelegateInformation>;
+    GetDelegates(mailbox: Mailbox, includePermissions: boolean, userId: UserId | UserId[], ...userIds: UserId[]): IPromise<DelegateInformation> {
+
+        if (userId) { //info: rest parameters are optional for typescript
+            if (ArrayHelper.isArray(userId)) {
+                ArrayHelper.AddRange(userIds, <UserId[]>userId);
+            }
+            else {
+                userIds.push(<UserId>userId);
+            }
+        }
+
+        EwsUtilities.ValidateParam(mailbox, "mailbox");
+
+        let request: GetDelegateRequest = new GetDelegateRequest(this);
+
+        request.Mailbox = mailbox;
+        ArrayHelper.AddRange(request.UserIds, userIds); //request.UserIds.AddRange(userIds);
+        request.IncludePermissions = includePermissions;
+
+        return request.Execute().then((response: GetDelegateResponse) => {
+            let delegateInformation: DelegateInformation = new DelegateInformation(
+                response.DelegateUserResponses,
+                response.MeetingRequestsDeliveryScope);
+
+            return delegateInformation;
+        });
+    }
+
+    /**
+     * Removes delegates on a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}       mailbox   The mailbox to remove delegates from.
+     * @param   {...UserId[]}   userIds   The Ids of the delegate users to remove.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    RemoveDelegates(mailbox: Mailbox, ...userIds: UserId[]): IPromise<DelegateUserResponse[]>;
+    /**
+     * Removes delegates on a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}   mailbox   The mailbox to remove delegates from.
+     * @param   {UserId[]}  userIds   The Ids of the delegate users to remove.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    RemoveDelegates(mailbox: Mailbox, userIds: UserId[]): IPromise<DelegateUserResponse[]>;
+    RemoveDelegates(mailbox: Mailbox, userId: UserId | UserId[], ...userIds: UserId[]): IPromise<DelegateUserResponse[]> {
+
+        if (userId) { //info: rest parameters are optional for typescript
+            if (ArrayHelper.isArray(userId)) {
+                ArrayHelper.AddRange(userIds, <UserId[]>userId);
+            }
+            else {
+                userIds.push(<UserId>userId);
+            }
+        }
+        EwsUtilities.ValidateParam(mailbox, "mailbox");
+        EwsUtilities.ValidateParamCollection(userIds, "userIds");
+
+        let request: RemoveDelegateRequest = new RemoveDelegateRequest(this);
+
+        request.Mailbox = mailbox;
+        ArrayHelper.AddRange(request.UserIds, userIds); //request.UserIds.AddRange(userIds);
+
+        return request.Execute().then((response: DelegateManagementResponse) => {
+            return response.DelegateUserResponses;
+        })
+    }
+
+    /**
+     * Updates delegates on a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}                       mailbox                        The mailbox to update delegates on.
+     * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
+     * @param   {...DelegateUser[]}             delegateUsers                  The delegate users to update.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    /**
+     * Updates delegates on a specific mailbox. Calling this method results in a call to EWS.
+     *
+     * @param   {Mailbox}                       mailbox                        The mailbox to update delegates on.
+     * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
+     * @param   {DelegateUser[]}                delegateUsers                  The delegate users to update.
+     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     */
+    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]> {
+
+        if (delegateUser) { //info: rest parameters are optional for typescript
+            if (ArrayHelper.isArray(delegateUser)) {
+                ArrayHelper.AddRange(delegateUsers, <DelegateUser[]>delegateUser);
+            }
+            else {
+                delegateUsers.push(<DelegateUser>delegateUser);
+            }
+        }
+        EwsUtilities.ValidateParam(mailbox, "mailbox");
+        EwsUtilities.ValidateParamCollection(delegateUsers, "delegateUsers");
+
+        let request: UpdateDelegateRequest = new UpdateDelegateRequest(this);
+
+        request.Mailbox = mailbox;
+        ArrayHelper.AddRange(request.DelegateUsers, delegateUsers); //request.DelegateUsers.AddRange(delegateUsers);
+        request.MeetingRequestsDeliveryScope = meetingRequestsDeliveryScope;
+
+        return request.Execute().then((response: DelegateManagementResponse) => {
+            return response.DelegateUserResponses;
+        })
+    }
     /* #endregion Delegate management operations */
 
 
@@ -2449,10 +2629,59 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region InboxRule operations */
 
-    //GetInboxRules(): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
-    ////GetInboxRules(mailboxSmtpAddress: string): RuleCollection { throw new Error("ExchangeService.ts - GetInboxRules : Not implemented."); }
-    //UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
-    ////UpdateInboxRules(operations: System.Collections.Generic.IEnumerable<RuleOperation>, removeOutlookRuleBlob: boolean): any { throw new Error("ExchangeService.ts - UpdateInboxRules : Not implemented."); }
+    /**
+     * Retrieves the inbox rules of the specified user.
+     *
+     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     */
+    GetInboxRules(): IPromise<RuleCollection>;
+    /**
+     * Retrieves the inbox rules of the specified user.
+     *
+     * @param   {string}   mailboxSmtpAddress   The SMTP address of the user whose inbox rules should be retrieved.
+     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     */
+    GetInboxRules(mailboxSmtpAddress: string): IPromise<RuleCollection>;
+    GetInboxRules(mailboxSmtpAddress: string = null): IPromise<RuleCollection> {
+
+        let request: GetInboxRulesRequest = new GetInboxRulesRequest(this);
+        if (arguments.length > 0) {
+            EwsUtilities.ValidateParam(mailboxSmtpAddress, "MailboxSmtpAddress");
+            request.MailboxSmtpAddress = mailboxSmtpAddress;
+        }
+        return request.Execute().then((response: GetInboxRulesResponse) => {
+            return response.Rules;
+        })
+    }
+
+    /**
+     * Update the specified user's inbox rules by applying the specified operations.
+     *
+     * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
+     * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
+     * @param   {boolean}           mailboxSmtpAddress      The SMTP address of the user whose inbox rules should be updated.
+     * @return  {IPromise<void>}    Promise
+     */
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): IPromise<void>;
+    /**
+     * Update the specified user's inbox rules by applying the specified operations.
+     *
+     * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
+     * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
+     * @return  {IPromise<void>}    Promise
+     */
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean): IPromise<void>;
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress?: string): IPromise<void> {
+        let request: UpdateInboxRulesRequest = new UpdateInboxRulesRequest(this);
+        request.InboxRuleOperations = operations;
+        request.RemoveOutlookRuleBlob = removeOutlookRuleBlob;
+
+        if (arguments.length > 2) {
+            request.MailboxSmtpAddress = mailboxSmtpAddress;
+        }
+        return <any>request.Execute();
+    }
+
     /* #endregion InboxRule operations */
 
 
@@ -2487,7 +2716,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region MRM operations */
 
-    //GetUserRetentionPolicyTags(): GetUserRetentionPolicyTagsResponse { throw new Error("ExchangeService.ts - GetUserRetentionPolicyTags : Not implemented."); }
+    /**
+     * Get user retention policy tags.
+     *
+     * @return  {IPromise<GetUserRetentionPolicyTagsResponse>}      Service response object.
+     */
+    GetUserRetentionPolicyTags(): IPromise<GetUserRetentionPolicyTagsResponse> {
+        let request: GetUserRetentionPolicyTagsRequest = new GetUserRetentionPolicyTagsRequest(this);
+
+        return request.Execute();
+    }
     /* #endregion MRM operations */
 
 

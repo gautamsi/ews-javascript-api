@@ -128,9 +128,10 @@ export class ServiceResponse {
     /**
      * @internal Loads extra error details from XML
      *
-     * @param   {any}   responseObject      Json Object converted from XML.
+     * @param   {any}               responseObject      Json Object converted from XML.
+     * @param   {ExchangeService}   service             The service.    
      */
-    LoadExtraErrorDetailsFromXml(responseObject: any): void {
+    LoadExtraErrorDetailsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
         if (responseObject[XmlElementNames.MessageXml]) {
             this.ParseMessageXml(responseObject[XmlElementNames.MessageXml]);
         }
@@ -150,7 +151,7 @@ export class ServiceResponse {
         // TODO: Deal with a JSON version of "LoadExtraDetailsFromXml"
         if (this.result == ServiceResult.Warning || this.result == ServiceResult.Error) {
             this.errorMessage = responseObject[XmlElementNames.MessageText];
-            this.LoadExtraErrorDetailsFromXml(responseObject);
+            this.LoadExtraErrorDetailsFromXmlJsObject(responseObject, service);
         }
 
         if (this.result == ServiceResult.Success || this.result == ServiceResult.Warning) {
