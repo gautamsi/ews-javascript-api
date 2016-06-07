@@ -1,72 +1,721 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
+﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
+import {ConversationFlagStatus} from "../../../Enumerations/ConversationFlagStatus";
+import {ConversationId} from "../../../ComplexProperties/ConversationId";
+import {DateTime} from "../../../DateTime";
+import {DeleteMode} from "../../../Enumerations/DeleteMode";
+import {ExchangeService} from "../../ExchangeService";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+import {Flag} from "../../../ComplexProperties/Flag";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {Guid} from "../../../Guid";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {Importance} from "../../../Enumerations/Importance";
+import {IOutParam} from "../../../Interfaces/IOutParam";
+import {IPromise} from "../../../Interfaces";
+import {ItemFlagStatus} from "../../../Enumerations/ItemFlagStatus";
+import {ItemIdCollection} from "../../../ComplexProperties/ItemIdCollection";
+import {KeyValuePair} from "../../../AltDictionary";
+import {NotSupportedException} from "../../../Exceptions/NotSupportedException";
+import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+import {PropertySet} from "../../PropertySet";
+import {RetentionType} from "../../../Enumerations/RetentionType";
+import {Schemas} from "../Schemas/Schemas";
+import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {StringHelper} from "../../../ExtensionMethods";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {XmlElementNames} from "../../XmlElementNames";
+
 import {ServiceObject} from "../ServiceObject";
 /**
- * ## *Not Implemented* 
+ * Represents a collection of Conversation related properties.
+ * Properties available on this object are defined in the ConversationSchema class.
  */
 export class Conversation extends ServiceObject {
-    //////Id: ConversationId;
-    //////Topic: string;
-    //////UniqueRecipients: StringList;
-    //////GlobalUniqueRecipients: StringList;
-    //////UniqueUnreadSenders: StringList;
-    //////GlobalUniqueUnreadSenders: StringList;
-    //////UniqueSenders: StringList;
-    //////GlobalUniqueSenders: StringList;
-    //////LastDeliveryTime: Date;
-    //////GlobalLastDeliveryTime: Date;
-    //////Categories: StringList;
-    //////GlobalCategories: StringList;
-    //////FlagStatus: ConversationFlagStatus;
-    //////GlobalFlagStatus: ConversationFlagStatus;
-    //////HasAttachments: boolean;
-    //////GlobalHasAttachments: boolean;
-    //////MessageCount: number;
-    //////GlobalMessageCount: number;
-    //////UnreadCount: number;
-    //////GlobalUnreadCount: number;
-    //////Size: number;
-    //////GlobalSize: number;
-    //////ItemClasses: StringList;
-    //////GlobalItemClasses: StringList;
-    //////Importance: Importance;
-    //////GlobalImportance: Importance;
-    //////ItemIds: ItemIdCollection;
-    //////GlobalItemIds: ItemIdCollection;
-    //////LastModifiedTime: Date;
-    //////InstanceKey: any[];// System.Byte[];
-    //////Preview: string;
-    //////IconIndex: IconIndex;
-    //////GlobalIconIndex: IconIndex;
-    //////DraftItemIds: ItemIdCollection;
-    //////HasIrm: boolean;
-    //////GlobalHasIrm: boolean;
-    //////ClearItemFlags(contextFolderId: FolderId): any { throw new Error("Conversation.ts - ClearItemFlags : Not implemented."); }
-    //////CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): any { throw new Error("Conversation.ts - CopyItemsInConversation : Not implemented."); }
-    //////DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): any { throw new Error("Conversation.ts - DeleteItems : Not implemented."); }
-    //////DisableAlwaysCategorizeItems(processSynchronously: boolean): any { throw new Error("Conversation.ts - DisableAlwaysCategorizeItems : Not implemented."); }
-    //////DisableAlwaysDeleteItems(processSynchronously: boolean): any { throw new Error("Conversation.ts - DisableAlwaysDeleteItems : Not implemented."); }
-    //////DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): any { throw new Error("Conversation.ts - DisableAlwaysMoveItemsInConversation : Not implemented."); }
-    //////EnableAlwaysCategorizeItems(categories: string[]/*System.Collections.Generic.IEnumerable<string>*/, processSynchronously: boolean): any { throw new Error("Conversation.ts - EnableAlwaysCategorizeItems : Not implemented."); }
-    //////EnableAlwaysDeleteItems(processSynchronously: boolean): any { throw new Error("Conversation.ts - EnableAlwaysDeleteItems : Not implemented."); }
-    //////EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): any { throw new Error("Conversation.ts - EnableAlwaysMoveItems : Not implemented."); }
-    //////FlagItems(contextFolderId: FolderId, startDate: Date, dueDate: Date): any { throw new Error("Conversation.ts - FlagItems : Not implemented."); }
-    //////FlagItemsComplete(contextFolderId: FolderId, completeDate: Date): any { throw new Error("Conversation.ts - FlagItemsComplete : Not implemented."); }
-    //////GetChangeXmlElementName(): string { throw new Error("Conversation.ts - GetChangeXmlElementName : Not implemented."); }
-    //////GetDeleteFieldXmlElementName(): string { throw new Error("Conversation.ts - GetDeleteFieldXmlElementName : Not implemented."); }
-    //////GetExtendedProperties(): ExtendedPropertyCollection { throw new Error("Conversation.ts - GetExtendedProperties : Not implemented."); }
-    //////GetIdPropertyDefinition(): PropertyDefinition { throw new Error("Conversation.ts - GetIdPropertyDefinition : Not implemented."); }
-    //////GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean { throw new Error("Conversation.ts - GetIsTimeZoneHeaderRequired : Not implemented."); }
-    //////GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("Conversation.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    //////GetSchema(): ServiceObjectSchema { throw new Error("Conversation.ts - GetSchema : Not implemented."); }
-    //////GetSetFieldXmlElementName(): string { throw new Error("Conversation.ts - GetSetFieldXmlElementName : Not implemented."); }
-    GetXmlElementName(): string {
 
-       return XmlElementNames.Conversation;
+    /**
+     * Gets the Id of this Conversation.
+     */
+    get Id(): ConversationId {
+        return <ConversationId>this.PropertyBag._getItem(this.GetIdPropertyDefinition());
     }
-    //////InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): any { throw new Error("Conversation.ts - InternalDelete : Not implemented."); }
-    //////InternalLoad(propertySet: PropertySet): any { throw new Error("Conversation.ts - InternalLoad : Not implemented."); }
-    //////MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): any { throw new Error("Conversation.ts - MoveItemsInConversation : Not implemented."); }
-    ////////SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): any { throw new Error("Conversation.ts - SetReadStateForItemsInConversation : Not implemented."); }
-    //////SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): any { throw new Error("Conversation.ts - SetReadStateForItemsInConversation : Not implemented."); }
-    //////SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: any /*System.Guid*/): any { throw new Error("Conversation.ts - SetRetentionPolicyForItemsInConversation : Not implemented."); }
+
+    /**
+     * Gets the topic of this Conversation.
+     */
+    get Topic(): string {
+        var returnValue: IOutParam<string> = { outValue: StringHelper.Empty };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.Topic)) {
+
+            this.PropertyBag.TryGetPropertyAs<string>(Schemas.ConversationSchema.Topic, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets a list of all the people who have received messages in this conversation in the current folder only.
+     */
+    get UniqueRecipients(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.UniqueRecipients);
+    }
+
+    /**
+     * Gets a list of all the people who have received messages in this conversation across all folders in the mailbox.
+     */
+    get GlobalUniqueRecipients(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalUniqueRecipients);
+    }
+
+    /**
+     * Gets a list of all the people who have sent messages that are currently unread in this conversation in the current folder only.
+     */
+    get UniqueUnreadSenders(): StringList {
+        var unreadSenders: IOutParam<StringList> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.UniqueUnreadSenders)) {
+            this.PropertyBag.TryGetPropertyAs<StringList>(Schemas.ConversationSchema.UniqueUnreadSenders, unreadSenders);
+        }
+        return unreadSenders.outValue;
+    }
+
+    /**
+     * Gets a list of all the people who have sent messages that are currently unread in this conversation across all folders in the mailbox.
+     */
+    get GlobalUniqueUnreadSenders(): StringList {
+
+        var unreadSenders: IOutParam<StringList> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.GlobalUniqueUnreadSenders)) {
+            this.PropertyBag.TryGetPropertyAs<StringList>(Schemas.ConversationSchema.GlobalUniqueUnreadSenders, unreadSenders);
+        }
+        return unreadSenders.outValue;
+    }
+
+    /**
+     * Gets a list of all the people who have sent messages in this conversation in the current folder only.
+     */
+    get UniqueSenders(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.UniqueSenders);
+    }
+
+    /**
+     * Gets a list of all the people who have sent messages in this conversation across all folders in the mailbox.
+     */
+    get GlobalUniqueSenders(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalUniqueSenders);
+    }
+
+    /**
+     * Gets the delivery time of the message that was last received in this conversation in the current folder only.
+     */
+    get LastDeliveryTime(): DateTime {
+        return <DateTime>this.PropertyBag._getItem(Schemas.ConversationSchema.LastDeliveryTime);
+    }
+
+    /**
+     * Gets the delivery time of the message that was last received in this conversation across all folders in the mailbox.
+     */
+    get GlobalLastDeliveryTime(): DateTime {
+        return <DateTime>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalLastDeliveryTime);
+    }
+
+    /**
+     * Gets a list summarizing the categories stamped on messages in this conversation, in the current folder only.
+     */
+    get Categories(): StringList {
+        var returnValue: IOutParam<StringList> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.Categories)) {
+            this.PropertyBag.TryGetPropertyAs<StringList>(Schemas.ConversationSchema.Categories, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets a list summarizing the categories stamped on messages in this conversation, across all folders in the mailbox.
+     */
+    get GlobalCategories(): StringList {
+        var returnValue: IOutParam<StringList> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.GlobalCategories)) {
+            this.PropertyBag.TryGetPropertyAs<StringList>(Schemas.ConversationSchema.GlobalCategories, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets the flag status for this conversation, calculated by aggregating individual messages flag status in the current folder.
+     */
+    get FlagStatus(): ConversationFlagStatus {
+        var returnValue: IOutParam<ConversationFlagStatus> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.FlagStatus)) {
+            this.PropertyBag.TryGetPropertyAs<ConversationFlagStatus>(Schemas.ConversationSchema.FlagStatus, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets the flag status for this conversation, calculated by aggregating individual messages flag status across all folders in the mailbox.
+     */
+    get GlobalFlagStatus(): ConversationFlagStatus {
+        var returnValue: IOutParam<ConversationFlagStatus> = { outValue: null };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.GlobalFlagStatus)) {
+            this.PropertyBag.TryGetPropertyAs<ConversationFlagStatus>(Schemas.ConversationSchema.GlobalFlagStatus, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets a value indicating if at least one message in this conversation, in the current folder only, has an attachment.
+     */
+    get HasAttachments(): boolean {
+        return <boolean>this.PropertyBag._getItem(Schemas.ConversationSchema.HasAttachments);
+    }
+
+    /**
+     * Gets a value indicating if at least one message in this conversation, across all folders in the mailbox, has an attachment.
+     */
+    get GlobalHasAttachments(): boolean {
+        return <boolean>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalHasAttachments);
+    }
+
+    /**
+     * Gets the total number of messages in this conversation in the current folder only.
+     */
+    get MessageCount(): number {
+        return <number>this.PropertyBag._getItem(Schemas.ConversationSchema.MessageCount);
+    }
+
+    /**
+     * Gets the total number of messages in this conversation across all folders in the mailbox.
+     */
+    get GlobalMessageCount(): number {
+        return <number>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalMessageCount);
+    }
+
+    /**
+     * Gets the total number of unread messages in this conversation in the current folder only.
+     */
+    get UnreadCount(): number {
+        var returnValue: IOutParam<number> = { outValue: 0 };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.UnreadCount)) {
+            this.PropertyBag.TryGetPropertyAs<number>(Schemas.ConversationSchema.UnreadCount, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets the total number of unread messages in this conversation across all folders in the mailbox.
+     */
+    get GlobalUnreadCount(): number {
+        var returnValue: IOutParam<number> = { outValue: 0 };
+
+        // This property need not be present hence the property bag may not contain it.
+        // Check for the presence of this property before accessing it.
+        if (this.PropertyBag.Contains(Schemas.ConversationSchema.GlobalUnreadCount)) {
+            this.PropertyBag.TryGetPropertyAs<number>(Schemas.ConversationSchema.GlobalUnreadCount, returnValue);
+        }
+        return returnValue.outValue;
+    }
+
+    /**
+     * Gets the size of this conversation, calculated by adding the sizes of all messages in the conversation in the current folder only.
+     */
+    get Size(): number {
+        return <number>this.PropertyBag._getItem(Schemas.ConversationSchema.Size);
+    }
+
+    /**
+     * Gets the size of this conversation, calculated by adding the sizes of all messages in the conversation across all folders in the mailbox.
+     */
+    get GlobalSize(): number {
+        return <number>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalSize);
+    }
+
+    /**
+     * Gets a list summarizing the classes of the items in this conversation, in the current folder only.
+     */
+    get ItemClasses(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.ItemClasses);
+    }
+
+    /**
+     * Gets a list summarizing the classes of the items in this conversation, across all folders in the mailbox.
+     */
+    get GlobalItemClasses(): StringList {
+        return <StringList>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalItemClasses);
+    }
+
+    /**
+     * Gets the importance of this conversation, calculated by aggregating individual messages importance in the current folder only.
+     */
+    get Importance(): Importance {
+        return <Importance>this.PropertyBag._getItem(Schemas.ConversationSchema.Importance);
+    }
+
+    /**
+     * Gets the importance of this conversation, calculated by aggregating individual messages importance across all folders in the mailbox.
+     */
+    get GlobalImportance(): Importance {
+        return <Importance>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalImportance);
+    }
+
+    /**
+     * Gets the Ids of the messages in this conversation, in the current folder only.
+     */
+    get ItemIds(): ItemIdCollection {
+        return <ItemIdCollection>this.PropertyBag._getItem(Schemas.ConversationSchema.ItemIds);
+    }
+
+    /**
+     * Gets the Ids of the messages in this conversation, across all folders in the mailbox.
+     */
+    get GlobalItemIds(): ItemIdCollection {
+        return <ItemIdCollection>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalItemIds);
+    }
+
+    /**
+     * Gets the date and time this conversation was last modified.
+     */
+    get LastModifiedTime(): DateTime {
+        return <DateTime>this.PropertyBag._getItem(Schemas.ConversationSchema.LastModifiedTime);
+    }
+
+    /**
+     * Gets the conversation instance key.
+     */
+    get InstanceKey(): number[] {
+        return <number[]>this.PropertyBag._getItem(Schemas.ConversationSchema.InstanceKey);
+    }
+
+    /**
+     * Gets the conversation Preview.
+     */
+    get Preview(): string {
+        return <string>this.PropertyBag._getItem(Schemas.ConversationSchema.Preview);
+    }
+
+    /**
+     * Gets the conversation IconIndex.
+     */
+    get IconIndex(): IconIndex {
+        return <IconIndex>this.PropertyBag._getItem(Schemas.ConversationSchema.IconIndex);
+    }
+
+    /**
+     * Gets the conversation global IconIndex.
+     */
+    get GlobalIconIndex(): IconIndex {
+        return <IconIndex>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalIconIndex);
+    }
+
+    /**
+     * Gets the draft item ids.
+     */
+    get DraftItemIds(): ItemIdCollection {
+        return <ItemIdCollection>this.PropertyBag._getItem(Schemas.ConversationSchema.DraftItemIds);
+    }
+
+    /**
+     * Gets a value indicating if at least one message in this conversation, in the current folder only, is an IRM.
+     */
+    get HasIrm(): boolean {
+        return <boolean>this.PropertyBag._getItem(Schemas.ConversationSchema.HasIrm);
+    }
+
+    /**
+     * Gets a value indicating if at least one message in this conversation, across all folders in the mailbox, is an IRM.
+     */
+    get GlobalHasIrm(): boolean {
+        return <boolean>this.PropertyBag._getItem(Schemas.ConversationSchema.GlobalHasIrm);
+    }
+
+    /**
+     * @internal Initializes an unsaved local instance of **Conversation** class.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the item will be bound.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * Clear flags for conversation items. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be unflagged. If contextFolderId is null, flags for items in conversation across the entire mailbox are cleared.
+     * @return  {IPromise<void>}    Promise
+     */
+    ClearItemFlags(contextFolderId: FolderId): IPromise<void> {
+        let flag: Flag = new Flag();
+        flag.FlagStatus = ItemFlagStatus.NotFlagged;
+
+
+
+        return this.Service.SetFlagStatusForItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            flag).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Copies items in the specified conversation to a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be copied. If contextFolderId is null, items across the entire mailbox are copied.
+     * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
+     * @return  {IPromise<void>}    Promise
+     */
+    CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void> {
+        return this.Service.CopyItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            destinationFolderId).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Deletes items in the specified conversation.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}      contextFolderId   The Id of the folder items must belong to in order to be deleted. If contextFolderId is null, items across the entire mailbox are deleted.
+     * @param   {DeleteMode}    deleteMode        The deletion mode.
+     * @return  {IPromise<void>}    Promise
+     */
+    DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): IPromise<void> {
+        return this.Service.DeleteItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            deleteMode).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer categorized.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   processSynchronously   **<not used>**Indicates whether the method should return only once disabling this rule and removing the categories from existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<void>}    Promise
+     */
+    DisableAlwaysCategorizeItems(processSynchronously: boolean): IPromise<void> {
+        return this.Service.DisableAlwaysCategorizeItemsInConversations(
+            [this.Id],
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer moved to Deleted Items folder.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule and restoring the items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<void>}    Promise
+     */
+    DisableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void> {
+        return this.Service.DisableAlwaysDeleteItemsInConversations(
+            [this.Id],
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is no longer moved to a specific folder. 
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<void>}    Promise
+     */
+    DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): IPromise<void> {
+        return this.Service.DisableAlwaysMoveItemsInConversations(
+            [this.Id],
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always categorized.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {string[]}  categories             The categories that should be stamped on items in the conversation.
+     * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and stamping existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.          
+     * @return  {IPromise<void>}    Promise
+     */
+    EnableAlwaysCategorizeItems(categories: string[], processSynchronously: boolean): IPromise<void> {
+        return this.Service.EnableAlwaysCategorizeItemsInConversations(
+            [this.Id],
+            categories,
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always moved to Deleted Items folder.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and deleting existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<void>}    Promise
+     */
+    EnableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void> {
+        return this.Service.EnableAlwaysDeleteItemsInConversations(
+            [this.Id],
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets up a conversation so that any item received within that conversation is always moved to a specific folder.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  destinationFolderId    The Id of the folder to which conversation items should be moved.
+     * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and moving existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
+     * @return  {IPromise<void>}    Promise
+     */
+    EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): IPromise<void> {
+        return this.Service.EnableAlwaysMoveItemsInConversations(
+            [this.Id],
+            destinationFolderId,
+            processSynchronously).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Flags conversation items. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged. If contextFolderId is null, items in conversation across the entire mailbox are flagged.
+     * @param   {DateTime}   startDate         The start date (can be null).
+     * @param   {DateTime}   dueDate           The due date (can be null).
+     * @return  {IPromise<void>}    Promise
+     */
+    FlagItems(contextFolderId: FolderId, startDate: DateTime, dueDate: DateTime): IPromise<void> {
+        let flag: Flag = new Flag();
+
+        flag.FlagStatus = ItemFlagStatus.Flagged;
+
+        if (startDate) {
+            flag.StartDate = startDate;
+        }
+        if (dueDate) {
+            flag.DueDate = dueDate;
+        }
+
+        return this.Service.SetFlagStatusForItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            flag).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Flag conversation items as complete. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged as complete. If contextFolderId is null, items in conversation across the entire mailbox are marked as complete.
+     * @param   {DateTime}   completeDate      The complete date (can be null).
+     * @return  {IPromise<void>}    Promise
+     */
+    FlagItemsComplete(contextFolderId: FolderId, completeDate: DateTime): IPromise<void> {
+        let flag: Flag = new Flag();
+        flag.FlagStatus = ItemFlagStatus.Complete;
+
+        if (completeDate) {
+            flag.CompleteDate = completeDate;
+        }
+
+        return this.Service.SetFlagStatusForItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            flag).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * @internal This method is not supported in this object.
+     * Gets the name of the change XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetChangeXmlElementName(): string {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * @internal This method is not supported in this object.
+     * Gets the name of the delete field XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetDeleteFieldXmlElementName(): string {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * The property definition for the Id of this object.
+     *
+     * @return  {PropertyDefinition}      A PropertyDefinition instance.
+     */
+    GetIdPropertyDefinition(): PropertyDefinition {
+        return Schemas.ConversationSchema.Id;
+    }
+
+    /**
+     * @internal This method is not supported in this object.
+     * Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
+     *
+     * @param   {boolean}   isUpdateOperation   Indicates whether the operation being petrformed is an update operation.
+     * @return  {boolean}                       true if a time zone SOAP header should be emitted; otherwise, false.
+     */
+    GetIsTimeZoneHeaderRequired(isUpdateOperation: boolean): boolean {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * @internal Gets the minimum required server version.
+     *
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2010_SP1;
+    }
+
+    /**
+     * @internal Internal method to return the schema associated with this type of object.
+     *
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
+     */
+    GetSchema(): ServiceObjectSchema {
+        return Schemas.ConversationSchema.Instance;
+    }
+
+    /**
+     * @internal This method is not supported in this object.
+     * Gets the name of the set field XML element.
+     *
+     * @return  {string}      XML element name,
+     */
+    GetSetFieldXmlElementName(): string {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * @internal Gets the element name of item in XML
+     * 
+     * @return  {string} name of elelment
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.Conversation;
+    }
+
+    /**
+     * @internal This is not supported in this object.
+     * Deletes the object.
+     *
+     * @param   {DeleteMode}                deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
+     * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
+     */
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * @internal This method is not supported in this object. 
+     * Loads the specified set of properties on the object.
+     *
+     * @param   {PropertySet}   propertySet   The properties to load.
+     */
+    InternalLoad(propertySet: PropertySet): IPromise<void> {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * Moves items in the specified conversation to a specific folder.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be moved. If contextFolderId is null, items across the entire mailbox are moved.
+     * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
+     * @return  {IPromise<void>}    Promise
+     */
+    MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void> {
+        return this.Service.MoveItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            destinationFolderId).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets the read state of items in the specified conversation. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  contextFolderId   The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
+     * @param   {boolean}   isRead            if set to true, conversation items are marked as read; otherwise they are marked as unread.
+     * @return  {IPromise<void>}    Promise
+     */
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): IPromise<void>;
+    /**
+     * Sets the read state of items in the specified conversation. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}  contextFolderId        The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
+     * @param   {boolean}   isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
+     * @param   {boolean}   suppressReadReceipts   if set to true read receipts are suppressed.
+     * @return  {IPromise<void>}    Promise
+     */
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): IPromise<void>;
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean = null): IPromise<void> {
+        return this.Service.SetReadStateForItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            isRead,
+            suppressReadReceipts).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
+
+    /**
+     * Sets the retention policy of items in the specified conversation. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}          contextFolderId        The Id of the folder items must belong to in order for their retention policy to be set. If contextFolderId is null, the retention policy of items across the entire mailbox are set.
+     * @param   {RetentionType}     retentionPolicyType    Retention policy type.
+     * @param   {Guid}              retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
+     * @return  {IPromise<void>}    Promise
+     */
+    SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): IPromise<void> {
+        return this.Service.SetRetentionPolicyForItemsInConversations(
+            [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
+            contextFolderId,
+            retentionPolicyType,
+            retentionPolicyTagId).then((responses) => {
+                responses.__thisIndexer(0).ThrowIfNecessary();
+            });
+    }
 }
