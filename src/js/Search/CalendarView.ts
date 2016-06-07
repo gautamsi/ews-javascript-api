@@ -16,6 +16,7 @@ import {ViewBase} from "./ViewBase";
  * Represents a date range view of appointments in calendar folder search operations.
  */
 export class CalendarView extends ViewBase {
+    
     private traversal: ItemTraversal = ItemTraversal.Shallow;
     private maxItemsReturned: number = null;
     private startDate: DateTime = null;
