@@ -1,15 +1,43 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {ConversationResponse} from "../../ComplexProperties/ConversationResponse";
-import {PropertySet} from "../PropertySet";
-import {JsonObject} from "../JsonObject";
+﻿import {ConversationResponse} from "../../ComplexProperties/ConversationResponse";
 import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+import {PropertySet} from "../PropertySet";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * Represents the response to a GetConversationItems operation.
+ * 
+ * @sealed
  */
 export class GetConversationItemsResponse extends ServiceResponse {
-    Conversation: ConversationResponse;
+
     private propertySet: PropertySet;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetConversationItemsResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetConversationItemsResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    /**
+     * Gets or sets the conversation.
+     * 
+     * @value   The conversation.
+     */
+    Conversation: ConversationResponse;
+
+    /**
+     * @internal Initializes a new instance of the  class.
+     *
+     * @param   {PropertySet}   propertySet   The property set.
+     */
+    constructor(propertySet: PropertySet) {
+        super();
+        this.propertySet = propertySet;
+    }
+
+    /**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        this.Conversation = new ConversationResponse(this.propertySet);
+        this.Conversation.LoadFromXmlJsObject(responseObject[XmlElementNames.Conversation], service);
+    }
 }
