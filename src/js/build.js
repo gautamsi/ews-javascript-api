@@ -4,6 +4,7 @@
         'moment-timezone': 'empty:',//../../bower_components/moment-timezone/moment-timezone',
         'moment': 'empty:',//../../bower_components/moment/moment',
         'winjs-node': 'empty:',//../../bower_components/winjs/js/base',
+        'base64-js': 'empty:'//../../../../../../../node_modules/base64-js/lib/b64.js',
     },
     
     optimize:'none',
