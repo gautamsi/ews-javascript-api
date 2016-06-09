@@ -9,14 +9,14 @@ export class HangingRequestDisconnectEventArgs {  //extends  EventArgs{
 	/**
 	 * Gets the reason that the user was disconnected.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Reason: HangingRequestDisconnectReason;
 
 	/**
 	 * Gets the exception that caused the disconnection. Can be null.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Exception: Exception;
 

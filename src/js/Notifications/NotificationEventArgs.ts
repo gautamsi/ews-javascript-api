@@ -9,14 +9,14 @@ export class NotificationEventArgs {//extends System.EventArgs {
 	/**
 	 * Gets the subscription for which notifications have been received.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Subscription: StreamingSubscription;
 
 	/**
 	 * Gets the events that were received.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Events: NotificationEvent[];
 
