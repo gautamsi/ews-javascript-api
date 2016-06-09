@@ -157,7 +157,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "queryString",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
 
         // ReturnHighlightTerms parameter is only valid for Exchange2013 or higher
@@ -168,7 +168,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "returnHighlightTerms",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
 
         // SeekToConditionItemView is only valid for Exchange2013 or higher
@@ -179,7 +179,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "SeekToConditionItemView",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
 
         // MailboxScope is only valid for Exchange2013 or higher
@@ -190,7 +190,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "MailboxScope",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
     }
 
@@ -226,7 +226,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
         // Emit the MailboxScope flag
         // 
         if (this.MailboxScope) {
-            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, this.MailboxScope);
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, MailboxSearchLocation[this.MailboxScope]);
         }
 
         if (!StringHelper.IsNullOrEmpty(this.queryString)) {

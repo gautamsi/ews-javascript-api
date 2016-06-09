@@ -1,4 +1,5 @@
 ﻿import {Conversation} from "../ServiceObjects/Items/Conversation";
+import {Convert} from "../../ExtensionMethods";
 import {EwsLogging} from "../EwsLogging";
 import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
 import {ExchangeService} from "../ExchangeService";
@@ -56,40 +57,45 @@ export class FindConversationResponse extends ServiceResponse {
             "FindConversationResponse.ReadElementsFromXml",
             "highlightTerms is null.");
 
-        for (let conversationObject of EwsServiceJsonReader.ReadAsArray(responseObject, XmlElementNames.Conversations)) {
-            let jsonConversation: any = conversationObject;// as JsonObject;
+        if (responseObject[XmlElementNames.Conversations]) {
+            for (let conversationObject of EwsServiceJsonReader.ReadAsArray(responseObject[XmlElementNames.Conversations], XmlElementNames.Conversation)) {
+                let jsonConversation: any = conversationObject;// as JsonObject;
 
-            let item: Conversation = (new ItemInfo()).CreateEwsObjectFromXmlElementName<Conversation>(service, XmlElementNames.Conversation);
+                let item: Conversation = (new ItemInfo()).CreateEwsObjectFromXmlElementName<Conversation>(service, XmlElementNames.Conversation);
 
-            if (item != null) {
-                item.LoadFromXmlJsObject(
-                    jsonConversation,
-                    service,
-                    true,
-                    null,
-                    false);
+                if (item != null) {
+                    item.LoadFromXmlJsObject(
+                        jsonConversation,
+                        service,
+                        true,
+                        null,
+                        false);
 
-                this.Conversations.push(item);
+                    this.Conversations.push(item);
+                }
             }
         }
 
-        let highlightTermObjects: any[] = EwsServiceJsonReader.ReadAsArray(responseObject, XmlElementNames.HighlightTerms);
-        if (highlightTermObjects != null) {
-            for (let highlightTermObject of highlightTermObjects) {
-                let jsonHighlightTerm: any = highlightTermObject;// as JsonObject;
-                let term: HighlightTerm = new HighlightTerm();
+        if (responseObject[XmlElementNames.HighlightTerms]) {
 
-                term.LoadFromJson(jsonHighlightTerm, service);
-                this.Results.HighlightTerms.push(term);
+            let highlightTermObjects: any[] = EwsServiceJsonReader.ReadAsArray(responseObject[XmlElementNames.HighlightTerms], XmlElementNames.HighlightTerm);
+            if (highlightTermObjects != null) {
+                for (let highlightTermObject of highlightTermObjects) {
+                    let jsonHighlightTerm: any = highlightTermObject;// as JsonObject;
+                    let term: HighlightTerm = new HighlightTerm();
+
+                    term.LoadFromXmlJsObject(jsonHighlightTerm, service);
+                    this.Results.HighlightTerms.push(term);
+                }
             }
         }
 
-        if (responseObject.ContainsKey(XmlElementNames.TotalConversationsInView)) {
-            this.Results.TotalCount = responseObject.ReadAsInt(XmlElementNames.TotalConversationsInView);
+        if (responseObject[XmlElementNames.TotalConversationsInView]) {
+            this.Results.TotalCount = Convert.toNumber(responseObject[XmlElementNames.TotalConversationsInView]);
         }
 
-        if (responseObject.ContainsKey(XmlElementNames.IndexedOffset)) {
-            this.Results.IndexedOffset = responseObject.ReadAsInt(XmlElementNames.IndexedOffset);
+        if (responseObject[XmlElementNames.IndexedOffset]) {
+            this.Results.IndexedOffset = Convert.toNumber(responseObject[XmlElementNames.IndexedOffset]);
         }
     }
 }

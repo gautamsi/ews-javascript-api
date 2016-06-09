@@ -1010,7 +1010,7 @@ export class Item extends ServiceObject {
                     StringHelper.Format(
                         Strings.ParameterIncompatibleWithRequestVersion,
                         "Flag",
-                        ExchangeVersion.Exchange2013));
+                        ExchangeVersion[ExchangeVersion.Exchange2013]));
             }
 
             flag.outValue.Validate();

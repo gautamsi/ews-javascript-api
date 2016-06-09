@@ -21,21 +21,21 @@ export class ConversationResponse extends ComplexProperty {
     /**
      * Gets the conversation id.
      * 
-     * @internal set()
+     * internal set
      */
     ConversationId: ConversationId = null;
 
     /**
      * Gets the sync state.
      * 
-     * @internal set()
+     * internal set
      */
     SyncState: string = null;
 
     /**
      * Gets the conversation nodes.
      * 
-     * @internal set()
+     * internal set
      */
     ConversationNodes: ConversationNodeCollection = null;
 
@@ -65,8 +65,11 @@ export class ConversationResponse extends ComplexProperty {
         }
 
         this.ConversationNodes = new ConversationNodeCollection(this.propertySet);
-        this.ConversationNodes.CreateFromXmlJsObjectCollection(
-            EwsServiceJsonReader.ReadAsArray(jsObject, XmlElementNames.ConversationNodes),
-            service);
+        if (jsObject[XmlElementNames.ConversationNodes]) {
+
+            this.ConversationNodes.LoadFromXmlJsObject(
+                EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.ConversationNodes], XmlElementNames.ConversationNode),
+                service);
+        }
     }
 }

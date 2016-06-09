@@ -48,7 +48,7 @@ export class FindRequest<TResponse extends ServiceResponse> extends MultiRespons
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "queryString",
-                    ExchangeVersion.Exchange2010));
+                    ExchangeVersion[ExchangeVersion.Exchange2010]));
         }
 
         // ReturnHighlightTerms parameter is only valid for Exchange2013 or higher
@@ -59,7 +59,7 @@ export class FindRequest<TResponse extends ServiceResponse> extends MultiRespons
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "returnHighlightTerms",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
 
         // SeekToConditionItemView is only valid for Exchange2013 or higher
@@ -70,7 +70,7 @@ export class FindRequest<TResponse extends ServiceResponse> extends MultiRespons
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "SeekToConditionItemView",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
 
         if (!StringHelper.IsNullOrEmpty(this.QueryString) &&

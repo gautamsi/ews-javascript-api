@@ -139,7 +139,7 @@ export class GetConversationItemsRequest extends MultiResponseServiceRequest<Get
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "MailboxScope",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
     }
 
@@ -168,11 +168,11 @@ export class GetConversationItemsRequest extends MultiResponseServiceRequest<Get
         }
 
         if (this.SortOrder) {
-            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SortOrder, this.SortOrder);
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SortOrder, ConversationSortOrder[this.SortOrder]);
         }
 
         if (this.MailboxScope) {
-            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, this.MailboxScope);
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, MailboxSearchLocation[this.MailboxScope]);
         }
 
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Conversations);

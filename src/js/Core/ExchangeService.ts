@@ -6,6 +6,7 @@ import {Appointment} from "./ServiceObjects/Items/Appointment";
 import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
 import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
 import {ArgumentException, ArgumentOutOfRangeException, ArgumentNullException} from "../Exceptions/ArgumentException";
+import {ArrayHelper, StringHelper, UriHelper} from "../ExtensionMethods";
 import {Attachment} from "../ComplexProperties/Attachment";
 import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
@@ -154,7 +155,6 @@ import {SetTeamMailboxRequest} from "./Requests/SetTeamMailboxRequest";
 import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
 import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
 import {StreamingSubscription} from "../Notifications/StreamingSubscription";
-import {StringHelper, UriHelper, ArrayHelper} from "../ExtensionMethods";
 import {StringList} from "../ComplexProperties/StringList";
 import {Strings} from "../Strings";
 import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
@@ -2677,10 +2677,10 @@ export class ExchangeService extends ExchangeServiceBase {
         }
         return request.Execute().then((responses: FindConversationResponse) => {
             if (argsLength > 3) {
-                return responses.Conversations; // based on arguments it can return this or either Results.
+                return responses.Results; // based on arguments it can return this or either Results.
             }
             else {
-                return responses.Results;
+                return responses.Conversations;
             }
         });
     }
@@ -2761,7 +2761,7 @@ export class ExchangeService extends ExchangeServiceBase {
         let returnConversationResponse: boolean = false;
 
         if (conversationsOrConversationId instanceof ConversationId) {
-            conversations.push(new ConversationRequest(conversationsOrConversationId, foldersToIgnoreOrSyncState));
+            conversations.push(new ConversationRequest(conversationsOrConversationId, <string>foldersToIgnoreOrSyncState));
             foldersToIgnore = <FolderId[]>sortOrderOrFoldersToIgnore;
             sortOrder = <ConversationSortOrder>mailboxScopeOrSortOrder;
             returnConversationResponse = true;

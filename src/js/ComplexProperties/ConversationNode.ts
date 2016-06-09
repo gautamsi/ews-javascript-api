@@ -67,7 +67,7 @@ export class ConversationNode extends ComplexProperty {
      * @param   {ExchangeService}   service        [description]
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-        this.InternetMessageId = jsObject[XmlElementNames.ConversationIndex];
+        this.InternetMessageId = jsObject[XmlElementNames.InternetMessageId];
 
         if (jsObject[XmlElementNames.ParentInternetMessageId]) {
             this.ParentInternetMessageId = jsObject[XmlElementNames.ParentInternetMessageId];

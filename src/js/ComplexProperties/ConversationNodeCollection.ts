@@ -42,30 +42,30 @@ export class ConversationNodeCollection extends ComplexPropertyCollection<Conver
         return new ConversationNode(this.propertySet);
     }
 
-    // /**
-    //  * @internal Loads from XMLjsObject.
-    //  *
-    //  * @interface   IJsonCollectionDeserializer
-    //  * 
-    //  * @param   {any}               jsObjectCollection   The json collection.
-    //  * @param   {ExchangeService}   service          The service.
-    //  */
-    // LoadFromXmlJsObject(jsObjectCollection: any, service: ExchangeService): void {
-    //     let jsCollection: any[] = jsObjectCollection;
-    //     if (!ArrayHelper.isArray(jsCollection)) {
-    //         jsCollection = [jsObjectCollection];
-    //     }
+    /**
+     * @internal Loads from XMLjsObject.
+     *
+     * @interface   IJsonCollectionDeserializer
+     * 
+     * @param   {any}               jsObjectCollection   The json collection.
+     * @param   {ExchangeService}   service          The service.
+     */
+    LoadFromXmlJsObject(jsObjectCollection: any, service: ExchangeService): void {
+        let jsCollection: any[] = jsObjectCollection;
+        if (!ArrayHelper.isArray(jsCollection)) {
+            jsCollection = [jsObjectCollection];
+        }
 
-    //     for (let jsObject of jsCollection) {
-    //         let jsEntry = jsObject;
+        for (let jsObject of jsCollection) {
+            let jsEntry = jsObject;
 
-    //         if (jsEntry != null) {
-    //             let node: ConversationNode = new ConversationNode(this.propertySet);
-    //             node.LoadFromXmlJsObject(jsEntry, service);
-    //             this.InternalAdd(node);
-    //         }
-    //     }
-    // }
+            if (jsEntry != null) {
+                let node: ConversationNode = new ConversationNode(this.propertySet);
+                node.LoadFromXmlJsObject(jsEntry, service);
+                this.InternalAdd(node);
+            }
+        }
+    }
 
     /**
      * @internal Gets the name of the collection item XML element.
