@@ -284,7 +284,7 @@ export class ConversationAction {//IJsonSerializable
                         writer.WriteElementValue(
                             XmlNamespace.Types,
                             XmlElementNames.RetentionPolicyTagId,
-                            this.RetentionPolicyTagId);
+                            this.RetentionPolicyTagId.ToString());
                     }
                 }
                 else if (this.Action == ConversationActionType.Flag) {
