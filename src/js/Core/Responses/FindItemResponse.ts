@@ -121,7 +121,7 @@ export class FindItemResponse<TItem extends Item> extends ServiceResponse {
                     var highlightTermObjects = EwsServiceJsonReader.ReadAsArray(highlightTermElement, XmlElementNames.HighlightTerm);
                     for (var jsonHighlightTerm of highlightTermObjects) {
                         var term: HighlightTerm = new HighlightTerm();
-                        term.LoadFromJson(jsonHighlightTerm, service);
+                        term.LoadFromXmlJsObject(jsonHighlightTerm, service);
                         this.results.HighlightTerms.push(term);
                     }
                 }

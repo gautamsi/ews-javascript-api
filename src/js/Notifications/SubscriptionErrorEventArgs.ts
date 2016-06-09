@@ -9,14 +9,14 @@ export class SubscriptionErrorEventArgs /*extends System.EventArgs*/ {
 	/**
 	 * Gets the subscription for which an error occurred. If Subscription is null, the error applies to the entire connection.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Subscription: StreamingSubscription;
 
 	/**
 	 * Gets the exception representing the error. If Exception is null, the connection was cleanly closed by the server.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	Exception: Exception;
 

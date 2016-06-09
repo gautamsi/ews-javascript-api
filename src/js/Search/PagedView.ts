@@ -1,12 +1,24 @@
-﻿import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {ViewBase} from "./ViewBase";
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {ExchangeService} from "../Core/ExchangeService";
+import {Grouping} from "./Grouping";
 import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
 import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {Strings} from "../Strings";
-import {Grouping} from "./Grouping";
-export class PagedView extends ViewBase {
+import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+
+import {ViewBase} from "./ViewBase";
+/**
+ * Represents a view settings that support paging in a search operation.
+ */
+export abstract class PagedView extends ViewBase { //abstract
+
+    private pageSize: number = 0;
+    private offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning;
+    private offset: number = 0;
+
+    /**
+     * The maximum number of items or folders the search operation should return.
+     */
     get PageSize(): number { return this.pageSize; }
     set PageSize(value) {
         if (value <= 0) {
@@ -14,7 +26,20 @@ export class PagedView extends ViewBase {
         }
         this.pageSize = value;
     }
-    OffsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning;
+
+    /**
+     * Gets or sets the base point of the offset.
+     */
+    get OffsetBasePoint(): OffsetBasePoint {
+        return this.offsetBasePoint;
+    }
+    set OffsetBasePoint(value: OffsetBasePoint) {
+        this.offsetBasePoint = value;
+    }
+
+    /**
+     * Gets or sets the offset.
+     */
     get Offset(): number { return this.offset; }
     set Offset(value) {
         if (value >= 0) {
@@ -25,31 +50,77 @@ export class PagedView extends ViewBase {
         }
     };
 
-    private pageSize: number = 0;
-    //private offsetBasePoint: OffsetBasePoint; //not used as there is not difference in auto proerpty get or set.
-    private offset: number = 0;
-    constructor(pageSize: number,
-        offset: number = 0,
-        offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
+    /**
+     * Initializes a new instance of the **PagedView** class.
+     *
+     * @param   {number}   pageSize          The maximum number of elements the search operation should return.
+     */
+    constructor(pageSize: number);
+    /**
+     * Initializes a new instance of the **PagedView** class.
+     *
+     * @param   {number}   pageSize          The maximum number of elements the search operation should return.
+     * @param   {number}   offset            The offset of the view from the base point.
+     */
+    constructor(pageSize: number, offset: number);
+    /**
+     * Initializes a new instance of the **PagedView** class.
+     *
+     * @param   {number}   pageSize          The maximum number of elements the search operation should return.
+     * @param   {number}   offset            The offset of the view from the base point.
+     * @param   {number}   offsetBasePoint   The base point of the offset.
+     */
+    constructor(pageSize: number, offset: number, offsetBasePoint: OffsetBasePoint);
+    constructor(pageSize: number, offset: number = 0, offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
         super();
-        this.pageSize = pageSize || this.pageSize;
-        this.Offset = offset || this.offset;
-        this.OffsetBasePoint = offsetBasePoint || this.OffsetBasePoint;
+        this.pageSize = pageSize;
+        this.Offset = offset;
+        this.OffsetBasePoint = offsetBasePoint;
     }
+
+    /**
+     * @internal Gets the maximum number of items or folders the search operation should return.
+     *
+     * @return  {number?}      The maximum number of items or folders that should be returned by the search operation.
+     */
     GetMaxEntriesReturned(): number { return this.PageSize; }
-    /** @internal */
+
+    /**
+     * @internal Validates this view.
+     *
+     * @param   {ServiceRequestBase}   request   The request using this view.
+     */
     InternalValidate(request: ServiceRequestBase): void { super.InternalValidate(request); }
-    InternalWritePagingToJson(jsonView: any/*JsonObject*/, service: ExchangeService): any { throw new Error("PagedView.ts - InternalWritePagingToJson : Not implemented."); }
+
+    /**
+     * @internal Writes the search settings to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer    The writer.
+     * @param   {Grouping}              groupBy   The group by clause.
+     */
     InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {
         if (groupBy !== null && typeof groupBy !== 'undefined') {
             groupBy.WriteToXml(writer);
         }
     }
+
+    /**
+	 * @internal Writes this view to XML.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
     InternalWriteViewToXml(writer: EwsServiceXmlWriter): void {
         super.InternalWriteViewToXml(writer);
         writer.WriteAttributeValue(XmlAttributeNames.Offset, this.Offset);
         writer.WriteAttributeValue(XmlAttributeNames.BasePoint, OffsetBasePoint[this.OffsetBasePoint]);
     }
-    WriteGroupingToJson(service: ExchangeService, groupBy: Grouping): any { throw new Error("PagedView.ts - WriteGroupingToJson : Not implemented."); }
-    WriteOrderByToXml(writer: EwsServiceXmlWriter): void { /* No order by for paged view*/ }
+
+    /**
+	 * @internal Writes OrderBy property to XML.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteOrderByToXml(writer: EwsServiceXmlWriter): void {
+        /* No order by for paged view*/
+    }
 }

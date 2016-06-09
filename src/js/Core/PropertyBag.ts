@@ -136,23 +136,22 @@ export class PropertyBag {
             XmlElementNames.Folder :
             XmlElementNames.Item;
     }
-    GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<any>): any {
-        var outPropertyValue: IOutParam<any> = { outValue: null };
-        exception.outValue = null;
-        var propertyValue: any;
+    private GetPropertyValueOrException(propertyDefinition: PropertyDefinition, exception: IOutParam<ServiceLocalException>): any {
+        var propertyValue: IOutParam<any> = { outValue: null };
 
         if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion) {
             exception.outValue = new ServiceVersionException(
                 StringHelper.Format(
                     Strings.PropertyIncompatibleWithRequestVersion,
                     propertyDefinition.Name,
-                    propertyDefinition.Version));
+                    ExchangeVersion[propertyDefinition.Version]));
             return null;
         }
 
-        if (this.TryGetValue(propertyDefinition, outPropertyValue)) {
+        if (this.TryGetValue(propertyDefinition, propertyValue)) {
             // If the requested property is in the bag, return it.
-            return outPropertyValue.outValue;
+
+            return propertyValue.outValue;
         }
         else {
             if (propertyDefinition.HasFlag(PropertyDefinitionFlags.AutoInstantiateOnRead)) {
@@ -164,11 +163,11 @@ export class PropertyBag {
                     "PropertyBag.get_this[]",
                     "propertyDefinition is marked with AutoInstantiateOnRead but is not a descendant of ComplexPropertyDefinitionBase");
 
-                propertyValue = complexPropertyDefinition.CreatePropertyInstance(this.Owner);
+                propertyValue.outValue = complexPropertyDefinition.CreatePropertyInstance(this.Owner);
 
-                if (propertyValue != null) {
-                    this.InitComplexProperty(<ComplexProperty>propertyValue);
-                    this.properties.set(propertyDefinition, propertyValue);
+                if (propertyValue.outValue != null) {
+                    this.InitComplexProperty(<ComplexProperty>propertyValue.outValue);
+                    this.properties.set(propertyDefinition, propertyValue.outValue);
                 }
             }
             else {
@@ -190,7 +189,7 @@ export class PropertyBag {
                 }
             }
 
-            return propertyValue;
+            return propertyValue.outValue;
         }
     }
     InitComplexProperty(complexProperty: ComplexProperty): void {
@@ -311,14 +310,13 @@ export class PropertyBag {
     }
 
     _getItem(propertyDefinition: PropertyDefinition): any {
-        var serviceException: ServiceLocalException;
-        var outparam: IOutParam<any> = { outValue: null };
-        var propertyValue = this.GetPropertyValueOrException(propertyDefinition, outparam);
-        if (outparam.outValue == null) {
+        var serviceException: IOutParam<ServiceLocalException> = { outValue: null, exception: null };
+        var propertyValue = this.GetPropertyValueOrException(propertyDefinition, serviceException);
+        if (serviceException.outValue === null) {
             return propertyValue;
         }
         else {
-            throw serviceException;
+            throw serviceException.exception;
         }
     }
     _setItem(propertyDefinition: PropertyDefinition, value: any) {

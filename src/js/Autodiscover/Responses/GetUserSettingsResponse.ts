@@ -92,7 +92,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
                         default:
                             EwsLogging.Assert(false,
                                 "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                                StringHelper.Format("Invalid setting class '{0}' returned", settingClass));                            
+                                StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
                             break;
                     }
                 }
@@ -180,9 +180,10 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
 
     }
     LoadUserSettingErrorsFromJson(obj: any): void {
-        var errors:any = undefined;
+        var errors: any = undefined;
 
-        if (typeof (obj[XmlElementNames.UserSettingError]) === 'undefined') return;
+        if (!obj || typeof (obj[XmlElementNames.UserSettingError]) === 'undefined')
+            return;
 
         if (Object.prototype.toString.call(obj[XmlElementNames.UserSettingError]) === "[object Array]")
             errors = obj[XmlElementNames.UserSettingError];
@@ -196,9 +197,10 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
         }
     }
     LoadUserSettingsFromJson(obj: any): void {
-        var settings:any = undefined;
+        var settings: any = undefined;
 
-        if (typeof (obj[XmlElementNames.UserSetting]) === 'undefined') return;
+        if (!obj || typeof (obj[XmlElementNames.UserSetting]) === 'undefined')
+            return;
 
         if (Object.prototype.toString.call(obj[XmlElementNames.UserSetting]) === "[object Array]")
             settings = obj[XmlElementNames.UserSetting];
@@ -242,8 +244,8 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
                 break;
             case XmlElementNames.DocumentSharingLocationCollectionSetting://DocumentSharingLocations:
                 debugger;
-                EwsLogging.Log("------------DocumentSharingLocationCollection needs test and fix ----------------",true);
-                EwsLogging.Log(obj,true,true);
+                EwsLogging.Log("------------DocumentSharingLocationCollection needs test and fix ----------------", true);
+                EwsLogging.Log(obj, true, true);
                 value = DocumentSharingLocationCollection.LoadFromJson(obj);
                 break;
         }

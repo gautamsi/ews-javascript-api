@@ -1,18 +1,88 @@
-﻿import {ComplexProperty} from "./ComplexProperty";
-import {Item} from "../Core/ServiceObjects/Items/Item";
-import {PropertySet} from "../Core/PropertySet";
+﻿import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
 import {ExchangeService} from "../Core/ExchangeService";
-import {JsonObject} from "../Core/JsonObject";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+import {Item} from "../Core/ServiceObjects/Items/Item";
+import {ItemInfo} from "../Core/ServiceObjects/Items/ItemInfo";
+import {PropertySet} from "../Core/PropertySet";
+import {XmlElementNames} from "../Core/XmlElementNames";
+
+import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Represents the response to a GetConversationItems operation.
+ * 
+ * @sealed
+ */
 export class ConversationNode extends ComplexProperty {
-    InternetMessageId: string;
-    ParentInternetMessageId: string;
-    Items: Item[];// System.Collections.Generic.List<Item>;
-    private propertySet: PropertySet;
-    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("ConversationNode.ts - GetObjectInstance : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("ConversationNode.ts - GetXmlElementName : Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ConversationNode.ts - LoadFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ConversationNode.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+
+    private propertySet: PropertySet = null;
+
+    /**
+     * Gets or sets the Internet message id of the node.
+     */
+    InternetMessageId: string = null;
+
+    /**
+     * Gets or sets the Internet message id of the parent node.
+     */
+    ParentInternetMessageId: string = null;
+
+    /**
+     * Gets or sets the items.
+     */
+    Items: Item[];
+
+    /**
+     * @internal Initializes a new instance of the **ConversationNode** class.
+     *
+     * @param   {PropertySet}   propertySet   The property set.
+     */
+    constructor(propertySet: PropertySet) {
+        super();
+        this.propertySet = propertySet;
+    }
+
+    /**
+     * Gets the item instance.
+     *
+     * @param   {ExchangeService}   service          The service.
+     * @param   {string}            xmlElementName   Name of the XML element.
+     * @return  {Item}              Item.
+     */
+    private GetObjectInstance(service: ExchangeService, xmlElementName: string): Item {
+        return (new ItemInfo()).CreateEwsObjectFromXmlElementName<Item>(service, xmlElementName);
+    }
+
+    /**
+     * @internal Obtains EWS XML element name for this object.
+     *
+     * @return  {string}      The XML element name.
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.ConversationNode;
+    }
+
+    /**
+     * @internal Loads from XMLjsObject.
+     *
+     * @param   {any}               jsObject   The json property.
+     * @param   {ExchangeService}   service        [description]
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        this.InternetMessageId = jsObject[XmlElementNames.InternetMessageId];
+
+        if (jsObject[XmlElementNames.ParentInternetMessageId]) {
+            this.ParentInternetMessageId = jsObject[XmlElementNames.ParentInternetMessageId];
+        }
+
+        if (jsObject[XmlElementNames.Items]) {
+
+            this.Items = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
+                jsObject,
+                service,
+                XmlElementNames.Items,
+                this.GetObjectInstance,
+                false,              /* clearPropertyBag */
+                this.propertySet,   /* requestedPropertySet */
+                false);             /* summaryPropertiesOnly */
+        }
+    }
 }
-
-

@@ -10,7 +10,7 @@ export class AccountIsLockedException extends ServiceRemoteException {
     /**
      * Gets the URL of a web page where the user can navigate to unlock his or her account.
      * 
-     * @internal set
+     * internal set
      */
     AccountUnlockUrl: Uri = null;
 

@@ -529,7 +529,7 @@ export class EwsUtilities {
                 StringHelper.Format(
                     Strings.ClassIncompatibleWithRequestVersion,
                     className,
-                    minimumServerVersion));
+                    ExchangeVersion[minimumServerVersion]));
         }
     }
 
@@ -591,7 +591,7 @@ export class EwsUtilities {
                 StringHelper.Format(
                     Strings.MethodIncompatibleWithRequestVersion,
                     methodName,
-                    minimumServerVersion));
+                    ExchangeVersion[minimumServerVersion]));
         }
     }
 
@@ -720,7 +720,7 @@ export class EwsUtilities {
                 StringHelper.Format(
                     Strings.PropertyIncompatibleWithRequestVersion,
                     propertyName,
-                    minimumServerVersion));
+                    ExchangeVersion[minimumServerVersion]));
         }
     }
     static ValidateServiceObjectVersion(serviceObject: ServiceObject, requestVersion: ExchangeVersion): any { throw new Error("EwsUtilities.ts - static ValidateServiceObjectVersion : Not implemented."); }

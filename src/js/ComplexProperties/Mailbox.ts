@@ -1,27 +1,70 @@
-﻿import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import {EwsUtilities} from "../Core/EwsUtilities";
+import {ExchangeService} from "../Core/ExchangeService";
+import {StringHelper} from "../ExtensionMethods";
 import {XmlElementNames} from "../Core/XmlElementNames";
-
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 
-import {StringHelper} from "../ExtensionMethods";
-
 import {ComplexProperty} from "./ComplexProperty";
+/**
+ * Represents a mailbox reference.
+ */
 export class Mailbox extends ComplexProperty {
+
     ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "GetSearchString"];
     ___typeName: string = "Mailbox";
-    get IsValid(): boolean { return !StringHelper.IsNullOrEmpty(this.Address); }
+
+    /**
+     * True if this instance is valid, false otherthise.
+     * 
+     * @value   *true* if this instance is valid; otherwise, *false*.
+     */
+    get IsValid(): boolean {
+        return !StringHelper.IsNullOrEmpty(this.Address);
+    }
+
+    /**
+     * Gets or sets the address used to refer to the user mailbox.
+     */
     Address: string;
+
+    /**
+     * Gets or sets the routing type of the address used to refer to the user mailbox.
+     */
     RoutingType: string;
 
-    constructor(address: string, routingType: string) {
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     *
+     * @param   {string}   smtpAddress   The primary SMTP address of the mailbox.
+     */
+    constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     *
+     * @param   {string}   address       The address used to reference the user mailbox.
+     * @param   {string}   routingType   The routing type of the address used to reference the user mailbox.
+     */
+    constructor(address: string, routingType: string);
+    constructor(smtpAddressOrAddress: string = null, routingType: string = null) {
         super();
 
-        this.Address = address;
+        this.Address = smtpAddressOrAddress;
         this.RoutingType = routingType;
     }
 
+    /**
+     * Determines whether the specified  is equal to the current .
+     *
+     * @param   {any}   obj   The  to compare with the current .
+     * @return  {boolean}       true if the specified  is equal to the current ; otherwise, false.
+     * 
+     * @exception   {NullReferenceException}    The **obj** parameter is null.
+     */
     Equals(obj: any): boolean {
         if (this === obj) {
             return true;
@@ -43,16 +86,25 @@ export class Mailbox extends ComplexProperty {
         }
     }
     //GetHashCode(): number { throw new Error("Mailbox.ts - GetHashCode : Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("Mailbox.ts - InternalToJson : Not implemented."); }
-    InternalValidate(): any {
+
+    /**
+	 * @internal Validates this instance.
+	 */
+    InternalValidate(): void {
         super.InternalValidate();
 
         //debug: //check for validity implement next line of codes
-        //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
-        //EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
+        EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
+        EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("Mailbox.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): any {
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}                 jsObject                Json Object converted from XML.
+     * @param   {ExchangeService}     service                 The service.    
+     */
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         //debug:
         if (jsonProperty[XmlElementNames.EmailAddress]) {
             this.Address = jsonProperty[XmlElementNames.EmailAddress];//.ReadAsString(XmlElementNames.EmailAddress);
@@ -62,6 +114,12 @@ export class Mailbox extends ComplexProperty {
             this.RoutingType = jsonProperty[XmlElementNames.RoutingType];//.ReadAsString(XmlElementNames.RoutingType);
         }
     }
+
+    /**
+     * Returns a  that represents the current .
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
     ToString(): string {
         if (!this.IsValid) {
             return StringHelper.Empty;
@@ -73,23 +131,26 @@ export class Mailbox extends ComplexProperty {
             return this.Address;
         }
     }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean {
-        switch (reader.LocalName) {
-            case XmlElementNames.EmailAddress:
-                this.Address = reader.ReadElementValue();
-                return true;
-            case XmlElementNames.RoutingType:
-                this.RoutingType = reader.ReadElementValue();
-                return true;
-            default:
-                return false;
-        }
+    toString(): string {
+        return this.ToString();
     }
+
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
     }
 
+    /**
+     * Get a string representation for using this instance in a search filter.
+     *
+     * @return  {string}      String representation of instance.
+     */
     GetSearchString(): string //ISearchStringProvider.GetSearchString
     {
         return this.Address;

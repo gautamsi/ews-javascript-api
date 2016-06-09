@@ -23,7 +23,7 @@ export abstract class SubscriptionBase {
 	/**
 	 * Gets the Id of the subscription.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	get Id(): string {
 		return this.id;
@@ -35,7 +35,7 @@ export abstract class SubscriptionBase {
 	/**
 	 * Gets the latest watermark of the subscription. Watermark is always null for streaming subscriptions.
 	 * 
-	 * @internal set
+	 * internal set
 	 */
 	get Watermark(): string {
 		return this.watermark;

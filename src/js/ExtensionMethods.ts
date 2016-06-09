@@ -89,9 +89,13 @@ export module ArrayHelper {
         }
     }
 
-    export function RemoveEntry<T>(array: Array<T>, entry: T): boolean {
-        var index = array.indexOf(entry);
-        var lastLength = array.length;
+    export function RemoveEntry<T>(array: Array<T>, entry: T, comparer: (T) => boolean = null): boolean {
+        let index = array.indexOf(entry);
+        if (comparer) {
+            let entry = ArrayHelper.Find(array, comparer);
+            index = array.indexOf(entry);
+        }
+        let lastLength = array.length;
         if (index >= 0) {
             array.splice(index, 1);
             return lastLength - array.length === 1;
@@ -109,6 +113,12 @@ export module ArrayHelper {
         }
         return null;
     }
+
+    export function IndexOf<T>(array: Array<T>, comparer: (item: T) => boolean): number {
+        let item = ArrayHelper.Find(array, comparer);
+        return array.indexOf(item);
+    }
+
     export function OfType<T, U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
         var result: T[] = [];
         for (var entry of array) {

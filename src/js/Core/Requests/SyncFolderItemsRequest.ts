@@ -204,7 +204,7 @@ export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFold
 					Strings.EnumValueIncompatibleWithRequestVersion,
 					SyncFolderItemsScope[this.syncScope],
 					"SyncFolderItemsScope",
-					ExchangeVersion.Exchange2010));
+					ExchangeVersion[ExchangeVersion.Exchange2010]));
 		}
 
 		// NumberOfDays was introduced with Exchange 2013.
@@ -214,7 +214,7 @@ export class SyncFolderItemsRequest extends MultiResponseServiceRequest<SyncFold
 				StringHelper.Format(
 					Strings.ParameterIncompatibleWithRequestVersion,
 					"numberOfDays",
-					ExchangeVersion.Exchange2013));
+					ExchangeVersion[ExchangeVersion.Exchange2013]));
 		}
 
 		// SyncFolderItems can only handle summary properties

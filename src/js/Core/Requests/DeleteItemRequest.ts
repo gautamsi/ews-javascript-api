@@ -55,7 +55,7 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
                 StringHelper.Format(
                     Strings.ParameterIncompatibleWithRequestVersion,
                     "SuppressReadReceipts",
-                    ExchangeVersion.Exchange2013));
+                    ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {

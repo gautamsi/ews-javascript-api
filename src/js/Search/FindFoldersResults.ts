@@ -3,10 +3,12 @@
  * Represents the results of a folder search operation.
  */
 export class FindFoldersResults {   //: IEnumerable<Folder>
+    
     private totalCount: number = 0;
     private nextPageOffset: number = null;
     private moreAvailable: boolean = false;
     private folders: Folder[] = [];//System.Collections.ObjectModel.Collection<Folder>;
+    
     /**
      * Gets the total number of folders matching the search criteria available in the searched folder. 
      */
@@ -16,6 +18,7 @@ export class FindFoldersResults {   //: IEnumerable<Folder>
     set TotalCount(value: number) {
         this.totalCount = value;
     }
+    
     /**
      * Gets the offset that should be used with FolderView to retrieve the next page of folders in a FindFolders operation.
      */
@@ -25,6 +28,7 @@ export class FindFoldersResults {   //: IEnumerable<Folder>
     set NextPageOffset(value: number) {
         this.nextPageOffset = value;
     }
+    
     /**
      * Gets a value indicating whether more folders matching the search criteria.
      */
@@ -34,16 +38,19 @@ export class FindFoldersResults {   //: IEnumerable<Folder>
     set MoreAvailable(value: boolean) {
         this.moreAvailable = value;
     }
+    
     /**
      * Gets a collection containing the folders that were found by the search operation.
      */
     get Folders(): Folder[] {
         return this.folders;
     }
+    
     /**
-     * Initializes a new instance of the **FindFoldersResults** class.
+     * @internal Initializes a new instance of the **FindFoldersResults** class.
      *
      */
     constructor(){}
+    
     //GetEnumerator(): any { throw new Error("FindFoldersResults.ts - GetEnumerator : Not implemented."); }
 }

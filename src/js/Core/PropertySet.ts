@@ -160,7 +160,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                         StringHelper.Format(
                             Strings.PropertyIncompatibleWithRequestVersion,
                             propertyDefinition.Name,
-                            propertyDefinition.Version));
+                            ExchangeVersion[propertyDefinition.Version]));
                 }
 
                 if (summaryPropertiesOnly && !propertyDefinition.HasFlag(PropertyDefinitionFlags.CanFind, request.Service.RequestedServerVersion)) {
@@ -179,7 +179,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "FilterHtmlContent",
-                        ExchangeVersion.Exchange2010));
+                        ExchangeVersion[ExchangeVersion.Exchange2010]));
             }
         }
 
@@ -189,7 +189,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "ConvertHtmlCodePageToUTF8",
-                        ExchangeVersion.Exchange2010_SP1));
+                        ExchangeVersion[ExchangeVersion.Exchange2010_SP1]));
             }
         }
 
@@ -199,7 +199,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "InlineImageUrlTemplate",
-                        ExchangeVersion.Exchange2013));
+                        ExchangeVersion[ExchangeVersion.Exchange2013]));
             }
         }
 
@@ -209,7 +209,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "BlockExternalImages",
-                        ExchangeVersion.Exchange2013));
+                        ExchangeVersion[ExchangeVersion.Exchange2013]));
             }
         }
 
@@ -219,7 +219,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "AddTargetToLinks",
-                        ExchangeVersion.Exchange2013));
+                        ExchangeVersion[ExchangeVersion.Exchange2013]));
             }
         }
 
@@ -229,7 +229,7 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                     StringHelper.Format(
                         Strings.PropertyIncompatibleWithRequestVersion,
                         "MaximumBodySize",
-                        ExchangeVersion.Exchange2013));
+                        ExchangeVersion[ExchangeVersion.Exchange2013]));
             }
         }
     }
