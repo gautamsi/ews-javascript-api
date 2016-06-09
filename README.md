@@ -30,6 +30,14 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 also track what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.5.0 
+
+* new: ***Conversation operations*** availbale, [see MSDN: How to: Work with conversations by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn610351(v=exchg.150).aspx)
+* new: ***MRM operations*** now work, `GetUserRetentionPolicyTags` is ready to use [see MSDN: GetUserRetentionPolicyTags operation](https://msdn.microsoft.com/en-us/library/office/jj191089(v=exchg.150).aspx)
+* fix: #60 -  use of `Mailbox` object cause error when used withuot `reoutingType` parameter, which should is `"SMTP"/null` by default. Constructor overloads have now implemented.
+* fix: #61 - `AutodiscoverService.GetUserSettings` silently crashs when one of the user is not found in Exchange
+
+
 # Whats new v0.4.0
 
 * new: ***InboxRule Operations*** now works, `GetInboxRules` and `UpdateInboxRules` methods on ExchangeService now availbale [see MSDN: How to: Manage Inbox rules by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn481313(v=exchg.150).aspx)
@@ -208,7 +216,27 @@ UpdateInboxRules
 AddDelegates   
 GetDelegates  
 RemoveDelegates   
-UpdateDelegates
+UpdateDelegates   
+GetUserRetentionPolicyTags \*   
+FindConversation\*   
+FindGroupConversation\*   
+GetConversationItems\*   
+GetGroupConversationItems\*   
+EnableAlwaysCategorizeItemsInConversations\*   
+DisableAlwaysCategorizeItemsInConversations\*   
+EnableAlwaysDeleteItemsInConversations\*   
+DisableAlwaysDeleteItemsInConversations\*   
+EnableAlwaysMoveItemsInConversations\*   
+DisableAlwaysMoveItemsInConversations\*   
+MoveItemsInConversations\*   
+CopyItemsInConversations\*   
+DeleteItemsInConversations\*   
+SetReadStateForItemsInConversations\*   
+SetRetentionPolicyForItemsInConversations\*   
+SetFlagStatusForItemsInConversations\*   
+
+\* is for new items in recent update
+
 
 ## List of Folder object methods available
 
