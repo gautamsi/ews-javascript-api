@@ -29,7 +29,7 @@ export class FindFolderResponse extends ServiceResponse {
     }
     ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("FindFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
+        
         var rootFolder = responseObject[XmlElementNames.RootFolder];
         this.results.TotalCount = Number(rootFolder[XmlAttributeNames.TotalItemsInView]);
         this.results.MoreAvailable = !Convert.toBool(rootFolder[XmlAttributeNames.IncludesLastItemInRange]);

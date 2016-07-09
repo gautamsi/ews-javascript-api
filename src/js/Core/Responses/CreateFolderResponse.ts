@@ -29,14 +29,13 @@ export class CreateFolderResponse extends ServiceResponse {
     }
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("CreateFolderResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
-
+        
         if (responseObject[XmlElementNames.Folders]) {
             var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
                 responseObject,
                 service,
                 XmlElementNames.Folders,
-                this.GetObjectInstance,
+                this.GetObjectInstance.bind(this),
                 false,               /* clearPropertyBag */
                 null,   /* requestedPropertySet */
                 false);              /* summaryPropertiesOnly */

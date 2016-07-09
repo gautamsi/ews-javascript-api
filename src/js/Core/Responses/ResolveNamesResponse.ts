@@ -21,8 +21,7 @@ export class ResolveNamesResponse extends ServiceResponse {
         }
     }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
-
+        
         this.Resolutions.LoadFromXmlJsObject(responseObject[XmlElementNames.ResolutionSet], service);
     }
 }

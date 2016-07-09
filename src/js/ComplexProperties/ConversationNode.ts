@@ -79,7 +79,7 @@ export class ConversationNode extends ComplexProperty {
                 jsObject,
                 service,
                 XmlElementNames.Items,
-                this.GetObjectInstance,
+                this.GetObjectInstance.bind(this),
                 false,              /* clearPropertyBag */
                 this.propertySet,   /* requestedPropertySet */
                 false);             /* summaryPropertiesOnly */

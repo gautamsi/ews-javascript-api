@@ -11,7 +11,7 @@ export class CreateItemResponseBase extends ServiceResponse {
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item { throw new Error("CreateItemResponseBase.ts - GetObjectInstance : abstract must implement."); }
     ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("CreateItemResponseBase.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
+        
         if (responseObject[XmlElementNames.Items]) {
             this.items = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
                 responseObject,
