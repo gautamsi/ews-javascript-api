@@ -1,3 +1,4 @@
+[![Gitter](https://badges.gitter.im/gautamsi/ews-javascript-api.svg)](https://gitter.im/gautamsi/ews-javascript-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ews-javascript-api 
 ==================
 ## Exchange Web Service in JavaScript/TypeScript.
