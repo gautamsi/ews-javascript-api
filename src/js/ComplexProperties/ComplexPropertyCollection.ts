@@ -1,6 +1,7 @@
 ﻿import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
 import {ArrayHelper, StringHelper, TypeSystem} from "../ExtensionMethods";
 import {EwsLogging} from "../Core/EwsLogging";
+import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {ExchangeService} from "../Core/ExchangeService";
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
@@ -26,7 +27,7 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     private removedItems: TComplexProperty[] = [];  //System.Collections.Generic.List<TComplexProperty>;
 
     /**
-     * @internal Gets the items.
+     * Gets the items. (workaround for GetEnumerator)
      * 
      * @return The items.
      */
@@ -122,7 +123,26 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
         let collection: TComplexProperty[] = jsObjectCollection;
         if (!ArrayHelper.isArray(collection)) {
-            collection = [jsObjectCollection];
+            collection = [];
+            let collectionElement = this.GetCollectionItemXmlElementName(null);
+            let typeName = TypeSystem.GetJsObjectTypeName(jsObjectCollection)
+            if (collectionElement === null || (typeName && collectionElement === typeName)) {
+                collection = [jsObjectCollection];
+            }
+            else {
+
+                for (let key in jsObjectCollection) {
+                    if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
+                        continue;
+
+                    let collectionObj: TComplexProperty[] = jsObjectCollection[key];
+                    if (!ArrayHelper.isArray(collectionObj)) {
+                        collectionObj = EwsServiceJsonReader.ReadAsArray(jsObjectCollection, key);
+                    }
+
+                    ArrayHelper.AddRange(collection, collectionObj);
+                }
+            }
         }
 
         for (let jsonObject of collection) {
@@ -309,7 +329,26 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
     UpdateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
         let collection: TComplexProperty[] = jsObjectCollection;
         if (!ArrayHelper.isArray(collection)) {
-            collection = [jsObjectCollection];
+            collection = [];
+            let collectionElement = this.GetCollectionItemXmlElementName(null);
+            let typeName = TypeSystem.GetJsObjectTypeName(jsObjectCollection)
+            if (collectionElement === null || (typeName && collectionElement === typeName)) {
+                collection = [jsObjectCollection];
+            }
+            else {
+
+                for (let key in jsObjectCollection) {
+                    if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
+                        continue;
+
+                    let collectionObj: TComplexProperty[] = jsObjectCollection[key];
+                    if (!ArrayHelper.isArray(collectionObj)) {
+                        collectionObj = EwsServiceJsonReader.ReadAsArray(jsObjectCollection, key);
+                    }
+
+                    ArrayHelper.AddRange(collection, collectionObj);
+                }
+            }
         }
 
         if (this.Count != collection.length) {
@@ -410,5 +449,3 @@ export class ComplexPropertyCollection<TComplexProperty extends ComplexProperty>
         return false;
     }
 }
-
-

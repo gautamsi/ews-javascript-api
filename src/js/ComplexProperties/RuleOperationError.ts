@@ -92,7 +92,7 @@ export class RuleOperationError extends ComplexProperty {
                     break;
                 case XmlElementNames.ValidationErrors:
                     this.ruleErrors = new RuleErrorCollection();
-					this.ruleErrors.CreateFromXmlJsObjectCollection(EwsServiceJsonReader.ReadAsArray(jsObject, XmlElementNames.ValidationErrors), service);
+					this.ruleErrors.CreateFromXmlJsObjectCollection(jsObject[key], service);
 					break;
                 default:
                     break;

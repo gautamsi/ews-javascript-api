@@ -611,7 +611,7 @@ export class Item extends ServiceObject {
      * @param   {ItemId}            id              The Id of the item to bind to.
      * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    Bind(service: ExchangeService, id: ItemId): IPromise<Item>;
+    public static Bind(service: ExchangeService, id: ItemId): IPromise<Item>;
     /**
      * Binds to an existing item, whatever its actual type is, and loads the specified set of properties. Calling this method results in a call to EWS.
      *
@@ -620,8 +620,8 @@ export class Item extends ServiceObject {
      * @param   {PropertySet}       propertySet     The set of properties to load.
      * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Item>;
-    Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Item> {
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Item>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Item> {
         return service.BindToItem<Item>(id, propertySet, Item);
     }
 
