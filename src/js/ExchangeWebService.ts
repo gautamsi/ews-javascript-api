@@ -432,7 +432,6 @@ export {EwsXmlReader} from "./Core/EwsXmlReader";
 export {Exception} from "./Exceptions/Exception";
 export {ExchangeCredentials} from "./Credentials/ExchangeCredentials";
 
-export {ExchangeResourceManager} from "./ResourceManager/ExchangeResourceManager";
 export {ExchangeServerInfo} from "./Core/ExchangeServerInfo";
 
 export {ExchangeServiceBase} from "./Core/ExchangeServiceBase";
@@ -616,7 +615,6 @@ export {JsonParser} from "./Core/JsonParser";
 export {JsonSerializationNotImplementedException} from "./Exceptions/JsonSerializationNotImplementedException";
 export {JsonTokenizer} from "./Core/JsonTokenizer";
 export {JsonTokenType} from "./Enumerations/JsonTokenType";
-//export {JsonWriter} from "./Core/JsonWriter";
 export {KeywordStatisticsSearchResult} from "./MailboxSearch/KeywordStatisticsSearchResult";
 export {LazyMember} from "./Core/LazyMember";
 export {LegacyAvailabilityTimeZone} from "./Misc/Availability/LegacyAvailabilityTimeZone";
@@ -624,7 +622,6 @@ export {LegacyAvailabilityTimeZoneTime} from "./Misc/Availability/LegacyAvailabi
 export {LegacyFreeBusyStatus} from "./Enumerations/LegacyFreeBusyStatus";
 export {ListValuePropertyDefinition} from "./PropertyDefinitions/ListValuePropertyDefinition";
 export {LobbyBypass} from "./Enumerations/LobbyBypass";
-export {LocalizedString} from "./ResourceManager/LocalizedString";
 export {LocationSource} from "./Enumerations/LocationSource";
 export {LogicalOperator} from "./Enumerations/LogicalOperator";
 export {Mailbox} from "./ComplexProperties/Mailbox";
