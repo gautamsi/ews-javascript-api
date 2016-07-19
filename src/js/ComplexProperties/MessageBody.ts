@@ -35,7 +35,7 @@ export class MessageBody extends ComplexProperty {
         var strText = text;
         if (argslength === 1 && typeof bodyTypeOrText === "string") {
             strText = bodyTypeOrText;
-        }        
+        }
         if (argslength === 2 && typeof bodyTypeOrText === "number") {
             bodyType = bodyTypeOrText;
         }
@@ -44,6 +44,9 @@ export class MessageBody extends ComplexProperty {
     }
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (var key in jsObject) {
+            if (key.indexOf("__") === 0) {
+                continue;
+            }
             switch (key) {
                 case XmlAttributeNames.BodyType:
                     this.bodyType = <BodyType><any>BodyType[jsObject[key]];//.ReadEnumValue<BodyType>(key);

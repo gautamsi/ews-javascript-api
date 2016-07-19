@@ -100,19 +100,19 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
         super.WriteAttributesToXml(writer);
 
         if (this.MessageDisposition !== null) {
-            writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, this.MessageDisposition);
+            writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
         }
 
         if (this.SuppressReadReceipts) {
             writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
 
-        writer.WriteAttributeValue(XmlAttributeNames.ConflictResolution, this.ConflictResolutionMode);
+        writer.WriteAttributeValue(XmlAttributeNames.ConflictResolution, ConflictResolutionMode[this.ConflictResolutionMode]);
 
         if (this.SendInvitationsOrCancellationsMode !== null) {
             writer.WriteAttributeValue(
                 XmlAttributeNames.SendMeetingInvitationsOrCancellations,
-                this.SendInvitationsOrCancellationsMode);
+                SendInvitationsOrCancellationsMode[this.SendInvitationsOrCancellationsMode]);
         }
     }
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {

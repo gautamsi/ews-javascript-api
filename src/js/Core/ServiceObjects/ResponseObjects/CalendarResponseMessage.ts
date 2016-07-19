@@ -1,19 +1,21 @@
-import {Schemas} from "../Schemas/Schemas";
-import {Item} from "../Items/Item";
-import {EmailMessage} from "../Items/EmailMessage";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {Sensitivity} from "../../../Enumerations/Sensitivity";
 import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
 import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
+import {EmailMessage} from "../Items/EmailMessage";
+import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import {Item} from "../Items/Item";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {Schemas} from "../Schemas/Schemas";
+import {Sensitivity} from "../../../Enumerations/Sensitivity";
 import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
 
 import {CalendarResponseMessageBase} from "./CalendarResponseMessageBase";
 /**
  * Represents the base class for accept, tentatively accept and decline response messages.
+ * 
+ * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
  */
-export class CalendarResponseMessage<TMessage extends EmailMessage> extends CalendarResponseMessageBase<TMessage> { //abstract //
+export abstract class CalendarResponseMessage<TMessage extends EmailMessage> extends CalendarResponseMessageBase<TMessage> {
     /**
      * Gets or sets the body of the response.
      */
@@ -75,7 +77,7 @@ export class CalendarResponseMessage<TMessage extends EmailMessage> extends Cale
         this.PropertyBag._setItem(Schemas.EmailMessageSchema.Sender, value);
     }
     /**
-     * Initializes a new instance of the **CalendarResponseMessage** class.
+     * @internal Initializes a new instance of the **CalendarResponseMessage** class.
      *
      * @param   {Item}   referenceItem   The reference item.
      */
@@ -83,7 +85,7 @@ export class CalendarResponseMessage<TMessage extends EmailMessage> extends Cale
         super(referenceItem);
     }
     /**
-     * Internal method to return the schema associated with this type of object.
+     * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
