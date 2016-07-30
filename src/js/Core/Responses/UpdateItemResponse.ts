@@ -37,14 +37,12 @@ export class UpdateItemResponse extends ServiceResponse {
         }
     }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        debugger;
-        super.ReadElementsFromXmlJsObject(responseObject, service);
 
         EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
             responseObject,
             service,
             XmlElementNames.Items,
-            this.GetObjectInstance,
+            this.GetObjectInstance.bind(this),
             false,  /* clearPropertyBag */
             null,   /* requestedPropertySet */
             false); /* summaryPropertiesOnly */

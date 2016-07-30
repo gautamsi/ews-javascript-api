@@ -59,8 +59,7 @@ export class FindItemResponse<TItem extends Item> extends ServiceResponse {
     }
     ReadElementsFromJson(responseObject: any /*JsonObject*/, service: ExchangeService): void { throw new Error("FindItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
-
+        
         var rootFolder = responseObject[XmlElementNames.RootFolder];
         var totalItemsInView: number = Number(rootFolder[XmlAttributeNames.TotalItemsInView]);
         var moreItemsAvailable: boolean = !Convert.toBool(rootFolder[XmlAttributeNames.IncludesLastItemInRange]);

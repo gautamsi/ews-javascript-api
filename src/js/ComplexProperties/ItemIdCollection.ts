@@ -1,4 +1,10 @@
-﻿import {ItemId} from "./ItemId";
+﻿import {ArrayHelper, StringHelper, TypeSystem} from "../ExtensionMethods";
+import {EwsLogging} from "../Core/EwsLogging";
+import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
+import {ExchangeService} from "../Core/ExchangeService";
+import {XmlElementNames} from "../Core/XmlElementNames";
+
+import {ItemId} from "./ItemId";
 import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
 /**
  * Represents a collection of item Ids.
@@ -34,6 +40,31 @@ export class ItemIdCollection extends ComplexPropertyCollection<ItemId> {
     }
 
     /**
+     * @internal Loads from XMLJsObject collection to create a new collection item.
+     *
+     * @interface   IJsonCollectionDeserializer
+     * 
+     * @param   {any}               jsObjectCollection   The json collection.
+     * @param   {ExchangeService}   service          The service.
+     */
+    CreateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
+        let collection: ItemId[] = jsObjectCollection;
+        if (!ArrayHelper.isArray(collection)) {
+            if(jsObjectCollection[XmlElementNames.OccurrenceItemId]){
+                EwsLogging.Log("Fix needed for ItemIdCollection for element OccurrenceItemId",true,true);
+                EwsLogging.Log(jsObjectCollection[XmlElementNames.OccurrenceItemId],true,true);
+            }
+            if(jsObjectCollection[XmlElementNames.RecurringMasterItemId]){
+                EwsLogging.Log("Fix needed for ItemIdCollection for element RecurringMasterItemId",true,true);
+                EwsLogging.Log(jsObjectCollection[XmlElementNames.RecurringMasterItemId],true,true);
+            }
+            collection = EwsServiceJsonReader.ReadAsArray(collection, XmlElementNames.ItemId);
+        }
+
+        super.CreateFromXmlJsObjectCollection(collection, service);
+    }
+
+    /**
      * @internal Gets the name of the collection item XML element.
      *
      * @param   {ItemId}   complexProperty   The complex property.
@@ -41,5 +72,22 @@ export class ItemIdCollection extends ComplexPropertyCollection<ItemId> {
      */
     GetCollectionItemXmlElementName(complexProperty: ItemId): string {
         return complexProperty.GetXmlElementName();
+    }
+
+    /**
+     * @internal Loads from XMLJsObject collection to update collection Items.
+     *
+     * @interface   IJsonCollectionDeserializer
+     * 
+     * @param   {any}               jsObjectCollection   The XMLJsObject collection.
+     * @param   {ExchangeService}   service          The service.
+     */
+    UpdateFromXmlJsObjectCollection(jsObjectCollection: any, service: ExchangeService): void {
+        let collection: ItemId[] = jsObjectCollection;
+        if (!ArrayHelper.isArray(collection)) {
+            collection = EwsServiceJsonReader.ReadAsArray(collection, XmlElementNames.ItemId);
+        }
+
+        super.UpdateFromXmlJsObjectCollection(collection, service);
     }
 }

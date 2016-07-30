@@ -232,8 +232,12 @@ export class ServiceResponse {
      */
     ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         /* virtualvoid to be implemented throw new Error("Not implemented.");*/
-        let caller = (<any>this.constructor).name || "ServiceResponse->child";
-        EwsLogging.Assert(false, caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is true but ReadElementsFromXmlJsObject is not available in derived class to call.")
+        let caller = "ServiceResponse->child";
+        try{
+            caller = (<any>this.constructor).name;
+        }
+        catch(e){}
+        EwsLogging.Assert(false, caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is false but ReadElementsFromXmlJsObject is not available in derived class to call.")
     }
 
     /**

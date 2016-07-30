@@ -32,7 +32,7 @@ export class GetEventsResponse extends ServiceResponse {
      * @param   {ExchangeService}   service    The service.
      */
     ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-		//super.ReadElementsFromXmlJsObject(jsObject, service);
+		
 		this.results.LoadFromXmlJsObject(jsObject, service);
 	}
 }

@@ -9,7 +9,7 @@ export class MarkAsJunkResponse extends ServiceResponse {
     }
     //ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("MarkAsJunkResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
+        
         if (responseObject[XmlElementNames.Token]) {
             this.MovedItemId = new ItemId();
             this.MovedItemId.LoadFromXmlJsObject(responseObject[XmlElementNames.MovedItemId], service);

@@ -8,7 +8,7 @@ import {ArgumentException} from "../Exceptions/ArgumentException";
 import {MapiPropertyType} from "../Enumerations/MapiPropertyType";
 import {MapiTypeConverterTypeSystem} from "../Enumerations/MapiTypeConverterTypeSystem";
 import {MapiTypeConverterMapEntry} from "./MapiTypeConverterMapEntry";
-type MapiTypeConverterMap = Dictionary<MapiPropertyType, MapiTypeConverterMapEntry>;
+export type MapiTypeConverterMap = Dictionary<MapiPropertyType, MapiTypeConverterMapEntry>;
 export class MapiTypeConverter {
     private static UtcDataTimeStyles: DateTimeStyles = DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal;
     static get MapiTypeConverterMap(): MapiTypeConverterMap { return MapiTypeConverter.mapiTypeConverterMap.Member; }

@@ -1,26 +1,27 @@
+import {CalendarActionResults} from "../../../Misc/CalendarActionResults";
+import {EmailMessage} from "../Items/EmailMessage";
+import {FolderId} from "../../../ComplexProperties/FolderId";
 import {IPromise} from "../../../Interfaces";
 import {Item} from "../Items/Item";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {EmailMessage} from "../Items/EmailMessage";
-import {CalendarActionResults} from "../../../Misc/CalendarActionResults";
+import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 
 import {ResponseObject} from "./ResponseObject";
 /**
  * Represents the base class for all calendar-related response messages.
- *
+ * 
+ * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
  */
-export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends ResponseObject<TMessage> { //abstract
+export abstract class CalendarResponseMessageBase<TMessage extends EmailMessage> extends ResponseObject<TMessage> {
     /**
-    * Initializes a new instance of the **CalendarResponseMessageBase** class.
+    * @internal Initializes a new instance of the **CalendarResponseMessageBase** class.
     *
     * @param   {Item}   referenceItem   The reference item.
     */
     constructor(referenceItem: Item) {
         super(referenceItem);
     }
-        
+
     /**
      * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
@@ -55,7 +56,7 @@ export class CalendarResponseMessageBase<TMessage extends EmailMessage> extends 
             return new CalendarActionResults(results);
         });
     }
-    
+
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      *

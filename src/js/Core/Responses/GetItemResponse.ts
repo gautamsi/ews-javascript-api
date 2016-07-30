@@ -30,8 +30,7 @@ export class GetItemResponse extends ServiceResponse {
     }
     //ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("GetItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
-
+        
         var items: Item[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
             responseObject,
             service,

@@ -35,14 +35,13 @@ export class GetFolderResponse extends ServiceResponse {
         }
     }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
-
+        
         if (responseObject[XmlElementNames.Folders]) {
             var folders: Folder[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Folder>(
                 responseObject,
                 service,
                 XmlElementNames.Folders,
-                this.GetObjectInstance,
+                this.GetObjectInstance.bind(this),
                 true,               /* clearPropertyBag */
                 this.propertySet,   /* requestedPropertySet */
                 false);              /* summaryPropertiesOnly */

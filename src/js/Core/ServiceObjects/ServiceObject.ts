@@ -1,27 +1,32 @@
-﻿import {IOutParam} from "../../Interfaces/IOutParam";
-import {Strings} from "../../Strings";
-import {ServiceObjectPropertyException} from "../../Exceptions/ServiceObjectPropertyException";
-import {ExtendedPropertyCollection} from "../../ComplexProperties/ExtendedPropertyCollection";
-import {ServiceId} from "../../ComplexProperties/ServiceId";
-import {PropertyBag} from "../PropertyBag";
-import {ServiceObjectSchema} from "./Schemas/ServiceObjectSchema";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {XmlElementNames} from "../../Core/XmlElementNames";
+﻿import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
+import {DeleteMode} from "../../Enumerations/DeleteMode";
+import {EwsLogging} from "../EwsLogging";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {PropertySet} from "../PropertySet";
-import {DeleteMode} from "../../Enumerations/DeleteMode";
-import {ServiceObjectChangedDelegate} from "../../Misc/DelegateTypes";
-import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
-import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
+import {ExchangeService} from "../ExchangeService";
+import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import {ExtendedPropertyCollection} from "../../ComplexProperties/ExtendedPropertyCollection";
+import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
+import {InvalidOperationException} from "../../Exceptions/InvalidOperationException";
+import {IOutParam} from "../../Interfaces/IOutParam";
+import {IPromise} from "../../Interfaces";
+import {NotSupportedException} from "../../Exceptions/NotSupportedException";
+import {PropertyBag} from "../PropertyBag";
 import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
 import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
-import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {EwsLogging} from "../EwsLogging";
+import {PropertySet} from "../PropertySet";
+import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
+import {ServiceId} from "../../ComplexProperties/ServiceId";
+import {ServiceObjectChangedDelegate} from "../../Misc/DelegateTypes";
+import {ServiceObjectPropertyException} from "../../Exceptions/ServiceObjectPropertyException";
+import {ServiceObjectSchema} from "./Schemas/ServiceObjectSchema";
 import {StringHelper} from "../../ExtensionMethods";
-import {IPromise} from "../../Interfaces";
+import {Strings} from "../../Strings";
+import {XmlElementNames} from "../../Core/XmlElementNames";
 
+/**
+ * Represents the base abstract class for all item and folder types.
+ */
 export abstract class ServiceObject {
 
     private lockObject: any = {};
@@ -35,7 +40,7 @@ export abstract class ServiceObject {
     private xmlElementName: string;
 
     /**
-     * The property bag holding property values for this object.
+     * @internal The property bag holding property values for this object.
      */
     get PropertyBag(): PropertyBag { return this.propertyBag; }
     /**
@@ -47,6 +52,7 @@ export abstract class ServiceObject {
      * Gets the ExchangeService the object is bound to.
      */
     get Service(): ExchangeService { return this.getService(); }
+    /**@internal set*/
     set Service(value: ExchangeService) { this.setService(value); }
 
     /**
@@ -69,7 +75,7 @@ export abstract class ServiceObject {
     private OnChange: ServiceObjectChangedDelegate[] = [];
 
     /**
-     * Internal constructor.
+     * @internal Internal constructor.
      *
      * @param   {ExchangeService}   service   EWS service to which this object belongs.
      */
@@ -94,13 +100,13 @@ export abstract class ServiceObject {
         var propertyValue: any;
 
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;
-        if (propDef != null) {
-            //todo: check for propertydefinitionbase type or child type;
+
+        if (propDef instanceof PropertyDefinition) {
             return this.PropertyBag._getItem(propDef);
         }
         else {
             var extendedPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;
-            if (extendedPropDef != null) {
+            if (extendedPropDef instanceof ExtendedPropertyDefinition) {
                 if (this.TryGetExtendedProperty(extendedPropDef, propertyValue)) {
                     return propertyValue;
                 }
@@ -110,15 +116,19 @@ export abstract class ServiceObject {
             }
             else {
                 // Other subclasses of PropertyDefinitionBase are not supported.
-                throw new Error(StringHelper.Format(
-                    "not supported for property definition type: {0}",
-                    propertyDefinition.constructor));
+                let constructorName = "Chile of ServiceObject";
+                if ((<any>propertyDefinition.constructor).name) {
+                    constructorName = (<any>propertyDefinition.constructor).name;
+                }
+                throw new NotSupportedException(StringHelper.Format(
+                    Strings.OperationNotSupportedForPropertyDefinitionType,
+                    constructorName));
             }
         }
     }
 
     /**
-     * Triggers dispatch of the change event.
+     * @internal Triggers dispatch of the change event.
      */
     Changed(): void {
         if (this.OnChange != null) {
@@ -129,33 +139,33 @@ export abstract class ServiceObject {
     }
 
     /**
-     * Clears the object's change log.
+     * @internal Clears the object's change log.
      */
     ClearChangeLog(): void { this.PropertyBag.ClearChangeLog(); }
 
     /**
-     * Gets the name of the change XML element.
+     * @internal Gets the name of the change XML element.
      *
      * @return  {string}      XML element name,
      */
     GetChangeXmlElementName(): string { return XmlElementNames.ItemChange; }
 
     /**
-     * Gets the name of the delete field XML element.
+     * @internal Gets the name of the delete field XML element.
      *
      * @return  {string}      XML element name,
      */
     GetDeleteFieldXmlElementName(): string { return XmlElementNames.DeleteItemField; }
 
     /**
-     * Gets the extended properties collection.
+     * @internal Gets the extended properties collection.
      *
      * @return  {ExtendedPropertyCollection}      Extended properties collection.
      */
     GetExtendedProperties(): ExtendedPropertyCollection { return null; }
 
     /**
-     * The unique Id of this object.
+     * @internal The unique Id of this object.
      *
      * @return  {ServiceId}      A ServiceId instance..
      */
@@ -171,21 +181,21 @@ export abstract class ServiceObject {
     }
 
     /**
-     * The property definition for the Id of this object.
+     * @internal The property definition for the Id of this object.
      *
      * @return  {PropertyDefinition}      A PropertyDefinition instance.
      */
     GetIdPropertyDefinition(): PropertyDefinition { return null; }
 
     /**
-     * Determines whether properties defined with ScopedDateTimePropertyDefinition require custom time zone scoping.
+     * @internal Determines whether properties defined with ScopedDateTimePropertyDefinition require custom time zone scoping.
      *
      * @return  {boolean}      true if this item type requires custom scoping for scoped date/time properties; otherwise, false.
      */
     GetIsCustomDateTimeScopingRequired(): boolean { return false; }
 
     /**
-     * Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
+     * @internal Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
      *
      * @param   {boolean}     isUpdateOperation   Indicates whether the operation being petrformed is an update operation.
      * @return  {boolean}     true if a time zone SOAP header should be emitted; otherwise, false.
@@ -213,28 +223,28 @@ export abstract class ServiceObject {
     }
 
     /**
-     * Gets the minimum required server version.
+     * @internal Gets the minimum required server version.
      *
      * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("abstract method, must implement"); }
+    abstract GetMinimumRequiredServerVersion(): ExchangeVersion;
 
     /**
-     * Internal method to return the schema associated with this type of object.
+     * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { throw new Error("abstract method, must implement"); }
+    abstract GetSchema(): ServiceObjectSchema;
 
     /**
-     * Gets the name of the set field XML element.
+     * @internal Gets the name of the set field XML element.
      *
      * @return  {string}      XML element name,
      */
     GetSetFieldXmlElementName(): string { return XmlElementNames.SetItemField; }
 
     /**
-     * GetXmlElementName retrieves the XmlElementName of this type based on the EwsObjectDefinition attribute that decorates it, if present.
+     * @internal GetXmlElementName retrieves the XmlElementName of this type based on the EwsObjectDefinition attribute that decorates it, if present.
      *
      * @return  {string}      The XML element name associated with this type.
      */
@@ -252,29 +262,27 @@ export abstract class ServiceObject {
     }
 
     /**
-     * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
+     * @internal This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
      *
      * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
      */
     GetXmlElementNameOverride(): string { return null; }
 
     /**
-     * Deletes the object.
+     * @internal Deletes the object.
      *
      * @param   {DeleteMode}              deleteMode                The deletion mode.
      * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
-        throw new Error("abstract method, must implement");
-    }
+    abstract InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
 
     /**
-     * Loads the specified set of properties on the object.
+     * @internal Loads the specified set of properties on the object.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("abstract method, must implement"); }
+    abstract InternalLoad(propertySet: PropertySet): IPromise<void>;
 
     /**
      * Loads the first class properties. Calling this method results in a call to EWS.
@@ -292,7 +300,7 @@ export abstract class ServiceObject {
     }
 
     /**
-     * Loads service object from XML.
+     * @internal Loads service object from XML.
      *
      * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.
@@ -310,25 +318,25 @@ export abstract class ServiceObject {
     }
 
     /**
-     * Throws exception if this is a new service object.
+     * @internal Throws exception if this is a new service object.
      */
     ThrowIfThisIsNew(): void {
         if (this.IsNew) {
-            throw new Error("service object does not have id");//InvalidOperationException(Strings.ServiceObjectDoesNotHaveId);
+            throw new InvalidOperationException(Strings.ServiceObjectDoesNotHaveId);
         }
     }
 
     /**
-     * Throws exception if this is not a new service object.
+     * @internal Throws exception if this is not a new service object.
      */
     ThrowIfThisIsNotNew(): void {
         if (!this.IsNew) {
-            throw new Error("service object already have id");//InvalidOperationException(Strings.ServiceObjectAlreadyHasId);
+            throw new InvalidOperationException(Strings.ServiceObjectAlreadyHasId);
         }
     }
 
     /**
-     * Try to get the value of a specified extended property in this instance.
+     * @internal Try to get the value of a specified extended property in this instance.
      *
      * @param   {ExtendedPropertyDefinition}  propertyDefinition   The property definition.
      * @param   {IOutParam<T>}                propertyValue        The property value.
@@ -350,6 +358,7 @@ export abstract class ServiceObject {
     //todo:fix - implement type casting on specific type request version. 
     //TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("Need implementation."); }
     //TryGetProperty(propertyDefinition: PropertyDefinitionBase, propertyValue: any): boolean { throw new Error("ServiceObject.ts - TryGetProperty : Not implemented."); }
+
     /**
      * Try to get the value of a specified property in this instance.
      *
@@ -359,39 +368,43 @@ export abstract class ServiceObject {
      */
     TryGetProperty<T>(propertyDefinition: PropertyDefinitionBase, propertyValue: IOutParam<T>): boolean {
         var propDef: PropertyDefinition = <PropertyDefinition>propertyDefinition;// as PropertyDefinition;
-        debugger;//todo: fix for compatibility checking, if this is propertydefinition or propertydefinitionbase
-        if (propDef != null) {
+        //info: fix for compatibility checking, if this is propertydefinition or extendedpropertydefinitionbase
+        if (propDef instanceof PropertyDefinition) {
             return this.PropertyBag.TryGetPropertyAs<T>(propDef, propertyValue);
         }
         else {
-            debugger;//todo: check for compatibility of extendedpropertydefition or propertydefition.
+            //info: fix for compatibility of extendedpropertydefition or propertydefition type.
             var extPropDef: ExtendedPropertyDefinition = <ExtendedPropertyDefinition>propertyDefinition;// as ExtendedPropertyDefinition;
-            if (extPropDef != null) {
+            if (extPropDef instanceof ExtendedPropertyDefinition) {
                 return this.TryGetExtendedProperty<T>(extPropDef, propertyValue);
             }
             else {
                 // Other subclasses of PropertyDefinitionBase are not supported.
-                throw new Error(StringHelper.Format(
+                let constructorName = "Chile of ServiceObject";
+                if ((<any>propertyDefinition.constructor).name) {
+                    constructorName = (<any>propertyDefinition.constructor).name;
+                }
+                throw new NotSupportedException(StringHelper.Format(
                     Strings.OperationNotSupportedForPropertyDefinitionType,
-                    propertyDefinition.Type));//NotSupportedException
+                    propertyDefinition.Type));
             }
         }
     }
 
     /**
-     * Validates this instance.
+     * @internal Validates this instance.
      */
     Validate(): void { this.PropertyBag.Validate(); }
 
     /**
-     * Writes service object as XML.
+     * @internal Writes service object as XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteToXml(writer: EwsServiceXmlWriter): void { this.PropertyBag.WriteToXml(writer); }
 
     /**
-     * Writes service object for update as XML.
+     * @internal Writes service object for update as XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */

@@ -52,7 +52,7 @@ export class UpdateInboxRulesException extends ServiceRemoteException {
     }
 
     /**
-     * Initializes a new instance of the **UpdateInboxRulesException** class.
+     * @internal Initializes a new instance of the **UpdateInboxRulesException** class.
      *
      * @param   {UpdateInboxRulesResponse}  serviceResponse   The rule operation service response.
      * @param   {RuleOperation[]}           ruleOperations    The original operations.

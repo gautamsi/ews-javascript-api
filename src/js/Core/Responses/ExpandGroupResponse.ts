@@ -7,7 +7,7 @@ export class ExpandGroupResponse extends ServiceResponse {
         return this.members;
     }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        super.ReadElementsFromXmlJsObject(responseObject, service);
+        
         this.Members.LoadFromXmlJsObject(responseObject, service);
     }
 }

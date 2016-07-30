@@ -368,7 +368,7 @@ export class PropertyBag {
             if (currentValue) {
                 complexProperty = currentValue;
 
-                if (complexProperty != null) {
+                if (complexProperty instanceof ComplexProperty) {
                     var pos = complexProperty.OnChange.indexOf(this.PropertyChanged); //cant do += or -= in javascript (hopefully in ECMA6)
                     if (pos >= 0) complexProperty.OnChange.splice(pos, 1); //see above line comment ^
                 }

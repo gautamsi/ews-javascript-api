@@ -17,7 +17,7 @@ export class ArchiveItemResponse extends ServiceResponse {
             responseObject,
             service,
             XmlElementNames.Folders,
-            this.GetObjectInstance,
+            this.GetObjectInstance.bind(this),
             false,  /* clearPropertyBag */
             null,   /* requestedPropertySet */
             false); /* summaryPropertiesOnly */
