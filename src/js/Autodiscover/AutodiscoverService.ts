@@ -1,10 +1,11 @@
-﻿//import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
-import {AutodiscoverDnsClient} from "./AutodiscoverDnsClient";
+﻿import {AutodiscoverDnsClient} from "./AutodiscoverDnsClient";
 import {AutodiscoverEndpoints} from "../Enumerations/AutodiscoverEndpoints";
 import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
 import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
 import {AutodiscoverRedirectionUrlValidationCallback} from "./AutodiscoverServiceDelegates";
 import {AutodiscoverRequest} from "./Requests/AutodiscoverRequest";
+import {ConfigurationSettingsBase} from "./ConfigurationSettings/ConfigurationSettingsBase";
+import {OutlookConfigurationSettings} from "./ConfigurationSettings/Outlook/OutlookConfigurationSettings";
 import {DomainSettingName} from "../Enumerations/DomainSettingName";
 import {EwsLogging} from "../Core/EwsLogging";
 import {EwsUtilities} from "../Core/EwsUtilities";
@@ -29,6 +30,7 @@ import {TraceFlags} from "../Enumerations/TraceFlags";
 import {Uri} from "../Uri";
 import {UserSettingName} from "../Enumerations/UserSettingName";
 import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
+import {WSSecurityBasedCredentials} from "../Credentials/WSSecurityBasedCredentials";
 import {X509CertificateCredentials} from "../Credentials/X509CertificateCredentials";
 import {XHRFactory} from "../XHRFactory";
 
@@ -276,14 +278,14 @@ export class AutodiscoverService extends ExchangeServiceBase {
      * @internal Initializes a new instance of the **AutodiscoverService** class.
      *
      * @param   {ExchangeServiceBase}   service                  The other service.
-     */    
+     */
     constructor(service: ExchangeServiceBase);
     /**
      * @internal Initializes a new instance of the **AutodiscoverService** class.
      *
      * @param   {ExchangeServiceBase}   service                  The other service.
      * @param   {ExchangeVersion}       requestedServerVersion   The requested server version.
-     */    
+     */
     constructor(service: ExchangeServiceBase, requestedServerVersion: ExchangeVersion);
     constructor(
         domainUrlServiceOrVersion?: string | Uri | ExchangeServiceBase | ExchangeVersion,
@@ -375,7 +377,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
     //DefaultGetScpUrlsForDomain(domainName: string): string[] { return null; }// System.Collections.Generic.ICollection<string>{ throw new Error("AutodiscoverService.ts - DefaultGetScpUrlsForDomain : Not implemented.");}
     //DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): any{ throw new Error("AutodiscoverService.ts - DisableScpLookupIfDuplicateRedirection : Not implemented.");}
-    
+
     GetAutodiscoverEndpointUrl(host: string): IPromise<Uri> {
         var autodiscoverUrlOut: IOutParam<Uri> = { outValue: null };
 
@@ -507,9 +509,48 @@ export class AutodiscoverService extends ExchangeServiceBase {
         }
         return endpoints;
     }
-    //GetLegacyUserSettings(emailAddress: string): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettings : Not implemented.");}
-    //GetLegacyUserSettingsAtUrl(emailAddress: string, url: Uri): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettingsAtUrl : Not implemented.");}
-    //GetRedirectionUrlFromDnsSrvRecord(domainName: string): Uri{ throw new Error("AutodiscoverService.ts - GetRedirectionUrlFromDnsSrvRecord : Not implemented.");}
+
+    /**
+     * @internal Calls the legacy Autodiscover service to retrieve configuration settings.
+     *
+     * @param   {string}   emailAddress   The email address to retrieve configuration settings for.
+     * @return  {}                  The requested configuration settings    :Promise.
+     */
+    GetLegacyUserSettings<TSettings extends ConfigurationSettingsBase>(emailAddress: string, type: { new (): TSettings }): TSettings {
+        // If Url is specified, call service directly.
+        // if (this.Url != null) {
+        //     Match match = LegacyPathRegex.Match(this.Url.AbsolutePath);
+        //     if (match.Success) {
+        //         return this.GetLegacyUserSettingsAtUrl<TSettings>(emailAddress, this.Url);
+        //     }
+
+        //     // this.Uri is intended for Autodiscover SOAP service, convert to Legacy endpoint URL.
+        //     Uri autodiscoverUrl = new Uri(this.Url, AutodiscoverLegacyPath);
+        //     return this.GetLegacyUserSettingsAtUrl<TSettings>(emailAddress, autodiscoverUrl);
+        // }
+
+        // // If Domain is specified, figure out the endpoint Url and call service.
+        // else if (!string.IsNullOrEmpty(this.Domain)) {
+        //     Uri autodiscoverUrl = new Uri(string.Format(AutodiscoverLegacyHttpsUrl, this.Domain));
+        //     return this.GetLegacyUserSettingsAtUrl<TSettings>(emailAddress, autodiscoverUrl);
+        // }
+        // else {
+        //     // No Url or Domain specified, need to figure out which endpoint to use.
+        //     int currentHop = 1;
+        //     List < string > redirectionEmailAddresses = new List<string>();
+        //     return this.InternalGetLegacyUserSettings<TSettings>(
+        //         emailAddress,
+        //         redirectionEmailAddresses,
+        //         ref currentHop);
+        // }
+    }
+
+    GetLegacyUserSettingsAtUrl<TSettings extends ConfigurationSettingsBase>(emailAddress: string, url: Uri, x: { new (): TSettings } = <any>OutlookConfigurationSettings): TSettings {
+        return new x();
+    }
+
+    GetRedirectionUrlFromDnsSrvRecord(domainName: string): Uri { throw new Error("AutodiscoverService.ts - GetRedirectionUrlFromDnsSrvRecord : Not implemented."); }
+
     GetRedirectUrl(domainName: string): IPromise<Uri> {
         var url: string = StringHelper.Format(AutodiscoverService.AutodiscoverLegacyHttpUrl, "autodiscover." + domainName);
 
@@ -747,9 +788,9 @@ export class AutodiscoverService extends ExchangeServiceBase {
     /**
      * Retrieves the specified settings for single SMTP address.
      *
-     * @param   {string}   userSmtpAddress    The SMTP addresses of the user.
-     * @param   {UserSettingName[]}   userSettingNames   The user setting names.
-     * @return  {IPromise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
+     * @param   {string}                userSmtpAddress    The SMTP addresses of the user.
+     * @param   {UserSettingName[]}     userSettingNames   The user setting names.
+     * @return  {IPromise<GetUserSettingsResponse>}        A UserResponse object containing the requested settings for the specified user.
      */
     public GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
     public GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
@@ -774,23 +815,23 @@ export class AutodiscoverService extends ExchangeServiceBase {
             //EwsUtilities.ValidateParam(settings, "settings");
 
             return this.GetSettings<GetUserSettingsResponseCollection, UserSettingName>(
-                <string[]>smtpAddresses,
+                smtpAddresses,
                 userSettingNames,
                 null,
-                this.InternalGetUserSettings,
+                this.InternalGetUserSettings.bind(this),
                 () => { return EwsUtilities.DomainFromEmailAddress(smtpAddresses[0]); });
         }
 
         var userSmtpAddress: string = <string>smtpAddresses;
-        //List < UserSettingName > requestedSettings = new List<UserSettingName>(userSettingNames);
+
+        var requestedSettings: UserSettingName[] = userSettingNames || [];
 
         if (StringHelper.IsNullOrEmpty(userSmtpAddress)) {
-            throw new ServiceValidationException("invalid autodiscover smtp address" /*Strings.InvalidAutodiscoverSmtpAddress*/);
+            throw new ServiceValidationException(Strings.InvalidAutodiscoverSmtpAddress);
         }
-        var requestedSettings = userSettingNames || [];
 
         if (requestedSettings.length == 0) {
-            throw new ServiceValidationException("invalid autodiscover setting count" /*Strings.InvalidAutodiscoverSettingsCount*/);
+            throw new ServiceValidationException(Strings.InvalidAutodiscoverSettingsCount);
         }
 
         if (this.RequestedServerVersion < AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService) {
@@ -856,9 +897,26 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         });
     }
-    private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
-        throw new Error("Not implemented.");
+
+    /**
+     * Gets user settings from Autodiscover legacy endpoint.
+     *
+     * @param   {string}                emailAddress        The email address.
+     * @param   {UserSettingName[]}     requestedSettings   The requested settings.
+     * @return  {IPromise<GetUserSettingsResponse>}         GetUserSettingsResponse   :Promise
+     */
+    InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
+
+        // Cannot call legacy Autodiscover service with WindowsLive and other WSSecurity-based credentials
+        if ((this.Credentials != null) && (this.Credentials instanceof WSSecurityBasedCredentials)) {
+            throw new AutodiscoverLocalException(Strings.WLIDCredentialsCannotBeUsedWithLegacyAutodiscover);
+        }
+
+        let settings: OutlookConfigurationSettings = this.GetLegacyUserSettings<OutlookConfigurationSettings>(emailAddress, OutlookConfigurationSettings);
+
+        return settings.ConvertSettings(emailAddress, requestedSettings);
     }
+
     private InternalGetLegacyUserSettingsPrivate<Tsettings>(
         emailAddress: string, redirectionEmailAddresses: string[],
         currentHop: IRefParam<number>): Tsettings {
