@@ -49,6 +49,7 @@ import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
 import {DeleteMode} from "../Enumerations/DeleteMode";
+import {DisableAppRequest} from "./Requests/DisableAppRequest";
 import {DisableReasonType} from "../Enumerations/DisableReasonType";
 import {EmailAddress} from "../ComplexProperties/EmailAddress";
 import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
@@ -114,6 +115,7 @@ import {Guid} from "../Guid";
 import {IdFormat} from "../Enumerations/IdFormat";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
+import {InstallAppRequest} from "./Requests/InstallAppRequest";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
 import {ItemChange} from "../Sync/ItemChange";
@@ -175,6 +177,7 @@ import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleSta
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UninstallAppRequest} from "./Requests/UninstallAppRequest";
 import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateDelegateRequest} from "./Requests/UpdateDelegateRequest";
@@ -3653,9 +3656,54 @@ export class ExchangeService extends ExchangeServiceBase {
             return response.AppMarketplaceUrl;
         });
     }
-    DisableApp(id: string, disableReason: DisableReasonType): any { throw new Error("ExchangeService.ts - DisableApp : Not implemented."); }
-    InstallApp(manifestStream: any /*System.IO.Stream*/): any { throw new Error("ExchangeService.ts - InstallApp : Not implemented."); }
-    UninstallApp(id: string): any { throw new Error("ExchangeService.ts - UninstallApp : Not implemented."); }
+
+    /**
+     * Disable an App.
+     *
+     * @param   {string}                id              App ID
+     * @param   {DisableReasonType}     disableReason   Disable reason
+     * @return  {IPromise<void>}        :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    DisableApp(id: string, disableReason: DisableReasonType): IPromise<void> {
+        EwsUtilities.ValidateParam(id, "id");
+        EwsUtilities.ValidateParam(disableReason, "disableReason");
+
+        let request: DisableAppRequest = new DisableAppRequest(this, id, disableReason);
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Install an App.
+     *
+     * @param   {string}   manifestStream   The manifest's plain text XML as base64 encoded string.
+     * @return  {IPromise<void>}    :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    InstallApp(manifestStream: string): IPromise<void> {
+        EwsUtilities.ValidateParam(manifestStream, "manifestStream");
+
+        let request: InstallAppRequest = new InstallAppRequest(this, manifestStream);
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Uninstall an App.
+     *
+     * @param   {string}   id   App ID
+     * @return  {IPromise<void>}    :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    UninstallApp(id: string): IPromise<void> {
+        EwsUtilities.ValidateParam(id, "id");
+
+        let request: UninstallAppRequest = new UninstallAppRequest(this, id);
+
+        return <any>request.Execute();
+    }
+
     GetClientExtension(requestedExtensionIds: StringList, shouldReturnEnabledOnly: boolean, isUserScope: boolean, userId: string, userEnabledExtensionIds: StringList, userDisabledExtensionIds: StringList, isDebug: boolean): GetClientExtensionResponse { throw new Error("ExchangeService.ts - GetClientExtension : Not implemented."); }
     SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("ExchangeService.ts - SetClientExtension : Not implemented."); }
     GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
