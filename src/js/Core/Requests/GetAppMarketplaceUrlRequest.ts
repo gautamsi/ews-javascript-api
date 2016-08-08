@@ -1,19 +1,119 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetAppMarketplaceUrlResponse} from "../Responses/GetAppMarketplaceUrlResponse";
+﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {EwsUtilities} from "../EwsUtilities";
+import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+import {GetAppMarketplaceUrlResponse} from "../Responses/GetAppMarketplaceUrlResponse";
+import {IPromise} from "../../Interfaces";
+import {StringHelper} from "../../ExtensionMethods";
+import {XmlElementNames} from "../XmlElementNames";
+import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+
+import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetAppMarketplaceUrl request.
+ * 
+ * @sealed 
  */
 export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
-	ApiVersionSupported: string;
-	SchemaVersionSupported: string;
-	Execute(): GetAppMarketplaceUrlResponse{ throw new Error("GetAppMarketplaceUrlRequest.ts - Execute : Not implemented.");}
-	GetMinimumRequiredServerVersion(): ExchangeVersion{ throw new Error("GetAppMarketplaceUrlRequest.ts - GetMinimumRequiredServerVersion : Not implemented.");}
-	GetResponseXmlElementName(): string{ throw new Error("GetAppMarketplaceUrlRequest.ts - GetResponseXmlElementName : Not implemented.");}
-	GetXmlElementName(): string{ throw new Error("GetAppMarketplaceUrlRequest.ts - GetXmlElementName : Not implemented.");}
-	ParseResponse(reader: EwsServiceXmlReader): any{ throw new Error("GetAppMarketplaceUrlRequest.ts - ParseResponse : Not implemented.");}
-	Validate(): void{ throw new Error("GetAppMarketplaceUrlRequest.ts - Validate : Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void{ throw new Error("GetAppMarketplaceUrlRequest.ts - WriteElementsToXml : Not implemented.");}
+
+	/**
+	 * @internal Gets or sets the api version supported by the client. 
+	 * This is used by EWS to generate a market place url with the correct version filter.
+	 * 
+	 * @value	The Api version supported.
+	 */
+	ApiVersionSupported: string = null;
+
+	/**
+	 * @internal Gets or sets the Schema version supported by the client. 
+	 * This is used by EWS to generate a market place url with the correct version filter.
+	 * 
+	 * @value	The schema version supported.
+	 */
+	SchemaVersionSupported: string = null;
+
+	/**
+	 * @internal Initializes a new instance of the **GetAppMarketplaceUrlRequest** class.
+	 *
+	 * @param   {ExchangeService}   service   The service.
+	 */
+	constructor(service: ExchangeService) {
+		super(service);
+	}
+
+	/**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetAppMarketplaceUrlResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetAppMarketplaceUrlResponse> {
+
+		return this.InternalExecute().then((serviceResponse: GetAppMarketplaceUrlResponse) => {
+            serviceResponse.ThrowIfNecessary();
+            return serviceResponse;
+        });
+	}
+
+	/**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+		return ExchangeVersion.Exchange2013;
+	}
+
+	/**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+		return XmlElementNames.GetAppMarketplaceUrlResponse;
+	}
+
+	/**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+		return XmlElementNames.GetAppMarketplaceUrlRequest;
+	}
+
+	/**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+		let response: GetAppMarketplaceUrlResponse = new GetAppMarketplaceUrlResponse();
+		response.LoadFromXmlJsObject(jsonBody, this.Service);
+		return response;
+	}
+
+	/**
+	 * @internal Validate request.
+	 */
+	Validate(): void {
+		super.Validate();
+		EwsUtilities.ValidateNonBlankStringParamAllowNull(this.ApiVersionSupported, "ApiVersionSupported");
+		EwsUtilities.ValidateNonBlankStringParamAllowNull(this.SchemaVersionSupported, "SchemaVersionSupported");
+	}
+
+	/**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+		if (!StringHelper.IsNullOrEmpty(this.ApiVersionSupported)) {
+			writer.WriteElementValue(XmlNamespace.Messages, "ApiVersionSupported", this.ApiVersionSupported);
+		}
+
+		if (!StringHelper.IsNullOrEmpty(this.SchemaVersionSupported)) {
+			writer.WriteElementValue(XmlNamespace.Messages, "SchemaVersionSupported", this.SchemaVersionSupported);
+		}
+	}
 }

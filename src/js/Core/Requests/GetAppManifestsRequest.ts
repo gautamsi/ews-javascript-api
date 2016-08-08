@@ -22,7 +22,7 @@ export class GetAppManifestsRequest extends SimpleServiceRequestBase {
 	 * 
 	 * @value	The Api version supported.
 	 */
-	ApiVersionSupported: string;
+	ApiVersionSupported: string = null;
 
 	/**
 	 * @internal Gets or sets the Schema version supported by the client. 
@@ -30,7 +30,7 @@ export class GetAppManifestsRequest extends SimpleServiceRequestBase {
 	 * 
 	 * @value	The schema version supported.
 	 */
-	SchemaVersionSupported: string;
+	SchemaVersionSupported: string = null;
 
 	/**
 	 * @internal Initializes a new instance of the **GetAppManifestsRequest** class.

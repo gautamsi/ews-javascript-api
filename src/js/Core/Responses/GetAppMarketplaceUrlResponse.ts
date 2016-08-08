@@ -1,10 +1,38 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import {ExchangeService} from "../ExchangeService";
+import {XmlElementNames} from "../XmlElementNames";
+
+import {ServiceResponse} from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal  Represents the response to a GetAppMarketplaceUrl operation
+ * 
+ * @sealed
  */
 export class GetAppMarketplaceUrlResponse extends ServiceResponse {
-	AppMarketplaceUrl: string;
+
 	private appMarketplaceUrl: string;
-	ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): void{ throw new Error("GetAppMarketplaceUrlResponse.ts - ReadElementsFromXmlJsObject : Not implemented.");}
+
+	/**
+	 * App Marketplace Url
+	 */
+	get AppMarketplaceUrl(): string {
+		return this.appMarketplaceUrl;
+	}
+
+	/**
+	 * @internal Initializes a new instance of the **GetAppMarketplaceUrlResponse** class.
+	 */
+	constructor() {
+		super();
+	}
+
+	/**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+
+		this.appMarketplaceUrl = <string>jsObject[XmlElementNames.AppMarketplaceUrl];
+	}
 }

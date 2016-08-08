@@ -77,6 +77,8 @@ import {FolderIdWrapper} from "../Misc/FolderIdWrapper";
 import {FolderView} from "../Search/FolderView";
 import {GetAppManifestsRequest} from "./Requests/GetAppManifestsRequest";
 import {GetAppManifestsResponse} from "./Responses/GetAppManifestsResponse";
+import {GetAppMarketplaceUrlRequest} from "./Requests/GetAppMarketplaceUrlRequest";
+import {GetAppMarketplaceUrlResponse} from "./Responses/GetAppMarketplaceUrlResponse";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
@@ -3623,9 +3625,34 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     }
+
+    /**
+     * Get App Marketplace Url.
+     *
+     * @return  {IPromise<string>}      marketplace url as string :Promise.
+     * @remarks                         Exception will be thrown for errors. 
+     */
     GetAppMarketplaceUrl(): IPromise<string>;
+    /**
+     * Get App Marketplace Url.  Works with Exchange 2013 SP1 or later EWS.
+     *
+     * @param   {string}   apiVersionSupported      The api version supported by the client.
+     * @param   {string}   schemaVersionSupported   The schema version supported by the client.
+     * @return  {IPromise<string>}                  marketplace url as string :Promise.
+     * @remarks                                     Exception will be thrown for errors. 
+     */
     GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): IPromise<string>;
-    GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): IPromise<string> { throw new Error("ExchangeService.ts - GetAppMarketplaceUrl : Not implemented."); }
+    GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): IPromise<string> {
+
+        let request: GetAppMarketplaceUrlRequest = new GetAppMarketplaceUrlRequest(this);
+        request.ApiVersionSupported = apiVersionSupported;
+        request.SchemaVersionSupported = schemaVersionSupported;
+
+        return request.Execute().then((response: GetAppMarketplaceUrlResponse) => {
+
+            return response.AppMarketplaceUrl;
+        });
+    }
     DisableApp(id: string, disableReason: DisableReasonType): any { throw new Error("ExchangeService.ts - DisableApp : Not implemented."); }
     InstallApp(manifestStream: any /*System.IO.Stream*/): any { throw new Error("ExchangeService.ts - InstallApp : Not implemented."); }
     UninstallApp(id: string): any { throw new Error("ExchangeService.ts - UninstallApp : Not implemented."); }
