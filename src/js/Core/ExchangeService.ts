@@ -20,6 +20,7 @@ import {CalendarView} from "../Search/CalendarView";
 import {ChangeCollection} from "../Sync/ChangeCollection";
 import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
 import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
+import {ClientApp} from "../ComplexProperties/ClientApp";
 import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
 import {Conversation} from "./ServiceObjects/Items/Conversation";
 import {ConversationAction} from "../Misc/ConversationAction";
@@ -48,6 +49,8 @@ import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
 import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
 import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
 import {DeleteMode} from "../Enumerations/DeleteMode";
+import {DisableAppRequest} from "./Requests/DisableAppRequest";
+import {DisableReasonType} from "../Enumerations/DisableReasonType";
 import {EmailAddress} from "../ComplexProperties/EmailAddress";
 import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
 import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
@@ -73,14 +76,20 @@ import {FolderId} from "../ComplexProperties/FolderId";
 import {FolderIdCollection} from "../ComplexProperties/FolderIdCollection";
 import {FolderIdWrapper} from "../Misc/FolderIdWrapper";
 import {FolderView} from "../Search/FolderView";
+import {GetAppManifestsRequest} from "./Requests/GetAppManifestsRequest";
+import {GetAppManifestsResponse} from "./Responses/GetAppManifestsResponse";
+import {GetAppMarketplaceUrlRequest} from "./Requests/GetAppMarketplaceUrlRequest";
+import {GetAppMarketplaceUrlResponse} from "./Responses/GetAppMarketplaceUrlResponse";
 import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
 import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
 import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
 import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
+import {GetClientExtensionResponse} from "./Responses/GetClientExtensionResponse";
 import {GetConversationItemsRequest} from "./Requests/GetConversationItemsRequest";
 import {GetConversationItemsResponse} from "./Responses/GetConversationItemsResponse";
 import {GetDelegateRequest} from "./Requests/GetDelegateRequest";
 import {GetDelegateResponse} from "./Responses/GetDelegateResponse";
+import {GetEncryptionConfigurationResponse} from "./Responses/GetEncryptionConfigurationResponse";
 import {GetEventsRequest} from "./Requests/GetEventsRequest";
 import {GetEventsResults} from "../Notifications/GetEventsResults";
 import {GetFolderRequest} from "./Requests/GetFolderRequest";
@@ -106,6 +115,7 @@ import {Guid} from "../Guid";
 import {IdFormat} from "../Enumerations/IdFormat";
 import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
 import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
+import {InstallAppRequest} from "./Requests/InstallAppRequest";
 import {IPromise, IXHROptions} from "../Interfaces";
 import {Item} from "./ServiceObjects/Items/Item";
 import {ItemChange} from "../Sync/ItemChange";
@@ -167,6 +177,7 @@ import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleSta
 import {TimeWindow} from "../Misc/Availability/TimeWindow";
 import {TraceFlags} from "../Enumerations/TraceFlags";
 import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
+import {UninstallAppRequest} from "./Requests/UninstallAppRequest";
 import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
 import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
 import {UpdateDelegateRequest} from "./Requests/UpdateDelegateRequest";
@@ -3301,7 +3312,7 @@ export class ExchangeService extends ExchangeServiceBase {
         }
         return request.Execute().then((response: GetInboxRulesResponse) => {
             return response.Rules;
-        })
+        });
     }
 
     /**
@@ -3582,17 +3593,121 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
     /* #region Client Extensibility */
-    //GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): System.Collections.ObjectModel.Collection<ClientApp> { throw new Error("ExchangeService.ts - GetAppManifests : Not implemented."); }
-    ////GetAppManifests(): System.Collections.ObjectModel.Collection<System.Xml.XmlDocument> { throw new Error("ExchangeService.ts - GetAppManifests : Not implemented."); }
-    //GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): string { throw new Error("ExchangeService.ts - GetAppMarketplaceUrl : Not implemented."); }
-    ////GetAppMarketplaceUrl(): string { throw new Error("ExchangeService.ts - GetAppMarketplaceUrl : Not implemented."); }
-    //DisableApp(id: string, disableReason: DisableReasonType): any { throw new Error("ExchangeService.ts - DisableApp : Not implemented."); }
-    //InstallApp(manifestStream: any /*System.IO.Stream*/): any { throw new Error("ExchangeService.ts - InstallApp : Not implemented."); }
-    //UninstallApp(id: string): any { throw new Error("ExchangeService.ts - UninstallApp : Not implemented."); }
-    //GetClientExtension(requestedExtensionIds: StringList, shouldReturnEnabledOnly: boolean, isUserScope: boolean, userId: string, userEnabledExtensionIds: StringList, userDisabledExtensionIds: StringList, isDebug: boolean): GetClientExtensionResponse { throw new Error("ExchangeService.ts - GetClientExtension : Not implemented."); }
-    //SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("ExchangeService.ts - SetClientExtension : Not implemented."); }
-    //GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
-    //SetEncryptionConfiguration(imageBase64: string, emailText: string, portalText: string, disclaimerText: string): any { throw new Error("ExchangeService.ts - SetEncryptionConfiguration : Not implemented."); }
+
+    /**
+     * Get the app manifests.
+     *
+     * @return  {IPromise<string[]>}             Collection of manifests xml file as base64 encoded string :Promise.
+     */
+    GetAppManifests(): IPromise<string[]>;
+    /**
+     * Get the app manifests.  Works with Exchange 2013 SP1 or later EWS.
+     *
+     * @param   {string}   apiVersionSupported      The api version supported by the client.
+     * @param   {string}   schemaVersionSupported   The schema version supported by the client.
+     * @return  {IPromise<ClientApp[]>}             Collection of manifests :Promise.
+     */
+    GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): IPromise<ClientApp[]>;
+    GetAppManifests(apiVersionSupported: string = null, schemaVersionSupported: string = null): IPromise<ClientApp[] | string[]> {
+        let argsLength = arguments.length;
+        let request: GetAppManifestsRequest = new GetAppManifestsRequest(this);
+
+        if (argsLength !== 0) {
+            request.ApiVersionSupported = apiVersionSupported;
+            request.SchemaVersionSupported = schemaVersionSupported;
+        }
+
+        return request.Execute().then((response: GetAppManifestsResponse) => {
+            if (argsLength !== 0) {
+                return response.Apps;
+            }
+            else {
+                return response.Manifests;
+            }
+        });
+
+
+    }
+
+    /**
+     * Get App Marketplace Url.
+     *
+     * @return  {IPromise<string>}      marketplace url as string :Promise.
+     * @remarks                         Exception will be thrown for errors. 
+     */
+    GetAppMarketplaceUrl(): IPromise<string>;
+    /**
+     * Get App Marketplace Url.  Works with Exchange 2013 SP1 or later EWS.
+     *
+     * @param   {string}   apiVersionSupported      The api version supported by the client.
+     * @param   {string}   schemaVersionSupported   The schema version supported by the client.
+     * @return  {IPromise<string>}                  marketplace url as string :Promise.
+     * @remarks                                     Exception will be thrown for errors. 
+     */
+    GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): IPromise<string>;
+    GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): IPromise<string> {
+
+        let request: GetAppMarketplaceUrlRequest = new GetAppMarketplaceUrlRequest(this);
+        request.ApiVersionSupported = apiVersionSupported;
+        request.SchemaVersionSupported = schemaVersionSupported;
+
+        return request.Execute().then((response: GetAppMarketplaceUrlResponse) => {
+
+            return response.AppMarketplaceUrl;
+        });
+    }
+
+    /**
+     * Disable an App.
+     *
+     * @param   {string}                id              App ID
+     * @param   {DisableReasonType}     disableReason   Disable reason
+     * @return  {IPromise<void>}        :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    DisableApp(id: string, disableReason: DisableReasonType): IPromise<void> {
+        EwsUtilities.ValidateParam(id, "id");
+        EwsUtilities.ValidateParam(disableReason, "disableReason");
+
+        let request: DisableAppRequest = new DisableAppRequest(this, id, disableReason);
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Install an App.
+     *
+     * @param   {string}   manifestStream   The manifest's plain text XML as base64 encoded string.
+     * @return  {IPromise<void>}    :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    InstallApp(manifestStream: string): IPromise<void> {
+        EwsUtilities.ValidateParam(manifestStream, "manifestStream");
+
+        let request: InstallAppRequest = new InstallAppRequest(this, manifestStream);
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Uninstall an App.
+     *
+     * @param   {string}   id   App ID
+     * @return  {IPromise<void>}    :Promise.
+     * @remarks Exception will be thrown for errors. 
+     */
+    UninstallApp(id: string): IPromise<void> {
+        EwsUtilities.ValidateParam(id, "id");
+
+        let request: UninstallAppRequest = new UninstallAppRequest(this, id);
+
+        return <any>request.Execute();
+    }
+
+    GetClientExtension(requestedExtensionIds: StringList, shouldReturnEnabledOnly: boolean, isUserScope: boolean, userId: string, userEnabledExtensionIds: StringList, userDisabledExtensionIds: StringList, isDebug: boolean): GetClientExtensionResponse { throw new Error("ExchangeService.ts - GetClientExtension : Not implemented."); }
+    SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("ExchangeService.ts - SetClientExtension : Not implemented."); }
+    GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
+    SetEncryptionConfiguration(imageBase64: string, emailText: string, portalText: string, disclaimerText: string): any { throw new Error("ExchangeService.ts - SetEncryptionConfiguration : Not implemented."); }
     /* #endregion Client Extensibility */
 
 
