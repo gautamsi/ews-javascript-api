@@ -20,7 +20,9 @@ import {StringHelper} from "../ExtensionMethods";
 import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
 import {Uri} from "../Uri";
 
+import {Exception} from "../Exceptions/Exception";
 import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
+import {ServiceRequestUnauthorizedException} from "../Exceptions/ServiceRequestUnauthorizedException";
 import {AccountIsLockedException} from "../Exceptions/AccountIsLockedException";
 
 export class ExchangeServiceBase {
@@ -270,6 +272,7 @@ export class ExchangeServiceBase {
 
         this.ProcessHttpResponseHeaders(responseHeadersTraceFlag, httpWebResponse);
 
+        let exception: Exception = null;
         // Deal with new HTTP error code indicating that account is locked.
         // The "unlock" URL is returned as the status description in the response.
         if (httpWebResponse.status == ExchangeServiceBase.AccountIsLocked) {
@@ -286,10 +289,16 @@ export class ExchangeServiceBase {
 
             this.TraceMessage(responseTraceFlag, StringHelper.Format("Account is locked. Unlock URL is {0}", accountUnlockUrl.ToString()));
 
-            let exception = new AccountIsLockedException(
+            exception = new AccountIsLockedException(
                 StringHelper.Format(Strings.AccountIsLocked, accountUnlockUrl),
                 accountUnlockUrl,
                 null);
+        }
+        else if (httpWebResponse.status === 401 /*Unauthorized*/) {
+            exception = new ServiceRequestUnauthorizedException("401 Unauthorized");
+        }
+
+        if (exception) {
             if (soapFault !== null) {
                 soapFault.Exception = exception;
             }
