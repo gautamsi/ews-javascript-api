@@ -31,6 +31,16 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 also track what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.6.0 (and fixed in 0.5.1 and 0.5.2)
+
+* new: #41 ***App management operations*** availbale, [see MSDN: *Mail apps for Outlook* section by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/jj190903(v=exchg.150).aspx#ewsmailapps)
+* fix: #64 - small type fixed to prevent error in typing d.ts file
+* fix: #69 - Fixed use of ComplexpropertyCollectioin type objects, there were issues in parsing this complex type with different elements in ews operations
+* fix: #71 - Fixed `this` lexical scope in delegate calls when called by xhr promise. 
+* fix: #76 - Fixed improper detection of ComplexProperty type and PropertyDefinition type inside PropertySet. 
+* fix: #83 - Added `ServiceRequestUnauthorizedException` class to detect "Unauthorized" exception in case of 401 status code in http call.  `SoapFaultDetails.Exception` can be checked for this class type in case of 401 exception in xhr call.
+
+
 # Whats new v0.5.0 
 
 * new: ***Conversation operations*** availbale, [see MSDN: How to: Work with conversations by using EWS in Exchange](https://msdn.microsoft.com/en-us/library/office/dn610351(v=exchg.150).aspx)
@@ -218,23 +228,28 @@ AddDelegates
 GetDelegates  
 RemoveDelegates   
 UpdateDelegates   
-GetUserRetentionPolicyTags \*   
-FindConversation\*   
-FindGroupConversation\*   
-GetConversationItems\*   
-GetGroupConversationItems\*   
-EnableAlwaysCategorizeItemsInConversations\*   
-DisableAlwaysCategorizeItemsInConversations\*   
-EnableAlwaysDeleteItemsInConversations\*   
-DisableAlwaysDeleteItemsInConversations\*   
-EnableAlwaysMoveItemsInConversations\*   
-DisableAlwaysMoveItemsInConversations\*   
-MoveItemsInConversations\*   
-CopyItemsInConversations\*   
-DeleteItemsInConversations\*   
-SetReadStateForItemsInConversations\*   
-SetRetentionPolicyForItemsInConversations\*   
-SetFlagStatusForItemsInConversations\*   
+GetUserRetentionPolicyTags    
+FindConversation   
+FindGroupConversation   
+GetConversationItems   
+GetGroupConversationItems   
+EnableAlwaysCategorizeItemsInConversations   
+DisableAlwaysCategorizeItemsInConversations   
+EnableAlwaysDeleteItemsInConversations   
+DisableAlwaysDeleteItemsInConversations   
+EnableAlwaysMoveItemsInConversations   
+DisableAlwaysMoveItemsInConversations   
+MoveItemsInConversations   
+CopyItemsInConversations   
+DeleteItemsInConversations   
+SetReadStateForItemsInConversations   
+SetRetentionPolicyForItemsInConversations   
+SetFlagStatusForItemsInConversations   
+GetAppManifests  \*   
+GetAppMarketplaceUrl  \*   
+DisableApp  \*   
+InstallApp  \*   
+UninstallApp  \*   
 
 \* is for new items in recent update
 
