@@ -28,13 +28,13 @@ export class AcceptMeetingInvitationMessage extends CalendarResponseMessage<Meet
                 this.tentative = tentative;
         }
         /**
-         * Gets the minimum required server version.
+         * @internal Gets the minimum required server version.
          *
          * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
          */
         GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
         /**
-         * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
+         * @internal This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
          *
          * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
          */
@@ -46,4 +46,10 @@ export class AcceptMeetingInvitationMessage extends CalendarResponseMessage<Meet
                         return XmlElementNames.AcceptItem;
                 }
         }
+        /**
+         * @internal Gets the element name of item in XML
+         *
+         * @return  {string} name of elelment
+         */
+        GetXmlElementName(): string { return this.GetXmlElementNameOverride(); }
 }
