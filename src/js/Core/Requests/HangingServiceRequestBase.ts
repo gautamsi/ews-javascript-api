@@ -93,6 +93,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                 EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
                 if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             }, (progress: string) => {
+                this.InternalOnConnect();
                 progress = progress.trim();
                 this.chunk += progress;
                 let _continue = false;
@@ -134,8 +135,6 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                 }
             });
         });
-
-        //this.InternalOnConnect();
     }
 
     /**
