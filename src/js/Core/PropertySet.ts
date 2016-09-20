@@ -258,21 +258,21 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.BodyType,
-                    this.RequestedBodyType/*.Value*/);
+                    BodyType[this.RequestedBodyType]/*.Value*/);
             }
 
             if (this.RequestedUniqueBodyType/*.HasValue*/) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.UniqueBodyType,
-                    this.RequestedUniqueBodyType/*.Value*/);
+                    BodyType[this.RequestedUniqueBodyType]/*.Value*/);
             }
 
             if (this.RequestedNormalizedBodyType/*.HasValue*/) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.NormalizedBodyType,
-                    this.RequestedNormalizedBodyType/*.Value*/);
+                    BodyType[this.RequestedNormalizedBodyType]/*.Value*/);
             }
 
             if (this.FilterHtmlContent/*.HasValue*/) {
