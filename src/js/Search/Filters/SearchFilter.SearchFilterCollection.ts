@@ -78,20 +78,32 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 	 * @param   {SearchFilter[]}   	searchFilters     The search filters to add to the collection.
 	 */
 	constructor(logicalOperator: LogicalOperator, searchFilters: SearchFilter[]);
-	//constructor(logicalOperator: LogicalOperator, ...searchFilters: SearchFilter[]);
-	constructor(logicalOperator: LogicalOperator = LogicalOperator.And, searchFilters: SearchFilter[] = []) {
+	/**
+	 * Initializes a new instance of the **SearchFilterCollection** class.
+	 *
+	 * @param   {LogicalOperator}   logicalOperator   The logical operator used to initialize the collection.
+	 * @param   {...SearchFilter[]}   	...searchFilters     The search filters to add to the collection.
+	 */
+	constructor(logicalOperator: LogicalOperator, ...searchFilters: SearchFilter[]);
+	constructor(logicalOperator?: LogicalOperator, _searchFilters?: SearchFilter[] | SearchFilter) {
 		super();
-		if (arguments.length >= 1) {
-			this.logicalOperator = logicalOperator;
-		}
-		if (arguments.length === 2) {
-			if (searchFilters instanceof Array) {
-				this.AddRange(searchFilters);
-			}
-			else {
-				throw new ArgumentOutOfRangeException("searchFilters", "Can not use non Array argument for searchFilters, c# params not supported");
-			}
-		}
+		var searchFilters: SearchFilter[] = [];
+        if (arguments.length <= 2) {
+            if (Array.isArray(_searchFilters)) {
+                searchFilters = _searchFilters;
+            }
+            else if (typeof SearchFilter[<any>_searchFilters] !== 'undefined') {
+                searchFilters.push(arguments[1]);
+            }
+        }
+        else {						
+            for (var _i = 1; _i < arguments.length; _i++) {
+                searchFilters[_i - 1] = arguments[_i];
+            }
+        }
+
+		this.logicalOperator = logicalOperator || this.logicalOperator;
+		this.AddRange(searchFilters);		
 	}
 
 	/**
