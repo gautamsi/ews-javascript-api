@@ -117,8 +117,8 @@ export class ContainsSubstring extends PropertyBasedFilter {
 	WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
 		super.WriteAttributesToXml(writer);
 
-		writer.WriteAttributeValue(XmlAttributeNames.ContainmentMode, this.ContainmentMode);
-		writer.WriteAttributeValue(XmlAttributeNames.ContainmentComparison, this.ComparisonMode);
+		writer.WriteAttributeValue(XmlAttributeNames.ContainmentMode, ContainmentMode[this.ContainmentMode]);
+		writer.WriteAttributeValue(XmlAttributeNames.ContainmentComparison, ComparisonMode[this.ComparisonMode]);
 	}
 
 	/**
