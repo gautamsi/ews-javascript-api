@@ -48,14 +48,13 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
                     var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
                     //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
                     var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
-
+                    
+                    if (successDelegate)
+                        successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
                 }
-
-                if (successDelegate)
-                    successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
                 else {
                     if (errorDelegate)
-                        errorDelegate(xhrResponse.response);
+                        errorDelegate(this.ProcessWebException(serviceResponse || xhrResponse.responseText || xhrResponse.response) || serviceResponse);
                 }
             }, (resperr: XMLHttpRequest) => {
                 EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
