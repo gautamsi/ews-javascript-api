@@ -41,22 +41,29 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
                         serviceResponses.Count == 1,
                         "MultiResponseServiceRequest.Execute",
                         "ServiceErrorHandling.ThrowOnError error handling is only valid for singleton request");
+                    try {
 
-                    serviceResponses.__thisIndexer(0).ThrowIfNecessary();
+                        serviceResponses.__thisIndexer(0).ThrowIfNecessary();
+                    }
+                    catch (error) {
+                        if (errorDelegate) {
+                            errorDelegate(error);
+                        }
+                    }
                 }
 
                 //return serviceResponses; //no return succedssdelegates take care of returning
 
 
-                if (successDelegate)
+                if (successDelegate) {
                     successDelegate(serviceResponses);
-                else {
-                    if (errorDelegate)
-                        errorDelegate(value);
                 }
+
             }, (resperr: any) => {
                 debugger;
-                if (errorDelegate) errorDelegate(resperr);
+                if (errorDelegate) {
+                    errorDelegate(resperr);
+                }
             });
         });
     }
@@ -72,7 +79,7 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
         // }
 
         var responseMessageXmlElementName = this.GetResponseMessageXmlElementName();
-        let responseMessages = EwsServiceJsonReader.ReadAsArray(jsResponseMessages,responseMessageXmlElementName);
+        let responseMessages = EwsServiceJsonReader.ReadAsArray(jsResponseMessages, responseMessageXmlElementName);
         //for (var i = 0; i < responses.length; i++) {
         for (var i = 0; i < this.GetExpectedResponseMessageCount(); i++) {
             var response: TResponse = this.CreateServiceResponse(this.Service, i);
