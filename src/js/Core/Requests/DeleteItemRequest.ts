@@ -70,7 +70,7 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
         if (this.SendCancellationsMode !== null) {
             writer.WriteAttributeValue(
                 XmlAttributeNames.SendMeetingCancellations,
-                this.SendCancellationsMode);
+                SendCancellationsMode[this.SendCancellationsMode]);
         }
 
         if (this.SuppressReadReceipts) {
