@@ -1,26 +1,26 @@
-import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
-import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
-import {SuppressReadReceipt} from "../ResponseObjects/SuppressReadReceipt";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
 import {ApprovalRequestData} from "../../../ComplexProperties/ApprovalRequestData";
-import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
+import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
+import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
+import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
 import {ExchangeService} from "../../ExchangeService";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {FolderId} from "../../../ComplexProperties/FolderId";
+import {IPromise} from "../../../Interfaces";
+import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {ItemId} from "../../../ComplexProperties/ItemId";
+import {MessageBody} from "../../../ComplexProperties/MessageBody";
+import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {PromiseFactory} from '../../../PromiseFactory';
 import {PropertySet} from "../../PropertySet";
 import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
 import {Schemas} from "../Schemas/Schemas";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
+import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
+import {SuppressReadReceipt} from "../ResponseObjects/SuppressReadReceipt";
+import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
 import {XmlElementNames} from "../../XmlElementNames";
-import {IPromise} from "../../../Interfaces";
-import {PromiseFactory} from '../../../PromiseFactory';
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
 
 import {Item} from "./Item";
 /**
@@ -207,7 +207,7 @@ export class EmailMessage extends Item {
     }
 
     /**
-     * Initializes an unsaved local instance of . To bind to an existing e-mail message, use EmailMessage.Bind() instead.
+     * Initializes an unsaved local instance of **EmailMessage**. To bind to an existing e-mail message, use EmailMessage.Bind() instead.
      *
      * @param   {ExchangeService}   service   The ExchangeService object to which the e-mail message will be bound.
      */
@@ -218,6 +218,10 @@ export class EmailMessage extends Item {
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
     constructor(parentAttachment: ItemAttachment);
+    /**
+     * @internal ~~**used for super call, easier to manage, do not use in Actual code. //todo:fix - [ ] remove from d.ts file**~~.
+     */
+    constructor(serviceOrParentAttachment: ExchangeService | ItemAttachment);
     constructor(serviceOrParentAttachment: ExchangeService | ItemAttachment) {
         super(serviceOrParentAttachment);
     }

@@ -586,8 +586,6 @@ export class Item extends ServiceObject {
     constructor(parentAttachment: ItemAttachment);
     /**
      * @internal ~~**used for super call, easier to manage, do not use in Actual code. //todo:fix - [ ] remove from d.ts file**~~.
-     *
-     * @param   {ExchangeService | ItemAttachment}   service   The ExchangeService object to which the item will be bound.
      */
     constructor(obj: ExchangeService | ItemAttachment)
     constructor(obj: ExchangeService | ItemAttachment) {
