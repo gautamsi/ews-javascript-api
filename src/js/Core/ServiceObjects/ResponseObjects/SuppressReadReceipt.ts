@@ -1,19 +1,20 @@
-import {Schemas} from "../Schemas/Schemas";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {XmlElementNames} from "../../XmlElementNames";
-import {Item} from "../Items/Item";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {PropertySet} from "../../PropertySet";
-import {EwsLogging} from "../../EwsLogging";
-import {IPromise} from "../../../Interfaces";
+import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { EwsLogging } from "../../EwsLogging";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { IPromise } from "../../../Interfaces";
+import { Item } from "../Items/Item";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
+import { NotSupportedException } from "../../../Exceptions/NotSupportedException";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObject} from "../ServiceObject";
+import { ServiceObject } from "../ServiceObject";
 /**
  * Represents a response object created to supress read receipts for an item.
  *
@@ -65,11 +66,15 @@ export class SuppressReadReceipt extends ServiceObject {
      * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> { throw new Error("SuppressReadReceipt.ts - InternalDelete : Not Supported Exception."); }
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+        throw new NotSupportedException();
+    }
     /**
      * Loads the specified set of properties on the object.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> { throw new Error("SuppressReadReceipt.ts - InternalLoad : Not Supported Exception."); }
+    InternalLoad(propertySet: PropertySet): IPromise<void> {
+        throw new NotSupportedException();
+    }
 }
