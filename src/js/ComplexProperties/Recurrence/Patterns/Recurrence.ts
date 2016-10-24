@@ -186,8 +186,7 @@ export class Recurrence extends ComplexProperty {
      * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-        super.LoadFromXmlJsObject(jsObject, service);
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {        
     }
 
     /**
