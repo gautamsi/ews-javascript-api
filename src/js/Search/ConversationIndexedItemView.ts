@@ -133,11 +133,11 @@ export class ConversationIndexedItemView extends PagedView {
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
 		if (this.Traversal) {
-			writer.WriteAttributeValue(XmlAttributeNames.Traversal, this.Traversal);
+			writer.WriteAttributeValue(XmlAttributeNames.Traversal, ConversationQueryTraversal[this.Traversal]);
 		}
 
 		if (this.ViewFilter) {
-			writer.WriteAttributeValue(XmlAttributeNames.ViewFilter, this.ViewFilter);
+			writer.WriteAttributeValue(XmlAttributeNames.ViewFilter, ViewFilter[this.ViewFilter]);
 		}
 	}
 
