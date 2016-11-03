@@ -197,7 +197,7 @@ export class EwsUtilities {
                 };
                 break;
             default:
-                throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[enumType]);
+                throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[<number>enumType]);
         }
 
         return enumDelegate;

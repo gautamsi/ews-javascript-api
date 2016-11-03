@@ -1,5 +1,3 @@
-/// <reference path="../../typings/q/Q.d.ts" />
-
 import {IPromise, IXHROptions, IPromiseApi} from "./Interfaces";
 import Q = require('q');
 import {PromiseFactory} from "./PromiseFactory";

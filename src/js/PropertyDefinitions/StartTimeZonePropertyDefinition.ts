@@ -35,7 +35,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
      * @return  {boolean}                   true if the specified flag is set; otherwise, false.
      */
     HasFlag(flag: PropertyDefinitionFlags, version?: ExchangeVersion): boolean {
-        if (version && (version === ExchangeVersion.Exchange2007_SP1)) {
+        if (version && (version as ExchangeVersion === ExchangeVersion.Exchange2007_SP1)) {
             return Schemas.AppointmentSchema.MeetingTimeZone.HasFlag(flag, version);
         }
         else {

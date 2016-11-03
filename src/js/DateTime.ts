@@ -1,6 +1,4 @@
-/// <reference path="../../typings/moment-timezone/moment-timezone.d.ts" />
-/// <reference path="../../typings/moment/moment-node.d.ts" />
-import {ArgumentOutOfRangeException} from "./Exceptions/ArgumentException";
+import { ArgumentOutOfRangeException } from "./Exceptions/ArgumentException";
 import moment = require('moment-timezone');
 
 export enum DateTimeKind {
@@ -8,7 +6,7 @@ export enum DateTimeKind {
     Utc = 1,
     Local = 2,
 }
-	
+
 /**
  * DateTime - basic date time based on moment.js
  */
@@ -31,7 +29,7 @@ export class DateTime {
 
     }
 
-    Add(quantity: number, unit: string): DateTime {
+    Add(quantity: number, unit: moment.UnitOfTime): DateTime {
         var date: moment.Moment = moment(this.momentDate);
         date.add(quantity, unit);
         return new DateTime(date);
@@ -75,7 +73,7 @@ export class DateTime {
         // 	default:
         // 		break;
         // }
-				
+
         // Depending on the current culture, DateTime formatter will replace ':' with 
         // the DateTimeFormatInfo.TimeSeparator property which may not be ':'. Force the proper string
         // to be used by using the InvariantCulture.
@@ -137,7 +135,7 @@ export class TimeZoneInfo {
     }
 }
 
-export {moment};
+export { moment };
 
 export class TimeSpan implements moment.Duration {
     private duration: moment.Duration;
@@ -148,38 +146,77 @@ export class TimeSpan implements moment.Duration {
 
     as(units: string): number { return this.duration.as(units); }
 
+    /** @internal TODO: to be removed in 0.7. */
     milliseconds(): number { return this.duration.milliseconds(); }
+    /** @internal TODO: to be removed in 0.7. */
     asMilliseconds(): number { return this.duration.asMilliseconds(); }
+
+    Milliseconds(): number { return this.duration.milliseconds(); }
     get TotalMilliseconds(): number { return this.duration.asMilliseconds(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     seconds(): number { return this.duration.seconds(); }
+    /** @internal TODO: to be removed in 0.7. */
     asSeconds(): number { return this.duration.asSeconds(); }
+
+    Seconds(): number { return this.duration.seconds(); }
     get TotalSeconds(): number { return this.duration.asSeconds(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     minutes(): number { return this.duration.minutes(); }
+    /** @internal TODO: to be removed in 0.7. */
     asMinutes(): number { return this.duration.asMinutes(); }
+
+    Minutes(): number { return this.duration.minutes(); }
     get TotalMinutes(): number { return this.duration.asMinutes(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     hours(): number { return this.duration.hours(); }
+    /** @internal TODO: to be removed in 0.7. */
     asHours(): number { return this.duration.asHours(); }
+
+    Hours(): number { return this.duration.hours(); }
     get TotalHours(): number { return this.duration.asHours(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     days(): number { return this.duration.days(); }
+    /** @internal TODO: to be removed in 0.7. */
     asDays(): number { return this.duration.asDays(); }
+
+    Days(): number { return this.duration.days(); }
     get TotalDays(): number { return this.duration.asDays(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     months(): number { return this.duration.months(); }
+    /** @internal TODO: to be removed in 0.7. */
     asMonths(): number { return this.duration.asMonths(); }
+
+    Months(): number { return this.duration.months(); }
     get TotalMonths(): number { return this.duration.asMonths(); }
 
+    /** @internal TODO: to be removed in 0.7. */
     years(): number { return this.duration.years(); }
+    /** @internal TODO: to be removed in 0.7. */
     asYears(): number { return this.duration.asYears(); }
+
+    Years(): number { return this.duration.years(); }
     get TotalYears(): number { return this.duration.asYears(); }
 
-    add(n: number, p: string): TimeSpan;
+    /** @internal TODO: to be removed in 0.7. */
+    weeks(): number { return this.duration.weeks() }
+    /** @internal TODO: to be removed in 0.7. */
+    asWeeks(): number { return this.duration.asWeeks(); }
+
+    Weeks(): number { return this.duration.weeks() }
+    get Totalweeks(): number { return this.duration.asWeeks() }
+
+    /** @internal TODO: to be removed in 0.7. */
+    add(n: number, p: moment.UnitOfTime): TimeSpan;
+    /** @internal TODO: to be removed in 0.7. */
     add(n: number): TimeSpan;
+    /** @internal TODO: to be removed in 0.7. */
     add(d: TimeSpan): TimeSpan;
-    add(a: any, p?: any): TimeSpan {
+    add(a: any, p?: moment.UnitOfTime): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.add(a));
         }
@@ -187,10 +224,26 @@ export class TimeSpan implements moment.Duration {
             return new TimeSpan(this.duration.add(a, p));
         }
     }
-    subtract(n: number, p: string): TimeSpan;
+
+    Add(n: number, p: moment.UnitOfTime): TimeSpan;
+    Add(n: number): TimeSpan;
+    Add(d: TimeSpan): TimeSpan;
+    Add(a: any, p?: moment.UnitOfTime): TimeSpan {
+        if (arguments.length === 1) {
+            return new TimeSpan(this.duration.add(a));
+        }
+        else {
+            return new TimeSpan(this.duration.add(a, p));
+        }
+    }
+
+    /** @internal TODO: to be removed in 0.7. */
+    subtract(n: number, p: moment.UnitOfTime): TimeSpan;
+    /** @internal TODO: to be removed in 0.7. */
     subtract(n: number): TimeSpan;
+    /** @internal TODO: to be removed in 0.7. */
     subtract(d: TimeSpan): TimeSpan;
-    subtract(a: any, p?: string): TimeSpan {
+    subtract(a: any, p?: moment.UnitOfTime): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.subtract(a));
         }
@@ -199,7 +252,25 @@ export class TimeSpan implements moment.Duration {
         }
     }
 
+    Subtract(n: number, p: moment.UnitOfTime): TimeSpan;
+    Subtract(n: number): TimeSpan;
+    Subtract(d: TimeSpan): TimeSpan;
+    Subtract(a: any, p?: moment.UnitOfTime): TimeSpan {
+        if (arguments.length === 1) {
+            return new TimeSpan(this.duration.subtract(a));
+        }
+        else {
+            return new TimeSpan(this.duration.subtract(a, p));
+        }
+    }
+
+    /** @internal TODO: to be removed in 0.7. */
     toISOString(): string { return this.duration.toISOString(); }
+    ToISOString(): string { return this.duration.toISOString(); }
+
+    /** @internal TODO: to be removed in 0.7. */
+    toJSON(): string { return this.duration.toJSON(); }
+    ToJSON(): string { return this.duration.toJSON(); }
 
     private static MillisPerSecond: number = 1000; //const
     private static MillisPerMinute: number = TimeSpan.MillisPerSecond * 60; //     60,000 //const
@@ -262,7 +333,7 @@ module TimeSpan2 {
 
         public static MaxValueTimeSpan = new TimeSpan(Number.MAX_VALUE);//readonly
         public static MinValueTimeSpan = new TimeSpan(Number.MIN_VALUE);//readonly
-	
+
         private _millis: number = 0;
 
         public constructor(milliseconds: number);
@@ -416,7 +487,7 @@ export enum DateTimeStyles {
 	 *	    format patterns.
 	 */
     AllowInnerWhite = 4,
-	
+
 	/**
 	 * 	Summary:
 	 *	    Extra white-space characters anywhere in the string must be ignored during parsing,

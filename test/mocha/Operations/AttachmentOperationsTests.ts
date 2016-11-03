@@ -1,6 +1,3 @@
-/// <reference path="../../../typings/chai/chai.d.ts" />
-/// <reference path="../../../typings/chai-as-promised/chai-as-promised.d.ts" />
-/// <reference path="../../../typings/mocha/mocha.d.ts" />
 import {AutodiscoverService, useCustomXhr, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
 DefaultExtendedPropertySet, BasePropertySet, Item, EmailMessage, Attachment, FileAttachment, ItemAttachment, AttachmentCollection, EmailAddress, MessageBody, FolderId
 }  from "../../../src/js/ExchangeWebService";

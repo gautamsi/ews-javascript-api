@@ -1,6 +1,3 @@
-/// <reference path="../../../typings/chai/chai.d.ts" />
-/// <reference path="../../../typings/chai-as-promised/chai-as-promised.d.ts" />
-/// <reference path="../../../typings/mocha/mocha.d.ts" />
 import {AutodiscoverService, useCustomXhr, ExchangeCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri, DateTime}  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";
 import {MockXHRData} from "../../MockXHRData";
