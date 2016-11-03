@@ -29,7 +29,21 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
 Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
-also track what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
+keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
+
+# Whats new v0.6.2
+
+* new: #100 ***More Item Types implemented*** 
+* fix: #114 - ConversationQueryTraversal returns a soap fault
+* fix: #91 - StreamingSubscriptionConnection.OnDisconnect not called for streaming subscription
+* fix: #101 - FindItems() not fulfilled/rejected for an unauthorized request
+* fix: #109 - Appointment: Recurrence is always null
+* fix: #96 - SearchFilter collection not working
+* fix: #99 - Can't cancel meeting - TypeError
+* fix: #95 - Message body text not working
+* fix/PR: #102 - SendCancellationsMode fix enum serialization
+* fix: #86 - Issue with sending meeting responses 
+
 
 # Whats new v0.6.0 (and fixed in 0.5.1 and 0.5.2)
 
