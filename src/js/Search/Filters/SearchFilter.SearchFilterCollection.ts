@@ -89,7 +89,7 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 		super();
 		var searchFilters: SearchFilter[] = [];
         if (arguments.length <= 2) {
-            if (Array.isArray(_searchFilters)) {
+            if (ArrayHelper.isArray(_searchFilters)) {
                 searchFilters = _searchFilters;
             }
             else if (typeof SearchFilter[<any>_searchFilters] !== 'undefined') {
