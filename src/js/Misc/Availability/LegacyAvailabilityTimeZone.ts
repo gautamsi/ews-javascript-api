@@ -1,20 +1,18 @@
-﻿/// <reference path="../../../../typings/moment-timezone/moment-timezone.d.ts" />
-/// <reference path="../../../../typings/moment/moment-node.d.ts" />
-import {LegacyAvailabilityTimeZoneTime} from "./LegacyAvailabilityTimeZoneTime";
-import {TimeSpan} from "../../DateTime";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
+﻿import { LegacyAvailabilityTimeZoneTime } from "./LegacyAvailabilityTimeZoneTime";
+import { TimeSpan } from "../../DateTime";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
 export class LegacyAvailabilityTimeZone extends ComplexProperty {
     private bias: any /*System.TimeSpan*/;
     private standardTime: LegacyAvailabilityTimeZoneTime;
     private daylightTime: LegacyAvailabilityTimeZoneTime;
     constructor();
-    constructor(timeZone: MomentTimezone);
-    constructor(timeZone?: MomentTimezone) {
+    constructor(timeZone: any /** MomentTimezone */);
+    constructor(timeZone?: any /** MomentTimezone */) {
         super();
         if (typeof timeZone !== 'undefined') {
 

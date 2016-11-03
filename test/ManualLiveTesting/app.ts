@@ -126,7 +126,7 @@ export class Greeter {
         return;
 
 
-        exch.TimeZoneDefinition = new TimeZoneDefinition();
+        //exch.TimeZoneDefinition = new TimeZoneDefinition();
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
@@ -268,7 +268,7 @@ export class Greeter {
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
-        exch.TimeZoneDefinition = new TimeZoneDefinition();
+        //exch.TimeZoneDefinition = new TimeZoneDefinition();
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");

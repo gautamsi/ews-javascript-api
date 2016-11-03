@@ -1,4 +1,3 @@
-/// <reference path="../../typings/node-uuid/node-uuid.d.ts" />
 import {StringHelper} from "./ExtensionMethods";
 import * as uuid from 'node-uuid';
 /** Guid proxy class */

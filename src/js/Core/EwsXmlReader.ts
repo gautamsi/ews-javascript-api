@@ -10,7 +10,7 @@ export class EwsXmlReader {
     get HasAttributes(): boolean { return this.currentNode ? this.currentNode.hasAttributes() : false; }
     get IsEmptyElement(): boolean { return this.currentNode.nodeType == Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/ && !this.currentNode.hasChildNodes(); }
     get LocalName(): string { return this.currentNode ? this.currentNode.localName : undefined; }
-    get NamespacePrefix(): string { return this.currentNode ? this.currentNode.prefix : undefined; }
+    get NamespacePrefix(): string { return this.currentNode ? (<any>this.currentNode).prefix : undefined; }
     get NamespaceUri(): string { return this.currentNode ? this.currentNode.namespaceURI : undefined; }
     get NodeType(): number /*Xml.XmlNodeType*/ { return this.currentNode ? this.currentNode.nodeType : undefined; }
     //get PrevNodeType(): System.Xml.XmlNodeType { return this.prevNodeType; }
