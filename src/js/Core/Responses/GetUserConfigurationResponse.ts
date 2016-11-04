@@ -1,14 +1,43 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {UserConfiguration} from "../../Misc/UserConfiguration";
-import {JsonObject} from "../JsonObject";
-import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import { EwsLogging } from '../EwsLogging';
+import { ExchangeService } from "../ExchangeService";
+import { UserConfiguration } from "../../Misc/UserConfiguration";
+import { XmlElementNames } from "../XmlElementNames";
+
+import { ServiceResponse } from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * @internal Represents a response to a GetUserConfiguration request.
+ * 
+ * @sealed
  */
 export class GetUserConfigurationResponse extends ServiceResponse {
-    UserConfiguration: UserConfiguration;
-    private userConfiguration: UserConfiguration;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetUserConfigurationResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetUserConfigurationResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    private userConfiguration: UserConfiguration = null;
+
+    /**
+     * Gets the user configuration that was created.
+     */
+    get UserConfiguration(): UserConfiguration {
+        return this.userConfiguration;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **GetUserConfigurationResponse** class.
+     *
+     * @param   {UserConfiguration}   userConfiguration   The userConfiguration.
+     */
+    constructor(userConfiguration: UserConfiguration) {
+        super();
+        EwsLogging.Assert(userConfiguration !== null, "GetUserConfigurationResponse.ctor", "userConfiguration is null");
+        this.userConfiguration = userConfiguration;
+    }
+
+    /**
+     * @internal Reads response elements from XML parsed to JS Object.
+     *
+     * @param   {any}               responseObject   The response object.
+     * @param   {ExchangeService}   service          The service.
+     */
+    ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
+        this.UserConfiguration.LoadFromXmlJsObject(responseObject[XmlElementNames.UserConfiguration], service);
+    }
 }

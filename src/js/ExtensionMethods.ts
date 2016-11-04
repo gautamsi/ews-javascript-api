@@ -39,6 +39,16 @@ export module EnumHelper {
     export function HasFlag(flags: number, checkFlag: number): boolean {
         return (flags & checkFlag) == checkFlag;
     }
+    
+    /**
+     * Writes "," separated values from Enumertion anf enum Flags
+     * 
+     * @export
+     * @param {*} enumObj The Enumeration Object itself, for example 'ExchangeVersion' as the parameter Value.
+     * @param {number} checkFlag Flag value(s) to convert to string
+     * @param {boolean} [includeZero=false] include the default 0 value in the string, usually false
+     * @returns {string} returns the coma "," separated string representation of Flags
+     */
     export function ToString(enumObj: any, checkFlag: number, includeZero: boolean = false): string {
         if ((checkFlag & (checkFlag - 1)) == 0)
             return enumObj[checkFlag];

@@ -1,198 +1,205 @@
-import {AddDelegateRequest} from "./Requests/AddDelegateRequest";
-import {AffectedTaskOccurrence} from "../Enumerations/AffectedTaskOccurrence";
-import {AlternateIdBase} from "../Misc/IdConversion/AlternateIdBase";
-import {ApplyConversationActionRequest} from "./Requests/ApplyConversationActionRequest";
-import {Appointment} from "./ServiceObjects/Items/Appointment";
-import {ArchiveItemRequest} from "./Requests/ArchiveItemRequest";
-import {ArchiveItemResponse} from "./Responses/ArchiveItemResponse";
-import {ArgumentException, ArgumentOutOfRangeException, ArgumentNullException} from "../Exceptions/ArgumentException";
-import {ArrayHelper, StringHelper, UriHelper} from "../ExtensionMethods";
-import {Attachment} from "../ComplexProperties/Attachment";
-import {AttendeeInfo} from "../Misc/Availability/AttendeeInfo";
-import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
-import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
-import {AutodiscoverRedirectionUrlValidationCallback} from "../Autodiscover/AutodiscoverServiceDelegates";
-import {AutodiscoverService} from "../Autodiscover/AutodiscoverService";
-import {AvailabilityData} from "../Enumerations/AvailabilityData";
-import {AvailabilityOptions} from "../Misc/Availability/AvailabilityOptions";
-import {BodyType} from "../Enumerations/BodyType";
-import {CalendarView} from "../Search/CalendarView";
-import {ChangeCollection} from "../Sync/ChangeCollection";
-import {ClientAccessTokenRequest} from "../ComplexProperties/ClientAccessTokenRequest";
-import {ClientAccessTokenType} from "../Enumerations/ClientAccessTokenType";
-import {ClientApp} from "../ComplexProperties/ClientApp";
-import {ConflictResolutionMode} from "../Enumerations/ConflictResolutionMode";
-import {Conversation} from "./ServiceObjects/Items/Conversation";
-import {ConversationAction} from "../Misc/ConversationAction";
-import {ConversationActionType} from "../Enumerations/ConversationActionType";
-import {ConversationId} from "../ComplexProperties/ConversationId";
-import {ConversationRequest} from "../ComplexProperties/ConversationRequest";
-import {ConversationResponse} from "../ComplexProperties/ConversationResponse";
-import {ConversationSortOrder} from "../Enumerations/ConversationSortOrder";
-import {ConvertIdRequest} from "./Requests/ConvertIdRequest";
-import {ConvertIdResponse} from "./Responses/ConvertIdResponse";
-import {CopyFolderRequest} from "./Requests/CopyFolderRequest";
-import {CopyItemRequest} from "./Requests/CopyItemRequest";
-import {CreateAttachmentRequest} from "./Requests/CreateAttachmentRequest";
-import {CreateAttachmentResponse} from "./Responses/CreateAttachmentResponse";
-import {CreateFolderRequest} from "./Requests/CreateFolderRequest";
-import {CreateItemRequest} from "./Requests/CreateItemRequest";
-import {CreateResponseObjectRequest} from "./Requests/CreateResponseObjectRequest";
-import {DateTime, TimeZoneInfo} from "../DateTime";
-import {DateTimePrecision} from "../Enumerations/DateTimePrecision";
-import {DelegateInformation} from "../Misc/DelegateInformation";
-import {DelegateManagementResponse} from "./Responses/DelegateManagementResponse";
-import {DelegateUser} from "../ComplexProperties/DelegateUser";
-import {DelegateUserResponse} from "./Responses/DelegateUserResponse";
-import {DeleteAttachmentRequest} from "./Requests/DeleteAttachmentRequest";
-import {DeleteAttachmentResponse} from "./Responses/DeleteAttachmentResponse";
-import {DeleteFolderRequest} from "./Requests/DeleteFolderRequest";
-import {DeleteItemRequest} from "./Requests/DeleteItemRequest";
-import {DeleteMode} from "../Enumerations/DeleteMode";
-import {DisableAppRequest} from "./Requests/DisableAppRequest";
-import {DisableReasonType} from "../Enumerations/DisableReasonType";
-import {EmailAddress} from "../ComplexProperties/EmailAddress";
-import {EmailAddressCollection} from "../ComplexProperties/EmailAddressCollection";
-import {EmptyFolderRequest} from "./Requests/EmptyFolderRequest";
-import {EventType} from "../Enumerations/EventType";
-import {EwsLogging} from "./EwsLogging";
-import {EwsUtilities} from "./EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {ExpandGroupRequest} from "./Requests/ExpandGroupRequest";
-import {ExpandGroupResults} from "../Misc/ExpandGroupResults";
-import {FindConversationRequest} from "./Requests/FindConversationRequest";
-import {FindConversationResponse} from "./Responses/FindConversationResponse";
-import {FindConversationResults} from "../Search/FindConversationResults";
-import {FindFolderRequest} from "./Requests/FindFolderRequest";
-import {FindFolderResponse} from "./Responses/FindFolderResponse";
-import {FindFoldersResults} from "../Search/FindFoldersResults";
-import {FindItemRequest} from "./Requests/FindItemRequest";
-import {FindItemResponse} from "./Responses/FindItemResponse";
-import {FindItemsResults} from "../Search/FindItemsResults";
-import {Flag} from "../ComplexProperties/Flag";
-import {Folder} from "./ServiceObjects/Folders/Folder";
-import {FolderChange} from "../Sync/FolderChange";
-import {FolderId} from "../ComplexProperties/FolderId";
-import {FolderIdCollection} from "../ComplexProperties/FolderIdCollection";
-import {FolderIdWrapper} from "../Misc/FolderIdWrapper";
-import {FolderView} from "../Search/FolderView";
-import {GetAppManifestsRequest} from "./Requests/GetAppManifestsRequest";
-import {GetAppManifestsResponse} from "./Responses/GetAppManifestsResponse";
-import {GetAppMarketplaceUrlRequest} from "./Requests/GetAppMarketplaceUrlRequest";
-import {GetAppMarketplaceUrlResponse} from "./Responses/GetAppMarketplaceUrlResponse";
-import {GetAttachmentRequest} from "./Requests/GetAttachmentRequest";
-import {GetAttachmentResponse} from "./Responses/GetAttachmentResponse";
-import {GetClientAccessTokenRequest} from "./Requests/GetClientAccessTokenRequest";
-import {GetClientAccessTokenResponse} from "./Responses/GetClientAccessTokenResponse";
-import {GetClientExtensionResponse} from "./Responses/GetClientExtensionResponse";
-import {GetConversationItemsRequest} from "./Requests/GetConversationItemsRequest";
-import {GetConversationItemsResponse} from "./Responses/GetConversationItemsResponse";
-import {GetDelegateRequest} from "./Requests/GetDelegateRequest";
-import {GetDelegateResponse} from "./Responses/GetDelegateResponse";
-import {GetEncryptionConfigurationResponse} from "./Responses/GetEncryptionConfigurationResponse";
-import {GetEventsRequest} from "./Requests/GetEventsRequest";
-import {GetEventsResults} from "../Notifications/GetEventsResults";
-import {GetFolderRequest} from "./Requests/GetFolderRequest";
-import {GetFolderRequestForLoad} from "./Requests/GetFolderRequestForLoad";
-import {GetFolderResponse} from "./Responses/GetFolderResponse";
-import {GetInboxRulesRequest} from "./Requests/GetInboxRulesRequest";
-import {GetInboxRulesResponse} from "./Responses/GetInboxRulesResponse";
-import {GetItemRequest} from "./Requests/GetItemRequest";
-import {GetItemRequestForLoad} from "./Requests/GetItemRequestForLoad";
-import {GetItemResponse} from "./Responses/GetItemResponse";
-import {GetPasswordExpirationDateRequest} from "./Requests/GetPasswordExpirationDateRequest";
-import {GetRoomListsRequest} from "./Requests/GetRoomListsRequest";
-import {GetRoomsRequest} from "./Requests/GetRoomsRequest";
-import {GetUserAvailabilityRequest} from "./Requests/GetUserAvailabilityRequest";
-import {GetUserAvailabilityResults} from "../Misc/Availability/GetUserAvailabilityResults";
-import {GetUserOofSettingsRequest} from "./Requests/GetUserOofSettingsRequest";
-import {GetUserRetentionPolicyTagsRequest} from "./Requests/GetUserRetentionPolicyTagsRequest";
-import {GetUserRetentionPolicyTagsResponse} from "./Responses/GetUserRetentionPolicyTagsResponse";
-import {GetUserSettingsResponse} from "../Autodiscover/Responses/GetUserSettingsResponse";
-import {GroupedFindItemsResults} from "../Search/GroupedFindItemsResults";
-import {Grouping} from "../Search/Grouping";
-import {Guid} from "../Guid";
-import {IdFormat} from "../Enumerations/IdFormat";
-import {IFileAttachmentContentHandler} from "../Interfaces/IFileAttachmentContentHandler";
-import {ImpersonatedUserId} from "../Misc/ImpersonatedUserId";
-import {InstallAppRequest} from "./Requests/InstallAppRequest";
-import {IPromise, IXHROptions} from "../Interfaces";
-import {Item} from "./ServiceObjects/Items/Item";
-import {ItemChange} from "../Sync/ItemChange";
-import {ItemId} from "../ComplexProperties/ItemId";
-import {KeyValuePair} from "../AltDictionary";
-import {Mailbox} from "../ComplexProperties/Mailbox";
-import {MailboxSearchLocation} from "../Enumerations/MailboxSearchLocation";
-import {ManagementRoles} from "../Misc/ManagementRoles";
-import {MarkAllItemsAsReadRequest} from "./Requests/MarkAllItemsAsReadRequest";
-import {MarkAsJunkRequest} from "./Requests/MarkAsJunkRequest";
-import {MarkAsJunkResponse} from "./Responses/MarkAsJunkResponse";
-import {MeetingRequestsDeliveryScope} from "../Enumerations/MeetingRequestsDeliveryScope";
-import {MessageDisposition} from "../Enumerations/MessageDisposition";
-import {MoveCopyFolderResponse} from "./Responses/MoveCopyFolderResponse";
-import {MoveCopyItemResponse} from "./Responses/MoveCopyItemResponse";
-import {MoveFolderRequest} from "./Requests/MoveFolderRequest";
-import {MoveItemRequest} from "./Requests/MoveItemRequest";
-import {NameResolutionCollection} from "../Misc/NameResolutionCollection";
-import {OofSettings} from "../ComplexProperties/Availability/OofSettings";
-import {PrivilegedUserId} from "../Misc/PrivilegedUserId";
-import {PromiseFactory} from "../PromiseFactory";
-import {PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
-import {PropertySet} from "./PropertySet";
-import {PullSubscription} from "../Notifications/PullSubscription";
-import {PushSubscription} from "../Notifications/PushSubscription";
-import {RemoveDelegateRequest} from "./Requests/RemoveDelegateRequest";
-import {RenderingMode} from "../Enumerations/RenderingMode";
-import {ResolveNameSearchLocation} from "../Enumerations/ResolveNameSearchLocation";
-import {ResolveNamesRequest} from "./Requests/ResolveNamesRequest";
-import {RetentionType} from "../Enumerations/RetentionType";
-import {RuleCollection} from "../ComplexProperties/RuleCollection";
-import {RuleOperation} from "../ComplexProperties/RuleOperation";
-import {SearchFilter} from "../Search/Filters/SearchFilter";
-import {SearchFolder} from "./ServiceObjects/Folders/SearchFolder";
-import {SendCancellationsMode} from "../Enumerations/SendCancellationsMode";
-import {SendInvitationsMode} from "../Enumerations/SendInvitationsMode";
-import {SendInvitationsOrCancellationsMode} from "../Enumerations/SendInvitationsOrCancellationsMode";
-import {SendItemRequest} from "./Requests/SendItemRequest";
-import {ServiceErrorHandling} from "../Enumerations/ServiceErrorHandling";
-import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
-import {ServiceObject} from "./ServiceObjects/ServiceObject";
-import {ServiceRemoteException} from "../Exceptions/ServiceRemoteException";
-import {ServiceResponse} from "./Responses/ServiceResponse";
-import {ServiceResponseCollection} from "./Responses/ServiceResponseCollection";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
-import {SetTeamMailboxRequest} from "./Requests/SetTeamMailboxRequest";
-import {SetUserOofSettingsRequest} from "./Requests/SetUserOofSettingsRequest";
-import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
-import {StreamingSubscription} from "../Notifications/StreamingSubscription";
-import {StringList} from "../ComplexProperties/StringList";
-import {Strings} from "../Strings";
-import {SubscribeToPullNotificationsRequest} from "./Requests/SubscribeToPullNotificationsRequest";
-import {SubscribeToPushNotificationsRequest} from "./Requests/SubscribeToPushNotificationsRequest";
-import {SubscribeToStreamingNotificationsRequest} from "./Requests/SubscribeToStreamingNotificationsRequest";
-import {SyncFolderHierarchyRequest} from "./Requests/SyncFolderHierarchyRequest";
-import {SyncFolderItemsRequest} from "./Requests/SyncFolderItemsRequest";
-import {SyncFolderItemsScope} from "../Enumerations/SyncFolderItemsScope";
-import {TeamMailboxLifecycleState} from "../Enumerations/TeamMailboxLifecycleState";
-import {TimeWindow} from "../Misc/Availability/TimeWindow";
-import {TraceFlags} from "../Enumerations/TraceFlags";
-import {UnifiedMessaging} from "../UnifiedMessaging/UnifiedMessaging";
-import {UninstallAppRequest} from "./Requests/UninstallAppRequest";
-import {UnpinTeamMailboxRequest} from "./Requests/UnpinTeamMailboxRequest";
-import {UnsubscribeRequest} from "./Requests/UnsubscribeRequest";
-import {UpdateDelegateRequest} from "./Requests/UpdateDelegateRequest";
-import {UpdateFolderRequest} from "./Requests/UpdateFolderRequest";
-import {UpdateInboxRulesRequest} from "./Requests/UpdateInboxRulesRequest";
-import {UpdateItemRequest} from "./Requests/UpdateItemRequest";
-import {UpdateItemResponse} from "./Responses/UpdateItemResponse";
-import {Uri} from "../Uri";
-import {UserId} from "../ComplexProperties/UserId";
-import {UserSettingName} from "../Enumerations/UserSettingName";
-import {ViewBase} from "../Search/ViewBase";
-import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
-import {XHRFactory}  from "../XHRFactory";
+import { AddDelegateRequest } from "./Requests/AddDelegateRequest";
+import { AffectedTaskOccurrence } from "../Enumerations/AffectedTaskOccurrence";
+import { AlternateIdBase } from "../Misc/IdConversion/AlternateIdBase";
+import { ApplyConversationActionRequest } from "./Requests/ApplyConversationActionRequest";
+import { Appointment } from "./ServiceObjects/Items/Appointment";
+import { ArchiveItemRequest } from "./Requests/ArchiveItemRequest";
+import { ArchiveItemResponse } from "./Responses/ArchiveItemResponse";
+import { ArgumentException, ArgumentOutOfRangeException, ArgumentNullException } from "../Exceptions/ArgumentException";
+import { ArrayHelper, StringHelper, UriHelper } from "../ExtensionMethods";
+import { Attachment } from "../ComplexProperties/Attachment";
+import { AttendeeInfo } from "../Misc/Availability/AttendeeInfo";
+import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
+import { AutodiscoverLocalException } from "../Exceptions/AutodiscoverLocalException";
+import { AutodiscoverRedirectionUrlValidationCallback } from "../Autodiscover/AutodiscoverServiceDelegates";
+import { AutodiscoverService } from "../Autodiscover/AutodiscoverService";
+import { AvailabilityData } from "../Enumerations/AvailabilityData";
+import { AvailabilityOptions } from "../Misc/Availability/AvailabilityOptions";
+import { BodyType } from "../Enumerations/BodyType";
+import { CalendarView } from "../Search/CalendarView";
+import { ChangeCollection } from "../Sync/ChangeCollection";
+import { ClientAccessTokenRequest } from "../ComplexProperties/ClientAccessTokenRequest";
+import { ClientAccessTokenType } from "../Enumerations/ClientAccessTokenType";
+import { ClientApp } from "../ComplexProperties/ClientApp";
+import { ConflictResolutionMode } from "../Enumerations/ConflictResolutionMode";
+import { Conversation } from "./ServiceObjects/Items/Conversation";
+import { ConversationAction } from "../Misc/ConversationAction";
+import { ConversationActionType } from "../Enumerations/ConversationActionType";
+import { ConversationId } from "../ComplexProperties/ConversationId";
+import { ConversationRequest } from "../ComplexProperties/ConversationRequest";
+import { ConversationResponse } from "../ComplexProperties/ConversationResponse";
+import { ConversationSortOrder } from "../Enumerations/ConversationSortOrder";
+import { ConvertIdRequest } from "./Requests/ConvertIdRequest";
+import { ConvertIdResponse } from "./Responses/ConvertIdResponse";
+import { CopyFolderRequest } from "./Requests/CopyFolderRequest";
+import { CopyItemRequest } from "./Requests/CopyItemRequest";
+import { CreateAttachmentRequest } from "./Requests/CreateAttachmentRequest";
+import { CreateAttachmentResponse } from "./Responses/CreateAttachmentResponse";
+import { CreateFolderRequest } from "./Requests/CreateFolderRequest";
+import { CreateItemRequest } from "./Requests/CreateItemRequest";
+import { CreateResponseObjectRequest } from "./Requests/CreateResponseObjectRequest";
+import { CreateUserConfigurationRequest } from "./Requests/CreateUserConfigurationRequest";
+import { DateTime, TimeZoneInfo } from "../DateTime";
+import { DateTimePrecision } from "../Enumerations/DateTimePrecision";
+import { DelegateInformation } from "../Misc/DelegateInformation";
+import { DelegateManagementResponse } from "./Responses/DelegateManagementResponse";
+import { DelegateUser } from "../ComplexProperties/DelegateUser";
+import { DelegateUserResponse } from "./Responses/DelegateUserResponse";
+import { DeleteAttachmentRequest } from "./Requests/DeleteAttachmentRequest";
+import { DeleteAttachmentResponse } from "./Responses/DeleteAttachmentResponse";
+import { DeleteFolderRequest } from "./Requests/DeleteFolderRequest";
+import { DeleteItemRequest } from "./Requests/DeleteItemRequest";
+import { DeleteMode } from "../Enumerations/DeleteMode";
+import { DeleteUserConfigurationRequest } from "./Requests/DeleteUserConfigurationRequest";
+import { DisableAppRequest } from "./Requests/DisableAppRequest";
+import { DisableReasonType } from "../Enumerations/DisableReasonType";
+import { EmailAddress } from "../ComplexProperties/EmailAddress";
+import { EmailAddressCollection } from "../ComplexProperties/EmailAddressCollection";
+import { EmptyFolderRequest } from "./Requests/EmptyFolderRequest";
+import { EventType } from "../Enumerations/EventType";
+import { EwsLogging } from "./EwsLogging";
+import { EwsUtilities } from "./EwsUtilities";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { ExpandGroupRequest } from "./Requests/ExpandGroupRequest";
+import { ExpandGroupResults } from "../Misc/ExpandGroupResults";
+import { FindConversationRequest } from "./Requests/FindConversationRequest";
+import { FindConversationResponse } from "./Responses/FindConversationResponse";
+import { FindConversationResults } from "../Search/FindConversationResults";
+import { FindFolderRequest } from "./Requests/FindFolderRequest";
+import { FindFolderResponse } from "./Responses/FindFolderResponse";
+import { FindFoldersResults } from "../Search/FindFoldersResults";
+import { FindItemRequest } from "./Requests/FindItemRequest";
+import { FindItemResponse } from "./Responses/FindItemResponse";
+import { FindItemsResults } from "../Search/FindItemsResults";
+import { Flag } from "../ComplexProperties/Flag";
+import { Folder } from "./ServiceObjects/Folders/Folder";
+import { FolderChange } from "../Sync/FolderChange";
+import { FolderId } from "../ComplexProperties/FolderId";
+import { FolderIdCollection } from "../ComplexProperties/FolderIdCollection";
+import { FolderIdWrapper } from "../Misc/FolderIdWrapper";
+import { FolderView } from "../Search/FolderView";
+import { GetAppManifestsRequest } from "./Requests/GetAppManifestsRequest";
+import { GetAppManifestsResponse } from "./Responses/GetAppManifestsResponse";
+import { GetAppMarketplaceUrlRequest } from "./Requests/GetAppMarketplaceUrlRequest";
+import { GetAppMarketplaceUrlResponse } from "./Responses/GetAppMarketplaceUrlResponse";
+import { GetAttachmentRequest } from "./Requests/GetAttachmentRequest";
+import { GetAttachmentResponse } from "./Responses/GetAttachmentResponse";
+import { GetClientAccessTokenRequest } from "./Requests/GetClientAccessTokenRequest";
+import { GetClientAccessTokenResponse } from "./Responses/GetClientAccessTokenResponse";
+import { GetClientExtensionResponse } from "./Responses/GetClientExtensionResponse";
+import { GetConversationItemsRequest } from "./Requests/GetConversationItemsRequest";
+import { GetConversationItemsResponse } from "./Responses/GetConversationItemsResponse";
+import { GetDelegateRequest } from "./Requests/GetDelegateRequest";
+import { GetDelegateResponse } from "./Responses/GetDelegateResponse";
+import { GetEncryptionConfigurationResponse } from "./Responses/GetEncryptionConfigurationResponse";
+import { GetEventsRequest } from "./Requests/GetEventsRequest";
+import { GetEventsResults } from "../Notifications/GetEventsResults";
+import { GetFolderRequest } from "./Requests/GetFolderRequest";
+import { GetFolderRequestForLoad } from "./Requests/GetFolderRequestForLoad";
+import { GetFolderResponse } from "./Responses/GetFolderResponse";
+import { GetInboxRulesRequest } from "./Requests/GetInboxRulesRequest";
+import { GetInboxRulesResponse } from "./Responses/GetInboxRulesResponse";
+import { GetItemRequest } from "./Requests/GetItemRequest";
+import { GetItemRequestForLoad } from "./Requests/GetItemRequestForLoad";
+import { GetItemResponse } from "./Responses/GetItemResponse";
+import { GetPasswordExpirationDateRequest } from "./Requests/GetPasswordExpirationDateRequest";
+import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
+import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
+import { GetUserAvailabilityRequest } from "./Requests/GetUserAvailabilityRequest";
+import { GetUserAvailabilityResults } from "../Misc/Availability/GetUserAvailabilityResults";
+import { GetUserConfigurationRequest } from "./Requests/GetUserConfigurationRequest";
+import { GetUserConfigurationResponse } from './Responses/GetUserConfigurationResponse';
+import { GetUserOofSettingsRequest } from "./Requests/GetUserOofSettingsRequest";
+import { GetUserRetentionPolicyTagsRequest } from "./Requests/GetUserRetentionPolicyTagsRequest";
+import { GetUserRetentionPolicyTagsResponse } from "./Responses/GetUserRetentionPolicyTagsResponse";
+import { GetUserSettingsResponse } from "../Autodiscover/Responses/GetUserSettingsResponse";
+import { GroupedFindItemsResults } from "../Search/GroupedFindItemsResults";
+import { Grouping } from "../Search/Grouping";
+import { Guid } from "../Guid";
+import { IdFormat } from "../Enumerations/IdFormat";
+import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
+import { ImpersonatedUserId } from "../Misc/ImpersonatedUserId";
+import { InstallAppRequest } from "./Requests/InstallAppRequest";
+import { IPromise, IXHROptions } from "../Interfaces";
+import { Item } from "./ServiceObjects/Items/Item";
+import { ItemChange } from "../Sync/ItemChange";
+import { ItemId } from "../ComplexProperties/ItemId";
+import { KeyValuePair } from "../AltDictionary";
+import { Mailbox } from "../ComplexProperties/Mailbox";
+import { MailboxSearchLocation } from "../Enumerations/MailboxSearchLocation";
+import { ManagementRoles } from "../Misc/ManagementRoles";
+import { MarkAllItemsAsReadRequest } from "./Requests/MarkAllItemsAsReadRequest";
+import { MarkAsJunkRequest } from "./Requests/MarkAsJunkRequest";
+import { MarkAsJunkResponse } from "./Responses/MarkAsJunkResponse";
+import { MeetingRequestsDeliveryScope } from "../Enumerations/MeetingRequestsDeliveryScope";
+import { MessageDisposition } from "../Enumerations/MessageDisposition";
+import { MoveCopyFolderResponse } from "./Responses/MoveCopyFolderResponse";
+import { MoveCopyItemResponse } from "./Responses/MoveCopyItemResponse";
+import { MoveFolderRequest } from "./Requests/MoveFolderRequest";
+import { MoveItemRequest } from "./Requests/MoveItemRequest";
+import { NameResolutionCollection } from "../Misc/NameResolutionCollection";
+import { OofSettings } from "../ComplexProperties/Availability/OofSettings";
+import { PrivilegedUserId } from "../Misc/PrivilegedUserId";
+import { PromiseFactory } from "../PromiseFactory";
+import { PropertyDefinitionBase } from '../PropertyDefinitions/PropertyDefinitionBase';
+import { PropertySet } from "./PropertySet";
+import { PullSubscription } from "../Notifications/PullSubscription";
+import { PushSubscription } from "../Notifications/PushSubscription";
+import { RemoveDelegateRequest } from "./Requests/RemoveDelegateRequest";
+import { RenderingMode } from "../Enumerations/RenderingMode";
+import { ResolveNameSearchLocation } from "../Enumerations/ResolveNameSearchLocation";
+import { ResolveNamesRequest } from "./Requests/ResolveNamesRequest";
+import { RetentionType } from "../Enumerations/RetentionType";
+import { RuleCollection } from "../ComplexProperties/RuleCollection";
+import { RuleOperation } from "../ComplexProperties/RuleOperation";
+import { SearchFilter } from "../Search/Filters/SearchFilter";
+import { SearchFolder } from "./ServiceObjects/Folders/SearchFolder";
+import { SendCancellationsMode } from "../Enumerations/SendCancellationsMode";
+import { SendInvitationsMode } from "../Enumerations/SendInvitationsMode";
+import { SendInvitationsOrCancellationsMode } from "../Enumerations/SendInvitationsOrCancellationsMode";
+import { SendItemRequest } from "./Requests/SendItemRequest";
+import { ServiceErrorHandling } from "../Enumerations/ServiceErrorHandling";
+import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
+import { ServiceObject } from "./ServiceObjects/ServiceObject";
+import { ServiceRemoteException } from "../Exceptions/ServiceRemoteException";
+import { ServiceResponse } from "./Responses/ServiceResponse";
+import { ServiceResponseCollection } from "./Responses/ServiceResponseCollection";
+import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { SetTeamMailboxRequest } from "./Requests/SetTeamMailboxRequest";
+import { SetUserOofSettingsRequest } from "./Requests/SetUserOofSettingsRequest";
+import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
+import { StreamingSubscription } from "../Notifications/StreamingSubscription";
+import { StringList } from "../ComplexProperties/StringList";
+import { Strings } from "../Strings";
+import { SubscribeToPullNotificationsRequest } from "./Requests/SubscribeToPullNotificationsRequest";
+import { SubscribeToPushNotificationsRequest } from "./Requests/SubscribeToPushNotificationsRequest";
+import { SubscribeToStreamingNotificationsRequest } from "./Requests/SubscribeToStreamingNotificationsRequest";
+import { SyncFolderHierarchyRequest } from "./Requests/SyncFolderHierarchyRequest";
+import { SyncFolderItemsRequest } from "./Requests/SyncFolderItemsRequest";
+import { SyncFolderItemsScope } from "../Enumerations/SyncFolderItemsScope";
+import { TeamMailboxLifecycleState } from "../Enumerations/TeamMailboxLifecycleState";
+import { TimeWindow } from "../Misc/Availability/TimeWindow";
+import { TraceFlags } from "../Enumerations/TraceFlags";
+import { UnifiedMessaging } from "../UnifiedMessaging/UnifiedMessaging";
+import { UninstallAppRequest } from "./Requests/UninstallAppRequest";
+import { UnpinTeamMailboxRequest } from "./Requests/UnpinTeamMailboxRequest";
+import { UnsubscribeRequest } from "./Requests/UnsubscribeRequest";
+import { UpdateDelegateRequest } from "./Requests/UpdateDelegateRequest";
+import { UpdateFolderRequest } from "./Requests/UpdateFolderRequest";
+import { UpdateInboxRulesRequest } from "./Requests/UpdateInboxRulesRequest";
+import { UpdateItemRequest } from "./Requests/UpdateItemRequest";
+import { UpdateItemResponse } from "./Responses/UpdateItemResponse";
+import { UpdateUserConfigurationRequest } from './Requests/UpdateUserConfigurationRequest';
+import { Uri } from "../Uri";
+import { UserConfiguration } from "../Misc/UserConfiguration";
+import { UserConfigurationProperties } from "../Enumerations/UserConfigurationProperties";
+import { UserId } from "../ComplexProperties/UserId";
+import { UserSettingName } from "../Enumerations/UserSettingName";
+import { ViewBase } from "../Search/ViewBase";
+import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
+import { XHRFactory } from "../XHRFactory";
 
-import {ExchangeServiceBase} from "./ExchangeServiceBase";
+import { ExchangeServiceBase } from "./ExchangeServiceBase";
 /**
  * Represents a binding to the **Exchange Web Services**.
  *
@@ -3280,11 +3287,101 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region UserConfiguration operations */
 
-    //CreateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - CreateUserConfiguration : Not implemented."); }
-    //DeleteUserConfiguration(name: string, parentFolderId: FolderId): any { throw new Error("ExchangeService.ts - DeleteUserConfiguration : Not implemented."); }
-    //GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): UserConfiguration { throw new Error("ExchangeService.ts - GetUserConfiguration : Not implemented."); }
-    //LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): any { throw new Error("ExchangeService.ts - LoadPropertiesForUserConfiguration : Not implemented."); }
-    //UpdateUserConfiguration(userConfiguration: UserConfiguration): any { throw new Error("ExchangeService.ts - UpdateUserConfiguration : Not implemented."); }
+    /**
+     * Creates a UserConfiguration.
+     *
+     * @param   {UserConfiguration}   userConfiguration   The UserConfiguration.
+     * @return  {IPromise<void>}    :Promise.
+     */
+    CreateUserConfiguration(userConfiguration: UserConfiguration): IPromise<void> {
+        EwsUtilities.ValidateParam(userConfiguration, "userConfiguration");
+
+        let request: CreateUserConfigurationRequest = new CreateUserConfigurationRequest(this);
+
+        request.UserConfiguration = userConfiguration;
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Deletes a UserConfiguration.
+     *
+     * @param   {string}    name             Name of the UserConfiguration to retrieve.
+     * @param   {FolderId}  parentFolderId   Id of the folder containing the UserConfiguration.
+     * @return  {IPromise<void>}    :Promise.
+     */
+    DeleteUserConfiguration(name: string, parentFolderId: FolderId): IPromise<void> {
+        EwsUtilities.ValidateParam(name, "name");
+        EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
+
+        let request: DeleteUserConfigurationRequest = new DeleteUserConfigurationRequest(this);
+
+        request.Name = name;
+        request.ParentFolderId = parentFolderId;
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Gets a UserConfiguration.
+     *
+     * @param   {string}                        name             Name of the UserConfiguration to retrieve.
+     * @param   {FolderId}                      parentFolderId   Id of the folder containing the UserConfiguration.
+     * @param   {UserConfigurationProperties}   properties       Properties to retrieve.
+     * @return  {IPromise<UserConfiguration>}   A UserConfiguration.
+     */
+    GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): IPromise<UserConfiguration> {
+        EwsUtilities.ValidateParam(name, "name");
+        EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
+
+        let request: GetUserConfigurationRequest = new GetUserConfigurationRequest(this);
+
+        request.Name = name;
+        request.ParentFolderId = parentFolderId;
+        request.Properties = properties;
+
+        return request.Execute().then((response: ServiceResponseCollection<GetUserConfigurationResponse>) => {
+            return response.__thisIndexer(0).UserConfiguration;
+        })
+    }
+
+    /**
+     * Loads the properties of the specified userConfiguration.
+     *
+     * @param   {UserConfiguration}             userConfiguration   The userConfiguration containing properties to load.
+     * @param   {UserConfigurationProperties}   properties          Properties to retrieve.
+     * @return  {IPromise<void>}                :Promise.
+     */
+    LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): IPromise<void> {
+        EwsLogging.Assert(
+            userConfiguration != null,
+            "ExchangeService.LoadPropertiesForUserConfiguration",
+            "userConfiguration is null");
+
+        let request: GetUserConfigurationRequest = new GetUserConfigurationRequest(this);
+
+        request.UserConfiguration = userConfiguration;
+        request.Properties = properties;
+
+        return <any>request.Execute();
+    }
+
+    /**
+     * Updates a UserConfiguration.
+     *
+     * @param   {UserConfiguration}   userConfiguration   The UserConfiguration.
+     * @return  {IPromise<void>}    :Promise.
+     */
+    UpdateUserConfiguration(userConfiguration: UserConfiguration): IPromise<void> {
+        EwsUtilities.ValidateParam(userConfiguration, "userConfiguration");
+
+        let request: UpdateUserConfigurationRequest = new UpdateUserConfigurationRequest(this);
+
+        request.UserConfiguration = userConfiguration;
+
+        return <any>request.Execute();
+    }
+
     /* #endregion UserConfiguration operations */
 
 
@@ -3704,10 +3801,11 @@ export class ExchangeService extends ExchangeServiceBase {
         return <any>request.Execute();
     }
 
-    GetClientExtension(requestedExtensionIds: StringList, shouldReturnEnabledOnly: boolean, isUserScope: boolean, userId: string, userEnabledExtensionIds: StringList, userDisabledExtensionIds: StringList, isDebug: boolean): GetClientExtensionResponse { throw new Error("ExchangeService.ts - GetClientExtension : Not implemented."); }
-    SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("ExchangeService.ts - SetClientExtension : Not implemented."); }
-    GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
-    SetEncryptionConfiguration(imageBase64: string, emailText: string, portalText: string, disclaimerText: string): any { throw new Error("ExchangeService.ts - SetEncryptionConfiguration : Not implemented."); }
+    //info - not used in client side, only server side calls are supported per function documentation.
+    // GetClientExtension(requestedExtensionIds: StringList, shouldReturnEnabledOnly: boolean, isUserScope: boolean, userId: string, userEnabledExtensionIds: StringList, userDisabledExtensionIds: StringList, isDebug: boolean): GetClientExtensionResponse { throw new Error("ExchangeService.ts - GetClientExtension : Not implemented."); }
+    // SetClientExtension(actions: Function[] /*System.Collections.Generic.List<T>*/): any { throw new Error("ExchangeService.ts - SetClientExtension : Not implemented."); }
+    // GetEncryptionConfiguration(): GetEncryptionConfigurationResponse { throw new Error("ExchangeService.ts - GetEncryptionConfiguration : Not implemented."); }
+    // SetEncryptionConfiguration(imageBase64: string, emailText: string, portalText: string, disclaimerText: string): any { throw new Error("ExchangeService.ts - SetEncryptionConfiguration : Not implemented."); }
     /* #endregion Client Extensibility */
 
 
