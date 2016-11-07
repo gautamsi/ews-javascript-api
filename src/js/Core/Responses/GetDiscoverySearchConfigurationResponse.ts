@@ -1,14 +1,47 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {DiscoverySearchConfiguration} from "../../MailboxSearch/DiscoverySearchConfiguration";
-import {JsonObject} from "../JsonObject";
-import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import { DiscoverySearchConfiguration } from "../../MailboxSearch/DiscoverySearchConfiguration";
+import { EwsServiceJsonReader } from '../EwsServiceJsonReader';
+import { ExchangeService } from "../ExchangeService";
+import { XmlElementNames } from "../XmlElementNames";
+
+import { ServiceResponse } from "./ServiceResponse";
 /**
- * ## *Not Implemented* 
+ * Represents the GetDiscoverySearchConfiguration response.
+ * 
+ * @sealed
  */
 export class GetDiscoverySearchConfigurationResponse extends ServiceResponse {
-    DiscoverySearchConfigurations: DiscoverySearchConfiguration[];
-    private configurations: any[];//System.Collections.Generic.List<T>;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetDiscoverySearchConfigurationResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetDiscoverySearchConfigurationResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    private configurations: DiscoverySearchConfiguration[] = [];
+
+    /**
+     * Searchable mailboxes result
+     */
+    get DiscoverySearchConfigurations(): DiscoverySearchConfiguration[] {
+        return this.configurations;
+    }
+
+    /**
+	 * @internal Initializes a new instance of the **GetDiscoverySearchConfigurationResponse** class.
+	 */
+    constructor() {
+        super();
+    }
+
+    /**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        this.configurations.splice(0);
+
+        //super.ReadElementsFromXmlJsObject(jsObject, service);
+
+        if (jsObject[XmlElementNames.DiscoverySearchConfigurations]) {
+            for (let searchConfiguration of EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.DiscoverySearchConfigurations], XmlElementNames.DiscoverySearchConfiguration)) {
+                this.configurations.push(DiscoverySearchConfiguration.LoadFromXmlJsObject(searchConfiguration, service));
+            }
+        }
+    }
 }
