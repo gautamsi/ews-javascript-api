@@ -1,6 +1,6 @@
-﻿import { Convert } from './../ExtensionMethods';
-import { Guid } from './../Guid';
-import { ExchangeService } from './../Core/ExchangeService';
+﻿import { Convert } from '../ExtensionMethods';
+import { Guid } from '../Guid';
+import { ExchangeService } from '../Core/ExchangeService';
 import { XmlElementNames } from "../Core/XmlElementNames";
 
 /**
@@ -61,10 +61,14 @@ export class SearchableMailbox {
      * @param   {string}    referenceId            Reference id
      */
     constructor(guid: Guid, smtpAddress: string, isExternalMailbox: boolean, externalEmailAddress: string, displayName: string, isMembershipGroup: boolean, referenceId: string);
-    constructor(guid?: Guid, smtpAddress?: string, isExternalMailbox?: boolean, externalEmailAddress?: string, displayName?: string, isMembershipGroup?: boolean, referenceId?: string) {
-        if (arguments.length === 0) {
-            return;
-        }
+    constructor(guid: Guid = null, smtpAddress: string = null, isExternalMailbox: boolean = false, externalEmailAddress: string = null, displayName: string = null, isMembershipGroup: boolean = false, referenceId: string = null) {
+        this.Guid = guid;
+        this.SmtpAddress = smtpAddress;
+        this.IsExternalMailbox = isExternalMailbox;
+        this.ExternalEmailAddress = externalEmailAddress;
+        this.DisplayName = displayName;
+        this.IsMembershipGroup = isMembershipGroup;
+        this.ReferenceId = referenceId;
     }
 
     /**
@@ -72,7 +76,7 @@ export class SearchableMailbox {
      *
      * @param   {any}				jsObject	Json Object converted from XML.
      * @param   {ExchangeService}	service	The service.    
-     * @return  {SearchableMailbox}              Discovery search configuration object.
+     * @return  {SearchableMailbox}              Searchable mailbox object
      */
     static LoadFromXmlJsObject(jsObject: any, service: ExchangeService): SearchableMailbox {
         let searchableMailbox: SearchableMailbox = new SearchableMailbox();

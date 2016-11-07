@@ -46,7 +46,6 @@ export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequest
      */
     Execute(): IPromise<GetDiscoverySearchConfigurationResponse> {
         return this.InternalExecute().then((serviceResponse: GetDiscoverySearchConfigurationResponse) => {
-            serviceResponse.ThrowIfNecessary();
             return serviceResponse;
         });
     }

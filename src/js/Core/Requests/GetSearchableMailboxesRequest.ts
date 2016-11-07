@@ -1,18 +1,94 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetSearchableMailboxesResponse} from "../Responses/GetSearchableMailboxesResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from '../ExchangeService';
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { GetSearchableMailboxesResponse } from "../Responses/GetSearchableMailboxesResponse";
+import { IPromise } from '../../Interfaces';
+import { StringHelper } from "../../ExtensionMethods";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+
+import { SimpleServiceRequestBase } from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetSearchableMailboxesRequest request.
  */
 export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
-    SearchFilter: string;
-    ExpandGroupMembership: boolean;
-    Execute(): GetSearchableMailboxesResponse { throw new Error("GetSearchableMailboxesRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetSearchableMailboxesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetSearchableMailboxesRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetSearchableMailboxesRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetSearchableMailboxesRequest.ts - ParseResponse : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetSearchableMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    /**
+     * Search filter
+     */
+    SearchFilter: string = null;
+
+    /**
+     * Expand group membership
+     */
+    ExpandGroupMembership: boolean = false;
+
+    /**
+     * @internal Initializes a new instance of the **GetSearchableMailboxesRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetDiscoverySearchConfigurationResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetSearchableMailboxesResponse> {
+        return this.InternalExecute().then((serviceResponse: GetSearchableMailboxesResponse) => {
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2013;
+    }
+
+	/**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetSearchableMailboxesResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetSearchableMailboxes;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetSearchableMailboxesResponse = new GetSearchableMailboxesResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SearchFilter, this.SearchFilter || StringHelper.Empty);
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.ExpandGroupMembership, this.ExpandGroupMembership.toString().toLowerCase());
+    }
 }

@@ -107,6 +107,8 @@ import { GetItemResponse } from "./Responses/GetItemResponse";
 import { GetPasswordExpirationDateRequest } from "./Requests/GetPasswordExpirationDateRequest";
 import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
 import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
+import { GetSearchableMailboxesRequest } from './Requests/GetSearchableMailboxesRequest';
+import { GetSearchableMailboxesResponse } from "./Responses/GetSearchableMailboxesResponse";
 import { GetUserAvailabilityRequest } from "./Requests/GetUserAvailabilityRequest";
 import { GetUserAvailabilityResults } from "../Misc/Availability/GetUserAvailabilityResults";
 import { GetUserConfigurationRequest } from "./Requests/GetUserConfigurationRequest";
@@ -3473,7 +3475,21 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    // GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): GetSearchableMailboxesResponse { throw new Error("ExchangeService.ts - GetSearchableMailboxes : Not implemented."); }
+
+    /**
+     * Get searchable mailboxes
+     *
+     * @param   {string}    searchFilter            Search filter
+     * @param   {boolean}   expandGroupMembership   True if want to expand group membership
+     * @return  {IPromise<GetSearchableMailboxesResponse>}      Service response object :Promise
+     */
+    GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): IPromise<GetSearchableMailboxesResponse> {
+        let request: GetSearchableMailboxesRequest = new GetSearchableMailboxesRequest(this);
+        request.SearchFilter = searchFilter;
+        request.ExpandGroupMembership = expandGroupMembership;
+
+        return request.Execute();
+    }
     // SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
     // SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
     // SearchMailboxes(searchParameters: SearchMailboxesParameters): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
