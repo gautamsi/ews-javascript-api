@@ -28,7 +28,7 @@ export class CancelMeetingMessageSchema extends ServiceObjectSchema {
     /**
      * @internal Instance of **CancelMeetingMessageSchema** 
      */
-    static Instance: CancelMeetingMessageSchema;
+    static Instance: CancelMeetingMessageSchema = new CancelMeetingMessageSchema();
 
     /**
      * Registers properties.
