@@ -19,7 +19,7 @@ import { XmlAttributeNames } from "../Core/XmlAttributeNames";
 import { XmlElementNames } from "../Core/XmlElementNames";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-type base64String = string;
+export type base64String = string;
 
 /**
  * Represents an object that can be used to store user-defined configuration settings.
@@ -47,7 +47,7 @@ export class UserConfiguration {//IJsonSerializable
     /**
      * Indicates whether changes trigger an update or create operation.
      */
-    private isNew: boolean;
+    private isNew: boolean = false;
 
     /**
      * Gets the name of the user configuration.
@@ -304,7 +304,7 @@ export class UserConfiguration {//IJsonSerializable
                     break;
 
                 case XmlElementNames.Dictionary:
-                    (this.dictionary).CreateFromXMLJsObjectCollection(jsObject[key], xservice);//check how collection is deserialized in dictionary class to fix this error
+                    (this.dictionary).CreateFromXMLJsObjectCollection(jsObject[key], service);
                     break;
 
                 case XmlElementNames.XmlData:

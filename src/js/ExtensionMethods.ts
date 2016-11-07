@@ -67,7 +67,7 @@ export module EnumHelper {
         if (includeZero && enumObj[0]) result.push(enumObj[0]);
 
         result.reverse();
-        return result.join(",");
+        return result.join(", ");
     }
 }
 

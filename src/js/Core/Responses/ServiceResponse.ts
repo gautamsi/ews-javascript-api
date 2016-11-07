@@ -237,7 +237,7 @@ export class ServiceResponse {
             caller = (<any>this.constructor).name;
         }
         catch(e){}
-        EwsLogging.Assert(false, caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is false but ReadElementsFromXmlJsObject is not available in derived class to call.")
+        EwsLogging.Assert(caller === "ServiceResponse", caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is false but ReadElementsFromXmlJsObject is not available in derived class to call.")
     }
 
     /**

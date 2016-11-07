@@ -174,6 +174,7 @@ export class GetUserConfigurationRequest extends MultiResponseServiceRequest<Get
         writer.WriteElementValue(
             XmlNamespace.Messages,
             XmlElementNames.UserConfigurationProperties,
-            EnumHelper.ToString(UserConfigurationProperties, this.properties).replace(GetUserConfigurationRequest.EnumDelimiter, StringHelper.Empty));
+            this.properties === UserConfigurationProperties.All ? UserConfigurationProperties[this.properties] : EnumHelper.ToString(UserConfigurationProperties, this.properties).split(GetUserConfigurationRequest.EnumDelimiter).join("")); 
+            //.replace(GetUserConfigurationRequest.EnumDelimiter, " ")); //info: replace only replaces first occurance
     }
 }
