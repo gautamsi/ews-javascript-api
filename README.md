@@ -31,6 +31,11 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.7.0
+
+* new: [#46](https://github.com/gautamsi/ews-javascript-api/issues/46) ***UserConfiguration operations*** availbale, [see MSDN: *Working with user configuration objects by using the EWS Managed API 2.0*](https://msdn.microsoft.com/EN-US/library/office/gg274396(v=exchg.80).aspx)
+> Caveat: all binary data and XML data should be converted to base64 string, this library assumes all base64 strings where binary data or c# byte[] is used.
+
 # Whats new v0.6.2
 
 * new: #100 ***More Item Types implemented*** 
