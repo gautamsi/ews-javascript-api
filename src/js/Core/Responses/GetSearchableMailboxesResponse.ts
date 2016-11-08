@@ -1,4 +1,4 @@
-﻿import { EwsServiceJsonReader } from '../EwsServiceJsonReader';
+﻿import { EwsServiceJsonReader } from "../EwsServiceJsonReader";
 import { ExchangeService } from "../ExchangeService";
 import { FailedSearchMailbox } from "../../MailboxSearch/FailedSearchMailbox";
 import { SearchableMailbox } from "../../MailboxSearch/SearchableMailbox";

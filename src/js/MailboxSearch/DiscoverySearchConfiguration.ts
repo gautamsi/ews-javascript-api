@@ -1,5 +1,5 @@
-﻿import { EwsServiceJsonReader } from '../Core/EwsServiceJsonReader';
-import { ExchangeService } from '../Core/ExchangeService';
+﻿import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../Core/ExchangeService";
 import { SearchableMailbox } from "./SearchableMailbox";
 import { XmlElementNames } from "../Core/XmlElementNames";
 

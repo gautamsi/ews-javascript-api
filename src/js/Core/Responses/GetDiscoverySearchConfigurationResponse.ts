@@ -1,5 +1,5 @@
 ﻿import { DiscoverySearchConfiguration } from "../../MailboxSearch/DiscoverySearchConfiguration";
-import { EwsServiceJsonReader } from '../EwsServiceJsonReader';
+import { EwsServiceJsonReader } from "../EwsServiceJsonReader";
 import { ExchangeService } from "../ExchangeService";
 import { XmlElementNames } from "../XmlElementNames";
 

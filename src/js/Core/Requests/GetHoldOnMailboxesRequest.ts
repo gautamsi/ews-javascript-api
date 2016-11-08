@@ -1,18 +1,103 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetHoldOnMailboxesResponse} from "../Responses/GetHoldOnMailboxesResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { GetHoldOnMailboxesResponse } from "../Responses/GetHoldOnMailboxesResponse";
+import { IPromise } from "../../Interfaces";
+import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+
+import { SimpleServiceRequestBase } from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetHoldOnMailboxesRequest request.
+ * 
+ * @sealed
  */
 export class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
-    HoldId: string;
-    Execute(): GetHoldOnMailboxesResponse { throw new Error("GetHoldOnMailboxesRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetHoldOnMailboxesRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetHoldOnMailboxesRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetHoldOnMailboxesRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetHoldOnMailboxesRequest.ts - ParseResponse : Not implemented."); }
-    Validate(): any { throw new Error("GetHoldOnMailboxesRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetHoldOnMailboxesRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    /**
+     * Hold id
+     */
+    HoldId: string = null;
+
+    /**
+     * @internal Initializes a new instance of the **GetDiscoverySearchConfigurationRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetHoldOnMailboxesResponse> {
+        return this.InternalExecute().then((serviceResponse: GetHoldOnMailboxesResponse) => {
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2013;
+    }
+
+	/**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetHoldOnMailboxesResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetHoldOnMailboxes;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetHoldOnMailboxesResponse = new GetHoldOnMailboxesResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        super.Validate();
+
+        if (StringHelper.IsNullOrEmpty(this.HoldId)) {
+            throw new ServiceValidationException(Strings.HoldIdParameterIsNotSpecified);
+        }
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.HoldId, this.HoldId);
+    }
 }

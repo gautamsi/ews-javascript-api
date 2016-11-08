@@ -1,8 +1,8 @@
 ﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
-import { ExchangeService } from '../ExchangeService';
+import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetSearchableMailboxesResponse } from "../Responses/GetSearchableMailboxesResponse";
-import { IPromise } from '../../Interfaces';
+import { IPromise } from "../../Interfaces";
 import { StringHelper } from "../../ExtensionMethods";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";

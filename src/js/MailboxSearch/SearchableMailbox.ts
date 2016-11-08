@@ -1,6 +1,6 @@
-﻿import { Convert } from '../ExtensionMethods';
-import { Guid } from '../Guid';
-import { ExchangeService } from '../Core/ExchangeService';
+﻿import { Convert } from "../ExtensionMethods";
+import { Guid } from "../Guid";
+import { ExchangeService } from "../Core/ExchangeService";
 import { XmlElementNames } from "../Core/XmlElementNames";
 
 /**
