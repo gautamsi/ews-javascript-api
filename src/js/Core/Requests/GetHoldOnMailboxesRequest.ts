@@ -23,7 +23,7 @@ export class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     HoldId: string = null;
 
     /**
-     * @internal Initializes a new instance of the **GetDiscoverySearchConfigurationRequest** class.
+     * @internal Initializes a new instance of the **GetHoldOnMailboxesRequest** class.
      *
      * @param   {ExchangeService}   service   The service.
      */

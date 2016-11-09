@@ -122,6 +122,7 @@ import { GetUserSettingsResponse } from "../Autodiscover/Responses/GetUserSettin
 import { GroupedFindItemsResults } from "../Search/GroupedFindItemsResults";
 import { Grouping } from "../Search/Grouping";
 import { Guid } from "../Guid";
+import { HoldAction } from "../Enumerations/HoldAction";
 import { IdFormat } from "../Enumerations/IdFormat";
 import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
 import { ImpersonatedUserId } from "../Misc/ImpersonatedUserId";
@@ -171,6 +172,9 @@ import { ServiceRemoteException } from "../Exceptions/ServiceRemoteException";
 import { ServiceResponse } from "./Responses/ServiceResponse";
 import { ServiceResponseCollection } from "./Responses/ServiceResponseCollection";
 import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { SetHoldOnMailboxesParameters } from "./../MailboxSearch/SetHoldOnMailboxesParameters";
+import { SetHoldOnMailboxesRequest } from "./Requests/SetHoldOnMailboxesRequest";
+import { SetHoldOnMailboxesResponse } from "./Responses/SetHoldOnMailboxesResponse";
 import { SetTeamMailboxRequest } from "./Requests/SetTeamMailboxRequest";
 import { SetUserOofSettingsRequest } from "./Requests/SetUserOofSettingsRequest";
 import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
@@ -3496,11 +3500,91 @@ export class ExchangeService extends ExchangeServiceBase {
     // SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
     // SearchMailboxes(searchParameters: SearchMailboxesParameters): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
 
-    // SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    // SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    // SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: System.String[]): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    // SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {SetHoldOnMailboxesParameters}  parameters      Set hold parameters
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId          Hold id
+     * @param   {HoldAction}    actionType      Action type
+     * @param   {string}        query           Query string
+     * @param   {string[]}      mailboxes       Collection of mailboxes
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: String[]): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId                Hold id
+     * @param   {HoldAction}    actionType            Action type
+     * @param   {string}        query                 Query string
+     * @param   {string}        inPlaceHoldIdentity   in-place hold identity
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId                Hold id
+     * @param   {HoldAction}    actionType            Action type
+     * @param   {string}        query                 Query string
+     * @param   {string}        inPlaceHoldIdentity   in-place hold identity
+     * @param   {string}        itemHoldPeriod        item hold period
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(holdIdOrParameters: string | SetHoldOnMailboxesParameters, _actionType: HoldAction = null, _query: string = null, mailboxesOrInPlaceHoldIdentity: String[] | string = null, _itemHoldPeriod: string = null): IPromise<SetHoldOnMailboxesResponse> {
 
+        let holdId: string = <string>holdIdOrParameters;
+        let actionType: HoldAction = _actionType;
+        let query: string = _query;
+        let mailboxes: string[] = <string[]>mailboxesOrInPlaceHoldIdentity;
+        let inPlaceHoldIdentity: string = <string>mailboxesOrInPlaceHoldIdentity;
+        let itemHoldPeriod: string = _itemHoldPeriod;
+
+        let request: SetHoldOnMailboxesRequest = new SetHoldOnMailboxesRequest(this);
+        let argsLength = arguments.length;
+        if (argsLength === 1) { //SetHoldOnMailboxesParameters
+            let parameters: SetHoldOnMailboxesParameters = <SetHoldOnMailboxesParameters>holdIdOrParameters;
+
+            EwsUtilities.ValidateParam(parameters, "parameters");
+
+            holdId = parameters.HoldId;
+            actionType = parameters.ActionType;
+            query = parameters.Query;
+            mailboxes = parameters.Mailboxes;
+            request.Language = parameters.Language;
+            inPlaceHoldIdentity = parameters.InPlaceHoldIdentity;
+
+            /** per #120 */
+            itemHoldPeriod = request.ItemHoldPeriod;
+            request.PerformDeduplication = parameters.PerformDeduplication;
+            request.IncludeNonIndexableItems = parameters.IncludeNonIndexableItems;
+
+        }
+        else {
+            if (ArrayHelper.isArray(mailboxesOrInPlaceHoldIdentity)) {
+                inPlaceHoldIdentity = null;
+            }
+            else {
+                mailboxes = null;
+            }
+        }
+
+        request.HoldId = holdId;
+        request.ActionType = actionType;
+        request.Query = query;
+        request.Mailboxes = mailboxes;
+        request.InPlaceHoldIdentity = inPlaceHoldIdentity;
+        request.ItemHoldPeriod = itemHoldPeriod;
+
+        return request.Execute();
+    }
     /**
      * Get hold on mailboxes
      *
