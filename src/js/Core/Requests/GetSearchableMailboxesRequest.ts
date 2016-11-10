@@ -89,6 +89,6 @@ export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
 	 */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SearchFilter, this.SearchFilter || StringHelper.Empty);
-        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.ExpandGroupMembership, this.ExpandGroupMembership.toString().toLowerCase());
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.ExpandGroupMembership, this.ExpandGroupMembership);
     }
 }

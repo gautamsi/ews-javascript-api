@@ -96,7 +96,7 @@ export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequest
 	 */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SearchId, this.SearchId || StringHelper.Empty);
-        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.ExpandGroupMembership, this.ExpandGroupMembership.toString().toLowerCase());
-        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.InPlaceHoldConfigurationOnly, this.InPlaceHoldConfigurationOnly.toString().toLowerCase());
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.ExpandGroupMembership, this.ExpandGroupMembership);
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.InPlaceHoldConfigurationOnly, this.InPlaceHoldConfigurationOnly);
     }
 }

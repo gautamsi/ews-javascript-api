@@ -106,6 +106,11 @@ import { GetInboxRulesResponse } from "./Responses/GetInboxRulesResponse";
 import { GetItemRequest } from "./Requests/GetItemRequest";
 import { GetItemRequestForLoad } from "./Requests/GetItemRequestForLoad";
 import { GetItemResponse } from "./Responses/GetItemResponse";
+import { GetNonIndexableItemDetailsParameters, GetNonIndexableItemStatisticsParameters } from "../MailboxSearch/NonIndexableItemParameters";
+import { GetNonIndexableItemDetailsRequest } from "./Requests/GetNonIndexableItemDetailsRequest";
+import { GetNonIndexableItemDetailsResponse } from "./Responses/GetNonIndexableItemDetailsResponse";
+import { GetNonIndexableItemStatisticsRequest } from "./Requests/GetNonIndexableItemStatisticsRequest";
+import { GetNonIndexableItemStatisticsResponse } from "./Responses/GetNonIndexableItemStatisticsResponse";
 import { GetPasswordExpirationDateRequest } from "./Requests/GetPasswordExpirationDateRequest";
 import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
 import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
@@ -161,6 +166,7 @@ import { RuleCollection } from "../ComplexProperties/RuleCollection";
 import { RuleOperation } from "../ComplexProperties/RuleOperation";
 import { SearchFilter } from "../Search/Filters/SearchFilter";
 import { SearchFolder } from "./ServiceObjects/Folders/SearchFolder";
+import { SearchPageDirection } from "../Enumerations/SearchPageDirection";
 import { SendCancellationsMode } from "../Enumerations/SendCancellationsMode";
 import { SendInvitationsMode } from "../Enumerations/SendInvitationsMode";
 import { SendInvitationsOrCancellationsMode } from "../Enumerations/SendInvitationsOrCancellationsMode";
@@ -3458,12 +3464,48 @@ export class ExchangeService extends ExchangeServiceBase {
     //// BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemDetails : Not implemented."); }
     //// BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemStatistics : Not implemented."); }
     //// BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSearchMailboxes : Not implemented."); }
-    // CreateGetNonIndexableItemDetailsRequest(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemDetailsRequest : Not implemented."); }
-    // CreateGetNonIndexableItemStatisticsRequest(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemStatisticsRequest : Not implemented."); }
-    // CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest { throw new Error("ExchangeService.ts - CreateSearchMailboxesRequest : Not implemented."); }
     //// EndGetNonIndexableItemDetails(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemDetails : Not implemented."); }
     //// EndGetNonIndexableItemStatistics(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemStatistics : Not implemented."); }
     //// EndSearchMailboxes(asyncResult: Function /*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EndSearchMailboxes : Not implemented."); }
+
+    /**
+     * Create get non indexable item details request
+     *
+     * @param   {GetNonIndexableItemDetailsParameters}   parameters   Get non indexable item details parameters
+     * @return  {GetNonIndexableItemDetailsRequest}      GetNonIndexableItemDetails request
+     */
+    private CreateGetNonIndexableItemDetailsRequest(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsRequest {
+        EwsUtilities.ValidateParam(parameters, "parameters");
+        EwsUtilities.ValidateParam(parameters.Mailboxes, "parameters.Mailboxes");
+
+        let request: GetNonIndexableItemDetailsRequest = new GetNonIndexableItemDetailsRequest(this);
+        request.Mailboxes = parameters.Mailboxes;
+        request.PageSize = parameters.PageSize;
+        request.PageItemReference = parameters.PageItemReference;
+        request.PageDirection = parameters.PageDirection;
+        request.SearchArchiveOnly = parameters.SearchArchiveOnly;
+
+        return request;
+    }
+
+    /**
+     * Create get non indexable item statistics request
+     *
+     * @param   {GetNonIndexableItemStatisticsParameters}   parameters   Get non indexable item statistics parameters
+     * @return  {GetNonIndexableItemStatisticsRequest}      Service response object
+     */
+    private CreateGetNonIndexableItemStatisticsRequest(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsRequest {
+        EwsUtilities.ValidateParam(parameters, "parameters");
+        EwsUtilities.ValidateParam(parameters.Mailboxes, "parameters.Mailboxes");
+
+        let request: GetNonIndexableItemStatisticsRequest = new GetNonIndexableItemStatisticsRequest(this);
+        request.Mailboxes = parameters.Mailboxes;
+        request.SearchArchiveOnly = parameters.SearchArchiveOnly;
+
+        return request;
+    }
+
+    // CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest { throw new Error("ExchangeService.ts - CreateSearchMailboxesRequest : Not implemented."); }
 
     /**
      * Get dicovery search configuration
@@ -3482,6 +3524,90 @@ export class ExchangeService extends ExchangeServiceBase {
         return request.Execute();
     }
 
+    /**
+     * Get hold on mailboxes
+     *
+     * @param   {string}   holdId   Hold id
+     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response object
+     */
+    GetHoldOnMailboxes(holdId: string): IPromise<GetHoldOnMailboxesResponse> {
+        let request: GetHoldOnMailboxesRequest = new GetHoldOnMailboxesRequest(this);
+        request.HoldId = holdId;
+
+        return request.Execute();
+    }
+
+    /**
+     * Get non indexable item details
+     *
+     * @param   {string[]}  mailboxes           Array of mailbox legacy DN
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     */
+    GetNonIndexableItemDetails(mailboxes: string[]): IPromise<GetNonIndexableItemDetailsResponse>;
+    /**
+     * Get non indexable item details
+     *
+     * @param   {string[]}              mailboxes           Array of mailbox legacy DN
+     * @param   {number}                pageSize            The page size
+     * @param   {string}                pageItemReference   Page item reference
+     * @param   {SearchPageDirection}   pageDirection       Page direction
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     */
+    GetNonIndexableItemDetails(mailboxes: string[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): IPromise<GetNonIndexableItemDetailsResponse>;
+    /**
+     * Get non indexable item details
+     *
+     * @param   {GetNonIndexableItemDetailsParameters}   parameters   Get non indexable item details parameters
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}        Service response object   :Promise.
+     */
+    GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): IPromise<GetNonIndexableItemDetailsResponse>;
+    GetNonIndexableItemDetails(mailboxesOrParameters: string[] | GetNonIndexableItemDetailsParameters, pageSize: number = null, pageItemReference: string = null, pageDirection: SearchPageDirection = null): IPromise<GetNonIndexableItemDetailsResponse> {
+        let parameters: GetNonIndexableItemDetailsParameters = null;
+        if (mailboxesOrParameters instanceof GetNonIndexableItemDetailsParameters) {
+            parameters = mailboxesOrParameters;
+        }
+        else {
+            parameters = new GetNonIndexableItemDetailsParameters();
+            parameters.Mailboxes = mailboxesOrParameters;
+            parameters.PageSize = pageSize;
+            parameters.PageItemReference = pageItemReference;
+            parameters.PageDirection = pageDirection;
+            parameters.SearchArchiveOnly = false;
+        }
+
+        let request: GetNonIndexableItemDetailsRequest = this.CreateGetNonIndexableItemDetailsRequest(parameters);
+
+        return request.Execute();
+    }
+
+    /**
+     * Get non indexable item statistics
+     *
+     * @param   {string[]}   mailboxes   Array of mailbox legacy DN
+     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}   Service response object :Promise.
+     */
+    GetNonIndexableItemStatistics(mailboxes: string[]): IPromise<GetNonIndexableItemStatisticsResponse>;
+    /**
+     * Get non indexable item statistics
+     *
+     * @param   {GetNonIndexableItemStatisticsParameters}   parameters   Get non indexable item statistics parameters
+     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}        Service response object :Promise.
+     */
+    GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): IPromise<GetNonIndexableItemStatisticsResponse>;
+    GetNonIndexableItemStatistics(mailboxesOrParameters: string[] | GetNonIndexableItemStatisticsParameters): IPromise<GetNonIndexableItemStatisticsResponse> {
+        let parameters: GetNonIndexableItemStatisticsParameters = null;
+        if (mailboxesOrParameters instanceof GetNonIndexableItemStatisticsParameters) {
+            parameters = mailboxesOrParameters;
+        } else {
+            parameters = new GetNonIndexableItemStatisticsParameters();
+            parameters.Mailboxes = mailboxesOrParameters;
+            parameters.SearchArchiveOnly = false;
+        }
+
+        let request: GetNonIndexableItemStatisticsRequest = this.CreateGetNonIndexableItemStatisticsRequest(parameters);
+
+        return request.Execute();
+    }
     /**
      * Get searchable mailboxes
      *
@@ -3585,25 +3711,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    /**
-     * Get hold on mailboxes
-     *
-     * @param   {string}   holdId   Hold id
-     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response object
-     */
-    GetHoldOnMailboxes(holdId: string): IPromise<GetHoldOnMailboxesResponse> {
-        let request: GetHoldOnMailboxesRequest = new GetHoldOnMailboxesRequest(this);
-        request.HoldId = holdId;
 
-        return request.Execute();
-    }
-
-    // GetNonIndexableItemDetails(mailboxes: System.String[]): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-    // GetNonIndexableItemDetails(mailboxes: System.String[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-    // GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-
-    // GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
-    // GetNonIndexableItemStatistics(mailboxes: System.String[]): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
     /* #endregion eDiscovery/Compliance operations */
 
 

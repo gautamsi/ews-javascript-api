@@ -1,5 +1,5 @@
 ﻿import { EwsServiceJsonReader } from '../Core/EwsServiceJsonReader';
-import { ExchangeService } from './../Core/ExchangeService';
+import { ExchangeService } from '../Core/ExchangeService';
 import { HoldStatus } from "../Enumerations/HoldStatus";
 import { MailboxHoldStatus } from "./MailboxHoldStatus";
 import { XmlElementNames } from "../Core/XmlElementNames";

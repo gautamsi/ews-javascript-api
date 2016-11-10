@@ -1,5 +1,4 @@
 ﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
-import { EwsUtilities } from "./../EwsUtilities";
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { HoldAction } from "../../Enumerations/HoldAction";
@@ -169,11 +168,11 @@ export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase { //IJso
 
         /** per github issue #120 */
         if (this.IncludeNonIndexableItems !== null) {
-            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.IncludeNonIndexableItems, EwsUtilities.BoolToXSBool(this.IncludeNonIndexableItems));
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.IncludeNonIndexableItems, this.IncludeNonIndexableItems);
         }
         /** per github issue #120 */
         if (this.PerformDeduplication !== null) {
-            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.Deduplication, EwsUtilities.BoolToXSBool(this.PerformDeduplication));
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.Deduplication, this.PerformDeduplication);
         }
 
         if (!StringHelper.IsNullOrEmpty(this.ItemHoldPeriod)) {

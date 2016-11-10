@@ -1,16 +1,53 @@
-﻿import {NonIndexableItem} from "./NonIndexableItem";
-import {FailedSearchMailbox} from "./FailedSearchMailbox";
-import {JsonObject} from "../Core/JsonObject";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
+﻿import { EwsServiceJsonReader } from '../Core/EwsServiceJsonReader';
+import { ExchangeService } from "../Core/ExchangeService";
+import { FailedSearchMailbox } from "./FailedSearchMailbox";
+import { NonIndexableItem } from "./NonIndexableItem";
+import { XmlElementNames } from "../Core/XmlElementNames";
+
+/**
+ * Represents non indexable item details result.
+ * 
+ * @sealed
+ */
 export class NonIndexableItemDetailsResult {
-    Items: NonIndexableItem[];
-    FailedMailboxes: FailedSearchMailbox[];
-    LoadFromJson(jsonObject: JsonObject): NonIndexableItemDetailsResult { throw new Error("NonIndexableItemDetailsResult.ts - LoadFromJson : Not implemented."); }
-    LoadFromXml(reader: EwsServiceXmlReader): NonIndexableItemDetailsResult { throw new Error("NonIndexableItemDetailsResult.ts - LoadFromXml : Not implemented."); }
+
+    /**
+     * Collection of items
+     */
+    Items: NonIndexableItem[] = null;
+
+    /**
+     * Failed mailboxes
+     */
+    FailedMailboxes: FailedSearchMailbox[] = null;
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     * @return  {NonIndexableItemDetailsResult}       Non indexable item details result object
+     */
+    static LoadFromXmlJsObject(jsObject: any, service: ExchangeService): NonIndexableItemDetailsResult {
+        let nonIndexableItemDetailsResult: NonIndexableItemDetailsResult = new NonIndexableItemDetailsResult();
+        if (jsObject[XmlElementNames.Items]) {
+            nonIndexableItemDetailsResult.Items = [];
+            for (let nonIndexableItem of EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.Items], XmlElementNames.NonIndexableItemDetail)) {
+                nonIndexableItemDetailsResult.Items.push(NonIndexableItem.LoadFromXmlJsObject(nonIndexableItem, service));
+            }
+            if (nonIndexableItemDetailsResult.Items.length === 0) {
+                nonIndexableItemDetailsResult.Items = null;
+            }
+        }
+        if (jsObject[XmlElementNames.FailedMailboxes]) {
+            nonIndexableItemDetailsResult.FailedMailboxes = [];
+            for (let failedMailboxObject of EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.FailedMailboxes], XmlElementNames.FailedMailbox)) {
+                nonIndexableItemDetailsResult.FailedMailboxes.push(FailedSearchMailbox.LoadFromXmlJsObject(failedMailboxObject, service));
+            }
+            if (nonIndexableItemDetailsResult.FailedMailboxes.length === 0) {
+                nonIndexableItemDetailsResult.FailedMailboxes = null;
+            }
+        }
+        return nonIndexableItemDetailsResult;
+    }
 }
-
-
-//}
-
-
-

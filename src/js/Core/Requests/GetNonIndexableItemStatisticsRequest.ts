@@ -1,19 +1,113 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {GetNonIndexableItemStatisticsResponse} from "../Responses/GetNonIndexableItemStatisticsResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+﻿import { GetNonIndexableItemStatisticsResponse } from "../Responses/GetNonIndexableItemStatisticsResponse";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { IPromise } from "../../Interfaces";
+import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { ExchangeService } from "../ExchangeService";
+
+import { SimpleServiceRequestBase } from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents the GetNonIndexableItemStatistics response.
  */
 export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBase {
-    Mailboxes: string[];
-    SearchArchiveOnly: boolean;
-    Execute(): GetNonIndexableItemStatisticsResponse { throw new Error("GetNonIndexableItemStatisticsRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetNonIndexableItemStatisticsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetNonIndexableItemStatisticsRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetNonIndexableItemStatisticsRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - ParseResponse : Not implemented."); }
-    Validate(): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetNonIndexableItemStatisticsRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    /**
+     * Mailboxes
+     */
+    Mailboxes: string[] = null;
+
+    /**
+     * Whether to search archive only
+     */
+    SearchArchiveOnly: boolean = false;
+
+    /**
+     * @internal Initializes a new instance of the **GetNonIndexableItemStatisticsRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetNonIndexableItemStatisticsResponse> {
+        return this.InternalExecute().then((serviceResponse: GetNonIndexableItemStatisticsResponse) => {
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2013;
+    }
+
+    /**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetNonIndexableItemStatisticsResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetNonIndexableItemStatistics;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetNonIndexableItemStatisticsResponse = new GetNonIndexableItemStatisticsResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        super.Validate();
+
+        if (this.Mailboxes == null || this.Mailboxes.length == 0) {
+            throw new ServiceValidationException(Strings.MailboxesParameterIsNotSpecified);
+        }
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Mailboxes);
+        for (let mailbox of this.Mailboxes) {
+            writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.LegacyDN, mailbox);
+        }
+
+        writer.WriteEndElement();
+
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SearchArchiveOnly, this.SearchArchiveOnly);
+    }
 }
