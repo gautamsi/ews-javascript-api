@@ -1,11 +1,56 @@
-﻿import {MailboxSearchLocation} from "../Enumerations/MailboxSearchLocation";
-import {MailboxSearchScopeType} from "../Enumerations/MailboxSearchScopeType";
-import {ExtendedAttributes} from "./ExtendedAttributes";
+﻿import { ExtendedAttribute } from "./ExtendedAttribute";
+import { MailboxSearchLocation } from "../Enumerations/MailboxSearchLocation";
+import { MailboxSearchScopeType } from "../Enumerations/MailboxSearchScopeType";
+
+/**
+ * Represents mailbox search scope object.
+ */
 export class MailboxSearchScope {
-    Mailbox: string;
-    SearchScope: MailboxSearchLocation;
-    SearchScopeType: MailboxSearchScopeType;
-    ExtendedAttributes: ExtendedAttributes;
-    private searchScope: MailboxSearchLocation;
-    private scopeType: MailboxSearchScopeType;
+
+    private searchScope: MailboxSearchLocation = MailboxSearchLocation.All;
+    private scopeType: MailboxSearchScopeType = MailboxSearchScopeType.LegacyExchangeDN;
+
+    /**
+     * Mailbox
+     */
+    Mailbox: string = null;
+
+    /**
+     * Search scope
+     */
+    get SearchScope(): MailboxSearchLocation {
+        return this.searchScope;
+    }
+    set SearchScope(value: MailboxSearchLocation) {
+        this.searchScope = value;
+    }
+
+    /**
+     * Search scope type
+     */
+    get SearchScopeType(): MailboxSearchScopeType {
+        return this.scopeType;
+    }
+    set SearchScopeType(value: MailboxSearchScopeType) {
+        this.scopeType = value;
+    }
+
+    /**
+     * Gets the extended data.
+     * 
+     * @value The extended data.
+     */
+    ExtendedAttributes: ExtendedAttribute[] = null;
+
+    /**
+     * Constructor
+     *
+     * @param   {string}   mailbox       Mailbox
+     * @param   {MailboxSearchLocation}   searchScope   Search scope
+     */
+    constructor(mailbox: string, searchScope: MailboxSearchLocation) {
+        this.Mailbox = mailbox;
+        this.searchScope = searchScope;
+        this.ExtendedAttributes = [];
+    }
 }

@@ -13,7 +13,7 @@ export class GetNonIndexableItemDetailsResponse extends ServiceResponse {
     /**
      * Non indexable item result
      * 
-     * @internal set
+     * internal set
      */
     NonIndexableItemsResult: NonIndexableItemDetailsResult = null;
 

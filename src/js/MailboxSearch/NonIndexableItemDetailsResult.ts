@@ -40,13 +40,7 @@ export class NonIndexableItemDetailsResult {
             }
         }
         if (jsObject[XmlElementNames.FailedMailboxes]) {
-            nonIndexableItemDetailsResult.FailedMailboxes = [];
-            for (let failedMailboxObject of EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.FailedMailboxes], XmlElementNames.FailedMailbox)) {
-                nonIndexableItemDetailsResult.FailedMailboxes.push(FailedSearchMailbox.LoadFromXmlJsObject(failedMailboxObject, service));
-            }
-            if (nonIndexableItemDetailsResult.FailedMailboxes.length === 0) {
-                nonIndexableItemDetailsResult.FailedMailboxes = null;
-            }
+            nonIndexableItemDetailsResult.FailedMailboxes = FailedSearchMailbox.LoadFromXmlJsObject(jsObject[XmlElementNames.FailedMailboxes], service);
         }
         return nonIndexableItemDetailsResult;
     }

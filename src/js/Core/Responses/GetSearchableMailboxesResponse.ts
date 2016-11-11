@@ -50,13 +50,7 @@ export class GetSearchableMailboxesResponse extends ServiceResponse {
             }
         }
         if (jsObject[XmlElementNames.FailedMailboxes]) {
-            this.FailedMailboxes = [];
-            for (let failedMailboxObject of EwsServiceJsonReader.ReadAsArray(jsObject[XmlElementNames.FailedMailboxes], XmlElementNames.FailedMailbox)) {
-                this.FailedMailboxes.push(FailedSearchMailbox.LoadFromXmlJsObject(failedMailboxObject, service));
-            }
-            if (this.FailedMailboxes.length === 0) {
-                this.FailedMailboxes = null;
-            }
+            this.FailedMailboxes = FailedSearchMailbox.LoadFromXmlJsObject(jsObject[XmlElementNames.FailedMailboxes], service);
         }
     }
 }

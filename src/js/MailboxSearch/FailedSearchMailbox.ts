@@ -1,4 +1,5 @@
 ﻿import { Convert } from '../ExtensionMethods';
+import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
 import { ExchangeService } from '../Core/ExchangeService';
 import { XmlElementNames } from "../Core/XmlElementNames";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
@@ -46,27 +47,33 @@ export class FailedSearchMailbox {
      *
      * @param   {any}				jsObject	Json Object converted from XML.
      * @param   {ExchangeService}	service	The service.    
-     * @return  {FailedSearchMailbox}       Failed search mailbox.
+     * @return  {FailedSearchMailbox[]}       Failed search mailboxes.
      */
-    static LoadFromXmlJsObject(jsObject: any, service: ExchangeService): FailedSearchMailbox {
-        let mailbox: string = null, errorCode: number = 0, errorMessage: string = null, isArchive: boolean = false;
+    static LoadFromXmlJsObject(jsObject: any, service: ExchangeService): FailedSearchMailbox[] {
 
-        if (jsObject[XmlElementNames.Mailbox]) {
-            mailbox = jsObject[XmlElementNames.Mailbox];
+        let failedMailboxes: FailedSearchMailbox[] = [];
+        for (let failedMailboxObject of EwsServiceJsonReader.ReadAsArray(jsObject, XmlElementNames.FailedMailbox)) {
+
+            let mailbox: string = null, errorCode: number = 0, errorMessage: string = null, isArchive: boolean = false;
+
+            if (failedMailboxObject[XmlElementNames.Mailbox]) {
+                mailbox = failedMailboxObject[XmlElementNames.Mailbox];
+            }
+
+            if (failedMailboxObject[XmlElementNames.ErrorCode]) {
+                errorCode = Convert.toNumber(failedMailboxObject[XmlElementNames.ErrorCode]);
+            }
+
+            if (failedMailboxObject[XmlElementNames.ErrorMessage]) {
+                errorMessage = failedMailboxObject[XmlElementNames.ErrorMessage];
+            }
+
+            if (failedMailboxObject[XmlElementNames.IsArchive]) {
+                isArchive = Convert.toBool(failedMailboxObject[XmlElementNames.IsArchive]);
+            }
+
+            failedMailboxes.push(new FailedSearchMailbox(mailbox, errorCode, errorMessage, isArchive));
         }
-
-        if (jsObject[XmlElementNames.ErrorCode]) {
-            errorCode = Convert.toNumber(jsObject[XmlElementNames.ErrorCode]);
-        }
-
-        if (jsObject[XmlElementNames.ErrorMessage]) {
-            errorMessage = jsObject[XmlElementNames.ErrorMessage];
-        }
-
-        if (jsObject[XmlElementNames.IsArchive]) {
-            isArchive = Convert.toBool(jsObject[XmlElementNames.IsArchive]);
-        }
-
-        return new FailedSearchMailbox(mailbox, errorCode, errorMessage, isArchive);
+        return failedMailboxes.length === 0 ? null : failedMailboxes;
     }
 }

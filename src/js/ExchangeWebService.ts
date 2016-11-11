@@ -444,7 +444,7 @@ export { ExecuteDiagnosticMethodResponse } from "./Core/Responses/ExecuteDiagnos
 export { ExpandGroupRequest } from "./Core/Requests/ExpandGroupRequest";
 export { ExpandGroupResponse } from "./Core/Responses/ExpandGroupResponse";
 export { ExpandGroupResults } from "./Misc/ExpandGroupResults";
-export { ExtendedAttributes } from "./MailboxSearch/ExtendedAttributes";
+export { ExtendedAttribute } from "./MailboxSearch/ExtendedAttribute";
 export { ExtendedProperty } from "./ComplexProperties/ExtendedProperty";
 export { ExtendedPropertyCollection } from "./ComplexProperties/ExtendedPropertyCollection";
 export { ExtensionInstallScope } from "./Enumerations/ExtensionInstallScope";

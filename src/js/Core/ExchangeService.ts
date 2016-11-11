@@ -138,6 +138,7 @@ import { ItemChange } from "../Sync/ItemChange";
 import { ItemId } from "../ComplexProperties/ItemId";
 import { KeyValuePair } from "../AltDictionary";
 import { Mailbox } from "../ComplexProperties/Mailbox";
+import { MailboxQuery } from "../MailboxSearch/MailboxQuery";
 import { MailboxSearchLocation } from "../Enumerations/MailboxSearchLocation";
 import { ManagementRoles } from "../Misc/ManagementRoles";
 import { MarkAllItemsAsReadRequest } from "./Requests/MarkAllItemsAsReadRequest";
@@ -166,7 +167,11 @@ import { RuleCollection } from "../ComplexProperties/RuleCollection";
 import { RuleOperation } from "../ComplexProperties/RuleOperation";
 import { SearchFilter } from "../Search/Filters/SearchFilter";
 import { SearchFolder } from "./ServiceObjects/Folders/SearchFolder";
+import { SearchMailboxesParameters } from "../MailboxSearch/SearchMailboxesParameters";
+import { SearchMailboxesRequest } from "./Requests/SearchMailboxesRequest";
+import { SearchMailboxesResponse } from "./Responses/SearchMailboxesResponse";
 import { SearchPageDirection } from "../Enumerations/SearchPageDirection";
+import { SearchResultType } from "../Enumerations/SearchResultType";
 import { SendCancellationsMode } from "../Enumerations/SendCancellationsMode";
 import { SendInvitationsMode } from "../Enumerations/SendInvitationsMode";
 import { SendInvitationsOrCancellationsMode } from "../Enumerations/SendInvitationsOrCancellationsMode";
@@ -178,12 +183,13 @@ import { ServiceRemoteException } from "../Exceptions/ServiceRemoteException";
 import { ServiceResponse } from "./Responses/ServiceResponse";
 import { ServiceResponseCollection } from "./Responses/ServiceResponseCollection";
 import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
-import { SetHoldOnMailboxesParameters } from "./../MailboxSearch/SetHoldOnMailboxesParameters";
+import { SetHoldOnMailboxesParameters } from "../MailboxSearch/SetHoldOnMailboxesParameters";
 import { SetHoldOnMailboxesRequest } from "./Requests/SetHoldOnMailboxesRequest";
 import { SetHoldOnMailboxesResponse } from "./Responses/SetHoldOnMailboxesResponse";
 import { SetTeamMailboxRequest } from "./Requests/SetTeamMailboxRequest";
 import { SetUserOofSettingsRequest } from "./Requests/SetUserOofSettingsRequest";
 import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
+import { SortDirection } from "../Enumerations/SortDirection";
 import { StreamingSubscription } from "../Notifications/StreamingSubscription";
 import { StringList } from "../ComplexProperties/StringList";
 import { Strings } from "../Strings";
@@ -3505,7 +3511,27 @@ export class ExchangeService extends ExchangeServiceBase {
         return request;
     }
 
-    // CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest { throw new Error("ExchangeService.ts - CreateSearchMailboxesRequest : Not implemented."); }
+    /**
+     * Creates SearchMailboxesRequest from SearchMailboxesParameters
+     *
+     * @param   {SearchMailboxesParameters}   searchParameters   search parameters
+     * @return  {SearchMailboxesRequest}      request object
+     */
+    private CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest {
+        let request: SearchMailboxesRequest = new SearchMailboxesRequest(this, ServiceErrorHandling.ReturnErrors);
+        ArrayHelper.AddRange(request.SearchQueries, searchParameters.SearchQueries); //request.SearchQueries.AddRange(searchParameters.SearchQueries);
+        request.ResultType = searchParameters.ResultType;
+        request.PreviewItemResponseShape = searchParameters.PreviewItemResponseShape;
+        request.SortByProperty = searchParameters.SortBy;
+        request.SortOrder = searchParameters.SortOrder;
+        request.Language = searchParameters.Language;
+        request.PerformDeduplication = searchParameters.PerformDeduplication;
+        request.PageSize = searchParameters.PageSize;
+        request.PageDirection = searchParameters.PageDirection;
+        request.PageItemReference = searchParameters.PageItemReference;
+
+        return request;
+    }
 
     /**
      * Get dicovery search configuration
@@ -3608,6 +3634,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
+
     /**
      * Get searchable mailboxes
      *
@@ -3622,9 +3649,61 @@ export class ExchangeService extends ExchangeServiceBase {
 
         return request.Execute();
     }
-    // SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
-    // SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
-    // SearchMailboxes(searchParameters: SearchMailboxesParameters): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
+
+    /**
+     * Search mailboxes
+     *
+     * @param   {SearchMailboxesParameters}   searchParameters   Search mailboxes parameters
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(searchParameters: SearchMailboxesParameters): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    /**
+     * Search mailboxes
+     *
+     * @param   {MailboxQuery[]}        mailboxQueries      Collection of query and mailboxes
+     * @param   {SearchResultType}      resultType          Search result type
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    /**
+     * Search mailboxes
+     *
+     * @param   {MailboxQuery[]}        mailboxQueries      Collection of query and mailboxes
+     * @param   {SearchResultType}      resultType          Search result type
+     * @param   {string}                sortByProperty      Sort by property name
+     * @param   {SortDirection}         sortOrder           Sort order
+     * @param   {number}                pageSize            Page size
+     * @param   {SearchPageDirection}   pageDirection       Page navigation direction
+     * @param   {string}                pageItemReference   Item reference used for paging
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    SearchMailboxes(mailboxQueriesOrSearchParameters: MailboxQuery[] | SearchMailboxesParameters, resultType: SearchResultType = SearchResultType.PreviewOnly, sortByProperty: string = null, sortOrder: SortDirection = SortDirection.Ascending, pageSize: number = 0, pageDirection: SearchPageDirection = SearchPageDirection.Next, pageItemReference: string = null): IPromise<ServiceResponseCollection<SearchMailboxesResponse>> {
+        let request: SearchMailboxesRequest = null;
+        if (mailboxQueriesOrSearchParameters instanceof SearchMailboxesParameters) {
+            let searchParameters: SearchMailboxesParameters = null;
+            searchParameters = mailboxQueriesOrSearchParameters;
+            EwsUtilities.ValidateParam(searchParameters, "searchParameters");
+            EwsUtilities.ValidateParam(searchParameters.SearchQueries, "searchParameters.SearchQueries");
+            request = this.CreateSearchMailboxesRequest(searchParameters);
+        }
+        else {
+            request = new SearchMailboxesRequest(this, ServiceErrorHandling.ReturnErrors);
+            if (mailboxQueriesOrSearchParameters != null) {
+                ArrayHelper.AddRange(request.SearchQueries, mailboxQueriesOrSearchParameters);
+            }
+            request.ResultType = resultType;
+
+            if (arguments.length > 2) {
+                request.SortByProperty = sortByProperty;
+                request.SortOrder = sortOrder;
+                request.PageSize = pageSize;
+                request.PageDirection = pageDirection;
+                request.PageItemReference = pageItemReference;
+            }
+        }
+        return request.Execute();
+    }
 
     /**
      * Set hold on mailboxes
