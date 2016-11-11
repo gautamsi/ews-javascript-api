@@ -1,23 +1,143 @@
-﻿import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
-import {SearchPageDirection} from "../../Enumerations/SearchPageDirection";
-import {GetNonIndexableItemDetailsResponse} from "../Responses/GetNonIndexableItemDetailsResponse";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
+﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { GetNonIndexableItemDetailsResponse } from "../Responses/GetNonIndexableItemDetailsResponse";
+import { IPromise } from "../../Interfaces";
+import { SearchPageDirection } from "../../Enumerations/SearchPageDirection";
+import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+
+import { SimpleServiceRequestBase } from "./SimpleServiceRequestBase";
 /**
- * ## @internal *Not Implemented* 
+ * @internal Represents a GetNonIndexableItemDetailsRequest request. 
+ * 
+ * @sealed
  */
 export class GetNonIndexableItemDetailsRequest extends SimpleServiceRequestBase {
-    Mailboxes: string[];
-    PageSize: number;
-    PageItemReference: string;
-    PageDirection: SearchPageDirection;
-    SearchArchiveOnly: boolean;
-    Execute(): GetNonIndexableItemDetailsResponse { throw new Error("GetNonIndexableItemDetailsRequest.ts - Execute : Not implemented."); }
-    GetMinimumRequiredServerVersion(): ExchangeVersion { throw new Error("GetNonIndexableItemDetailsRequest.ts - GetMinimumRequiredServerVersion : Not implemented."); }
-    GetResponseXmlElementName(): string { throw new Error("GetNonIndexableItemDetailsRequest.ts - GetResponseXmlElementName : Not implemented."); }
-    GetXmlElementName(): string { throw new Error("GetNonIndexableItemDetailsRequest.ts - GetXmlElementName : Not implemented."); }
-    ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetNonIndexableItemDetailsRequest.ts - ParseResponse : Not implemented."); }
-    Validate(): any { throw new Error("GetNonIndexableItemDetailsRequest.ts - Validate : Not implemented."); }
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetNonIndexableItemDetailsRequest.ts - WriteElementsToXml : Not implemented."); }
+
+    /**
+     * Mailboxes
+     */
+    Mailboxes: string[] = null;
+
+    /**
+     * @Nullable Page size
+     */
+    PageSize: number = null;
+
+    /**
+     * Page item reference
+     */
+    PageItemReference: string = null;
+
+    /**
+     * @Nullable Page direction
+     */
+    PageDirection: SearchPageDirection = null;
+
+    /**
+     * Whether to search archive only
+     */
+    SearchArchiveOnly: boolean = false;
+
+    /**
+     * @internal Initializes a new instance of the **GetNonIndexableItemDetailsRequest** class.
+     *
+     * @param   {ExchangeService}   service   The service.
+     */
+    constructor(service: ExchangeService) {
+        super(service);
+    }
+
+    /**
+     * @internal Executes this request.
+     *
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response  :Promise.
+     */
+    Execute(): IPromise<GetNonIndexableItemDetailsResponse> {
+        return this.InternalExecute().then((serviceResponse: GetNonIndexableItemDetailsResponse) => {
+            return serviceResponse;
+        });
+    }
+
+    /**
+	 * @internal Gets the request version.
+	 *
+	 * @return  {ExchangeVersion}      Earliest Exchange version in which this request is supported.
+	 */
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2013;
+    }
+
+	/**
+	 * @internal Gets the name of the response XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetResponseXmlElementName(): string {
+        return XmlElementNames.GetNonIndexableItemDetailsResponse;
+    }
+
+    /**
+	 * @internal Gets the name of the XML element.
+	 *
+	 * @return  {string}      XML element name.
+	 */
+    GetXmlElementName(): string {
+        return XmlElementNames.GetNonIndexableItemDetails;
+    }
+
+    /**
+     * @internal Parses the response.
+     *
+     * @param   {any}   jsonBody   The js object response body.
+     * @return  {any}              Response object.
+     */
+    ParseResponse(jsonBody: any): any {
+        let response: GetNonIndexableItemDetailsResponse = new GetNonIndexableItemDetailsResponse();
+        response.LoadFromXmlJsObject(jsonBody, this.Service);
+        return response;
+    }
+
+    /**
+     * @internal Validate request.
+     */
+    Validate(): void {
+        super.Validate();
+
+        if (this.Mailboxes == null || this.Mailboxes.length == 0) {
+            throw new ServiceValidationException(Strings.MailboxesParameterIsNotSpecified);
+        }
+    }
+
+    /**
+	 * @internal Writes the elements to XML writer.
+	 *
+	 * @param   {EwsServiceXmlWriter}   writer   The writer.
+	 */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+        writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.Mailboxes);
+        for (let mailbox of this.Mailboxes) {
+            writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.LegacyDN, mailbox);
+        }
+
+        writer.WriteEndElement();
+
+        if (this.PageSize) {
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.PageSize, this.PageSize);
+        }
+
+        if (!StringHelper.IsNullOrEmpty(this.PageItemReference)) {
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.PageItemReference, this.PageItemReference);
+        }
+
+        if (this.PageDirection) {
+            writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.PageDirection, SearchPageDirection[this.PageDirection]);
+        }
+
+        writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SearchArchiveOnly, this.SearchArchiveOnly);
+    }
 }

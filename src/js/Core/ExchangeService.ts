@@ -91,24 +91,35 @@ import { GetConversationItemsRequest } from "./Requests/GetConversationItemsRequ
 import { GetConversationItemsResponse } from "./Responses/GetConversationItemsResponse";
 import { GetDelegateRequest } from "./Requests/GetDelegateRequest";
 import { GetDelegateResponse } from "./Responses/GetDelegateResponse";
+import { GetDiscoverySearchConfigurationRequest } from "./Requests/GetDiscoverySearchConfigurationRequest";
+import { GetDiscoverySearchConfigurationResponse } from "./Responses/GetDiscoverySearchConfigurationResponse";
 import { GetEncryptionConfigurationResponse } from "./Responses/GetEncryptionConfigurationResponse";
 import { GetEventsRequest } from "./Requests/GetEventsRequest";
 import { GetEventsResults } from "../Notifications/GetEventsResults";
 import { GetFolderRequest } from "./Requests/GetFolderRequest";
 import { GetFolderRequestForLoad } from "./Requests/GetFolderRequestForLoad";
 import { GetFolderResponse } from "./Responses/GetFolderResponse";
+import { GetHoldOnMailboxesRequest } from "./Requests/GetHoldOnMailboxesRequest";
+import { GetHoldOnMailboxesResponse } from "./Responses/GetHoldOnMailboxesResponse";
 import { GetInboxRulesRequest } from "./Requests/GetInboxRulesRequest";
 import { GetInboxRulesResponse } from "./Responses/GetInboxRulesResponse";
 import { GetItemRequest } from "./Requests/GetItemRequest";
 import { GetItemRequestForLoad } from "./Requests/GetItemRequestForLoad";
 import { GetItemResponse } from "./Responses/GetItemResponse";
+import { GetNonIndexableItemDetailsParameters, GetNonIndexableItemStatisticsParameters } from "../MailboxSearch/NonIndexableItemParameters";
+import { GetNonIndexableItemDetailsRequest } from "./Requests/GetNonIndexableItemDetailsRequest";
+import { GetNonIndexableItemDetailsResponse } from "./Responses/GetNonIndexableItemDetailsResponse";
+import { GetNonIndexableItemStatisticsRequest } from "./Requests/GetNonIndexableItemStatisticsRequest";
+import { GetNonIndexableItemStatisticsResponse } from "./Responses/GetNonIndexableItemStatisticsResponse";
 import { GetPasswordExpirationDateRequest } from "./Requests/GetPasswordExpirationDateRequest";
 import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
 import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
+import { GetSearchableMailboxesRequest } from "./Requests/GetSearchableMailboxesRequest";
+import { GetSearchableMailboxesResponse } from "./Responses/GetSearchableMailboxesResponse";
 import { GetUserAvailabilityRequest } from "./Requests/GetUserAvailabilityRequest";
 import { GetUserAvailabilityResults } from "../Misc/Availability/GetUserAvailabilityResults";
 import { GetUserConfigurationRequest } from "./Requests/GetUserConfigurationRequest";
-import { GetUserConfigurationResponse } from './Responses/GetUserConfigurationResponse';
+import { GetUserConfigurationResponse } from "./Responses/GetUserConfigurationResponse";
 import { GetUserOofSettingsRequest } from "./Requests/GetUserOofSettingsRequest";
 import { GetUserRetentionPolicyTagsRequest } from "./Requests/GetUserRetentionPolicyTagsRequest";
 import { GetUserRetentionPolicyTagsResponse } from "./Responses/GetUserRetentionPolicyTagsResponse";
@@ -116,6 +127,7 @@ import { GetUserSettingsResponse } from "../Autodiscover/Responses/GetUserSettin
 import { GroupedFindItemsResults } from "../Search/GroupedFindItemsResults";
 import { Grouping } from "../Search/Grouping";
 import { Guid } from "../Guid";
+import { HoldAction } from "../Enumerations/HoldAction";
 import { IdFormat } from "../Enumerations/IdFormat";
 import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
 import { ImpersonatedUserId } from "../Misc/ImpersonatedUserId";
@@ -126,6 +138,7 @@ import { ItemChange } from "../Sync/ItemChange";
 import { ItemId } from "../ComplexProperties/ItemId";
 import { KeyValuePair } from "../AltDictionary";
 import { Mailbox } from "../ComplexProperties/Mailbox";
+import { MailboxQuery } from "../MailboxSearch/MailboxQuery";
 import { MailboxSearchLocation } from "../Enumerations/MailboxSearchLocation";
 import { ManagementRoles } from "../Misc/ManagementRoles";
 import { MarkAllItemsAsReadRequest } from "./Requests/MarkAllItemsAsReadRequest";
@@ -141,7 +154,7 @@ import { NameResolutionCollection } from "../Misc/NameResolutionCollection";
 import { OofSettings } from "../ComplexProperties/Availability/OofSettings";
 import { PrivilegedUserId } from "../Misc/PrivilegedUserId";
 import { PromiseFactory } from "../PromiseFactory";
-import { PropertyDefinitionBase } from '../PropertyDefinitions/PropertyDefinitionBase';
+import { PropertyDefinitionBase } from "../PropertyDefinitions/PropertyDefinitionBase";
 import { PropertySet } from "./PropertySet";
 import { PullSubscription } from "../Notifications/PullSubscription";
 import { PushSubscription } from "../Notifications/PushSubscription";
@@ -154,6 +167,11 @@ import { RuleCollection } from "../ComplexProperties/RuleCollection";
 import { RuleOperation } from "../ComplexProperties/RuleOperation";
 import { SearchFilter } from "../Search/Filters/SearchFilter";
 import { SearchFolder } from "./ServiceObjects/Folders/SearchFolder";
+import { SearchMailboxesParameters } from "../MailboxSearch/SearchMailboxesParameters";
+import { SearchMailboxesRequest } from "./Requests/SearchMailboxesRequest";
+import { SearchMailboxesResponse } from "./Responses/SearchMailboxesResponse";
+import { SearchPageDirection } from "../Enumerations/SearchPageDirection";
+import { SearchResultType } from "../Enumerations/SearchResultType";
 import { SendCancellationsMode } from "../Enumerations/SendCancellationsMode";
 import { SendInvitationsMode } from "../Enumerations/SendInvitationsMode";
 import { SendInvitationsOrCancellationsMode } from "../Enumerations/SendInvitationsOrCancellationsMode";
@@ -165,9 +183,13 @@ import { ServiceRemoteException } from "../Exceptions/ServiceRemoteException";
 import { ServiceResponse } from "./Responses/ServiceResponse";
 import { ServiceResponseCollection } from "./Responses/ServiceResponseCollection";
 import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { SetHoldOnMailboxesParameters } from "../MailboxSearch/SetHoldOnMailboxesParameters";
+import { SetHoldOnMailboxesRequest } from "./Requests/SetHoldOnMailboxesRequest";
+import { SetHoldOnMailboxesResponse } from "./Responses/SetHoldOnMailboxesResponse";
 import { SetTeamMailboxRequest } from "./Requests/SetTeamMailboxRequest";
 import { SetUserOofSettingsRequest } from "./Requests/SetUserOofSettingsRequest";
 import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
+import { SortDirection } from "../Enumerations/SortDirection";
 import { StreamingSubscription } from "../Notifications/StreamingSubscription";
 import { StringList } from "../ComplexProperties/StringList";
 import { Strings } from "../Strings";
@@ -189,7 +211,7 @@ import { UpdateFolderRequest } from "./Requests/UpdateFolderRequest";
 import { UpdateInboxRulesRequest } from "./Requests/UpdateInboxRulesRequest";
 import { UpdateItemRequest } from "./Requests/UpdateItemRequest";
 import { UpdateItemResponse } from "./Responses/UpdateItemResponse";
-import { UpdateUserConfigurationRequest } from './Requests/UpdateUserConfigurationRequest';
+import { UpdateUserConfigurationRequest } from "./Requests/UpdateUserConfigurationRequest";
 import { Uri } from "../Uri";
 import { UserConfiguration } from "../Misc/UserConfiguration";
 import { UserConfigurationProperties } from "../Enumerations/UserConfigurationProperties";
@@ -3445,30 +3467,330 @@ export class ExchangeService extends ExchangeServiceBase {
 
     /* #region eDiscovery/Compliance operations */
 
-    // BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemDetails : Not implemented."); }
-    // BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemStatistics : Not implemented."); }
-    // BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSearchMailboxes : Not implemented."); }
-    //CreateGetNonIndexableItemDetailsRequest(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemDetailsRequest : Not implemented."); }
-    //CreateGetNonIndexableItemStatisticsRequest(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsRequest { throw new Error("ExchangeService.ts - CreateGetNonIndexableItemStatisticsRequest : Not implemented."); }
-    //CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest { throw new Error("ExchangeService.ts - CreateSearchMailboxesRequest : Not implemented."); }
-    //EndGetNonIndexableItemDetails(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemDetails : Not implemented."); }
-    //EndGetNonIndexableItemStatistics(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemStatistics : Not implemented."); }
-    //EndSearchMailboxes(asyncResult: Function /*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EndSearchMailboxes : Not implemented."); }
-    //GetDiscoverySearchConfiguration(searchId: string, expandGroupMembership: boolean, inPlaceHoldConfigurationOnly: boolean): GetDiscoverySearchConfigurationResponse { throw new Error("ExchangeService.ts - GetDiscoverySearchConfiguration : Not implemented."); }
-    //GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): GetSearchableMailboxesResponse { throw new Error("ExchangeService.ts - GetSearchableMailboxes : Not implemented."); }
-    //SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
-    ////SearchMailboxes(mailboxQueries: any[] /*System.Collections.Generic.IEnumerable<T>*/, resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
-    ////SearchMailboxes(searchParameters: SearchMailboxesParameters): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - SearchMailboxes : Not implemented."); }
-    //SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    ////SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    ////SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: System.String[]): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    ////SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): SetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - SetHoldOnMailboxes : Not implemented."); }
-    //GetHoldOnMailboxes(holdId: string): GetHoldOnMailboxesResponse { throw new Error("ExchangeService.ts - GetHoldOnMailboxes : Not implemented."); }
-    //GetNonIndexableItemDetails(mailboxes: System.String[]): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-    ////GetNonIndexableItemDetails(mailboxes: System.String[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-    ////GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemDetails : Not implemented."); }
-    //GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
-    ////GetNonIndexableItemStatistics(mailboxes: System.String[]): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - GetNonIndexableItemStatistics : Not implemented."); }
+    //// BeginGetNonIndexableItemDetails(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemDetailsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemDetails : Not implemented."); }
+    //// BeginGetNonIndexableItemStatistics(callback: Function /*System.AsyncCallback*/, state: any, parameters: GetNonIndexableItemStatisticsParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginGetNonIndexableItemStatistics : Not implemented."); }
+    //// BeginSearchMailboxes(callback: Function /*System.AsyncCallback*/, state: any, searchParameters: SearchMailboxesParameters): Function /*System.IAsyncResult*/ { throw new Error("ExchangeService.ts - BeginSearchMailboxes : Not implemented."); }
+    //// EndGetNonIndexableItemDetails(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemDetailsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemDetails : Not implemented."); }
+    //// EndGetNonIndexableItemStatistics(asyncResult: Function /*System.IAsyncResult*/): GetNonIndexableItemStatisticsResponse { throw new Error("ExchangeService.ts - EndGetNonIndexableItemStatistics : Not implemented."); }
+    //// EndSearchMailboxes(asyncResult: Function /*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("ExchangeService.ts - EndSearchMailboxes : Not implemented."); }
+
+    /**
+     * Create get non indexable item details request
+     *
+     * @param   {GetNonIndexableItemDetailsParameters}   parameters   Get non indexable item details parameters
+     * @return  {GetNonIndexableItemDetailsRequest}      GetNonIndexableItemDetails request
+     */
+    private CreateGetNonIndexableItemDetailsRequest(parameters: GetNonIndexableItemDetailsParameters): GetNonIndexableItemDetailsRequest {
+        EwsUtilities.ValidateParam(parameters, "parameters");
+        EwsUtilities.ValidateParam(parameters.Mailboxes, "parameters.Mailboxes");
+
+        let request: GetNonIndexableItemDetailsRequest = new GetNonIndexableItemDetailsRequest(this);
+        request.Mailboxes = parameters.Mailboxes;
+        request.PageSize = parameters.PageSize;
+        request.PageItemReference = parameters.PageItemReference;
+        request.PageDirection = parameters.PageDirection;
+        request.SearchArchiveOnly = parameters.SearchArchiveOnly;
+
+        return request;
+    }
+
+    /**
+     * Create get non indexable item statistics request
+     *
+     * @param   {GetNonIndexableItemStatisticsParameters}   parameters   Get non indexable item statistics parameters
+     * @return  {GetNonIndexableItemStatisticsRequest}      Service response object
+     */
+    private CreateGetNonIndexableItemStatisticsRequest(parameters: GetNonIndexableItemStatisticsParameters): GetNonIndexableItemStatisticsRequest {
+        EwsUtilities.ValidateParam(parameters, "parameters");
+        EwsUtilities.ValidateParam(parameters.Mailboxes, "parameters.Mailboxes");
+
+        let request: GetNonIndexableItemStatisticsRequest = new GetNonIndexableItemStatisticsRequest(this);
+        request.Mailboxes = parameters.Mailboxes;
+        request.SearchArchiveOnly = parameters.SearchArchiveOnly;
+
+        return request;
+    }
+
+    /**
+     * Creates SearchMailboxesRequest from SearchMailboxesParameters
+     *
+     * @param   {SearchMailboxesParameters}   searchParameters   search parameters
+     * @return  {SearchMailboxesRequest}      request object
+     */
+    private CreateSearchMailboxesRequest(searchParameters: SearchMailboxesParameters): SearchMailboxesRequest {
+        let request: SearchMailboxesRequest = new SearchMailboxesRequest(this, ServiceErrorHandling.ReturnErrors);
+        ArrayHelper.AddRange(request.SearchQueries, searchParameters.SearchQueries); //request.SearchQueries.AddRange(searchParameters.SearchQueries);
+        request.ResultType = searchParameters.ResultType;
+        request.PreviewItemResponseShape = searchParameters.PreviewItemResponseShape;
+        request.SortByProperty = searchParameters.SortBy;
+        request.SortOrder = searchParameters.SortOrder;
+        request.Language = searchParameters.Language;
+        request.PerformDeduplication = searchParameters.PerformDeduplication;
+        request.PageSize = searchParameters.PageSize;
+        request.PageDirection = searchParameters.PageDirection;
+        request.PageItemReference = searchParameters.PageItemReference;
+
+        return request;
+    }
+
+    /**
+     * Get dicovery search configuration
+     *
+     * @param   {string}    searchId                       Search Id
+     * @param   {boolean}   expandGroupMembership          True if want to expand group membership
+     * @param   {boolean}   inPlaceHoldConfigurationOnly   True if only want the inplacehold configuration
+     * @return  {IPromise<GetDiscoverySearchConfigurationResponse>}     Service response object    :Promise.
+     */
+    GetDiscoverySearchConfiguration(searchId: string, expandGroupMembership: boolean, inPlaceHoldConfigurationOnly: boolean): IPromise<GetDiscoverySearchConfigurationResponse> {
+        let request: GetDiscoverySearchConfigurationRequest = new GetDiscoverySearchConfigurationRequest(this);
+        request.SearchId = searchId;
+        request.ExpandGroupMembership = expandGroupMembership;
+        request.InPlaceHoldConfigurationOnly = inPlaceHoldConfigurationOnly;
+
+        return request.Execute();
+    }
+
+    /**
+     * Get hold on mailboxes
+     *
+     * @param   {string}   holdId   Hold id
+     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response object
+     */
+    GetHoldOnMailboxes(holdId: string): IPromise<GetHoldOnMailboxesResponse> {
+        let request: GetHoldOnMailboxesRequest = new GetHoldOnMailboxesRequest(this);
+        request.HoldId = holdId;
+
+        return request.Execute();
+    }
+
+    /**
+     * Get non indexable item details
+     *
+     * @param   {string[]}  mailboxes           Array of mailbox legacy DN
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     */
+    GetNonIndexableItemDetails(mailboxes: string[]): IPromise<GetNonIndexableItemDetailsResponse>;
+    /**
+     * Get non indexable item details
+     *
+     * @param   {string[]}              mailboxes           Array of mailbox legacy DN
+     * @param   {number}                pageSize            The page size
+     * @param   {string}                pageItemReference   Page item reference
+     * @param   {SearchPageDirection}   pageDirection       Page direction
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     */
+    GetNonIndexableItemDetails(mailboxes: string[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): IPromise<GetNonIndexableItemDetailsResponse>;
+    /**
+     * Get non indexable item details
+     *
+     * @param   {GetNonIndexableItemDetailsParameters}   parameters   Get non indexable item details parameters
+     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}        Service response object   :Promise.
+     */
+    GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): IPromise<GetNonIndexableItemDetailsResponse>;
+    GetNonIndexableItemDetails(mailboxesOrParameters: string[] | GetNonIndexableItemDetailsParameters, pageSize: number = null, pageItemReference: string = null, pageDirection: SearchPageDirection = null): IPromise<GetNonIndexableItemDetailsResponse> {
+        let parameters: GetNonIndexableItemDetailsParameters = null;
+        if (mailboxesOrParameters instanceof GetNonIndexableItemDetailsParameters) {
+            parameters = mailboxesOrParameters;
+        }
+        else {
+            parameters = new GetNonIndexableItemDetailsParameters();
+            parameters.Mailboxes = mailboxesOrParameters;
+            parameters.PageSize = pageSize;
+            parameters.PageItemReference = pageItemReference;
+            parameters.PageDirection = pageDirection;
+            parameters.SearchArchiveOnly = false;
+        }
+
+        let request: GetNonIndexableItemDetailsRequest = this.CreateGetNonIndexableItemDetailsRequest(parameters);
+
+        return request.Execute();
+    }
+
+    /**
+     * Get non indexable item statistics
+     *
+     * @param   {string[]}   mailboxes   Array of mailbox legacy DN
+     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}   Service response object :Promise.
+     */
+    GetNonIndexableItemStatistics(mailboxes: string[]): IPromise<GetNonIndexableItemStatisticsResponse>;
+    /**
+     * Get non indexable item statistics
+     *
+     * @param   {GetNonIndexableItemStatisticsParameters}   parameters   Get non indexable item statistics parameters
+     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}        Service response object :Promise.
+     */
+    GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): IPromise<GetNonIndexableItemStatisticsResponse>;
+    GetNonIndexableItemStatistics(mailboxesOrParameters: string[] | GetNonIndexableItemStatisticsParameters): IPromise<GetNonIndexableItemStatisticsResponse> {
+        let parameters: GetNonIndexableItemStatisticsParameters = null;
+        if (mailboxesOrParameters instanceof GetNonIndexableItemStatisticsParameters) {
+            parameters = mailboxesOrParameters;
+        } else {
+            parameters = new GetNonIndexableItemStatisticsParameters();
+            parameters.Mailboxes = mailboxesOrParameters;
+            parameters.SearchArchiveOnly = false;
+        }
+
+        let request: GetNonIndexableItemStatisticsRequest = this.CreateGetNonIndexableItemStatisticsRequest(parameters);
+
+        return request.Execute();
+    }
+
+    /**
+     * Get searchable mailboxes
+     *
+     * @param   {string}    searchFilter            Search filter
+     * @param   {boolean}   expandGroupMembership   True if want to expand group membership
+     * @return  {IPromise<GetSearchableMailboxesResponse>}      Service response object :Promise
+     */
+    GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): IPromise<GetSearchableMailboxesResponse> {
+        let request: GetSearchableMailboxesRequest = new GetSearchableMailboxesRequest(this);
+        request.SearchFilter = searchFilter;
+        request.ExpandGroupMembership = expandGroupMembership;
+
+        return request.Execute();
+    }
+
+    /**
+     * Search mailboxes
+     *
+     * @param   {SearchMailboxesParameters}   searchParameters   Search mailboxes parameters
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(searchParameters: SearchMailboxesParameters): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    /**
+     * Search mailboxes
+     *
+     * @param   {MailboxQuery[]}        mailboxQueries      Collection of query and mailboxes
+     * @param   {SearchResultType}      resultType          Search result type
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    /**
+     * Search mailboxes
+     *
+     * @param   {MailboxQuery[]}        mailboxQueries      Collection of query and mailboxes
+     * @param   {SearchResultType}      resultType          Search result type
+     * @param   {string}                sortByProperty      Sort by property name
+     * @param   {SortDirection}         sortOrder           Sort order
+     * @param   {number}                pageSize            Page size
+     * @param   {SearchPageDirection}   pageDirection       Page navigation direction
+     * @param   {string}                pageItemReference   Item reference used for paging
+     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     */
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    SearchMailboxes(mailboxQueriesOrSearchParameters: MailboxQuery[] | SearchMailboxesParameters, resultType: SearchResultType = SearchResultType.PreviewOnly, sortByProperty: string = null, sortOrder: SortDirection = SortDirection.Ascending, pageSize: number = 0, pageDirection: SearchPageDirection = SearchPageDirection.Next, pageItemReference: string = null): IPromise<ServiceResponseCollection<SearchMailboxesResponse>> {
+        let request: SearchMailboxesRequest = null;
+        if (mailboxQueriesOrSearchParameters instanceof SearchMailboxesParameters) {
+            let searchParameters: SearchMailboxesParameters = null;
+            searchParameters = mailboxQueriesOrSearchParameters;
+            EwsUtilities.ValidateParam(searchParameters, "searchParameters");
+            EwsUtilities.ValidateParam(searchParameters.SearchQueries, "searchParameters.SearchQueries");
+            request = this.CreateSearchMailboxesRequest(searchParameters);
+        }
+        else {
+            request = new SearchMailboxesRequest(this, ServiceErrorHandling.ReturnErrors);
+            if (mailboxQueriesOrSearchParameters != null) {
+                ArrayHelper.AddRange(request.SearchQueries, mailboxQueriesOrSearchParameters);
+            }
+            request.ResultType = resultType;
+
+            if (arguments.length > 2) {
+                request.SortByProperty = sortByProperty;
+                request.SortOrder = sortOrder;
+                request.PageSize = pageSize;
+                request.PageDirection = pageDirection;
+                request.PageItemReference = pageItemReference;
+            }
+        }
+        return request.Execute();
+    }
+
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {SetHoldOnMailboxesParameters}  parameters      Set hold parameters
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId          Hold id
+     * @param   {HoldAction}    actionType      Action type
+     * @param   {string}        query           Query string
+     * @param   {string[]}      mailboxes       Collection of mailboxes
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: String[]): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId                Hold id
+     * @param   {HoldAction}    actionType            Action type
+     * @param   {string}        query                 Query string
+     * @param   {string}        inPlaceHoldIdentity   in-place hold identity
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): IPromise<SetHoldOnMailboxesResponse>;
+    /**
+     * Set hold on mailboxes
+     *
+     * @param   {string}        holdId                Hold id
+     * @param   {HoldAction}    actionType            Action type
+     * @param   {string}        query                 Query string
+     * @param   {string}        inPlaceHoldIdentity   in-place hold identity
+     * @param   {string}        itemHoldPeriod        item hold period
+     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     */
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(holdIdOrParameters: string | SetHoldOnMailboxesParameters, _actionType: HoldAction = null, _query: string = null, mailboxesOrInPlaceHoldIdentity: String[] | string = null, _itemHoldPeriod: string = null): IPromise<SetHoldOnMailboxesResponse> {
+
+        let holdId: string = <string>holdIdOrParameters;
+        let actionType: HoldAction = _actionType;
+        let query: string = _query;
+        let mailboxes: string[] = <string[]>mailboxesOrInPlaceHoldIdentity;
+        let inPlaceHoldIdentity: string = <string>mailboxesOrInPlaceHoldIdentity;
+        let itemHoldPeriod: string = _itemHoldPeriod;
+
+        let request: SetHoldOnMailboxesRequest = new SetHoldOnMailboxesRequest(this);
+        let argsLength = arguments.length;
+        if (argsLength === 1) { //SetHoldOnMailboxesParameters
+            let parameters: SetHoldOnMailboxesParameters = <SetHoldOnMailboxesParameters>holdIdOrParameters;
+
+            EwsUtilities.ValidateParam(parameters, "parameters");
+
+            holdId = parameters.HoldId;
+            actionType = parameters.ActionType;
+            query = parameters.Query;
+            mailboxes = parameters.Mailboxes;
+            request.Language = parameters.Language;
+            inPlaceHoldIdentity = parameters.InPlaceHoldIdentity;
+
+            /** per #120 */
+            itemHoldPeriod = request.ItemHoldPeriod;
+            request.PerformDeduplication = parameters.PerformDeduplication;
+            request.IncludeNonIndexableItems = parameters.IncludeNonIndexableItems;
+
+        }
+        else {
+            if (ArrayHelper.isArray(mailboxesOrInPlaceHoldIdentity)) {
+                inPlaceHoldIdentity = null;
+            }
+            else {
+                mailboxes = null;
+            }
+        }
+
+        request.HoldId = holdId;
+        request.ActionType = actionType;
+        request.Query = query;
+        request.Mailboxes = mailboxes;
+        request.InPlaceHoldIdentity = inPlaceHoldIdentity;
+        request.ItemHoldPeriod = itemHoldPeriod;
+
+        return request.Execute();
+    }
+
     /* #endregion eDiscovery/Compliance operations */
 
 

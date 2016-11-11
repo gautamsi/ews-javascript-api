@@ -638,7 +638,7 @@ export class UserConfigurationDictionary extends ComplexProperty {//IEnumerable,
         let valueAsString: string = null;
 
         //First check for Array
-        if (ArrayHelper.isArray(dictionaryObject)) {
+        if (ArrayHelper.isArray<any>(dictionaryObject)) {
 
             // First check for a string array         
 

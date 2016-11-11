@@ -39,7 +39,7 @@ export module EnumHelper {
     export function HasFlag(flags: number, checkFlag: number): boolean {
         return (flags & checkFlag) == checkFlag;
     }
-    
+
     /**
      * Writes "," separated values from Enumertion anf enum Flags
      * 
@@ -155,7 +155,7 @@ export module ArrayHelper {
         rank += maxDepthRank;
         return rank;
     }
-    export function isArray(obj: any): obj is [] {
+    export function isArray<T>(obj: any): obj is T[] {
         return Object.prototype.toString.call(obj) === "[object Array]";
     }
 }
@@ -289,7 +289,7 @@ export class xml2JsObject {
         const TYPE_STR: string = "__type";
         const TEXT_STR: string = "__text";
         switch (xmlNode.nodeType) {
-            case 1 /*Node.ELEMENT_NODE*/: 
+            case 1 /*Node.ELEMENT_NODE*/:
                 if ((<Element>xmlNode).prefix && xmlNode.localName !== xmlNode.nodeName)
                     obj[PREFIX_STR] = (<Element>xmlNode).prefix;
 
