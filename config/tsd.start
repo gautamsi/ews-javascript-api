@@ -1,3 +1,1 @@
-/// <reference path="./moment-timezone/moment-timezone.d.ts" />
-/// <reference path="./moment/moment-node.d.ts" />
 declare module "ews-javascript-api" {
