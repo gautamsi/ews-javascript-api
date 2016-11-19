@@ -1,5 +1,5 @@
 ﻿import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
-import {IRefParam} from "../interfaces/IRefParam";
+import {IRefParam} from "../Interfaces/IRefParam";
 import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";

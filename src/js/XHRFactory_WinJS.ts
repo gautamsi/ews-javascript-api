@@ -1,6 +1,6 @@
 /// <reference path="../../typings/winjs/winjs.d.ts" />
 
-import {IPromise, IXHROptions, IXHRApi} from "./interfaces";
+import {IPromise, IXHROptions, IXHRApi} from "./Interfaces";
 import WinJS = require('winjs-node');
 import {XHRFactory} from "./XHRFactory";
 
