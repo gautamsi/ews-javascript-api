@@ -1,5 +1,5 @@
 import {PromiseFactory} from "../src/js/PromiseFactory"
-import {IPromise, IXHROptions, IXHRApi} from "../src/js/interfaces";
+import {IPromise, IXHROptions, IXHRApi} from "../src/js/Interfaces";
 export class MockXHRApi implements IXHRApi {
 	public xhrData = {};
 	requestXml: string[] = [];

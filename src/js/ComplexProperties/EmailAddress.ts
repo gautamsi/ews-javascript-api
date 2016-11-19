@@ -1,7 +1,7 @@
 ﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {EwsUtilities} from "../Core/EwsUtilities";
 import {ExchangeService} from "../Core/ExchangeService";
-import {IRefParam} from "../interfaces/IRefParam";
+import {IRefParam} from "../Interfaces/IRefParam";
 import {ItemId} from "./ItemId";
 import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
 import {StringHelper} from "../ExtensionMethods";
