@@ -5,8 +5,8 @@ import {Exception} from "../../Exceptions/Exception";
 import {ExchangeService} from "../ExchangeService";
 import {HangingRequestDisconnectEventArgs} from "./HangingRequestDisconnectEventArgs";
 import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
-import {IPromise, IXHROptions} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory"
+import {IXHROptions} from "../../Interfaces";
+import { Promise } from "../../Promise";
 
 import {FetchStream} from "fetch";
 
@@ -76,23 +76,18 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     /**
 	 * @internal Exectures the request.
 	 */
-    InternalExecute(): IPromise<void> {
+    InternalExecute(): Promise<void> {
         //lock (this.lockObject){
         //this.response = this.ValidateAndEmitRequest(this.BuildXHR());
 
-        return <any>PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return <any>new Promise((successDelegate, errorDelegate) => {
             var request = this.BuildXHR();
             request["payload"] = request.data;
             delete request["data"];
             request["method"] = request.type;
             delete request["type"];
             //this.ReadResponsePrivate(response);
-            this.ValidateAndEmitRequest(request).then((xhrResponse: any) => {
-                //console.log(xhrResponse);
-            }, (resperr: XMLHttpRequest) => {
-                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
-                if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
-            }, (progress: string) => {
+            this.ValidateAndEmitRequest(request, (progress: string) => {
                 this.InternalOnConnect();
                 progress = progress.trim();
                 this.chunk += progress;
@@ -133,6 +128,11 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                     }
 
                 }
+             }).then((xhrResponse: any) => { //<any> used for progress delegate, not in standard promise
+                //console.log(xhrResponse);
+            }, (resperr: XMLHttpRequest) => {
+                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
+                if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             });
         });
     }
@@ -311,9 +311,9 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
      * Validates request parameters, and emits the request to the server.
      *
      * @param   {IXHROptions}               request   The request.
-     * @return  {IPromise<XMLHttpRequest>}  The response returned by the server.
+     * @return  {Promise<XMLHttpRequest>}   The response returned by the server.
      */
-    protected ValidateAndEmitRequest(request: IXHROptions): IPromise<any> {
+    protected ValidateAndEmitRequest(request: IXHROptions, progressDelegate?: Function): Promise<any> {
         this.Validate();
 
         //var request = this.BuildXHR();
@@ -345,7 +345,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return new Promise((successDelegate, errorDelegate) => {
             this.stream = new FetchStream(this.Service.Url.ToString(), request);
 
             this.stream.on("data", (chunk) => {

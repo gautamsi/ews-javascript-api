@@ -6,9 +6,8 @@ import { ExchangeService } from "../Core/ExchangeService";
 import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { FolderId } from "../ComplexProperties/FolderId";
 import { InvalidOperationException } from '../Exceptions/InvalidOperationException';
-import { IPromise } from '../Interfaces';
 import { ItemId } from "../ComplexProperties/ItemId";
-import { PromiseFactory } from '../PromiseFactory';
+import { Promise } from "../Promise";
 import { PropertyException } from '../Exceptions/PropertyException';
 import { ServiceVersionException } from '../Exceptions/ServiceVersionException';
 import { Strings } from '../Strings';
@@ -159,9 +158,9 @@ export class UserConfiguration {//IJsonSerializable
      * @param   {string}                        name             The name of the user configuration.
      * @param   {FolderId}                      parentFolderId   The Id of the folder containing the user configuration.
      * @param   {UserConfigurationProperties}   properties       The properties to load.
-     * @return  {IPromise<UserConfiguration>}   A user configuration Instance   :Promise.
+     * @return  {Promise<UserConfiguration>}   A user configuration Instance   :Promise.
      */
-    public static Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): IPromise<UserConfiguration>;
+    public static Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): Promise<UserConfiguration>;
     /**
      * Binds to an existing user configuration and loads the specified properties.
      * Calling this method results in a call to EWS.
@@ -170,10 +169,10 @@ export class UserConfiguration {//IJsonSerializable
      * @param   {string}                        name                The name of the user configuration.
      * @param   {parentFolderName}              parentFolderName    The name of the folder containing the user configuration.
      * @param   {UserConfigurationProperties}   properties          The properties to load.
-     * @return  {IPromise<UserConfiguration>}   A user configuration Instance   :Promise.
+     * @return  {Promise<UserConfiguration>}   A user configuration Instance   :Promise.
      */
-    public static Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): IPromise<UserConfiguration>;
-    public static Bind(service: ExchangeService, name: string, parentFolderIdOrName: FolderId | WellKnownFolderName, properties: UserConfigurationProperties): IPromise<UserConfiguration> {
+    public static Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): Promise<UserConfiguration>;
+    public static Bind(service: ExchangeService, name: string, parentFolderIdOrName: FolderId | WellKnownFolderName, properties: UserConfigurationProperties): Promise<UserConfiguration> {
         let parentFolderId: FolderId = parentFolderIdOrName as FolderId;
         if (typeof parentFolderIdOrName === 'number') {
             parentFolderId = new FolderId(parentFolderIdOrName);
@@ -191,11 +190,11 @@ export class UserConfiguration {//IJsonSerializable
     /**
      * Deletes the user configuration. 
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Delete(): IPromise<void> {
+    Delete(): Promise<void> {
         if (this.isNew) {
-            PromiseFactory.reject(new InvalidOperationException(Strings.DeleteInvalidForUnsavedUserConfiguration));
+            Promise.reject(new InvalidOperationException(Strings.DeleteInvalidForUnsavedUserConfiguration));
         }
         else {
             return this.service.DeleteUserConfiguration(this.name, this.parentFolderId);
@@ -270,9 +269,9 @@ export class UserConfiguration {//IJsonSerializable
     /**
      * Loads the specified properties on the user configuration. 
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Load(properties: UserConfigurationProperties): IPromise<void> {
+    Load(properties: UserConfigurationProperties): Promise<void> {
         this.InitializeProperties(properties);
 
         return this.service.LoadPropertiesForUserConfiguration(this, properties);
@@ -343,18 +342,18 @@ export class UserConfiguration {//IJsonSerializable
      *
      * @param   {string}                name             The name of the user configuration.
      * @param   {WellKnownFolderName}   parentFolderName   The Id of the folder in which to save the user configuration.
-     * @return  {IPromise<void>}        :Promise.
+     * @return  {Promise<void>}        :Promise.
      */
-    Save(name: string, parentFolderName: WellKnownFolderName): IPromise<void>;
+    Save(name: string, parentFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Saves the user configuration. Calling this method results in a call to EWS.
      *
      * @param   {string}        name             The name of the user configuration.
      * @param   {FolderId}      parentFolderId   The Id of the folder in which to save the user configuration.
-     * @return  {IPromise<void>}                 :Promise.
+     * @return  {Promise<void>}                 :Promise.
      */
-    Save(name: string, parentFolderId: FolderId): IPromise<void>;
-    Save(name: string, parentFolderIdOrName: FolderId | WellKnownFolderName): IPromise<void> {
+    Save(name: string, parentFolderId: FolderId): Promise<void>;
+    Save(name: string, parentFolderIdOrName: FolderId | WellKnownFolderName): Promise<void> {
         let parentFolderId: FolderId = parentFolderIdOrName as FolderId;
         if (typeof parentFolderIdOrName === 'number') {
             parentFolderId = new FolderId(parentFolderIdOrName);
@@ -381,11 +380,11 @@ export class UserConfiguration {//IJsonSerializable
     /**
      * Updates the user configuration by applying local changes to the Exchange server.
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Update(): IPromise<void> {
+    Update(): Promise<void> {
         if (this.isNew) {
-            PromiseFactory.reject(new InvalidOperationException(Strings.CannotUpdateNewUserConfiguration));
+            Promise.reject(new InvalidOperationException(Strings.CannotUpdateNewUserConfiguration));
         }
 
         if (this.IsPropertyUpdated(UserConfigurationProperties.BinaryData) ||
@@ -396,7 +395,7 @@ export class UserConfiguration {//IJsonSerializable
             });
         } else {
             this.ResetIsDirty();
-            return PromiseFactory.resolve<void>(void 0);
+            return Promise.resolve();
         }
     }
 

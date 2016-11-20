@@ -1,7 +1,6 @@
-import {xml2JsObject, DOMParser, EwsLogging, useCustomPromise,PromiseFactory} from "../../src/js/ExchangeWebService";
-import {QPromise} from "../../src/js/Promise_Q";
-useCustomPromise(QPromise)
-console.log(PromiseFactory.type);
+import {xml2JsObject, DOMParser, EwsLogging, Promise, ConfigurePromise} from "../../src/js/ExchangeWebService";
+import * as Q from "q";
+ConfigurePromise(<any>Q.Promise)
 
 
 

@@ -1,7 +1,8 @@
-﻿import {IPromise, IXHROptions, IXHRApi} from "./Interfaces";
+﻿import { Promise } from "./Promise";
+import { IXHROptions, IXHRApi } from "./Interfaces";
 
 class XHRApi implements IXHRApi {
-	xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest> {
+	xhr(xhroptions: IXHROptions): Promise<XMLHttpRequest> {
 		throw new Error("xhrApi - stub method, must be bootstrapped");
 	}
 	get type(): string {
@@ -12,7 +13,7 @@ class XHRApi implements IXHRApi {
 var xhrApiObj: IXHRApi = new XHRApi();
 
 export class XHRFactory {
-	static get XHRApi(){return xhrApiObj;}
+	static get XHRApi() { return xhrApiObj; }
 	static switchXhr(newXHR: IXHRApi) {
 		xhrApiObj = newXHR;
 	}

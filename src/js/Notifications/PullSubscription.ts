@@ -1,6 +1,6 @@
 ﻿
 import {ExchangeService} from "../Core/ExchangeService";
-import {IPromise} from "../Interfaces";
+import { Promise } from "../Promise";
 import {GetEventsResults} from "./GetEventsResults";
 
 import {SubscriptionBase} from "./SubscriptionBase";
@@ -33,9 +33,9 @@ export class PullSubscription extends SubscriptionBase {
 	/**
 	 * Obtains a collection of events that occurred on the subscribed folders since the point in time defined by the Watermark property. When GetEvents succeeds, Watermark is updated.
 	 *
-	 * @return  {IPromise<GetEventsResults>}      Returns a collection of events that occurred since the last watermark	:Promise.
+	 * @return  {Promise<GetEventsResults>}      Returns a collection of events that occurred since the last watermark	:Promise.
 	 */
-	GetEvents(): IPromise<GetEventsResults> {
+	GetEvents(): Promise<GetEventsResults> {
 		return this.Service.GetEvents(this.Id, this.Watermark).then((results: GetEventsResults) => {
 
             this.Watermark = results.NewWatermark;
@@ -48,5 +48,5 @@ export class PullSubscription extends SubscriptionBase {
 	/**
 	 * Unsubscribes from the pull subscription.
 	 */
-	Unsubscribe(): IPromise<void> { return this.Service.Unsubscribe(this.Id); }
+	Unsubscribe(): Promise<void> { return this.Service.Unsubscribe(this.Id); }
 }

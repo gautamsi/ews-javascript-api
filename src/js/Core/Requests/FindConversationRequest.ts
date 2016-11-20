@@ -3,7 +3,7 @@ import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {FindConversationResponse} from "../Responses/FindConversationResponse";
 import {FolderIdWrapper} from "../../Misc/FolderIdWrapper";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
 import {SeekToConditionItemView} from "../../Search/SeekToConditionItemView";
 import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
@@ -94,9 +94,9 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<FindConversationResponse>}      Service response  :Promise.
+     * @return  {Promise<FindConversationResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<FindConversationResponse> {
+    Execute(): Promise<FindConversationResponse> {
         return this.InternalExecute().then((serviceResponse: FindConversationResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

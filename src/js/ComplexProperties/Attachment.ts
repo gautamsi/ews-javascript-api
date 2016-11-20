@@ -6,7 +6,7 @@ import {XmlElementNames} from "../Core/XmlElementNames";
 import {XmlAttributeNames} from "../Core/XmlAttributeNames";
 import {DateTime} from "../DateTime";
 import {IRefParam} from "../Interfaces/IRefParam";
-import {IPromise} from "../Interfaces";
+import { Promise } from "../Promise";
 import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
 import {BodyType} from "../Enumerations/BodyType";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
@@ -179,7 +179,7 @@ export class Attachment extends ComplexProperty {
      * @param   {BodyType}                      bodyType               Type of the body.
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
      */
-    InternalLoad(bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<void> {
+    InternalLoad(bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): Promise<void> {
         return this.service.GetAttachment(
             this,
             bodyType,
@@ -191,7 +191,7 @@ export class Attachment extends ComplexProperty {
     /**
      * Loads the attachment. Calling this method results in a call to EWS.
      */
-    Load(): IPromise<void> {
+    Load(): Promise<void> {
         return this.InternalLoad(null, null);
     }
 

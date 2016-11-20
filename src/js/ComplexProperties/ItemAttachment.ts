@@ -11,7 +11,7 @@ import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {BodyType} from "../Enumerations/BodyType";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
-import {IPromise} from "../Interfaces";
+import { Promise } from "../Promise";
 
 import {Attachment} from "./Attachment";
 /**
@@ -79,22 +79,22 @@ export class ItemAttachment extends Attachment {
         }
     }
 
-    //Load(...additionalProperties: PropertyDefinitionBase[]): IPromise<void>;
+    //Load(...additionalProperties: PropertyDefinitionBase[]): Promise<void>;
     /**
      * Loads this attachment.
      *
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
-    //Load(bodyType: BodyType, ...additionalProperties: PropertyDefinitionBase[]): IPromise<void>; //info: not implemented - incompatible declaration type
+    Load(additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
+    //Load(bodyType: BodyType, ...additionalProperties: PropertyDefinitionBase[]): Promise<void>; //info: not implemented - incompatible declaration type
     /**
      * Loads this attachment.
      *
      * @param   {BodyType}   bodyType               The body type to load.
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
-    Load(bodyTypeOrPeoperties?: BodyType | PropertyDefinitionBase[], additionalProperties?: PropertyDefinitionBase[]): IPromise<void> {
+    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
+    Load(bodyTypeOrPeoperties?: BodyType | PropertyDefinitionBase[], additionalProperties?: PropertyDefinitionBase[]): Promise<void> {
         let argsLength = arguments.length;
         let props: PropertyDefinitionBase[] = null;
         let bodyType: BodyType = null;

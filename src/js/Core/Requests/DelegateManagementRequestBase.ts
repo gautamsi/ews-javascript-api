@@ -1,7 +1,7 @@
 ﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {Mailbox} from "../../ComplexProperties/Mailbox";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -48,9 +48,9 @@ export abstract class DelegateManagementRequestBase<TResponse extends DelegateMa
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<TResponse>}      Service response  :Promise.
+     * @return  {Promise<TResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<TResponse> {
+    Execute(): Promise<TResponse> {
         return this.InternalExecute().then((serviceResponse: TResponse) => {
 
             serviceResponse.ThrowIfNecessary();

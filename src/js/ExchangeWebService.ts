@@ -5,16 +5,9 @@
 
 
 /** Promise type setup */
-import { IPromiseApi, IXHRApi, IPromise, IXHROptions } from "./Interfaces";
-export { IPromiseApi, IXHRApi, IPromise, IXHROptions };
-import { PromiseFactory } from "./PromiseFactory";
-export function useCustomPromise(promiseObj: IPromiseApi) {
-    PromiseFactory.switchPromise(promiseObj);
-}
-import { setPromise } from "./Promise_WinJS";
-//export {Promise_Q} from "./Promise_Q";
-setPromise();
-export { PromiseFactory }
+import { IXHRApi, IXHROptions } from "./Interfaces";
+export { IXHRApi, IXHROptions };
+export { Promise, ConfigurePromise } from "./Promise";
 
 /** XHR setup */
 import { XHRFactory } from "./XHRFactory";

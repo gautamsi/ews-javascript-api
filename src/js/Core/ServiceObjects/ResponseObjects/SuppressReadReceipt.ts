@@ -3,11 +3,11 @@ import { DeleteMode } from "../../../Enumerations/DeleteMode";
 import { EwsLogging } from "../../EwsLogging";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { FolderId } from "../../../ComplexProperties/FolderId";
-import { IPromise } from "../../../Interfaces";
 import { Item } from "../Items/Item";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
 import { NotSupportedException } from "../../../Exceptions/NotSupportedException";
+import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";
 import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
@@ -51,7 +51,7 @@ export class SuppressReadReceipt extends ServiceObject {
      * @param   {FolderId}            parentFolderId       The parent folder id.
      * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<void> {
         (<ItemId>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
 
         return <any>this.Service.InternalCreateResponseObject(
@@ -66,7 +66,7 @@ export class SuppressReadReceipt extends ServiceObject {
      * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void> {
         throw new NotSupportedException();
     }
     /**
@@ -74,7 +74,7 @@ export class SuppressReadReceipt extends ServiceObject {
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         throw new NotSupportedException();
     }
 }

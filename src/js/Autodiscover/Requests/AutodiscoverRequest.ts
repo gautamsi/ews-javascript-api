@@ -1,21 +1,21 @@
-﻿import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
-import {EwsXmlReader} from "../../Core/EwsXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {ExchangeServerInfo} from "../../Core/ExchangeServerInfo";
-import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {AutodiscoverService} from "../AutodiscoverService";
-import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
-import {ServiceResponse} from "../../Core/Responses/ServiceResponse";
-import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
-import {EwsLogging} from "../../Core/EwsLogging";
-import {Uri} from "../../Uri";
-import {IPromise, IXHROptions} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory";
-import {XHRFactory} from "../../XHRFactory";
+﻿import { AutodiscoverErrorCode } from "../../Enumerations/AutodiscoverErrorCode";
+import { AutodiscoverResponse } from "../Responses/AutodiscoverResponse";
+import { AutodiscoverService } from "../AutodiscoverService";
+import { EwsLogging } from "../../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { EwsXmlReader } from "../../Core/EwsXmlReader";
+import { ExchangeServerInfo } from "../../Core/ExchangeServerInfo";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { IXHROptions } from "../../Interfaces";
+import { Promise } from "../../Promise";
+import { ServiceResponse } from "../../Core/Responses/ServiceResponse";
+import { ServiceResponseException } from "../../Exceptions/ServiceResponseException";
+import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
+import { Uri } from "../../Uri";
+import { XHRFactory } from "../../XHRFactory";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
 export class AutodiscoverRequest {
 
@@ -82,7 +82,7 @@ export class AutodiscoverRequest {
     }
     GetResponseXmlElementName(): string { throw new Error("AutodiscoverRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetWsAddressingActionName(): string { throw new Error("AutodiscoverRequest.ts - GetWsAddressingActionName : Not implemented."); }
-    InternalExecute(): IPromise<AutodiscoverResponse> {
+    InternalExecute(): Promise<AutodiscoverResponse> {
         var writer = new EwsServiceXmlWriter(this.service);
         this.WriteSoapRequest(this.url, writer);
 
@@ -103,7 +103,7 @@ export class AutodiscoverRequest {
             //}
         };
         this.service.Credentials.PrepareWebRequest(xhrOptions);
-        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return new Promise((successDelegate, errorDelegate) => {
             EwsLogging.DebugLog("sending ews request");
             EwsLogging.DebugLog(xhrOptions, true);
             this.service.GetXHRApi.xhr(xhrOptions)

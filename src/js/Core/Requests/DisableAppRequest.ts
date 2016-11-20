@@ -3,7 +3,7 @@ import {DisableReasonType} from "../../Enumerations/DisableReasonType";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 
@@ -41,9 +41,9 @@ export class DisableAppRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<DisableAppResponse>}      Service response  :Promise.
+     * @return  {Promise<DisableAppResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<DisableAppResponse> {
+    Execute(): Promise<DisableAppResponse> {
 
 		return this.InternalExecute().then((serviceResponse: DisableAppResponse) => {
             serviceResponse.ThrowIfNecessary();

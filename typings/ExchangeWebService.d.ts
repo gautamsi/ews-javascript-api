@@ -92,7 +92,7 @@ import moment = require('moment-timezone');
     static readonly Now: DateTime;
     readonly TotalMilliSeconds: number;
     constructor(date?: DateTime | any, kind?: DateTimeKind);
-    Add(quantity: number, unit: moment.UnitOfTime): DateTime;
+    Add(quantity: number, unit: MomentTimezone.unitOfTime.Base): DateTime;
     static Compare(x: DateTime, y: DateTime): number;
     CompareTo(toDate: DateTime): number;
     Difference(toDate: DateTime): TimeSpan;
@@ -123,7 +123,7 @@ import moment = require('moment-timezone');
 
     constructor(args: any);
     humanize(withSuffix?: boolean): string;
-    as(units: string): number;
+    as(units: MomentTimezone.unitOfTime.Base): number;
     Milliseconds(): number;
     readonly TotalMilliseconds: number;
     Seconds(): number;
@@ -140,10 +140,10 @@ import moment = require('moment-timezone');
     readonly TotalYears: number;
     Weeks(): number;
     readonly Totalweeks: number;
-    Add(n: number, p: moment.UnitOfTime): TimeSpan;
+    Add(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
     Add(n: number): TimeSpan;
     Add(d: TimeSpan): TimeSpan;
-    Subtract(n: number, p: moment.UnitOfTime): TimeSpan;
+    Subtract(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
     Subtract(n: number): TimeSpan;
     Subtract(d: TimeSpan): TimeSpan;
     ToISOString(): string;
@@ -194,7 +194,7 @@ import moment = require('moment-timezone');
 /**
  * BootStrap code. to initializes some class to avoid circular reference.
  */
-/** Promise type setup */ function useCustomPromise(promiseObj: IPromiseApi): void; function useCustomXhr(xhrApiObj: IXHRApi): void;/**#endregion BootStrap code */
+/** Promise type setup */ function useCustomXhr(xhrApiObj: IXHRApi): void;/**#endregion BootStrap code */
 
  module StringHelper {
     function IsNullOrEmpty(str: string): boolean;
@@ -276,6 +276,7 @@ export interface ParsedUrl {
     ToString(): string;
     static Parse(str: string): Guid;
 }
+
 export interface IXHROptions {
     type?: string;
     url: string;
@@ -286,43 +287,257 @@ export interface IXHROptions {
     responseType?: string;
     customRequestInitializer?: (request: XMLHttpRequest) => void;
 }
-export interface IPromise<T> {
-    cancel?(): void;
-    done<U>(onComplete?: (value: T) => any, onError?: (error: any) => any, onProgress?: (progress: any) => void): void;
-    then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => IPromise<U>, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => U, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => U, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => U, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => void, onError?: (error: any) => IPromise<U>, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => void, onError?: (error: any) => U, onProgress?: (progress: any) => void): IPromise<U>;
-    then<U>(onComplete?: (value: T) => void, onError?: (error: any) => void, onProgress?: (progress: any) => void): IPromise<U>;
-}
-export interface IPromiseApi {
-    create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T>;
-    resolve<U>(value?: U | IPromise<U>): IPromise<U>;
-    reject<U>(value?: U | IPromise<U>): IPromise<U>;
-    type: string;
-}
 export interface IXHRApi {
-    xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest>;
+    xhr(xhroptions: IXHROptions): Promise<XMLHttpRequest>;
     type?: string;
 }
-
- class PromiseFactory {
-    static create<T>(init?: (completeDispatch: any, errorDispatch: any, progressDispatch: any) => void, onCancel?: Function): IPromise<T>;
-    static resolve<U>(value?: U | IPromise<U>): IPromise<U>;
-    static reject<U>(value?: U | IPromise<U>): IPromise<U>;
-    static readonly type: string;
-    static Promise: IPromiseApi;
-    static switchPromise(newPromiseObject: IPromiseApi): void;
+/**
+ * Represents the completion of an asynchronous operation
+ * @typescript 2.1.1 lib.es6.d.ts Promise Description
+ */
+export interface Promise<T> {
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult>(onfulfilled: ((value: T) => T | PromiseLike<T>) | undefined | null, onrejected: (reason: any) => TResult | PromiseLike<TResult>): Promise<T | TResult>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult>(onfulfilled: (value: T) => TResult | PromiseLike<TResult>, onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<TResult>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1, TResult2>(onfulfilled: (value: T) => TResult1 | PromiseLike<TResult1>, onrejected: (reason: any) => TResult2 | PromiseLike<TResult2>): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch(onrejected?: ((reason: any) => T | PromiseLike<T>) | undefined | null): Promise<T>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult>(onrejected: (reason: any) => TResult | PromiseLike<TResult>): Promise<T | TResult>;
 }
-
- var QPromise: IPromiseApi;
- function setPromise(): void;
-
- function setPromise(): void;
+export interface PromiseLike<T> {
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then(onfulfilled?: ((value: T) => T | PromiseLike<T>) | undefined | null, onrejected?: ((reason: any) => T | PromiseLike<T>) | undefined | null): PromiseLike<T>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult>(onfulfilled: ((value: T) => T | PromiseLike<T>) | undefined | null, onrejected: (reason: any) => TResult | PromiseLike<TResult>): PromiseLike<T | TResult>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult>(onfulfilled: (value: T) => TResult | PromiseLike<TResult>, onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): PromiseLike<TResult>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1, TResult2>(onfulfilled: (value: T) => TResult1 | PromiseLike<TResult1>, onrejected: (reason: any) => TResult2 | PromiseLike<TResult2>): PromiseLike<TResult1 | TResult2>;
+}
+export interface PromiseConstructor {
+    /**
+      * A reference to the prototype.
+      */
+    readonly prototype: Promise<any>;
+    /**
+     * Creates a new Promise.
+     * @param executor A callback used to initialize the promise. This callback is passed two arguments:
+     * a resolve callback used resolve the promise with a value or the result of another promise,
+     * and a reject callback used to reject the promise with a provided reason or error.
+     */
+    new <T>(executor: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void): Promise<T>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>, T9 | PromiseLike<T9>, T10 | PromiseLike<T10>]): Promise<[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5, T6, T7, T8, T9>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>, T9 | PromiseLike<T9>]): Promise<[T1, T2, T3, T4, T5, T6, T7, T8, T9]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5, T6, T7, T8>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>]): Promise<[T1, T2, T3, T4, T5, T6, T7, T8]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5, T6, T7>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>]): Promise<[T1, T2, T3, T4, T5, T6, T7]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5, T6>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>]): Promise<[T1, T2, T3, T4, T5, T6]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4, T5>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>]): Promise<[T1, T2, T3, T4, T5]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3, T4>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>]): Promise<[T1, T2, T3, T4]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2, T3>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>]): Promise<[T1, T2, T3]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T1, T2>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>]): Promise<[T1, T2]>;
+    /**
+     * Creates a Promise that is resolved with an array of results when all of the provided Promises
+     * resolve, or rejected when any Promise is rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    all<T>(values: (T | PromiseLike<T>)[]): Promise<T[]>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>, T9 | PromiseLike<T9>, T10 | PromiseLike<T10>]): Promise<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5, T6, T7, T8, T9>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>, T9 | PromiseLike<T9>]): Promise<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5, T6, T7, T8>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>, T8 | PromiseLike<T8>]): Promise<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5, T6, T7>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>, T7 | PromiseLike<T7>]): Promise<T1 | T2 | T3 | T4 | T5 | T6 | T7>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5, T6>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>, T6 | PromiseLike<T6>]): Promise<T1 | T2 | T3 | T4 | T5 | T6>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4, T5>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>, T5 | PromiseLike<T5>]): Promise<T1 | T2 | T3 | T4 | T5>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3, T4>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>]): Promise<T1 | T2 | T3 | T4>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2, T3>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>]): Promise<T1 | T2 | T3>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T1, T2>(values: [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>]): Promise<T1 | T2>;
+    /**
+     * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+     * or rejected.
+     * @param values An array of Promises.
+     * @returns A new Promise.
+     */
+    race<T>(values: (T | PromiseLike<T>)[]): Promise<T>;
+    /**
+     * Creates a new rejected promise for the provided reason.
+     * @param reason The reason the promise was rejected.
+     * @returns A new rejected Promise.
+     */
+    reject(reason: any): Promise<never>;
+    /**
+     * Creates a new rejected promise for the provided reason.
+     * @param reason The reason the promise was rejected.
+     * @returns A new rejected Promise.
+     */
+    reject<T>(reason: any): Promise<T>;
+    /**
+      * Creates a new resolved promise for the provided value.
+      * @param value A promise.
+      * @returns A promise whose internal state matches the provided promise.
+      */
+    resolve<T>(value: T | PromiseLike<T>): Promise<T>;
+    /**
+     * Creates a new resolved promise .
+     * @returns A resolved promise.
+     */
+    resolve(): Promise<void>;
+}
+ var Promise: PromiseConstructor;
+ function ConfigurePromise(promise: PromiseConstructor): void;
  class Strings {
     static CannotRemoveSubscriptionFromLiveConnection: string;
     static ReadAccessInvalidForNonCalendarFolder: string;
@@ -617,8 +832,9 @@ export interface IXHRApi {
     static readonly XHRApi: IXHRApi;
     static switchXhr(newXHR: IXHRApi): void;
 }
+
  class WinJSXHRApi implements IXHRApi {
-    xhr(xhroptions: IXHROptions): IPromise<XMLHttpRequest>;
+    xhr(xhroptions: IXHROptions): Promise<XMLHttpRequest>;
     readonly type: string;
 }
  function setXhr(): void;
@@ -721,43 +937,43 @@ import 'reflect-metadata'; function RequiredServerVersionAttribute(version: Exch
     constructor(url: Uri, domain: string, requestedServerVersion: ExchangeVersion);
     CallRedirectionUrlValidationCallback(redirectionUrl: string): boolean;
     DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean;
-    GetAutodiscoverEndpointUrl(host: string): IPromise<Uri>;
+    GetAutodiscoverEndpointUrl(host: string): Promise<Uri>;
     GetAutodiscoverServiceHosts(domainName: string): string[];
     GetAutodiscoverServiceUrls(domainName: string): string[];
-    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): IPromise<GetDomainSettingsResponseCollection>;
-    GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponseCollection>;
-    GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponse>;
+    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): Promise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponse>;
     GetEndpointsFromHttpResponse(response: XMLHttpRequest): AutodiscoverEndpoints;
-    GetRedirectUrl(domainName: string): IPromise<Uri>;
-    GetSettings<TGetSettingsResponseCollection, TSettingName>(identities: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, getSettingsMethod: GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>, getDomainMethod: () => string): IPromise<TGetSettingsResponseCollection>;
+    GetRedirectUrl(domainName: string): Promise<Uri>;
+    GetSettings<TGetSettingsResponseCollection, TSettingName>(identities: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, getSettingsMethod: GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>, getDomainMethod: () => string): Promise<TGetSettingsResponseCollection>;
 
     /**internal method */
-    GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): IPromise<GetUserSettingsResponseCollection>;
+    GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): Promise<GetUserSettingsResponseCollection>;
     /**
      * Retrieves the specified settings for single SMTP address.
      *
      * @param   {string}   userSmtpAddress    The SMTP addresses of the user.
      * @param   {UserSettingName[]}   userSettingNames   The user setting names.
-     * @return  {IPromise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
+     * @return  {Promise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
      */
-    GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
-    GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
-    GetUsersSettings(userSmtpAddresses: string[], ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponseCollection>;
-    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): IPromise<GetDomainSettingsResponseCollection>;
+    GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    GetUsersSettings(userSmtpAddresses: string[], ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponseCollection>;
+    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): Promise<GetDomainSettingsResponseCollection>;
 
 
-    InternalGetSoapUserSettings(smtpAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse>;
-    InternalGetSoapUserSettingsRecursive(smtpAddresses: string[], requestedSettings: UserSettingName[], redirectionEmailAddresses?: string[], currentHop?: number): IPromise<GetUserSettingsResponse>;
-    InternalGetUserSettings(smtpAddresses: string[], settings: UserSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): IPromise<GetUserSettingsResponseCollection>;
+    InternalGetSoapUserSettings(smtpAddress: string, requestedSettings: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    InternalGetSoapUserSettingsRecursive(smtpAddresses: string[], requestedSettings: UserSettingName[], redirectionEmailAddresses?: string[], currentHop?: number): Promise<GetUserSettingsResponse>;
+    InternalGetUserSettings(smtpAddresses: string[], settings: UserSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): Promise<GetUserSettingsResponseCollection>;
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, webException: any): any;
     TraceResponse(response: XMLHttpRequest, memoryStream: any): any;
-    TryGetAutodiscoverEndpointUrl(host: string, url: IOutParam<Uri>): IPromise<boolean>;
-    TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop?: number): IPromise<boolean>;
+    TryGetAutodiscoverEndpointUrl(host: string, url: IOutParam<Uri>): Promise<boolean>;
+    TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop?: number): Promise<boolean>;
     ThrowIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: IRefParam<string[]>): void;
     TryGetRedirectionResponse(response: XMLHttpRequest, redirectUrl: IOutParam<Uri>): boolean;
 }
 export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
-    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): IPromise<TGetSettingsResponseCollection>;
+    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): Promise<TGetSettingsResponseCollection>;
 }
 export interface AutodiscoverRedirectionUrlValidationCallback {
     (redirectionUrl: string): boolean;
@@ -954,7 +1170,7 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     /**
      * Loads the attachment. Calling this method results in a call to EWS.
      */
-    Load(): IPromise<void>;
+    Load(): Promise<void>;
     /**
      * Loads the attachment id from json.
      *
@@ -2500,14 +2716,14 @@ import 'reflect-metadata';
      *
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
+    Load(additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
     /**
      * Loads this attachment.
      *
      * @param   {BodyType}   bodyType               The body type to load.
      * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
      */
-    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): IPromise<void>;
+    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
     ReadElementsFromXmlJsObjectToPatch(reader: any): boolean;
 }
 /**
@@ -4547,7 +4763,6 @@ export interface EnumVersionDelegate {
     static Parse(jsObject: any): ExchangeServerInfo;
     ToString(): string;
 }
-
 /**
  * Represents a binding to the **Exchange Web Services**.
  *
@@ -4577,35 +4792,35 @@ export interface EnumVersionDelegate {
      *
      * @param   {FolderId}                       parentFolderId   The Id of the folder in which to search for folders.
      * @param   {FolderView}                     view             The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}    An object representing the results of the search operation :Promise.
      */
-    FindFolders(parentFolderId: FolderId, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderId: FolderId, view: FolderView): Promise<FindFoldersResults>;
     /**
      * Obtains a list of folders by searching the sub-folders of the specified folder.
      *
      * @param   {WellKnownFolderName}            parentFolderName   The name of the folder in which to search for folders.
      * @param   {FolderView}                     view               The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}    An object representing the results of the search operation :Promise.
      */
-    FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderName: WellKnownFolderName, view: FolderView): Promise<FindFoldersResults>;
     /**
      * Obtains a list of folders by searching the sub-folders of the specified folder.
      *
      * @param   {FolderId}                       parentFolderId   The Id of the folder in which to search for folders.
      * @param   {SearchFilter}                   searchFilter     The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {FolderView}                     view             The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}    An object representing the results of the search operation :Promise.
      */
-    FindFolders(parentFolderId: FolderId, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderId: FolderId, searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
     /**
      * Obtains a list of folders by searching the sub-folders of the specified folder.
      *
      * @param   {WellKnownFolderName}            parentFolderName   The name of the folder in which to search for folders.
      * @param   {SearchFilter}                   searchFilter       The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {FolderView}                     view               The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}   An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}    An object representing the results of the search operation :Promise.
      */
-    FindFolders(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
     /**
      * Finds folders.
      *
@@ -4613,7 +4828,7 @@ export interface EnumVersionDelegate {
      * @param   {SearchFilter}           searchFilter        The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {FolderView}             view                The view controlling the number of folders returned.
      * @param   {ServiceErrorHandling}   errorHandlingMode   Indicates the type of error handling should be done.
-     * @return  {IPromise<ServiceResponseCollection<FindFolderResponse>>}    Collection of service responses :Promise.
+     * @return  {Promise<ServiceResponseCollection<FindFolderResponse>>}     Collection of service responses :Promise.
      */
 
     /**
@@ -4621,43 +4836,43 @@ export interface EnumVersionDelegate {
      *
      * @param   {ItemId[]}   itemIds          The Ids of the items to move.
      * @param   {FolderId}   sourceFolderId   The Id of the folder in primary corresponding to which items are being archived to.
-     * @return  {IPromise<ServiceResponseCollection<ArchiveItemResponse>>}                    A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ArchiveItemResponse>>}                     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
-    ArchiveItems<TResponse extends ServiceResponse>(itemIds: ItemId[], sourceFolderId: FolderId): IPromise<ServiceResponseCollection<ArchiveItemResponse>>;
+    ArchiveItems<TResponse extends ServiceResponse>(itemIds: ItemId[], sourceFolderId: FolderId): Promise<ServiceResponseCollection<ArchiveItemResponse>>;
     /**
      * Binds to multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}      itemIds         The Ids of the items to bind to.
      * @param   {PropertySet}   propertySet     The set of properties to load.
      * @param   {string}        anchorMailbox   The SmtpAddress of mailbox that hosts all items we need to bind to
-     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}                   A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetItemResponse>>}                    A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
      */
-    BindToGroupItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string): IPromise<ServiceResponseCollection<GetItemResponse>>;
+    BindToGroupItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string): Promise<ServiceResponseCollection<GetItemResponse>>;
     /**
      * Binds to multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}      itemIds       The Ids of the items to bind to.
      * @param   {PropertySet}   propertySet   The set of properties to load.
-     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}                 A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetItemResponse>>}                  A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
      */
-    BindToItems(itemIds: ItemId[], propertySet: PropertySet): IPromise<ServiceResponseCollection<GetItemResponse>>;
+    BindToItems(itemIds: ItemId[], propertySet: PropertySet): Promise<ServiceResponseCollection<GetItemResponse>>;
     /**
      * Copies multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}      itemIds               The Ids of the items to copy.
      * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the items to.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}                         A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}                          A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
-    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId): Promise<ServiceResponseCollection<MoveCopyItemResponse>>;
     /**
      * Copies multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}      itemIds               The Ids of the items to copy.
      * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the items to.
      * @param   {boolean}       returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}                         A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}                          A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
-    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    CopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): Promise<ServiceResponseCollection<MoveCopyItemResponse>>;
     /**
      * Creates multiple items in a single EWS call. Supported item classes are EmailMessage, Appointment, Contact, PostItem, Task and Item. CreateItems does not support items that have unsaved attachments.
      *
@@ -4665,9 +4880,9 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}              parentFolderId        The Id of the folder in which to place the newly created items. If null, items are created in their default folders.
      * @param   {MessageDisposition}    messageDisposition    Indicates the disposition mode for items of type EmailMessage. Required if items contains at least one EmailMessage instance.
      * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}                         A ServiceResponseCollection providing creation results for each of the specified items :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}                          A ServiceResponseCollection providing creation results for each of the specified items :Promise.
      */
-    CreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    CreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Deletes multiple items in a single call to EWS.
      *
@@ -4675,9 +4890,9 @@ export interface EnumVersionDelegate {
      * @param   {DeleteMode}                deleteMode                The deletion mode.
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
      */
-    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Deletes multiple items in a single call to EWS.
      *
@@ -4686,86 +4901,86 @@ export interface EnumVersionDelegate {
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether cancellation messages should be sent. Required if the item Id represents an Appointment.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if item Id represents a Task.
      * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
      */
-    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipt: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Obtains a list of appointments by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   parentFolderName   The name of the calendar folder in which to search for items.
      * @param   {CalendarView}          calendarView     The calendar view controlling the number of appointments returned.
-     * @return  {IPromise<FindItemsResults<Appointment>>}                    A collection of appointments representing the contents of the specified folder :Promise.
+     * @return  {Promise<FindItemsResults<Appointment>>}                     A collection of appointments representing the contents of the specified folder :Promise.
      */
-    FindAppointments(parentFolderName: WellKnownFolderName, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
+    FindAppointments(parentFolderName: WellKnownFolderName, calendarView: CalendarView): Promise<FindItemsResults<Appointment>>;
     /**
      * Obtains a list of appointments by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}      parentFolderId   The id of the calendar folder in which to search for items.
      * @param   {CalendarView}  calendarView     The calendar view controlling the number of appointments returned.
-     * @return  {IPromise<FindItemsResults<Appointment>>}                    A collection of appointments representing the contents of the specified folder :Promise.
+     * @return  {Promise<FindItemsResults<Appointment>>}                     A collection of appointments representing the contents of the specified folder :Promise.
      */
-    FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): IPromise<FindItemsResults<Appointment>>;
+    FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): Promise<FindItemsResults<Appointment>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
      * @param   {ViewBase}              view                    The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}               An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
      * @param   {ViewBase}  view                   The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderId: FolderId, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
      * @param   {ViewBase}      view                    The view controlling the number of items returned.
      * @param   {Grouping}      groupBy                 The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        A collection of grouped items representing the contents of the specified :Promise.
      */
-    FindItems(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  parentFolderId         The Id of the folder in which to search for items.
      * @param   {string}    queryString            The search string to be used for indexed search, if any.
      * @param   {ViewBase}  view                   The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
      * @param   {string}                queryString             The search string to be used for indexed search, if any.
      * @param   {ViewBase}              view                    The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}               An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   parentFolderName        The name of the folder in which to search for items.
      * @param   {searchFilter}          searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ViewBase}              view                    The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}              An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}               An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}      parentFolderId          The Id of the folder in which to search for items.
      * @param   {searchFilter}  searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ViewBase}      view                    The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
@@ -4773,9 +4988,9 @@ export interface EnumVersionDelegate {
      * @param   {searchFilter}  searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ViewBase}      view                    The view controlling the number of items returned.
      * @param   {Grouping}      groupBy                 The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        A collection of grouped items representing the contents of the specified :Promise.
      */
-    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
@@ -4783,9 +4998,9 @@ export interface EnumVersionDelegate {
      * @param   {string}        queryString             The search string to be used for indexed search, if any.
      * @param   {ViewBase}      view                    The view controlling the number of items returned.
      * @param   {Grouping}      groupBy                 The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        A collection of grouped items representing the contents of the specified :Promise.
      */
-    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
@@ -4793,9 +5008,9 @@ export interface EnumVersionDelegate {
      * @param   {searchFilter}          searchFilter            The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ViewBase}              view                    The view controlling the number of items returned.
      * @param   {Grouping}              groupBy                 The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        A collection of grouped items representing the contents of the specified :Promise.
      */
-    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of a specific folder. Calling this method results in a call to EWS.
      *
@@ -4803,9 +5018,9 @@ export interface EnumVersionDelegate {
      * @param   {string}                queryString             The search string to be used for indexed search, if any.
      * @param   {ViewBase}              view                    The view controlling the number of items returned.
      * @param   {Grouping}              groupBy                 The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of the specified :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        A collection of grouped items representing the contents of the specified :Promise.
      */
-    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderName: WellKnownFolderName, queryString: string, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
      *
@@ -4813,9 +5028,9 @@ export interface EnumVersionDelegate {
      * @param   {string}    queryString            the search string to be used for indexed search, if any.
      * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
      * @param   {ViewBase}  view                   The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase): IPromise<FindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of a specific folder. Along with conversations, a list of highlight terms are returned. Calling this method results in a call to EWS.
      *
@@ -4824,9 +5039,9 @@ export interface EnumVersionDelegate {
      * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
      * @param   {ViewBase}  view                   The view controlling the number of items returned.
      * @param   {Grouping}  groupBy                The group by clause.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       An object representing the results of the search operation :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}        An object representing the results of the search operation :Promise.
      */
-    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(parentFolderId: FolderId, queryString: string, returnHighlightTerms: boolean, view: ViewBase, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Binds to multiple items in a single call to EWS.
      *
@@ -4834,7 +5049,7 @@ export interface EnumVersionDelegate {
      * @param   {PropertySet}           propertySet     The set of properties to load.
      * @param   {string}                anchorMailbox   The SmtpAddress of mailbox that hosts all items we need to bind to
      * @param   {ServiceErrorHandling}  errorHandling   Type of error handling to perform.
-     * @return  {IPromise<ServiceResponseCollection<GetItemResponse>>}      A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetItemResponse>>}       A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
      */
 
     /**
@@ -4844,7 +5059,7 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}              destinationFolderId     The Id of the folder to copy the items to.
      * @param   {boolean}               returnNewItemIds        Flag indicating whether service should return new ItemIds or not.
      * @param   {ServiceErrorHandling}  errorHandling           What type of error handling should be performed.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
 
     /**
@@ -4855,7 +5070,7 @@ export interface EnumVersionDelegate {
      * @param   {MessageDisposition}    messageDisposition    Indicates the disposition mode for items of type EmailMessage. Required if items contains at least one EmailMessage instance.
      * @param   {SendInvitationsMode}   sendInvitationsMode   Indicates if and how invitations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
      * @param   {ServiceErrorHandling}  errorHandling         What type of error handling should be performed.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing creation results for each of the specified items :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing creation results for each of the specified items :Promise.
      */
 
     /**
@@ -4867,7 +5082,7 @@ export interface EnumVersionDelegate {
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicates which instance of a recurring task should be deleted. Required if any of the item Ids represents a Task.
      * @param   {ServiceErrorHandling}      errorHandling             Type of error handling to perform.
      * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
      */
 
     /**
@@ -4877,7 +5092,7 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}              destinationFolderId   The Id of the folder to move the items to.
      * @param   {boolean}               returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
      * @param   {ServiceErrorHandling}  errorHandling         What type of error handling should be performed.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
 
     /**
@@ -4890,7 +5105,7 @@ export interface EnumVersionDelegate {
      * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for items of type Appointment. Required if items contains at least one Appointment instance.
      * @param   {ServiceErrorHandling}                  errorHandling                        What type of error handling should be performed.
      * @param   {boolean}                               suppressReadReceipt                  Whether to suppress read receipts
-     * @return  {IPromise<ServiceResponseCollection<UpdateItemResponse>>}                    A ServiceResponseCollection providing update results for each of the specified items :Promise.
+     * @return  {Promise<ServiceResponseCollection<UpdateItemResponse>>}                     A ServiceResponseCollection providing update results for each of the specified items :Promise.
      */
 
     /**
@@ -4898,35 +5113,35 @@ export interface EnumVersionDelegate {
      *
      * @param   {Item[]}        items         The items to load the properties of.
      * @param   {PropertySet}   propertySet   The set of properties to load.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      A ServiceResponseCollection providing results for each of the specified items :Promise.
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing results for each of the specified items :Promise.
      */
-    LoadPropertiesForItems(items: Item[], propertySet: PropertySet): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    LoadPropertiesForItems(items: Item[], propertySet: PropertySet): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Mark items as junk.
      *
      * @param   {ItemId[]}      itemIds    ItemIds for the items to mark
      * @param   {boolean}       isJunk     Whether the items are junk.  If true, senders are add to blocked sender list. If false, senders are removed.
      * @param   {boolean}       moveItem   Whether to move the item.  Items are moved to junk folder if isJunk is true, inbox if isJunk is false.
-     * @return  {IPromise<ServiceResponseCollection<MarkAsJunkResponse>>}       A ServiceResponseCollection providing itemIds for each of the moved items :Promise.
+     * @return  {Promise<ServiceResponseCollection<MarkAsJunkResponse>>}        A ServiceResponseCollection providing itemIds for each of the moved items :Promise.
      */
-    MarkAsJunk(itemIds: ItemId[], isJunk: boolean, moveItem: boolean): IPromise<ServiceResponseCollection<MarkAsJunkResponse>>;
+    MarkAsJunk(itemIds: ItemId[], isJunk: boolean, moveItem: boolean): Promise<ServiceResponseCollection<MarkAsJunkResponse>>;
     /**
      * Moves multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}   itemIds               The Ids of the items to move.
      * @param   {FolderId}   destinationFolderId   The Id of the folder to move the items to.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
-    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId): Promise<ServiceResponseCollection<MoveCopyItemResponse>>;
     /**
      * Moves multiple items in a single call to EWS.
      *
      * @param   {ItemId[]}   itemIds               The Ids of the items to move.
      * @param   {FolderId}   destinationFolderId   The Id of the folder to move the items to.
      * @param   {boolean}    returnNewItemIds      Flag indicating whether service should return new ItemIds or not.
-     * @return  {IPromise<ServiceResponseCollection<MoveCopyItemResponse>>}     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
      */
-    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): IPromise<ServiceResponseCollection<MoveCopyItemResponse>>;
+    MoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean): Promise<ServiceResponseCollection<MoveCopyItemResponse>>;
     /**
      * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
      *
@@ -4935,9 +5150,9 @@ export interface EnumVersionDelegate {
      * @param   {ConflictResolutionMode}                conflictResolution                   The conflict resolution mode.
      * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
      * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
-     * @return  {IPromise<Item>}                                                             A ServiceResponseCollection providing update results for each of the specified items : Promise.
+     * @return  {Promise<Item>}                                                              A ServiceResponseCollection providing update results for each of the specified items : Promise.
      */
-    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
+    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Promise<ServiceResponseCollection<UpdateItemResponse>>;
     /**
      * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
      *
@@ -4947,88 +5162,88 @@ export interface EnumVersionDelegate {
      * @param   {MessageDisposition}                    messageDisposition                   Indicates the disposition mode for an item of type EmailMessage. Required if item is an EmailMessage instance.
      * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   Indicates if and how invitations and/or cancellations should be sent for ian tem of type Appointment. Required if item is an Appointment instance.
      * @param   {boolean}                               suppressReadReceipts                 Whether to suppress read receipts
-     * @return  {IPromise<Item>}                                                             A ServiceResponseCollection providing update results for each of the specified items : Promise.
+     * @return  {Promise<Item>}                                                              A ServiceResponseCollection providing update results for each of the specified items : Promise.
      */
-    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<UpdateItemResponse>>;
+    UpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Promise<ServiceResponseCollection<UpdateItemResponse>>;
     /**
      * Gets attachments.
      *
      * @param   {Attachment[]}                  attachments            The attachments.
      * @param   {BodyType}                      bodyType               Type of the body.
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
-     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetAttachmentResponse>>}         Service response collection :Promise.
      */
-    GetAttachments(attachments: Attachment[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<ServiceResponseCollection<GetAttachmentResponse>>;
+    GetAttachments(attachments: Attachment[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): Promise<ServiceResponseCollection<GetAttachmentResponse>>;
     /**
      * Gets attachments.
      *
      * @param   {string[]}                      attachmentIds          The attachment ids.
      * @param   {BodyType}                      bodyType               Type of the body.
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
-     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetAttachmentResponse>>}         Service response collection :Promise.
      */
-    GetAttachments(attachmentIds: string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): IPromise<ServiceResponseCollection<GetAttachmentResponse>>;
+    GetAttachments(attachmentIds: string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): Promise<ServiceResponseCollection<GetAttachmentResponse>>;
     /**
      * Gets attachments.
      *
      * @param   {string[]}                      attachmentIds          The attachment ids.
      * @param   {BodyType}                      bodyType               Type of the body.
      * @param   {PropertyDefinitionBase[]}      additionalProperties   The additional properties.
-     * @return  {IPromise<ServiceResponseCollection<GetAttachmentResponse>>}        Service response collection :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetAttachmentResponse>>}         Service response collection :Promise.
      */
 
     /**
      * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
      *
      * @param   {ItemId}   groupId   The Id of the group to expand.
-     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     * @return  {Promise<ExpandGroupResults>}       An ExpandGroupResults containing the members of the group :Promise.
      */
-    ExpandGroup(groupId: ItemId): IPromise<ExpandGroupResults>;
+    ExpandGroup(groupId: ItemId): Promise<ExpandGroupResults>;
     /**
      * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
      *
      * @param   {string}   smtpAddress   The SMTP address of the group to expand.
-     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     * @return  {Promise<ExpandGroupResults>}       An ExpandGroupResults containing the members of the group :Promise.
      */
-    ExpandGroup(smtpAddress: string): IPromise<ExpandGroupResults>;
+    ExpandGroup(smtpAddress: string): Promise<ExpandGroupResults>;
     /**
      * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
      *
      * @param   {EmailAddress}   emailAddress   The e-mail address of the group.
-     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     * @return  {Promise<ExpandGroupResults>}       An ExpandGroupResults containing the members of the group :Promise.
      */
-    ExpandGroup(emailAddress: EmailAddress): IPromise<ExpandGroupResults>;
+    ExpandGroup(emailAddress: EmailAddress): Promise<ExpandGroupResults>;
     /**
      * Expands a group by retrieving a list of its members. Calling this method results in a call to EWS.
      *
      * @param   {string}   address       The SMTP address of the group to expand.
      * @param   {string}   routingType   The routing type of the address of the group to expand.
-     * @return  {IPromise<ExpandGroupResults>}      An ExpandGroupResults containing the members of the group :Promise.
+     * @return  {Promise<ExpandGroupResults>}       An ExpandGroupResults containing the members of the group :Promise.
      */
-    ExpandGroup(address: string, routingType: string): IPromise<ExpandGroupResults>;
+    ExpandGroup(address: string, routingType: string): Promise<ExpandGroupResults>;
     /**
      * Get the password expiration date
      *
      * @param   {string}   mailboxSmtpAddress   The e-mail address of the user.
-     * @return  {IPromise<DateTime>}            The password expiration date :Promise.
+     * @return  {Promise<DateTime>}             The password expiration date :Promise.
      */
-    GetPasswordExpirationDate(mailboxSmtpAddress: string): IPromise<DateTime>;
+    GetPasswordExpirationDate(mailboxSmtpAddress: string): Promise<DateTime>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
      *
      * @param   {string}    nameToResolve               The name to resolve.
-     * @return  {IPromise<NameResolutionCollection>}    A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     * @return  {Promise<NameResolutionCollection>}     A collection of name resolutions whose names match the one passed as a parameter :Promise.
      */
-    ResolveName(nameToResolve: string): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string): Promise<NameResolutionCollection>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
      *
      * @param   {string}                        nameToResolve               The name to resolve.
      * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
      * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
-     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     * @return  {Promise<NameResolutionCollection>}                         A collection of name resolutions whose names match the one passed as a parameter :Promise.
      */
-    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): Promise<NameResolutionCollection>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
      *
@@ -5036,9 +5251,9 @@ export interface EnumVersionDelegate {
      * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
      * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
      * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
-     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     * @return  {Promise<NameResolutionCollection>}                         A collection of name resolutions whose names match the one passed as a parameter :Promise.
      */
-    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): Promise<NameResolutionCollection>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
      *
@@ -5046,9 +5261,9 @@ export interface EnumVersionDelegate {
      * @param   {FolderId[]}                    parentFolderIds             The Ids of the contact folders in which to look for matching contacts.
      * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
      * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
-     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     * @return  {Promise<NameResolutionCollection>}                         A collection of name resolutions whose names match the one passed as a parameter :Promise.
      */
-    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean): Promise<NameResolutionCollection>;
     /**
      * Finds contacts in the Global Address List and/or in specific contact folders that have names that match the one passed as a parameter. Calling this method results in a call to EWS.
      *
@@ -5057,9 +5272,9 @@ export interface EnumVersionDelegate {
      * @param   {ResolveNameSearchLocation}     searchScope                 The scope of the search.
      * @param   {boolean}                       returnContactDetails        Indicates whether full contact information should be returned for each of the found contacts.
      * @param   {PropertySet}                   contactDataPropertySet      The property set for the contct details
-     * @return  {IPromise<NameResolutionCollection>}                        A collection of name resolutions whose names match the one passed as a parameter :Promise.
+     * @return  {Promise<NameResolutionCollection>}                         A collection of name resolutions whose names match the one passed as a parameter :Promise.
      */
-    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): IPromise<NameResolutionCollection>;
+    ResolveName(nameToResolve: string, parentFolderIds: FolderId[], searchScope: ResolveNameSearchLocation, returnContactDetails: boolean, contactDataPropertySet: PropertySet): Promise<NameResolutionCollection>;
     /**
      * Builds an request to retrieve the latests events associated with a pull subscription.
      *
@@ -5110,18 +5325,18 @@ export interface EnumVersionDelegate {
      *
      * @param   {string}   subscriptionId   The Id of the pull subscription for which to get the events.
      * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
-     * @return  {IPromise<GetEventsResults>}    A GetEventsResults containing a list of events associated with the subscription.
+     * @return  {Promise<GetEventsResults>}     A GetEventsResults containing a list of events associated with the subscription.
      */
-    GetEvents(subscriptionId: string, watermark: string): IPromise<GetEventsResults>;
+    GetEvents(subscriptionId: string, watermark: string): Promise<GetEventsResults>;
     /**
      * Set a TeamMailbox
      *
      * @param   {EmailAddress}                  emailAddress        TeamMailbox email address
      * @param   {Uri}                           sharePointSiteUrl   SharePoint site URL
      * @param   {TeamMailboxLifecycleState}     state               TeamMailbox lifecycle state
-     * @return  {IPromise<void>}    Promise.
+     * @return  {Promise<void>}     Promise.
      */
-    SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): IPromise<void>;
+    SetTeamMailbox(emailAddress: EmailAddress, sharePointSiteUrl: Uri, state: TeamMailboxLifecycleState): Promise<void>;
     /**
      * Subscribes to pull notifications. Calling this method results in a call to EWS   :Promise.
      *
@@ -5129,9 +5344,9 @@ export interface EnumVersionDelegate {
      * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     * @return  {Promise<PullSubscription>}      A PullSubscription representing the new subscription.
      */
-    SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription>;
+    SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription>;
     /**
      * Subscribes to pull notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.   :Promise.
      *
@@ -5139,9 +5354,9 @@ export interface EnumVersionDelegate {
      * @param   {number}            timeout      The timeout, in minutes, after which the subscription expires. Timeout must be between 1 and 1440.
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PullSubscription>}    A PullSubscription representing the new subscription.
+     * @return  {Promise<PullSubscription>}      A PullSubscription representing the new subscription.
      */
-    SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): IPromise<PullSubscription>;
+    SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription>;
     /**
      * Subscribes to push notifications. Calling this method results in a call to EWS.
      *
@@ -5150,9 +5365,9 @@ export interface EnumVersionDelegate {
      * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription  :Promise.
      */
-    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
     /**
      * Subscribes to push notifications. Calling this method results in a call to EWS.
      *
@@ -5162,9 +5377,9 @@ export interface EnumVersionDelegate {
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {string}            callerData   Optional caller data that will be returned the call back.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PushSubscription>}        A PushSubscription representing the new subscription  :Promise.
+     * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription  :Promise.
      */
-    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
     /**
      * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
      *
@@ -5172,9 +5387,9 @@ export interface EnumVersionDelegate {
      * @param   {number}            frequency    The frequency, in minutes, at which the Exchange server should contact the Web Service endpoint. Frequency must be between 1 and 1440.
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription    :Promise.
      */
-    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
     /**
      * Subscribes to push notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
      *
@@ -5183,31 +5398,31 @@ export interface EnumVersionDelegate {
      * @param   {string}            watermark    An optional watermark representing a previously opened subscription.
      * @param   {string}            callerData   Optional caller data that will be returned the call back.
      * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
-     * @return  {IPromise<PushSubscription>}    A PushSubscription representing the new subscription    :Promise.
+     * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription    :Promise.
      */
-    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): IPromise<PushSubscription>;
+    SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
     /**
      * Subscribes to streaming notifications. Calling this method results in a call to EWS.
      *
      * @param   {FolderId[]}   folderIds    The Ids of the folder to subscribe to.
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
-     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     * @return  {Promise<StreamingSubscription>}        A StreamingSubscription representing the new subscription   :Promise.
      */
-    SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): IPromise<StreamingSubscription>;
+    SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): Promise<StreamingSubscription>;
     /**
      * Subscribes to streaming notifications on all folders in the authenticated user's mailbox. Calling this method results in a call to EWS.
      *
      * @param   {EventType[]}   eventTypes   The event types to subscribe to.
-     * @return  {IPromise<StreamingSubscription>}       A StreamingSubscription representing the new subscription   :Promise.
+     * @return  {Promise<StreamingSubscription>}        A StreamingSubscription representing the new subscription   :Promise.
      */
-    SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): IPromise<StreamingSubscription>;
+    SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): Promise<StreamingSubscription>;
     /**
      * Unpin a TeamMailbox
      *
      * @param   {EmailAddress}      emailAddress        TeamMailbox email address
-     * @return  {IPromise<void>}    Promise.
+     * @return  {Promise<void>}     Promise.
      */
-    UnpinTeamMailbox(emailAddress: EmailAddress): IPromise<void>;
+    UnpinTeamMailbox(emailAddress: EmailAddress): Promise<void>;
     /**
      * Builds a request to synchronize the items of a specific folder.
      *
@@ -5231,9 +5446,9 @@ export interface EnumVersionDelegate {
      * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
      * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
      * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
-     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     * @return  {Promise<ChangeCollection<ItemChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
      */
-    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, syncScope: SyncFolderItemsScope, syncState: string): Promise<ChangeCollection<ItemChange>>;
     /**
      * Synchronizes the items of a specific folder. Calling this method results in a call to EWS.
      *
@@ -5244,9 +5459,9 @@ export interface EnumVersionDelegate {
      * @param   {number}                numberOfDays         Limit the changes returned to this many days ago; 0 means no limit.
      * @param   {SyncFolderItemsScope}  syncScope            The sync scope identifying items to include in the ChangeCollection.
      * @param   {string}                syncState            The optional sync state representing the point in time when to start the synchronization.
-     * @return  {IPromise<ChangeCollection<ItemChange>>}        A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     * @return  {Promise<ChangeCollection<ItemChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
      */
-    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): IPromise<ChangeCollection<ItemChange>>;
+    SyncFolderItems(syncFolderId: FolderId, propertySet: PropertySet, ignoredItemIds: ItemId[], maxChangesReturned: number, numberOfDays: number, syncScope: SyncFolderItemsScope, syncState: string): Promise<ChangeCollection<ItemChange>>;
     /**
      * Builds a request to synchronize the specified folder hierarchy of the mailbox this Service is connected to.
      *
@@ -5262,39 +5477,39 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}      syncFolderId   The Id of the folder containing the items to synchronize with. A null value indicates the root folder of the mailbox.
      * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
      * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
-     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     * @return  {Promise<ChangeCollection<FolderChange>>}       A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
      */
-    SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    SyncFolderHierarchy(syncFolderId: FolderId, propertySet: PropertySet, syncState: string): Promise<ChangeCollection<FolderChange>>;
     /**
      * Synchronizes the entire folder hierarchy of the mailbox this Service is connected to. Calling this method results in a call to EWS.
      *
      * @param   {PropertySet}   propertySet    The set of properties to retrieve for synchronized items.
      * @param   {string}        syncState      The optional sync state representing the point in time when to start the synchronization.
-     * @return  {IPromise<ChangeCollection<FolderChange>>}      A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
+     * @return  {Promise<ChangeCollection<FolderChange>>}       A ChangeCollection containing a list of changes that occurred in the specified folder   :Promise.
      */
-    SyncFolderHierarchy(propertySet: PropertySet, syncState: string): IPromise<ChangeCollection<FolderChange>>;
+    SyncFolderHierarchy(propertySet: PropertySet, syncState: string): Promise<ChangeCollection<FolderChange>>;
     /**
      * Retrieves a collection of all room lists in the organization.
      *
-     * @return  {IPromise<EmailAddressCollection[]>}    A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
+     * @return  {Promise<EmailAddressCollection[]>}     A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
      */
-    GetRoomLists(): IPromise<EmailAddressCollection>;
+    GetRoomLists(): Promise<EmailAddressCollection>;
     /**
      * Retrieves a collection of all rooms in the specified room list in the organization.
      *
      * @param   {EmailAddress}   emailAddress   The e-mail address of the room list.
-     * @return  {IPromise<EmailAddress[]>}      A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
+     * @return  {Promise<EmailAddress[]>}       A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
      */
-    GetRooms(emailAddress: EmailAddress): IPromise<EmailAddress[]>;
+    GetRooms(emailAddress: EmailAddress): Promise<EmailAddress[]>;
     /**
      * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
      *
      * @param   {AttendeeInfo[]}        attendees           The attendees for which to retrieve availability information.
      * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
      * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
-     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     * @return  {Promise<GetUserAvailabilityResults>}       The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
      */
-    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData): IPromise<GetUserAvailabilityResults>;
+    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData): Promise<GetUserAvailabilityResults>;
     /**
      * Gets detailed information about the availability of a set of users, rooms, and resources within a specified time window.
      *
@@ -5302,24 +5517,24 @@ export interface EnumVersionDelegate {
      * @param   {TimeWindow}            timeWindow          The time window in which to retrieve user availability information.
      * @param   {AvailabilityData}      requestedData       The requested data (free/busy and/or suggestions).
      * @param   {AvailabilityOptions}   options             The options controlling the information returned.
-     * @return  {IPromise<GetUserAvailabilityResults>}      The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
+     * @return  {Promise<GetUserAvailabilityResults>}       The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
      */
-    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): IPromise<GetUserAvailabilityResults>;
+    GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): Promise<GetUserAvailabilityResults>;
     /**
      * Gets Out of Office (OOF) settings for a specific user. Calling this method results in a call to EWS.
      *
      * @param   {string}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
-     * @return  {IPromise<OofSettings>}     An OofSettings instance containing OOF information for the specified user.
+     * @return  {Promise<OofSettings>}   An OofSettings instance containing OOF information for the specified user.
      */
-    GetUserOofSettings(smtpAddress: string): IPromise<OofSettings>;
+    GetUserOofSettings(smtpAddress: string): Promise<OofSettings>;
     /**
      * Sets the Out of Office (OOF) settings for a specific mailbox. Calling this method results in a call to EWS.
      *
-     * @param   {string}   smtpAddress   The SMTP address of the user for which to set OOF settings.
+     * @param   {string}        smtpAddress   The SMTP address of the user for which to set OOF settings.
      * @param   {OofSettings}   oofSettings   The OOF settings.
-     * @return  {IPromise<void>}     Promise.
+     * @return  {Promise<void>}      Promise.
      */
-    SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): IPromise<void>;
+    SetUserOofSettings(smtpAddress: string, oofSettings: OofSettings): Promise<void>;
     /**
      * Applies ConversationAction on the specified conversation.
      *
@@ -5330,7 +5545,7 @@ export interface EnumVersionDelegate {
      * @param   {boolean}                   enableAlwaysDelete    True moves every current and future messages in the conversation to deleted items folder. False stops the alwasy delete action. This is applicable only if the action is AlwaysDelete
      * @param   {FolderId}                  destinationFolderId   Applicable if the action is AlwaysMove. This moves every current message and future  message in the conversation to the specified folder. Can be null if tis is then it stops the always move action
      * @param   {ServiceErrorHandling}      errorHandlingMode     The error handling mode.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
 
     /**
@@ -5347,7 +5562,7 @@ export interface EnumVersionDelegate {
      * @param   {Flag}                                          flag                   Flag status.
      * @param   {boolean}                                       suppressReadReceipts   Suppress read receipts flag.
      * @param   {ServiceErrorHandling}                          errorHandlingMode      The error handling mode.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
 
     /**
@@ -5355,68 +5570,68 @@ export interface EnumVersionDelegate {
      *
      * @param   {ConversationId[]}  conversationId         The id of the conversation.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule and removing the categories from existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    DisableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DisableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets up a conversation so that any item received within that conversation is no longer moved to Deleted Items folder. Calling this method results in a call to EWS.
      *
      * @param   {ConversationId[]}  conversationId         The id of the conversation.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule and restoring the items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    DisableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DisableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets up a conversation so that any item received within that conversation is no longer moved to a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {ConversationId[]}  conversationIds        The conversation ids.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once disabling this rule is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    DisableAlwaysMoveItemsInConversations(conversationIds: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DisableAlwaysMoveItemsInConversations(conversationIds: ConversationId[], processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets up a conversation so that any item received within that conversation is always categorized. Calling this method results in a call to EWS.
      *
      * @param   {ConversationId[]}  conversationId         The id of the conversation.
      * @param   {string[]}          categories             The categories that should be stamped on items in the conversation.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and stamping existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    EnableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], categories: string[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    EnableAlwaysCategorizeItemsInConversations(conversationId: ConversationId[], categories: string[], processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets up a conversation so that any item received within that conversation is always moved to Deleted Items folder. Calling this method results in a call to EWS.
      *
      * @param   {ConversationId[]}  conversationId         The id of the conversation.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and deleting existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    EnableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    EnableAlwaysDeleteItemsInConversations(conversationId: ConversationId[], processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets up a conversation so that any item received within that conversation is always moved to a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {ConversationId[]}  conversationId         The id of the conversation.
      * @param   {FolderId}          destinationFolderId    The Id of the folder to which conversation items should be moved.
      * @param   {boolean}           processSynchronously   Indicates whether the method should return only once enabling this rule and moving existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    EnableAlwaysMoveItemsInConversations(conversationId: ConversationId[], destinationFolderId: FolderId, processSynchronously: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    EnableAlwaysMoveItemsInConversations(conversationId: ConversationId[], destinationFolderId: FolderId, processSynchronously: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Retrieves a collection of all Conversations in the specified Folder.
      *
      * @param   {ViewBase}   view       The view controlling the number of conversations returned.
      * @param   {FolderId}   folderId   The Id of the folder in which to search for conversations.
-     * @return  {IPromise<Conversation[]>}      Collection of conversations.
+     * @return  {Promise<Conversation[]>}       Collection of conversations.
      */
-    FindConversation(view: ViewBase, folderId: FolderId): IPromise<Conversation[]>;
+    FindConversation(view: ViewBase, folderId: FolderId): Promise<Conversation[]>;
     /**
      * Retrieves a collection of all Conversations in the specified Folder.
      *
      * @param   {ViewBase}  view                   The view controlling the number of conversations returned.
      * @param   {FolderId}  folderId               The Id of the folder in which to search for conversations.
      * @param   {string}    queryString            The query string for which the search is being performed
-     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     * @return  {Promise<FindConversationResults>}      FindConversation results    :Promise.
      */
-    FindConversation(view: ViewBase, folderId: FolderId, queryString: string): IPromise<Conversation[]>;
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string): Promise<Conversation[]>;
     /**
      * Searches for and retrieves a collection of Conversations in the specified Folder. Along with conversations, a list of highlight terms are returned.
      *
@@ -5424,9 +5639,9 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}  folderId               The Id of the folder in which to search for conversations.
      * @param   {string}    queryString            The query string for which the search is being performed
      * @param   {boolean}   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
-     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     * @return  {Promise<FindConversationResults>}      FindConversation results    :Promise.
      */
-    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean): IPromise<FindConversationResults>;
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean): Promise<FindConversationResults>;
     /**
      * Searches for and retrieves a collection of Conversations in the specified Folder. Along with conversations, a list of highlight terms are returned.
      *
@@ -5435,18 +5650,18 @@ export interface EnumVersionDelegate {
      * @param   {string}                    queryString            The query string for which the search is being performed
      * @param   {boolean}                   returnHighlightTerms   Flag indicating if highlight terms should be returned in the response
      * @param   {MailboxSearchLocation?}    mailboxScope           The mailbox scope to reference.
-     * @return  {IPromise<FindConversationResults>}     FindConversation results    :Promise.
+     * @return  {Promise<FindConversationResults>}      FindConversation results    :Promise.
      */
-    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean, mailboxScope: MailboxSearchLocation): IPromise<FindConversationResults>;
+    FindConversation(view: ViewBase, folderId: FolderId, queryString: string, returnHighlightTerms: boolean, mailboxScope: MailboxSearchLocation): Promise<FindConversationResults>;
     /**
      * Retrieves a collection of all Conversations in the specified Folder.
      *
      * @param   {ViewBase}  view            The view controlling the number of conversations returned.
      * @param   {FolderId}  folderId        The Id of the folder in which to search for conversations.
      * @param   {string}    anchorMailbox   The anchorMailbox Smtp address to route the request directly to group mailbox.
-     * @return  {IPromise<Conversation[]>}  Collection of conversations :Promise.
+     * @return  {Promise<Conversation[]>}   Collection of conversations :Promise.
      */
-    FindGroupConversation(view: ViewBase, folderId: FolderId, anchorMailbox: string): IPromise<Conversation[]>;
+    FindGroupConversation(view: ViewBase, folderId: FolderId, anchorMailbox: string): Promise<Conversation[]>;
     /**
      * Gets the items for a set of conversations.
      *
@@ -5454,9 +5669,9 @@ export interface EnumVersionDelegate {
      * @param   {PropertySet}               propertySet       The set of properties to load.
      * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
      * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
-     * @return  {IPromise<ServiceResponseCollection<GetConversationItemsResponse>>}     GetConversationItems response    :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetConversationItemsResponse>>}      GetConversationItems response    :Promise.
      */
-    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder): IPromise<ServiceResponseCollection<GetConversationItemsResponse>>;
+    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder): Promise<ServiceResponseCollection<GetConversationItemsResponse>>;
     /**
      * Gets the items for a set of conversations.
      *
@@ -5465,9 +5680,9 @@ export interface EnumVersionDelegate {
      * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
      * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
      * @param   {MailboxSearchLocation}     mailboxScope      The mailbox scope to reference.
-     * @return  {IPromise<ServiceResponseCollection<GetConversationItemsResponse>>}     GetConversationItems response    :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetConversationItemsResponse>>}      GetConversationItems response    :Promise.
      */
-    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation): IPromise<ServiceResponseCollection<GetConversationItemsResponse>>;
+    GetConversationItems(conversations: ConversationRequest[], propertySet: PropertySet, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder, mailboxScope: MailboxSearchLocation): Promise<ServiceResponseCollection<GetConversationItemsResponse>>;
     /**
      * Gets the items for a conversation.
      *
@@ -5476,9 +5691,9 @@ export interface EnumVersionDelegate {
      * @param   {string}                    syncState         The optional sync state representing the point in time when to start the synchronization.
      * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
      * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
-     * @return  {IPromise<ConversationResponse>}              GetConversationItems response    :Promise.
+     * @return  {Promise<ConversationResponse>}               GetConversationItems response    :Promise.
      */
-    GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder): IPromise<ConversationResponse>;
+    GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder): Promise<ConversationResponse>;
     /**
      * Gets the items for a conversation.
      *
@@ -5488,55 +5703,55 @@ export interface EnumVersionDelegate {
      * @param   {FolderId[]}                foldersToIgnore   The folders to ignore.
      * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
      * @param   {string}                    anchorMailbox     The smtp address of the mailbox hosting the conversations
-     * @return  {IPromise<ConversationResponse>}              ConversationResponseType response :Promise.
+     * @return  {Promise<ConversationResponse>}               ConversationResponseType response :Promise.
      * @remarks This API designed to be used primarily in groups scenarios where we want to set the anchor mailbox header so that request is routed directly to the group mailbox backend server.
      */
-    GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder, anchorMailbox: string): IPromise<ConversationResponse>;
+    GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder, anchorMailbox: string): Promise<ConversationResponse>;
     /**
      * Copies the items in the specified conversation to the specified destination folder. Calling this method results in a call to EWS.
      *
      * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be copied and the date and time conversation was last synced (Items received after that date will not be copied).
      * @param   {FolderId}                                      contextFolderId       The context folder id.
      * @param   {FolderId}                                      destinationFolderId   The destination folder id.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    CopyItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    CopyItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, destinationFolderId: FolderId): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Deletes the items in the specified conversation. Calling this method results in a call to EWS.
      *
      * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be deleted and the date and time conversation was last synced (Items received after that date will not be deleted).
      * @param   {FolderId}                                      contextFolderId       The Id of the folder that contains the conversation.
      * @param   {DeleteMode}                                    deleteMode            The deletion mode.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    DeleteItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, deleteMode: DeleteMode): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    DeleteItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, deleteMode: DeleteMode): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Moves the items in the specified conversation to the specified destination folder. Calling this method results in a call to EWS.
      *
      * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs   The pairs of Id of conversation whose items should be moved and the dateTime conversation was last synced (Items received after that dateTime will not be moved).
      * @param   {FolderId}                                      contextFolderId       The Id of the folder that contains the conversation.
      * @param   {FolderId}                                      destinationFolderId   The Id of the destination folder.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    MoveItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    MoveItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, destinationFolderId: FolderId): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets flag status for items in conversation. Calling this method would result in call to EWS.
      *
      * @param   {KeyValuePair<ConversationId, DateTime?>[]}   idLastSyncTimePairs   The pairs of Id of conversation whose items should have their read state set and the date and time conversation was last synced (Items received after that date will not have their read state set).
      * @param   {FolderId}   contextFolderId       The Id of the folder that contains the conversation.
      * @param   {Flag}   flagStatus            Flag status to apply to conversation items.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    SetFlagStatusForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, flagStatus: Flag): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    SetFlagStatusForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, flagStatus: Flag): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets the read state for items in conversation. Calling this method would result in call to EWS.
      *
      * @param   {KeyValuePair<ConversationId, DateTime?>[]}     idLastSyncTimePairs    The pairs of Id of conversation whose items should have their read state set and the date and time conversation was last synced (Items received after that date will not have their read state set).
      * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
      * @param   {boolean}                                       isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, isRead: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, isRead: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets the read state for items in conversation. Calling this method would result in call to EWS.
      *
@@ -5544,9 +5759,9 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
      * @param   {boolean}                                       isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
      * @param   {boolean}                                       suppressReadReceipts   if set to *true* read receipts are suppressed.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    SetReadStateForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Sets the retention policy for items in conversation. Calling this method would result in call to EWS.
      *
@@ -5554,32 +5769,32 @@ export interface EnumVersionDelegate {
      * @param   {FolderId}                                      contextFolderId        The Id of the folder that contains the conversation.
      * @param   {RetentionType}                                 retentionPolicyType    Retention policy type.
      * @param   {Guid?}                                         retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
-     * @return  {IPromise<ServiceResponseCollection<ServiceResponse>>}      :Promise
+     * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       :Promise
      */
-    SetRetentionPolicyForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): IPromise<ServiceResponseCollection<ServiceResponse>>;
+    SetRetentionPolicyForItemsInConversations(idLastSyncTimePairs: KeyValuePair<ConversationId, DateTime>[], contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): Promise<ServiceResponseCollection<ServiceResponse>>;
     /**
      * Converts Id from one format to another in a single call to EWS.
      *
      * @param   {AlternateIdBase}   id                 The Id to convert.
      * @param   {IdFormat}          destinationFormat   The destination format.
-     * @return  {IPromise<AlternateIdBase>}    The converted Id :Promise.
+     * @return  {Promise<AlternateIdBase>}     The converted Id :Promise.
      */
-    ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): IPromise<AlternateIdBase>;
+    ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): Promise<AlternateIdBase>;
     /**
      * Converts multiple Ids from one format to another in a single call to EWS.
      *
      * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
      * @param   {IdFormat}              destinationFormat   The destination format.
-     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ConvertIdResponse>>}     A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
      */
-    ConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat): IPromise<ServiceResponseCollection<ConvertIdResponse>>;
+    ConvertIds(ids: AlternateIdBase[], destinationFormat: IdFormat): Promise<ServiceResponseCollection<ConvertIdResponse>>;
     /**
      * Converts multiple Ids from one format to another in a single call to EWS.
      *
      * @param   {AlternateIdBase[]}     ids                 The Ids to convert.
      * @param   {IdFormat}              destinationFormat   The destination format.
      * @param   {ServiceErrorHandling}  errorHandling       Type of error handling to perform.
-     * @return  {IPromise<ServiceResponseCollection<ConvertIdResponse>>}    A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
+     * @return  {Promise<ServiceResponseCollection<ConvertIdResponse>>}     A ServiceResponseCollection providing conversion results for each specified Ids :Promise.
      */
 
     /**
@@ -5588,139 +5803,139 @@ export interface EnumVersionDelegate {
      * @param   {Mailbox}                       mailbox                        The mailbox to add delegates to.
      * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
      * @param   {...DelegateUser[]}             delegateUsers                  The delegate users to add.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
     /**
      * Adds delegates to a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}                       mailbox                        The mailbox to add delegates to.
      * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
      * @param   {DelegateUser[]}                delegateUsers                  The delegate users to add.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
     /**
      * Retrieves the delegates of a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}       mailbox                 The mailbox to retrieve the delegates of.
      * @param   {boolean}       includePermissions      Indicates whether detailed permissions should be returned fro each delegate.
      * @param   {...UserId[]}   userIds                 The optional Ids of the delegate users to retrieve.
-     * @return  {IPromise<DelegateInformation>}         A GetDelegateResponse providing the results of the operation    :Promise.
+     * @return  {Promise<DelegateInformation>}          A GetDelegateResponse providing the results of the operation    :Promise.
      */
-    GetDelegates(mailbox: Mailbox, includePermissions: boolean, ...userIds: UserId[]): IPromise<DelegateInformation>;
+    GetDelegates(mailbox: Mailbox, includePermissions: boolean, ...userIds: UserId[]): Promise<DelegateInformation>;
     /**
      * Retrieves the delegates of a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}   mailbox                 The mailbox to retrieve the delegates of.
      * @param   {boolean}   includePermissions      Indicates whether detailed permissions should be returned fro each delegate.
      * @param   {UserId[]}  userIds                 The optional Ids of the delegate users to retrieve.
-     * @return  {IPromise<DelegateInformation>}     A GetDelegateResponse providing the results of the operation    :Promise.
+     * @return  {Promise<DelegateInformation>}      A GetDelegateResponse providing the results of the operation    :Promise.
      */
-    GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: UserId[]): IPromise<DelegateInformation>;
+    GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: UserId[]): Promise<DelegateInformation>;
     /**
      * Removes delegates on a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}       mailbox   The mailbox to remove delegates from.
      * @param   {...UserId[]}   userIds   The Ids of the delegate users to remove.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    RemoveDelegates(mailbox: Mailbox, ...userIds: UserId[]): IPromise<DelegateUserResponse[]>;
+    RemoveDelegates(mailbox: Mailbox, ...userIds: UserId[]): Promise<DelegateUserResponse[]>;
     /**
      * Removes delegates on a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}   mailbox   The mailbox to remove delegates from.
      * @param   {UserId[]}  userIds   The Ids of the delegate users to remove.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    RemoveDelegates(mailbox: Mailbox, userIds: UserId[]): IPromise<DelegateUserResponse[]>;
+    RemoveDelegates(mailbox: Mailbox, userIds: UserId[]): Promise<DelegateUserResponse[]>;
     /**
      * Updates delegates on a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}                       mailbox                        The mailbox to update delegates on.
      * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
      * @param   {...DelegateUser[]}             delegateUsers                  The delegate users to update.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
     /**
      * Updates delegates on a specific mailbox. Calling this method results in a call to EWS.
      *
      * @param   {Mailbox}                       mailbox                        The mailbox to update delegates on.
      * @param   {MeetingRequestsDeliveryScope}  meetingRequestsDeliveryScope   Indicates how meeting requests should be sent to delegates.
      * @param   {DelegateUser[]}                delegateUsers                  The delegate users to update.
-     * @return  {IPromise<DelegateUserResponse[]>}      A collection of DelegateUserResponse objects providing the results of the operation :Promise.
+     * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
      */
-    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): IPromise<DelegateUserResponse[]>;
+    UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
     /**
      * Creates a UserConfiguration.
      *
      * @param   {UserConfiguration}   userConfiguration   The UserConfiguration.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}       :Promise.
      */
-    CreateUserConfiguration(userConfiguration: UserConfiguration): IPromise<void>;
+    CreateUserConfiguration(userConfiguration: UserConfiguration): Promise<void>;
     /**
      * Deletes a UserConfiguration.
      *
      * @param   {string}    name             Name of the UserConfiguration to retrieve.
      * @param   {FolderId}  parentFolderId   Id of the folder containing the UserConfiguration.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}     :Promise.
      */
-    DeleteUserConfiguration(name: string, parentFolderId: FolderId): IPromise<void>;
+    DeleteUserConfiguration(name: string, parentFolderId: FolderId): Promise<void>;
     /**
      * Gets a UserConfiguration.
      *
      * @param   {string}                        name             Name of the UserConfiguration to retrieve.
      * @param   {FolderId}                      parentFolderId   Id of the folder containing the UserConfiguration.
      * @param   {UserConfigurationProperties}   properties       Properties to retrieve.
-     * @return  {IPromise<UserConfiguration>}   A UserConfiguration.
+     * @return  {Promise<UserConfiguration>}    A UserConfiguration.
      */
-    GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): IPromise<UserConfiguration>;
+    GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): Promise<UserConfiguration>;
     /**
      * Loads the properties of the specified userConfiguration.
      *
      * @param   {UserConfiguration}             userConfiguration   The userConfiguration containing properties to load.
      * @param   {UserConfigurationProperties}   properties          Properties to retrieve.
-     * @return  {IPromise<void>}                :Promise.
+     * @return  {Promise<void>}                 :Promise.
      */
-    LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): IPromise<void>;
+    LoadPropertiesForUserConfiguration(userConfiguration: UserConfiguration, properties: UserConfigurationProperties): Promise<void>;
     /**
      * Updates a UserConfiguration.
      *
      * @param   {UserConfiguration}   userConfiguration   The UserConfiguration.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}       :Promise.
      */
-    UpdateUserConfiguration(userConfiguration: UserConfiguration): IPromise<void>;
+    UpdateUserConfiguration(userConfiguration: UserConfiguration): Promise<void>;
     /**
      * Retrieves the inbox rules of the specified user.
      *
-     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     * @return  {Promise<RuleCollection>}       A RuleCollection object containing the inbox rules of the specified user    :Promise.
      */
-    GetInboxRules(): IPromise<RuleCollection>;
+    GetInboxRules(): Promise<RuleCollection>;
     /**
      * Retrieves the inbox rules of the specified user.
      *
      * @param   {string}   mailboxSmtpAddress   The SMTP address of the user whose inbox rules should be retrieved.
-     * @return  {IPromise<RuleCollection>}      A RuleCollection object containing the inbox rules of the specified user    :Promise.
+     * @return  {Promise<RuleCollection>}       A RuleCollection object containing the inbox rules of the specified user    :Promise.
      */
-    GetInboxRules(mailboxSmtpAddress: string): IPromise<RuleCollection>;
+    GetInboxRules(mailboxSmtpAddress: string): Promise<RuleCollection>;
     /**
      * Update the specified user's inbox rules by applying the specified operations.
      *
      * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
      * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
      * @param   {boolean}           mailboxSmtpAddress      The SMTP address of the user whose inbox rules should be updated.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}     :Promise
      */
-    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): IPromise<void>;
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean, mailboxSmtpAddress: string): Promise<void>;
     /**
      * Update the specified user's inbox rules by applying the specified operations.
      *
      * @param   {RuleOperation[]}   operations              The operations that should be applied to the user's inbox rules.
      * @param   {boolean}           removeOutlookRuleBlob   Indicate whether or not to remove Outlook Rule Blob.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}     :Promise
      */
-    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean): IPromise<void>;
+    UpdateInboxRules(operations: RuleOperation[], removeOutlookRuleBlob: boolean): Promise<void>;
     /**
      * Create get non indexable item details request
      *
@@ -5748,23 +5963,23 @@ export interface EnumVersionDelegate {
      * @param   {string}    searchId                       Search Id
      * @param   {boolean}   expandGroupMembership          True if want to expand group membership
      * @param   {boolean}   inPlaceHoldConfigurationOnly   True if only want the inplacehold configuration
-     * @return  {IPromise<GetDiscoverySearchConfigurationResponse>}     Service response object    :Promise.
+     * @return  {Promise<GetDiscoverySearchConfigurationResponse>}      Service response object    :Promise.
      */
-    GetDiscoverySearchConfiguration(searchId: string, expandGroupMembership: boolean, inPlaceHoldConfigurationOnly: boolean): IPromise<GetDiscoverySearchConfigurationResponse>;
+    GetDiscoverySearchConfiguration(searchId: string, expandGroupMembership: boolean, inPlaceHoldConfigurationOnly: boolean): Promise<GetDiscoverySearchConfigurationResponse>;
     /**
      * Get hold on mailboxes
      *
      * @param   {string}   holdId   Hold id
-     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response object
+     * @return  {Promise<GetHoldOnMailboxesResponse>}       Service response object
      */
-    GetHoldOnMailboxes(holdId: string): IPromise<GetHoldOnMailboxesResponse>;
+    GetHoldOnMailboxes(holdId: string): Promise<GetHoldOnMailboxesResponse>;
     /**
      * Get non indexable item details
      *
      * @param   {string[]}  mailboxes           Array of mailbox legacy DN
-     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     * @return  {Promise<GetNonIndexableItemDetailsResponse>}       Service response object :Promise.
      */
-    GetNonIndexableItemDetails(mailboxes: string[]): IPromise<GetNonIndexableItemDetailsResponse>;
+    GetNonIndexableItemDetails(mailboxes: string[]): Promise<GetNonIndexableItemDetailsResponse>;
     /**
      * Get non indexable item details
      *
@@ -5772,53 +5987,53 @@ export interface EnumVersionDelegate {
      * @param   {number}                pageSize            The page size
      * @param   {string}                pageItemReference   Page item reference
      * @param   {SearchPageDirection}   pageDirection       Page direction
-     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response object :Promise.
+     * @return  {Promise<GetNonIndexableItemDetailsResponse>}       Service response object :Promise.
      */
-    GetNonIndexableItemDetails(mailboxes: string[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): IPromise<GetNonIndexableItemDetailsResponse>;
+    GetNonIndexableItemDetails(mailboxes: string[], pageSize: number, pageItemReference: string, pageDirection: SearchPageDirection): Promise<GetNonIndexableItemDetailsResponse>;
     /**
      * Get non indexable item details
      *
      * @param   {GetNonIndexableItemDetailsParameters}   parameters   Get non indexable item details parameters
-     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}        Service response object   :Promise.
+     * @return  {Promise<GetNonIndexableItemDetailsResponse>}         Service response object   :Promise.
      */
-    GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): IPromise<GetNonIndexableItemDetailsResponse>;
+    GetNonIndexableItemDetails(parameters: GetNonIndexableItemDetailsParameters): Promise<GetNonIndexableItemDetailsResponse>;
     /**
      * Get non indexable item statistics
      *
      * @param   {string[]}   mailboxes   Array of mailbox legacy DN
-     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}   Service response object :Promise.
+     * @return  {Promise<GetNonIndexableItemStatisticsResponse>}    Service response object :Promise.
      */
-    GetNonIndexableItemStatistics(mailboxes: string[]): IPromise<GetNonIndexableItemStatisticsResponse>;
+    GetNonIndexableItemStatistics(mailboxes: string[]): Promise<GetNonIndexableItemStatisticsResponse>;
     /**
      * Get non indexable item statistics
      *
      * @param   {GetNonIndexableItemStatisticsParameters}   parameters   Get non indexable item statistics parameters
-     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}        Service response object :Promise.
+     * @return  {Promise<GetNonIndexableItemStatisticsResponse>}         Service response object :Promise.
      */
-    GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): IPromise<GetNonIndexableItemStatisticsResponse>;
+    GetNonIndexableItemStatistics(parameters: GetNonIndexableItemStatisticsParameters): Promise<GetNonIndexableItemStatisticsResponse>;
     /**
      * Get searchable mailboxes
      *
      * @param   {string}    searchFilter            Search filter
      * @param   {boolean}   expandGroupMembership   True if want to expand group membership
-     * @return  {IPromise<GetSearchableMailboxesResponse>}      Service response object :Promise
+     * @return  {Promise<GetSearchableMailboxesResponse>}       Service response object :Promise
      */
-    GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): IPromise<GetSearchableMailboxesResponse>;
+    GetSearchableMailboxes(searchFilter: string, expandGroupMembership: boolean): Promise<GetSearchableMailboxesResponse>;
     /**
      * Search mailboxes
      *
      * @param   {SearchMailboxesParameters}   searchParameters   Search mailboxes parameters
-     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     * @return  {Promise<ServiceResponseCollection<SearchMailboxesResponse>>}       Collection of search mailboxes response object  :Promise.
      */
-    SearchMailboxes(searchParameters: SearchMailboxesParameters): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    SearchMailboxes(searchParameters: SearchMailboxesParameters): Promise<ServiceResponseCollection<SearchMailboxesResponse>>;
     /**
      * Search mailboxes
      *
      * @param   {MailboxQuery[]}        mailboxQueries      Collection of query and mailboxes
      * @param   {SearchResultType}      resultType          Search result type
-     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     * @return  {Promise<ServiceResponseCollection<SearchMailboxesResponse>>}       Collection of search mailboxes response object  :Promise.
      */
-    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType): Promise<ServiceResponseCollection<SearchMailboxesResponse>>;
     /**
      * Search mailboxes
      *
@@ -5829,16 +6044,16 @@ export interface EnumVersionDelegate {
      * @param   {number}                pageSize            Page size
      * @param   {SearchPageDirection}   pageDirection       Page navigation direction
      * @param   {string}                pageItemReference   Item reference used for paging
-     * @return  {IPromise<ServiceResponseCollection<SearchMailboxesResponse>>}      Collection of search mailboxes response object  :Promise.
+     * @return  {Promise<ServiceResponseCollection<SearchMailboxesResponse>>}       Collection of search mailboxes response object  :Promise.
      */
-    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): IPromise<ServiceResponseCollection<SearchMailboxesResponse>>;
+    SearchMailboxes(mailboxQueries: MailboxQuery[], resultType: SearchResultType, sortByProperty: string, sortOrder: SortDirection, pageSize: number, pageDirection: SearchPageDirection, pageItemReference: string): Promise<ServiceResponseCollection<SearchMailboxesResponse>>;
     /**
      * Set hold on mailboxes
      *
      * @param   {SetHoldOnMailboxesParameters}  parameters      Set hold parameters
-     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     * @return  {Promise<SetHoldOnMailboxesResponse>}   Service response object :Promise.
      */
-    SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(parameters: SetHoldOnMailboxesParameters): Promise<SetHoldOnMailboxesResponse>;
     /**
      * Set hold on mailboxes
      *
@@ -5846,9 +6061,9 @@ export interface EnumVersionDelegate {
      * @param   {HoldAction}    actionType      Action type
      * @param   {string}        query           Query string
      * @param   {string[]}      mailboxes       Collection of mailboxes
-     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     * @return  {Promise<SetHoldOnMailboxesResponse>}   Service response object :Promise.
      */
-    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: String[]): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, mailboxes: String[]): Promise<SetHoldOnMailboxesResponse>;
     /**
      * Set hold on mailboxes
      *
@@ -5856,9 +6071,9 @@ export interface EnumVersionDelegate {
      * @param   {HoldAction}    actionType            Action type
      * @param   {string}        query                 Query string
      * @param   {string}        inPlaceHoldIdentity   in-place hold identity
-     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     * @return  {Promise<SetHoldOnMailboxesResponse>}   Service response object :Promise.
      */
-    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string): Promise<SetHoldOnMailboxesResponse>;
     /**
      * Set hold on mailboxes
      *
@@ -5867,15 +6082,15 @@ export interface EnumVersionDelegate {
      * @param   {string}        query                 Query string
      * @param   {string}        inPlaceHoldIdentity   in-place hold identity
      * @param   {string}        itemHoldPeriod        item hold period
-     * @return  {IPromise<SetHoldOnMailboxesResponse>}  Service response object :Promise.
+     * @return  {Promise<SetHoldOnMailboxesResponse>}   Service response object :Promise.
      */
-    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): IPromise<SetHoldOnMailboxesResponse>;
+    SetHoldOnMailboxes(holdId: string, actionType: HoldAction, query: string, inPlaceHoldIdentity: string, itemHoldPeriod: string): Promise<SetHoldOnMailboxesResponse>;
     /**
      * Get user retention policy tags.
      *
-     * @return  {IPromise<GetUserRetentionPolicyTagsResponse>}      Service response object.
+     * @return  {Promise<GetUserRetentionPolicyTagsResponse>}       Service response object.
      */
-    GetUserRetentionPolicyTags(): IPromise<GetUserRetentionPolicyTagsResponse>;
+    GetUserRetentionPolicyTags(): Promise<GetUserRetentionPolicyTagsResponse>;
     /**
      * Adjusts the service URI based on the current type of credentials.
      *
@@ -5888,14 +6103,14 @@ export interface EnumVersionDelegate {
      *
      * @param   {string}   emailAddress     The email address to use.
      */
-    AutodiscoverUrl(emailAddress: string): IPromise<void>;
+    AutodiscoverUrl(emailAddress: string): Promise<void>;
     /**
      * Initializes the Url property to the Exchange Web Services URL for the specified e-mail address by calling the Autodiscover service.
      *
      * @param   {string}   emailAddress                             The email address to use.
      * @param   {AutodiscoverRedirectionUrlValidationCallback}      validateRedirectionUrlCallback   The callback used to validate redirection URL.
      */
-    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): IPromise<void>;
+    AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): Promise<void>;
     /**
      * Default implementation of AutodiscoverRedirectionUrlValidationCallback. Always returns true indicating that the URL can be used.
      *
@@ -5909,7 +6124,7 @@ export interface EnumVersionDelegate {
      * @param   {string}                                        emailAddress                     The email address.
      * @param   {ExchangeVersion}                               requestedServerVersion           Exchange version.
      * @param   {AutodiscoverRedirectionUrlValidationCallback}  validateRedirectionUrlCallback   The validate redirection URL callback.
-     * @return  {IPromise<Uri>}                                 Ews URL :Promise.
+     * @return  {Promise<Uri>}                                  Ews URL :Promise.
      */
 
     /**
@@ -5924,71 +6139,71 @@ export interface EnumVersionDelegate {
      * GetClientAccessToken
      *
      * @param   {KeyValuePair<string, ClientAccessTokenType>[]}   idAndTypes   Id and Types
-     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetClientAccessTokenResponse>>}      A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
      */
-    GetClientAccessToken(idAndTypes: KeyValuePair<string, ClientAccessTokenType>[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    GetClientAccessToken(idAndTypes: KeyValuePair<string, ClientAccessTokenType>[]): Promise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
     /**
      * GetClientAccessToken
      *
      * @param   {ClientAccessTokenRequest[]}   tokenRequests   Token requests array
-     * @return  {IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>}     A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
+     * @return  {Promise<ServiceResponseCollection<GetClientAccessTokenResponse>>}      A ServiceResponseCollection providing token results for each of the specified id and types  :Promise.
      */
-    GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): IPromise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
+    GetClientAccessToken(tokenRequests: ClientAccessTokenRequest[]): Promise<ServiceResponseCollection<GetClientAccessTokenResponse>>;
     /**
      * Get the app manifests.
      *
-     * @return  {IPromise<string[]>}             Collection of manifests xml file as base64 encoded string :Promise.
+     * @return  {Promise<string[]>}              Collection of manifests xml file as base64 encoded string :Promise.
      */
-    GetAppManifests(): IPromise<string[]>;
+    GetAppManifests(): Promise<string[]>;
     /**
      * Get the app manifests.  Works with Exchange 2013 SP1 or later EWS.
      *
      * @param   {string}   apiVersionSupported      The api version supported by the client.
      * @param   {string}   schemaVersionSupported   The schema version supported by the client.
-     * @return  {IPromise<ClientApp[]>}             Collection of manifests :Promise.
+     * @return  {Promise<ClientApp[]>}              Collection of manifests :Promise.
      */
-    GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): IPromise<ClientApp[]>;
+    GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): Promise<ClientApp[]>;
     /**
      * Get App Marketplace Url.
      *
-     * @return  {IPromise<string>}      marketplace url as string :Promise.
+     * @return  {Promise<string>}       marketplace url as string :Promise.
      * @remarks                         Exception will be thrown for errors.
      */
-    GetAppMarketplaceUrl(): IPromise<string>;
+    GetAppMarketplaceUrl(): Promise<string>;
     /**
      * Get App Marketplace Url.  Works with Exchange 2013 SP1 or later EWS.
      *
      * @param   {string}   apiVersionSupported      The api version supported by the client.
      * @param   {string}   schemaVersionSupported   The schema version supported by the client.
-     * @return  {IPromise<string>}                  marketplace url as string :Promise.
+     * @return  {Promise<string>}                   marketplace url as string :Promise.
      * @remarks                                     Exception will be thrown for errors.
      */
-    GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): IPromise<string>;
+    GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): Promise<string>;
     /**
      * Disable an App.
      *
      * @param   {string}                id              App ID
      * @param   {DisableReasonType}     disableReason   Disable reason
-     * @return  {IPromise<void>}        :Promise.
+     * @return  {Promise<void>}         :Promise.
      * @remarks Exception will be thrown for errors.
      */
-    DisableApp(id: string, disableReason: DisableReasonType): IPromise<void>;
+    DisableApp(id: string, disableReason: DisableReasonType): Promise<void>;
     /**
      * Install an App.
      *
      * @param   {string}   manifestStream   The manifest's plain text XML as base64 encoded string.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}     :Promise.
      * @remarks Exception will be thrown for errors.
      */
-    InstallApp(manifestStream: string): IPromise<void>;
+    InstallApp(manifestStream: string): Promise<void>;
     /**
      * Uninstall an App.
      *
      * @param   {string}   id   App ID
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}     :Promise.
      * @remarks Exception will be thrown for errors.
      */
-    UninstallApp(id: string): IPromise<void>;
+    UninstallApp(id: string): Promise<void>;
     static IsMajorMinor(versionPart: string): boolean;
     /**
      * Sets the type of the content.
@@ -8002,369 +8217,6 @@ export interface InitializeLazyMember<T> {
      * @param   {boolean}   isArchive         Is archive tag.
      */
     constructor(displayName: string, retentionId: Guid, retentionPeriod: number, type: ElcFolderType, retentionAction: RetentionActionType, isVisible: boolean, optedInto: boolean, isArchive: boolean);
-}
-
-/**
- * Represents an error that occurs when the account that is being accessed is locked and requires user interaction to be unlocked.
- */
- class AccountIsLockedException extends ServiceRemoteException {
-    /**
-     * Gets the URL of a web page where the user can navigate to unlock his or her account.
-     *
-     * internal set
-     */
-    AccountUnlockUrl: Uri;
-    /**
-     * Initializes a new instance of the  class.
-     *
-     * @param   {string}        message            Error message text.
-     * @param   {Uri}           accountUnlockUrl   URL for client to visit to unlock account.
-     * @param   {Exception}     innerException     Inner exception.
-     */
-    constructor(message: string, accountUnlockUrl: Uri, innerException: Exception);
-}
-
- class ArgumentException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, paramName: string);
-    constructor(message: string, innerException: Exception);
-    constructor(message: string, paramName: string, innerException: Exception);
-}
- class ArgumentNullException extends ArgumentException {
-    constructor();
-    constructor(paramName: string);
-    constructor(paramName: string, message: string);
-    constructor(message: string, innerException: Exception);
-    constructor(message: string, paramName: string, innerException: Exception);
-}
- class ArgumentOutOfRangeException extends ArgumentException {
-    actualValue: any;
-    /**
-     * Gets the value of the argument that caused the exception.
-     */
-    readonly ActualValue: any;
-    constructor();
-    constructor(paramName: string);
-    constructor(paramName: string, message: string);
-    constructor(message: string, innerException: Exception);
-    constructor(paramName: string, actualValue: any, message: string);
-}
- class AutodiscoverLocalException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
- class AutodiscoverRemoteException extends ServiceRemoteException {
-    Error: AutodiscoverError;
-
-}
- class AutodiscoverResponseException extends ServiceRemoteException {
-    ErrorCode: AutodiscoverErrorCode;
-
-}
-/**
- * Represents a remote service exception that can have multiple service responses.
- *
- * @type {TResponse}       The type of the response.
- */
- class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {
-    /**
-     * The list of responses returned by the web method.
-     */
-
-    /**
-     * Gets a list of responses returned by the web method.
-     */
-    readonly ServiceResponses: ServiceResponseCollection<TResponse>;
-    /**
-     * Initializes a new instance of **BatchServiceResponseException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string);
-    /**
-     * Initializes a new instance of **BatchServiceResponseException**.
-     *
-     * @param   {ServiceResponseCollection<TResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string, innerException: Exception);
-}
- class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
-}
-/**
- * Represents an error that occurs when a call to the DeleteAttachment web method fails.
- */
- class DeleteAttachmentException extends BatchServiceResponseException<DeleteAttachmentResponse> {
-    /**
-     * Initializes a new instance of **DeleteAttachmentException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string);
-    /**
-     * Initializes a new instance of **DeleteAttachmentException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string, innerException: Exception);
-}
- class Exception {
-
-    readonly Message: string;
-    InnerException: Exception;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-    /**
-     * @override user JSON.stringify for now, todo: impelemtn real Exception tostring
-     */
-    toString(): string;
-}
-
- class InvalidOperationException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-}
-
- class JsonDeserializationNotImplementedException extends ServiceLocalException {
-}
-
- class JsonSerializationNotImplementedException extends Exception {
-}
-
- class NotSupportedException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-}
- class PropertyException extends ServiceLocalException {
-    Name: string;
-    constructor(message: string, name?: string, innerException?: Exception);
-}
-
- class ServerBusyException extends ServiceResponseException {
-
-    BackOffMilliseconds: number;
-
-}
-
- class ServiceJsonDeserializationException extends ServiceLocalException {
-}
-
-/**
- * Represents an error that occurs when a service operation fails locally (e.g. validation error).
- */
- class ServiceLocalException extends Exception {
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
-
- class ServiceObjectPropertyException extends PropertyException {
-    PropertyDefinition: PropertyDefinitionBase;
-    constructor(message: string, propertyDefinition: PropertyDefinitionBase, innerException?: Exception);
-}
-
-/**
- * Represents an error that occurs when a service operation fails remotely.
- */
- class ServiceRemoteException extends Exception {
-    /**
-     * ServiceRemoteException Constructor.
-     */
-    constructor();
-    /**
-     * ServiceRemoteException Constructor.
-     *
-     * @param   {string}    message          Error message text.
-     */
-    constructor(message: string);
-    /**
-     * ServiceRemoteException Constructor.
-     *
-     * @param   {string}        message          Error message text.
-     * @param   {Exception}     innerException   Inner exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
-
- class ServiceRequestException extends ServiceRemoteException {
-}
-
- class ServiceRequestUnauthorizedException extends ServiceRequestException {
-}
-
-/**
- * Represents a remote service exception that has a single response.
- */
- class ServiceResponseException extends ServiceRemoteException {
-    /**
-     * Error details Value keys
-     */
-
-
-
-    /**
-     * ServiceResponse when service operation failed remotely.
-     */
-
-    /**
-     * Gets the ServiceResponse for the exception.
-     */
-    readonly Response: ServiceResponse;
-    /**
-     * Gets the service error code.
-     */
-    readonly ErrorCode: ServiceError;
-    /**
-     * Gets a message that describes the current exception.
-     *
-     * @returns The error message that explains the reason for the exception.
-     */
-    readonly Message: string;
-}
-/**
- * Represents an error that occurs when a validation check fails.
- *
- * @sealed
- */
- class ServiceValidationException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
-/**
- * Represents an error that occurs when a request cannot be handled due to a service version mismatch.
- *
- * @sealed
- */
- class ServiceVersionException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
-
- class ServiceXmlDeserializationException extends ServiceLocalException {
-}
- class ServiceXmlSerializationException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
-
- class TimeZoneConversionException extends ServiceLocalException {
-}
-/**
- * Represents an exception thrown when an error occurs as a result of calling the UpdateInboxRules operation.
- *
- * @sealed
- */
- class UpdateInboxRulesException extends ServiceRemoteException {
-    /**
-     * ServiceResponse when service operation failed remotely.
-     */
-
-    /**
-     * Rule operation error collection.
-     */
-
-    /**
-     * Gets the ServiceResponse for the exception.
-     */
-    readonly ServiceResponse: ServiceResponse;
-    /**
-     * Gets the rule operation error collection.
-     */
-    readonly Errors: RuleOperationErrorCollection;
-    /**
-     * Gets the rule operation error code.
-     */
-    readonly ErrorCode: ServiceError;
-    /**
-     * Gets the rule operation error message.
-     */
-    readonly ErrorMessage: string;
 }
 /** Indicates which occurrence of a recurring task should be deleted*/
  enum AffectedTaskOccurrence {
@@ -11641,12 +11493,375 @@ export interface InitializeLazyMember<T> {
     WSAddressing = 9,
     Autodiscover = 10,
 }
+
+/**
+ * Represents an error that occurs when the account that is being accessed is locked and requires user interaction to be unlocked.
+ */
+ class AccountIsLockedException extends ServiceRemoteException {
+    /**
+     * Gets the URL of a web page where the user can navigate to unlock his or her account.
+     *
+     * internal set
+     */
+    AccountUnlockUrl: Uri;
+    /**
+     * Initializes a new instance of the  class.
+     *
+     * @param   {string}        message            Error message text.
+     * @param   {Uri}           accountUnlockUrl   URL for client to visit to unlock account.
+     * @param   {Exception}     innerException     Inner exception.
+     */
+    constructor(message: string, accountUnlockUrl: Uri, innerException: Exception);
+}
+
+ class ArgumentException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, paramName: string);
+    constructor(message: string, innerException: Exception);
+    constructor(message: string, paramName: string, innerException: Exception);
+}
+ class ArgumentNullException extends ArgumentException {
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(message: string, paramName: string, innerException: Exception);
+}
+ class ArgumentOutOfRangeException extends ArgumentException {
+    actualValue: any;
+    /**
+     * Gets the value of the argument that caused the exception.
+     */
+    readonly ActualValue: any;
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(paramName: string, actualValue: any, message: string);
+}
+ class AutodiscoverLocalException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+ class AutodiscoverRemoteException extends ServiceRemoteException {
+    Error: AutodiscoverError;
+
+}
+ class AutodiscoverResponseException extends ServiceRemoteException {
+    ErrorCode: AutodiscoverErrorCode;
+
+}
+/**
+ * Represents a remote service exception that can have multiple service responses.
+ *
+ * @type {TResponse}       The type of the response.
+ */
+ class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {
+    /**
+     * The list of responses returned by the web method.
+     */
+
+    /**
+     * Gets a list of responses returned by the web method.
+     */
+    readonly ServiceResponses: ServiceResponseCollection<TResponse>;
+    /**
+     * Initializes a new instance of **BatchServiceResponseException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string);
+    /**
+     * Initializes a new instance of **BatchServiceResponseException**.
+     *
+     * @param   {ServiceResponseCollection<TResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string, innerException: Exception);
+}
+ class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
+}
+/**
+ * Represents an error that occurs when a call to the DeleteAttachment web method fails.
+ */
+ class DeleteAttachmentException extends BatchServiceResponseException<DeleteAttachmentResponse> {
+    /**
+     * Initializes a new instance of **DeleteAttachmentException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string);
+    /**
+     * Initializes a new instance of **DeleteAttachmentException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string, innerException: Exception);
+}
+ class Exception {
+
+    readonly Message: string;
+    InnerException: Exception;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+    /**
+     * @override user JSON.stringify for now, todo: impelemtn real Exception tostring
+     */
+    toString(): string;
+}
+
+ class InvalidOperationException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+}
+
+ class JsonDeserializationNotImplementedException extends ServiceLocalException {
+}
+
+ class JsonSerializationNotImplementedException extends Exception {
+}
+
+ class NotSupportedException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+}
+ class PropertyException extends ServiceLocalException {
+    Name: string;
+    constructor(message: string, name?: string, innerException?: Exception);
+}
+
+ class ServerBusyException extends ServiceResponseException {
+
+    BackOffMilliseconds: number;
+
+}
+
+ class ServiceJsonDeserializationException extends ServiceLocalException {
+}
+
+/**
+ * Represents an error that occurs when a service operation fails locally (e.g. validation error).
+ */
+ class ServiceLocalException extends Exception {
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+
+ class ServiceObjectPropertyException extends PropertyException {
+    PropertyDefinition: PropertyDefinitionBase;
+    constructor(message: string, propertyDefinition: PropertyDefinitionBase, innerException?: Exception);
+}
+
+/**
+ * Represents an error that occurs when a service operation fails remotely.
+ */
+ class ServiceRemoteException extends Exception {
+    /**
+     * ServiceRemoteException Constructor.
+     */
+    constructor();
+    /**
+     * ServiceRemoteException Constructor.
+     *
+     * @param   {string}    message          Error message text.
+     */
+    constructor(message: string);
+    /**
+     * ServiceRemoteException Constructor.
+     *
+     * @param   {string}        message          Error message text.
+     * @param   {Exception}     innerException   Inner exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+
+ class ServiceRequestException extends ServiceRemoteException {
+}
+
+ class ServiceRequestUnauthorizedException extends ServiceRequestException {
+}
+
+/**
+ * Represents a remote service exception that has a single response.
+ */
+ class ServiceResponseException extends ServiceRemoteException {
+    /**
+     * Error details Value keys
+     */
+
+
+
+    /**
+     * ServiceResponse when service operation failed remotely.
+     */
+
+    /**
+     * Gets the ServiceResponse for the exception.
+     */
+    readonly Response: ServiceResponse;
+    /**
+     * Gets the service error code.
+     */
+    readonly ErrorCode: ServiceError;
+    /**
+     * Gets a message that describes the current exception.
+     *
+     * @returns The error message that explains the reason for the exception.
+     */
+    readonly Message: string;
+}
+/**
+ * Represents an error that occurs when a validation check fails.
+ *
+ * @sealed
+ */
+ class ServiceValidationException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+/**
+ * Represents an error that occurs when a request cannot be handled due to a service version mismatch.
+ *
+ * @sealed
+ */
+ class ServiceVersionException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+
+ class ServiceXmlDeserializationException extends ServiceLocalException {
+}
+ class ServiceXmlSerializationException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+
+ class TimeZoneConversionException extends ServiceLocalException {
+}
+/**
+ * Represents an exception thrown when an error occurs as a result of calling the UpdateInboxRules operation.
+ *
+ * @sealed
+ */
+ class UpdateInboxRulesException extends ServiceRemoteException {
+    /**
+     * ServiceResponse when service operation failed remotely.
+     */
+
+    /**
+     * Rule operation error collection.
+     */
+
+    /**
+     * Gets the ServiceResponse for the exception.
+     */
+    readonly ServiceResponse: ServiceResponse;
+    /**
+     * Gets the rule operation error collection.
+     */
+    readonly Errors: RuleOperationErrorCollection;
+    /**
+     * Gets the rule operation error code.
+     */
+    readonly ErrorCode: ServiceError;
+    /**
+     * Gets the rule operation error message.
+     */
+    readonly ErrorMessage: string;
+}
 export interface ICalendarActionProvider {
-    Accept(sendResponse: boolean): IPromise<CalendarActionResults>;
-    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Accept(sendResponse: boolean): Promise<CalendarActionResults>;
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults>;
     CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage;
     CreateDeclineMessage(): DeclineMeetingInvitationMessage;
-    Decline(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Decline(sendResponse: boolean): Promise<CalendarActionResults>;
 }
 export interface ICustomUpdateSerializer {
     WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any): boolean;
@@ -12987,9 +13202,9 @@ export interface CreateServiceObjectWithAttachmentParam {
      * @param   {string}                        name             The name of the user configuration.
      * @param   {FolderId}                      parentFolderId   The Id of the folder containing the user configuration.
      * @param   {UserConfigurationProperties}   properties       The properties to load.
-     * @return  {IPromise<UserConfiguration>}   A user configuration Instance   :Promise.
+     * @return  {Promise<UserConfiguration>}   A user configuration Instance   :Promise.
      */
-    static Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): IPromise<UserConfiguration>;
+    static Bind(service: ExchangeService, name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): Promise<UserConfiguration>;
     /**
      * Binds to an existing user configuration and loads the specified properties.
      * Calling this method results in a call to EWS.
@@ -12998,15 +13213,15 @@ export interface CreateServiceObjectWithAttachmentParam {
      * @param   {string}                        name                The name of the user configuration.
      * @param   {parentFolderName}              parentFolderName    The name of the folder containing the user configuration.
      * @param   {UserConfigurationProperties}   properties          The properties to load.
-     * @return  {IPromise<UserConfiguration>}   A user configuration Instance   :Promise.
+     * @return  {Promise<UserConfiguration>}   A user configuration Instance   :Promise.
      */
-    static Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): IPromise<UserConfiguration>;
+    static Bind(service: ExchangeService, name: string, parentFolderName: WellKnownFolderName, properties: UserConfigurationProperties): Promise<UserConfiguration>;
     /**
      * Deletes the user configuration.
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Delete(): IPromise<void>;
+    Delete(): Promise<void>;
     /**
      * Gets the base64 property value.
      *
@@ -13035,9 +13250,9 @@ export interface CreateServiceObjectWithAttachmentParam {
     /**
      * Loads the specified properties on the user configuration.
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Load(properties: UserConfigurationProperties): IPromise<void>;
+    Load(properties: UserConfigurationProperties): Promise<void>;
     /**
      * Adds the passed property to updatedProperties.
      *
@@ -13053,23 +13268,23 @@ export interface CreateServiceObjectWithAttachmentParam {
      *
      * @param   {string}                name             The name of the user configuration.
      * @param   {WellKnownFolderName}   parentFolderName   The Id of the folder in which to save the user configuration.
-     * @return  {IPromise<void>}        :Promise.
+     * @return  {Promise<void>}        :Promise.
      */
-    Save(name: string, parentFolderName: WellKnownFolderName): IPromise<void>;
+    Save(name: string, parentFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Saves the user configuration. Calling this method results in a call to EWS.
      *
      * @param   {string}        name             The name of the user configuration.
      * @param   {FolderId}      parentFolderId   The Id of the folder in which to save the user configuration.
-     * @return  {IPromise<void>}                 :Promise.
+     * @return  {Promise<void>}                 :Promise.
      */
-    Save(name: string, parentFolderId: FolderId): IPromise<void>;
+    Save(name: string, parentFolderId: FolderId): Promise<void>;
     /**
      * Updates the user configuration by applying local changes to the Exchange server.
      * Calling this method results in a call to EWS.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Update(): IPromise<void>;
+    Update(): Promise<void>;
     /**
      * Determines whether the specified property may be accessed.
      *
@@ -13282,13 +13497,13 @@ export interface CreateServiceObjectWithAttachmentParam {
     /**
      * Obtains a collection of events that occurred on the subscribed folders since the point in time defined by the Watermark property. When GetEvents succeeds, Watermark is updated.
      *
-     * @return  {IPromise<GetEventsResults>}      Returns a collection of events that occurred since the last watermark	:Promise.
+     * @return  {Promise<GetEventsResults>}      Returns a collection of events that occurred since the last watermark	:Promise.
      */
-    GetEvents(): IPromise<GetEventsResults>;
+    GetEvents(): Promise<GetEventsResults>;
     /**
      * Unsubscribes from the pull subscription.
      */
-    Unsubscribe(): IPromise<void>;
+    Unsubscribe(): Promise<void>;
 }
 
 /**
@@ -13316,7 +13531,7 @@ export interface CreateServiceObjectWithAttachmentParam {
     /**
      * Unsubscribes from the streaming subscription.
      */
-    Unsubscribe(): IPromise<void>;
+    Unsubscribe(): Promise<void>;
 }
  class StreamingSubscriptionConnection {
     /**
@@ -14331,7 +14546,7 @@ export interface IIndexedPropertyDefinition {
     GetResponseStream(response: any): any;
     GetResponseXmlElementName(): string;
     GetWsAddressingActionName(): string;
-    InternalExecute(): IPromise<AutodiscoverResponse>;
+    InternalExecute(): Promise<AutodiscoverResponse>;
     static IsRedirectionResponse(httpWebResponse: XMLHttpRequest): boolean;
     LoadFromXml(reader: EwsXmlReader): AutodiscoverResponse;
     LoadFromObject(obj: any): AutodiscoverResponse;
@@ -14359,7 +14574,7 @@ export interface IIndexedPropertyDefinition {
 
     constructor(service: AutodiscoverService, url: Uri);
     CreateServiceResponse(): AutodiscoverResponse;
-    Execute(): IPromise<GetDomainSettingsResponseCollection>;
+    Execute(): Promise<GetDomainSettingsResponseCollection>;
     GetRequestXmlElementName(): string;
     GetResponseXmlElementName(): string;
     GetWsAddressingActionName(): string;
@@ -14378,7 +14593,7 @@ export interface IIndexedPropertyDefinition {
 
     constructor(service: AutodiscoverService, url: Uri);
     CreateServiceResponse(): AutodiscoverResponse;
-    Execute(): IPromise<GetUserSettingsResponseCollection>;
+    Execute(): Promise<GetUserSettingsResponseCollection>;
     GetRequestXmlElementName(): string;
     GetResponseXmlElementName(): string;
     GetWsAddressingActionName(): string;
@@ -14829,13 +15044,13 @@ export interface IIndexedPropertyDefinition {
     /**
      * Loads the first class properties. Calling this method results in a call to EWS.
      */
-    Load(): IPromise<void>;
+    Load(): Promise<void>;
     /**
      * Loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    Load(propertySet?: PropertySet): IPromise<void>;
+    Load(propertySet?: PropertySet): Promise<void>;
     /**
      * Try to get the value of a specified property in this instance.
      *
@@ -16453,499 +16668,6 @@ export interface ISearchFilterCollection {
      */
     constructor(startDate: DateTime, interval: number);
 }
-
-/**
- * Represents a folder containing appointments.
- */
- class CalendarFolder extends Folder {
-    /**
-     * Initializes an unsaved local instance of **CalendarFolder**. To bind to an existing calendar folder, use CalendarFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the calendar folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing calendar folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
-     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
-     * @param   {WellKnownFolderName}   name          The name of the calendar folder to bind to.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
-     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<CalendarFolder>;
-    /**
-     * Obtains a list of appointments by searching the contents of this folder and performing recurrence expansion for recurring appointments. Calling this method results in a call to EWS.
-     *
-     * @param   {CalendarView}   view   The view controlling the range of appointments returned.
-     * @return  {FindItemsResults<Appointment>}          An object representing the results of the search operation.
-     */
-    FindAppointments(view: CalendarView): IPromise<FindItemsResults<Appointment>>;
-}
-/**
- * Represents a folder containing contacts.
- */
- class ContactsFolder extends Folder {
-    /**
-     * Initializes an unsaved local instance of **ContactsFolder**. To bind to an existing contacts folder, use ContactsFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing contacts folder and loads the specified set of properties.
-     *
-     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
-     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
-     * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {IPromise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads its first class properties.
-     *
-     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
-     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
-     * @return  {IPromise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads the specified set of properties.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
-     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads its first class properties.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
-     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
-     * @return  {IPromise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<ContactsFolder>;
-}
-
- class Folder extends ServiceObject {
-    /**
-     * Gets the Id of the folder.
-     *
-     */
-    readonly Id: FolderId;
-    /**
-     * Gets the Id of this folder's parent folder.
-     *
-     */
-    readonly ParentFolderId: FolderId;
-    /**
-     * Gets the number of child folders this folder has.
-     *
-     */
-    readonly ChildFolderCount: number;
-    /**
-     * Gets or sets the display name of the folder.
-     *
-     */
-    DisplayName: string;
-    /**
-     * Gets or sets the custom class name of this folder.
-     *
-     */
-    FolderClass: string;
-    /**
-     * Gets the total number of items contained in the folder.
-     *
-     */
-    readonly TotalCount: number;
-    /**
-     * Gets a list of extended properties associated with the folder. **Unstable Need testing**
-     *
-     */
-    readonly ExtendedProperties: ExtendedPropertyCollection;
-    /**
-     * Gets the Email Lifecycle Management (ELC) information associated with the folder.
-     *
-     */
-    readonly ManagedFolderInformation: ManagedFolderInformation;
-    /**
-     * Gets a value indicating the effective rights the current authenticated user has on the folder.
-     *
-     */
-    readonly EffectiveRights: EffectiveRights;
-    /**
-     * Gets a list of permissions for the folder.
-     *
-     */
-    readonly Permissions: FolderPermissionCollection;
-    /**
-     * Gets the number of unread items in the folder.
-     *
-     */
-    readonly UnreadCount: number;
-    /**
-     * Gets or sets the policy tag.
-     *
-     */
-    PolicyTag: PolicyTag;
-    /**
-     * Gets or sets the archive tag.
-     *
-     */
-    ArchiveTag: ArchiveTag;
-    /**
-     * Gets the well known name of this folder, if any, as a string.
-     * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
-     *
-     */
-    readonly WellKnownFolderNameAsString: string;
-    /**
-     * Gets the well known name of this folder, if any.
-     * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
-     *
-     */
-    readonly WellKnownFolderName: WellKnownFolderName;
-    /**
-     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
-     */
-    /**
-     * Initializes an unsaved local instance of **Folder**. To bind to an existing folder, use Folder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   EWS service to which this object belongs.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the folder.
-     * @param   {FolderId}          id            The Id of the folder to bind to.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the folder.
-     * @param   {FolderId}          id            The Id of the folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<Folder>;
-    /**
-     * Copies this folder into the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to copy this folder.
-     * @return  {IPromise<Folder>}      A Folder representing the copy of this folder :Promise.
-     */
-    Copy(destinationFolderName: WellKnownFolderName): IPromise<Folder>;
-    /**
-     * Copies this folder into a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId    The Id of the folder in which to copy this folder.
-     * @return  {IPromise<Folder>}                  A Folder representing the copy of this folder :Promise.
-     */
-    Copy(destinationFolderId: FolderId): IPromise<Folder>;
-    /**
-     * Deletes the folder. Calling this method results in a call to EWS.
-     *
-     * @param   {DeleteMode}   deleteMode   Deletion mode.
-     */
-    Delete(deleteMode: DeleteMode): IPromise<void>;
-    /**
-     * Empties the folder. Calling this method results in a call to EWS.
-     *
-     * @param   {DeleteMode}    deleteMode         The deletion mode.
-     * @param   {boolean}       deleteSubFolders   Indicates whether sub-folders should also be deleted.
-     */
-    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void>;
-    /**
-     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderView}   view           The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
-     */
-    FindFolders(view: FolderView): IPromise<FindFoldersResults>;
-    /**
-     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}      searchFilter    The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {FolderView}        view            The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
-     */
-    FindFolders(searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(view: ItemView): IPromise<FindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {string}    queryString   query string to be used for indexed search
-     * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(queryString: string, view: ItemView): IPromise<FindItemsResults<Item>>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {ItemView}      view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(searchFilter: SearchFilter, view: ItemView): IPromise<FindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {string}        queryString    Query string to be used for indexed search
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(queryString: string, view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
-    /**
-     * ### ~~*shim used internally to minimize code flow logic from calling functions*~~
-    */
-    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
-    /**
-     * Marks all items in folder as read. Calling this method results in a call to EWS.
-     *
-     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
-     */
-    MarkAllItemsAsRead(suppressReadReceipts: boolean): IPromise<void>;
-    /**
-     * Marks all items in folder as read. Calling this method results in a call to EWS.
-     *
-     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
-     */
-    MarkAllItemsAsUnread(suppressReadReceipts: boolean): IPromise<void>;
-    /**
-     * Moves this folder to the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to move this folder.
-     * @return  {IPromise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
-     */
-    Move(destinationFolderName: WellKnownFolderName): IPromise<Folder>;
-    /**
-     * Moves this folder to a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to move this folder.
-     * @return  {IPromise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
-     */
-    Move(destinationFolderId: FolderId): IPromise<Folder>;
-    /**
-     * Removes an extended property.
-     *
-     * @param   {ExtendedPropertyDefinition}   extendedPropertyDefinition   The extended property definition.
-     * @return  {boolean}       True if property was removed.
-     */
-    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean;
-    /**
-     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this folder.
-     */
-    Save(parentFolderName: WellKnownFolderName): IPromise<void>;
-    /**
-     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this folder.
-     */
-    Save(parentFolderId: FolderId): IPromise<void>;
-    /**
-     * Sets the extended property.
-     *
-     * @param   {ExtendedPropertyDefinition}    extendedPropertyDefinition   The extended property definition.
-     * @param   {any}                           value                        The value.
-     */
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void;
-    /**
-     * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
-     *
-     */
-    Update(): IPromise<void>;
-}
-
-/**
- * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc.
- * this to is to avoid circular referencing with requirejs/commonjs/nodejs
- */
- class FolderInfo extends ServiceObjectInfo {
-    InitializeServiceObjectClassMap(): any;
-    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject;
-}
-
-/**
- * Represents a search folder.
- */
- class SearchFolder extends Folder {
-    /**
-     * Gets the search parameters associated with the search folder.
-     */
-    readonly SearchParameters: SearchFolderParameters;
-    /**
-     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing search folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
-     * @param   {FolderId}          id            The Id of the search folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
-     * @param   {FolderId}          id            The Id of the search folder to bind to.
-     * @return  {IPromise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
-     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
-     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
-     * @return  {IPromise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<SearchFolder>;
-}
-/**
- * Represents a folder containing task items.
- */
- class TasksFolder extends Folder {
-    /**
-     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing tasks folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
-     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<TasksFolder>;
-    /**
-     * Binds to an existing tasks folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
-     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<TasksFolder>;
-    /**
-     * Binds to an existing tasks folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
-     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<TasksFolder>;
-    /**
-     * Binds to an existing tasks folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
-     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<TasksFolder>;
-}
 /**
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
@@ -17142,42 +16864,42 @@ export interface ISearchFilterCollection {
      * Accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    Accept(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Accept(sendResponse: boolean): Promise<CalendarActionResults>;
     /**
      * Tentatively accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults>;
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults>;
     /**
      * Binds to an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service       The service to use to bind to the appointment.
      * @param   {ItemId}              id            The Id of the appointment to bind to.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Appointment>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Appointment>;
     /**
     * Binds to an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service       The service to use to bind to the appointment.
      * @param   {ItemId}              id            The Id of the appointment to bind to.
      * @param   {PropertySet}         propertySet   The set of properties to load.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Appointment>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Appointment>;
     /**
      * Binds to an occurence of an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}  service             The service to use to bind to the appointment.
      * @param   {ItemId}           recurringMasterId   The Id of the recurring master that the index represents an occurrence of.
      * @param   {number}           occurenceIndex      The index of the occurrence.
-     * @return  {IPromise<Appointment>}                An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
+     * @return  {Promise<Appointment>}                 An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
      */
-    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): IPromise<Appointment>;
+    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): Promise<Appointment>;
     /**
      * Binds to an occurence of an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
@@ -17185,39 +16907,39 @@ export interface ISearchFilterCollection {
      * @param   {ItemId}           recurringMasterId   The Id of the recurring master that the index represents an occurrence of.
      * @param   {number}           occurenceIndex      The index of the occurrence.
      * @param   {PropertySet}      propertySet         The set of properties to load.
-     * @return  {IPromise<Appointment>}                An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
+     * @return  {Promise<Appointment>}                 An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
      */
-    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): IPromise<Appointment>;
+    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): Promise<Appointment>;
     /**
      * Binds to the master appointment of a recurring series and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service        The service to use to bind to the appointment.
      * @param   {ItemId}              occurrenceId   The Id of one of the occurrences in the series.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
      */
-    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): IPromise<Appointment>;
+    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): Promise<Appointment>;
     /**
      * Binds to the master appointment of a recurring series and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service        The service to use to bind to the appointment.
      * @param   {ItemId}              occurrenceId   The Id of one of the occurrences in the series.
      * @param   {PropertySet}         propertySet    The set of properties to load.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
      */
-    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): IPromise<Appointment>;
+    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): Promise<Appointment>;
     /**
      * Cancels the meeting and sends cancellation messages to all attendees. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    CancelMeeting(): IPromise<CalendarActionResults>;
+    CancelMeeting(): Promise<CalendarActionResults>;
     /**
      * Cancels the meeting and sends cancellation messages to all attendees. Calling this method results in a call to EWS.
      *
      * @param   {string}   cancellationMessageText   Cancellation message text sent to all attendees.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}     A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    CancelMeeting(cancellationMessageText: string): IPromise<CalendarActionResults>;
+    CancelMeeting(cancellationMessageText: string): Promise<CalendarActionResults>;
     /**
      * Creates a local meeting acceptance message that can be customized and sent.
      *
@@ -17254,39 +16976,39 @@ export interface ISearchFilterCollection {
      * Declines the meeting invitation. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
      */
-    Decline(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Decline(sendResponse: boolean): Promise<CalendarActionResults>;
     /** ## internal - do not use on Appointment class */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): IPromise<void>;
+    Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): Promise<void>;
     /**
      * Deletes this appointment. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode              The deletion mode.
      * @param   {SendCancellationsMode}   sendCancellationsMode   Specifies if and how cancellations should be sent if this appointment is a meeting.
      */
-    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): IPromise<void>;
+    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): Promise<void>;
     /**
      * Forwards the appointment. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}     bodyPrefix     The prefix to prepend to the original body of the message.
      * @param   {EmailAddress[]}  toRecipients   The recipients to forward the appointment to.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void>;
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void>;
     /**
      * Replies to the organizer and/or the attendees of the meeting. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}     bodyPrefix   The prefix to prepend to the body of the meeting.
      * @param   {boolean}         replyAll     Indicates whether the reply should go to the organizer only or to all the attendees.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void>;
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void>;
     /**
      * Saves this appointment in the Calendar folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      * ### sendInvitationsMode not optional, see github issue #52
      *
      * @param   {SendInvitationsMode}   sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(sendInvitationsMode?: SendInvitationsMode): IPromise<void>;
+    Save(sendInvitationsMode?: SendInvitationsMode): Promise<void>;
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      * ### sendInvitationsMode not optional, see github issue #52
@@ -17294,7 +17016,7 @@ export interface ISearchFilterCollection {
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save this appointment.
      * @param   {SendInvitationsMode}   sendInvitationsMode     *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode?: SendInvitationsMode): IPromise<void>;
+    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode?: SendInvitationsMode): Promise<void>;
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      * ### sendInvitationsMode not optional, see github issue #52
@@ -17302,9 +17024,9 @@ export interface ISearchFilterCollection {
      * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save this appointment.
      * @param   {SendInvitationsMode}     sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderId: FolderId, sendInvitationsMode?: SendInvitationsMode): IPromise<void>;
+    Save(destinationFolderId: FolderId, sendInvitationsMode?: SendInvitationsMode): Promise<void>;
     /** ## internal - do not use on Appointment class */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<void>;
     /**
      * Applies the local changes that have been made to this appointment. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added or removed.
      * ### sendInvitationsOrCancellationsMode not optional, see github issue #52
@@ -17312,7 +17034,7 @@ export interface ISearchFilterCollection {
      * @param   {ConflictResolutionMode}   conflictResolutionMode               Specifies how conflicts should be resolved.
      * @param   {SendInvitationsOrCancellationsMode}   sendInvitationsOrCancellationsMode   Specifies if and how invitations or cancellations should be sent if this appointment is a meeting.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): Promise<void>;
 }
 /**
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
@@ -17548,9 +17270,9 @@ export interface ISearchFilterCollection {
      *
      * @param   {ExchangeService}   service         The service to use to bind to the contact.
      * @param   {ItemId}            id              The Id of the contact to bind to.
-     * @return  {IPromise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
+     * @return  {Promise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Contact>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Contact>;
     /**
      * Binds to an existing contact and loads the specified set of properties.
      * Calling this method results in a call to EWS.
@@ -17558,9 +17280,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service         The service to use to bind to the contact.
      * @param   {ItemId}            id              The Id of the contact to bind to.
      * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {IPromise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
+     * @return  {Promise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Contact>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Contact>;
     /**
      * Retrieves the file attachment that holds the contact's picture. **Unstable: needs testing**
      *
@@ -17617,9 +17339,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the contact group.
      * @param   {ItemId}            id            The Id of the contact group to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
+     * @return  {Promise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<ContactGroup>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<ContactGroup>;
     /**
      * Binds to an existing contact group and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -17627,9 +17349,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the contact group.
      * @param   {ItemId}            id            The Id of the contact group to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
+     * @return  {Promise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<ContactGroup>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<ContactGroup>;
 }
 /**
  * Represents a collection of Conversation related properties.
@@ -17784,93 +17506,93 @@ export interface ISearchFilterCollection {
      * Clear flags for conversation items. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be unflagged. If contextFolderId is null, flags for items in conversation across the entire mailbox are cleared.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    ClearItemFlags(contextFolderId: FolderId): IPromise<void>;
+    ClearItemFlags(contextFolderId: FolderId): Promise<void>;
     /**
      * Copies items in the specified conversation to a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be copied. If contextFolderId is null, items across the entire mailbox are copied.
      * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void>;
+    CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): Promise<void>;
     /**
      * Deletes items in the specified conversation.
      * Calling this method results in a call to EWS.
      *
      * @param   {FolderId}      contextFolderId   The Id of the folder items must belong to in order to be deleted. If contextFolderId is null, items across the entire mailbox are deleted.
      * @param   {DeleteMode}    deleteMode        The deletion mode.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): IPromise<void>;
+    DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is no longer categorized.
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   **<not used>**Indicates whether the method should return only once disabling this rule and removing the categories from existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysCategorizeItems(processSynchronously: boolean): IPromise<void>;
+    DisableAlwaysCategorizeItems(processSynchronously: boolean): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is no longer moved to Deleted Items folder.
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule and restoring the items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void>;
+    DisableAlwaysDeleteItems(processSynchronously: boolean): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is no longer moved to a specific folder.
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): IPromise<void>;
+    DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is always categorized.
      * Calling this method results in a call to EWS.
      *
      * @param   {string[]}  categories             The categories that should be stamped on items in the conversation.
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and stamping existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysCategorizeItems(categories: string[], processSynchronously: boolean): IPromise<void>;
+    EnableAlwaysCategorizeItems(categories: string[], processSynchronously: boolean): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is always moved to Deleted Items folder.
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and deleting existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void>;
+    EnableAlwaysDeleteItems(processSynchronously: boolean): Promise<void>;
     /**
      * Sets up a conversation so that any item received within that conversation is always moved to a specific folder.
      * Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  destinationFolderId    The Id of the folder to which conversation items should be moved.
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and moving existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): IPromise<void>;
+    EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): Promise<void>;
     /**
      * Flags conversation items. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged. If contextFolderId is null, items in conversation across the entire mailbox are flagged.
      * @param   {DateTime}   startDate         The start date (can be null).
      * @param   {DateTime}   dueDate           The due date (can be null).
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    FlagItems(contextFolderId: FolderId, startDate: DateTime, dueDate: DateTime): IPromise<void>;
+    FlagItems(contextFolderId: FolderId, startDate: DateTime, dueDate: DateTime): Promise<void>;
     /**
      * Flag conversation items as complete. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged as complete. If contextFolderId is null, items in conversation across the entire mailbox are marked as complete.
      * @param   {DateTime}   completeDate      The complete date (can be null).
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    FlagItemsComplete(contextFolderId: FolderId, completeDate: DateTime): IPromise<void>;
+    FlagItemsComplete(contextFolderId: FolderId, completeDate: DateTime): Promise<void>;
     /**
      * The property definition for the Id of this object.
      *
@@ -17883,35 +17605,35 @@ export interface ISearchFilterCollection {
      *
      * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be moved. If contextFolderId is null, items across the entire mailbox are moved.
      * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void>;
+    MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): Promise<void>;
     /**
      * Sets the read state of items in the specified conversation. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  contextFolderId   The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
      * @param   {boolean}   isRead            if set to true, conversation items are marked as read; otherwise they are marked as unread.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): IPromise<void>;
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): Promise<void>;
     /**
      * Sets the read state of items in the specified conversation. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  contextFolderId        The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
      * @param   {boolean}   isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
      * @param   {boolean}   suppressReadReceipts   if set to true read receipts are suppressed.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): IPromise<void>;
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): Promise<void>;
     /**
      * Sets the retention policy of items in the specified conversation. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}          contextFolderId        The Id of the folder items must belong to in order for their retention policy to be set. If contextFolderId is null, the retention policy of items across the entire mailbox are set.
      * @param   {RetentionType}     retentionPolicyType    Retention policy type.
      * @param   {Guid}              retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): IPromise<void>;
+    SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): Promise<void>;
 }
 
 /**
@@ -18025,18 +17747,18 @@ export interface ISearchFilterCollection {
      *
      * @param   {ExchangeService}         service     The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id          The Id of the e-mail message to bind to.
-     * @return  {IPromise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
+     * @return  {Promise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<EmailMessage>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<EmailMessage>;
     /**
      * Binds to an existing e-mail message and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}         service         The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id              The Id of the e-mail message to bind to.
      * @param   {PropertySet}             propertySet     The set of properties to load.
-     * @return  {IPromise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
+     * @return  {Promise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<EmailMessage>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<EmailMessage>;
     /**
      * Creates a forward response to the message.
      *
@@ -18056,7 +17778,7 @@ export interface ISearchFilterCollection {
      * @param   {MessageBody}   bodyPrefix     The prefix to prepend to the original body of the message.
      * @param   {EmailAddress[]}   toRecipients   The recipients to forward the message to.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void>;
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void>;
     /**
      * Send message.
      *
@@ -18070,22 +17792,22 @@ export interface ISearchFilterCollection {
      * @param   {MessageBody}   bodyPrefix   The prefix to prepend to the original body of the message.
      * @param   {boolean}   replyAll     Indicates whether the reply should be sent to all of the original recipients of the message.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void>;
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void>;
     /**
      * Sends this e-mail message. Calling this method results in at least one call to EWS.
      */
-    Send(): IPromise<void>;
+    Send(): Promise<void>;
     /**
      * Sends this e-mail message and saves a copy of it in the Sent Items folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
      */
-    SendAndSaveCopy(): IPromise<void>;
+    SendAndSaveCopy(): Promise<void>;
     /**
      * Sends this e-mail message and saves a copy of it in the specified folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy.
      */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Sends this e-mail message and saves a copy of it in the specified folder. SendAndSaveCopy does not work if the
     message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method
@@ -18093,12 +17815,12 @@ export interface ISearchFilterCollection {
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy.
      */
-    SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
     /**
      * Suppresses the read receipt on the message. Calling this method results in a call to EWS.
      *
      */
-    SuppressReadReceipt(): IPromise<void>;
+    SuppressReadReceipt(): Promise<void>;
 }
 
 /**
@@ -18367,49 +18089,49 @@ export interface ISearchFilterCollection {
      *
      * @param   {ExchangeService}   service         The service to use to bind to the item.
      * @param   {ItemId}            id              The Id of the item to bind to.
-     * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
+     * @return  {Promise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Item>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Item>;
     /**
      * Binds to an existing item, whatever its actual type is, and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service         The service to use to bind to the item.
      * @param   {ItemId}            id              The Id of the item to bind to.
      * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
+     * @return  {Promise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Item>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Item>;
     /**
      * Creates a copy of this item in the specified folder. Calling this method results in a call to EWS.
      *
      * Copy returns null if the copy operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to create a copy of this item.
-     * @return  {IPromise<Item>}                                The copy of this item :Promise.
+     * @return  {Promise<Item>}                                The copy of this item :Promise.
      */
-    Copy(destinationFolderName: WellKnownFolderName): IPromise<Item>;
+    Copy(destinationFolderName: WellKnownFolderName): Promise<Item>;
     /**
      * Creates a copy of this item in the specified folder. Calling this method results in a call to EWS.
      *
      *  Copy returns null if the copy operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {FolderId}          destinationFolderId   The Id of the folder in which to create a copy of this item.
-     * @return  {IPromise<Item>}                          The copy of this item :Promise.
+     * @return  {Promise<Item>}                          The copy of this item :Promise.
      */
-    Copy(destinationFolderId: FolderId): IPromise<Item>;
+    Copy(destinationFolderId: FolderId): Promise<Item>;
     /**
      * Deletes the item. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      */
-    Delete(deleteMode: DeleteMode): IPromise<void>;
+    Delete(deleteMode: DeleteMode): Promise<void>;
     /**
      * Deletes the item. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      * @param   {boolean}   suppressReadReceipts   Whether to suppress read receipts
      */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>;
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): Promise<void>;
     /**
      * @inrtnal The property definition for the Id of this object.
      *
@@ -18429,18 +18151,18 @@ export interface ISearchFilterCollection {
      * Move returns null if the move operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {FolderId}   destinationFolderId    The Id of the folder to which to move this item.
-     * @return  {IPromise<Item>}                    The moved copy of this item :Promise.
+     * @return  {Promise<Item>}                    The moved copy of this item :Promise.
      */
-    Move(destinationFolderId: FolderId): IPromise<Item>;
+    Move(destinationFolderId: FolderId): Promise<Item>;
     /**
      * Moves this item to a the specified folder. Calling this method results in a call to EWS.
      *
      * Move returns null if the move operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder to which to move this item.
-     * @return  {IPromise<Item>}        The moved copy of this item :Promise.
+     * @return  {Promise<Item>}        The moved copy of this item :Promise.
      */
-    Move(destinationFolderName: WellKnownFolderName): IPromise<Item>;
+    Move(destinationFolderName: WellKnownFolderName): Promise<Item>;
     /**
      * Removes an extended property.
      *
@@ -18453,21 +18175,21 @@ export interface ISearchFilterCollection {
      * Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      *
      */
-    Save(): IPromise<void>;
+    Save(): Promise<void>;
     /**
      * Saves this item in a specific folder. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added.
      *
      * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this item.
      */
-    Save(parentFolderName?: WellKnownFolderName): IPromise<void>;
+    Save(parentFolderName?: WellKnownFolderName): Promise<void>;
     /**
      * Saves this item in a specific folder. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added.
      *
      * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this item.
      */
-    Save(parentFolderId?: FolderId): IPromise<void>;
+    Save(parentFolderId?: FolderId): Promise<void>;
     /**
      * Sets the extended property.
      *
@@ -18486,7 +18208,7 @@ export interface ISearchFilterCollection {
      *
      * @param   {ConflictResolutionMode}   conflictResolutionMode   The conflict resolution mode.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<void>;
     /**
      * Applies the local changes that have been made to this item. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added or removed.
@@ -18494,7 +18216,7 @@ export interface ISearchFilterCollection {
      * @param   {ConflictResolutionMode}   conflictResolutionMode   The conflict resolution mode.
      * @param   {boolean}   suppressReadReceipts     Whether to suppress read receipts
      */
-    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): Promise<void>;
 }
 
 /**
@@ -18536,9 +18258,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting cancellation message.
      * @param   {ItemId}            id            The Id of the meeting cancellation message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
+     * @return  {Promise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingCancellation>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingCancellation>;
     /**
      * Binds to an existing meeting cancellation message and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -18546,15 +18268,15 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting cancellation message.
      * @param   {ItemId}            id            The Id of the meeting cancellation message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
+     * @return  {Promise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingCancellation>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<MeetingCancellation>;
     /**
      * Removes the meeting associated with the cancellation message from the user's calendar.
      *
-     * @return  {IPromise<CalendarActionResults>}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @return  {Promise<CalendarActionResults>}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    RemoveMeetingFromCalendar(): IPromise<CalendarActionResults>;
+    RemoveMeetingFromCalendar(): Promise<CalendarActionResults>;
 }
 
 /**
@@ -18608,9 +18330,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting message.
      * @param   {ItemId}            id            The Id of the meeting message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingMessage>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingMessage>;
     /**
      * Binds to an existing meeting message and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -18618,9 +18340,9 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting message.
      * @param   {ItemId}            id            The Id of the meeting message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingMessage>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<MeetingMessage>;
 }
 /**
  * Represents a meeting request that an attendee can accept or decline. Properties available on meeting requests are defined in the MeetingRequestSchema class.
@@ -18798,33 +18520,33 @@ export interface ISearchFilterCollection {
      * Accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    Accept(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Accept(sendResponse: boolean): Promise<CalendarActionResults>;
     /**
      * Tentatively accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults>;
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults>;
     /**
      * Binds to an existing meeting request and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the meeting request.
      * @param   {ItemId}            id            The Id of the meeting request to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
+     * @return  {Promise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingRequest>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingRequest>;
     /**
      * Binds to an existing meeting request and loads its first class properties.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the meeting request.
      * @param   {ItemId}            id            The Id of the meeting request to bind to.
-     * @return  {IPromise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
+     * @return  {Promise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingRequest>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<MeetingRequest>;
     /**
      * Creates a local meeting acceptance message that can be customized and sent.
      *
@@ -18842,9 +18564,9 @@ export interface ISearchFilterCollection {
      * Declines the meeting invitation. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    Decline(sendResponse: boolean): IPromise<CalendarActionResults>;
+    Decline(sendResponse: boolean): Promise<CalendarActionResults>;
 }
 /**
  * Represents a response to a meeting request. Properties available on meeting messages are defined in the MeetingMessageSchema class.
@@ -18884,17 +18606,17 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting response.
      * @param   {ItemId}            id            The Id of the meeting response to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingResponse>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingResponse>;
     /**
      * Binds to an existing meeting response and loads its first class properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the meeting response.
      * @param   {ItemId}            id            The Id of the meeting response to bind to.
-     * @return  {IPromise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingResponse>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<MeetingResponse>;
 }
 /**
  * Represents a post item. Properties available on post items are defined in the PostItemSchema class.
@@ -18947,18 +18669,18 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the post item.
      * @param   {ItemId}            id            The Id of the post item to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
+     * @return  {Promise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<PostItem>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<PostItem>;
     /**
      * Binds to an existing post item and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the post item.
      * @param   {ItemId}            id            The Id of the post item to bind to.
-     * @return  {IPromise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
+     * @return  {Promise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<PostItem>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<PostItem>;
     /**
      * Creates a forward response to the post item.
      *
@@ -18983,32 +18705,32 @@ export interface ISearchFilterCollection {
      *
      * @param   {MessageBody}           bodyPrefix     The prefix to prepend to the original body of the post item.
      * @param   {...EmailAddress[]}     toRecipients   The recipients to forward the post item to.
-     * @return  {IPromise<void>}        :Promise.
+     * @return  {Promise<void>}        :Promise.
      */
-    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): IPromise<void>;
+    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): Promise<void>;
     /**
      * Forwards the post item. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}       bodyPrefix     The prefix to prepend to the original body of the post item.
      * @param   {EmailAddress[]}    toRecipients   The recipients to forward the post item to.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void>;
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void>;
     /**
      * Posts a reply to this post item. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}   bodyPrefix   Body prefix.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    PostReply(bodyPrefix: MessageBody): IPromise<void>;
+    PostReply(bodyPrefix: MessageBody): Promise<void>;
     /**
      * Replies to the post item. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}   bodyPrefix   The prefix to prepend to the original body of the post item.
      * @param   {boolean}       replyAll     Indicates whether the reply should be sent to everyone involved in the thread.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void>;
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void>;
 }
 
 /**
@@ -19117,36 +18839,529 @@ export interface ISearchFilterCollection {
      * @param   {ExchangeService}   service       The service to use to bind to the task.
      * @param   {ItemId}            id            The Id of the task to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
+     * @return  {Promise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Task>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Task>;
     /**
      * Binds to an existing task and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the task.
      * @param   {ItemId}            id            The Id of the task to bind to.
-     * @return  {IPromise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
+     * @return  {Promise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Task>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Task>;
     /**
      * Deletes the current occurrence of a recurring task. After the current occurrence isdeleted, the task represents the next occurrence.
      * Developers should call Load to retrieve the new property values of the task.
      * Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode   The deletion mode.
-     * @return  {IPromise<void>}            :Promise.
+     * @return  {Promise<void>}            :Promise.
      */
-    DeleteCurrentOccurrence(deleteMode: DeleteMode): IPromise<void>;
+    DeleteCurrentOccurrence(deleteMode: DeleteMode): Promise<void>;
     /**
      * Applies the local changes that have been made to this task. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added or removed.
      *
      * @param   {ConflictResolutionMode}    conflictResolutionMode   Specifies how conflicts should be resolved.
-     * @return  {IPromise<Task>}            A Task object representing the completed occurrence if the task is recurring and the update marks it as completed; or a Task object representing the current occurrence if the task is recurring and the uypdate changed its recurrence pattern; or null in every other case    :Promise.
+     * @return  {Promise<Task>}            A Task object representing the completed occurrence if the task is recurring and the update marks it as completed; or a Task object representing the current occurrence if the task is recurring and the uypdate changed its recurrence pattern; or null in every other case    :Promise.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<Task>;
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<Task>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<any>;
+}
+
+/**
+ * Represents a folder containing appointments.
+ */
+ class CalendarFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **CalendarFolder**. To bind to an existing calendar folder, use CalendarFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the calendar folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing calendar folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
+     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
+     * @param   {WellKnownFolderName}   name          The name of the calendar folder to bind to.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
+     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<CalendarFolder>;
+    /**
+     * Obtains a list of appointments by searching the contents of this folder and performing recurrence expansion for recurring appointments. Calling this method results in a call to EWS.
+     *
+     * @param   {CalendarView}   view   The view controlling the range of appointments returned.
+     * @return  {FindItemsResults<Appointment>}          An object representing the results of the search operation.
+     */
+    FindAppointments(view: CalendarView): Promise<FindItemsResults<Appointment>>;
+}
+/**
+ * Represents a folder containing contacts.
+ */
+ class ContactsFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **ContactsFolder**. To bind to an existing contacts folder, use ContactsFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing contacts folder and loads the specified set of properties.
+     *
+     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
+     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
+     * @param   {PropertySet}       propertySet     The set of properties to load.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads its first class properties.
+     *
+     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
+     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads the specified set of properties.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
+     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads its first class properties.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
+     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<ContactsFolder>;
+}
+
+ class Folder extends ServiceObject {
+    /**
+     * Gets the Id of the folder.
+     *
+     */
+    readonly Id: FolderId;
+    /**
+     * Gets the Id of this folder's parent folder.
+     *
+     */
+    readonly ParentFolderId: FolderId;
+    /**
+     * Gets the number of child folders this folder has.
+     *
+     */
+    readonly ChildFolderCount: number;
+    /**
+     * Gets or sets the display name of the folder.
+     *
+     */
+    DisplayName: string;
+    /**
+     * Gets or sets the custom class name of this folder.
+     *
+     */
+    FolderClass: string;
+    /**
+     * Gets the total number of items contained in the folder.
+     *
+     */
+    readonly TotalCount: number;
+    /**
+     * Gets a list of extended properties associated with the folder. **Unstable Need testing**
+     *
+     */
+    readonly ExtendedProperties: ExtendedPropertyCollection;
+    /**
+     * Gets the Email Lifecycle Management (ELC) information associated with the folder.
+     *
+     */
+    readonly ManagedFolderInformation: ManagedFolderInformation;
+    /**
+     * Gets a value indicating the effective rights the current authenticated user has on the folder.
+     *
+     */
+    readonly EffectiveRights: EffectiveRights;
+    /**
+     * Gets a list of permissions for the folder.
+     *
+     */
+    readonly Permissions: FolderPermissionCollection;
+    /**
+     * Gets the number of unread items in the folder.
+     *
+     */
+    readonly UnreadCount: number;
+    /**
+     * Gets or sets the policy tag.
+     *
+     */
+    PolicyTag: PolicyTag;
+    /**
+     * Gets or sets the archive tag.
+     *
+     */
+    ArchiveTag: ArchiveTag;
+    /**
+     * Gets the well known name of this folder, if any, as a string.
+     * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
+     *
+     */
+    readonly WellKnownFolderNameAsString: string;
+    /**
+     * Gets the well known name of this folder, if any.
+     * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
+     *
+     */
+    readonly WellKnownFolderName: WellKnownFolderName;
+    /**
+     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
+     */
+    /**
+     * Initializes an unsaved local instance of **Folder**. To bind to an existing folder, use Folder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   EWS service to which this object belongs.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the folder.
+     * @param   {FolderId}          id            The Id of the folder to bind to.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the folder.
+     * @param   {FolderId}          id            The Id of the folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<Folder>;
+    /**
+     * Copies this folder into the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to copy this folder.
+     * @return  {Promise<Folder>}      A Folder representing the copy of this folder :Promise.
+     */
+    Copy(destinationFolderName: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Copies this folder into a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   destinationFolderId    The Id of the folder in which to copy this folder.
+     * @return  {Promise<Folder>}                  A Folder representing the copy of this folder :Promise.
+     */
+    Copy(destinationFolderId: FolderId): Promise<Folder>;
+    /**
+     * Deletes the folder. Calling this method results in a call to EWS.
+     *
+     * @param   {DeleteMode}   deleteMode   Deletion mode.
+     */
+    Delete(deleteMode: DeleteMode): Promise<void>;
+    /**
+     * Empties the folder. Calling this method results in a call to EWS.
+     *
+     * @param   {DeleteMode}    deleteMode         The deletion mode.
+     * @param   {boolean}       deleteSubFolders   Indicates whether sub-folders should also be deleted.
+     */
+    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): Promise<void>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderView}   view           The view controlling the number of folders returned.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     */
+    FindFolders(view: FolderView): Promise<FindFoldersResults>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}      searchFilter    The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {FolderView}        view            The view controlling the number of folders returned.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     */
+    FindFolders(searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemView}  view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {string}    queryString   query string to be used for indexed search
+     * @param   {ItemView}  view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(queryString: string, view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ItemView}      view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(searchFilter: SearchFilter, view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {string}        queryString    Query string to be used for indexed search
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(queryString: string, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * ### ~~*shim used internally to minimize code flow logic from calling functions*~~
+    */
+    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    /**
+     * Marks all items in folder as read. Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
+     */
+    MarkAllItemsAsRead(suppressReadReceipts: boolean): Promise<void>;
+    /**
+     * Marks all items in folder as read. Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
+     */
+    MarkAllItemsAsUnread(suppressReadReceipts: boolean): Promise<void>;
+    /**
+     * Moves this folder to the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to move this folder.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     */
+    Move(destinationFolderName: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Moves this folder to a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to move this folder.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     */
+    Move(destinationFolderId: FolderId): Promise<Folder>;
+    /**
+     * Removes an extended property.
+     *
+     * @param   {ExtendedPropertyDefinition}   extendedPropertyDefinition   The extended property definition.
+     * @return  {boolean}       True if property was removed.
+     */
+    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean;
+    /**
+     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this folder.
+     */
+    Save(parentFolderName: WellKnownFolderName): Promise<void>;
+    /**
+     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this folder.
+     */
+    Save(parentFolderId: FolderId): Promise<void>;
+    /**
+     * Sets the extended property.
+     *
+     * @param   {ExtendedPropertyDefinition}    extendedPropertyDefinition   The extended property definition.
+     * @param   {any}                           value                        The value.
+     */
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void;
+    /**
+     * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
+     *
+     */
+    Update(): Promise<void>;
+}
+
+/**
+ * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc.
+ * this to is to avoid circular referencing with requirejs/commonjs/nodejs
+ */
+ class FolderInfo extends ServiceObjectInfo {
+    InitializeServiceObjectClassMap(): any;
+    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject;
+}
+
+/**
+ * Represents a search folder.
+ */
+ class SearchFolder extends Folder {
+    /**
+     * Gets the search parameters associated with the search folder.
+     */
+    readonly SearchParameters: SearchFolderParameters;
+    /**
+     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing search folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
+     * @param   {FolderId}          id            The Id of the search folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
+     * @param   {FolderId}          id            The Id of the search folder to bind to.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
+     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
+     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<SearchFolder>;
+}
+/**
+ * Represents a folder containing task items.
+ */
+ class TasksFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing tasks folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
+     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
+     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
+     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
+     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<TasksFolder>;
 }
 
 /**
@@ -19216,47 +19431,47 @@ export interface ISearchFilterCollection {
      *
      * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    Save(): IPromise<CalendarActionResults | any>;
+    Save(): Promise<CalendarActionResults | any>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
      * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    Save(destinationFolderName: WellKnownFolderName): IPromise<CalendarActionResults | any>;
+    Save(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the response.
      * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    Save(destinationFolderId: FolderId): IPromise<CalendarActionResults | any>;
+    Save(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      *
      * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    Send(): IPromise<CalendarActionResults | any>;
+    Send(): Promise<CalendarActionResults | any>;
     /**
      * Sends this response ans saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
      *
      * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    SendAndSaveCopy(): IPromise<CalendarActionResults | any>;
+    SendAndSaveCopy(): Promise<CalendarActionResults | any>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the copy of the message.
      * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<CalendarActionResults | any>;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
     /**
      * Sends this response ans saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the copy of the message.
      * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    SendAndSaveCopy(destinationFolderId: FolderId): IPromise<CalendarActionResults | any>;
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
 }
 /**
  * Represents a meeting cancellation message.
@@ -19327,23 +19542,23 @@ export interface ISearchFilterCollection {
     /**
      * Saves the post reply in the same folder as the original post item. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(): IPromise<PostItem>;
+    Save(): Promise<PostItem>;
     /**
      * Saves the post reply in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the post reply.
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(destinationFolderId: FolderId): IPromise<PostItem>;
+    Save(destinationFolderId: FolderId): Promise<PostItem>;
     /**
      * Saves the post reply in a specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the post reply.
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(destinationFolderName: WellKnownFolderName): IPromise<PostItem>;
+    Save(destinationFolderName: WellKnownFolderName): Promise<PostItem>;
 }
 /**
  * Represents the base class for e-mail related responses (Reply, Reply all and Forward).
@@ -19436,43 +19651,43 @@ export interface ISearchFilterCollection {
     /**
      * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
      */
-    Save(): IPromise<TMessage>;
+    Save(): Promise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
      */
-    Save(destinationFolderName: WellKnownFolderName): IPromise<TMessage>;
+    Save(destinationFolderName: WellKnownFolderName): Promise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {IPromise<TMessage>}                         A TMessage that represents the response.
+     * @return  {Promise<TMessage>}                         A TMessage that represents the response.
      */
-    Save(destinationFolderId: FolderId): IPromise<TMessage>;
+    Save(destinationFolderId: FolderId): Promise<TMessage>;
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      */
-    Send(): IPromise<void>;
+    Send(): Promise<void>;
     /**
      * Sends this response and saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
      */
-    SendAndSaveCopy(): IPromise<void>;
+    SendAndSaveCopy(): Promise<void>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy of the message.
      */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy of the message.
      */
-    SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
 }
 
 /**
@@ -19506,7 +19721,7 @@ export interface ISearchFilterCollection {
      * @param   {FolderId}            parentFolderId       The parent folder id.
      * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void>;
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<void>;
     /**
      * Deletes the object.
      *
@@ -19514,13 +19729,13 @@ export interface ISearchFilterCollection {
      * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void>;
     /**
      * Loads the specified set of properties on the object.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void>;
+    InternalLoad(propertySet: PropertySet): Promise<void>;
 }
 /**
  * Represents the schema for appointment and meeting requests.

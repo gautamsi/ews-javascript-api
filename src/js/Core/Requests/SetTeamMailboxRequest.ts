@@ -3,7 +3,7 @@ import {EmailAddress} from "../../ComplexProperties/EmailAddress";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {TeamMailboxLifecycleState} from "../../Enumerations/TeamMailboxLifecycleState";
 import {Uri} from "../../Uri";
@@ -60,7 +60,7 @@ export class SetTeamMailboxRequest extends SimpleServiceRequestBase {
      *
      * @return  {ServiceResponse}      Service response.
      */
-    Execute(): IPromise<ServiceResponse> {
+    Execute(): Promise<ServiceResponse> {
         return this.InternalExecute().then((serviceResponse: ServiceResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

@@ -1,11 +1,12 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "types": "typings/ExchangeWebService.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/gautamsi/ews-javascript-api.git"
@@ -33,7 +34,6 @@
     "moment-timezone": "^0.5.7",
     "node-uuid": "^1.4.7",
     "reflect-metadata": "^0.1.8",
-    "winjs-node": "^0.2.0",
     "xmldom": "^0.1.22"
   },
   "devDependencies": {

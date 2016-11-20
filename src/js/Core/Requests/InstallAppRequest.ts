@@ -2,7 +2,7 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {InstallAppResponse} from "../Responses/InstallAppResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 
@@ -33,9 +33,9 @@ export class InstallAppRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<InstallAppResponse>}      Service response  :Promise.
+     * @return  {Promise<InstallAppResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<InstallAppResponse> {
+    Execute(): Promise<InstallAppResponse> {
 		return this.InternalExecute().then((serviceResponse: InstallAppResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

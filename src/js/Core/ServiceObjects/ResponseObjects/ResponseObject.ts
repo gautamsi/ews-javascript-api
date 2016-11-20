@@ -1,20 +1,20 @@
-import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {EmailMessage} from "../Items/EmailMessage";
-import {EwsLogging} from "../../EwsLogging";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {IPromise} from "../../../Interfaces";
-import {Item} from "../Items/Item";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {NotSupportedException} from "../../../Exceptions/NotSupportedException";
-import {PropertySet} from "../../PropertySet";
-import {Schemas} from "../Schemas/Schemas";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
+import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { EmailMessage } from "../Items/EmailMessage";
+import { EwsLogging } from "../../EwsLogging";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { Item } from "../Items/Item";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
+import { NotSupportedException } from "../../../Exceptions/NotSupportedException";
+import { Promise } from "../../../Promise";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
 
-import {ServiceObject} from "../ServiceObject";
+import { ServiceObject } from "../ServiceObject";
 /**
  * Represents the base class for all responses that can be sent.
  * 
@@ -68,9 +68,9 @@ export abstract class ResponseObject<TMessage extends EmailMessage> extends Serv
     *
     * @param   {FolderId}             destinationFolderId   The destination folder id.
     * @param   {MessageDisposition}   messageDisposition    The message disposition.
-    * @return  {IPromise<Item[]>}               The list of items returned by EWS.
+    * @return  {Promise<Item[]>}               The list of items returned by EWS.
     */
-    InternalCreate(destinationFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<Item[]> {
+    InternalCreate(destinationFolderId: FolderId, messageDisposition: MessageDisposition): Promise<Item[]> {
         (<ItemId>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
 
         return this.Service.InternalCreateResponseObject(
@@ -86,7 +86,7 @@ export abstract class ResponseObject<TMessage extends EmailMessage> extends Serv
      * @param   {SendCancellationsMode}       sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {affectedTaskOccurrences}     affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void> {
         throw new NotSupportedException();
     }
 
@@ -95,31 +95,31 @@ export abstract class ResponseObject<TMessage extends EmailMessage> extends Serv
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         throw new NotSupportedException();
     }
 
     /**
      * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
      */
-    Save(): IPromise<TMessage>;
+    Save(): Promise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {IPromise<TMessage>}      A TMessage that represents the response.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
      */
-    Save(destinationFolderName: WellKnownFolderName): IPromise<TMessage>;
+    Save(destinationFolderName: WellKnownFolderName): Promise<TMessage>;
     /**
      * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {IPromise<TMessage>}                         A TMessage that represents the response.
+     * @return  {Promise<TMessage>}                         A TMessage that represents the response.
      */
-    Save(destinationFolderId: FolderId): IPromise<TMessage>;
-    Save(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<TMessage> {
+    Save(destinationFolderId: FolderId): Promise<TMessage>;
+    Save(destinationFolderIdOrName?: FolderId | WellKnownFolderName): Promise<TMessage> {
         var destinationFolderId: FolderId = null;
         if (arguments.length === 1) {
             if (typeof destinationFolderIdOrName === "number") {
@@ -137,27 +137,27 @@ export abstract class ResponseObject<TMessage extends EmailMessage> extends Serv
     /**
      * Sends this response without saving a copy. Calling this method results in a call to EWS.
      */
-    Send(): IPromise<void> {
+    Send(): Promise<void> {
         return <any>this.InternalCreate(null, MessageDisposition.SendOnly);
     }
 
     /**
      * Sends this response and saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
      */
-    SendAndSaveCopy(): IPromise<void>;
+    SendAndSaveCopy(): Promise<void>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy of the message.
      */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy of the message.
      */
-    SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
-    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<void> {
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
+    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): Promise<void> {
         var destinationFolderId: FolderId = null;
         if (arguments.length === 1) {
             if (typeof destinationFolderIdOrName === "number") {

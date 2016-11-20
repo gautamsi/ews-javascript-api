@@ -2,7 +2,7 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetSearchableMailboxesResponse } from "../Responses/GetSearchableMailboxesResponse";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { StringHelper } from "../../ExtensionMethods";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
@@ -35,9 +35,9 @@ export class GetSearchableMailboxesRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetDiscoverySearchConfigurationResponse>}      Service response  :Promise.
+     * @return  {Promise<GetDiscoverySearchConfigurationResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetSearchableMailboxesResponse> {
+    Execute(): Promise<GetSearchableMailboxesResponse> {
         return this.InternalExecute().then((serviceResponse: GetSearchableMailboxesResponse) => {
             return serviceResponse;
         });

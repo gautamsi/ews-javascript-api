@@ -3,7 +3,7 @@ import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {RuleOperation} from "../../ComplexProperties/RuleOperation";
 import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {StringHelper} from "../../ExtensionMethods";
@@ -71,9 +71,9 @@ export class UpdateInboxRulesRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<UpdateInboxRulesResponse>}      Service response  :Promise.
+     * @return  {Promise<UpdateInboxRulesResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<UpdateInboxRulesResponse> {
+    Execute(): Promise<UpdateInboxRulesResponse> {
         return this.InternalExecute().then((serviceResponse: UpdateInboxRulesResponse) => {
 
             if (serviceResponse.Result == ServiceResult.Error) {

@@ -3,7 +3,7 @@ import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetAppMarketplaceUrlResponse} from "../Responses/GetAppMarketplaceUrlResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {StringHelper} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -44,9 +44,9 @@ export class GetAppMarketplaceUrlRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetAppMarketplaceUrlResponse>}      Service response  :Promise.
+     * @return  {Promise<GetAppMarketplaceUrlResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetAppMarketplaceUrlResponse> {
+    Execute(): Promise<GetAppMarketplaceUrlResponse> {
 
 		return this.InternalExecute().then((serviceResponse: GetAppMarketplaceUrlResponse) => {
             serviceResponse.ThrowIfNecessary();

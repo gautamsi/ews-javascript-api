@@ -2,7 +2,7 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { HoldAction } from "../../Enumerations/HoldAction";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { SetHoldOnMailboxesResponse } from "../Responses/SetHoldOnMailboxesResponse";
 import { StringHelper } from "../../ExtensionMethods";
@@ -76,9 +76,9 @@ export class SetHoldOnMailboxesRequest extends SimpleServiceRequestBase { //IJso
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<SetHoldOnMailboxesResponse>}      Service response  :Promise.
+     * @return  {Promise<SetHoldOnMailboxesResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<SetHoldOnMailboxesResponse> {
+    Execute(): Promise<SetHoldOnMailboxesResponse> {
         return this.InternalExecute().then((serviceResponse: SetHoldOnMailboxesResponse) => {
             return serviceResponse;
         });

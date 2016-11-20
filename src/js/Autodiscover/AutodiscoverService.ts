@@ -1,44 +1,44 @@
-﻿import {Strings} from "../Strings";
-import {OAuthCredentials} from "../Credentials/OAuthCredentials";
-import {X509CertificateCredentials} from "../Credentials/X509CertificateCredentials";
-import {PartnerTokenCredentials} from "../Credentials/PartnerTokenCredentials";
-import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsLogging} from "../Core/EwsLogging";
-import {UserSettingName} from "../Enumerations/UserSettingName";
-import {DomainSettingName} from "../Enumerations/DomainSettingName";
-import {AutodiscoverEndpoints} from "../Enumerations/AutodiscoverEndpoints";
-import {TraceFlags} from "../Enumerations/TraceFlags";
-import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
-import {AutodiscoverRequest} from "./Requests/AutodiscoverRequest";
-import {GetDomainSettingsRequest} from "./Requests/GetDomainSettingsRequest";
-import {GetDomainSettingsResponse} from "./Responses/GetDomainSettingsResponse";
-import {GetDomainSettingsResponseCollection} from "./Responses/GetDomainSettingsResponseCollection";
-import {GetUserSettingsResponse} from "./Responses/GetUserSettingsResponse";
-import {GetUserSettingsRequest} from "./Requests/GetUserSettingsRequest";
+﻿import { Strings } from "../Strings";
+import { OAuthCredentials } from "../Credentials/OAuthCredentials";
+import { X509CertificateCredentials } from "../Credentials/X509CertificateCredentials";
+import { PartnerTokenCredentials } from "../Credentials/PartnerTokenCredentials";
+import { WindowsLiveCredentials } from "../Credentials/WindowsLiveCredentials";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { EwsLogging } from "../Core/EwsLogging";
+import { UserSettingName } from "../Enumerations/UserSettingName";
+import { DomainSettingName } from "../Enumerations/DomainSettingName";
+import { AutodiscoverEndpoints } from "../Enumerations/AutodiscoverEndpoints";
+import { TraceFlags } from "../Enumerations/TraceFlags";
+import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
+import { AutodiscoverRequest } from "./Requests/AutodiscoverRequest";
+import { GetDomainSettingsRequest } from "./Requests/GetDomainSettingsRequest";
+import { GetDomainSettingsResponse } from "./Responses/GetDomainSettingsResponse";
+import { GetDomainSettingsResponseCollection } from "./Responses/GetDomainSettingsResponseCollection";
+import { GetUserSettingsResponse } from "./Responses/GetUserSettingsResponse";
+import { GetUserSettingsRequest } from "./Requests/GetUserSettingsRequest";
 //import {WindowsLiveCredentials} from "../Credentials/WindowsLiveCredentials";
 
-import {AutodiscoverLocalException} from "../Exceptions/AutodiscoverLocalException";
-import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
+import { AutodiscoverLocalException } from "../Exceptions/AutodiscoverLocalException";
+import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
+import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
 
-import {GetUserSettingsResponseCollection} from "./Responses/GetUserSettingsResponseCollection";
+import { GetUserSettingsResponseCollection } from "./Responses/GetUserSettingsResponseCollection";
 
-import {IOutParam} from "../Interfaces/IOutParam";
-import {IRefParam} from "../Interfaces/IRefParam";
+import { IOutParam } from "../Interfaces/IOutParam";
+import { IRefParam } from "../Interfaces/IRefParam";
 
-import {AutodiscoverRedirectionUrlValidationCallback} from "./AutodiscoverServiceDelegates";
-import {StringHelper, EnumHelper, UriHelper} from "../ExtensionMethods";
-import {Uri} from "../Uri";
+import { AutodiscoverRedirectionUrlValidationCallback } from "./AutodiscoverServiceDelegates";
+import { StringHelper, EnumHelper, UriHelper } from "../ExtensionMethods";
+import { Uri } from "../Uri";
 
 
 
-import {IPromise, IXHROptions} from "../Interfaces";
-import {PromiseFactory} from "../PromiseFactory";
-import {XHRFactory} from "../XHRFactory";
+import { IXHROptions } from "../Interfaces";
+import { Promise } from "../Promise";
+import { XHRFactory } from "../XHRFactory";
 
-import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
+import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
 export class AutodiscoverService extends ExchangeServiceBase {
     private static AutodiscoverLegacyPath: string = "/autodiscover/autodiscover.xml";
     private static AutodiscoverLegacyUrl: string = "{0}://{1}" + AutodiscoverService.AutodiscoverLegacyPath;
@@ -103,14 +103,14 @@ export class AutodiscoverService extends ExchangeServiceBase {
         domainUrlServiceOrVersion?: string | Uri | ExchangeServiceBase | ExchangeVersion,
         domainOrVersion?: string | ExchangeVersion,
         version: ExchangeVersion = ExchangeVersion.Exchange2010
-        ) {
+    ) {
         var argsLength = arguments.length;
 
         if (argsLength > 3) {
             throw new Error("AutodiscoverService.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
         }
         //EwsUtilities.ValidateDomainNameAllowNull(domainOrVersion, "domain"); 
-            
+
         var domain: string = null;
         var url: Uri = null;
         var service: ExchangeServiceBase = null;
@@ -172,19 +172,20 @@ export class AutodiscoverService extends ExchangeServiceBase {
     }
     //DefaultGetScpUrlsForDomain(domainName: string): string[] { return null; }// System.Collections.Generic.ICollection<string>{ throw new Error("AutodiscoverService.ts - DefaultGetScpUrlsForDomain : Not implemented.");}
     //DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): any{ throw new Error("AutodiscoverService.ts - DisableScpLookupIfDuplicateRedirection : Not implemented.");}
-    GetAutodiscoverEndpointUrl(host: string): IPromise<Uri> {
+    GetAutodiscoverEndpointUrl(host: string): Promise<Uri> {
         var autodiscoverUrlOut: IOutParam<Uri> = { outValue: null };
 
-        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlOut).then((value) => {
-            if (value) {
-                return autodiscoverUrlOut.outValue;
-            }
-            else {
+        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlOut)
+            .then<Uri>((value) => {
+                if (value) {
+                    return autodiscoverUrlOut.outValue;
+                }
+                else {
+                    throw new AutodiscoverLocalException("no soap or WsSecurity endpoint available"/*Strings.NoSoapOrWsSecurityEndpointAvailable*/);
+                }
+            }, (err) => {
                 throw new AutodiscoverLocalException("no soap or WsSecurity endpoint available"/*Strings.NoSoapOrWsSecurityEndpointAvailable*/);
-            }
-        }, (err) => {
-            throw new AutodiscoverLocalException("no soap or WsSecurity endpoint available"/*Strings.NoSoapOrWsSecurityEndpointAvailable*/);
-        });
+            });
     }
 
     //--done
@@ -219,19 +220,19 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         return urls;
     }
-    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): IPromise<GetDomainSettingsResponseCollection>;
-    GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponseCollection>;
-    GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): IPromise<GetDomainSettingsResponse>
+    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): Promise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponseCollection>;
+    GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponse>
 
     GetDomainSettings(
         domainOrDomainNames: string | string[],
-        settingsOrVersion: ExchangeVersion|DomainSettingName[],
+        settingsOrVersion: ExchangeVersion | DomainSettingName[],
         versionOrSettingNames: ExchangeVersion | any //...params DomainSettingName[]
-        ): IPromise<GetDomainSettingsResponse | GetDomainSettingsResponseCollection> {
-        
+    ): Promise<GetDomainSettingsResponse | GetDomainSettingsResponseCollection> {
+
         // EwsUtilities.ValidateParam(domains, "domains");
         // EwsUtilities.ValidateParam(settings, "settings");
-        
+
         var requestedVersion: ExchangeVersion = null;
         var settings: DomainSettingName[] = [];
         if (arguments.length <= 3) {
@@ -306,7 +307,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
     //GetLegacyUserSettings(emailAddress: string): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettings : Not implemented.");}
     //GetLegacyUserSettingsAtUrl(emailAddress: string, url: Uri): any{ throw new Error("AutodiscoverService.ts - GetLegacyUserSettingsAtUrl : Not implemented.");}
     //GetRedirectionUrlFromDnsSrvRecord(domainName: string): Uri{ throw new Error("AutodiscoverService.ts - GetRedirectionUrlFromDnsSrvRecord : Not implemented.");}
-    GetRedirectUrl(domainName: string): IPromise<Uri> {
+    GetRedirectUrl(domainName: string): Promise<Uri> {
         var url: string = StringHelper.Format(AutodiscoverService.AutodiscoverLegacyHttpUrl, "autodiscover." + domainName);
 
         this.TraceMessage(
@@ -318,7 +319,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
             url: url,
         };
         return this.GetXHRApi.xhr(xhrOptions)
-            .then((response: XMLHttpRequest) => {
+            .then<Uri>((response: XMLHttpRequest) => {
                 if (response != null) {
 
                     this.TraceMessage(TraceFlags.All,
@@ -381,7 +382,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
     GetSettings<TGetSettingsResponseCollection, TSettingName>(
         identities: string[], settings: TSettingName[], requestedVersion: ExchangeVersion,
         getSettingsMethod: GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>,
-        getDomainMethod: () => string): IPromise<TGetSettingsResponseCollection> {
+        getDomainMethod: () => string): Promise<TGetSettingsResponseCollection> {
         // Autodiscover service only exists in E14 or later.
         if (this.RequestedServerVersion < AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService) {
             throw new ServiceVersionException(
@@ -390,7 +391,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
                     AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService));
         }
 
-        var response: IPromise<TGetSettingsResponseCollection> = null;
+        var response: Promise<TGetSettingsResponseCollection> = null;
         var autodiscoverUrlRef: IRefParam<Uri> = { getValue: () => this.Url, setValue: (url) => this.url = url };
 
         // If Url is specified, call service directly.
@@ -409,20 +410,20 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         // If Domain is specified, determine endpoint Url and call service.
         else if (!StringHelper.IsNullOrEmpty(this.Domain)) {
-            return this.GetAutodiscoverEndpointUrl(this.Domain).then((adsvcurl) => {
-                autodiscoverUrlRef = { getValue: () => adsvcurl };
-                return getSettingsMethod(
-                    identities,
-                    settings,
-                    requestedVersion,
-                    autodiscoverUrlRef, this).then((response) => {
-                        // If we got this far, response was successful, set Url.
-                        this.Url = autodiscoverUrlRef.getValue();
-                        return response;
-                    });
-            }, (err) => {
-                //throw err;
-            });
+            return this.GetAutodiscoverEndpointUrl(this.Domain)
+                .then<TGetSettingsResponseCollection>((adsvcurl) => {
+                    autodiscoverUrlRef = { getValue: () => adsvcurl };
+                    return getSettingsMethod(
+                        identities,
+                        settings,
+                        requestedVersion,
+                        autodiscoverUrlRef, this)
+                        .then((response) => {
+                            // If we got this far, response was successful, set Url.
+                            this.Url = autodiscoverUrlRef.getValue();
+                            return response;
+                        });
+                });
         }
 
         // No Url or Domain specified, need to figure out which endpoint(s) to try.
@@ -505,51 +506,52 @@ export class AutodiscoverService extends ExchangeServiceBase {
     private GetSettingsRecursiveLookup<TGetSettingsResponseCollection, TSettingName>(
         identities: string[], settings: TSettingName[], requestedVersion: ExchangeVersion,
         getSettingsMethod: GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>,
-        autodiscoverUrlRef: IRefParam<Uri>, hosts: string[], currentHostIndex: number = 0): IPromise<TGetSettingsResponseCollection> {
+        autodiscoverUrlRef: IRefParam<Uri>, hosts: string[], currentHostIndex: number = 0): Promise<TGetSettingsResponseCollection> {
         //        for (var currentHostIndex = 0; currentHostIndex < hosts.length; currentHostIndex++) {
 
         if (currentHostIndex >= hosts.length) throw new AutodiscoverLocalException("***cannot determine based on autodiscover host names");
 
         var host = hosts[currentHostIndex];
         // var isScpHost:bool = currentHostIndex < scpHostCount;
-        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlRef).then((value) => {
-            if (value) {
-                return getSettingsMethod(
-                    identities,
-                    settings,
-                    requestedVersion,
-                    autodiscoverUrlRef, this).then((response) => {
-                        // If we got this far, the response was successful, set Url.
-                        this.Url = autodiscoverUrlRef.getValue();
+        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlRef)
+            .then<TGetSettingsResponseCollection>((value) => {
+                if (value) {
+                    return getSettingsMethod(
+                        identities,
+                        settings,
+                        requestedVersion,
+                        autodiscoverUrlRef, this).then((response) => {
+                            // If we got this far, the response was successful, set Url.
+                            this.Url = autodiscoverUrlRef.getValue();
 
-                        // Not external if Autodiscover endpoint found via SCP returned the settings.
-                        //if (isScpHost) {
-                        //    this.IsExternal = false;
-                        //}
-                        return response;
-                    });
-            } else {
+                            // Not external if Autodiscover endpoint found via SCP returned the settings.
+                            //if (isScpHost) {
+                            //    this.IsExternal = false;
+                            //}
+                            return response;
+                        });
+                } else {
+                    currentHostIndex++;
+                    return this.GetSettingsRecursiveLookup(identities, settings, requestedVersion, getSettingsMethod, autodiscoverUrlRef, hosts, currentHostIndex);
+                }
+            }, (err) => {
                 currentHostIndex++;
                 return this.GetSettingsRecursiveLookup(identities, settings, requestedVersion, getSettingsMethod, autodiscoverUrlRef, hosts, currentHostIndex);
-            }
-        }, (err) => {
-            currentHostIndex++;
-            return this.GetSettingsRecursiveLookup(identities, settings, requestedVersion, getSettingsMethod, autodiscoverUrlRef, hosts, currentHostIndex);
-        });
+            });
     }
 
     /**internal method */
-    public GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): IPromise<GetUserSettingsResponseCollection>;
+    public GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): Promise<GetUserSettingsResponseCollection>;
     /**
      * Retrieves the specified settings for single SMTP address.
      *
      * @param   {string}   userSmtpAddress    The SMTP addresses of the user.
      * @param   {UserSettingName[]}   userSettingNames   The user setting names.
-     * @return  {IPromise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
+     * @return  {Promise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
      */
-    public GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
-    public GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponse>;
-    public GetUserSettings(smtpAddresses: string | string[], userSettings: any): IPromise<GetUserSettingsResponse | GetUserSettingsResponseCollection> {
+    public GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    public GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    public GetUserSettings(smtpAddresses: string | string[], userSettings: any): Promise<GetUserSettingsResponse | GetUserSettingsResponseCollection> {
         var userSettingNames: UserSettingName[] = [];
         if (arguments.length === 2) {
             if (Array.isArray(userSettings)) {
@@ -597,7 +599,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         }
     }
 
-    public GetUsersSettings(userSmtpAddresses: string[], ...userSettingNames: UserSettingName[]): IPromise<GetUserSettingsResponseCollection> {
+    public GetUsersSettings(userSmtpAddresses: string[], ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponseCollection> {
 
         if (this.RequestedServerVersion < AutodiscoverService.MinimumRequestVersionForAutoDiscoverSoapService) {
             throw new ServiceVersionException(
@@ -615,7 +617,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         return this.GetUserSettings(userSmtpAddresses, userSettingNames); //calls getsettings
     }
-    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): IPromise<GetDomainSettingsResponseCollection> {
+    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): Promise<GetDomainSettingsResponseCollection> {
 
         // The response to GetDomainSettings can be a redirection. Execute GetDomainSettings until we get back 
         // a valid response or we've followed too many redirections.
@@ -652,7 +654,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         });
     }
-    private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
+    private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): Promise<GetUserSettingsResponse> {
         throw new Error("Not implemented.");
     }
     private InternalGetLegacyUserSettingsPrivate<Tsettings>(
@@ -660,7 +662,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         currentHop: IRefParam<number>): Tsettings {
         throw new Error("Not implemented.");
     }
-    InternalGetSoapUserSettings(smtpAddress: string, requestedSettings: UserSettingName[]): IPromise<GetUserSettingsResponse> {
+    InternalGetSoapUserSettings(smtpAddress: string, requestedSettings: UserSettingName[]): Promise<GetUserSettingsResponse> {
         var smtpAddresses: string[] = [];
         smtpAddresses.push(smtpAddress);
 
@@ -669,53 +671,54 @@ export class AutodiscoverService extends ExchangeServiceBase {
         return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses);
     }
     InternalGetSoapUserSettingsRecursive(smtpAddresses: string[], requestedSettings: UserSettingName[],
-        redirectionEmailAddresses: string[] = [], currentHop: number = 0): IPromise<GetUserSettingsResponse> {
+        redirectionEmailAddresses: string[] = [], currentHop: number = 0): Promise<GetUserSettingsResponse> {
 
         currentHop++;
         //if (currentHop > AutodiscoverService.AutodiscoverMaxRedirections)
         //    throw new AutodiscoverLocalException(Strings.AutodiscoverCouldNotBeLocated);
 
-        return this.GetUserSettings(smtpAddresses, requestedSettings).then((resp) => {
-            var response = resp.Responses[0];
-            switch (response.ErrorCode) {
-                case AutodiscoverErrorCode.RedirectAddress:
-                    this.TraceMessage(
-                        TraceFlags.AutodiscoverResponse,
-                        StringHelper.Format("Autodiscover service returned redirection email address '{0}'.", response.RedirectTarget));
+        return this.GetUserSettings(smtpAddresses, requestedSettings)
+            .then<GetUserSettingsResponse>((resp) => {
+                var response = resp.Responses[0];
+                switch (response.ErrorCode) {
+                    case AutodiscoverErrorCode.RedirectAddress:
+                        this.TraceMessage(
+                            TraceFlags.AutodiscoverResponse,
+                            StringHelper.Format("Autodiscover service returned redirection email address '{0}'.", response.RedirectTarget));
 
-                    smtpAddresses.splice(0);
-                    smtpAddresses.push(response.RedirectTarget.toLowerCase());
-                    this.Url = null;
-                    this.Domain = null;
+                        smtpAddresses.splice(0);
+                        smtpAddresses.push(response.RedirectTarget.toLowerCase());
+                        this.Url = null;
+                        this.Domain = null;
 
-                    // If this email address was already tried, we may have a loop
-                    // in SCP lookups. Disable consideration of SCP records.
-                    this.ThrowIfDuplicateRedirection(response.RedirectTarget, { getValue: () => redirectionEmailAddresses });
-                    return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses, currentHop);
-                    break;
+                        // If this email address was already tried, we may have a loop
+                        // in SCP lookups. Disable consideration of SCP records.
+                        this.ThrowIfDuplicateRedirection(response.RedirectTarget, { getValue: () => redirectionEmailAddresses });
+                        return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses, currentHop);
+                        break;
 
-                case AutodiscoverErrorCode.RedirectUrl:
-                    this.TraceMessage(
-                        TraceFlags.AutodiscoverResponse,
-                        StringHelper.Format("Autodiscover service returned redirection URL '{0}'.", response.RedirectTarget));
+                    case AutodiscoverErrorCode.RedirectUrl:
+                        this.TraceMessage(
+                            TraceFlags.AutodiscoverResponse,
+                            StringHelper.Format("Autodiscover service returned redirection URL '{0}'.", response.RedirectTarget));
 
-                    this.Url = this.Credentials.AdjustUrl(new Uri(response.RedirectTarget));
-                    return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses, currentHop);
-                    break;
+                        this.Url = this.Credentials.AdjustUrl(new Uri(response.RedirectTarget));
+                        return this.InternalGetSoapUserSettingsRecursive(smtpAddresses, requestedSettings, redirectionEmailAddresses, currentHop);
+                        break;
 
-                case AutodiscoverErrorCode.NoError:
-                default:
-                    return response;
-                //return IPromise.as(response);
-            }
-        }, (err) => {
-            throw err;
-        });
+                    case AutodiscoverErrorCode.NoError:
+                    default:
+                        return response;
+                    //return IPromise.as(response);
+                }
+            }, (err) => {
+                throw err;
+            });
 
 
     }
     InternalGetUserSettings(smtpAddresses: string[], settings: UserSettingName[],
-        requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): IPromise<GetUserSettingsResponseCollection> {
+        requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop: number = 0): Promise<GetUserSettingsResponseCollection> {
 
         // The response to GetUserSettings can be a redirection. Execute GetUserSettings until we get back
         // a valid response or we've followed too many redirections.
@@ -773,7 +776,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         //    }
         //}
     }
-    TryGetAutodiscoverEndpointUrl(host: string, url: IOutParam<Uri>): IPromise<boolean> {
+    TryGetAutodiscoverEndpointUrl(host: string, url: IOutParam<Uri>): Promise<boolean> {
         url.outValue = null;
 
         var endpointsOut: IOutParam<AutodiscoverEndpoints> = { outValue: AutodiscoverEndpoints.None };
@@ -849,7 +852,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
             }
         }, (err) => { throw err; });
     }
-    TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop: number = 0): IPromise<boolean> {
+    TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop: number = 0): Promise<boolean> {
 
         this.TraceMessage(
             TraceFlags.AutodiscoverConfiguration,
@@ -878,7 +881,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         //todo - optimize code, need to apply logic in failed errors as 401 go to onerror of xhr;
         return this.GetXHRApi.xhr(xhrOptions)
-            .then((response: XMLHttpRequest) => {
+            .then<boolean>((response: XMLHttpRequest) => {
                 if (response != null) {
                     var redirectUrl: any = null;;
                     if ( /*"returns false aleways"*/ this.TryGetRedirectionResponse(response, { outValue: redirectUrl })) {
@@ -997,7 +1000,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
 //ref: converted to delegate type interface
 export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
-    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): IPromise<TGetSettingsResponseCollection>
+    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): Promise<TGetSettingsResponseCollection>
 }
 //class GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> extends System.MulticastDelegate {
 //    BeginInvoke(smtpAddresses: System.Collections.Generic.List<string>, settings: System.Collections.Generic.List<T>, requestedVersion: Data.ExchangeVersion, autodiscoverUrl: any, callback: System.AsyncCallback, object: any): System.IAsyncResult { throw new Error("AutodiscoverService.ts - BeginInvoke : Not implemented."); }

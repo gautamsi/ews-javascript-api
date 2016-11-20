@@ -2,7 +2,7 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetUserRetentionPolicyTagsResponse} from "../Responses/GetUserRetentionPolicyTagsResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
@@ -25,10 +25,10 @@ export class GetUserRetentionPolicyTagsRequest extends SimpleServiceRequestBase 
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetUserRetentionPolicyTagsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetUserRetentionPolicyTagsResponse>}      Service response  :Promise.
      */
-  Execute(): IPromise<GetUserRetentionPolicyTagsResponse> {
-    return <IPromise<GetUserRetentionPolicyTagsResponse>>this.InternalExecute();
+  Execute(): Promise<GetUserRetentionPolicyTagsResponse> {
+    return <Promise<GetUserRetentionPolicyTagsResponse>>this.InternalExecute();
 
   }
 

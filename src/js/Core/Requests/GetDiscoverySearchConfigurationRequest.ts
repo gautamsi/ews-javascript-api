@@ -2,7 +2,7 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetDiscoverySearchConfigurationResponse } from "../Responses/GetDiscoverySearchConfigurationResponse";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { StringHelper } from "../../ExtensionMethods";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
@@ -42,9 +42,9 @@ export class GetDiscoverySearchConfigurationRequest extends SimpleServiceRequest
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetDiscoverySearchConfigurationResponse>}      Service response  :Promise.
+     * @return  {Promise<GetDiscoverySearchConfigurationResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetDiscoverySearchConfigurationResponse> {
+    Execute(): Promise<GetDiscoverySearchConfigurationResponse> {
         return this.InternalExecute().then((serviceResponse: GetDiscoverySearchConfigurationResponse) => {
             return serviceResponse;
         });

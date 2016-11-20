@@ -2,7 +2,7 @@
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {PropertySet} from "../../PropertySet";
 import {Schemas} from "../Schemas/Schemas";
 import {SearchFolderParameters} from "../../../ComplexProperties/SearchFolderParameters";
@@ -38,18 +38,18 @@ export class SearchFolder extends Folder {
      * @param   {ExchangeService}   service       The service to use to bind to the search folder.
      * @param   {FolderId}          id            The Id of the search folder to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
      */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<SearchFolder>;
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<SearchFolder>;
     /**
      * Binds to an existing search folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the search folder.
      * @param   {FolderId}          id            The Id of the search folder to bind to.
-     * @return  {IPromise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
      */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<SearchFolder>;
+    static Bind(service: ExchangeService, id: FolderId): Promise<SearchFolder>;
     /**
      * Binds to an existing search folder and loads the specified set of properties.
      * Calling this method results in a call to EWS.
@@ -57,19 +57,19 @@ export class SearchFolder extends Folder {
      * @param   {ExchangeService}       service       The service to use to bind to the search folder.
      * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
      * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<SearchFolder>;
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<SearchFolder>;
     /**
      * Binds to an existing search folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the search folder.
      * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
-     * @return  {IPromise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<SearchFolder>;
-    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<SearchFolder> {
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<SearchFolder>;
+    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<SearchFolder> {
         if (idOrName instanceof FolderId) {
             return service.BindToFolder<SearchFolder>(idOrName, propertySet, TypeContainer.SearchFolder);
         }
