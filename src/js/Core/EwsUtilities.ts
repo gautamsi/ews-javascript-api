@@ -502,7 +502,7 @@ export class EwsUtilities {
     private static numPad(num: number, length: number) {
         var str = num.toString();
         while (str.length < length)
-            str += "0";
+            str = "0"+str;
         return str;
     }
     static TimeSpanToXSTime(timeSpan: TimeSpan): string {
