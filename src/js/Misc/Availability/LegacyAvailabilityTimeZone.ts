@@ -7,7 +7,7 @@ import { XmlElementNames } from "../../Core/XmlElementNames";
 import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
 import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
 export class LegacyAvailabilityTimeZone extends ComplexProperty {
-    private bias: any /*System.TimeSpan*/;
+    Delta: TimeSpan;
     private standardTime: LegacyAvailabilityTimeZoneTime;
     private daylightTime: LegacyAvailabilityTimeZoneTime;
     constructor();
@@ -15,6 +15,7 @@ export class LegacyAvailabilityTimeZone extends ComplexProperty {
     constructor(timeZone?: any /** MomentTimezone */) {
         super();
         if (typeof timeZone !== 'undefined') {
+            this.Delta = TimeSpan.Zero;
 
             this.daylightTime = new LegacyAvailabilityTimeZoneTime();
             this.daylightTime.Delta = TimeSpan.Zero;
@@ -41,7 +42,7 @@ export class LegacyAvailabilityTimeZone extends ComplexProperty {
         for (var key in jsonProperty) {
             switch (key) {
                 case XmlElementNames.Bias:
-                    this.bias = TimeSpan.FromMinutes(Number(jsonProperty[key]));
+                    this.Delta = TimeSpan.FromMinutes(Number(jsonProperty[key]));
                     break;
                 case XmlElementNames.StandardTime:
                     this.standardTime = new LegacyAvailabilityTimeZoneTime();
@@ -60,7 +61,7 @@ export class LegacyAvailabilityTimeZone extends ComplexProperty {
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.Bias,
-            this.bias.TotalMinutes);
+            this.Delta.TotalMinutes);
 
         this.standardTime.WriteToXml(writer, XmlElementNames.StandardTime);
         this.daylightTime.WriteToXml(writer, XmlElementNames.DaylightTime);
