@@ -75,7 +75,7 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
             this.Month);
 
         // Only write DayOfWeek if this is a recurring time change
-        if (this.Year == 0) {
+        if ((this.Year == null)||(this.Year == 0)) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.DayOfWeek,
