@@ -1,18 +1,18 @@
-﻿import {ComplexProperty} from "../../ComplexProperty";
-import {DateTime} from "../../../DateTime";
-import {DayOfTheWeekCollection} from "../DayOfTheWeekCollection";
-import {DayOfTheWeek} from "../../../Enumerations/DayOfTheWeek";
-import {DayOfWeek} from "../../../Enumerations/DayOfWeek";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../../../Core/EwsUtilities";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ServiceValidationException} from "../../../Exceptions/ServiceValidationException";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { ComplexProperty } from "../../ComplexProperty";
+import { DateTime } from "../../../DateTime";
+import { DayOfTheWeekCollection } from "../DayOfTheWeekCollection";
+import { DayOfTheWeek } from "../../../Enumerations/DayOfTheWeek";
+import { DayOfWeek } from "../../../Enumerations/DayOfWeek";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../../Core/EwsUtilities";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {IntervalPattern} from "./Recurrence.IntervalPattern";
+import { IntervalPattern } from "./Recurrence.IntervalPattern";
 /**
  * Represents a recurrence pattern where each occurrence happens on specific days a specific number of weeks after the previous one.
  */
@@ -62,13 +62,14 @@ export class WeeklyPattern extends IntervalPattern {
     constructor(startDate?: DateTime, interval?: number, daysOfTheWeek: DayOfTheWeek[] = []) {
         if (arguments.length === 0) {
             super();
+            this.daysOfTheWeek = new DayOfTheWeekCollection()
             this.daysOfTheWeek.OnChange.push(this.DaysOfTheWeekChanged);
         }
         else {
             super(startDate, interval);
+            this.daysOfTheWeek = new DayOfTheWeekCollection()
         }
         this.firstDayOfWeek = null;
-        this.daysOfTheWeek = new DayOfTheWeekCollection()
         this.daysOfTheWeek.AddRange(daysOfTheWeek);
     }
 

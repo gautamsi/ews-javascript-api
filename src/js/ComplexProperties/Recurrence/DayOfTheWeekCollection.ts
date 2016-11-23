@@ -133,7 +133,7 @@ export class DayOfTheWeekCollection extends ComplexProperty {
             let daysOfTheWeekArray: string[] = new Array(this.Count);
 
             for (let i = 0; i < this.Count; i++) {
-                daysOfTheWeekArray[i] = this[i].ToString();
+                daysOfTheWeekArray[i] = DayOfTheWeek[this.items[i]];
             }
 
             return daysOfTheWeekArray.join(separator);
