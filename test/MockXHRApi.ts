@@ -20,7 +20,11 @@ export class MockXHRApi implements IXHRApi {
 			successDelegate(result);
 		});
 	}
-	get type(): string {
+	xhrStream(x: any, y: any): Promise<XMLHttpRequest> {
+		throw new Error();
+	}
+	disconnect():void{}
+	get apiName(): string {
 		return "mockXHR";
 	}
 }

@@ -309,8 +309,8 @@ try {
 class PromiseType<T> {
     constructor() {
         throw new NotSupportedException("Promise implementation missing.\nPlease use ConfigurePromise function to assign Promise Object\n" +
-            "bluebird: ConfigurePromise(require('bluebird))" +
-            "Q: ConfigurePromise(require('q').Promise)" +
+            "bluebird: ConfigurePromise(require('bluebird))\n" +
+            "Q: ConfigurePromise(require('q').Promise)\n" +
             "winjs-node: ConfigurePromise(require('winjs-node').Promise)")
     }
 }

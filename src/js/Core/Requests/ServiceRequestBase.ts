@@ -318,6 +318,7 @@ export abstract class ServiceRequestBase {
                 if (soapFaultDetails != null) {
                     //todo: implement soap fault error throw
                     this.SoapFaultDetails = soapFaultDetails;
+                    soapFaultDetails.HttpStatusCode = webException.status;
 
                     //    switch (soapFaultDetails.ResponseCode) {
                     //        case ServiceError.ErrorInvalidServerVersion:
@@ -355,11 +356,13 @@ export abstract class ServiceRequestBase {
             }
             else {
                 soapFaultDetails = new SoapFaultDetails();
+                soapFaultDetails.HttpStatusCode = webException.status;
                 this.Service.ProcessHttpErrorResponse(webException, soapFaultDetails);
             }
 
             return soapFaultDetails;
         }
+        return null;
     }
 
     /**

@@ -1,4 +1,4 @@
-import {AutodiscoverService, useCustomXhr, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
+import {AutodiscoverService, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
 DefaultExtendedPropertySet, BasePropertySet, Item, EmailMessage, Attachment, FileAttachment, ItemAttachment, AttachmentCollection, EmailAddress, MessageBody, FolderId
 }  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";

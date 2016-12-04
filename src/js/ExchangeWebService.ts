@@ -5,17 +5,11 @@
 
 
 /** Promise type setup */
-import { IXHRApi, IXHROptions } from "./Interfaces";
-export { IXHRApi, IXHROptions };
 export { Promise, ConfigurePromise } from "./Promise";
 
 /** XHR setup */
-import { XHRFactory } from "./XHRFactory";
-export function useCustomXhr(xhrApiObj: IXHRApi) {
-    XHRFactory.switchXhr(xhrApiObj);
-}
-import { setXhr } from "./XHRFactory_WinJS";
-setXhr();
+export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
+export { ConfigureXHR } from "./XHRFactory";
 
 /**Schema Bootstrapping */
 import { Schemas } from "./Core/ServiceObjects/Schemas/Schemas";

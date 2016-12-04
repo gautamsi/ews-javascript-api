@@ -1,4 +1,4 @@
-import {AutodiscoverService, useCustomXhr, ExchangeCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri, DateTime}  from "../../../src/js/ExchangeWebService";
+import {AutodiscoverService, ExchangeCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri, DateTime}  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";
 import {MockXHRData} from "../../MockXHRData";
 

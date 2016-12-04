@@ -181,6 +181,11 @@ export class SoapFaultDetails {
     Exception: Exception;
 
     /**
+     * ews-javascript-api specific: HTTP status code 
+     */
+    HttpStatusCode = 200;
+
+    /**
      * @private Initializes a new instance of the **SoapFaultDetails** class.
      */
     constructor() {
