@@ -5,11 +5,11 @@
 
 
 /** Promise type setup */
-export { Promise, ConfigurePromise } from "./Promise";
+export { Promise } from "./Promise";
 
 /** XHR setup */
 export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
-export { ConfigureXHR } from "./XHRFactory";
+export { ConfigurationApi } from "./ConfigurationApi";
 
 /**Schema Bootstrapping */
 import { Schemas } from "./Core/ServiceObjects/Schemas/Schemas";

@@ -1,6 +1,6 @@
-import {xml2JsObject, DOMParser, EwsLogging, Promise, ConfigurePromise} from "../../src/js/ExchangeWebService";
+import {xml2JsObject, DOMParser, EwsLogging, Promise, ConfigurationApi} from "../../src/js/ExchangeWebService";
 import * as Q from "q";
-ConfigurePromise(<any>Q.Promise)
+ConfigurationApi.ConfigurePromise(<any>Q.Promise)
 
 
 

@@ -2,7 +2,7 @@
 import { Promise } from "./Promise";
 import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 
-
+/** @internal */
 export class XHRDefaults implements IXHRApi {
 	static FetchStream: new () => FetchStream = null;
 	static fetchUrl: typeof fetchUrl = null;
@@ -60,11 +60,7 @@ export class XHRDefaults implements IXHRApi {
 			headers: xhroptions.headers,
 			method: <any>xhroptions.type
 		}
-		// xhroptions["payload"] = xhroptions.data;
-		// delete xhroptions["data"];
-		// xhroptions["method"] = xhroptions.type;
-		// delete xhroptions["type"];
-
+		
 		return new Promise((resolve, reject) => {
 			this.stream = new FetchStream(xhroptions.url, options);
 
@@ -113,6 +109,7 @@ export class XHRDefaults implements IXHRApi {
 	}
 }
 
+/** @internal */
 function setupXhrResponse(xhrResponse: XMLHttpRequest): XMLHttpRequest {
 	xhrResponse[<any>"responseText"] = xhrResponse.response;
 	delete xhrResponse["response"];

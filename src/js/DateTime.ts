@@ -29,7 +29,7 @@ export class DateTime {
 
     }
 
-    Add(quantity: number, unit: MomentTimezone.unitOfTime.Base): DateTime {
+    Add(quantity: number, unit: moment.unitOfTime.Base): DateTime {
         var date: moment.Moment = moment(this.momentDate);
         date.add(quantity, unit);
         return new DateTime(date);
@@ -144,7 +144,7 @@ export class TimeSpan {
     }
     humanize(withSuffix?: boolean): string { return this.duration.humanize(withSuffix); }
 
-    as(units: MomentTimezone.unitOfTime.Base): number { return this.duration.as(units); }
+    as(units: moment.unitOfTime.Base): number { return this.duration.as(units); }
 
     /** @internal TODO: to be removed in 0.7. */
     milliseconds(): number { return this.duration.milliseconds(); }
@@ -211,12 +211,12 @@ export class TimeSpan {
     get Totalweeks(): number { return this.duration.asWeeks() }
 
     /** @internal TODO: to be removed in 0.7. */
-    add(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
+    add(n: number, p: moment.unitOfTime.Base): TimeSpan;
     /** @internal TODO: to be removed in 0.7. */
     add(n: number): TimeSpan;
     /** @internal TODO: to be removed in 0.7. */
     add(d: TimeSpan): TimeSpan;
-    add(a: any, p?: MomentTimezone.unitOfTime.Base): TimeSpan {
+    add(a: any, p?: moment.unitOfTime.Base): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.add(a));
         }
@@ -225,10 +225,10 @@ export class TimeSpan {
         }
     }
 
-    Add(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
+    Add(n: number, p: moment.unitOfTime.Base): TimeSpan;
     Add(n: number): TimeSpan;
     Add(d: TimeSpan): TimeSpan;
-    Add(a: any, p?: MomentTimezone.unitOfTime.Base): TimeSpan {
+    Add(a: any, p?: moment.unitOfTime.Base): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.add(a));
         }
@@ -238,12 +238,12 @@ export class TimeSpan {
     }
 
     /** @internal TODO: to be removed in 0.7. */
-    subtract(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
+    subtract(n: number, p: moment.unitOfTime.Base): TimeSpan;
     /** @internal TODO: to be removed in 0.7. */
     subtract(n: number): TimeSpan;
     /** @internal TODO: to be removed in 0.7. */
     subtract(d: TimeSpan): TimeSpan;
-    subtract(a: any, p?: MomentTimezone.unitOfTime.Base): TimeSpan {
+    subtract(a: any, p?: moment.unitOfTime.Base): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.subtract(a));
         }
@@ -252,10 +252,10 @@ export class TimeSpan {
         }
     }
 
-    Subtract(n: number, p: MomentTimezone.unitOfTime.Base): TimeSpan;
+    Subtract(n: number, p: moment.unitOfTime.Base): TimeSpan;
     Subtract(n: number): TimeSpan;
     Subtract(d: TimeSpan): TimeSpan;
-    Subtract(a: any, p?: MomentTimezone.unitOfTime.Base): TimeSpan {
+    Subtract(a: any, p?: moment.unitOfTime.Base): TimeSpan {
         if (arguments.length === 1) {
             return new TimeSpan(this.duration.subtract(a));
         }
