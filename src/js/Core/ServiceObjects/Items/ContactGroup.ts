@@ -2,7 +2,7 @@
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {GroupMemberCollection} from "../../../ComplexProperties/GroupMemberCollection";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {ItemId} from "../../../ComplexProperties/ItemId";
 import {PropertySet} from "../../PropertySet";
@@ -70,9 +70,9 @@ export class ContactGroup extends Item {
      * @param   {ExchangeService}   service       The service to use to bind to the contact group.
      * @param   {ItemId}            id            The Id of the contact group to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
+     * @return  {Promise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<ContactGroup>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<ContactGroup>;
     /**
      * Binds to an existing contact group and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -80,10 +80,10 @@ export class ContactGroup extends Item {
      * @param   {ExchangeService}   service       The service to use to bind to the contact group.
      * @param   {ItemId}            id            The Id of the contact group to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
+     * @return  {Promise<ContactGroup>}    A ContactGroup instance representing the contact group corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<ContactGroup>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<ContactGroup> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<ContactGroup>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<ContactGroup> {
         return service.BindToItem<ContactGroup>(id, propertySet, ContactGroup);
     }
 

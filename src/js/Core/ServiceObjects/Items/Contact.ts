@@ -1,34 +1,34 @@
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {ByteArrayArray} from "../../../ComplexProperties/ByteArrayArray";
-import {CompleteName} from "../../../ComplexProperties/CompleteName";
-import {ContactSource} from "../../../Enumerations/ContactSource";
-import {DateTime} from "../../../DateTime";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {EmailAddressDictionary} from "../../../ComplexProperties/EmailAddressDictionary";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {EnumToExchangeVersionMappingHelper} from "../../../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EwsUtilities} from "../../EwsUtilities";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {FileAsMapping} from "../../../Enumerations/FileAsMapping";
-import {FileAttachment} from "../../../ComplexProperties/FileAttachment";
-import {IOutParam} from "../../../Interfaces/IOutParam";
-import {IPromise} from "../../../Interfaces";
-import {ImAddressDictionary} from "../../../ComplexProperties/ImAddressDictionary";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {PhoneNumberDictionary} from "../../../ComplexProperties/PhoneNumberDictionary";
-import {PhysicalAddressDictionary} from "../../../ComplexProperties/PhysicalAddressDictionary";
-import {PhysicalAddressIndex} from "../../../Enumerations/PhysicalAddressIndex";
-import {PropertyException} from "../../../Exceptions/PropertyException";
-import {PropertySet} from "../../PropertySet";
-import {Schemas} from "../Schemas/Schemas";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../XmlElementNames";
+import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
+import { ByteArrayArray } from "../../../ComplexProperties/ByteArrayArray";
+import { CompleteName } from "../../../ComplexProperties/CompleteName";
+import { ContactSource } from "../../../Enumerations/ContactSource";
+import { DateTime } from "../../../DateTime";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
+import { EmailAddressDictionary } from "../../../ComplexProperties/EmailAddressDictionary";
+import { EnumToExchangeVersionMappingHelper } from "../../../Enumerations/EnumToExchangeVersionMappingHelper";
+import { EwsUtilities } from "../../EwsUtilities";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FileAsMapping } from "../../../Enumerations/FileAsMapping";
+import { FileAttachment } from "../../../ComplexProperties/FileAttachment";
+import { ImAddressDictionary } from "../../../ComplexProperties/ImAddressDictionary";
+import { IOutParam } from "../../../Interfaces/IOutParam";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { PhoneNumberDictionary } from "../../../ComplexProperties/PhoneNumberDictionary";
+import { PhysicalAddressDictionary } from "../../../ComplexProperties/PhysicalAddressDictionary";
+import { PhysicalAddressIndex } from "../../../Enumerations/PhysicalAddressIndex";
+import { Promise } from "../../../Promise";
+import { PropertyException } from "../../../Exceptions/PropertyException";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {Item} from "./Item";
+import { Item } from "./Item";
 /**
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
  * 
@@ -475,9 +475,9 @@ export class Contact extends Item {
      *
      * @param   {ExchangeService}   service         The service to use to bind to the contact.
      * @param   {ItemId}            id              The Id of the contact to bind to.
-     * @return  {IPromise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
+     * @return  {Promise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Contact>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Contact>;
     /**
      * Binds to an existing contact and loads the specified set of properties.
      * Calling this method results in a call to EWS.
@@ -485,13 +485,13 @@ export class Contact extends Item {
      * @param   {ExchangeService}   service         The service to use to bind to the contact.
      * @param   {ItemId}            id              The Id of the contact to bind to.
      * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {IPromise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
+     * @return  {Promise<Contact>}                 A Contact instance representing the contact corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Contact>;
-    // Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Contact> { //removed
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Contact>;
+    // Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Contact> { //removed
     //     return Contact.Bind(service, id, propertySet);
     // }
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Contact> {
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Contact> {
         return service.BindToItem<Contact>(id, propertySet, Contact);
     }
 

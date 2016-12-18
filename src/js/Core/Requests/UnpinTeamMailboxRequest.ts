@@ -3,7 +3,7 @@ import {EmailAddress} from "../../ComplexProperties/EmailAddress";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -40,7 +40,7 @@ export class UnpinTeamMailboxRequest extends SimpleServiceRequestBase {
      *
      * @return  {ServiceResponse}      Service response.
      */
-    Execute(): IPromise<ServiceResponse> {
+    Execute(): Promise<ServiceResponse> {
         return this.InternalExecute().then((serviceResponse: ServiceResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

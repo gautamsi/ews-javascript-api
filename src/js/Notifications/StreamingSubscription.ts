@@ -1,5 +1,5 @@
 ﻿import {ExchangeService} from "../Core/ExchangeService";
-import {IPromise} from "../Interfaces";
+import { Promise } from "../Promise";
 
 import {SubscriptionBase} from "./SubscriptionBase";
 /**
@@ -35,5 +35,5 @@ export class StreamingSubscription extends SubscriptionBase {
 	/**
 	 * Unsubscribes from the streaming subscription.
 	 */
-	Unsubscribe(): IPromise<void> { return this.Service.Unsubscribe(this.Id); }
+	Unsubscribe(): Promise<void> { return this.Service.Unsubscribe(this.Id); }
 }

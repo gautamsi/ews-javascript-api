@@ -3,7 +3,7 @@ import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetUserOofSettingsResponse} from "../Responses/GetUserOofSettingsResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {OofExternalAudience} from "../../Enumerations/OofExternalAudience";
 import {OofSettings} from "../../ComplexProperties/Availability/OofSettings";
 import {ServiceError} from "../../Enumerations/ServiceError";
@@ -41,9 +41,9 @@ export class GetUserOofSettingsRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetUserOofSettingsResponse>}      Service response.
+     * @return  {Promise<GetUserOofSettingsResponse>}      Service response.
      */
-    Execute(): IPromise<GetUserOofSettingsResponse> {
+    Execute(): Promise<GetUserOofSettingsResponse> {
         return this.InternalExecute().then((serviceResponse: GetUserOofSettingsResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

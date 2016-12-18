@@ -2,7 +2,7 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetHoldOnMailboxesResponse } from "../Responses/GetHoldOnMailboxesResponse";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";
@@ -34,9 +34,9 @@ export class GetHoldOnMailboxesRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetHoldOnMailboxesResponse>}      Service response  :Promise.
+     * @return  {Promise<GetHoldOnMailboxesResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetHoldOnMailboxesResponse> {
+    Execute(): Promise<GetHoldOnMailboxesResponse> {
         return this.InternalExecute().then((serviceResponse: GetHoldOnMailboxesResponse) => {
             return serviceResponse;
         });

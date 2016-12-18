@@ -11,7 +11,7 @@ import {UserSettingName} from "../../Enumerations/UserSettingName";
 
 import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
 
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 
 import {AutodiscoverService} from "../AutodiscoverService";
 import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
@@ -34,12 +34,12 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
     CreateServiceResponse(): AutodiscoverResponse {
         return new GetUserSettingsResponseCollection();
     }
-    Execute(): IPromise<GetUserSettingsResponseCollection> {
+    Execute(): Promise<GetUserSettingsResponseCollection> {
         return this.InternalExecute().then((adr: GetUserSettingsResponseCollection) => {
             this.PostProcessResponses(adr)
             return adr;
         });
-        //<IPromise<>> v
+        //<Promise<>> v
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);

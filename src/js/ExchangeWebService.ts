@@ -5,24 +5,11 @@
 
 
 /** Promise type setup */
-import { IPromiseApi, IXHRApi, IPromise, IXHROptions } from "./Interfaces";
-export { IPromiseApi, IXHRApi, IPromise, IXHROptions };
-import { PromiseFactory } from "./PromiseFactory";
-export function useCustomPromise(promiseObj: IPromiseApi) {
-    PromiseFactory.switchPromise(promiseObj);
-}
-import { setPromise } from "./Promise_WinJS";
-//export {Promise_Q} from "./Promise_Q";
-setPromise();
-export { PromiseFactory }
+export { Promise } from "./Promise";
 
 /** XHR setup */
-import { XHRFactory } from "./XHRFactory";
-export function useCustomXhr(xhrApiObj: IXHRApi) {
-    XHRFactory.switchXhr(xhrApiObj);
-}
-import { setXhr } from "./XHRFactory_WinJS";
-setXhr();
+export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
+export { ConfigurationApi } from "./ConfigurationApi";
 
 /**Schema Bootstrapping */
 import { Schemas } from "./Core/ServiceObjects/Schemas/Schemas";

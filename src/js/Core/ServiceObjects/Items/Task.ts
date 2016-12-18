@@ -5,10 +5,10 @@ import { DateTime } from '../../../DateTime';
 import { DeleteMode } from '../../../Enumerations/DeleteMode';
 import { ExchangeService } from '../../ExchangeService';
 import { ExchangeVersion } from '../../../Enumerations/ExchangeVersion';
-import { IPromise } from './../../../Interfaces';
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from '../../../ComplexProperties/ItemId';
 import { MessageDisposition } from '../../../Enumerations/MessageDisposition';
+import { Promise } from './../../../Promise';
 import { PropertySet } from '../../PropertySet';
 import { Recurrence } from '../../../ComplexProperties/Recurrence/Patterns/Recurrence';
 import { Schemas } from "../Schemas/Schemas";
@@ -247,19 +247,19 @@ export class Task extends Item {
      * @param   {ExchangeService}   service       The service to use to bind to the task.
      * @param   {ItemId}            id            The Id of the task to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
+     * @return  {Promise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Task>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Task>;
     /**
      * Binds to an existing task and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the task.
      * @param   {ItemId}            id            The Id of the task to bind to.
-     * @return  {IPromise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
+     * @return  {Promise<Task>}    A Task instance representing the task corresponding to the specified Id :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<Task>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Task> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<Task>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Task> {
         return service.BindToItem<Task>(id, propertySet, Task);
     }
 
@@ -269,9 +269,9 @@ export class Task extends Item {
      * Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode   The deletion mode.
-     * @return  {IPromise<void>}            :Promise.
+     * @return  {Promise<void>}            :Promise.
      */
-    DeleteCurrentOccurrence(deleteMode: DeleteMode): IPromise<void> {
+    DeleteCurrentOccurrence(deleteMode: DeleteMode): Promise<void> {
         return this.InternalDelete(
             deleteMode,
             null,
@@ -320,12 +320,12 @@ export class Task extends Item {
      * Mutliple calls to EWS might be made if attachments have been added or removed.
      *
      * @param   {ConflictResolutionMode}    conflictResolutionMode   Specifies how conflicts should be resolved.
-     * @return  {IPromise<Task>}            A Task object representing the completed occurrence if the task is recurring and the update marks it as completed; or a Task object representing the current occurrence if the task is recurring and the uypdate changed its recurrence pattern; or null in every other case    :Promise.
+     * @return  {Promise<Task>}            A Task object representing the completed occurrence if the task is recurring and the update marks it as completed; or a Task object representing the current occurrence if the task is recurring and the uypdate changed its recurrence pattern; or null in every other case    :Promise.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<Task>;
-    /** @internal ~~ workaround 52 */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<any>;
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<Task> {
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<Task>;
+    /** ##internal ~~ workaround GitHub #52 */
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<any>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<Task> {
         return this.InternalUpdate(
             null /* parentFolder */,
             conflictResolutionMode,

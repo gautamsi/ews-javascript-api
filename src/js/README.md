@@ -1,3 +1,0 @@
-﻿# ews-javascript-api
-
-

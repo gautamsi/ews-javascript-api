@@ -2,7 +2,7 @@
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {PropertySet} from "../../PropertySet";
 import {TypeContainer} from "../../../TypeContainer";
 import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
@@ -30,18 +30,18 @@ export class TasksFolder extends Folder {
      * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
      * @param   {FolderId}          id            The Id of the tasks folder to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
      */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<TasksFolder>;
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<TasksFolder>;
     /**
      * Binds to an existing tasks folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
      * @param   {FolderId}          id            The Id of the tasks folder to bind to.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
      */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<TasksFolder>;
+    static Bind(service: ExchangeService, id: FolderId): Promise<TasksFolder>;
     /**
      * Binds to an existing tasks folder and loads the specified set of properties.
      * Calling this method results in a call to EWS.
@@ -49,19 +49,19 @@ export class TasksFolder extends Folder {
      * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
      * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
      * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<TasksFolder>;
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<TasksFolder>;
     /**
      * Binds to an existing tasks folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
      * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
-     * @return  {IPromise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<TasksFolder>;
-    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<TasksFolder> {
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<TasksFolder>;
+    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<TasksFolder> {
         if (idOrName instanceof FolderId) {
             return service.BindToFolder<TasksFolder>(idOrName, propertySet, TypeContainer.TasksFolder);
         }

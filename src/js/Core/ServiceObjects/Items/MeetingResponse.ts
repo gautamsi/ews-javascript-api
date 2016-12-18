@@ -3,7 +3,7 @@ import { DateTime } from "../../../DateTime";
 import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
-import { IPromise } from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { PropertySet } from "../../PropertySet";
@@ -90,18 +90,18 @@ export class MeetingResponse extends MeetingMessage {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting response.
      * @param   {ItemId}            id            The Id of the meeting response to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingResponse>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingResponse>;
     /**
      * Binds to an existing meeting response and loads its first class properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the meeting response.
      * @param   {ItemId}            id            The Id of the meeting response to bind to.
-     * @return  {IPromise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingResponse>}       A MeetingResponse instance representing the meeting response corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingResponse>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<MeetingResponse> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<MeetingResponse>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<MeetingResponse> {
         return service.BindToItem<MeetingResponse>(id, propertySet, MeetingResponse);
     }
 

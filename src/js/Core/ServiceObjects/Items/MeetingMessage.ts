@@ -2,7 +2,7 @@
 import {DateTime} from "../../../DateTime";
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {ItemId} from "../../../ComplexProperties/ItemId";
 import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
@@ -112,9 +112,9 @@ export class MeetingMessage extends EmailMessage {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting message.
      * @param   {ItemId}            id            The Id of the meeting message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingMessage>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingMessage>;
     /**
      * Binds to an existing meeting message and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -122,10 +122,10 @@ export class MeetingMessage extends EmailMessage {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting message.
      * @param   {ItemId}            id            The Id of the meeting message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
+     * @return  {Promise<MeetingMessage>}  A MeetingMessage instance representing the meeting message corresponding to the specified Id    :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingMessage>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<MeetingMessage> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<MeetingMessage>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<MeetingMessage> {
         return service.BindToItem<MeetingMessage>(id, propertySet, MeetingMessage);
     }
 

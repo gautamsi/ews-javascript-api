@@ -1,55 +1,54 @@
-﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {ArrayHelper, StringHelper} from "../../../ExtensionMethods";
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {Attachment} from "../../../ComplexProperties/Attachment";
-import {AttachmentCollection} from "../../../ComplexProperties/AttachmentCollection";
-import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
-import {ConversationId} from "../../../ComplexProperties/ConversationId";
-import {DateTime} from "../../../DateTime";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
-import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
-import {EwsLogging} from "../../EwsLogging";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
-import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {Flag} from "../../../ComplexProperties/Flag";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {IconIndex} from "../../../Enumerations/IconIndex";
-import {Importance} from "../../../Enumerations/Importance";
-import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
-import {IOutParam} from "../../../Interfaces/IOutParam";
-import {IPromise} from "../../../Interfaces";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {MimeContent} from "../../../ComplexProperties/MimeContent";
-import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
-import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
-import {PromiseFactory} from "../../../PromiseFactory";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {PropertySet} from "../../PropertySet";
-import {ResponseActions} from "../../../Enumerations/ResponseActions";
-import {Schemas} from "../Schemas/Schemas";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {SendInvitationsMode} from "../../../Enumerations/SendInvitationsMode";
-import {SendInvitationsOrCancellationsMode} from "../../../Enumerations/SendInvitationsOrCancellationsMode";
-import {Sensitivity} from "../../../Enumerations/Sensitivity";
-import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {ServiceVersionException} from "../../../Exceptions/ServiceVersionException";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {Strings} from "../../../Strings";
-import {TextBody} from "../../../ComplexProperties/TextBody";
-import {TypeContainer} from "../../../TypeContainer";
-import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {XmlElementNames} from "../../XmlElementNames";
+﻿import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
+import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
+import { ArrayHelper, StringHelper } from "../../../ExtensionMethods";
+import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
+import { Attachment } from "../../../ComplexProperties/Attachment";
+import { AttachmentCollection } from "../../../ComplexProperties/AttachmentCollection";
+import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
+import { ConversationId } from "../../../ComplexProperties/ConversationId";
+import { DateTime } from "../../../DateTime";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { EffectiveRights } from "../../../Enumerations/EffectiveRights";
+import { EntityExtractionResult } from "../../../ComplexProperties/EntityExtractionResult";
+import { EwsLogging } from "../../EwsLogging";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ExtendedPropertyCollection } from "../../../ComplexProperties/ExtendedPropertyCollection";
+import { ExtendedPropertyDefinition } from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import { Flag } from "../../../ComplexProperties/Flag";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { IconIndex } from "../../../Enumerations/IconIndex";
+import { Importance } from "../../../Enumerations/Importance";
+import { InternetMessageHeaderCollection } from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import { IOutParam } from "../../../Interfaces/IOutParam";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MessageBody } from "../../../ComplexProperties/MessageBody";
+import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
+import { MimeContent } from "../../../ComplexProperties/MimeContent";
+import { NormalizedBody } from "../../../ComplexProperties/NormalizedBody";
+import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
+import { Promise } from "../../../Promise";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertySet } from "../../PropertySet";
+import { ResponseActions } from "../../../Enumerations/ResponseActions";
+import { Schemas } from "../Schemas/Schemas";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { SendInvitationsMode } from "../../../Enumerations/SendInvitationsMode";
+import { SendInvitationsOrCancellationsMode } from "../../../Enumerations/SendInvitationsOrCancellationsMode";
+import { Sensitivity } from "../../../Enumerations/Sensitivity";
+import { ServiceErrorHandling } from "../../../Enumerations/ServiceErrorHandling";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { ServiceVersionException } from "../../../Exceptions/ServiceVersionException";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { Strings } from "../../../Strings";
+import { TextBody } from "../../../ComplexProperties/TextBody";
+import { TypeContainer } from "../../../TypeContainer";
+import { UniqueBody } from "../../../ComplexProperties/UniqueBody";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObject} from "../ServiceObject";
+import { ServiceObject } from "../ServiceObject";
 /**
  * Represents a generic **Item**. Properties available on items are defined in the *ItemSchema* class.
  *
@@ -607,19 +606,19 @@ export class Item extends ServiceObject {
      *
      * @param   {ExchangeService}   service         The service to use to bind to the item.
      * @param   {ItemId}            id              The Id of the item to bind to.
-     * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
+     * @return  {Promise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<Item>;
+    public static Bind(service: ExchangeService, id: ItemId): Promise<Item>;
     /**
      * Binds to an existing item, whatever its actual type is, and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service         The service to use to bind to the item.
      * @param   {ItemId}            id              The Id of the item to bind to.
      * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {IPromise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
+     * @return  {Promise<Item>}                    An Item instance representing the item corresponding to the specified Id :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Item>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Item> {
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Item>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Item> {
         return service.BindToItem<Item>(id, propertySet, Item);
     }
 
@@ -629,19 +628,19 @@ export class Item extends ServiceObject {
      * Copy returns null if the copy operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to create a copy of this item.
-     * @return  {IPromise<Item>}                                The copy of this item :Promise.
+     * @return  {Promise<Item>}                                The copy of this item :Promise.
      */
-    Copy(destinationFolderName: WellKnownFolderName): IPromise<Item>;
+    Copy(destinationFolderName: WellKnownFolderName): Promise<Item>;
     /**
      * Creates a copy of this item in the specified folder. Calling this method results in a call to EWS.
      *
      *  Copy returns null if the copy operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {FolderId}          destinationFolderId   The Id of the folder in which to create a copy of this item.
-     * @return  {IPromise<Item>}                          The copy of this item :Promise.
+     * @return  {Promise<Item>}                          The copy of this item :Promise.
      */
-    Copy(destinationFolderId: FolderId): IPromise<Item>;
-    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Item> {
+    Copy(destinationFolderId: FolderId): Promise<Item>;
+    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): Promise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -662,15 +661,15 @@ export class Item extends ServiceObject {
      *
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      */
-    Delete(deleteMode: DeleteMode): IPromise<void>
+    Delete(deleteMode: DeleteMode): Promise<void>
     /**
      * Deletes the item. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode             The deletion mode.
      * @param   {boolean}   suppressReadReceipts   Whether to suppress read receipts
      */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): IPromise<void>
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): IPromise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): Promise<void>
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): Promise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
 
     /**
      * @internal Gets a list of extended properties defined on this object.
@@ -746,7 +745,7 @@ export class Item extends ServiceObject {
      * @param   {MessageDisposition}    messageDisposition    The message disposition.
      * @param   {SendInvitationsMode}   sendInvitationsMode   The send invitations mode.
      */
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): IPromise<void> {
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode): Promise<void> {
         this.ThrowIfThisIsNotNew();
         this.ThrowIfThisIsAttachment();
 
@@ -756,7 +755,7 @@ export class Item extends ServiceObject {
                 parentFolderId,
                 messageDisposition,
                 sendInvitationsMode !== null ? sendInvitationsMode : this.DefaultSendInvitationsMode)
-                .then((response) => {
+                .then<void>((response) => {
                     return this.Attachments.Save();
                 });
         }
@@ -770,7 +769,7 @@ export class Item extends ServiceObject {
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void>;
     /**
      * @internal Deletes the object.
      *
@@ -779,8 +778,8 @@ export class Item extends ServiceObject {
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      * @param   {boolean}                   suppressReadReceipts      Whether to suppress read receipts
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): IPromise<void>;
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode = this.DefaultSendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence = this.DefaultAffectedTaskOccurrences, suppressReadReceipts: boolean = false): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, suppressReadReceipts: boolean): Promise<void>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode = this.DefaultSendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence = this.DefaultAffectedTaskOccurrences, suppressReadReceipts: boolean = false): Promise<void> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -809,7 +808,7 @@ export class Item extends ServiceObject {
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -826,9 +825,9 @@ export class Item extends ServiceObject {
      * @param   {ConflictResolutionMode}                conflictResolutionMode               The conflict resolution mode.
      * @param   {MessageDisposition}                    messageDisposition                   The message disposition.
      * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   The send invitations or cancellations mode.
-     * @return  {IPromise<Item>}                        Updated item :Promise.
+     * @return  {Promise<Item>}                        Updated item :Promise.
      */
-    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): IPromise<Item>;
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode): Promise<Item>;
     /**
      * @internal Update item.
      *
@@ -837,10 +836,10 @@ export class Item extends ServiceObject {
      * @param   {MessageDisposition}                    messageDisposition                   The message disposition.
      * @param   {SendInvitationsOrCancellationsMode}    sendInvitationsOrCancellationsMode   The send invitations or cancellations mode.
      * @param   {boolean}                               suppressReadReceipts                 Whether to suppress read receipts
-     * @return  {IPromise<Item>}                        Updated item :Promise.
+     * @return  {Promise<Item>}                        Updated item :Promise.
      */
-    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): IPromise<Item>;
-    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): IPromise<Item> {
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Promise<Item>;
+    InternalUpdate(parentFolderId: FolderId, conflictResolutionMode: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): Promise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -863,7 +862,7 @@ export class Item extends ServiceObject {
                 suppressReadReceipts);
         }
 
-        return PromiseFactory.resolve(returnedItem);
+        return Promise.resolve(returnedItem);
     }
 
     /**
@@ -872,19 +871,19 @@ export class Item extends ServiceObject {
      * Move returns null if the move operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {FolderId}   destinationFolderId    The Id of the folder to which to move this item.
-     * @return  {IPromise<Item>}                    The moved copy of this item :Promise.
+     * @return  {Promise<Item>}                    The moved copy of this item :Promise.
      */
-    Move(destinationFolderId: FolderId): IPromise<Item>;
+    Move(destinationFolderId: FolderId): Promise<Item>;
     /**
      * Moves this item to a the specified folder. Calling this method results in a call to EWS.
      * 
      * Move returns null if the move operation is across two mailboxes or between a mailbox and a public folder.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder to which to move this item.
-     * @return  {IPromise<Item>}        The moved copy of this item :Promise.
+     * @return  {Promise<Item>}        The moved copy of this item :Promise.
      */
-    Move(destinationFolderName: WellKnownFolderName): IPromise<Item>;
-    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Item> {
+    Move(destinationFolderName: WellKnownFolderName): Promise<Item>;
+    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): Promise<Item> {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
@@ -913,22 +912,22 @@ export class Item extends ServiceObject {
      * Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      *
      */
-    Save(): IPromise<void>;
+    Save(): Promise<void>;
     /**
      * Saves this item in a specific folder. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added.
      *
      * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this item.
      */
-    Save(parentFolderName?: WellKnownFolderName): IPromise<void>;
+    Save(parentFolderName?: WellKnownFolderName): Promise<void>;
     /**
      * Saves this item in a specific folder. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added.
      *
      * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this item.
      */
-    Save(parentFolderId?: FolderId): IPromise<void>;
-    Save(parentFolderIdOrName: FolderId | WellKnownFolderName = null): IPromise<void> {
+    Save(parentFolderId?: FolderId): Promise<void>;
+    Save(parentFolderIdOrName: FolderId | WellKnownFolderName = null): Promise<void> {
         var parentFolderId: FolderId = null;
         if (parentFolderIdOrName !== null) {
             parentFolderId = <FolderId>parentFolderIdOrName;
@@ -972,7 +971,7 @@ export class Item extends ServiceObject {
      *
      * @param   {ConflictResolutionMode}   conflictResolutionMode   The conflict resolution mode.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<void>;
     /**
      * Applies the local changes that have been made to this item. Calling this method results in at least one call to EWS.
      * Mutliple calls to EWS might be made if attachments have been added or removed.
@@ -980,8 +979,8 @@ export class Item extends ServiceObject {
      * @param   {ConflictResolutionMode}   conflictResolutionMode   The conflict resolution mode.
      * @param   {boolean}   suppressReadReceipts     Whether to suppress read receipts
      */
-    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): IPromise<void>;
-    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean = false): IPromise<void> {
+    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean): Promise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, suppressReadReceipts: boolean = false): Promise<void> {
         return <any>this.InternalUpdate(
             null /* parentFolder */,
             conflictResolutionMode,

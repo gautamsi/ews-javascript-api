@@ -1,7 +1,7 @@
 ﻿import { GetNonIndexableItemStatisticsResponse } from "../Responses/GetNonIndexableItemStatisticsResponse";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";
@@ -37,9 +37,9 @@ export class GetNonIndexableItemStatisticsRequest extends SimpleServiceRequestBa
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetNonIndexableItemStatisticsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetNonIndexableItemStatisticsResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetNonIndexableItemStatisticsResponse> {
+    Execute(): Promise<GetNonIndexableItemStatisticsResponse> {
         return this.InternalExecute().then((serviceResponse: GetNonIndexableItemStatisticsResponse) => {
             return serviceResponse;
         });

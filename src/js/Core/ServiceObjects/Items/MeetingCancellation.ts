@@ -4,7 +4,7 @@ import {DateTime} from "../../../DateTime";
 import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {Item} from "../Items/Item";
 import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
 import {ItemId} from "../../../ComplexProperties/ItemId";
@@ -80,9 +80,9 @@ export class MeetingCancellation extends MeetingMessage {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting cancellation message.
      * @param   {ItemId}            id            The Id of the meeting cancellation message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
+     * @return  {Promise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingCancellation>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingCancellation>;
     /**
      * Binds to an existing meeting cancellation message and loads its first class properties.
      * Calling this method results in a call to EWS.
@@ -90,10 +90,10 @@ export class MeetingCancellation extends MeetingMessage {
      * @param   {ExchangeService}   service       The service to use to bind to the meeting cancellation message.
      * @param   {ItemId}            id            The Id of the meeting cancellation message to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
+     * @return  {Promise<MeetingCancellation>}   A MeetingCancellation instance representing the meeting cancellation message corresponding to the specified Id   :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingCancellation>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<MeetingCancellation> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<MeetingCancellation>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<MeetingCancellation> {
         return service.BindToItem<MeetingCancellation>(id, propertySet, MeetingCancellation);
     }
 
@@ -127,9 +127,9 @@ export class MeetingCancellation extends MeetingMessage {
     /**
      * Removes the meeting associated with the cancellation message from the user's calendar.
      *
-     * @return  {IPromise<CalendarActionResults>}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     * @return  {Promise<CalendarActionResults>}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    RemoveMeetingFromCalendar(): IPromise<CalendarActionResults> {
+    RemoveMeetingFromCalendar(): Promise<CalendarActionResults> {
         let removeFromCalendar = new RemoveFromCalendar(this);
 
         return removeFromCalendar.InternalCreate(null, null).then((items: Item[]) => {

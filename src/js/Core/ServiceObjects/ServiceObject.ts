@@ -1,28 +1,28 @@
-﻿import {AffectedTaskOccurrence} from "../../Enumerations/AffectedTaskOccurrence";
-import {DeleteMode} from "../../Enumerations/DeleteMode";
-import {EwsLogging} from "../EwsLogging";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {ExtendedPropertyCollection} from "../../ComplexProperties/ExtendedPropertyCollection";
-import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {InvalidOperationException} from "../../Exceptions/InvalidOperationException";
-import {IOutParam} from "../../Interfaces/IOutParam";
-import {IPromise} from "../../Interfaces";
-import {NotSupportedException} from "../../Exceptions/NotSupportedException";
-import {PropertyBag} from "../PropertyBag";
-import {PropertyDefinition} from "../../PropertyDefinitions/PropertyDefinition";
-import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
-import {PropertySet} from "../PropertySet";
-import {SendCancellationsMode} from "../../Enumerations/SendCancellationsMode";
-import {ServiceId} from "../../ComplexProperties/ServiceId";
-import {ServiceObjectChangedDelegate} from "../../Misc/DelegateTypes";
-import {ServiceObjectPropertyException} from "../../Exceptions/ServiceObjectPropertyException";
-import {ServiceObjectSchema} from "./Schemas/ServiceObjectSchema";
-import {StringHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {XmlElementNames} from "../../Core/XmlElementNames";
+﻿import { AffectedTaskOccurrence } from "../../Enumerations/AffectedTaskOccurrence";
+import { DeleteMode } from "../../Enumerations/DeleteMode";
+import { EwsLogging } from "../EwsLogging";
+import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { ExtendedPropertyCollection } from "../../ComplexProperties/ExtendedPropertyCollection";
+import { ExtendedPropertyDefinition } from "../../PropertyDefinitions/ExtendedPropertyDefinition";
+import { InvalidOperationException } from "../../Exceptions/InvalidOperationException";
+import { IOutParam } from "../../Interfaces/IOutParam";
+import { NotSupportedException } from "../../Exceptions/NotSupportedException";
+import { Promise } from "../../Promise";
+import { PropertyBag } from "../PropertyBag";
+import { PropertyDefinition } from "../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionBase } from "../../PropertyDefinitions/PropertyDefinitionBase";
+import { PropertySet } from "../PropertySet";
+import { SendCancellationsMode } from "../../Enumerations/SendCancellationsMode";
+import { ServiceId } from "../../ComplexProperties/ServiceId";
+import { ServiceObjectChangedDelegate } from "../../Misc/DelegateTypes";
+import { ServiceObjectPropertyException } from "../../Exceptions/ServiceObjectPropertyException";
+import { ServiceObjectSchema } from "./Schemas/ServiceObjectSchema";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../../Core/XmlElementNames";
 
 /**
  * Represents the base abstract class for all item and folder types.
@@ -275,27 +275,27 @@ export abstract class ServiceObject {
      * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    abstract InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void>;
+    abstract InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void>;
 
     /**
      * @internal Loads the specified set of properties on the object.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    abstract InternalLoad(propertySet: PropertySet): IPromise<void>;
+    abstract InternalLoad(propertySet: PropertySet): Promise<void>;
 
     /**
      * Loads the first class properties. Calling this method results in a call to EWS.
      */
-    Load(): IPromise<void>;
+    Load(): Promise<void>;
 
     /**
      * Loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    Load(propertySet?: PropertySet): IPromise<void>;
-    Load(propertySet?: PropertySet): IPromise<void> {
+    Load(propertySet?: PropertySet): Promise<void>;
+    Load(propertySet?: PropertySet): Promise<void> {
         return this.InternalLoad(propertySet || PropertySet.FirstClassProperties);
     }
 

@@ -1,16 +1,15 @@
-﻿import {ArrayHelper, StringHelper, xml2JsObject, DOMParser} from "../../ExtensionMethods";
-import {EwsLogging} from "../EwsLogging";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {Exception} from "../../Exceptions/Exception";
-import {ExchangeService} from "../ExchangeService";
-import {HangingRequestDisconnectEventArgs} from "./HangingRequestDisconnectEventArgs";
-import {HangingRequestDisconnectReason} from "../../Enumerations/HangingRequestDisconnectReason";
-import {IPromise, IXHROptions} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory"
+﻿import { ArrayHelper, StringHelper, xml2JsObject, DOMParser } from "../../ExtensionMethods";
+import { EwsLogging } from "../EwsLogging";
+import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
+import { Exception } from "../../Exceptions/Exception";
+import { ExchangeService } from "../ExchangeService";
+import { HangingRequestDisconnectEventArgs } from "./HangingRequestDisconnectEventArgs";
+import { HangingRequestDisconnectReason } from "../../Enumerations/HangingRequestDisconnectReason";
+import { IXHROptions, IXHRApi, IXHRProgress } from "../../Interfaces";
+import { Promise } from "../../Promise";
+import { XHRFactory } from "../../XHRFactory";
 
-import {FetchStream} from "fetch";
-
-import {ServiceRequestBase} from "./ServiceRequestBase";
+import { ServiceRequestBase } from "./ServiceRequestBase";
 /**
  * @internal Represents an abstract, hanging service request.
  */
@@ -32,10 +31,12 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
      * ews-javascript-api: Response Headers delegate    
      */
     OnResponseHeader: Function;
-    /**
-     * ews-javascript-api:  FetchStream object
-     */
-    private stream: FetchStream;
+
+    // /**
+    //  * ews-javascript-api:  FetchStream object
+    //  */
+    // private stream: FetchStream;
+    private xhrApi: IXHRApi;
 
 	/**
 	 * @internal Initializes a new instance of the **HangingServiceRequestBase** class.
@@ -48,6 +49,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         super(service);
         this.responseHandler = handler;
         this.heartbeatFrequencyMilliseconds = heartbeatFrequency;
+        this.xhrApi = XHRFactory.XHRApi;
     }
 
     /**
@@ -63,7 +65,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     Disconnect(reason: HangingRequestDisconnectReason, exception: Exception): void;
     Disconnect(reason: HangingRequestDisconnectReason = HangingRequestDisconnectReason.UserInitiated, exception: Exception = null): void {
         if (this.IsConnected) {
-            this.stream.destroy();
+            this.xhrApi.disconnect();
             this.InternalOnDisconnect(reason, exception);
         }
     }
@@ -76,63 +78,84 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     /**
 	 * @internal Exectures the request.
 	 */
-    InternalExecute(): IPromise<void> {
+    InternalExecute(): Promise<void> {
         //lock (this.lockObject){
         //this.response = this.ValidateAndEmitRequest(this.BuildXHR());
 
-        return <any>PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return new Promise<void>((successDelegate, errorDelegate) => {
             var request = this.BuildXHR();
-            request["payload"] = request.data;
-            delete request["data"];
-            request["method"] = request.type;
-            delete request["type"];
             //this.ReadResponsePrivate(response);
-            this.ValidateAndEmitRequest(request).then((xhrResponse: any) => {
+            this.ValidateAndEmitRequest(request, (progress: IXHRProgress) => {
+
+                switch (progress.type) {
+                    case "data":
+                        this.InternalOnConnect();
+
+                        progress.data = progress.data.trim();
+                        this.chunk += progress.data;
+                        let _continue = false;
+                        let xml = '';
+                        if (!StringHelper.IsNullOrEmpty(this.chunk)) {
+                            //"<Envelope>indexOf</Envelope>"
+                            let start = this.chunk.indexOf("<Envelope");
+                            let end = this.chunk.indexOf("</Envelope>")
+                            if (start >= 0 && end > 0) {
+                                xml = this.chunk.substr(start, end - start + 11)
+                                this.chunk = this.chunk.substr(end + 11);
+                                _continue = true;
+                            }
+                        }
+                        if (_continue) {
+                            var dom = new DOMParser();
+                            var xml2js = new xml2JsObject();
+                            let req;
+                            try {
+                                //req = xml2js.parseXMLNode(dom.parseFromString(xml, "text/xml").documentElement, true);
+                                //EwsLogging.DebugLog(req, true);
+                                EwsLogging.DebugLog(xml, true);
+                                var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xml, this.Service);
+                                EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
+                                //var serviceResponse = 
+                                this.ParseResponses(ewsXmlReader.JsObject);
+
+                                // if (successDelegate)
+                                //     successDelegate(serviceResponse || xml);
+                                // else {
+                                //     if (errorDelegate)
+                                //         errorDelegate(xml);
+                                // }
+                            } catch (error) {
+                                if (errorDelegate)
+                                    errorDelegate(error);
+                            }
+
+                        }
+                        break;
+                    case "header":
+                        this.InternalOnConnect();
+                        if (this.OnResponseHeader && typeof this.OnResponseHeader === 'function') {
+                            this.OnResponseHeader(progress.headers);
+                        }
+                        //console.log(meta);
+                        break;
+                    case "end":
+                        this.IsConnected = false;
+                        break;
+                    case "error":
+                        this.Disconnect(HangingRequestDisconnectReason.Exception, <any>progress.error);
+                        if (errorDelegate) {
+                            errorDelegate(progress.error);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }).then((xhrResponse: any) => { //<any> used for progress delegate, not in standard promise
                 //console.log(xhrResponse);
+                successDelegate(void 0);
             }, (resperr: XMLHttpRequest) => {
                 EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
                 if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
-            }, (progress: string) => {
-                this.InternalOnConnect();
-                progress = progress.trim();
-                this.chunk += progress;
-                let _continue = false;
-                let xml = '';
-                if (!StringHelper.IsNullOrEmpty(this.chunk)) {
-                    //"<Envelope>indexOf</Envelope>"
-                    let start = this.chunk.indexOf("<Envelope");
-                    let end = this.chunk.indexOf("</Envelope>")
-                    if (start >= 0 && end > 0) {
-                        xml = this.chunk.substr(start, end - start + 11)
-                        this.chunk = this.chunk.substr(end + 11);
-                        _continue = true;
-                    }
-                }
-                if (_continue) {
-                    var dom = new DOMParser();
-                    var xml2js = new xml2JsObject();
-                    let req;
-                    try {
-                        //req = xml2js.parseXMLNode(dom.parseFromString(xml, "text/xml").documentElement, true);
-                        //EwsLogging.DebugLog(req, true);
-                        EwsLogging.DebugLog(xml, true);
-                        var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xml, this.Service);
-                        EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
-                        //var serviceResponse = 
-                        this.ParseResponses(ewsXmlReader.JsObject);
-
-                        // if (successDelegate)
-                        //     successDelegate(serviceResponse || xml);
-                        // else {
-                        //     if (errorDelegate)
-                        //         errorDelegate(xml);
-                        // }
-                    } catch (error) {
-                        if (errorDelegate)
-                            errorDelegate(error);
-                    }
-
-                }
             });
         });
     }
@@ -311,9 +334,9 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
      * Validates request parameters, and emits the request to the server.
      *
      * @param   {IXHROptions}               request   The request.
-     * @return  {IPromise<XMLHttpRequest>}  The response returned by the server.
+     * @return  {Promise<XMLHttpRequest>}   The response returned by the server.
      */
-    protected ValidateAndEmitRequest(request: IXHROptions): IPromise<any> {
+    protected ValidateAndEmitRequest(request: IXHROptions, progressDelegate?: (progressData: IXHRProgress) => void): Promise<any> {
         this.Validate();
 
         //var request = this.BuildXHR();
@@ -345,32 +368,33 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
-            this.stream = new FetchStream(this.Service.Url.ToString(), request);
+        return this.xhrApi.xhrStream(request, progressDelegate);
+        // return new Promise((successDelegate, errorDelegate) => {
+        //     this.stream = new FetchStream(this.Service.Url.ToString(), request);
 
-            this.stream.on("data", (chunk) => {
-                //console.log(chunk.toString());
-                progressDelegate(chunk.toString());
-            });
+        //     this.stream.on("data", (chunk) => {
+        //         //console.log(chunk.toString());
+        //         progressDelegate(chunk.toString());
+        //     });
 
-            this.stream.on("meta", (meta) => {
-                if (this.OnResponseHeader && typeof this.OnResponseHeader === 'function') {
-                    this.OnResponseHeader(meta["responseHeaders"])
-                }
-                //console.log(meta);
-            });
+        //     this.stream.on("meta", (meta) => {
+        //         if (this.OnResponseHeader && typeof this.OnResponseHeader === 'function') {
+        //             this.OnResponseHeader(meta["responseHeaders"])
+        //         }
+        //         //console.log(meta);
+        //     });
 
-            this.stream.on("end", (data) => {
-                this.IsConnected = false;
-            });
+        //     this.stream.on("end", (data) => {
+        //         this.IsConnected = false;
+        //     });
 
-            this.stream.on('error', (error) => {
-                this.Disconnect(HangingRequestDisconnectReason.Exception, error);
-                if (errorDelegate) {
-                    errorDelegate(error);
-                }
-            });
-        });
+        //     this.stream.on('error', (error) => {
+        //         this.Disconnect(HangingRequestDisconnectReason.Exception, <any>error);
+        //         if (errorDelegate) {
+        //             errorDelegate(error);
+        //         }
+        //     });
+        // });
 
         //try
         //{
@@ -422,7 +446,7 @@ export interface HangingRequestDisconnectHandler {
      *
      * @param   {any}                                   sender   The object invoking the delegate.
      * @param   {HangingRequestDisconnectEventArgs}     args     Event data.
-     */    
+     */
     (sender: any, args: HangingRequestDisconnectEventArgs): void;
 }
 
@@ -434,6 +458,6 @@ export interface HandleResponseObject {
      * Callback delegate to handle asynchronous responses.
      *
      * @param   {any}   response   Response received from the server
-     */    
+     */
     (response: any): void;
 }

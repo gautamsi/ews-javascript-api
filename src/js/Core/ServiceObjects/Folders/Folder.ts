@@ -1,39 +1,39 @@
-﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {EffectiveRights} from "../../../Enumerations/EffectiveRights";
-import {EwsLogging} from "../../EwsLogging";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
-import {ExtendedPropertyDefinition} from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {FindFoldersResults} from "../../../Search/FindFoldersResults";
-import {FindItemResponse} from "../../Responses/FindItemResponse";
-import {FindItemsResults} from "../../../Search/FindItemsResults";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {FolderPermissionCollection} from "../../../ComplexProperties/FolderPermissionCollection";
-import {FolderView} from "../../../Search/FolderView";
-import {GroupedFindItemsResults} from "../../../Search/GroupedFindItemsResults";
-import {Grouping} from "../../../Search/Grouping";
-import {IPromise} from "../../../Interfaces";
-import {ItemView} from "../../../Search/ItemView";
-import {Item} from "../Items/Item";
-import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
-import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {PropertySet} from "../../PropertySet";
-import {Schemas} from "../Schemas/Schemas";
-import {SearchFilter} from "../../../Search/Filters/SearchFilter";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {ServiceErrorHandling} from "../../../Enumerations/ServiceErrorHandling";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {ServiceResponseCollection} from "../../Responses/ServiceResponseCollection";
-import {ServiceResponse} from "../../Responses/ServiceResponse";
-import {ViewBase} from "../../../Search/ViewBase";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {XmlElementNames} from "../../XmlElementNames";
+﻿import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
+import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { EffectiveRights } from "../../../Enumerations/EffectiveRights";
+import { EwsLogging } from "../../EwsLogging";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ExtendedPropertyCollection } from "../../../ComplexProperties/ExtendedPropertyCollection";
+import { ExtendedPropertyDefinition } from "../../../PropertyDefinitions/ExtendedPropertyDefinition";
+import { FindFoldersResults } from "../../../Search/FindFoldersResults";
+import { FindItemResponse } from "../../Responses/FindItemResponse";
+import { FindItemsResults } from "../../../Search/FindItemsResults";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { FolderPermissionCollection } from "../../../ComplexProperties/FolderPermissionCollection";
+import { FolderView } from "../../../Search/FolderView";
+import { GroupedFindItemsResults } from "../../../Search/GroupedFindItemsResults";
+import { Grouping } from "../../../Search/Grouping";
+import { Item } from "../Items/Item";
+import { ItemView } from "../../../Search/ItemView";
+import { ManagedFolderInformation } from "../../../ComplexProperties/ManagedFolderInformation";
+import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
+import { Promise } from "../../../Promise";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { SearchFilter } from "../../../Search/Filters/SearchFilter";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { ServiceErrorHandling } from "../../../Enumerations/ServiceErrorHandling";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { ServiceResponse } from "../../Responses/ServiceResponse";
+import { ServiceResponseCollection } from "../../Responses/ServiceResponseCollection";
+import { ViewBase } from "../../../Search/ViewBase";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObject} from "../ServiceObject";
+import { ServiceObject } from "../ServiceObject";
 export class Folder extends ServiceObject {
 
     /**
@@ -153,18 +153,18 @@ export class Folder extends ServiceObject {
      *
      * @param   {ExchangeService}   service       The service to use to bind to the folder.
      * @param   {FolderId}          id            The Id of the folder to bind to.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<Folder>;
+    static Bind(service: ExchangeService, id: FolderId): Promise<Folder>;
     /**
      * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the folder.
      * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<Folder>;
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<Folder>;
     /**
      * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
@@ -172,9 +172,9 @@ export class Folder extends ServiceObject {
      * @param   {ExchangeService}   service       The service to use to bind to the folder.
      * @param   {FolderId}          id            The Id of the folder to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<Folder>;
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<Folder>;
     /**
      * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
@@ -182,10 +182,10 @@ export class Folder extends ServiceObject {
      * @param   {ExchangeService}       service       The service to use to bind to the folder.
      * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
      * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<Folder>;
-    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Folder> {
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<Folder>;
+    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Folder> {
         if (idOrName instanceof FolderId) {
             return service.BindToFolder(idOrName, propertySet);
         }
@@ -200,17 +200,17 @@ export class Folder extends ServiceObject {
      * Copies this folder into the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to copy this folder.
-     * @return  {IPromise<Folder>}      A Folder representing the copy of this folder :Promise.
+     * @return  {Promise<Folder>}      A Folder representing the copy of this folder :Promise.
      */
-    Copy(destinationFolderName: WellKnownFolderName): IPromise<Folder>;
+    Copy(destinationFolderName: WellKnownFolderName): Promise<Folder>;
     /**
      * Copies this folder into a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId    The Id of the folder in which to copy this folder.
-     * @return  {IPromise<Folder>}                  A Folder representing the copy of this folder :Promise.
+     * @return  {Promise<Folder>}                  A Folder representing the copy of this folder :Promise.
      */
-    Copy(destinationFolderId: FolderId): IPromise<Folder>;
-    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Folder> {
+    Copy(destinationFolderId: FolderId): Promise<Folder>;
+    Copy(destinationFolderIdOrName: FolderId | WellKnownFolderName): Promise<Folder> {
         this.ThrowIfThisIsNew();
         //EwsUtilities.ValidateParam(destinationFolderId, "destinationFolderId");
 
@@ -230,7 +230,7 @@ export class Folder extends ServiceObject {
      *
      * @param   {DeleteMode}   deleteMode   Deletion mode.
      */
-    Delete(deleteMode: DeleteMode): IPromise<void> { return this.InternalDelete(deleteMode, null, null); }
+    Delete(deleteMode: DeleteMode): Promise<void> { return this.InternalDelete(deleteMode, null, null); }
 
     /**
      * Empties the folder. Calling this method results in a call to EWS.
@@ -238,7 +238,7 @@ export class Folder extends ServiceObject {
      * @param   {DeleteMode}    deleteMode         The deletion mode.
      * @param   {boolean}       deleteSubFolders   Indicates whether sub-folders should also be deleted.
      */
-    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): IPromise<void> {
+    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): Promise<void> {
         this.ThrowIfThisIsNew();
         return this.Service.EmptyFolder(
             this.Id,
@@ -250,18 +250,18 @@ export class Folder extends ServiceObject {
      * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderView}   view           The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
      */
-    FindFolders(view: FolderView): IPromise<FindFoldersResults>;
+    FindFolders(view: FolderView): Promise<FindFoldersResults>;
     /**
      * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
      *
      * @param   {SearchFilter}      searchFilter    The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {FolderView}        view            The view controlling the number of folders returned.
-     * @return  {IPromise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
      */
-    FindFolders(searchFilter: SearchFilter, view: FolderView): IPromise<FindFoldersResults>;
-    FindFolders(viewOrSearchFilter: FolderView | SearchFilter, view?: FolderView): IPromise<FindFoldersResults> {
+    FindFolders(searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
+    FindFolders(viewOrSearchFilter: FolderView | SearchFilter, view?: FolderView): Promise<FindFoldersResults> {
         this.ThrowIfThisIsNew();
         //todo: better argument check with ewsutilities
         var argsLength = arguments.length;
@@ -287,57 +287,57 @@ export class Folder extends ServiceObject {
      * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
      */
-    FindItems(view: ItemView): IPromise<FindItemsResults<Item>>;
+    FindItems(view: ItemView): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {ItemView}      view           The view controlling the number of items returned.
      * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
      */
-    FindItems(view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {string}    queryString   query string to be used for indexed search
      * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
      */
-    FindItems(queryString: string, view: ItemView): IPromise<FindItemsResults<Item>>;
+    FindItems(queryString: string, view: ItemView): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ItemView}      view          The view controlling the number of items returned.
-     * @return  {IPromise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
      */
-    FindItems(searchFilter: SearchFilter, view: ItemView): IPromise<FindItemsResults<Item>>;
+    FindItems(searchFilter: SearchFilter, view: ItemView): Promise<FindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {string}        queryString    Query string to be used for indexed search
      * @param   {ItemView}      view           The view controlling the number of items returned.
      * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
      */
-    FindItems(queryString: string, view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(queryString: string, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
     /**
      * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
      *
      * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ItemView}      view           The view controlling the number of items returned.
      * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {IPromise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
      */
-    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): IPromise<GroupedFindItemsResults<Item>>;
+    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
 
     FindItems(
         viewQueryStringOrSearchFilter: string | ItemView | SearchFilter,
         viewOrGroupBy?: ItemView | Grouping,
         groupBy?: Grouping
-    ): IPromise<FindItemsResults<Item> | GroupedFindItemsResults<Item>> {
+    ): Promise<FindItemsResults<Item> | GroupedFindItemsResults<Item>> {
 
         var argsLength = arguments.length;
         if (argsLength < 1 && argsLength > 3) {
@@ -471,7 +471,7 @@ export class Folder extends ServiceObject {
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode?: SendCancellationsMode, affectedTaskOccurrences?: AffectedTaskOccurrence): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode?: SendCancellationsMode, affectedTaskOccurrences?: AffectedTaskOccurrence): Promise<void> {
         this.ThrowIfThisIsNew();
         return this.Service.DeleteFolder(this.Id, deleteMode);
     }
@@ -482,23 +482,23 @@ export class Folder extends ServiceObject {
      * @param   {string}    queryString   Query string to be used for indexed search
      * @param   {ViewBase}  view          The view controlling the number of items returned.
      * @param   {Grouping}  groupBy       The group by.
-     * @return  {IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>}      FindItems response collection :Promise.
+     * @return  {Promise<ServiceResponseCollection<FindItemResponse<TItem>>>}      FindItems response collection :Promise.
      */
-    InternalFindItems<TItem extends Item>(queryString: string, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    InternalFindItems<TItem extends Item>(queryString: string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     /**
      * @internal Find items.
      *
      * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
      * @param   {ViewBase}      view          The view controlling the number of items returned.
      * @param   {Grouping}      groupBy       The group by.
-     * @return  {IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>}      FindItems response collection :Promise.
+     * @return  {Promise<ServiceResponseCollection<FindItemResponse<TItem>>>}      FindItems response collection :Promise.
      */
-    InternalFindItems<TItem extends Item>(searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    InternalFindItems<TItem extends Item>(searchFilter: SearchFilter, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
     /**
      * ### ~~*shim used internally to minimize code flow logic from calling functions*~~
     */
-    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>>;
-    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): IPromise<ServiceResponseCollection<FindItemResponse<TItem>>> {
+    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>> {
         this.ThrowIfThisIsNew();
         var searchFilter: SearchFilter = null;
         var queryString = null;
@@ -523,7 +523,7 @@ export class Folder extends ServiceObject {
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         this.ThrowIfThisIsNew();
         return this.Service.LoadPropertiesForFolder(this, propertySet);
     }
@@ -533,7 +533,7 @@ export class Folder extends ServiceObject {
      *
      * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
      */
-    MarkAllItemsAsRead(suppressReadReceipts: boolean): IPromise<void> {
+    MarkAllItemsAsRead(suppressReadReceipts: boolean): Promise<void> {
         this.ThrowIfThisIsNew();
         return this.Service.MarkAllItemsAsRead(
             this.Id,
@@ -546,7 +546,7 @@ export class Folder extends ServiceObject {
      *
      * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
      */
-    MarkAllItemsAsUnread(suppressReadReceipts: boolean): IPromise<void> {
+    MarkAllItemsAsUnread(suppressReadReceipts: boolean): Promise<void> {
         this.ThrowIfThisIsNew();
         return this.Service.MarkAllItemsAsRead(
             this.Id,
@@ -558,17 +558,17 @@ export class Folder extends ServiceObject {
      * Moves this folder to the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to move this folder.
-     * @return  {IPromise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
      */
-    Move(destinationFolderName: WellKnownFolderName): IPromise<Folder>;
+    Move(destinationFolderName: WellKnownFolderName): Promise<Folder>;
     /**
      * Moves this folder to a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to move this folder.
-     * @return  {IPromise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
      */
-    Move(destinationFolderId: FolderId): IPromise<Folder>;
-    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): IPromise<Folder> {
+    Move(destinationFolderId: FolderId): Promise<Folder>;
+    Move(destinationFolderIdOrName: FolderId | WellKnownFolderName): Promise<Folder> {
         this.ThrowIfThisIsNew();
         if (typeof destinationFolderIdOrName === 'undefined') {
             EwsLogging.Assert(false, "Folder.Move", "unknown paramete type");
@@ -596,14 +596,14 @@ export class Folder extends ServiceObject {
      *
      * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this folder.
      */
-    Save(parentFolderName: WellKnownFolderName): IPromise<void>;
+    Save(parentFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Saves this folder in a specific folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this folder.
      */
-    Save(parentFolderId: FolderId): IPromise<void>;
-    Save(parentFolderIdOrname: FolderId | WellKnownFolderName): IPromise<void> {
+    Save(parentFolderId: FolderId): Promise<void>;
+    Save(parentFolderIdOrname: FolderId | WellKnownFolderName): Promise<void> {
         this.ThrowIfThisIsNotNew();
         if (typeof parentFolderIdOrname === 'undefined') {
             EwsLogging.Assert(false, "Folder.Save", "unknown paramete type");
@@ -635,7 +635,7 @@ export class Folder extends ServiceObject {
      * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
      *
      */
-    Update(): IPromise<void> {
+    Update(): Promise<void> {
         if (this.IsDirty) {
             if (this.PropertyBag.GetIsUpdateCallNecessary()) {
                 return this.Service.UpdateFolder(this);
@@ -655,5 +655,5 @@ export class Folder extends ServiceObject {
         if (this.PropertyBag.Contains(Schemas.FolderSchema.Permissions)) {
             this.Permissions.Validate();
         }
-    }    
+    }
 }

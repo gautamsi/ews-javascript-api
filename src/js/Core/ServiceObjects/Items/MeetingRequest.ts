@@ -13,7 +13,6 @@ import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { ICalendarActionProvider } from "../../../Interfaces/ICalendarActionProvider";
-import { IPromise } from "../../../Interfaces";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemCollection } from "../../../ComplexProperties/ItemCollection";
 import { ItemId } from "../../../ComplexProperties/ItemId";
@@ -22,6 +21,7 @@ import { MeetingRequestType } from "../../../Enumerations/MeetingRequestType";
 import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
 import { OccurrenceInfo } from "../../../ComplexProperties/OccurrenceInfo";
 import { OccurrenceInfoCollection } from "../../../ComplexProperties/OccurrenceInfoCollection";
+import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { Schemas } from "../Schemas/Schemas";
@@ -349,9 +349,9 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      * Accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    Accept(sendResponse: boolean): IPromise<CalendarActionResults> {
+    Accept(sendResponse: boolean): Promise<CalendarActionResults> {
         return this.InternalAccept(false, sendResponse);
     }
 
@@ -359,9 +359,9 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      * Tentatively accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults> { throw new Error("MeetingRequest.ts - AcceptTentatively : Not implemented."); }
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults> { throw new Error("MeetingRequest.ts - AcceptTentatively : Not implemented."); }
 
     /**
      * Binds to an existing meeting request and loads the specified set of properties. Calling this method results in a call to EWS.
@@ -369,18 +369,18 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      * @param   {ExchangeService}   service       The service to use to bind to the meeting request.
      * @param   {ItemId}            id            The Id of the meeting request to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
+     * @return  {Promise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<MeetingRequest>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<MeetingRequest>;
     /**
      * Binds to an existing meeting request and loads its first class properties.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the meeting request.
      * @param   {ItemId}            id            The Id of the meeting request to bind to.
-     * @return  {IPromise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
+     * @return  {Promise<MeetingRequest>}        A MeetingRequest instance representing the meeting request corresponding to the specified Id  :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<MeetingRequest>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<MeetingRequest> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<MeetingRequest>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<MeetingRequest> {
         return service.BindToItem<MeetingRequest>(id, propertySet, MeetingRequest);
     }
 
@@ -407,9 +407,9 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      * Declines the meeting invitation. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    Decline(sendResponse: boolean): IPromise<CalendarActionResults> {
+    Decline(sendResponse: boolean): Promise<CalendarActionResults> {
         let decline: DeclineMeetingInvitationMessage = this.CreateDeclineMessage();
 
         if (sendResponse) {
@@ -452,9 +452,9 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      *
      * @param   {boolean}   tentative      True if tentative accept.
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
+     * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    InternalAccept(tentative: boolean, sendResponse: boolean): IPromise<CalendarActionResults> {
+    InternalAccept(tentative: boolean, sendResponse: boolean): Promise<CalendarActionResults> {
         let accept: AcceptMeetingInvitationMessage = this.CreateAcceptMessage(tentative);
 
         if (sendResponse) {

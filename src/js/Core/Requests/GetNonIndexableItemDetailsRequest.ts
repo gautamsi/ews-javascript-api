@@ -2,7 +2,7 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetNonIndexableItemDetailsResponse } from "../Responses/GetNonIndexableItemDetailsResponse";
-import { IPromise } from "../../Interfaces";
+import { Promise } from "../../Promise";
 import { SearchPageDirection } from "../../Enumerations/SearchPageDirection";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
@@ -55,9 +55,9 @@ export class GetNonIndexableItemDetailsRequest extends SimpleServiceRequestBase 
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetNonIndexableItemDetailsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetNonIndexableItemDetailsResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetNonIndexableItemDetailsResponse> {
+    Execute(): Promise<GetNonIndexableItemDetailsResponse> {
         return this.InternalExecute().then((serviceResponse: GetNonIndexableItemDetailsResponse) => {
             return serviceResponse;
         });

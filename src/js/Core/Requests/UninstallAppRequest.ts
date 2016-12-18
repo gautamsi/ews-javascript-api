@@ -1,7 +1,7 @@
 ﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {UninstallAppResponse} from "../Responses/UninstallAppResponse";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -33,9 +33,9 @@ export class UninstallAppRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<UninstallAppResponse>}      Service response  :Promise.
+     * @return  {Promise<UninstallAppResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<UninstallAppResponse> { 
+    Execute(): Promise<UninstallAppResponse> { 
 		return this.InternalExecute().then((serviceResponse: UninstallAppResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

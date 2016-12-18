@@ -4,11 +4,11 @@ import { DateTime } from "../../../DateTime";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
-import { IPromise } from "../../../Interfaces";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { MessageBody } from "../../../ComplexProperties/MessageBody";
 import { PostReply } from '../ResponseObjects/PostReply';
+import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { ResponseMessage } from "../ResponseObjects/ResponseMessage";
 import { ResponseMessageType } from "../../../Enumerations/ResponseMessageType";
@@ -116,19 +116,19 @@ export class PostItem extends Item {
      * @param   {ExchangeService}   service       The service to use to bind to the post item.
      * @param   {ItemId}            id            The Id of the post item to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
+     * @return  {Promise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<PostItem>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<PostItem>;
     /**
      * Binds to an existing post item and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}   service       The service to use to bind to the post item.
      * @param   {ItemId}            id            The Id of the post item to bind to.
-     * @return  {IPromise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
+     * @return  {Promise<PostItem>}              An PostItem instance representing the post item corresponding to the specified Id  :Promise.
      */
-    public static Bind(service: ExchangeService, id: ItemId): IPromise<PostItem>;
-    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<PostItem> {
+    public static Bind(service: ExchangeService, id: ItemId): Promise<PostItem>;
+    public static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<PostItem> {
         return service.BindToItem<PostItem>(id, propertySet, PostItem);
     }
 
@@ -173,18 +173,18 @@ export class PostItem extends Item {
      *
      * @param   {MessageBody}           bodyPrefix     The prefix to prepend to the original body of the post item.
      * @param   {...EmailAddress[]}     toRecipients   The recipients to forward the post item to.
-     * @return  {IPromise<void>}        :Promise.
+     * @return  {Promise<void>}        :Promise.
      */
-    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): IPromise<void>;
+    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): Promise<void>;
     /**
      * Forwards the post item. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}       bodyPrefix     The prefix to prepend to the original body of the post item.
      * @param   {EmailAddress[]}    toRecipients   The recipients to forward the post item to.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void>;
-    Forward(bodyPrefix: MessageBody, _toRecipients: EmailAddress[] | EmailAddress): IPromise<void> {
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void>;
+    Forward(bodyPrefix: MessageBody, _toRecipients: EmailAddress[] | EmailAddress): Promise<void> {
         let toRecipients: EmailAddress[] = [];
         if (arguments.length <= 2) {
             if (ArrayHelper.isArray(_toRecipients)) {
@@ -239,9 +239,9 @@ export class PostItem extends Item {
      * Posts a reply to this post item. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}   bodyPrefix   Body prefix.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    PostReply(bodyPrefix: MessageBody): IPromise<void> {
+    PostReply(bodyPrefix: MessageBody): Promise<void> {
         let postReply: PostReply = this.CreatePostReply();
 
         postReply.BodyPrefix = bodyPrefix;
@@ -254,9 +254,9 @@ export class PostItem extends Item {
      *
      * @param   {MessageBody}   bodyPrefix   The prefix to prepend to the original body of the post item.
      * @param   {boolean}       replyAll     Indicates whether the reply should be sent to everyone involved in the thread.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void> {
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void> {
         let responseMessage: ResponseMessage = this.CreateReply(replyAll);
 
         responseMessage.BodyPrefix = bodyPrefix;

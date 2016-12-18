@@ -5,7 +5,7 @@ import { EwsUtilities } from '../../EwsUtilities';
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { FolderId } from "../../../ComplexProperties/FolderId";
 import { InvalidOperationException } from '../../../Exceptions/InvalidOperationException';
-import { IPromise } from '../../../Interfaces';
+import { Promise } from "../../../Promise";
 import { Item } from "../Items/Item";
 import { ItemId } from './../../../ComplexProperties/ItemId';
 import { MessageBody } from "../../../ComplexProperties/MessageBody";
@@ -108,9 +108,9 @@ export class PostReply extends ServiceObject {
      *
      * @param   {FolderId}              parentFolderId       The parent folder id.
      * @param   {MessageDisposition}    messageDisposition   The message disposition.
-     * @return  {IPromise<PostItem>}    Created PostItem    :Promise.
+     * @return  {Promise<PostItem>}    Created PostItem    :Promise.
      */
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<PostItem> {
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<PostItem> {
         (<ItemId>this.PropertyBag._getItem(Schemas.ResponseObjectSchema.ReferenceItemId)).Assign(this.referenceItem.Id);
 
         return this.Service.InternalCreateResponseObject(
@@ -136,9 +136,9 @@ export class PostReply extends ServiceObject {
      * @param   {DeleteMode}                deleteMode                The deletion mode.
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void> {
         throw new InvalidOperationException(Strings.DeletingThisObjectTypeNotAuthorized);
     }
 
@@ -146,33 +146,33 @@ export class PostReply extends ServiceObject {
      * @internal Loads the specified set of properties on the object.
      *
      * @param   {PropertySet}   propertySet   The properties to load.
-     * @return  {IPromise<void>}    :Promise.
+     * @return  {Promise<void>}    :Promise.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         throw new InvalidOperationException(Strings.LoadingThisObjectTypeNotSupported);
     }
 
     /**
      * Saves the post reply in the same folder as the original post item. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(): IPromise<PostItem>;
+    Save(): Promise<PostItem>;
     /**
      * Saves the post reply in the specified folder. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the post reply.
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(destinationFolderId: FolderId): IPromise<PostItem>;
+    Save(destinationFolderId: FolderId): Promise<PostItem>;
     /**
      * Saves the post reply in a specified folder. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the post reply.
-     * @return  {IPromise<PostItem>}    A PostItem representing the posted reply :Promise.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    Save(destinationFolderName: WellKnownFolderName): IPromise<PostItem>;
-    Save(destinationFolderIdOrFolderName: FolderId | WellKnownFolderName = null): IPromise<PostItem> {
+    Save(destinationFolderName: WellKnownFolderName): Promise<PostItem>;
+    Save(destinationFolderIdOrFolderName: FolderId | WellKnownFolderName = null): Promise<PostItem> {
         let destinationFolderId: FolderId = <any>destinationFolderIdOrFolderName;
         if (arguments.length > 0) {
 
