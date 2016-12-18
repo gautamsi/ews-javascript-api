@@ -29,12 +29,15 @@
     "@types/node-uuid": "0.0.28",
     "@types/q": "0.0.32",
     "base64-js": "^1.2.0",
-    "fetch": "^1.1.0",
     "moment": "^2.15.2",
     "moment-timezone": "^0.5.7",
     "node-uuid": "^1.4.7",
     "reflect-metadata": "^0.1.8",
-    "xmldom": "^0.1.22"
+    "xmldom": "^0.1.22"    
+  },
+  "optionalDependencies": {
+    "bluebird": "^3.4.6",
+    "fetch": "^1.1.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",

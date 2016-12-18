@@ -37,5 +37,3 @@ declare module 'fetch' {
     export function fetchUrl(url: string, callback: (error: Error, meta: Meta, body: string) => void): void;
     export function fetchUrl(url: string, options: fetchOptions, callback: (error: Error, meta: Meta, body: string) => void): void;
 }
-
-

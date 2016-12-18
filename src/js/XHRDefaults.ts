@@ -4,7 +4,7 @@ import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 
 /** @internal */
 export class XHRDefaults implements IXHRApi {
-	static FetchStream: new () => FetchStream = null;
+	static FetchStream: typeof FetchStream = FetchStream;
 	static fetchUrl: typeof fetchUrl = null;
 
 	private stream: FetchStream;
@@ -60,9 +60,9 @@ export class XHRDefaults implements IXHRApi {
 			headers: xhroptions.headers,
 			method: <any>xhroptions.type
 		}
-		
+
 		return new Promise((resolve, reject) => {
-			this.stream = new FetchStream(xhroptions.url, options);
+			this.stream = new XHRDefaults.FetchStream(xhroptions.url, options);
 
 			this.stream.on("data", (chunk) => {
 				//console.log(chunk.toString());
