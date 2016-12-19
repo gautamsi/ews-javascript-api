@@ -7,7 +7,7 @@ import { XmlElementNames } from "../../Core/XmlElementNames";
 import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
 import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
 export class LegacyAvailabilityTimeZone extends ComplexProperty {
-    private bias: any /*System.TimeSpan*/;
+    private bias: TimeSpan = TimeSpan.Zero;
     private standardTime: LegacyAvailabilityTimeZoneTime;
     private daylightTime: LegacyAvailabilityTimeZoneTime;
     constructor();
@@ -66,5 +66,3 @@ export class LegacyAvailabilityTimeZone extends ComplexProperty {
         this.daylightTime.WriteToXml(writer, XmlElementNames.DaylightTime);
     }
 }
-
-

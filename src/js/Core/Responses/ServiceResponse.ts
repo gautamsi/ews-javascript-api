@@ -219,7 +219,7 @@ export class ServiceResponse {
                     this.errorProperties.push(extendedPropDef);
                     break;
                 default:
-                    EwsLogging.Assert(false, "SoapFaultDetails.ParseMessageXml", "Element: " + key + " - Please report example of this operation to ews-javascript-api repo to improve SoapFault parsing");
+                    EwsLogging.Assert(false, "ServiceResponse.ParseMessageXml", "Element: " + key + " - Please report example of this operation to ews-javascript-api repo to improve SoapFault parsing");
                     break;
             }
         }

@@ -371,7 +371,7 @@ export class Folder extends ServiceObject {
         var isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
 
         //position 2 - viewOrGroupBy
-        if (argsLength >= 3) {
+        if (argsLength >= 2) {
             if (viewOrGroupBy instanceof Grouping) {
                 if (!(viewQueryStringOrSearchFilter instanceof ItemView)) {
                     throw new Error("Folder.ts - FindItems with " + argsLength + " parameters - incorrect uses of parameter at 1nd position, it must be Itemview when using Grouping at 2nd place");
