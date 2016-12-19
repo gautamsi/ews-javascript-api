@@ -45,4 +45,13 @@ export class AttendeeAvailability extends ServiceResponse {
             }
         }
     }
+
+    /**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {        
+    }
 }
