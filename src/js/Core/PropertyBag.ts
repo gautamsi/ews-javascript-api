@@ -24,7 +24,7 @@ import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {ICustomUpdateSerializer} from "../Interfaces/ICustomXmlUpdateSerializer";
 import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
 import {DictionaryWithPropertyDefitionKey, KeyValuePair} from "../AltDictionary";
-import {StringHelper, TypeSystem} from "../ExtensionMethods";
+import {ArrayHelper, StringHelper, TypeSystem} from "../ExtensionMethods";
 import {TypeContainer} from "../TypeContainer";
 
 
@@ -111,8 +111,7 @@ export class PropertyBag {
             var complexProperty = <ComplexProperty>propertyValue;
 
             if (complexProperty instanceof ComplexProperty) {
-                var onchangeIndex = complexProperty.OnChange.indexOf(this.PropertyChanged);
-                complexProperty.OnChange.splice(onchangeIndex, 1);// -= this.PropertyChanged; // counld not do c# like event -= in js
+                ArrayHelper.RemoveEntry(complexProperty.OnChange,this.PropertyChanged); // -= this.PropertyChanged; // counld not do c# like event -= in js                
             }
         }
     }
@@ -369,8 +368,7 @@ export class PropertyBag {
                 complexProperty = currentValue;
 
                 if (complexProperty instanceof ComplexProperty) {
-                    var pos = complexProperty.OnChange.indexOf(this.PropertyChanged); //cant do += or -= in javascript (hopefully in ECMA6)
-                    if (pos >= 0) complexProperty.OnChange.splice(pos, 1); //see above line comment ^
+                    ArrayHelper.RemoveEntry(complexProperty.OnChange, this.PropertyChanged);  //cant do += or -= in javascript (hopefully in ECMA6)                    
                 }
             }
 

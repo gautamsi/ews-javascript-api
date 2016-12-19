@@ -11,7 +11,7 @@ import {FolderPermissionLevel} from "../Enumerations/FolderPermissionLevel";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {LazyMember} from "../Core/LazyMember";
-import {Convert, StringHelper} from "../ExtensionMethods";
+import {ArrayHelper, Convert, StringHelper} from "../ExtensionMethods";
 import {IndexerWithEnumKey} from "../AltDictionary";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {IRefParam} from "../Interfaces/IRefParam";
@@ -21,8 +21,7 @@ export class FolderPermission extends ComplexProperty {
     get UserId(): UserId { return this.userId; }
     set UserId(value) {
         if (this.userId != null) {
-            var index = this.userId.OnChange.indexOf(this.PropertyChanged);
-            if (index >= 0) this.userId.OnChange.splice(index, 1);
+            ArrayHelper.RemoveEntry(this.userId.OnChange,this.PropertyChanged);            
         }
         this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
         if (this.userId != null) {

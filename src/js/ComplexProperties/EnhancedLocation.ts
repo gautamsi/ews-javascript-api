@@ -1,12 +1,12 @@
-﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {PersonaPostalAddress} from "./PersonaPostalAddress";
-import {StringHelper} from "../ExtensionMethods";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { ArrayHelper, StringHelper } from "../ExtensionMethods";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { PersonaPostalAddress } from "./PersonaPostalAddress";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents Enhanced Location.
  */
@@ -45,14 +45,12 @@ export class EnhancedLocation extends ComplexProperty {
     set PersonaPostalAddress(value: PersonaPostalAddress) {
         if (this.personaPostalAddress !== value) {
             if (this.personaPostalAddress !== null) {
-                //todo: implement OnChange delegate/event
-                //this.personaPostalAddress.OnChange.pop(this.PersonaPostalAddress_OnChange);
+                ArrayHelper.RemoveEntry(this.personaPostalAddress.OnChange, this.PersonaPostalAddress_OnChange);
             }
 
             this.SetFieldValue<PersonaPostalAddress>({ getValue: () => this.personaPostalAddress, setValue: (fieldValue) => { this.personaPostalAddress = fieldValue } }, value);
 
-            //todo: implement OnChange delegate/event
-            //this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
+            this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
         }
     }
 
@@ -87,8 +85,7 @@ export class EnhancedLocation extends ComplexProperty {
         this.displayName = displayName;
         this.annotation = annotation;
         this.personaPostalAddress = personaPostalAddress;
-        //todo: implement OnChange delegate/event
-        //this.personaPostalAddress.OnChange += new ComplexPropertyChangedDelegate(PersonaPostalAddress_OnChange);
+        this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
     }
 
     /**
@@ -119,8 +116,7 @@ export class EnhancedLocation extends ComplexProperty {
                 case XmlElementNames.PersonaPostalAddress:
                     this.personaPostalAddress = new PersonaPostalAddress();
                     this.personaPostalAddress.LoadFromXmlJsObject(jsObject[key], service);
-                    //todo: implement OnChange delegate/event
-                    //this.personaPostalAddress.OnChange += new ComplexPropertyChangedDelegate(PersonaPostalAddress_OnChange);
+                    this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
                     break;
                 default:
                     break;
