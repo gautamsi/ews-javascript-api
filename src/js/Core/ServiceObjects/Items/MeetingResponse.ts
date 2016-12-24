@@ -1,11 +1,10 @@
-﻿import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
-import { DateTime } from "../../../DateTime";
+﻿import { DateTime } from "../../../DateTime";
 import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
-import { Promise } from "../../../Promise";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
+import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { Schemas } from "../Schemas/Schemas";
@@ -16,7 +15,6 @@ import { MeetingMessage } from "./MeetingMessage";
 /**
  * Represents a response to a meeting request. Properties available on meeting messages are defined in the MeetingMessageSchema class.
  */
-@AttachableAttribute(true)
 export class MeetingResponse extends MeetingMessage {
 
     /**

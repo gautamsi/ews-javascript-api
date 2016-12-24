@@ -88,13 +88,15 @@ module object {
 }
 
 export module ArrayHelper {
-    export function AddRange<T>(array: Array<T>, items: Array<T>): void {
+    export function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly: boolean = false): void {
         if (Object.prototype.toString.call(array) !== "[object Array]")
             throw new Error("input obj is not an array")
         if (Object.prototype.toString.call(items) !== "[object Array]")
             throw new Error("input range is not an array")
         for (var item of items) {
-            array.push(item);
+            if (!(uniqueOnly && array.indexOf(item) >= 0)) {
+                array.push(item);
+            }
         }
     }
 

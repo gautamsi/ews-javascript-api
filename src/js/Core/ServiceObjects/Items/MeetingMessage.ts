@@ -1,21 +1,19 @@
-﻿import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {DateTime} from "../../../DateTime";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+﻿import { DateTime } from "../../../DateTime";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
 import { Promise } from "../../../Promise";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
-import {PropertySet} from "../../PropertySet";
-import {Schemas} from "../Schemas/Schemas";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {XmlElementNames} from "../../XmlElementNames";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {EmailMessage} from "./EmailMessage";
+import { EmailMessage } from "./EmailMessage";
 /**
  * Represents a meeting-related message. Properties available on meeting messages are defined in the MeetingMessageSchema class.
  */
-@AttachableAttribute(false)
 export class MeetingMessage extends EmailMessage {
 
     /**

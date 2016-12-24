@@ -1,6 +1,6 @@
-﻿import {ISelfValidate} from "../Interfaces/ISelfValidate";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
-import {StringHelper} from "../ExtensionMethods";
+﻿import { ISelfValidate } from "../Interfaces/ISelfValidate";
+import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { StringHelper } from "../ExtensionMethods";
 
 /**
  * Represents a mobile phone.
@@ -57,6 +57,7 @@ export class MobilePhone implements ISelfValidate {
 
     /**
      * Validates this instance.
+     * ISelfValidate.Validate
      */
     Validate(): void {
         if (StringHelper.IsNullOrEmpty(this.PhoneNumber)) {

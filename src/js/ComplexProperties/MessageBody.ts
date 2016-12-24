@@ -1,12 +1,12 @@
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {BodyType} from "../Enumerations/BodyType";
-import {StringHelper} from "../ExtensionMethods";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { BodyType } from "../Enumerations/BodyType";
+import { StringHelper } from "../ExtensionMethods";
+import { ExchangeService } from "../Core/ExchangeService";
+import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 export class MessageBody extends ComplexProperty {
     private bodyType: BodyType = 0;
     private text: string = null;
@@ -49,10 +49,14 @@ export class MessageBody extends ComplexProperty {
             }
             switch (key) {
                 case XmlAttributeNames.BodyType:
-                    this.bodyType = <BodyType><any>BodyType[jsObject[key]];//.ReadEnumValue<BodyType>(key);
+                    this.bodyType = BodyType[<string>jsObject[key]];
                     break;
                 case XmlElementNames.Body: //info - Body Element text - custom parser in ExtensionMethods. 
-                    this.text = jsObject[key];//.ReadAsString(key);
+                case XmlElementNames.TextBody: //info - TextBody Element text - custom parser in ExtensionMethods. 
+                    this.text = jsObject[key];
+                    break;
+                case XmlAttributeNames.IsTruncated:
+                    //IsTruncated not captured 
                     break;
                 default:
                     debugger;//check exact name of body element

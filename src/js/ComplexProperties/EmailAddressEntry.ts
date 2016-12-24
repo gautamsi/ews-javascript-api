@@ -19,7 +19,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
         this.SetFieldValue<EmailAddress>({ getValue: () => this.emailAddress, setValue: (address: EmailAddress) => { this.emailAddress = address } }, value);
 
         if (this.emailAddress != null) {
-            this.emailAddress.OnChange.push(this.EmailAddressChanged);
+            this.emailAddress.OnChange.push(this.EmailAddressChanged.bind(this));
         }
     }
 
@@ -27,9 +27,10 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
     constructor(key: EmailAddressKey, emailAddress: EmailAddress);
     constructor(key: EmailAddressKey = EmailAddressKey.EmailAddress1, emailAddress: EmailAddress = new EmailAddress()) {
         super(key);
+        this.keyType = EmailAddressKey;
         this.emailAddress = emailAddress;
         if (this.emailAddress != null) {
-            this.emailAddress.OnChange.push(this.EmailAddressChanged);
+            this.emailAddress.OnChange.push(this.EmailAddressChanged.bind(this));
         }
     }
     EmailAddressChanged(complexProperty: ComplexProperty): void { this.Changed(); }

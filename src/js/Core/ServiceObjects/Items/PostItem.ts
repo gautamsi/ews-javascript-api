@@ -1,5 +1,4 @@
 ﻿import { ArrayHelper } from '../../../ExtensionMethods';
-import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
 import { DateTime } from "../../../DateTime";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
 import { ExchangeService } from "../../ExchangeService";
@@ -22,8 +21,10 @@ import { Item } from "./Item";
  * 
  * @sealed
  */
-@AttachableAttribute(true)
 export class PostItem extends Item {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "PostItem"; };
 
     /**
      * Gets the conversation index of the post item.

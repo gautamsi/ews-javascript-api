@@ -25,7 +25,7 @@ export class FolderPermission extends ComplexProperty {
         }
         this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
         if (this.userId != null) {
-            this.userId.OnChange.push(this.PropertyChanged);
+            this.userId.OnChange.push(this.PropertyChanged.bind(this));
         }
     }
     get CanCreateItems(): boolean { return this.canCreateItems; }

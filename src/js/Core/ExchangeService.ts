@@ -627,8 +627,8 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {<TItem>}           itemType      Item type class ex: Item, EmailMessage etc..
      * @return  {Promise<Item>}     Item :Promise.
      */
-    BindToItem<TItem extends Item>(itemId: ItemId, propertySet: PropertySet, itemType: any /* pass Item or subclass itself, not instance */): Promise<TItem>;
-    BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: any = null): Promise<Item> {
+    BindToItem<TItem extends Item>(itemId: ItemId, propertySet: PropertySet, itemType: typeof Item /* pass Item or subclass itself, not instance */): Promise<TItem>;
+    BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: typeof Item = null): Promise<Item> {
 
         EwsUtilities.ValidateParam(itemId, "itemId");
         EwsUtilities.ValidateParam(propertySet, "propertySet");

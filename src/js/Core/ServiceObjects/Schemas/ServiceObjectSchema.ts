@@ -1,23 +1,24 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {PropertyDefinitionBase} from "../../../PropertyDefinitions/PropertyDefinitionBase";
-import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {IOutParam} from "../../../Interfaces/IOutParam";
-import {Dictionary, DictionaryWithPropertyDefitionKey, PropertyDefinitionDictionary} from "../../../AltDictionary";
-import {AppointmentSchema} from "./AppointmentSchema";
-import {LazyMember} from "../../LazyMember";
-import {EwsUtilities} from "../../EwsUtilities";
-import {EwsLogging} from "../../EwsLogging";
-import {StringHelper} from "../../../ExtensionMethods";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
+﻿import { AppointmentSchema } from "./AppointmentSchema";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { Dictionary, DictionaryWithPropertyDefitionKey, PropertyDefinitionDictionary } from "../../../AltDictionary";
+import { EwsLogging } from "../../EwsLogging";
+import { EwsUtilities } from "../../EwsUtilities";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ExtendedPropertyCollection } from "../../../ComplexProperties/ExtendedPropertyCollection";
+import { IEnumerable } from "../../../Interfaces/IEnumerable";
+import { IOutParam } from "../../../Interfaces/IOutParam";
+import { IndexedPropertyDefinition } from "../../../PropertyDefinitions/IndexedPropertyDefinition";
+import { LazyMember } from "../../LazyMember";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionBase } from "../../../PropertyDefinitions/PropertyDefinitionBase";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { StringHelper } from "../../../ExtensionMethods";
+import { XmlElementNames } from "../../XmlElementNames";
 
 /**
  * Represents the base class for all item and folder schemas.
  */
-export abstract class ServiceObjectSchema {
+export abstract class ServiceObjectSchema implements IEnumerable<PropertyDefinition> {
     //todo: fixing difficulties with following c# code. - ref: added as delegate PropertyDefinitionDictionary in AltDictionary
     //using PropertyDefinitionDictionary = LazyMember < System.Collections.Generic.Dictionary<string, PropertyDefinitionBase>>;
     //type SchemaTypeList = LazyMember <string[]>;
@@ -206,7 +207,12 @@ export abstract class ServiceObjectSchema {
         this.RegisterProperties();
     }
 
-    GetEnumerator(): PropertyDefinition[] { return this.visibleProperties; }
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.visibleProperties
+     */
+    GetEnumerator(): PropertyDefinition[] {
+        return this.visibleProperties;
+    }
 
     protected init() { }
 

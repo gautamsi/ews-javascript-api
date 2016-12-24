@@ -1,25 +1,23 @@
-﻿import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {CalendarActionResults} from "../../../Misc/CalendarActionResults";
-import {DateTime} from "../../../DateTime";
-import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+﻿import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
+import { DateTime } from "../../../DateTime";
+import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { Item } from "../Items/Item";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
 import { Promise } from "../../../Promise";
-import {Item} from "../Items/Item";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {PropertySet} from "../../PropertySet";
-import {Recurrence} from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
-import {RemoveFromCalendar} from "../ResponseObjects/RemoveFromCalendar";
-import {Schemas} from "../Schemas/Schemas";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {XmlElementNames} from "../../XmlElementNames";
+import { PropertySet } from "../../PropertySet";
+import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
+import { RemoveFromCalendar } from "../ResponseObjects/RemoveFromCalendar";
+import { Schemas } from "../Schemas/Schemas";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {MeetingMessage} from "./MeetingMessage";
+import { MeetingMessage } from "./MeetingMessage";
 /**
  * Represents a meeting cancellation message. Properties available on meeting messages are defined in the MeetingMessageSchema class.
  */
-@AttachableAttribute(false)
 export class MeetingCancellation extends MeetingMessage {
 
     /**

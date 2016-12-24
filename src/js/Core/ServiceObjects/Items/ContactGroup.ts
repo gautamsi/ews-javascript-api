@@ -1,22 +1,20 @@
-﻿import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {GroupMemberCollection} from "../../../ComplexProperties/GroupMemberCollection";
+﻿import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GroupMemberCollection } from "../../../ComplexProperties/GroupMemberCollection";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
 import { Promise } from "../../../Promise";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {PropertySet} from "../../PropertySet";
-import {Schemas} from "../Schemas/Schemas";
-import {ServiceObjectPropertyException} from "../../../Exceptions/ServiceObjectPropertyException"
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {Strings} from "../../../Strings"
-import {XmlElementNames} from "../../XmlElementNames";
+import { PropertySet } from "../../PropertySet";
+import { Schemas } from "../Schemas/Schemas";
+import { ServiceObjectPropertyException } from "../../../Exceptions/ServiceObjectPropertyException"
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { Strings } from "../../../Strings"
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {Item} from "./Item";
+import { Item } from "./Item";
 /**
  * Represents a Contact Group. Properties available on contact groups are defined in the ContactGroupSchema class.
  */
-@AttachableAttribute(false)
 export class ContactGroup extends Item {
 
     /**

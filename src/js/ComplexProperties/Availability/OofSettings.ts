@@ -1,21 +1,22 @@
-﻿import {ArgumentException} from "../../Exceptions/ArgumentException";
-import {EwsServiceXmlReader} from "../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {OofExternalAudience} from "../../Enumerations/OofExternalAudience";
-import {OofReply} from "../../Misc/Availability/OofReply";
-import {OofState} from "../../Enumerations/OofState";
-import {Strings} from "../../Strings";
-import {TimeWindow} from "../../Misc/Availability/TimeWindow";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ArgumentException } from "../../Exceptions/ArgumentException";
+import { EwsServiceXmlReader } from "../../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { ISelfValidate } from "../../Interfaces/ISelfValidate";
+import { OofExternalAudience } from "../../Enumerations/OofExternalAudience";
+import { OofReply } from "../../Misc/Availability/OofReply";
+import { OofState } from "../../Enumerations/OofState";
+import { Strings } from "../../Strings";
+import { TimeWindow } from "../../Misc/Availability/TimeWindow";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "../ComplexProperty";
+import { ComplexProperty } from "../ComplexProperty";
 /**
  * Represents a user's Out of Office (OOF) settings.
  */
-export class OofSettings extends ComplexProperty {
+export class OofSettings extends ComplexProperty implements ISelfValidate {
     private state: OofState = 0;
     private externalAudience: OofExternalAudience = 0;
     private allowExternalOof: OofExternalAudience = 0;

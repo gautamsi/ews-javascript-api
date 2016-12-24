@@ -11,7 +11,8 @@ import {StringHelper, ArrayHelper} from "../ExtensionMethods";
 import {Dictionary, StringKeyPicker} from "../AltDictionary";
 import {ComplexProperty} from "./ComplexProperty";
 import {DictionaryEntryProperty} from "./DictionaryEntryProperty";
-export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any>> extends ComplexProperty { //ref: can not use DictionaryEntryProperty<TKey> in typescript
+
+export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<TKey>> extends ComplexProperty {
     private dictionaryKeyType: DictionaryKeyType = DictionaryKeyType.EmailAddressKey;
     private dictionaryKeyTypeEnum: any;
     private dictionaryKeyDelegate: StringKeyPicker<TKey> = (key) => { return this.dictionaryKeyTypeEnum[<any>key] };
@@ -25,6 +26,7 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
     constructor(dictionaryKeyType: DictionaryKeyType) {
         super();
         this.dictionaryKeyType = dictionaryKeyType;
+        
         this.dictionaryKeyTypeEnum = EwsUtilities.GetDictionaryKeyTypeEnum(this.dictionaryKeyType);
     }
 
@@ -54,7 +56,7 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
     GetFieldIndex(key: TKey): string { return this.dictionaryKeyTypeEnum[<any>key]; }
     GetFieldURI(): string { return null; }
     InternalAdd(entry: TEntry): void {
-        entry.OnChange.push(this.EntryChanged);
+        entry.OnChange.push(this.EntryChanged.bind(this));
 
         this.entries.Add(entry.Key, entry);
         this.addedEntries.push(entry.Key);
@@ -67,7 +69,7 @@ export class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any
         if (this.entries.tryGetValue(entry.Key, oldEntry)) {
             ArrayHelper.RemoveEntry(oldEntry.outValue.OnChange, this.EntryChanged);
 
-            entry.OnChange.push(this.EntryChanged);
+            entry.OnChange.push(this.EntryChanged.bind(this));
 
             if (this.addedEntries.indexOf(entry.Key) === -1) {
                 if (this.modifiedEntries.indexOf(entry.Key) === -1) {

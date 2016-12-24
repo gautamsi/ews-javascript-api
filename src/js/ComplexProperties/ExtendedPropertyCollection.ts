@@ -1,17 +1,18 @@
-﻿import {Strings} from "../Strings";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {ExtendedProperty} from "./ExtendedProperty";
-import {ArgumentException} from "../Exceptions/ArgumentException";
-import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {IOutParam} from "../Interfaces/IOutParam";
-import {StringHelper, ArrayHelper} from "../ExtensionMethods";
+﻿import { ArgumentException } from "../Exceptions/ArgumentException";
+import { ArrayHelper, StringHelper } from "../ExtensionMethods";
+import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExtendedProperty } from "./ExtendedProperty";
+import { ExtendedPropertyDefinition } from "../PropertyDefinitions/ExtendedPropertyDefinition";
+import { IOutParam } from "../Interfaces/IOutParam";
+import { ICustomUpdateSerializer } from "../Interfaces/ICustomXmlUpdateSerializer";
+import { Strings } from "../Strings";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
-export class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {
+import { ComplexPropertyCollection } from "./ComplexPropertyCollection";
+export class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> implements ICustomUpdateSerializer {
     CreateComplexProperty(xmlElementName: string): ExtendedProperty { return new ExtendedProperty(); }
     CreateDefaultComplexProperty(): ExtendedProperty { return new ExtendedProperty(); }
     GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string { return null; }
@@ -24,7 +25,7 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
         return extendedProperty.outValue;
     }
     InternalToJson(service: ExchangeService): any { throw new Error("ExtendedPropertyCollection.ts - InternalToJson : Not implemented."); }
-    LoadFromXmlJsObject(jsObject: any,service:ExchangeService ): void {//localElementName: string
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {//localElementName: string
         var extendedProperty = new ExtendedProperty();
         //debugger; //debug: //todo: check for need of local element -not tested
         extendedProperty.LoadFromXmlJsObject(jsObject, service);
@@ -33,9 +34,9 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
     RemoveExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): boolean {
         //EwsUtilities.ValidateParam(propertyDefinition, "propertyDefinition");
 
-        var extendedProperty: ExtendedProperty = null;
+        var extendedProperty: IOutParam<ExtendedProperty> = { outValue: null };
         if (this.TryGetProperty(propertyDefinition, extendedProperty)) {
-            return this.InternalRemove(extendedProperty);
+            return this.InternalRemove(extendedProperty.outValue);
         }
         else {
             return false;

@@ -1,18 +1,19 @@
-﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {IRefParam} from "../Interfaces/IRefParam";
-import {ItemId} from "./ItemId";
-import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
-import {StringHelper} from "../ExtensionMethods";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { IRefParam } from "../Interfaces/IRefParam";
+import { ISearchStringProvider } from "../Interfaces/ISearchStringProvider";
+import { ItemId } from "./ItemId";
+import { MailboxType, MailboxTypeParser } from "../Enumerations/MailboxType";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents an e-mail address.
  */
-export class EmailAddress extends ComplexProperty {
+export class EmailAddress extends ComplexProperty implements ISearchStringProvider {
 
     /**
      * SMTP routing type.
@@ -178,11 +179,12 @@ export class EmailAddress extends ComplexProperty {
     }
 
     /**
-     * Get a string representation for using this instance in a search filter.
+     * Get a string representation for using this instance in a search filter. 
+     * ISearchStringProvider.GetSearchString
      *
      * @return  {string}      String representation of instance.
      */
-    GetSearchString(): string { //ISearchStringProvider ISearchStringProvider.GetSearchString
+    GetSearchString(): string {
         return this.Address;
     }
 

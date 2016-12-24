@@ -1,35 +1,36 @@
-﻿import {ArgumentException, ArgumentNullException} from "../Exceptions/ArgumentException";
-import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
-import {DateTime, TimeZoneInfo, DateTimeKind} from "../DateTime";
-import {DayOfTheWeek} from "../Enumerations/DayOfTheWeek";
-import {DayOfWeek} from "../Enumerations/DayOfWeek";
-import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
-import {DictionaryWithStringKey, DictionaryWithNumericKey} from "../AltDictionary";
-import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
-import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EnumToSchemaMappingHelper} from "../Enumerations/EnumToSchemaMappingHelper";
-import {EwsLogging} from "./EwsLogging";
-import {ExchangeService} from "./ExchangeService";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {FileAsMapping} from "../Enumerations/FileAsMapping";
-import {ISelfValidate} from "../Interfaces/ISelfValidate";
-import {ImAddressKey} from "../Enumerations/ImAddressKey";
-import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
-import {ItemTraversal} from "../Enumerations/ItemTraversal";
-import {Item} from "./ServiceObjects/Items/Item";
-import {LazyMember} from "./LazyMember";
-import {PhoneNumberKey} from "../Enumerations/PhoneNumberKey";
-import {PhysicalAddressKey} from "../Enumerations/PhysicalAddressKey";
-import {ServiceObjectInfo} from "./ServiceObjects/ServiceObjectInfo";
-import {ServiceObject} from "./ServiceObjects/ServiceObject";
-import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
-import {StringHelper, Convert} from "../ExtensionMethods";
-import {Strings} from "../Strings";
-import {TimeSpan, moment} from "../DateTime";
-import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
-import {TypeContainer} from "../TypeContainer";
-import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { ArgumentException, ArgumentNullException } from "../Exceptions/ArgumentException";
+import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
+import { DateTime, TimeZoneInfo, DateTimeKind } from "../DateTime";
+import { DayOfTheWeek } from "../Enumerations/DayOfTheWeek";
+import { DayOfWeek } from "../Enumerations/DayOfWeek";
+import { DictionaryKeyType } from "../Enumerations/DictionaryKeyType";
+import { Dictionary, DictionaryWithStringKey, DictionaryWithNumericKey } from "../AltDictionary";
+import { EmailAddressKey } from "../Enumerations/EmailAddressKey";
+import { EnumToExchangeVersionMappingHelper } from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import { EnumToSchemaMappingHelper } from "../Enumerations/EnumToSchemaMappingHelper";
+import { EwsLogging } from "./EwsLogging";
+import { ExchangeService } from "./ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { FileAsMapping } from "../Enumerations/FileAsMapping";
+import { ISelfValidate } from "../Interfaces/ISelfValidate";
+import { ImAddressKey } from "../Enumerations/ImAddressKey";
+import { ItemAttachment } from "../ComplexProperties/ItemAttachment";
+import { ItemTraversal } from "../Enumerations/ItemTraversal";
+import { Item } from "./ServiceObjects/Items/Item";
+import { LazyMember } from "./LazyMember";
+import { PhoneNumberKey } from "../Enumerations/PhoneNumberKey";
+import { PhysicalAddressKey } from "../Enumerations/PhysicalAddressKey";
+import { ServiceObjectInfo } from "./ServiceObjects/ServiceObjectInfo";
+import { ServiceObject } from "./ServiceObjects/ServiceObject";
+import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
+import { StringHelper, Convert } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TimeSpan, moment } from "../DateTime";
+import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
+import { TypeContainer } from "../TypeContainer";
+import { TypeGuards } from "../Interfaces/TypeGuards";
+import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
 export class EwsUtilities {
 
@@ -202,10 +203,12 @@ export class EwsUtilities {
 
         return enumDelegate;
     }
+    /**@internal */
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
-    static BuildEnumToSchemaDict(enumType: EnumToSchemaMappingHelper): DictionaryWithNumericKey<string> { throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented."); }
+    static BuildEnumToSchemaDict(enumType: EnumToSchemaMappingHelper): Dictionary<number, string> { throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented."); }
+    /**@internal */
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
-    static BuildSchemaToEnumDict(enumType: EnumToSchemaMappingHelper): DictionaryWithStringKey<number> { throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented."); }
+    static BuildSchemaToEnumDict(enumType: EnumToSchemaMappingHelper): Dictionary<string, number> { throw new Error("EwsUtilities.ts - static BuildSchemaToEnumDict : Not implemented."); }
 
     static GetDictionaryKeyTypeEnum(dictionaryKeyType: DictionaryKeyType): any {
         switch (dictionaryKeyType) {
@@ -502,7 +505,7 @@ export class EwsUtilities {
     private static numPad(num: number, length: number) {
         var str = num.toString();
         while (str.length < length)
-            str = "0"+str;
+            str = "0" + str;
         return str;
     }
     static TimeSpanToXSTime(timeSpan: TimeSpan): string {
@@ -656,7 +659,7 @@ export class EwsUtilities {
     static ValidateParamAllowNull(param: any, paramName: string): void {
         var selfValidate: ISelfValidate = param;
         // look for null/undefined
-        if (false && selfValidate && selfValidate.Validate) {//todo: interface detection for ISelfValidate
+        if (TypeGuards.isISelfValidate(selfValidate)) {//todo: interface detection for ISelfValidate
             try {
                 selfValidate.Validate();
             }

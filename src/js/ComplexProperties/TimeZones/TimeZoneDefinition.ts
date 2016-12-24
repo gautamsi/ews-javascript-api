@@ -13,18 +13,18 @@ import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
 import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {DictionaryWithStringKey} from "../../AltDictionary";
+import {Dictionary, DictionaryWithStringKey} from "../../AltDictionary";
 import {ComplexProperty} from "../ComplexProperty";
 export class TimeZoneDefinition extends ComplexProperty {
     private static NoIdPrefix: string = "NoId_";
     Name: string = "UTC";//check:utc by default
     Id: string = "UTC";//check:utc by default
-    get Periods(): DictionaryWithStringKey<TimeZonePeriod> { return this.periods; }// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-    get TransitionGroups(): DictionaryWithStringKey<TimeZoneTransitionGroup> { return this.transitionGroups; }// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
+    get Periods(): Dictionary<string, TimeZonePeriod> { return this.periods; }// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
+    get TransitionGroups(): Dictionary<string, TimeZoneTransitionGroup> { return this.transitionGroups; }// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
     //private name: string; backing property not needed
     //private id: string;
-    private periods: DictionaryWithStringKey<TimeZonePeriod> = new DictionaryWithStringKey<TimeZonePeriod>();// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-    private transitionGroups: DictionaryWithStringKey<TimeZoneTransitionGroup> = new DictionaryWithStringKey<TimeZoneTransitionGroup>();// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
+    private periods: Dictionary<string, TimeZonePeriod> = new DictionaryWithStringKey<TimeZonePeriod>();// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
+    private transitionGroups: Dictionary<string, TimeZoneTransitionGroup> = new DictionaryWithStringKey<TimeZoneTransitionGroup>();// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
     private transitions: TimeZoneTransition[] = [];//System.Collections.Generic.List<TimeZoneTransition>;
     constructor();
     constructor(timezoneInfo: TimeZoneInfo);

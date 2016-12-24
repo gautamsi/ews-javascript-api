@@ -1,5 +1,4 @@
 ﻿import { AffectedTaskOccurrence } from '../../../Enumerations/AffectedTaskOccurrence';
-import { AttachableAttribute } from '../../../Attributes/AttachableAttribute';
 import { ConflictResolutionMode } from '../../../Enumerations/ConflictResolutionMode';
 import { DateTime } from '../../../DateTime';
 import { DeleteMode } from '../../../Enumerations/DeleteMode';
@@ -23,8 +22,10 @@ import { Item } from './Item';
 /**
  * Represents a Task item. Properties available on tasks are defined in the TaskSchema class.
  */
-@AttachableAttribute(true)
 export class Task extends Item {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "Task"; };
 
     /**
      * @nullable Gets or sets the actual amount of time that is spent on the task.

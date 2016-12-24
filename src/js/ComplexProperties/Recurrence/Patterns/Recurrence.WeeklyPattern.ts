@@ -63,7 +63,7 @@ export class WeeklyPattern extends IntervalPattern {
         if (arguments.length === 0) {
             super();
             this.daysOfTheWeek = new DayOfTheWeekCollection()
-            this.daysOfTheWeek.OnChange.push(this.DaysOfTheWeekChanged);
+            this.daysOfTheWeek.OnChange.push(this.DaysOfTheWeekChanged.bind(this));
         }
         else {
             super(startDate, interval);

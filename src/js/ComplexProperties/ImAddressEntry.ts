@@ -16,6 +16,7 @@ export class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     constructor(key: ImAddressKey, imAddress: string);
     constructor(key: ImAddressKey = ImAddressKey.ImAddress1, imAddress: string = null) {
         super(key);
+        this.keyType = ImAddressKey;
         this.imAddress = imAddress;
     }
 

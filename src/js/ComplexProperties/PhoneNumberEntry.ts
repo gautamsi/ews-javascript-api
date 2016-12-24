@@ -22,6 +22,7 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     constructor(key: PhoneNumberKey, imAddress: string);
     constructor(key: PhoneNumberKey = PhoneNumberKey.AssistantPhone, phoneNumber: string = null) {
         super(key);
+        this.keyType= PhoneNumberKey;
         this.phoneNumber = phoneNumber;
     }
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - InternalToJson : Not implemented."); }

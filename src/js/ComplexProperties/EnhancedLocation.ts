@@ -50,7 +50,7 @@ export class EnhancedLocation extends ComplexProperty {
 
             this.SetFieldValue<PersonaPostalAddress>({ getValue: () => this.personaPostalAddress, setValue: (fieldValue) => { this.personaPostalAddress = fieldValue } }, value);
 
-            this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
+            this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange.bind(this));
         }
     }
 
@@ -85,7 +85,7 @@ export class EnhancedLocation extends ComplexProperty {
         this.displayName = displayName;
         this.annotation = annotation;
         this.personaPostalAddress = personaPostalAddress;
-        this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
+        this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange.bind(this));
     }
 
     /**
@@ -116,7 +116,7 @@ export class EnhancedLocation extends ComplexProperty {
                 case XmlElementNames.PersonaPostalAddress:
                     this.personaPostalAddress = new PersonaPostalAddress();
                     this.personaPostalAddress.LoadFromXmlJsObject(jsObject[key], service);
-                    this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange);
+                    this.personaPostalAddress.OnChange.push(this.PersonaPostalAddress_OnChange.bind(this));
                     break;
                 default:
                     break;

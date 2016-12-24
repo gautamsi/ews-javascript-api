@@ -513,7 +513,8 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         var host = hosts[currentHostIndex];
         // var isScpHost:bool = currentHostIndex < scpHostCount;
-        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlRef)
+        var autodiscoverUrlOut:IOutParam<Uri> = { outValue:null };
+        return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlOut)
             .then<TGetSettingsResponseCollection>((value) => {
                 if (value) {
                     return getSettingsMethod(

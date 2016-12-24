@@ -1,18 +1,16 @@
-﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {StringHelper} from "../ExtensionMethods";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ISearchStringProvider } from "../Interfaces/ISearchStringProvider";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents a mailbox reference.
  */
-export class Mailbox extends ComplexProperty {
-
-    ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable", "GetSearchString"];
-    ___typeName: string = "Mailbox";
+export class Mailbox extends ComplexProperty implements ISearchStringProvider {
 
     /**
      * True if this instance is valid, false otherthise.
@@ -85,6 +83,7 @@ export class Mailbox extends ComplexProperty {
             }
         }
     }
+
     //GetHashCode(): number { throw new Error("Mailbox.ts - GetHashCode : Not implemented."); }
 
     /**
@@ -93,7 +92,6 @@ export class Mailbox extends ComplexProperty {
     InternalValidate(): void {
         super.InternalValidate();
 
-        //debug: //check for validity implement next line of codes
         EwsUtilities.ValidateNonBlankStringParamAllowNull(this.Address, "address");
         EwsUtilities.ValidateNonBlankStringParamAllowNull(this.RoutingType, "routingType");
     }
@@ -148,11 +146,11 @@ export class Mailbox extends ComplexProperty {
 
     /**
      * Get a string representation for using this instance in a search filter.
+     * ISearchStringProvider.GetSearchString
      *
      * @return  {string}      String representation of instance.
      */
-    GetSearchString(): string //ISearchStringProvider.GetSearchString
-    {
+    GetSearchString(): string {
         return this.Address;
     }
 }

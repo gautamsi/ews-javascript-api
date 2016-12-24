@@ -1,5 +1,6 @@
 declare module "ews-javascript-api" {
 
+
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
 }
@@ -51,28 +52,12 @@ export interface StringKeyPicker<TValue> {
     /** clear dictionary */
     clear(): void;
 }
- class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue extends PropertyDefinitionBase> extends Dictionary<string, TValue> {
-}
- class PropertyDefinitionDictionary extends StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase> {
-}
 export interface IndexerWithEnumKey<TKey, TValue> {
     [index: number]: TValue;
-}
- class DictionaryWithStringKey<TValue> extends Dictionary<string, TValue> {
-    constructor();
-}
- class DictionaryWithNumericKey<TValue> extends Dictionary<number, TValue> {
-    constructor();
-}
- class DictionaryWithPropertyDefitionKey<TKey extends {
-    Name?: string;
-}, TValue> extends Dictionary<TKey, TValue> {
-    constructor();
 } class ConfigurationApi {
     static ConfigureXHR(xhrApi: IXHRApi): void;
     static ConfigurePromise(promise: PromiseConstructor): void;
-}
-import moment = require('moment-timezone');
+}import moment = require('moment-timezone');
  enum DateTimeKind {
     Unspecified = 0,
     Utc = 1,
@@ -202,7 +187,7 @@ import moment = require('moment-timezone');
     function ToString(enumObj: any, checkFlag: number, includeZero?: boolean): string;
 }
  module ArrayHelper {
-    function AddRange<T>(array: Array<T>, items: Array<T>): void;
+    function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly?: boolean): void;
     function RemoveEntry<T>(array: Array<T>, entry: T, comparer?: (T) => boolean): boolean;
     function Find<T>(array: Array<T>, comparer: (item: T) => boolean): T;
     function IndexOf<T>(array: Array<T>, comparer: (item: T) => boolean): number;
@@ -815,10 +800,8 @@ export interface PromiseConstructor {
  class XHRFactory {
     static xhrHelper: IXHRApi;
     static readonly XHRApi: IXHRApi;
-}import 'reflect-metadata';
- var AttachableAttributeMetadata: string;
- function AttachableAttribute(value?: boolean): (target: Function) => void;import 'reflect-metadata';
- function EwsEnumAttribute(schemaName: string): (target: Function) => void;import 'reflect-metadata'; function RequiredServerVersionAttribute(version: ExchangeVersion): (target: Function) => void;
+}
+
  class AlternateMailbox {
     Type: string;
     DisplayName: string;
@@ -1071,13 +1054,11 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      *
      * @param   {any}   jsonObject   The json object.
      */
-}import 'reflect-metadata';
+}
 /**
  * Represents an item's attachment collection.
  */
  class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
-    ___implementsInterface: string[];
-    ___typeName: string;
     ___typeGenerics: string[];
     /**
      * The item owner that owns this attachment collection
@@ -1124,7 +1105,7 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {string}    TItemElementName    XML Element Name of the Item class
      * @return  {ItemAttachmentOf<TItem>}      An ItemAttachment instance.
      */
-    AddItemAttachment<TItem extends Item>(TItem: any, TItemElementName: string): ItemAttachmentOf<TItem>;
+    AddItemAttachment<TItem extends Item>(TItem: typeof Item, TItemElementName: string): ItemAttachmentOf<TItem>;
     /**
      * Removes all attachments from this collection.
      */
@@ -1422,9 +1403,10 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * Gets the Yomi surname (last name) of the contact.
      */
     readonly YomiSurname: string;
-} class ComplexProperty {
-    ___implementsInterface: string[];
-    ___typeName: string;
+}/**
+ * Represents a property that can be sent to or retrieved from EWS.
+ */
+ class ComplexProperty {
     Namespace: XmlNamespace;
     OnChange: ComplexPropertyChangedDelegate[];
     constructor();
@@ -1444,21 +1426,13 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     WriteElementsToXml(writer: EwsServiceXmlWriter): void;
     /** reverted to simplify child clarr override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void;
-}
-/**
+}/**
  * Represents a collection of properties that can be sent to and retrieved from EWS.
  *
  * @type <TComplexProperty>   ComplexProperty type.
- */ class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty {
-    ___implementsInterface: string[];
-    ___typeName: string;
+ */
+ abstract class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty implements IEnumerable<TComplexProperty>, ICustomUpdateSerializer {
     ___typeGenerics: string[];
-    /**
-     * Gets the items. (workaround for GetEnumerator)
-     *
-     * @return The items.
-     */
-    readonly Items: TComplexProperty[];
     /**
      * Gets the total number of properties in the collection.
      */
@@ -1469,7 +1443,7 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {number}   index   The zero-based index of the property to get.
      * @return  {TComplexProperty}           The property at the specified index.
      */
-    __thisIndexer(index: number): TComplexProperty;
+    _getItem(index: number): TComplexProperty;
     /**
      * Determines whether a specific property is in the collection.
      *
@@ -1477,6 +1451,10 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @return  {boolean}           True if the property was found in the collection, false otherwise.
      */
     Contains(complexProperty: TComplexProperty): boolean;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): TComplexProperty[];
     /**
      * Searches for a specific property and return its zero-based index within the collection.
      *
@@ -1491,7 +1469,6 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {boolean}   loading           If true, collection is being loaded.
      */
     InternalAdd(complexProperty: TComplexProperty, loading: boolean): void;
-    InternalToJson(service: ExchangeService): any;
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
 }
 /**
@@ -1612,12 +1589,13 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
  * @sealed
  */
  class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {
-}/**
+}
+/**
  *
  *
  * @sealed
  */
- class ConversationRequest extends ComplexProperty {
+ class ConversationRequest extends ComplexProperty implements ISelfValidate {
     /**
      * Gets or sets the conversation id.
      */
@@ -1803,7 +1781,8 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {string}   ruleId   The Id of the inbox rule to delete.
      */
     constructor(ruleId: string);
-} class DictionaryEntryProperty<TKey> extends ComplexProperty {
+} class DictionaryEntryProperty<TKey> extends ComplexProperty {
+    protected keyType: any;
     Key: TKey;
     constructor();
     constructor(key: TKey);
@@ -1814,7 +1793,7 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]): boolean;
     WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean;
 }
- class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<any>> extends ComplexProperty {
+ class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<TKey>> extends ComplexProperty {
     readonly Entries: Dictionary<TKey, TEntry>;
     constructor(dictionaryKeyType: DictionaryKeyType);
     ClearChangeLog(): void;
@@ -1834,10 +1813,11 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void;
     WriteUriToJson(key: TKey): any;
     WriteUriToXml(writer: EwsServiceXmlWriter, key: TKey): void;
-}/**
+}
+/**
  * Represents an e-mail address.
  */
- class EmailAddress extends ComplexProperty {
+ class EmailAddress extends ComplexProperty implements ISearchStringProvider {
     /**
      * SMTP routing type.
      */
@@ -1930,6 +1910,7 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     constructor(smtpAddressOrMailbox: string | EmailAddress);
     /**
      * Get a string representation for using this instance in a search filter.
+     * ISearchStringProvider.GetSearchString
      *
      * @return  {string}      String representation of instance.
      */
@@ -2158,7 +2139,8 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     LoadFromJson(jsonProperty: any, service: ExchangeService): any;
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
     WriteElementsToXml(writer: EwsServiceXmlWriter): void;
-} class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> {
+}
+ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> implements ICustomUpdateSerializer {
     CreateComplexProperty(xmlElementName: string): ExtendedProperty;
     CreateDefaultComplexProperty(): ExtendedProperty;
     GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string;
@@ -2502,13 +2484,10 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
  * @sealed
  */
  class ItemIdCollection extends ComplexPropertyCollection<ItemId> {
-}
-/**
+}/**
  * Represents a mailbox reference.
  */
- class Mailbox extends ComplexProperty {
-    ___implementsInterface: string[];
-    ___typeName: string;
+ class Mailbox extends ComplexProperty implements ISearchStringProvider {
     /**
      * True if this instance is valid, false otherthise.
      *
@@ -2558,6 +2537,7 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     toString(): string;
     /**
      * Get a string representation for using this instance in a search filter.
+     * ISearchStringProvider.GetSearchString
      *
      * @return  {string}      String representation of instance.
      */
@@ -3173,13 +3153,13 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {MobilePhone[]}   recipientCollection   Recipient list in a MobilePhone collection type.
      * @return  {EmailAddressCollection}		An EmailAddressCollection object containing recipients with "MOBILE" address type.
      */
-}/**
+}
+/**
  * Represents a collection of rules.
  *
  * @sealed
  */
- class RuleCollection extends ComplexProperty {
-    ___implementsInterface: string[];
+ class RuleCollection extends ComplexProperty implements IEnumerable<Rule> {
     /**
      * The OutlookRuleBlobExists flag.
      */
@@ -3200,7 +3180,11 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {number}   index   The index of the rule to get.
      * @return  {Rule}	The rule at the specified index.
      */
-    __thisIndexer(index: number): Rule;
+    _getItem(index: number): Rule;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+    GetEnumerator(): Rule[];
 }
 /**
  * Represents an error that occurred as a result of executing a rule operation.
@@ -3242,14 +3226,12 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
  * Represents an operation to be performed on a rule.
  */
  abstract class RuleOperation extends ComplexProperty {
-}
-/**
+}/**
  * Represents an error that occurred while processing a rule operation.
  *
  * @sealed
  */
- class RuleOperationError extends ComplexProperty {
-    ___implementsInterface: string[];
+ class RuleOperationError extends ComplexProperty implements IEnumerable<RuleError> {
     /**
      * Index of the operation mapping to the error.
      */
@@ -3273,7 +3255,11 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {number}   index   The index of the rule error to get.
      * @return  {RuleError}	The rule error at the specified index.
      */
-    __thisIndexer(index: number): RuleError;
+    _getItem(index: number): RuleError;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+    GetEnumerator(): RuleError[];
 }/**
  * Represents a collection of rule operation errors.
  *
@@ -3641,31 +3627,94 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
      * @param   {Rule}   rule   The inbox rule to update.
      */
     constructor(rule: Rule);
-}
- class StringList extends ComplexProperty {
-    ___implementsInterface: string[];
+}/**
+ * Represents a list of strings.
+ *
+ * @sealed
+ */
+ class StringList extends ComplexProperty implements IEnumerable<string> {
+    /**
+     * Gets the number of strings in the list.
+     */
     readonly Count: number;
-    readonly Items: string[];
+    /**
+     * Initializes a new instance of the **StringList** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **StringList** class.
+     *
+     * @param   {string}   itemXmlElementName   Name of the item XML element.
+     */
     constructor(itemXmlElementName: string);
+    /**
+     * Initializes a new instance of the **StringList** class.
+     *
+     * @param   {string[]}   strings   The strings.
+     */
     constructor(strings: string[]);
+    /**
+     * Gets or sets the string at the specified index.
+     *
+     * @param   {number}    index   The index of the string to get or set.
+     * @return  {string}    The string at the specified index.
+     */
     _getItem(index: number): string;
+    /**
+     * Gets or sets the string at the specified index.
+     *
+     * @param   {number}    index   The index of the string to get or set.
+     * @return  {string}    The string at the specified index.
+     */
     _setItem(index: number, value: string): void;
+    /**
+     * Adds a string to the list.
+     *
+     * @param   {string}   s   The string to add.
+     */
     Add(s: string): void;
+    /**
+     * Adds multiple strings to the list.
+     *
+     * @param   {string[]}   strings   The strings to add.
+     */
     AddRange(strings: string[]): void;
+    /**
+     * Clears the list.
+     */
     Clear(): void;
+    /**
+     * Determines whether the list contains a specific string.
+     *
+     * @param   {string}    s   The string to check the presence of.
+     * @return  {boolean}   True if s is present in the list, false otherwise.
+     */
     Contains(s: string): boolean;
     Equals(obj: any): boolean;
-    GetEnumerator(): any;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): string[];
     GetHashCode(): number;
-    InternalToJson(service: ExchangeService): any;
+    /**
+     * Removes a string from the list.
+     *
+     * @param   {string}   s   The string to remove.
+     * @return  {boolean}       True is s was removed, false otherwise.
+     */
     Remove(s: string): boolean;
+    /**
+     * Removes the string at the specified position from the list.
+     *
+     * @param   {number}   index   The index of the string to remove.
+     */
     RemoveAt(index: number): void;
+    /**
+     * Generates a string representation of all the items in the list.
+     *
+     * @return  {string}      A comma-separated list of the strings present in the list.
+     */
     ToString(): string;
-    WriteElementsToXml(writer: EwsServiceXmlWriter): void;
-    CreateFromXmlJsObjectCollection(jsObjectCollection: any[], service: ExchangeService): void;
-    LoadFromXmlJsObject(jsObjectCollection: any[], service: ExchangeService): void;
-    UpdateFromXmlJsObjectCollection(jsObjectCollection: any[], service: ExchangeService): void;
 }/**
  * Represents an TaskSuggestion object.
  */
@@ -4108,8 +4157,6 @@ export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>
     static BuildVersion: string;
     static BoolToXSBool(value: boolean): string;
     static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate;
-    static BuildEnumToSchemaDict(enumType: EnumToSchemaMappingHelper): DictionaryWithNumericKey<string>;
-    static BuildSchemaToEnumDict(enumType: EnumToSchemaMappingHelper): DictionaryWithStringKey<number>;
     static GetDictionaryKeyTypeEnum(dictionaryKeyType: DictionaryKeyType): any;
     static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime;
     static CountMatchingChars(str: string, charPredicate: any): number;
@@ -5758,67 +5805,221 @@ export interface EnumVersionDelegate {
 }
 export interface InitializeLazyMember<T> {
     (): T;
-} class PropertyBag {
-    readonly Properties: DictionaryWithPropertyDefitionKey<PropertyDefinition, any>;
-    readonly Owner: ServiceObject;
-    readonly IsDirty: boolean;
-    Item: any;
-    constructor(owner: ServiceObject);
-    static AddToChangeList(propertyDefinition: PropertyDefinition, changeList: PropertyDefinition[]): void;
-    Clear(): void;
-    ClearChangeLog(): void;
-    Contains(propertyDefinition: PropertyDefinition): boolean;
-    DeleteProperty(propertyDefinition: PropertyDefinition): void;
-    GetIsUpdateCallNecessary(): boolean;
-    static GetPropertyUpdateItemName(serviceObject: ServiceObject): string;
-    InitComplexProperty(complexProperty: ComplexProperty): void;
-    IsPropertyLoaded(propertyDefinition: PropertyDefinition): boolean;
-    IsPropertyUpdated(propertyDefinition: PropertyDefinition): boolean;
-    IsRequestedProperty(propertyDefinition: PropertyDefinition): boolean;
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService, clear: boolean, requestedPropertySet: PropertySet, onlySummaryPropertiesRequested: boolean): void;
-    PropertyChanged(complexProperty: ComplexProperty): void;
-    _getItem(propertyDefinition: PropertyDefinition): any;
-    _setItem(propertyDefinition: PropertyDefinition, value: any): void;
-    TryGetProperty(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean;
-    TryGetPropertyAs<T>(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<T>): boolean;
-    TryGetValue(propertyDefinition: PropertyDefinition, propertyValue: IOutParam<any>): boolean;
-    Validate(): void;
-    ValidatePropertyValue(propertyDefinition: PropertyDefinition): void;
-    WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition, propertyValue: any): void;
-    WriteSetUpdateToXml(writer: EwsServiceXmlWriter, propertyDefinition: PropertyDefinition): void;
-    WriteToXml(writer: EwsServiceXmlWriter): void;
-    WriteToXmlForUpdate(writer: EwsServiceXmlWriter): void;
-}
- class PropertySet {
-    static readonly DefaultPropertySetMap: LazyMember<Dictionary<BasePropertySet, string>>;
-    static IdOnly: PropertySet;
-    static FirstClassProperties: PropertySet;
+}
+
+ type DefaultPropertySetDictionary = LazyMember<Dictionary<BasePropertySet, string>>;
+/**
+ * Represents a set of item or folder properties. Property sets are used to indicate what properties of an item or folder should be loaded when binding to an existing item or folder or when loading an item or folder's properties.
+ *
+ * @sealed
+ */
+ class PropertySet implements ISelfValidate, IEnumerable<PropertyDefinitionBase> {
+    /**
+     * Returns a predefined property set that only includes the Id property.
+     */
+    static readonly IdOnly: PropertySet;
+    /**
+     * Returns a predefined property set that includes the first class properties of an item or folder.
+     */
+    static readonly FirstClassProperties: PropertySet;
+    /**
+     * Maps BasePropertySet values to EWS's BaseShape values.
+     */
+    /**
+     * The base property set this property set is based upon.
+     */
+    /**
+     * The list of additional properties included in this property set.
+     */
+    /**
+     * The requested body type for get and find operations. If null, the "best body" is returned.
+     */
+    /**
+     * The requested unique body type for get and find operations. If null, the should return the same value as body type.
+     */
+    /**
+     * The requested normalized body type for get and find operations. If null, the should return the same value as body type.
+     */
+    /**
+     * Value indicating whether or not the server should filter HTML content.
+     */
+    /**
+     * Value indicating whether or not the server should convert HTML code page to UTF8.
+     */
+    /**
+     * Value of the URL template to use for the src attribute of inline IMG elements.
+     */
+    /**
+     * Value indicating whether or not the server should block references to external images.
+     */
+    /**
+     * Value indicating whether or not to add a blank target attribute to anchor links.
+     */
+    /**
+     * Value indicating whether or not this PropertySet can be modified.
+     */
+    /**
+     * Value indicating the maximum body size to retrieve.
+     */
+    /**
+     * Gets or sets the base property set the property set is based upon.
+     */
     BasePropertySet: BasePropertySet;
+    /**
+     * Gets or sets type of body that should be loaded on items. If RequestedBodyType is null, body is returned as HTML if available, plain text otherwise.
+     *
+     * @Nullable
+     */
     RequestedBodyType: BodyType;
+    /**
+     * Gets or sets type of body that should be loaded on items. If null, the should return the same value as body type.
+     *
+     * @nullable
+     */
     RequestedUniqueBodyType: BodyType;
+    /**
+     * Gets or sets type of normalized body that should be loaded on items. If null, the should return the same value as body type.
+     *
+     * @nullable
+     */
     RequestedNormalizedBodyType: BodyType;
+    /**
+     * Gets the number of explicitly added properties in this set.
+     */
     readonly Count: number;
+    /**
+     * Gets or sets value indicating whether or not to filter potentially unsafe HTML content from message bodies.
+     *
+     * @nullable
+     */
     FilterHtmlContent: boolean;
+    /**
+     * Gets or sets value indicating whether or not to convert HTML code page to UTF8 encoding.
+     *
+     * @nullable
+     */
     ConvertHtmlCodePageToUTF8: boolean;
+    /**
+     * Gets or sets a value of the URL template to use for the src attribute of inline IMG elements.
+     *
+     * @nullable
+     */
     InlineImageUrlTemplate: string;
+    /**
+     * Gets or sets value indicating whether or not to convert inline images to data URLs.
+     *
+     * @nullable
+     */
     BlockExternalImages: boolean;
+    /**
+     * Gets or sets value indicating whether or not to add blank target attribute to anchor links.
+     *
+     * @nullable
+     */
     AddBlankTargetToLinks: boolean;
+    /**
+     * Gets or sets the maximum size of the body to be retrieved.
+     *
+     * @nullable
+     *
+     * @value   The maximum size of the body to be retrieved.
+     */
     MaximumBodySize: number;
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     *
+     * @param   {BasePropertySet}   basePropertySet        The base property set to base the property set upon.
+     */
+    constructor(basePropertySet: BasePropertySet);
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     *
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(...additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {BasePropertySet}           basePropertySet        The base property set to base the property set upon.
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(basePropertySet: BasePropertySet, additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {BasePropertySet}           basePropertySet        The base property set to base the property set upon.
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(basePropertySet: BasePropertySet, ...additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Gets the **PropertyDefinitionBase** at the specified index. this[int] indexer
+     *
+     * @param   {number}   index   Index.
+     */
     _getItem(index: number): PropertyDefinitionBase;
-    constructor(basePropertySet?: BasePropertySet, additionalProperties?: PropertyDefinitionBase[]);
+    /**
+     * Adds the specified property to the property set.
+     *
+     * @param   {PropertyDefinitionBase}   property   The property to add.
+     */
     Add(property: PropertyDefinitionBase): void;
+    /**
+     * Adds the specified properties to the property set.
+     *
+     * @param   {PropertyDefinitionBase[]}   properties   The properties to add.
+     */
     AddRange(properties: PropertyDefinitionBase[]): void;
+    /**
+     * Remove all explicitly added properties from the property set.
+     */
     Clear(): void;
+    /**
+     * Determines whether the specified property has been explicitly added to this property set using the Add or AddRange methods.
+     *
+     * @param   {PropertyDefinitionBase}    property   The property.
+     * @return  {boolean}                   true if this property set contains the specified propert]; otherwise, false.
+     */
     Contains(property: PropertyDefinitionBase): boolean;
-    static CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet;
-    GetEnumerator(): any;
-    GetShapeName(serviceObjectType: ServiceObjectType): string;
-    InternalValidate(): void;
+    /**
+     * Creates a read-only PropertySet.
+     *
+     * @param   {BasePropertySet}   basePropertySet   The base property set.
+     * @return  {PropertySet}       PropertySet
+     */
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.additionalProperties itself
+     */
+    GetEnumerator(): PropertyDefinitionBase[];
+    /**
+     * Gets the name of the shape.
+     *
+     * @param   {ServiceObjectType}     serviceObjectType   Type of the service object.
+     * @return  {string}                Shape name.
+     */
+    /**
+     * Removes the specified property from the set.
+     *
+     * @param   {PropertyDefinitionBase}    property   The property to remove.
+     * @return  {boolean}                   true if the property was successfully removed, false otherwise.
+     */
     Remove(property: PropertyDefinitionBase): boolean;
-    ThrowIfReadonly(): void;
+    /**
+     * Throws if readonly property set.
+     */
+    /**
+     * Implements ISelfValidate.Validate. Validates this property set.
+     */
     Validate(): void;
-    static WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void;
-    WriteToXml(writer: EwsServiceXmlWriter, serviceObjectType: ServiceObjectType): void;
 }
  class SimplePropertyBag<TKey> {
     OnChange: PropertyBagChangedDelegate[];
@@ -7526,330 +7727,6 @@ export interface InitializeLazyMember<T> {
      * @param   {boolean}   isArchive         Is archive tag.
      */
     constructor(displayName: string, retentionId: Guid, retentionPeriod: number, type: ElcFolderType, retentionAction: RetentionActionType, isVisible: boolean, optedInto: boolean, isArchive: boolean);
-}
-/**
- * Represents an error that occurs when the account that is being accessed is locked and requires user interaction to be unlocked.
- */
- class AccountIsLockedException extends ServiceRemoteException {
-    /**
-     * Gets the URL of a web page where the user can navigate to unlock his or her account.
-     *
-     * internal set
-     */
-    AccountUnlockUrl: Uri;
-    /**
-     * Initializes a new instance of the  class.
-     *
-     * @param   {string}        message            Error message text.
-     * @param   {Uri}           accountUnlockUrl   URL for client to visit to unlock account.
-     * @param   {Exception}     innerException     Inner exception.
-     */
-    constructor(message: string, accountUnlockUrl: Uri, innerException: Exception);
-}
- class ArgumentException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, paramName: string);
-    constructor(message: string, innerException: Exception);
-    constructor(message: string, paramName: string, innerException: Exception);
-}
- class ArgumentNullException extends ArgumentException {
-    constructor();
-    constructor(paramName: string);
-    constructor(paramName: string, message: string);
-    constructor(message: string, innerException: Exception);
-    constructor(message: string, paramName: string, innerException: Exception);
-}
- class ArgumentOutOfRangeException extends ArgumentException {
-    actualValue: any;
-    /**
-     * Gets the value of the argument that caused the exception.
-     */
-    readonly ActualValue: any;
-    constructor();
-    constructor(paramName: string);
-    constructor(paramName: string, message: string);
-    constructor(message: string, innerException: Exception);
-    constructor(paramName: string, actualValue: any, message: string);
-} class AutodiscoverLocalException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **AutodiscoverLocalException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-} class AutodiscoverRemoteException extends ServiceRemoteException {
-    Error: AutodiscoverError;
-} class AutodiscoverResponseException extends ServiceRemoteException {
-    ErrorCode: AutodiscoverErrorCode;
-}/**
- * Represents a remote service exception that can have multiple service responses.
- *
- * @type {TResponse}       The type of the response.
- */
- class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {
-    /**
-     * The list of responses returned by the web method.
-     */
-    /**
-     * Gets a list of responses returned by the web method.
-     */
-    readonly ServiceResponses: ServiceResponseCollection<TResponse>;
-    /**
-     * Initializes a new instance of **BatchServiceResponseException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string);
-    /**
-     * Initializes a new instance of **BatchServiceResponseException**.
-     *
-     * @param   {ServiceResponseCollection<TResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string, innerException: Exception);
-} class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
-}/**
- * Represents an error that occurs when a call to the DeleteAttachment web method fails.
- */
- class DeleteAttachmentException extends BatchServiceResponseException<DeleteAttachmentResponse> {
-    /**
-     * Initializes a new instance of **DeleteAttachmentException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string);
-    /**
-     * Initializes a new instance of **DeleteAttachmentException**.
-     *
-     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string, innerException: Exception);
-}
- class Exception {
-    readonly Message: string;
-    InnerException: Exception;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-    /**
-     * @override user JSON.stringify for now, todo: impelemtn real Exception tostring
-     */
-    toString(): string;
-}
- class InvalidOperationException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-}
- class JsonDeserializationNotImplementedException extends ServiceLocalException {
-}
- class JsonSerializationNotImplementedException extends Exception {
-}
- class NotSupportedException extends Exception {
-    ParamName: string;
-    constructor();
-    constructor(message: string);
-    constructor(message: string, innerException: Exception);
-} class PropertyException extends ServiceLocalException {
-    Name: string;
-    constructor(message: string, name?: string, innerException?: Exception);
-}
- class ServerBusyException extends ServiceResponseException {
-    BackOffMilliseconds: number;
-}
- class ServiceJsonDeserializationException extends ServiceLocalException {
-}
-/**
- * Represents an error that occurs when a service operation fails locally (e.g. validation error).
- */
- class ServiceLocalException extends Exception {
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
- class ServiceObjectPropertyException extends PropertyException {
-    PropertyDefinition: PropertyDefinitionBase;
-    constructor(message: string, propertyDefinition: PropertyDefinitionBase, innerException?: Exception);
-}
-/**
- * Represents an error that occurs when a service operation fails remotely.
- */
- class ServiceRemoteException extends Exception {
-    /**
-     * ServiceRemoteException Constructor.
-     */
-    constructor();
-    /**
-     * ServiceRemoteException Constructor.
-     *
-     * @param   {string}    message          Error message text.
-     */
-    constructor(message: string);
-    /**
-     * ServiceRemoteException Constructor.
-     *
-     * @param   {string}        message          Error message text.
-     * @param   {Exception}     innerException   Inner exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
- class ServiceRequestException extends ServiceRemoteException {
-}
- class ServiceRequestUnauthorizedException extends ServiceRequestException {
-}
-/**
- * Represents a remote service exception that has a single response.
- */
- class ServiceResponseException extends ServiceRemoteException {
-    /**
-     * Error details Value keys
-     */
-    /**
-     * ServiceResponse when service operation failed remotely.
-     */
-    /**
-     * Gets the ServiceResponse for the exception.
-     */
-    readonly Response: ServiceResponse;
-    /**
-     * Gets the service error code.
-     */
-    readonly ErrorCode: ServiceError;
-    /**
-     * Gets a message that describes the current exception.
-     *
-     * @returns The error message that explains the reason for the exception.
-     */
-    readonly Message: string;
-}/**
- * Represents an error that occurs when a validation check fails.
- *
- * @sealed
- */
- class ServiceValidationException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceValidationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}/**
- * Represents an error that occurs when a request cannot be handled due to a service version mismatch.
- *
- * @sealed
- */
- class ServiceVersionException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceVersionException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
- class ServiceXmlDeserializationException extends ServiceLocalException {
-} class ServiceXmlSerializationException extends ServiceLocalException {
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     */
-    constructor(message: string);
-    /**
-     * Initializes a new instance of **ServiceXmlSerializationException**.
-     *
-     * @param   {string}   message            The message that describes the error.
-     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
-     */
-    constructor(message: string, innerException: Exception);
-}
- class TimeZoneConversionException extends ServiceLocalException {
-}/**
- * Represents an exception thrown when an error occurs as a result of calling the UpdateInboxRules operation.
- *
- * @sealed
- */
- class UpdateInboxRulesException extends ServiceRemoteException {
-    /**
-     * ServiceResponse when service operation failed remotely.
-     */
-    /**
-     * Rule operation error collection.
-     */
-    /**
-     * Gets the ServiceResponse for the exception.
-     */
-    readonly ServiceResponse: ServiceResponse;
-    /**
-     * Gets the rule operation error collection.
-     */
-    readonly Errors: RuleOperationErrorCollection;
-    /**
-     * Gets the rule operation error code.
-     */
-    readonly ErrorCode: ServiceError;
-    /**
-     * Gets the rule operation error message.
-     */
-    readonly ErrorMessage: string;
 }/** Indicates which occurrence of a recurring task should be deleted*/
  enum AffectedTaskOccurrence {
     /** All occurrences of the recurring task will be deleted.*/
@@ -11001,6 +10878,330 @@ export interface InitializeLazyMember<T> {
     WSTrustFebruary2005 = 8,
     WSAddressing = 9,
     Autodiscover = 10,
+}
+/**
+ * Represents an error that occurs when the account that is being accessed is locked and requires user interaction to be unlocked.
+ */
+ class AccountIsLockedException extends ServiceRemoteException {
+    /**
+     * Gets the URL of a web page where the user can navigate to unlock his or her account.
+     *
+     * internal set
+     */
+    AccountUnlockUrl: Uri;
+    /**
+     * Initializes a new instance of the  class.
+     *
+     * @param   {string}        message            Error message text.
+     * @param   {Uri}           accountUnlockUrl   URL for client to visit to unlock account.
+     * @param   {Exception}     innerException     Inner exception.
+     */
+    constructor(message: string, accountUnlockUrl: Uri, innerException: Exception);
+}
+ class ArgumentException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, paramName: string);
+    constructor(message: string, innerException: Exception);
+    constructor(message: string, paramName: string, innerException: Exception);
+}
+ class ArgumentNullException extends ArgumentException {
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(message: string, paramName: string, innerException: Exception);
+}
+ class ArgumentOutOfRangeException extends ArgumentException {
+    actualValue: any;
+    /**
+     * Gets the value of the argument that caused the exception.
+     */
+    readonly ActualValue: any;
+    constructor();
+    constructor(paramName: string);
+    constructor(paramName: string, message: string);
+    constructor(message: string, innerException: Exception);
+    constructor(paramName: string, actualValue: any, message: string);
+} class AutodiscoverLocalException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **AutodiscoverLocalException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+} class AutodiscoverRemoteException extends ServiceRemoteException {
+    Error: AutodiscoverError;
+} class AutodiscoverResponseException extends ServiceRemoteException {
+    ErrorCode: AutodiscoverErrorCode;
+}/**
+ * Represents a remote service exception that can have multiple service responses.
+ *
+ * @type {TResponse}       The type of the response.
+ */
+ class BatchServiceResponseException<TResponse extends ServiceResponse> extends ServiceRemoteException {
+    /**
+     * The list of responses returned by the web method.
+     */
+    /**
+     * Gets a list of responses returned by the web method.
+     */
+    readonly ServiceResponses: ServiceResponseCollection<TResponse>;
+    /**
+     * Initializes a new instance of **BatchServiceResponseException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string);
+    /**
+     * Initializes a new instance of **BatchServiceResponseException**.
+     *
+     * @param   {ServiceResponseCollection<TResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<TResponse>, message: string, innerException: Exception);
+} class CreateAttachmentException extends BatchServiceResponseException<CreateAttachmentResponse> {
+}/**
+ * Represents an error that occurs when a call to the DeleteAttachment web method fails.
+ */
+ class DeleteAttachmentException extends BatchServiceResponseException<DeleteAttachmentResponse> {
+    /**
+     * Initializes a new instance of **DeleteAttachmentException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string);
+    /**
+     * Initializes a new instance of **DeleteAttachmentException**.
+     *
+     * @param   {ServiceResponseCollection<DeleteAttachmentResponse>}   serviceResponses   The list of responses to be associated with this exception.
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(serviceResponses: ServiceResponseCollection<DeleteAttachmentResponse>, message: string, innerException: Exception);
+}
+ class Exception {
+    readonly Message: string;
+    InnerException: Exception;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+    /**
+     * @override user JSON.stringify for now, todo: impelemtn real Exception tostring
+     */
+    toString(): string;
+}
+ class InvalidOperationException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+}
+ class JsonDeserializationNotImplementedException extends ServiceLocalException {
+}
+ class JsonSerializationNotImplementedException extends Exception {
+}
+ class NotSupportedException extends Exception {
+    ParamName: string;
+    constructor();
+    constructor(message: string);
+    constructor(message: string, innerException: Exception);
+} class PropertyException extends ServiceLocalException {
+    Name: string;
+    constructor(message: string, name?: string, innerException?: Exception);
+}
+ class ServerBusyException extends ServiceResponseException {
+    BackOffMilliseconds: number;
+}
+ class ServiceJsonDeserializationException extends ServiceLocalException {
+}
+/**
+ * Represents an error that occurs when a service operation fails locally (e.g. validation error).
+ */
+ class ServiceLocalException extends Exception {
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+ class ServiceObjectPropertyException extends PropertyException {
+    PropertyDefinition: PropertyDefinitionBase;
+    constructor(message: string, propertyDefinition: PropertyDefinitionBase, innerException?: Exception);
+}
+/**
+ * Represents an error that occurs when a service operation fails remotely.
+ */
+ class ServiceRemoteException extends Exception {
+    /**
+     * ServiceRemoteException Constructor.
+     */
+    constructor();
+    /**
+     * ServiceRemoteException Constructor.
+     *
+     * @param   {string}    message          Error message text.
+     */
+    constructor(message: string);
+    /**
+     * ServiceRemoteException Constructor.
+     *
+     * @param   {string}        message          Error message text.
+     * @param   {Exception}     innerException   Inner exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+ class ServiceRequestException extends ServiceRemoteException {
+}
+ class ServiceRequestUnauthorizedException extends ServiceRequestException {
+}
+/**
+ * Represents a remote service exception that has a single response.
+ */
+ class ServiceResponseException extends ServiceRemoteException {
+    /**
+     * Error details Value keys
+     */
+    /**
+     * ServiceResponse when service operation failed remotely.
+     */
+    /**
+     * Gets the ServiceResponse for the exception.
+     */
+    readonly Response: ServiceResponse;
+    /**
+     * Gets the service error code.
+     */
+    readonly ErrorCode: ServiceError;
+    /**
+     * Gets a message that describes the current exception.
+     *
+     * @returns The error message that explains the reason for the exception.
+     */
+    readonly Message: string;
+}/**
+ * Represents an error that occurs when a validation check fails.
+ *
+ * @sealed
+ */
+ class ServiceValidationException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceValidationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}/**
+ * Represents an error that occurs when a request cannot be handled due to a service version mismatch.
+ *
+ * @sealed
+ */
+ class ServiceVersionException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceVersionException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+ class ServiceXmlDeserializationException extends ServiceLocalException {
+} class ServiceXmlSerializationException extends ServiceLocalException {
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     */
+    constructor(message: string);
+    /**
+     * Initializes a new instance of **ServiceXmlSerializationException**.
+     *
+     * @param   {string}   message            The message that describes the error.
+     * @param   {Exception}   innerException     The exception that is the cause of the current exception.
+     */
+    constructor(message: string, innerException: Exception);
+}
+ class TimeZoneConversionException extends ServiceLocalException {
+}/**
+ * Represents an exception thrown when an error occurs as a result of calling the UpdateInboxRules operation.
+ *
+ * @sealed
+ */
+ class UpdateInboxRulesException extends ServiceRemoteException {
+    /**
+     * ServiceResponse when service operation failed remotely.
+     */
+    /**
+     * Rule operation error collection.
+     */
+    /**
+     * Gets the ServiceResponse for the exception.
+     */
+    readonly ServiceResponse: ServiceResponse;
+    /**
+     * Gets the rule operation error collection.
+     */
+    readonly Errors: RuleOperationErrorCollection;
+    /**
+     * Gets the rule operation error code.
+     */
+    readonly ErrorCode: ServiceError;
+    /**
+     * Gets the rule operation error message.
+     */
+    readonly ErrorMessage: string;
 }export interface ICalendarActionProvider {
     Accept(sendResponse: boolean): Promise<CalendarActionResults>;
     AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults>;
@@ -11008,10 +11209,8 @@ export interface InitializeLazyMember<T> {
     CreateDeclineMessage(): DeclineMeetingInvitationMessage;
     Decline(sendResponse: boolean): Promise<CalendarActionResults>;
 }export interface ICustomUpdateSerializer {
-    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any): boolean;
-    WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean;
-    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any): boolean;
-    WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition): boolean;
+}export interface IEnumerable<T> {
+    GetEnumerator(): Array<T>;
 }
 export interface IEwsHttpWebRequest {
     Accept: string;
@@ -11060,7 +11259,7 @@ export interface IJsonCollectionDeserializer {
 export interface IJsonSerializable {
     ToJson(service: ExchangeService): any;
 }export interface IOutParam<T> {
-    outValue?: T;
+    outValue: T;
     exception?: any;
     success?: boolean;
 }
@@ -11075,7 +11274,8 @@ export interface IOwnedProperty {
     Validate(): any;
 }export interface ITraceListener {
     Trace(traceType: string, traceMessage: string): void;
-}
+}
+
 /**
  * Represents mailbox query object.
  *
@@ -11978,28 +12178,42 @@ export interface CreateServiceObjectWithAttachmentParam {
     (itemAttachment: ItemAttachment, isNew: boolean): any;
 } class EwsTraceListener {
     Trace(traceType: string, traceMessage: string): void;
-} class ExpandGroupResults {
+}/**
+ * Represents the results of an ExpandGroup operation.
+ *
+ * @sealed
+ */
+ class ExpandGroupResults implements IEnumerable<EmailAddress> {
+    /**
+     * True, if all members are returned.
+     * EWS always returns true on ExpandDL, i.e. all members are returned.
+     */
+    /**
+     * DL members.
+     */
+    /**
+     * Gets the number of members that were returned by the ExpandGroup operation.
+     * Count might be less than the total number of members in the group, in which case the value of the IncludesAllMembers is false.
+     */
     readonly Count: number;
+    /**
+     * Gets a value indicating whether all the members of the group have been returned by ExpandGroup.
+     */
     readonly IncludesAllMembers: boolean;
+    /**
+     * Gets the members of the expanded group.
+     */
     readonly Members: EmailAddress[];
-    constructor();
-    LoadFromXmlJsObject(responseObject: any, service: ExchangeService): void;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.members
+     */
+    GetEnumerator(): EmailAddress[];
 } class FolderIdWrapper extends AbstractFolderIdWrapper {
     constructor(folderId: FolderId);
     Validate(version: ExchangeVersion): void;
     WriteToXml(writer: EwsServiceXmlWriter): void;
-} class FolderIdWrapperList {
-    readonly Count: number;
-    Add(folder: Folder): void;
-    Add(folderId: FolderId): void;
-    /**this is to shim add method with easy use within file/module. */
-    Add(folderOrId: Folder | FolderId): void;
-    AddRange(folders: Folder[]): void;
-    AddRange(folderIds: FolderId[]): void;
-    Validate(version: ExchangeVersion): void;
-    WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): void;
-    __thisIndexer(index: number): AbstractFolderIdWrapper;
-}
+}
+
  class FolderWrapper extends AbstractFolderIdWrapper {
     constructor(folder: Folder);
     GetFolder(): Folder;
@@ -12014,20 +12228,8 @@ export interface CreateServiceObjectWithAttachmentParam {
     constructor(itemId: ItemId);
     IternalToJson(service: ExchangeService): any;
     WriteToXml(writer: EwsServiceXmlWriter): void;
-}
- class ItemIdWrapperList {
-    readonly Count: number;
-    Add(itemId: ItemId): void;
-    Add(item: Item): void;
-    /**this is to shim add method with easy use within file/module. */
-    Add(itemOrId: Item | ItemId): void;
-    AddRange(itemIds: ItemId[]): void;
-    AddRange(items: Item[]): void;
-    GetEnumerator(): any;
-    InternalToJson(service: ExchangeService): any;
-    WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): void;
-    __thisIndexer(index: number): Item;
-} class ItemWrapper extends AbstractItemIdWrapper {
+}
+ class ItemWrapper extends AbstractItemIdWrapper {
     constructor(item: Item);
     GetItem(): Item;
     IternalToJson(service: ExchangeService): any;
@@ -12093,6 +12295,7 @@ export interface CreateServiceObjectWithAttachmentParam {
     constructor(name: string, phoneNumber: string);
     /**
      * Validates this instance.
+     * ISelfValidate.Validate
      */
     Validate(): void;
 } class NameResolution {
@@ -12101,16 +12304,32 @@ export interface CreateServiceObjectWithAttachmentParam {
     constructor(owner: NameResolutionCollection);
     LoadFromJson(jsonProperty: any, service: ExchangeService): void;
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-} class NameResolutionCollection {
-    readonly Items: NameResolution[];
-    readonly Session: ExchangeService;
+}/**
+ * Represents a list of suggested name resolutions.
+ *
+ * @sealed
+ */
+ class NameResolutionCollection implements IEnumerable<NameResolution> {
+    /**
+     * Gets the total number of elements in the list.
+     */
     readonly Count: number;
+    /**
+     * Gets a value indicating whether more suggested resolutions are available. ResolveName only returns a maximum of 100 name resolutions.
+     * When IncludesAllResolutions is false, there were more than 100 matching names on the server. To narrow the search, provide a more precise name to ResolveName.
+     */
     readonly IncludesAllResolutions: boolean;
-    constructor(service: ExchangeService);
+    /**
+     * Gets the name resolution at the specified index.
+     *
+     * @param   {number}   index    The index of the name resolution to get.
+     * @return  {NameResolution}    The name resolution at the speicfied index.
+     */
     _getItem(index: number): NameResolution;
-    GetEnumerator(): any;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): NameResolution[];
 }
  class PrivilegedUserId {
     IdType: ConnectingIdType;
@@ -13018,11 +13237,12 @@ export interface IIndexedPropertyDefinition {
      * Gets the indexed offset of the first conversation by the search operation.
      */
     IndexedOffset: number;
-}
-/**
+}/**
  * Represents the results of a folder search operation.
+ *
+ * @sealed
  */
- class FindFoldersResults {
+ class FindFoldersResults implements IEnumerable<Folder> {
     /**
      * Gets the total number of folders matching the search criteria available in the searched folder.
      */
@@ -13039,6 +13259,10 @@ export interface IIndexedPropertyDefinition {
      * Gets a collection containing the folders that were found by the search operation.
      */
     readonly Folders: Folder[];
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): Folder[];
 }/**
  * Represents the results of an item search operation.
  *
@@ -13125,16 +13349,49 @@ export interface IIndexedPropertyDefinition {
      */
     readonly ItemGroups: ItemGroup<TItem>[];
     GetEnumerator(): any;
-} class Grouping {
+}/**
+ * Represents grouping options in item search operations.
+ *
+ * @sealed
+ */
+ class Grouping implements ISelfValidate {
+    /**
+     * Gets or sets the sort direction.
+     */
     SortDirection: SortDirection;
+    /**
+     * Gets or sets the property to group on.
+     */
     GroupOn: PropertyDefinitionBase;
+    /**
+     * Gets or sets the property to aggregate on.
+     */
     AggregateOn: PropertyDefinitionBase;
+    /**
+     * Gets or sets the types of aggregate to calculate.
+     */
     AggregateType: AggregateType;
     /** no need for setter getter */
+    /**
+     * Initializes a new instance of the **Grouping** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **Grouping** class.
+     *
+     * @param   {PropertyDefinitionBase}   groupOn         The property to group on.
+     * @param   {SortDirection}   sortDirection   The sort direction.
+     * @param   {PropertyDefinitionBase}   aggregateOn     The property to aggregate on.
+     * @param   {AggregateType}   aggregateType   The type of aggregate to calculate.
+     */
     constructor(groupOn: PropertyDefinitionBase, sortDirection: SortDirection, aggregateOn: PropertyDefinitionBase, aggregateType: AggregateType);
-    InternalValidate(): void;
-    WriteToXml(writer: EwsServiceXmlWriter): void;
+    /**
+     * Validates this grouping.
+     */
+    /**
+     * Implements ISelfValidate.Validate. Validates this grouping.
+     */
+    Validate(): void;
 }
  class ItemGroup<TItem extends Item> {
     GroupIndex: string;
@@ -13177,18 +13434,45 @@ export interface IIndexedPropertyDefinition {
     constructor(pageSize: number, offset: number, offsetBasePoint: OffsetBasePoint);
 }
  type PropertyDefinitionSortDirectionPair = KeyValuePair<PropertyDefinitionBase, SortDirection>;
- class OrderByCollection {
-    ___implementsInterface: string[];
-    readonly Count: number;
-    __thisIndexer(index: number): PropertyDefinitionSortDirectionPair;
+/**
+ * Represents an ordered collection of property definitions qualified with a sort direction.
+ *
+ * @sealed
+ */
+ class OrderByCollection implements IEnumerable<PropertyDefinitionSortDirectionPair> {
+    /**
+     * Gets the number of elements contained in the collection.
+     */
+    readonly Count: number;
+    /**
+     * Gets the element at the specified index from the collection.
+     *
+     * @param   {number}   index   Index.
+     */
+    _getItem(index: number): PropertyDefinitionSortDirectionPair;
+    /**
+     * Adds the specified property definition / sort direction pair to the collection.
+     *
+     * @param   {PropertyDefinitionBase}    propertyDefinition   The property definition.
+     * @param   {SortDirection}             sortDirection        The sort direction.
+     */
     Add(propertyDefinition: PropertyDefinitionBase, sortDirection: SortDirection): void;
+    /**
+     * Removes all elements from the collection.
+     */
     Clear(): void;
-    Contains(propertyDefinition: PropertyDefinitionBase): boolean;
-    GetEnumerator(): any;
-    Remove(propertyDefinition: PropertyDefinitionBase): boolean;
-    RemoveAt(index: number): void;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.propDefSortOrderPairList
+     */
+    GetEnumerator(): PropertyDefinitionSortDirectionPair[];
+    /**
+     * Tries to get the value for a property definition in the collection.
+     *
+     * @param   {PropertyDefinitionBase}    propertyDefinition   The property definition.
+     * @param   {IOutParam<SortDirection>}  sortDirection        The sort direction.
+     * @return  {boolean}                   True if collection contains property definition, otherwise false.
+     */
     TryGetValue(propertyDefinition: PropertyDefinitionBase, sortDirection: IOutParam<SortDirection>): boolean;
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void;
 }/**
  * Represents a view settings that support paging in a search operation.
  */
@@ -13317,16 +13601,13 @@ export interface IIndexedPropertyDefinition {
      * Gets the type of the change.
      */
     ChangeType: ChangeType;
-}
-/**
+}/**
  * Represents a collection of changes as returned by a synchronization operation.
  *
  * @sealed
  * @typeparam	{TChange}	Type representing the type of change (e.g. FolderChange or ItemChange)
  */
- class ChangeCollection<TChange extends Change> {
-    ___implementsInterface: string[];
-    ___typeName: string;
+ class ChangeCollection<TChange extends Change> implements IEnumerable<TChange> {
     ___typeGenerics: string[];
     /**
      * Gets the number of changes in the collection.
@@ -13346,7 +13627,11 @@ export interface IIndexedPropertyDefinition {
      * @param   {number}   index   Zero-based index.
      * @return  {TChange}		An single change.
      */
-    __thisIndexer(index: number): TChange;
+    _getItem(index: number): TChange;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.changes
+     */
+    GetEnumerator(): TChange[];
 }
 /**
  * Represents a change on a folder as returned by a synchronization operation.
@@ -13547,11 +13832,10 @@ export interface IIndexedPropertyDefinition {
     readonly FreeBusyStatus: LegacyFreeBusyStatus;
     constructor(conflictType: ConflictType);
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
-/**
+}/**
  * Represents a user's Out of Office (OOF) settings.
  */
- class OofSettings extends ComplexProperty {
+ class OofSettings extends ComplexProperty implements ISelfValidate {
     /**
      * Gets or sets the user's OOF state.
      *
@@ -13608,7 +13892,8 @@ export interface IIndexedPropertyDefinition {
     readonly Conflicts: Conflict[];
     constructor();
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-} class WorkingHours extends ComplexProperty {
+}
+ class WorkingHours extends ComplexProperty {
     LegacyTimeZone: LegacyAvailabilityTimeZone;
     readonly TimeZone: moment.Moment;
     readonly DaysOfTheWeek: DayOfTheWeek[];
@@ -13624,12 +13909,19 @@ export interface IIndexedPropertyDefinition {
     LoadFromJson(jsonProperty: any, service: ExchangeService): any;
     ReadElementsFromXmlJsObject(reader: any): boolean;
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}/**
+}
+/**
  * Represents a collection of DayOfTheWeek values.
  */
- class DayOfTheWeekCollection extends ComplexProperty {
-    get_Item(index: number): DayOfTheWeek;
+ class DayOfTheWeekCollection extends ComplexProperty implements IEnumerable<DayOfTheWeek> {
     readonly Count: number;
+    /**
+     * Gets the DayOfTheWeek at a specific index in the collection.
+     *
+     * @param   {number}        index   Index
+     * @return  {DayOfTheWeek}  DayOfTheWeek at index
+     */
+    _getItem(index: number): DayOfTheWeek;
     /**
      * Adds a day to the collection if it is not already present.
      *
@@ -13646,6 +13938,10 @@ export interface IIndexedPropertyDefinition {
      * Clears the collection.
      */
     Clear(): void;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): DayOfTheWeek[];
     /**
      * Remove a specific day from the collection.
      *
@@ -13710,8 +14006,8 @@ export interface IIndexedPropertyDefinition {
 } class TimeZoneDefinition extends ComplexProperty {
     Name: string;
     Id: string;
-    readonly Periods: DictionaryWithStringKey<TimeZonePeriod>;
-    readonly TransitionGroups: DictionaryWithStringKey<TimeZoneTransitionGroup>;
+    readonly Periods: Dictionary<string, TimeZonePeriod>;
+    readonly TransitionGroups: Dictionary<string, TimeZoneTransitionGroup>;
     constructor();
     constructor(timezoneInfo: TimeZoneInfo);
     CompareTransitions(x: TimeZoneTransition, y: TimeZoneTransition): number;
@@ -14249,15 +14545,48 @@ export interface IIndexedPropertyDefinition {
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Item;
     Loaded(): void;
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void;
-} class AttendeeInfo {
+}/**
+ * Represents information about an attendee for which to request availability information.
+ *
+ * @sealed
+ */
+ class AttendeeInfo implements ISelfValidate {
+    /**
+     * Gets or sets the SMTP address of this attendee.
+     */
     SmtpAddress: string;
+    /**
+     * Gets or sets the type of this attendee.
+     */
     AttendeeType: MeetingAttendeeType;
+    /**
+     * Gets or sets a value indicating whether times when this attendee is not available should be returned.
+     */
     ExcludeConflicts: boolean;
+    /**
+     * Initializes a new instance of the **AttendeeInfo** class.
+     */
     constructor();
-    constructor(smtpAddress?: string);
-    constructor(smtpAddress?: string, attendeeType?: MeetingAttendeeType, excludeConflicts?: boolean);
+    /**
+     * Initializes a new instance of the **AttendeeInfo** class.
+     *
+     * @param   {string}    smtpAddress        The SMTP address of the attendee.
+     */
+    constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **AttendeeInfo** class.
+     *
+     * @param   {string}                smtpAddress        The SMTP address of the attendee.
+     * @param   {MeetingAttendeeType}   attendeeType       The yype of the attendee.
+     * @param   {boolean}               excludeConflicts   Indicates whether times when this attendee is not available should be returned.
+     */
+    constructor(smtpAddress: string, attendeeType: MeetingAttendeeType, excludeConflicts: boolean);
+    /**
+     * Validates this instance.
+     *
+     * ISelfValidate.Validate
+     */
     Validate(): void;
-    WriteToXml(writer: EwsServiceXmlWriter): void;
 } class AvailabilityOptions {
     MergedFreeBusyInterval: number;
     RequestedFreeBusyView: FreeBusyViewType;
@@ -14329,17 +14658,41 @@ export interface IIndexedPropertyDefinition {
      */
     ToString(): string;
     toString(): string;
-}
- class TimeWindow {
+}/**
+ * Represents a time period.
+ *
+ * @sealed
+ */
+ class TimeWindow implements ISelfValidate {
+    /**
+     * Gets or sets the start date and time.
+     */
     StartTime: DateTime;
+    /**
+     * Gets or sets the end date and time.
+     */
     EndTime: DateTime;
-    readonly Duration: TimeSpan;
-    constructor();
+    /**
+     * Initializes a new instance of the **TimeWindow** class.
+     *
+     * @param   {DateTime}   startTime   The start date and time.
+     * @param   {DateTime}   endTime     The end date and time.
+     */
     constructor(startTime: DateTime, endTime: DateTime);
-    LoadFromXmlJsObject(jsonObject: any, service: ExchangeService): void;
+    /**
+     * Validates this instance.
+     *
+     * ISelfValidate.Validate
+     */
     Validate(): void;
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, startTime?: any, endTime?: any): void;
-    WriteToXmlUnscopedDatesOnly(writer: EwsServiceXmlWriter, xmlElementName: string): void;
+    /**
+     * Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     * @param   {any}                   startTime        The start time.
+     * @param   {any}                   endTime          The end time.
+     */
 }/**
  * Represents an Id expressed in a specific format.
  */
@@ -14377,11 +14730,10 @@ export interface IIndexedPropertyDefinition {
      * @param   {boolean}   isArchive   Primary (false) or archive (true) mailbox.
      */
     constructor(format: IdFormat, id: string, mailbox: string, isArchive: boolean);
-}
-/**
+}/**
  * Represents the base class for Id expressed in a specific format.
  */
- abstract class AlternateIdBase {
+ abstract class AlternateIdBase implements ISelfValidate {
     /**
      * Gets or sets the format in which the Id in expressed.
      */
@@ -14396,6 +14748,12 @@ export interface IIndexedPropertyDefinition {
      * @param   {IdFormat}   format   The format.
      */
     constructor(format: IdFormat);
+    /**
+     * Validate this instance.
+     * ISelfValidate.Validate
+     *
+     */
+    Validate(): void;
 }/**
  * Represents the Id of a public folder expressed in a specific format.
  */
@@ -14784,28 +15142,15 @@ export interface IRelationalFilter {
     new (): RelationalFilter;
     new (propertyDefinition: PropertyDefinitionBase, otherPropertyDefinition: PropertyDefinitionBase): RelationalFilter;
     new (propertyDefinition: PropertyDefinitionBase, value: any): RelationalFilter;
-}/**
+}
+/**
  * Represents a collection of search filters linked by a logical operator. Applications can use SearchFilterCollection to define complex search filters such as "Condition1 AND Condition2".
  */
- class SearchFilterCollection extends SearchFilter {
+ class SearchFilterCollection extends SearchFilter implements IEnumerable<SearchFilter> {
     /**
      * Gets the total number of search filters in the collection.
      */
     readonly Count: number;
-    /**
-     * Gets or sets the search filter at the specified index.
-     *
-     * @param   {number}   index   The zero-based index of the search filter to get or set.
-     * @return  {SearchFilter}           The search filter at the specified index.
-     */
-    _getItem(index: number): SearchFilter;
-    /**
-     * Gets or sets the search filter at the specified index.
-     *
-     * @param   {number}   index   The zero-based index of the search filter to get or set.
-     * @return  {SearchFilter}           The search filter at the specified index.
-     */
-    _setItem(index: number, value: SearchFilter): void;
     /**
      * Gets or sets the logical operator that links the serach filters in this collection.
      */
@@ -14835,6 +15180,20 @@ export interface IRelationalFilter {
      */
     constructor(logicalOperator: LogicalOperator, ...searchFilters: SearchFilter[]);
     /**
+     * Gets or sets the search filter at the specified index.
+     *
+     * @param   {number}   index   The zero-based index of the search filter to get or set.
+     * @return  {SearchFilter}           The search filter at the specified index.
+     */
+    _getItem(index: number): SearchFilter;
+    /**
+     * Gets or sets the search filter at the specified index.
+     *
+     * @param   {number}   index   The zero-based index of the search filter to get or set.
+     * @return  {SearchFilter}           The search filter at the specified index.
+     */
+    _setItem(index: number, value: SearchFilter): void;
+    /**
      * Adds a search filter of any type to the collection.
      *
      * @param   {SearchFilter}   searchFilter   The search filter to add. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection.
@@ -14857,6 +15216,10 @@ export interface IRelationalFilter {
      * @return  {boolean}		True is the search filter was found in the collection, false otherwise.
      */
     Contains(searchFilter: SearchFilter): boolean;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): SearchFilter[];
     /**
      * Removes a search filter from the collection.
      *
@@ -15694,6 +16057,8 @@ export interface ISearchFilterCollection {
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
  class Appointment extends Item implements ICalendarActionProvider {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute.*/
+    static readonly Attachable: boolean;
     /**
      * Gets or sets the start time of the appointment.
      */
@@ -15719,7 +16084,8 @@ export interface ISearchFilterCollection {
      */
     Location: string;
     /**
-     * Gets a text indicating when this appointment occurs. The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
+     * Gets a text indicating when this appointment occurs.
+     * The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
      */
     readonly When: string;
     /**
@@ -16016,7 +16382,14 @@ export interface ISearchFilterCollection {
      * @param   {MessageBody}     bodyPrefix     The prefix to prepend to the original body of the message.
      * @param   {EmailAddress[]}  toRecipients   The recipients to forward the appointment to.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void>;
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): void;
+    /**
+     * Forwards the appointment. Calling this method results in a call to EWS.
+     *
+     * @param   {MessageBody}     bodyPrefix     The prefix to prepend to the original body of the message.
+     * @param   {EmailAddress[]}  ...toRecipients   The recipients to forward the appointment to.
+     */
+    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): void;
     /**
      * Replies to the organizer and/or the attendees of the meeting. Calling this method results in a call to EWS.
      *
@@ -16061,7 +16434,9 @@ export interface ISearchFilterCollection {
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
  *
  */
- class Contact extends Item {
+ class Contact extends Item {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    static readonly Attachable: boolean;
     /**
      * Gets or set the name under which this contact is filed as. FileAs can be manually set or can be automatically calculated based on the value of the FileAsMapping property.
      *
@@ -16657,6 +17032,8 @@ export interface ISearchFilterCollection {
  *
  */
  class EmailMessage extends Item {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    static readonly Attachable: boolean;
     /**
      * Gets the list of To recipients for the e-mail message.
      *
@@ -16841,7 +17218,9 @@ export interface ISearchFilterCollection {
  * Represents a generic **Item**. Properties available on items are defined in the *ItemSchema* class.
  *
  */
- class Item extends ServiceObject {
+ class Item extends ServiceObject {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    static readonly Attachable: boolean;
     /**
      * Gets a value indicating whether the item is an attachment.
      *
@@ -17398,7 +17777,8 @@ export interface ISearchFilterCollection {
      */
     readonly Location: string;
     /**
-     * Gets a text indicating when this appointment occurs. The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
+     * Gets a text indicating when this appointment occurs.
+     * The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
      */
     readonly When: string;
     /**
@@ -17631,6 +18011,8 @@ export interface ISearchFilterCollection {
  * @sealed
  */
  class PostItem extends Item {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    static readonly Attachable: boolean;
     /**
      * Gets the conversation index of the post item.
      */
@@ -17743,6 +18125,8 @@ export interface ISearchFilterCollection {
  * Represents a Task item. Properties available on tasks are defined in the TaskSchema class.
  */
  class Task extends Item {
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    static readonly Attachable: boolean;
     /**
      * @nullable Gets or sets the actual amount of time that is spent on the task.
      */
@@ -21218,15 +21602,17 @@ export interface SearchFolderSchema {
  * Represents the schema for search folders.
  */
 export interface SearchFolderSchemaStatic extends SearchFolderSchema {
-}
-/**
+}/**
  * Represents the base class for all item and folder schemas.
  */
- abstract class ServiceObjectSchema {
+ abstract class ServiceObjectSchema implements IEnumerable<PropertyDefinition> {
     /**
      * Defines the **ExtendedProperties** property.
      */
     static ExtendedProperties: PropertyDefinition;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.visibleProperties
+     */
     GetEnumerator(): PropertyDefinition[];
     protected init(): void;
     /**

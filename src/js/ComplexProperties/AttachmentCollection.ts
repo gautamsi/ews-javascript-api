@@ -1,39 +1,38 @@
-﻿/// <reference path="../../../typings/reflect-metadata.d.ts" />
-import {FileAttachment} from "./FileAttachment";
-import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
-import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
-import {Item} from "../Core/ServiceObjects/Items/Item";
-import {ItemInfo} from "../Core/ServiceObjects/Items/ItemInfo";
-import {TypeContainer} from "../TypeContainer";
-import {Strings} from "../Strings";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ItemAttachmentOf} from "./ItemAttachmentOf";
-import {ItemAttachment} from "./ItemAttachment";
-import {EwsLogging} from "../Core/EwsLogging";
-import {AttachableAttributeMetadata} from "../Attributes/AttachableAttribute";
-import {StringHelper, Convert, ArrayHelper} from '../ExtensionMethods';
-import {ArgumentOutOfRangeException} from '../Exceptions/ArgumentException';
-import {ServiceValidationException} from '../Exceptions/ServiceValidationException';
-import {DeleteAttachmentException} from '../Exceptions/DeleteAttachmentException';
-import {CreateAttachmentException} from '../Exceptions/CreateAttachmentException';
-import {ExchangeVersion} from '../Enumerations/ExchangeVersion';
-import {ServiceResult} from '../Enumerations/ServiceResult';
-import { Promise } from "../Promise";
-import { ServiceResponseCollection } from '../Core/Responses/ServiceResponseCollection';
-import { DeleteAttachmentResponse } from '../Core/Responses/DeleteAttachmentResponse';
+﻿import { ArgumentOutOfRangeException } from '../Exceptions/ArgumentException';
+import { ArrayHelper, Convert, StringHelper } from '../ExtensionMethods';
+import { CreateAttachmentException } from '../Exceptions/CreateAttachmentException';
 import { CreateAttachmentResponse } from '../Core/Responses/CreateAttachmentResponse';
-import 'reflect-metadata';
-import {Attachment} from "./Attachment";
-import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import { DeleteAttachmentException } from '../Exceptions/DeleteAttachmentException';
+import { DeleteAttachmentResponse } from '../Core/Responses/DeleteAttachmentResponse';
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeVersion } from '../Enumerations/ExchangeVersion';
+import { FileAttachment } from "./FileAttachment";
+import { ICustomUpdateSerializer } from "../Interfaces/ICustomXmlUpdateSerializer";
+import { IOwnedProperty } from "../Interfaces/IOwnedProperty";
+import { ISelfValidate } from "../Interfaces/ISelfValidate";
+import { Item } from "../Core/ServiceObjects/Items/Item";
+import { ItemAttachment } from "./ItemAttachment";
+import { ItemAttachmentOf } from "./ItemAttachmentOf";
+import { ItemInfo } from "../Core/ServiceObjects/Items/ItemInfo";
+import { Promise } from "../Promise";
+import { ServiceObject } from "../Core/ServiceObjects/ServiceObject";
+import { ServiceResponseCollection } from '../Core/Responses/ServiceResponseCollection';
+import { ServiceResult } from '../Enumerations/ServiceResult';
+import { ServiceValidationException } from '../Exceptions/ServiceValidationException';
+import { Strings } from "../Strings";
+import { TypeContainer } from "../TypeContainer";
+import { XmlElementNames } from "../Core/XmlElementNames";
+
+import { Attachment } from "./Attachment";
+import { ComplexPropertyCollection } from "./ComplexPropertyCollection";
 /**
  * Represents an item's attachment collection.
  */
 export class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
-    ___implementsInterface: string[] = ["IOwnedProperty", "ISelfValidate", "IJsonSerializable", "IEnumerable<TComplexProperty>", "ICustomUpdateSerializer", "IJsonCollectionDeserialize"];
-    ___typeName: string = "Attachment";
+
     ___typeGenerics: string[] = ["ComplexProperty"];
-    
+
 	/**
 	 * The item owner that owns this attachment collection
 	 */
@@ -49,14 +48,14 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
             "value is not a descendant of ItemBase");
         this.owner = <Item>value;
     }
-    
+
 	/**
 	 * @internal Initializes a new instance of AttachmentCollection.
 	 */
     constructor() {
         super();
     }
-    	
+
 	/**
 	 * Adds a file attachment to the collection.
 	 *
@@ -72,7 +71,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
      * @return  {FileAttachment}      A FileAttachment instance.
      */
     private AddFileAttachmentXXXXX(name: string, fileName: string): FileAttachment;
-	
+
     //AddFileAttachmentXXXXX(name: string, contentStream: TextStreamBase /*System.IO.Stream*/): FileAttachment;	
     //AddFileAttachmentXXXXX(name: string, content: number[] /* Byte[]  */): FileAttachment;
     /**
@@ -126,7 +125,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
         this.InternalAdd(fileAttachment);
         return fileAttachment;
     }
-    
+
     /**
      * Adds an item attachment to the collection
      *
@@ -136,14 +135,13 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
      * @param   {string}    TItemElementName    XML Element Name of the Item class
      * @return  {ItemAttachmentOf<TItem>}      An ItemAttachment instance.
      */
-    AddItemAttachment<TItem extends Item>(TItem: any, TItemElementName: string): ItemAttachmentOf<TItem> {
-        let attachable = Reflect.getMetadata(AttachableAttributeMetadata, TItem.prototype) === true; //(typeof(TItem).GetCustomAttributes(typeof(AttachableAttribute), false).Length == 0)        
-        
-        if (!attachable) {
+    AddItemAttachment<TItem extends Item>(TItem: typeof Item, TItemElementName: string): ItemAttachmentOf<TItem> {
+
+        if (typeof TItem.Attachable === 'undefined' || TItem.Attachable === false) {
             throw new Error(
                 StringHelper.Format(
                     "Items of type {0} are not supported as attachments.",
-                    typeof (TItem).Name)); //InvalidOperationException
+                    TItem["name"])); //InvalidOperationException
         }
 
         let itemAttachment: ItemAttachmentOf<TItem> = new ItemAttachmentOf<TItem>(this.owner); //ref: //info: ItemAttachment can not be generic when same name non generic version exhist. TypeScript limitation
@@ -315,7 +313,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
                 attachments.push(attachment);
             }
         }
-        
+
         // If any, delete them by calling the DeleteAttachment web method.
         //promise resolves with null to keep chaining
         return Promise.resolve(attachments.length > 0 ? this.InternalDeleteAttachments(attachments) : void 0)
@@ -351,7 +349,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
                 super.ClearChangeLog();
             });
     }
-    
+
     /**
      * @internal Validates this instance.
      */
@@ -386,12 +384,12 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
             }
         }
     }
-    
+
     /**
      * @internal Validates and saves this instance. **Not in official EWS source, to workaround some promise errors with validate and save**
      */
     ValidateAndSave(): Promise<void> {
         this.Validate();
-        return  this.Save();
+        return this.Save();
     }
 }

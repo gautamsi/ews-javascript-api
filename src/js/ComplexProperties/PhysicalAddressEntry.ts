@@ -72,8 +72,9 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 
 	constructor() {
 		super();
+		this.keyType = PhysicalAddressKey;
 		this.propertyBag = new SimplePropertyBag<string>((key: string) => key);
-		this.propertyBag.OnChange.push(this.PropertyBagChanged);
+		this.propertyBag.OnChange.push(this.PropertyBagChanged.bind(this));
 	}
 	ClearChangeLog(): void { this.propertyBag.ClearChangeLog(); }
 	private GetFieldUri(xmlElementName: string): string { return "contacts:PhysicalAddress:" + xmlElementName; }
