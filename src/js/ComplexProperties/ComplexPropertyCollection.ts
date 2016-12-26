@@ -300,7 +300,13 @@ export abstract class ComplexPropertyCollection<TComplexProperty extends Complex
         }
     }
 
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+	LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         EwsLogging.Assert(false, "ComplexPropertyCollection.LoadFromXmlJsObject", "LoadFromXmlJsObject was called, should not be calling. Fix it to direct to Create or Update call instad.")
         this.CreateFromXmlJsObjectCollection(jsObject, service);
     }
