@@ -1,15 +1,17 @@
-﻿import {Strings} from "../Strings";
-import {EwsLogging} from "./EwsLogging";
-import {ExchangeServiceBase} from "./ExchangeServiceBase";
-import {EwsUtilities} from "./EwsUtilities";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {StringHelper, base64Helper} from "../ExtensionMethods";
-import {DateTime} from "../DateTime";
+﻿import { DateTime } from "../DateTime";
+import { EwsLogging } from "./EwsLogging";
+import { EwsUtilities } from "./EwsUtilities";
+import { ExchangeServiceBase } from "./ExchangeServiceBase";
+import { StringHelper, base64Helper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TypeGuards } from "../Interfaces/TypeGuards"
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
 /**
  * XML writer
  */
 export class EwsServiceXmlWriter {
+    
     //get InternalWriter(): System.Xml.XmlWriter;
     get Service(): ExchangeServiceBase { return this.service }
     /**
@@ -25,12 +27,15 @@ export class EwsServiceXmlWriter {
     private xmlWriter: any;// System.Xml.XmlWriter;
     private isTimeZoneHeaderEmitted: boolean;
     private requireWSSecurityUtilityNamespace: boolean;
+    
     /**
      * UTF-8 encoding that does not create leading Byte order marks
      *
      */
     private static utf8Encoding: any;// System.Text.Encoding;
+    
     Dispose(): any { throw new Error("EwsServiceXmlWriter.ts - Dispose : Not implemented."); }
+    
     Flush(): void { //throw new Error("Not implemented.");
     }
 
@@ -55,6 +60,7 @@ export class EwsServiceXmlWriter {
         if (!keep) this.soapData = "";
         return returnVal;
     }
+
     /**
      * Closes XMl tag
      */
@@ -66,6 +72,7 @@ export class EwsServiceXmlWriter {
         }
 
     }
+
     /**
      * Pushes xml uri to internal tracker of used xml uris
      * 
@@ -91,6 +98,7 @@ export class EwsServiceXmlWriter {
     }
 
     //#endregion
+
     /**
      * Initializes a new instance of the **EwsServiceXmlWriter** class.
      *
@@ -101,6 +109,7 @@ export class EwsServiceXmlWriter {
     }
 
     //TryConvertObjectToString(value: any, strValue: any): boolean { throw new Error("EwsServiceXmlWriter.ts - TryConvertObjectToString : Not implemented."); }
+
     /**
      * convert object to a string. transformed TryConvertObjectToString metho from c#
      *
@@ -111,8 +120,6 @@ export class EwsServiceXmlWriter {
         var strValue: string = null;
 
         if (value === null) return null;
-        // // // // if (typeof (value) == "object" && !(value.GetSearchString /*ISearchStringProvider*/)) 
-        // // // // throw new Error("value can not be of type object");
 
         if (value != null) {
             switch (typeof (value)) {
@@ -132,7 +139,7 @@ export class EwsServiceXmlWriter {
                         //return EwsUtilities.DateTimeToXSDateTime(value as DateTime);
                     }
                     try {
-                        if (typeof value.GetSearchString === 'function') // checking - ISearchStringProvider
+                        if (TypeGuards.isISearchStringProvider(value)) // ISearchStringProvider searchStringProvider = value as ISearchStringProvider;
                             return value.GetSearchString();
                         else
                             throw new Error("value can not be of type object");
@@ -149,6 +156,7 @@ export class EwsServiceXmlWriter {
         //return converted;
         return undefined;
     }
+
     /**
      * Writes the attribute value.
      *
@@ -195,6 +203,7 @@ export class EwsServiceXmlWriter {
         //    //    ex);
         //}
     }
+
     /**
      * Writes the attribute value.  Does not emit empty string values.
      *
@@ -255,6 +264,7 @@ export class EwsServiceXmlWriter {
 
     //WriteBase64ElementValue(buffer: System.Byte[]): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
     //WriteBase64ElementValue(stream: System.IO.Stream): any{ throw new Error("EwsServiceXmlWriter.ts - WriteBase64ElementValue : Not implemented.");}
+
     /**
      * Writes the base64-encoded element value.
      *
@@ -319,7 +329,9 @@ export class EwsServiceXmlWriter {
         this.CloseTag();
         this.soapData += element;
     }
+
     //WriteNode(xmlNode: System.Xml.XmlNode): any{ throw new Error("EwsServiceXmlWriter.ts - WriteNode : Not implemented.");}
+
     /**
      * Writes the start element.
      *
@@ -349,6 +361,7 @@ export class EwsServiceXmlWriter {
         //    localName,
         //    EwsUtilities.GetNamespaceUri(xmlNamespace));
     }
+
     /**
      * Writes string value.
      *
