@@ -1,10 +1,11 @@
 ﻿import { ArgumentException, ArgumentNullException } from "../Exceptions/ArgumentException";
+import { ArrayHelper, Convert, StringHelper } from "../ExtensionMethods";
 import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
 import { DateTime, TimeZoneInfo, DateTimeKind } from "../DateTime";
 import { DayOfTheWeek } from "../Enumerations/DayOfTheWeek";
 import { DayOfWeek } from "../Enumerations/DayOfWeek";
-import { DictionaryKeyType } from "../Enumerations/DictionaryKeyType";
 import { Dictionary, DictionaryWithStringKey, DictionaryWithNumericKey } from "../AltDictionary";
+import { DictionaryKeyType } from "../Enumerations/DictionaryKeyType";
 import { EmailAddressKey } from "../Enumerations/EmailAddressKey";
 import { EnumToExchangeVersionMappingHelper } from "../Enumerations/EnumToExchangeVersionMappingHelper";
 import { EnumToSchemaMappingHelper } from "../Enumerations/EnumToSchemaMappingHelper";
@@ -14,16 +15,15 @@ import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { FileAsMapping } from "../Enumerations/FileAsMapping";
 import { ISelfValidate } from "../Interfaces/ISelfValidate";
 import { ImAddressKey } from "../Enumerations/ImAddressKey";
+import { Item } from "./ServiceObjects/Items/Item";
 import { ItemAttachment } from "../ComplexProperties/ItemAttachment";
 import { ItemTraversal } from "../Enumerations/ItemTraversal";
-import { Item } from "./ServiceObjects/Items/Item";
 import { LazyMember } from "./LazyMember";
 import { PhoneNumberKey } from "../Enumerations/PhoneNumberKey";
 import { PhysicalAddressKey } from "../Enumerations/PhysicalAddressKey";
-import { ServiceObjectInfo } from "./ServiceObjects/ServiceObjectInfo";
 import { ServiceObject } from "./ServiceObjects/ServiceObject";
+import { ServiceObjectInfo } from "./ServiceObjects/ServiceObjectInfo";
 import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
-import { StringHelper, Convert } from "../ExtensionMethods";
 import { Strings } from "../Strings";
 import { TimeSpan, moment } from "../DateTime";
 import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
@@ -32,6 +32,11 @@ import { TypeGuards } from "../Interfaces/TypeGuards";
 import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
+/**
+ * EWS utilities
+ * 
+ * @static
+ */
 export class EwsUtilities {
 
     //#region constants in c# - typescript static
@@ -328,9 +333,12 @@ export class EwsUtilities {
     static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
     static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
     static GetEnumeratedObjectCount(objects: any): number { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectCount : Not implemented."); }
+    
+    
     //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("EwsUtilities.ts - static GetEnumSchemaName : Not implemented.");}
     //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("EwsUtilities.ts - static GetEnumVersion : Not implemented.");}
     //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("EwsUtilities.ts - static GetItemTypeFromXmlElementName : Not implemented.");}
+    
     static GetNamespaceFromUri(namespaceUri: string): XmlNamespace {
         switch (namespaceUri) {
             case this.EwsErrorsNamespace:
@@ -406,6 +414,8 @@ export class EwsUtilities {
                 return "";
         }
     }
+
+    
     static GetPrintableTypeName(type: any /*instance */): string {
         var typename: string = typeof type;
         if (typename.indexOf("object") >= 0) {

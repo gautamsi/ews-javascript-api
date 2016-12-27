@@ -1,13 +1,13 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsLogging} from "../Core/EwsLogging";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {ExchangeService} from "../Core/ExchangeService";
-import {StringHelper} from "../ExtensionMethods";
+﻿import { EwsLogging } from "../Core/EwsLogging";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { StringHelper } from "../ExtensionMethods";
 
-import {TaskDelegationState} from "../Enumerations/TaskDelegationState";
-import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+import { TaskDelegationState } from "../Enumerations/TaskDelegationState";
+import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents a task delegation property definition.
  */
@@ -27,7 +27,7 @@ export class TaskDelegationStatePropertyDefinition extends GenericPropertyDefini
      * @param   {ExchangeVersion}           version          The version.
      */
     constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
-        super(propertyName, xmlElementName, uri, flags, version);
+        super(propertyName, xmlElementName, uri, flags, version, false); //ref: not setting enumType as this.ToString Method covers for the string conversion
     }
 
     /**

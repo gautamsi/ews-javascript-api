@@ -1,8 +1,8 @@
-﻿import {DateTime} from "../DateTime";
-import {ExchangeService} from "../Core/ExchangeService";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { DateTime } from "../DateTime";
+import { ExchangeService } from "../Core/ExchangeService";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Encapsulates information on the deleted occurrence of a recurring appointment.
  */
@@ -11,7 +11,7 @@ export class DeletedOccurrenceInfo extends ComplexProperty {
     /**
      * The original start date and time of the deleted occurrence.
      *
-     * @remarks The EWS schema contains a Start property for deleted occurrences but it's really the original start date and time of the occurrence.
+     * /remarks/    The EWS schema contains a Start property for deleted occurrences but it's really the original start date and time of the occurrence.
      */
     private originalStart: DateTime = null;
 

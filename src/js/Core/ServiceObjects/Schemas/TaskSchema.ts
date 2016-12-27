@@ -1,22 +1,22 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {TaskMode} from "../../../Enumerations/TaskMode";
-import {TaskStatus} from "../../../Enumerations/TaskStatus";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {TaskDelegationStatePropertyDefinition} from "../../../PropertyDefinitions/TaskDelegationStatePropertyDefinition";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {DoublePropertyDefinition} from "../../../PropertyDefinitions/DoublePropertyDefinition";
-import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {Schemas} from "./Schemas";
+﻿import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { DateTimePropertyDefinition } from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import { DoublePropertyDefinition } from "../../../PropertyDefinitions/DoublePropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { IntPropertyDefinition } from "../../../PropertyDefinitions/IntPropertyDefinition";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { RecurrencePropertyDefinition } from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
+import { Schemas } from "./Schemas";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { TaskDelegationStatePropertyDefinition } from "../../../PropertyDefinitions/TaskDelegationStatePropertyDefinition";
+import { TaskMode } from "../../../Enumerations/TaskMode";
+import { TaskStatus } from "../../../Enumerations/TaskStatus";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * Field URIs for tasks.
@@ -175,7 +175,8 @@ export class TaskSchema extends ItemSchema {
         XmlElementNames.IsAssignmentEditable,
         FieldUris.IsAssignmentEditable,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        TaskMode
     );
 
     /**
@@ -275,7 +276,8 @@ export class TaskSchema extends ItemSchema {
         XmlElementNames.Status,
         FieldUris.Status,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        TaskStatus
     );
 
     /**
@@ -309,7 +311,7 @@ export class TaskSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

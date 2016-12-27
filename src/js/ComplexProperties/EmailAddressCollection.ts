@@ -1,14 +1,15 @@
-﻿import {EmailAddress} from "./EmailAddress";
-import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {Strings} from "../Strings";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { EmailAddress } from "./EmailAddress";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { Strings } from "../Strings";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ComplexPropertyCollection} from "./ComplexPropertyCollection";
+import { ComplexPropertyCollection } from "./ComplexPropertyCollection";
 /**
  * Represents a collection of e-mail addresses.
  */
 export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
+
     /**
      * XML element name
      */
@@ -17,7 +18,7 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
     /**
      * @internal Initializes a new instance of the **EmailAddressCollection** class.
      *
-     * @remarks Note that XmlElementNames.Mailbox is the collection element name for ArrayOfRecipientsType, not ArrayOfEmailAddressesType.
+     * /remarks/    Note that XmlElementNames.Mailbox is the collection element name for ArrayOfRecipientsType, not ArrayOfEmailAddressesType.
      */
     constructor();
     /**

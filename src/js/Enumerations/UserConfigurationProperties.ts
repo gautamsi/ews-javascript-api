@@ -1,7 +1,8 @@
+
 /**
  * Identifies the user configuration properties to retrieve.
  * 
- * @Flags
+ * [Flags]
  */
 export enum UserConfigurationProperties {
 

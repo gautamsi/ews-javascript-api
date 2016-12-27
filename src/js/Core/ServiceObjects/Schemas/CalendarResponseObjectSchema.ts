@@ -1,9 +1,9 @@
-﻿import {ItemSchema} from "./ItemSchema";
-import {EmailMessageSchema} from "./EmailMessageSchema";
-import {ResponseObjectSchema} from "./ResponseObjectSchema";
-import {Schemas} from "./Schemas";
+﻿import { EmailMessageSchema } from "./EmailMessageSchema";
+import { ItemSchema } from "./ItemSchema";
+import { ResponseObjectSchema } from "./ResponseObjectSchema";
+import { Schemas } from "./Schemas";
 
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import { ServiceObjectSchema } from "./ServiceObjectSchema";
 /**
  * Represents CalendarResponseObject schema definition.
  */
@@ -17,7 +17,7 @@ export class CalendarResponseObjectSchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();
@@ -40,7 +40,7 @@ export class CalendarResponseObjectSchema extends ServiceObjectSchema {
  * Represents CalendarResponseObject schema definition.
  */
 
-export interface CalendarResponseObjectSchema{
+export interface CalendarResponseObjectSchema {
     /**
      * @internal Instance of **CalendarResponseObjectSchema**
      */
@@ -51,5 +51,5 @@ export interface CalendarResponseObjectSchema{
  * Represents CalendarResponseObject schema definition.
  */
 
-export interface CalendarResponseObjectSchemaStatic extends CalendarResponseObjectSchema{
+export interface CalendarResponseObjectSchemaStatic extends CalendarResponseObjectSchema {
 }

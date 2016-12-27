@@ -4,7 +4,7 @@ import { ExchangeService } from "../Core/ExchangeService";
 import { IRefParam } from "../Interfaces/IRefParam";
 import { ISearchStringProvider } from "../Interfaces/ISearchStringProvider";
 import { ItemId } from "./ItemId";
-import { MailboxType, MailboxTypeParser } from "../Enumerations/MailboxType";
+import { MailboxType } from "../Enumerations/MailboxType";
 import { StringHelper } from "../ExtensionMethods";
 import { XmlElementNames } from "../Core/XmlElementNames";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
@@ -210,7 +210,7 @@ export class EmailAddress extends ComplexProperty implements ISearchStringProvid
                     this.routingType = jsObject[key];
                     break;
                 case XmlElementNames.MailboxType:
-                    this.mailboxType = MailboxTypeParser.FromString(jsObject[key])
+                    this.mailboxType = MailboxType.FromEwsEnumString(jsObject[key])
                     break;
                 case XmlElementNames.ItemId:
                     this.id = new ItemId();
@@ -261,7 +261,7 @@ export class EmailAddress extends ComplexProperty implements ISearchStringProvid
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Name, this.Name);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, MailboxTypeParser.ToString(this.MailboxType));
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, MailboxType.ToEwsEnumString(this.MailboxType));
 
         if (this.Id != null) {
             this.Id.WriteToXml(writer);//, XmlElementNames.ItemId);

@@ -13,8 +13,20 @@ import { ISearchStringProvider } from "./ISearchStringProvider";
 import { ISelfValidate } from "./ISelfValidate";
 import { ITraceListener } from "./ITraceListener";
 
+export interface EwsEnumInterface {
+    FromEwsEnumString(value: string): any
+    ToEwsEnumString(value: any): string;
+}
+
 /** @internal */
 export module TypeGuards {
+
+    /**
+     * check if the object implements EwsEnumInterface interface
+     */
+    export function isEwsEnumInterface(arg: any): arg is EwsEnumInterface {
+        return arg && typeof arg.FromEwsEnumString === 'function' && typeof arg.ToEwsEnumString === 'function';
+    }
 
     /**
      * check if the object implements ICalendarActionProvider interface

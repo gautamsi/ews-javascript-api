@@ -1,20 +1,20 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
-import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {ManagedFolderInformation} from "../../../ComplexProperties/ManagedFolderInformation";
-import {PermissionSetPropertyDefinition} from "../../../PropertyDefinitions/PermissionSetPropertyDefinition";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
-import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {FolderId} from "../../../ComplexProperties/FolderId";
+﻿import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { EffectiveRightsPropertyDefinition } from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { IntPropertyDefinition } from "../../../PropertyDefinitions/IntPropertyDefinition";
+import { ManagedFolderInformation } from "../../../ComplexProperties/ManagedFolderInformation";
+import { PermissionSetPropertyDefinition } from "../../../PropertyDefinitions/PermissionSetPropertyDefinition";
+import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import { ServiceObjectSchema } from "./ServiceObjectSchema";
 
 /**
  * Field URIs for folders.
@@ -161,7 +161,8 @@ export class FolderSchema extends ServiceObjectSchema {
         XmlElementNames.DistinguishedFolderId,
         FieldUris.DistinguishedFolderId,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013
+        ExchangeVersion.Exchange2013,
+        WellKnownFolderName
     );
 
     /**
@@ -196,7 +197,7 @@ export class FolderSchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

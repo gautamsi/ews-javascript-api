@@ -1,7 +1,8 @@
 ﻿//make necessary changes if needed
-export class Exception {// implements Error {
+//ref: 0.9 - extending Error as BlueBird throws error if promise is rejected without an Error object
+export class Exception extends Error {
     //private name: string;
-    private message: string;
+    message: string;
     get Message(): string {
         return this.message
     }
@@ -11,6 +12,7 @@ export class Exception {// implements Error {
     constructor(message: string);
     constructor(message: string, innerException: Exception);
     constructor(message: string = null, innerException: Exception = null) {
+        super(message);
         this.InnerException = innerException;
         this.message = message;
     }

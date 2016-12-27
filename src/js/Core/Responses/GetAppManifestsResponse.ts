@@ -1,14 +1,14 @@
-﻿import {ClientApp} from "../../ComplexProperties/ClientApp";
-import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
-import {EwsUtilities} from "../EwsUtilities";
-import {ExchangeService} from "../ExchangeService";
-import {ServiceXmlDeserializationException} from "../../Exceptions/ServiceXmlDeserializationException";
-import {StringHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ClientApp } from "../../ComplexProperties/ClientApp";
+import { EwsServiceJsonReader } from "../EwsServiceJsonReader";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeService } from "../ExchangeService";
+import { ServiceXmlDeserializationException } from "../../Exceptions/ServiceXmlDeserializationException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {ServiceResponse} from "./ServiceResponse";
+import { ServiceResponse } from "./ServiceResponse";
 /**
  * @internal Represents the response to a GetAppManifests operation.
  * 
@@ -29,7 +29,7 @@ export class GetAppManifestsResponse extends ServiceResponse {
 	/**
 	 * Gets all manifests returned
 	 * 
-	 * @remarks	Provided for backwards compatibility with Exchange 2013.
+	 * /remarks/	Provided for backwards compatibility with Exchange 2013.
 	 * base64 encoded xml file in string
 	 */
 	get Manifests(): string[] { //XmlDocument[]
@@ -39,7 +39,7 @@ export class GetAppManifestsResponse extends ServiceResponse {
 	/**
 	 * Gets all apps returned.
 	 * 
-	 * @remarks	Introduced for Exchange 2013 Sp1 to return additional metadata.
+	 * /remarks/	Introduced for Exchange 2013 Sp1 to return additional metadata.
 	 */
 	get Apps(): ClientApp[] {
 		return this.apps;
@@ -58,7 +58,7 @@ export class GetAppManifestsResponse extends ServiceResponse {
      * @param   {any}               jsObject   The response object.
      * @param   {ExchangeService}   service    The service.
      */
-    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+	ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
 		this.Manifests.splice(0);
 
 		// We can have a response from Exchange 2013 (first time this API was introduced)
@@ -95,7 +95,7 @@ export class GetAppManifestsResponse extends ServiceResponse {
      * @param   {any}               jsObject   The response object.
      * @param   {ExchangeService}   service    The service.
      */
-    private ReadFromExchange2013(jsObject: any, service: ExchangeService): void {
+	private ReadFromExchange2013(jsObject: any, service: ExchangeService): void {
 
 		////<GetAppManifestsResponse ResponseClass="Success" xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
 		////<ResponseCode>NoError</ResponseCode>
@@ -122,7 +122,7 @@ export class GetAppManifestsResponse extends ServiceResponse {
      * @param   {any}               jsObject   The response object.
      * @param   {ExchangeService}   service    The service.
      */
-    private ReadFromExchange2013Sp1(jsObject: any, service: ExchangeService): void {
+	private ReadFromExchange2013Sp1(jsObject: any, service: ExchangeService): void {
 
 		////<GetAppManifestsResponse ResponseClass="Success" xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
 		////  <ResponseCode>NoError</ResponseCode>

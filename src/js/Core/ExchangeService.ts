@@ -2831,6 +2831,7 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Gets the items for a conversation.
      *
+     * /remarks/    This API designed to be used primarily in groups scenarios where we want to set the anchor mailbox header so that request is routed directly to the group mailbox backend server.
      * @param   {ConversationId}            conversationId    The conversation id.
      * @param   {PropertySet}               propertySet       The set of properties to load.
      * @param   {string}                    syncState         The optional sync state representing the point in time when to start the synchronization.
@@ -2838,7 +2839,6 @@ export class ExchangeService extends ExchangeServiceBase {
      * @param   {ConversationSortOrder}     sortOrder         Conversation item sort order.
      * @param   {string}                    anchorMailbox     The smtp address of the mailbox hosting the conversations
      * @return  {Promise<ConversationResponse>}               ConversationResponseType response :Promise.
-     * @remarks This API designed to be used primarily in groups scenarios where we want to set the anchor mailbox header so that request is routed directly to the group mailbox backend server.
      */
     GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet,
         syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */, anchorMailbox: string): Promise<ConversationResponse> {
@@ -4052,17 +4052,17 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Get App Marketplace Url.
      *
+     * /remarks/                        Exception will be thrown for errors. 
      * @return  {Promise<string>}       marketplace url as string :Promise.
-     * @remarks                         Exception will be thrown for errors. 
      */
     GetAppMarketplaceUrl(): Promise<string>;
     /**
      * Get App Marketplace Url.  Works with Exchange 2013 SP1 or later EWS.
      *
+     * /remarks/                                    Exception will be thrown for errors. 
      * @param   {string}   apiVersionSupported      The api version supported by the client.
      * @param   {string}   schemaVersionSupported   The schema version supported by the client.
      * @return  {Promise<string>}                   marketplace url as string :Promise.
-     * @remarks                                     Exception will be thrown for errors. 
      */
     GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): Promise<string>;
     GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): Promise<string> {
@@ -4080,10 +4080,10 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Disable an App.
      *
+     * /remarks/    Exception will be thrown for errors. 
      * @param   {string}                id              App ID
      * @param   {DisableReasonType}     disableReason   Disable reason
      * @return  {Promise<void>}         :Promise.
-     * @remarks Exception will be thrown for errors. 
      */
     DisableApp(id: string, disableReason: DisableReasonType): Promise<void> {
         EwsUtilities.ValidateParam(id, "id");
@@ -4097,9 +4097,9 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Install an App.
      *
+     * /remarks/    Exception will be thrown for errors. 
      * @param   {string}   manifestStream   The manifest's plain text XML as base64 encoded string.
      * @return  {Promise<void>}     :Promise.
-     * @remarks Exception will be thrown for errors. 
      */
     InstallApp(manifestStream: string): Promise<void> {
         EwsUtilities.ValidateParam(manifestStream, "manifestStream");
@@ -4112,9 +4112,9 @@ export class ExchangeService extends ExchangeServiceBase {
     /**
      * Uninstall an App.
      *
+     * /remarks/    Exception will be thrown for errors. 
      * @param   {string}   id   App ID
      * @return  {Promise<void>}     :Promise.
-     * @remarks Exception will be thrown for errors. 
      */
     UninstallApp(id: string): Promise<void> {
         EwsUtilities.ValidateParam(id, "id");

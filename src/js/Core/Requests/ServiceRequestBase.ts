@@ -31,7 +31,7 @@ export abstract class ServiceRequestBase {
     /**
      * The two contants below are used to set the AnchorMailbox and ExplicitLogonUser values in the request header.
      * 
-     * @remarks Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
+     * /remarks/    Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
      */
     protected static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
     protected static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
@@ -61,7 +61,7 @@ export abstract class ServiceRequestBase {
     /**
      * @internal Gets or sets the anchor mailbox associated with the request
      *
-     * @remarks Setting this value will add special headers to the request which in turn will route the request directly to the mailbox server against which the request is to be executed.
+     * /remarks/    Setting this value will add special headers to the request which in turn will route the request directly to the mailbox server against which the request is to be executed.
      */
     AnchorMailbox: string = null;
 
@@ -226,7 +226,7 @@ export abstract class ServiceRequestBase {
     /**
      * Gets string representation of requested server version.
      *
-     * @remarks In order to support E12 RTM servers, ExchangeService has another flag indicating that we should use "Exchange2007" as the server version string rather than Exchange2007_SP1.
+     * /remarks/    In order to support E12 RTM servers, ExchangeService has another flag indicating that we should use "Exchange2007" as the server version string rather than Exchange2007_SP1.
      * @return  {string}      String representation of requested server version.
      */
     private GetRequestedServiceVersionString(): string {
@@ -534,9 +534,8 @@ export abstract class ServiceRequestBase {
     /**
      * @internal Writes XML attributes.
      *
+     * /remarks/    Subclass will override if it has XML attributes.
      * @param   {EwsServiceXmlWriter}   writer   The writer.
-     * 
-     * @remarks Subclass will override if it has XML attributes.
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { }
 

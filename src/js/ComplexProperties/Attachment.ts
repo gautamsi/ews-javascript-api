@@ -1,25 +1,26 @@
-﻿import {Item} from "../Core/ServiceObjects/Items/Item";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {DateTime} from "../DateTime";
-import {IRefParam} from "../Interfaces/IRefParam";
+﻿import { BodyType } from "../Enumerations/BodyType";
+import { Convert, StringHelper } from '../ExtensionMethods';
+import { DateTime } from "../DateTime";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IRefParam } from "../Interfaces/IRefParam";
+import { Item } from "../Core/ServiceObjects/Items/Item";
 import { Promise } from "../Promise";
-import { PropertyDefinitionBase} from '../PropertyDefinitions/PropertyDefinitionBase';
-import {BodyType} from "../Enumerations/BodyType";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import { StringHelper, Convert } from '../ExtensionMethods';
+import { PropertyDefinitionBase } from '../PropertyDefinitions/PropertyDefinitionBase';
 import { Strings } from '../Strings';
-import {TypeContainer} from "../TypeContainer";
+import { TypeContainer } from "../TypeContainer";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents an attachment to an item.
  */
 export class Attachment extends ComplexProperty {
+
     private owner: Item = null;
     private id: string = null;
     private name: string = null;
@@ -30,7 +31,7 @@ export class Attachment extends ComplexProperty {
     private lastModifiedTime: DateTime = null;
     private isInline: boolean = false;
     private service: ExchangeService = null;
-    
+
     /**
      * Gets the Id of the attachment.
      */
@@ -40,7 +41,7 @@ export class Attachment extends ComplexProperty {
     set Id(value: string) {
         this.id = value;
     }
-    
+
     /***
      * Gets or sets the name of the attachment.
      */
@@ -50,7 +51,7 @@ export class Attachment extends ComplexProperty {
     set Name(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.name, setValue: (updateValue) => { this.name = updateValue } }, value);
     }
-    
+
     /**
      * Gets or sets the content type of the attachment.
      */
@@ -60,7 +61,7 @@ export class Attachment extends ComplexProperty {
     set ContentType(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.contentType, setValue: (updateValue) => { this.contentType = updateValue } }, value);
     }
-    
+
     /**
      * Gets or sets the content Id of the attachment. ContentId can be used as a custom way to identify an attachment in order to reference it from within the body of the item the attachment belongs to.
      */
@@ -70,7 +71,7 @@ export class Attachment extends ComplexProperty {
     set ContentId(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.contentId, setValue: (updateValue) => { this.contentId = updateValue } }, value);
     }
-    
+
     /**
      * Gets or sets the content location of the attachment. ContentLocation can be used to associate an attachment with a Url defining its location on the Web.
      */
@@ -80,7 +81,7 @@ export class Attachment extends ComplexProperty {
     set ContentLocation(value: string) {
         this.SetFieldValue<string>({ getValue: () => this.contentLocation, setValue: (updateValue) => { this.contentLocation = updateValue } }, value);
     }
-    
+
     /**
      * Gets the size of the attachment.
      */
@@ -92,7 +93,7 @@ export class Attachment extends ComplexProperty {
         EwsUtilities.ValidatePropertyVersion(this.service, ExchangeVersion.Exchange2010, "Size");
         this.SetFieldValue<number>({ getValue: () => this.size, setValue: (updateValue) => { this.size = updateValue } }, value);
     }
-    
+
     /**
      * Gets the date and time when this attachment was last modified.
      */
@@ -104,7 +105,7 @@ export class Attachment extends ComplexProperty {
         EwsUtilities.ValidatePropertyVersion(this.service, ExchangeVersion.Exchange2010, "LastModifiedTime");
         this.SetFieldValue<DateTime>({ getValue: () => this.lastModifiedTime, setValue: (updateValue) => { this.lastModifiedTime = updateValue } }, value);
     }
-    
+
     /**
      * Gets or sets a value indicating whether this is an inline attachment. Inline attachments are not visible to end users.
      */
@@ -116,21 +117,21 @@ export class Attachment extends ComplexProperty {
         EwsUtilities.ValidatePropertyVersion(this.service, ExchangeVersion.Exchange2010, "IsInline");
         this.SetFieldValue<boolean>({ getValue: () => this.isInline, setValue: (updateValue) => { this.isInline = updateValue } }, value);
     }
-    
+
     /**
      * @internal True if the attachment has not yet been saved, false otherwise.
      */
     get IsNew(): boolean {
         return StringHelper.IsNullOrEmpty(this.Id);
     }
-    
+
     /**
      * @internal Gets the owner of the attachment.
      */
     get Owner(): Item {
         return this.owner;
     }
-    
+
     /**
      * @internal Gets the related exchange service.
      */
@@ -148,7 +149,7 @@ export class Attachment extends ComplexProperty {
      * @internal Initializes a new instance of the Attachment class.
      *
      * @param   {ExchangeService}   service   The service.
-     */    
+     */
     constructor(service: ExchangeService);
     /**
      * @internal  @protected unused - only for derived class call
@@ -164,7 +165,7 @@ export class Attachment extends ComplexProperty {
             return;
         }
         this.service = <ExchangeService>ownerOrService;
-    }    
+    }
 
     /**
      * Gets the name of the XML element.
@@ -172,7 +173,7 @@ export class Attachment extends ComplexProperty {
      * @return  {string}      XML element name.
      */
     GetXmlElementName(): string { console.log("Attachment.ts - GetXmlElementName : Abstract - must implement."); return StringHelper.Empty; }
-    
+
     /**
      * @internal Load the attachment.
      *
@@ -185,9 +186,9 @@ export class Attachment extends ComplexProperty {
             bodyType,
             additionalProperties);
     }
-    
+
     //InternalToJson(service: ExchangeService): any { throw new Error("Attachment.ts - InternalToJson : Not implemented."); }
-    
+
     /**
      * Loads the attachment. Calling this method results in a call to EWS.
      */
@@ -211,7 +212,7 @@ export class Attachment extends ComplexProperty {
             }
         }
     }
-    
+
     /**
      * @internal Loads from XMLjsObject.
      *
@@ -254,7 +255,7 @@ export class Attachment extends ComplexProperty {
     /**
      * @internal Sets value of field.
      * 
-     * @remarks  We override the base implementation. Attachments cannot be modified so any attempts the change a property on an existing attachment is an error.
+     * /remarks/    We override the base implementation. Attachments cannot be modified so any attempts the change a property on an existing attachment is an error.
      * 
      * @param   {IRefParam<T>}      field   The field.
      * @param   {T}                 value   The value.
@@ -272,9 +273,9 @@ export class Attachment extends ComplexProperty {
             throw new Error(Strings.AttachmentCannotBeUpdated);//InvalidOperationException
         }
     }
-    
+
     //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("Attachment.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    
+
     /**
      * @internal Validates this instance.
      *
@@ -282,7 +283,7 @@ export class Attachment extends ComplexProperty {
      */
     Validate(attachmentIndex?: number): void {
     }
-    
+
     /**
      * @internal Writes elements to XML.
      *

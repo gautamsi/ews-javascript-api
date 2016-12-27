@@ -2,7 +2,7 @@
 import {IRefParam} from "../Interfaces/IRefParam";
 import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
+import {MailboxType} from "../Enumerations/MailboxType";
 import {EmailAddress} from "./EmailAddress";
 import {ComplexProperty} from "./ComplexProperty";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -49,7 +49,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
                     this.EmailAddress.RoutingType = jsonProperty[key];
                     break;
                 case XmlAttributeNames.MailboxType:
-                    this.EmailAddress.MailboxType = MailboxTypeParser.FromString(jsonProperty[key]);
+                    this.EmailAddress.MailboxType = MailboxType.FromEwsEnumString(jsonProperty[key]);
                     break;
                 case XmlElementNames.EmailAddress:
                     this.EmailAddress.Address = jsonProperty[key];
@@ -72,7 +72,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
             writer.WriteAttributeValue(XmlAttributeNames.Name, this.EmailAddress.Name);
             writer.WriteAttributeValue(XmlAttributeNames.RoutingType, this.EmailAddress.RoutingType);
             if (this.EmailAddress.MailboxType != MailboxType.Unknown) {
-                writer.WriteAttributeValue(XmlAttributeNames.MailboxType, MailboxTypeParser.ToString(this.EmailAddress.MailboxType));
+                writer.WriteAttributeValue(XmlAttributeNames.MailboxType, MailboxType.ToEwsEnumString(this.EmailAddress.MailboxType));
             }
         }
     }

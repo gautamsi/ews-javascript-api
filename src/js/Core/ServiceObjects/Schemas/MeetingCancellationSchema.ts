@@ -1,7 +1,7 @@
-﻿import {Schemas} from "./Schemas";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { Schemas } from "./Schemas";
 
-import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import { MeetingMessageSchema } from "./MeetingMessageSchema";
 /**
  * Represents the schema for meeting cancellation.
  */
@@ -45,7 +45,7 @@ export class MeetingCancellationSchema extends MeetingMessageSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

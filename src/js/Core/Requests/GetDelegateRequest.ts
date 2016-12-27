@@ -1,18 +1,18 @@
-﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {UserId} from "../../ComplexProperties/UserId";
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { UserId } from "../../ComplexProperties/UserId";
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {GetDelegateResponse} from "../Responses/GetDelegateResponse";
-import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import { GetDelegateResponse } from "../Responses/GetDelegateResponse";
+import { DelegateManagementRequestBase } from "./DelegateManagementRequestBase";
 /**
  * @internal Represents a GetDelegate request. 
  */
 export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegateResponse> {
-    
+
     private userIds: UserId[] = [];
     private includePermissions: boolean = false;
 
@@ -83,8 +83,8 @@ export class GetDelegateRequest extends DelegateManagementRequestBase<GetDelegat
     /**
      * @internal Writes XML attributes.
      *
+     * /remarks/    Subclass will override if it has XML attributes.
      * @param   {EwsServiceXmlWriter}   writer   The writer.
-     * @remarks Subclass will override if it has XML attributes.
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
