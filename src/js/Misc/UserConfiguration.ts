@@ -141,7 +141,7 @@ export class UserConfiguration {//IJsonSerializable
                 StringHelper.Format(
                     Strings.ObjectTypeIncompatibleWithRequestVersion,
                     "UserConfiguration",
-                    UserConfiguration.ObjectVersion));
+                    ExchangeVersion[UserConfiguration.ObjectVersion]));
         }
 
         this.service = service;

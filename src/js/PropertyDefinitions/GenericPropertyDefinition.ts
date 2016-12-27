@@ -93,7 +93,7 @@ export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefi
      */
     Parse(value: string): any {
         //todo: fix converting generictype
-        if (TypeGuards.isEwsEnumInterface(this.enumType)) {
+        if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
             return this.enumType.FromEwsEnumString(value);
         }
         EwsLogging.Assert(false, "GenericPropertyDefinition<TPropertyValue>.Parse", "GenericPropertyDefinition<TPropertyValue> needs to be improved");
@@ -108,7 +108,7 @@ export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefi
      */
     ToString(value?: any): string {
         if (value) {
-            if (TypeGuards.isEwsEnumInterface(this.enumType)) {
+            if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
                 this.enumType.ToEwsEnumString(value);
             }
             else

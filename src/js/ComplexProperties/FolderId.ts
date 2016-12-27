@@ -1,17 +1,16 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { EwsUtilities } from "../Core/EwsUtilities";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {StringHelper} from "../ExtensionMethods";
+import { StringHelper } from "../ExtensionMethods";
 
-import {WellKnownFolderName} from "../Enumerations/WellKnownFolderName";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
+import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 
-import {Mailbox} from "./Mailbox";
+import { Mailbox } from "./Mailbox";
 
-import {ServiceId} from "./ServiceId";
+import { ServiceId } from "./ServiceId";
 export class FolderId extends ServiceId {
     get FolderName(): WellKnownFolderName { return this.folderName; }
     get Mailbox(): Mailbox { return this.mailbox; }
@@ -68,7 +67,7 @@ export class FolderId extends ServiceId {
         }
     }
     //GetHashCode(): number { throw new Error("FolderId.ts - GetHashCode : Not implemented."); }
-    GetXmlElementName(): string { return typeof this.folderName!== 'undefined' && this.FolderName >=0 ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
+    GetXmlElementName(): string { return typeof this.folderName !== 'undefined' && this.FolderName >= 0 ? XmlElementNames.DistinguishedFolderId : XmlElementNames.FolderId; }
     //InternalToJson(service: ExchangeService): any { throw new Error("FolderId.ts - InternalToJson : Not implemented."); }
     ToString(): string {
         if (this.IsValid) {
@@ -93,7 +92,7 @@ export class FolderId extends ServiceId {
             // The FolderName property is a WellKnownFolderName, an enumeration type. If the property
             // is set, make sure that the value is valid for the request version.
             if (this.FolderName) {
-                EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.WellKnownFolderName, this.FolderName, version);
+                EwsUtilities.ValidateEnumVersionValue(WellKnownFolderName, this.FolderName, version, "WellKnownFolderName");
             }
         }
         else {
@@ -101,7 +100,7 @@ export class FolderId extends ServiceId {
         }
     }
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        if (typeof this.folderName!== 'undefined' && this.FolderName >=0) {
+        if (typeof this.folderName !== 'undefined' && this.FolderName >= 0) {
             writer.WriteAttributeValue(XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());
 
             if (this.Mailbox != null) {

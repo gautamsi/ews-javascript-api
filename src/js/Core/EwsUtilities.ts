@@ -7,8 +7,8 @@ import { DayOfWeek } from "../Enumerations/DayOfWeek";
 import { Dictionary, DictionaryWithStringKey, DictionaryWithNumericKey } from "../AltDictionary";
 import { DictionaryKeyType } from "../Enumerations/DictionaryKeyType";
 import { EmailAddressKey } from "../Enumerations/EmailAddressKey";
-import { EnumToExchangeVersionMappingHelper } from "../Enumerations/EnumToExchangeVersionMappingHelper";
 import { EnumToSchemaMappingHelper } from "../Enumerations/EnumToSchemaMappingHelper";
+import { EventType } from "../Enumerations/EventType";
 import { EwsLogging } from "./EwsLogging";
 import { ExchangeService } from "./ExchangeService";
 import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
@@ -19,6 +19,8 @@ import { Item } from "./ServiceObjects/Items/Item";
 import { ItemAttachment } from "../ComplexProperties/ItemAttachment";
 import { ItemTraversal } from "../Enumerations/ItemTraversal";
 import { LazyMember } from "./LazyMember";
+import { MailboxType } from "../Enumerations/MailboxType";
+import { MeetingRequestsDeliveryScope } from "../Enumerations/MeetingRequestsDeliveryScope";
 import { PhoneNumberKey } from "../Enumerations/PhoneNumberKey";
 import { PhysicalAddressKey } from "../Enumerations/PhysicalAddressKey";
 import { ServiceObject } from "./ServiceObjects/ServiceObject";
@@ -29,8 +31,11 @@ import { TimeSpan, moment } from "../DateTime";
 import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
 import { TypeContainer } from "../TypeContainer";
 import { TypeGuards } from "../Interfaces/TypeGuards";
+import { ViewFilter } from "../Enumerations/ViewFilter";
 import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
+
+export type RequiredServerVersionEnums = typeof ConversationQueryTraversal | typeof EventType | typeof FileAsMapping | typeof ItemTraversal | typeof MailboxType | typeof MeetingRequestsDeliveryScope | typeof ViewFilter | typeof WellKnownFolderName
 
 /**
  * EWS utilities
@@ -79,20 +84,20 @@ export class EwsUtilities {
     //         //return new ServiceObjectInfo();
     //     });
     //private static buildVersion: LazyMember<T>;
-    private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
-        () => {
-            var e2evmh = EnumToExchangeVersionMappingHelper;
-            var dict: EnumToExhcangeVersionDelegateDictionary = {};
-            dict[e2evmh[e2evmh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evmh.WellKnownFolderName);
-            dict[e2evmh[e2evmh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ItemTraversal);
-            dict[e2evmh[e2evmh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ConversationQueryTraversal);
-            dict[e2evmh[e2evmh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evmh.FileAsMapping);
-            dict[e2evmh[e2evmh.EventType]] = EwsUtilities.BuildEnumDict(e2evmh.EventType);
-            dict[e2evmh[e2evmh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evmh.MeetingRequestsDeliveryScope);
-            dict[e2evmh[e2evmh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evmh.ViewFilter);
-            dict[e2evmh[e2evmh.MailboxType]] = EwsUtilities.BuildEnumDict(e2evmh.MailboxType);
-            return dict;
-        });
+    // private static enumVersionDictionaries: LazyMember<EnumToExhcangeVersionDelegateDictionary> = new LazyMember<EnumToExhcangeVersionDelegateDictionary>(
+    //     () => {
+    //         var e2evmh = EnumToExchangeVersionMappingHelper;
+    //         var dict: EnumToExhcangeVersionDelegateDictionary = {};
+    //         dict[e2evmh[e2evmh.WellKnownFolderName]] = EwsUtilities.BuildEnumDict(e2evmh.WellKnownFolderName);
+    //         dict[e2evmh[e2evmh.ItemTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ItemTraversal);
+    //         dict[e2evmh[e2evmh.ConversationQueryTraversal]] = EwsUtilities.BuildEnumDict(e2evmh.ConversationQueryTraversal);
+    //         dict[e2evmh[e2evmh.FileAsMapping]] = EwsUtilities.BuildEnumDict(e2evmh.FileAsMapping);
+    //         dict[e2evmh[e2evmh.EventType]] = EwsUtilities.BuildEnumDict(e2evmh.EventType);
+    //         dict[e2evmh[e2evmh.MeetingRequestsDeliveryScope]] = EwsUtilities.BuildEnumDict(e2evmh.MeetingRequestsDeliveryScope);
+    //         dict[e2evmh[e2evmh.ViewFilter]] = EwsUtilities.BuildEnumDict(e2evmh.ViewFilter);
+    //         dict[e2evmh[e2evmh.MailboxType]] = EwsUtilities.BuildEnumDict(e2evmh.MailboxType);
+    //         return dict;
+    //     });
     // private static schemaToEnumDictionaries: LazyMember<DictionaryWithNumericKey<DictionaryWithStringKey<number>>> = new LazyMember<DictionaryWithNumericKey<DictionaryWithStringKey<number>>>(
     //     () => {
     //         var dict = new DictionaryWithNumericKey<DictionaryWithStringKey<number>>();
@@ -116,98 +121,98 @@ export class EwsUtilities {
     }
     //static BuildEnumDict(enumType: System.Type): System.Collections.Generic.Dictionary<TKey, TValue>{ throw new Error("EwsUtilities.ts - static BuildEnumDict : Not implemented.");}
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
-    static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
-        var enumDelegate = (value: any) => { return ExchangeVersion.Exchange2007_SP1 };
-        switch (enumType) {
-            //TODO: fix numbering to named enum value if possible
-            case EnumToExchangeVersionMappingHelper.WellKnownFolderName:
-                enumDelegate = (value) => {
-                    var enumVersion = ExchangeVersion.Exchange2007_SP1;
-                    if (value <= 15) //<= WellKnownFolderName.VoiceMail
-                        enumVersion = ExchangeVersion.Exchange2007_SP1;
-                    else if (value >= 16 && value <= 26) //>= RecoverableItemsRoot && <= ArchiveRecoverableItemsPurges
-                        enumVersion = ExchangeVersion.Exchange2010_SP1;
-                    else if (value >= 27 && value <= 34) //>= SyncIssues && <= ToDoSearch
-                        enumVersion = ExchangeVersion.Exchange2013;
-                    else
-                        enumVersion = ExchangeVersion.Exchange_Version_Not_Updated;
+    // static BuildEnumDict(enumType: EnumToExchangeVersionMappingHelper): EnumVersionDelegate {
+    //     var enumDelegate = (value: any) => { return ExchangeVersion.Exchange2007_SP1 };
+    //     switch (enumType) {
+    //         //TODO: fix numbering to named enum value if possible
+    //         case EnumToExchangeVersionMappingHelper.WellKnownFolderName:
+    //             enumDelegate = (value) => {
+    //                 var enumVersion = ExchangeVersion.Exchange2007_SP1;
+    //                 if (value <= 15) //<= WellKnownFolderName.VoiceMail
+    //                     enumVersion = ExchangeVersion.Exchange2007_SP1;
+    //                 else if (value >= 16 && value <= 26) //>= RecoverableItemsRoot && <= ArchiveRecoverableItemsPurges
+    //                     enumVersion = ExchangeVersion.Exchange2010_SP1;
+    //                 else if (value >= 27 && value <= 34) //>= SyncIssues && <= ToDoSearch
+    //                     enumVersion = ExchangeVersion.Exchange2013;
+    //                 else
+    //                     enumVersion = ExchangeVersion.Exchange_Version_Not_Updated;
 
-                    return enumVersion;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.ItemTraversal:
-                enumDelegate = (value) => {
-                    if (value <= 1) //<= ItemTraversal.SoftDeleted
-                        return ExchangeVersion.Exchange2007_SP1;
-                    else if (value == 2) // === Associated
-                        return ExchangeVersion.Exchange2010;
+    //                 return enumVersion;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.ItemTraversal:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 1) //<= ItemTraversal.SoftDeleted
+    //                     return ExchangeVersion.Exchange2007_SP1;
+    //                 else if (value == 2) // === Associated
+    //                     return ExchangeVersion.Exchange2010;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.ConversationQueryTraversal:
-                enumDelegate = (value) => {
-                    if (value <= 1) //<= ConversationQueryTraversal.Deep
-                        return ExchangeVersion.Exchange2013;
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.FileAsMapping:
-                enumDelegate = (value) => {
-                    if (value <= 12) //<= FileAsMapping.SurnameSpaceGivenName
-                        return ExchangeVersion.Exchange2007_SP1;
-                    else if (value >= 13 && value <= 17) // >= DisplayName && <=Empty
-                        return ExchangeVersion.Exchange2010;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.ConversationQueryTraversal:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 1) //<= ConversationQueryTraversal.Deep
+    //                     return ExchangeVersion.Exchange2013;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.FileAsMapping:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 12) //<= FileAsMapping.SurnameSpaceGivenName
+    //                     return ExchangeVersion.Exchange2007_SP1;
+    //                 else if (value >= 13 && value <= 17) // >= DisplayName && <=Empty
+    //                     return ExchangeVersion.Exchange2010;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.EventType:
-                enumDelegate = (value) => {
-                    if (value <= 6) //<= EventType.Created
-                        return ExchangeVersion.Exchange2007_SP1;
-                    else if (value == 7) // == FreeBusyChanged
-                        return ExchangeVersion.Exchange2010_SP1;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.EventType:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 6) //<= EventType.Created
+    //                     return ExchangeVersion.Exchange2007_SP1;
+    //                 else if (value == 7) // == FreeBusyChanged
+    //                     return ExchangeVersion.Exchange2010_SP1;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.MeetingRequestsDeliveryScope:
-                enumDelegate = (value) => {
-                    if (value <= 2) //<= MeetingRequestsDeliveryScope.DelegatesAndSendInformationToMe
-                        return ExchangeVersion.Exchange2007_SP1;
-                    else if (value == 3) // == NoForward
-                        return ExchangeVersion.Exchange2010_SP1;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.MeetingRequestsDeliveryScope:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 2) //<= MeetingRequestsDeliveryScope.DelegatesAndSendInformationToMe
+    //                     return ExchangeVersion.Exchange2007_SP1;
+    //                 else if (value == 3) // == NoForward
+    //                     return ExchangeVersion.Exchange2010_SP1;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.ViewFilter:
-                enumDelegate = (value) => {
-                    if (value <= 10) //<=ViewFilter.SuggestionsDelete
-                        return ExchangeVersion.Exchange2013;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.ViewFilter:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 10) //<=ViewFilter.SuggestionsDelete
+    //                     return ExchangeVersion.Exchange2013;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            case EnumToExchangeVersionMappingHelper.MailboxType:
-                enumDelegate = (value) => {
-                    if (value <= 1) //<=MailboxType.OneOff
-                        return ExchangeVersion.Exchange2010;
-                    if (value <= 6) //<=MailboxType.Contact
-                        return ExchangeVersion.Exchange2007_SP1;
-                    if (value <= 7) //<=MailboxType.GroupMailbox
-                        return ExchangeVersion.Exchange2015;
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         case EnumToExchangeVersionMappingHelper.MailboxType:
+    //             enumDelegate = (value) => {
+    //                 if (value <= 1) //<=MailboxType.OneOff
+    //                     return ExchangeVersion.Exchange2010;
+    //                 if (value <= 6) //<=MailboxType.Contact
+    //                     return ExchangeVersion.Exchange2007_SP1;
+    //                 if (value <= 7) //<=MailboxType.GroupMailbox
+    //                     return ExchangeVersion.Exchange2015;
 
-                    return ExchangeVersion.Exchange_Version_Not_Updated;
-                };
-                break;
-            default:
-                throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[<number>enumType]);
-        }
+    //                 return ExchangeVersion.Exchange_Version_Not_Updated;
+    //             };
+    //             break;
+    //         default:
+    //             throw new Error("EwsUtilities.ts - BuildEnumDict - no mapping available for this enumtype" + EnumToExchangeVersionMappingHelper[<number>enumType]);
+    //     }
 
-        return enumDelegate;
-    }
+    //     return enumDelegate;
+    // }
     /**@internal */
     //deviation - need to work with static data for enum to exchange version dict, there is no Attribute type system in javascript.
     static BuildEnumToSchemaDict(enumType: EnumToSchemaMappingHelper): Dictionary<number, string> { throw new Error("EwsUtilities.ts - static BuildEnumToSchemaDict : Not implemented."); }
@@ -229,17 +234,17 @@ export class EwsUtilities {
                 throw new Error("EwsUtilities.ts - GetDictionaryKeyTypeEnum - invalid value: " + dictionaryKeyType);
         }
     }
-    private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
-        var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
-        if (delegate && typeof delegate === 'function') {
-            try {
-                return delegate(enumValue);
-            }
-            catch (ex) { }
-        }
+    // private static GetExchangeVersionFromEnumDelegate(enumType: EnumToExchangeVersionMappingHelper, enumValue: number): ExchangeVersion {
+    //     var delegate = this.enumVersionDictionaries.Member[EnumToExchangeVersionMappingHelper[enumType]];
+    //     if (delegate && typeof delegate === 'function') {
+    //         try {
+    //             return delegate(enumValue);
+    //         }
+    //         catch (ex) { }
+    //     }
 
-        return ExchangeVersion.Exchange2007_SP1;
-    }
+    //     return ExchangeVersion.Exchange2007_SP1;
+    // }
     static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime {
         try {
             return TimeZoneInfo.ConvertTime(
@@ -333,12 +338,12 @@ export class EwsUtilities {
     static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
     static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
     static GetEnumeratedObjectCount(objects: any): number { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectCount : Not implemented."); }
-    
-    
+
+
     //static GetEnumSchemaName(enumType: System.Type, enumName: string): string{ throw new Error("EwsUtilities.ts - static GetEnumSchemaName : Not implemented.");}
     //static GetEnumVersion(enumType: System.Type, enumName: string): ExchangeVersion{ throw new Error("EwsUtilities.ts - static GetEnumVersion : Not implemented.");}
     //static GetItemTypeFromXmlElementName(xmlElementName: string): System.Type{ throw new Error("EwsUtilities.ts - static GetItemTypeFromXmlElementName : Not implemented.");}
-    
+
     static GetNamespaceFromUri(namespaceUri: string): XmlNamespace {
         switch (namespaceUri) {
             case this.EwsErrorsNamespace:
@@ -415,7 +420,7 @@ export class EwsUtilities {
         }
     }
 
-    
+
     static GetPrintableTypeName(type: any /*instance */): string {
         var typename: string = typeof type;
         if (typename.indexOf("object") >= 0) {
@@ -562,41 +567,28 @@ export class EwsUtilities {
     /**
      * Validates the enum value against the request version.
      *
-     * @param   {EnumToExchangeVersionMappingHelper}   enumType        The enum type mapping helper - specific to ews-javascript-api.
-     * @param   {number}   enumValue        The enum value.
+     * @param   {RequiredServerVersionEnums}   enumType        one of Enum type which has RequiredServerVersionAttrubute
+     * @param   {number}            enumValue        The enum value.
      * @param   {ExchangeVersion}   requestVersion   The request version.
+     * @param   {string}            name   The request version.
      */
-    static ValidateEnumVersionValue(enumType: EnumToExchangeVersionMappingHelper, enumValue: number, requestVersion: ExchangeVersion): void {
-        var enumVersion = this.GetExchangeVersionFromEnumDelegate(enumType, enumValue);
+    static ValidateEnumVersionValue(enumType: RequiredServerVersionEnums, enumValue: number, requestVersion: ExchangeVersion, name: string): void {
+        //default is 2007_SP1
+        var enumVersion = ExchangeVersion.Exchange2007_SP1;
+        //if it has RequiredServerVersionAttrubute (ews-javascript-api, those enums has static function named 'RequiredServerVersion' )
+        if (TypeGuards.hasRequiredServerVersionAttribute(enumType)) {
+            enumVersion = enumType.RequiredServerVersion(enumValue);
+        }
+
         if (requestVersion < enumVersion) {
             throw new ServiceVersionException(
                 StringHelper.Format(
                     Strings.EnumValueIncompatibleWithRequestVersion,
-                    enumValue,
-                    //WellKnownFolderName[folderEnum],
-                    EnumToExchangeVersionMappingHelper[enumType],
+                    enumType[enumValue],
+                    name,
                     ExchangeVersion[enumVersion]));
         }
-        //////EwsUtilities.ValidateEnumVersionValue(this.FolderName, version); - alternate validation using next line
-        //////todo: move to ewsutilities - done
-        ////export class ExchangeVersionValidator {
-        ////    static ValidateWellKnownFolderName(folderEnum: WellKnownFolderName, requestedVersion: ExchangeVersion): void {
-        ////        var enumVersion = ExchangeVersion.Exchange2007_SP1;
-        ////        if (folderEnum <= 15) enumVersion = ExchangeVersion.Exchange2007_SP1;
-        ////        else if (folderEnum >= 16 && folderEnum <= 26) enumVersion = ExchangeVersion.Exchange2010_SP1;
-        ////        else if (folderEnum >= 27 && folderEnum <= 34) enumVersion = ExchangeVersion.Exchange2013;
-        ////        else enumVersion = ExchangeVersion.Exchange2013;
 
-        ////        if (requestedVersion < enumVersion) {
-        ////            throw new ServiceVersionException(
-        ////                string.Format(
-        ////                    Strings.EnumValueIncompatibleWithRequestVersion,
-        ////                    WellKnownFolderName[folderEnum],
-        ////                    "WellKnownFolderName",
-        ////                    ExchangeVersion[enumVersion]));
-        ////        }
-        ////    }
-        ////}
     }
     static ValidateMethodVersion(service: ExchangeService, minimumServerVersion: ExchangeVersion, methodName: string): void {
         if (service.RequestedServerVersion < minimumServerVersion) {

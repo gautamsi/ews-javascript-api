@@ -1,15 +1,14 @@
-﻿import {DelegateUser} from "../../ComplexProperties/DelegateUser";
-import {EnumToExchangeVersionMappingHelper} from "../../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {EwsUtilities} from "../EwsUtilities";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {MeetingRequestsDeliveryScope} from "../../Enumerations/MeetingRequestsDeliveryScope";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { DelegateUser } from "../../ComplexProperties/DelegateUser";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { MeetingRequestsDeliveryScope } from "../../Enumerations/MeetingRequestsDeliveryScope";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
-import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import { DelegateManagementResponse } from "../Responses/DelegateManagementResponse";
+import { DelegateManagementRequestBase } from "./DelegateManagementRequestBase";
 /**
  * @internal Represents an AddDelegate request. 
  */
@@ -96,7 +95,7 @@ export class AddDelegateRequest extends DelegateManagementRequestBase<DelegateMa
         }
 
         if (this.MeetingRequestsDeliveryScope) {
-            EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.MeetingRequestsDeliveryScope, this.MeetingRequestsDeliveryScope, this.Service.RequestedServerVersion); //info: EnumToExchangeVersionMappingHelper used to overcome Reflection limitation.
+            EwsUtilities.ValidateEnumVersionValue(MeetingRequestsDeliveryScope, this.MeetingRequestsDeliveryScope, this.Service.RequestedServerVersion, "MeetingRequestsDeliveryScope");
         }
     }
 

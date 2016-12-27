@@ -1,15 +1,15 @@
-﻿import {Exception} from "./Exception";
-import {ServiceError} from "../Enumerations/ServiceError";
-import {ServiceResponse} from "../Core/Responses/ServiceResponse";
-import {StringHelper} from "../ExtensionMethods";
-import {Strings} from "../Strings";
+﻿import { Exception } from "./Exception";
+import { ServiceError } from "../Enumerations/ServiceError";
+import { ServiceResponse } from "../Core/Responses/ServiceResponse";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
 
-import {ServiceRemoteException} from "./ServiceRemoteException";
+import { ServiceRemoteException } from "./ServiceRemoteException";
 /**
  * Represents a remote service exception that has a single response.
  */
 export class ServiceResponseException extends ServiceRemoteException {
-    
+
     /**
      * Error details Value keys
      */
@@ -21,21 +21,21 @@ export class ServiceResponseException extends ServiceRemoteException {
      * ServiceResponse when service operation failed remotely.
      */
     private response: ServiceResponse;
-    
+
     /**
      * Gets the ServiceResponse for the exception.
      */
-    get Response(): ServiceResponse { 
-        return this.response; 
+    get Response(): ServiceResponse {
+        return this.response;
     }
-    
+
     /**
      * Gets the service error code.
      */
-    get ErrorCode(): ServiceError { 
-        return this.response ? this.response.ErrorCode : null; 
+    get ErrorCode(): ServiceError {
+        return this.response ? this.response.ErrorCode : null;
     }
-    
+
     /**
      * Gets a message that describes the current exception.
      * 
@@ -68,7 +68,7 @@ export class ServiceResponseException extends ServiceRemoteException {
      * @param   {ServiceResponse}   response   The ServiceResponse when service operation failed remotely.
      */
     constructor(response: ServiceResponse) {
-        super();
+        super(response && response.ErrorMessage ? response.ErrorMessage : "");
         this.response = response;
     }
 }

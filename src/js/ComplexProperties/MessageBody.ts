@@ -51,12 +51,12 @@ export class MessageBody extends ComplexProperty {
                 case XmlAttributeNames.BodyType:
                     this.bodyType = BodyType[<string>jsObject[key]];
                     break;
-                case XmlElementNames.Body: //info - Body Element text - custom parser in ExtensionMethods. 
-                case XmlElementNames.TextBody: //info - TextBody Element text - custom parser in ExtensionMethods. 
+                case XmlElementNames.Body: //info - Body Element text - custom parser in ews-javascript-api. 
+                case XmlElementNames.TextBody: //info - TextBody Element text - custom parser in ews-javascript-api. 
                     this.text = jsObject[key];
                     break;
                 case XmlAttributeNames.IsTruncated:
-                    //IsTruncated not captured 
+                    //ref: IsTruncated not captured 
                     break;
                 default:
                     debugger;//check exact name of body element

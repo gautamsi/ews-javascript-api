@@ -1,3 +1,4 @@
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { ICalendarActionProvider } from "./ICalendarActionProvider";
 import { ICustomUpdateSerializer } from "./ICustomXmlUpdateSerializer";
 import { IEwsHttpWebRequest } from "./IEwsHttpWebRequest";
@@ -12,10 +13,15 @@ import { IRefParam } from "./IRefParam";
 import { ISearchStringProvider } from "./ISearchStringProvider";
 import { ISelfValidate } from "./ISelfValidate";
 import { ITraceListener } from "./ITraceListener";
+import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
 
-export interface EwsEnumInterface {
+export interface HasEwsEnumAttribute {
     FromEwsEnumString(value: string): any
     ToEwsEnumString(value: any): string;
+}
+
+export interface HasRequiredServerVersionAttribute {
+    RequiredServerVersion(value: WellKnownFolderName): ExchangeVersion
 }
 
 /** @internal */
@@ -24,8 +30,15 @@ export module TypeGuards {
     /**
      * check if the object implements EwsEnumInterface interface
      */
-    export function isEwsEnumInterface(arg: any): arg is EwsEnumInterface {
+    export function hasEwsEnumAttribute(arg: any): arg is HasEwsEnumAttribute {
         return arg && typeof arg.FromEwsEnumString === 'function' && typeof arg.ToEwsEnumString === 'function';
+    }
+
+    /**
+     * check if the object implements EwsEnumInterface interface
+     */
+    export function hasRequiredServerVersionAttribute(arg: any): arg is HasRequiredServerVersionAttribute {
+        return arg && typeof arg.RequiredServerVersion === 'function';
     }
 
     /**

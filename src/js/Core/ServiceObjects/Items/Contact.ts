@@ -5,7 +5,6 @@ import { DateTime } from "../../../DateTime";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
 import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
 import { EmailAddressDictionary } from "../../../ComplexProperties/EmailAddressDictionary";
-import { EnumToExchangeVersionMappingHelper } from "../../../Enumerations/EnumToExchangeVersionMappingHelper";
 import { EwsUtilities } from "../../EwsUtilities";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
@@ -596,7 +595,7 @@ export class Contact extends Item {
         var fileAsMapping: IOutParam<any> = { outValue: null };
         if (this.TryGetProperty(Schemas.ContactSchema.FileAsMapping, fileAsMapping)) {
             // FileAsMapping is extended by 5 new values in 2010 mode. Validate that they are used according the version.
-            EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.FileAsMapping, fileAsMapping.outValue, this.Service.RequestedServerVersion);
+            EwsUtilities.ValidateEnumVersionValue(FileAsMapping, fileAsMapping.outValue, this.Service.RequestedServerVersion, "FileAsMapping");
         }
     }
 }
