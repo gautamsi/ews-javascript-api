@@ -30,6 +30,7 @@ export class GetFolderRequestBase<TResponse extends ServiceResponse> extends Get
         //EwsUtilities.ValidateParamCollection(this.FolderIds, "FolderIds");
         this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);
 

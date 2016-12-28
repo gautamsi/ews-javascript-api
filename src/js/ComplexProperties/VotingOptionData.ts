@@ -9,6 +9,7 @@ export class VotingOptionData extends ComplexProperty {
     private displayName: string;
     private sendPrompt: SendPrompt;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("VotingOptionData.ts - LoadFromJson : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("VotingOptionData.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 

@@ -15,5 +15,6 @@ export class GetPhoneCallRequest extends SimpleServiceRequestBase {
     GetResponseXmlElementName(): string { throw new Error("GetPhoneCallRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("GetPhoneCallRequest.ts - GetXmlElementName : Not implemented."); }
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetPhoneCallRequest.ts - ParseResponse : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }

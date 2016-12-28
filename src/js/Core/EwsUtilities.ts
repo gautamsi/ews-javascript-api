@@ -38,7 +38,7 @@ import { XmlNamespace } from "../Enumerations/XmlNamespace";
 export type RequiredServerVersionEnums = typeof ConversationQueryTraversal | typeof EventType | typeof FileAsMapping | typeof ItemTraversal | typeof MailboxType | typeof MeetingRequestsDeliveryScope | typeof ViewFilter | typeof WellKnownFolderName
 
 /**
- * EWS utilities
+ * @internal EWS utilities
  * 
  * @static
  */
@@ -297,8 +297,8 @@ export class EwsUtilities {
     }
     //static CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: System.Type, isNew: boolean): Item{ throw new Error("EwsUtilities.ts - static CreateItemFromItemClass : Not implemented.");}
     static CreateItemFromXmlElementName(itemAttachment: ItemAttachment, xmlElementName: string): Item { throw new Error("EwsUtilities.ts - static CreateItemFromXmlElementName : Not implemented."); }
-    static DateTimeToXSDate(date: DateTime): string { return DateTime.DateTimeToXSDate(date); }
-    static DateTimeToXSDateTime(dateTime: DateTime): string { return DateTime.DateTimeToXSDateTime(dateTime); }
+    public static DateTimeToXSDate(date: DateTime): string { return DateTime.DateTimeToXSDate(date); }
+    public static DateTimeToXSDateTime(dateTime: DateTime): string { return DateTime.DateTimeToXSDateTime(dateTime); }
     static DomainFromEmailAddress(emailAddress: string): string {
         var emailAddressParts: string[] = emailAddress.split('@');
 
@@ -333,7 +333,7 @@ export class EwsUtilities {
     //static FormatHttpHeaders(sb: any, headers: System.Net.WebHeaderCollection): any{ throw new Error("EwsUtilities.ts - static FormatHttpHeaders : Not implemented.");}
     //static FormatHttpRequestHeaders(request: IEwsHttpWebRequest): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
     //static FormatHttpRequestHeaders(request: any): string{ throw new Error("EwsUtilities.ts - static FormatHttpRequestHeaders : Not implemented.");}
-    static FormatHttpResponseHeaders(response: any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
+    private static FormatHttpResponseHeaders(response: any /*IEwsHttpWebResponse*/): string { throw new Error("EwsUtilities.ts - static FormatHttpResponseHeaders : Not implemented."); }
     static FormatLogMessage(entryKind: string, logEntry: string): string { throw new Error("EwsUtilities.ts - static FormatLogMessage : Not implemented."); }
     static FormatLogMessageWithXmlContent(entryKind: string, memoryStream: any): string { throw new Error("EwsUtilities.ts - static FormatLogMessageWithXmlContent : Not implemented."); }
     static GetEnumeratedObjectAt(objects: any, index: number): any { throw new Error("EwsUtilities.ts - static GetEnumeratedObjectAt : Not implemented."); }
@@ -421,7 +421,7 @@ export class EwsUtilities {
     }
 
 
-    static GetPrintableTypeName(type: any /*instance */): string {
+    public static GetPrintableTypeName(type: any /*instance */): string {
         var typename: string = typeof type;
         if (typename.indexOf("object") >= 0) {
             try {

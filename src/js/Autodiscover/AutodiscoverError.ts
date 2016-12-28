@@ -10,5 +10,5 @@ export class AutodiscoverError {
     private errorCode: number;
     private message: string;
     private debugData: string;
-    Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("AutodiscoverError.ts - Parse : Not implemented."); }
+    //Parse(reader: EwsXmlReader): AutodiscoverError { throw new Error("AutodiscoverError.ts - Parse : Not implemented."); }
 }

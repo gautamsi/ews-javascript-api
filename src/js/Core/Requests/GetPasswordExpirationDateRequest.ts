@@ -34,5 +34,6 @@ export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {
         serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
         return serviceResponse;
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxSmtpAddress, this.MailboxSmtpAddress); }
 }

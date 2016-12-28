@@ -5,5 +5,6 @@ import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
  */
 export class ExecuteDiagnosticMethodResponse extends ServiceResponse {
     ReturnValue: any;// System.Xml.XmlDocument;
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("ExecuteDiagnosticMethodResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }

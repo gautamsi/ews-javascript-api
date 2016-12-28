@@ -16,5 +16,6 @@ export class ItemIdWrapper extends AbstractItemIdWrapper {
         this.itemId = itemId;
     }
     IternalToJson(service: ExchangeService): any { throw new Error("ItemIdWrapper.ts - IternalToJson : Not implemented."); }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void {this.itemId.WriteToXml(writer);}
 }

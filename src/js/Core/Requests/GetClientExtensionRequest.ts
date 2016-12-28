@@ -20,5 +20,6 @@ export class GetClientExtensionRequest extends SimpleServiceRequestBase {
     GetResponseXmlElementName(): string { throw new Error("GetClientExtensionRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("GetClientExtensionRequest.ts - GetXmlElementName : Not implemented."); }
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetClientExtensionRequest.ts - ParseResponse : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }

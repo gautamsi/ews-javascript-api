@@ -75,6 +75,7 @@ export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveName
         super.Validate();
         //EwsUtilities.ValidateNonBlankStringParam(this.NameToResolve, "NameToResolve");
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(            
                 XmlAttributeNames.ReturnFullContactData,
@@ -104,6 +105,7 @@ export class ResolveNamesRequest extends MultiResponseServiceRequest<ResolveName
                 writer.WriteAttributeValue(XmlAttributeNames.ContactDataShape, propertySet.outValue);
             }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
             this.ParentFolderIds.WriteToXml(
                 writer,

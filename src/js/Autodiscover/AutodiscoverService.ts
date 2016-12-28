@@ -285,7 +285,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
     }
 
     //previous name - GetEndpointsFromHttpWebResponse
-    GetEndpointsFromHttpResponse(response: XMLHttpRequest): AutodiscoverEndpoints {
+    private GetEndpointsFromHttpResponse(response: XMLHttpRequest): AutodiscoverEndpoints {
         var endpoints: AutodiscoverEndpoints = AutodiscoverEndpoints.Legacy;
         if (!StringHelper.IsNullOrEmpty(response.getResponseHeader(AutodiscoverService.AutodiscoverSoapEnabledHeaderName))) {
             endpoints |= AutodiscoverEndpoints.Soap;
@@ -853,7 +853,8 @@ export class AutodiscoverService extends ExchangeServiceBase {
             }
         }, (err) => { throw err; });
     }
-    TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop: number = 0): Promise<boolean> {
+    
+    private TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop: number = 0): Promise<boolean> {
 
         this.TraceMessage(
             TraceFlags.AutodiscoverConfiguration,

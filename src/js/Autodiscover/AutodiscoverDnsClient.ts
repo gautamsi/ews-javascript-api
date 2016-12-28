@@ -1,6 +1,7 @@
 ﻿import {DnsSrvRecord} from "../Dns/DnsSrvRecord";
 import {AutodiscoverService} from "./AutodiscoverService";
-export class AutodiscoverDnsClient {
+/**@internal */
+    export class AutodiscoverDnsClient {
     private service: AutodiscoverService;
     private static randomTieBreakerSelector: any;
     private static AutoDiscoverSrvPrefix: string = "_autodiscover._tcp.";

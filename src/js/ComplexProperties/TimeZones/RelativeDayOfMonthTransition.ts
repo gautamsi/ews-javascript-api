@@ -28,7 +28,8 @@ export class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
 	GetXmlElementName(): string { return XmlElementNames.RecurringDayTransition;}
 	InitializeFromTransitionTime(transitionTime: any /*System.TimeZoneInfo.TransitionTime*/): void { throw new Error("RelativeDayOfMonthTransition.ts - InitializeFromTransitionTime : Not implemented."); }
 	//ReadElementsFromXmlJsObject(reader: any): boolean{ throw new Error("RelativeDayOfMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented.");}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+	/**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
 		super.WriteElementsToXml(writer);
 
 		writer.WriteElementValue(

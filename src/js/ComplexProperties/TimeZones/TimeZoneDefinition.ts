@@ -163,6 +163,7 @@ export class TimeZoneDefinition extends ComplexProperty {
         }
     }
 
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         // The Name attribute is only supported in Exchange 2010 and above.
         if (writer.Service.RequestedServerVersion != ExchangeVersion.Exchange2007_SP1) {
@@ -172,6 +173,7 @@ export class TimeZoneDefinition extends ComplexProperty {
         writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id);
     }
 
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         // We only emit the full time zone definition against Exchange 2010 servers and above.
         if (writer.Service.RequestedServerVersion != ExchangeVersion.Exchange2007_SP1) {
@@ -206,6 +208,7 @@ export class TimeZoneDefinition extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string): void {
         super.WriteToXml(writer, xmlElementName || XmlElementNames.TimeZoneDefinition, this.Namespace);
     }

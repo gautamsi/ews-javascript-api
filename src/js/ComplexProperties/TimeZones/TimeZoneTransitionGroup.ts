@@ -170,13 +170,16 @@ export class TimeZoneTransitionGroup extends ComplexProperty {
                 }
             }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var transition of this.transitions)
             {
                 transition.WriteToXml(writer);
             }
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void {super.WriteToXml(writer, XmlElementNames.TransitionsGroup); }
 }
 

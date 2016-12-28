@@ -24,6 +24,7 @@ export class MoveCopyFolderRequest<TResponse extends ServiceResponse> extends Mo
         //EwsUtilities.ValidateParamCollection(this.FolderIds, "FolderIds");
         this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteIdsToXml(writer: EwsServiceXmlWriter): void {
         this.folderIds.WriteToXml(
             writer,

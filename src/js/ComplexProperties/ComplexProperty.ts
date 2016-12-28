@@ -12,6 +12,7 @@ import { ExchangeService } from "../Core/ExchangeService";
  */
 export class ComplexProperty {
   
+  /**@internal */
   Namespace: XmlNamespace = XmlNamespace.Types;
   //private xmlNamespace: XmlNamespace; ^ no need for pivate property
   OnChange: ComplexPropertyChangedDelegate[] = [];
@@ -67,8 +68,10 @@ export class ComplexProperty {
     // xmlNamespace || this.Namespace,
     // xmlElementName,
   }
-  ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
-  ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
   SetFieldValue<T>(field: IRefParam<T>, value: T): void {  //irefparam to workaround ref parameters irefparam.value is actual value;
     var applyChange: boolean = false;
 
@@ -111,12 +114,15 @@ export class ComplexProperty {
   {
     this.InternalValidate();
   }
-  WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
 
-  /** reverted to simplify child clarr override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
+  /** @internal reverted to simplify child class override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
   //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("ComplexProperty.ts - WriteToXml : Not implemented."); }
-  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+  /**@internal */
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
     if (!xmlNamespace)
       xmlNamespace = this.Namespace;
 

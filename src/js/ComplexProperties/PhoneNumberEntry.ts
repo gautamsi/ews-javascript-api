@@ -30,5 +30,7 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         this.Key = <PhoneNumberKey><any>PhoneNumberKey[jsonProperty[XmlAttributeNames.Key]];
         this.phoneNumber = jsonProperty[XmlElementNames.Entry];//PhoneNumber
-    } WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
+    } 
+    /**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
 }

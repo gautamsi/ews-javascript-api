@@ -253,7 +253,7 @@ export class EmailAddress extends ComplexProperty implements ISearchStringProvid
     }
 
     /**
-     * Writes elements to XML.
+     * @internal Writes elements to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */

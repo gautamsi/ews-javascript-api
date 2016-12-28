@@ -36,6 +36,7 @@ export class GetItemRequestBase<TResponse extends ServiceResponse> extends GetRe
         super.Validate();
         //EwsUtilities.ValidateParamCollection(this.ItemIds, "ItemIds");
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);
 

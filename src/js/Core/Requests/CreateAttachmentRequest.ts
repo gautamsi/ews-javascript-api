@@ -20,5 +20,6 @@ export class CreateAttachmentRequest extends MultiResponseServiceRequest<CreateA
     GetResponseXmlElementName(): string { throw new Error("CreateAttachmentRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("CreateAttachmentRequest.ts - GetXmlElementName : Not implemented."); }
     Validate(): any { throw new Error("CreateAttachmentRequest.ts - Validate : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("CreateAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }

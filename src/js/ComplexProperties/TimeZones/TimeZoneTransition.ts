@@ -116,6 +116,7 @@ export class TimeZoneTransition extends ComplexProperty {
         // }
     }
     //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("TimeZoneTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.To);
 
@@ -130,6 +131,7 @@ export class TimeZoneTransition extends ComplexProperty {
 
         writer.WriteEndElement(); // To
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void { super.WriteToXml(writer, this.GetXmlElementName()); }
 }
 

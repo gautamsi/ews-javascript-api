@@ -253,6 +253,7 @@ export class ExchangeService extends ExchangeServiceBase {
     /* #region Properties */
     Url: Uri;
     ImpersonatedUserId: ImpersonatedUserId = null;
+    /**@internal */
     PrivilegedUserId: PrivilegedUserId = null;
     ManagementRoles: ManagementRoles = null;
     PreferredCulture: any = null;//System.Globalization.CultureInfo;

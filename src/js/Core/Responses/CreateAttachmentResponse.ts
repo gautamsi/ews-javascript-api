@@ -10,5 +10,6 @@ export class CreateAttachmentResponse extends ServiceResponse {
     Attachment: Attachment;
     private attachment: Attachment;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("CreateAttachmentResponse.ts - ReadElementsFromJson : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("CreateAttachmentResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }

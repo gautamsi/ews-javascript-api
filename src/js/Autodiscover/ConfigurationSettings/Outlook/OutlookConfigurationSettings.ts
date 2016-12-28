@@ -9,6 +9,8 @@ import {LazyMember} from "../../../Core/LazyMember";
 import {ArrayHelper} from "../../../ExtensionMethods";
 import {Uri} from "../../../Uri";
 import {ConfigurationSettingsBase} from "../ConfigurationSettingsBase";
+
+/** @internal  */
 export class OutlookConfigurationSettings extends ConfigurationSettingsBase {
     ResponseType: AutodiscoverResponseType;
     RedirectTarget: string;
@@ -26,7 +28,7 @@ export class OutlookConfigurationSettings extends ConfigurationSettingsBase {
     IsAvailableUserSetting(setting: UserSettingName): boolean { throw new Error("OutlookConfigurationSettings.ts - IsAvailableUserSetting : Not implemented."); }
     MakeRedirectionResponse(redirectUrl: Uri): any { throw new Error("OutlookConfigurationSettings.ts - MakeRedirectionResponse : Not implemented."); }
     ReportUnsupportedSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any { throw new Error("OutlookConfigurationSettings.ts - ReportUnsupportedSettings : Not implemented."); }
-    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("OutlookConfigurationSettings.ts - TryReadCurrentXmlElement : Not implemented."); }
+    //TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("OutlookConfigurationSettings.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
 
 

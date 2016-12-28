@@ -21,6 +21,7 @@ export class PhoneCall extends ComplexProperty {
     Disconnect(): any { throw new Error("PhoneCall.ts - Disconnect : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneCall.ts - LoadFromJson : Not implemented."); }
     Refresh(): any { throw new Error("PhoneCall.ts - Refresh : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("PhoneCall.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 

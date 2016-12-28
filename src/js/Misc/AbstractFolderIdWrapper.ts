@@ -9,5 +9,6 @@ export class AbstractFolderIdWrapper { //IJsonSerializable
     //      return this.InternalToJson(service);
     //}
     Validate(version: ExchangeVersion): void { /*throw new Error("Not implemented.");*/ }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void { throw new Error("AbstractFolderIdWrapper.ts - WriteToXml - abstract; must implemented."); }
 }

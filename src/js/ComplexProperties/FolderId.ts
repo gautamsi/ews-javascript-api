@@ -99,6 +99,7 @@ export class FolderId extends ServiceId {
             super.Validate();
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         if (typeof this.folderName !== 'undefined' && this.FolderName >= 0) {
             writer.WriteAttributeValue(XmlAttributeNames.Id, WellKnownFolderName[this.FolderName].toLowerCase());

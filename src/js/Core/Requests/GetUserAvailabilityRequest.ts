@@ -72,6 +72,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
         super.Validate();
         this.Options.Validate(this.TimeWindow.Duration);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         // Only serialize the TimeZone property against an Exchange 2007 SP1 server.
         // Against Exchange 2010, the time zone is emitted in the request's SOAP header.

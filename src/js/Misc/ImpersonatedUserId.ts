@@ -15,7 +15,8 @@ export class ImpersonatedUserId {
             this.Id = id;
         }
 
-        WriteToXml(writer: EwsServiceXmlWriter): void {
+        /**@internal */
+    WriteToXml(writer: EwsServiceXmlWriter): void {
             if (!this.Id || this.Id === "") {
                 throw new Error("Id property must be set before serialization");// ArgumentException(Strings.IdPropertyMustBeSet);
             }

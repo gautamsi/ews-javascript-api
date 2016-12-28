@@ -18,6 +18,7 @@ export class DeleteRequest<TResponse extends ServiceResponse> extends MultiRespo
         super(service,errorHandlingMode);
     }
     InternalToJson(body: any): any { throw new Error("DeleteRequest.ts - InternalToJson : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
         writer.WriteAttributeValue(XmlAttributeNames.DeleteType, DeleteMode[this.DeleteMode]);

@@ -9,6 +9,7 @@ export class RecurringAppointmentMasterId extends ItemId {
         super(occurrenceId);
     }
     GetXmlElementName(): string { return XmlElementNames.RecurringMasterItemId; }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.OccurrenceId, this.UniqueId);
         writer.WriteAttributeValue(XmlAttributeNames.ChangeKey, this.ChangeKey);

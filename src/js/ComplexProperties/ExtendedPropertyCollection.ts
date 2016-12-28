@@ -69,6 +69,7 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
             return false;
         }
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
         for (var extendedProperty of this.Items) {
             extendedProperty.WriteToXml(writer, XmlElementNames.ExtendedProperty);

@@ -8,8 +8,11 @@ export class PhoneCallId extends ComplexProperty {
     private id: string;
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneCallId.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneCallId.ts - LoadFromJson : Not implemented."); }
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PhoneCallId.ts - ReadAttributesFromXml : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneCallId.ts - WriteAttributesToXml : Not implemented."); }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): any { throw new Error("PhoneCallId.ts - WriteToXml : Not implemented."); }
 }
 

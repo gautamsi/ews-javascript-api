@@ -29,8 +29,11 @@ export class GroupMemberCollection extends ComplexPropertyCollection<GroupMember
         InternalValidate(): any { throw new Error("GroupMemberCollection.ts - InternalValidate : Not implemented."); }
         Remove(member: GroupMember): boolean { throw new Error("GroupMemberCollection.ts - Remove : Not implemented."); }
         RemoveAt(index: number): any { throw new Error("GroupMemberCollection.ts - RemoveAt : Not implemented."); }
+        /**@internal */
         WriteDeleteMembersCollectionToXml(writer: EwsServiceXmlWriter): any { throw new Error("GroupMemberCollection.ts - WriteDeleteMembersCollectionToXml : Not implemented."); }
+        /**@internal */
         WriteDeleteMembersToXml(writer: EwsServiceXmlWriter, members: GroupMember[] /* System.Collections.Generic.List<GroupMember>*/): any { throw new Error("GroupMemberCollection.ts - WriteDeleteMembersToXml : Not implemented."); }
+        /**@internal */
         WriteSetOrAppendMembersToXml(writer: EwsServiceXmlWriter, members: GroupMember[] /*System.Collections.Generic.List<GroupMember>*/, setMode: boolean): any { throw new Error("GroupMemberCollection.ts - WriteSetOrAppendMembersToXml : Not implemented."); }
     }
 

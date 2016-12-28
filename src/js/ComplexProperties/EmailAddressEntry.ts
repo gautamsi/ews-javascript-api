@@ -65,6 +65,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
     }
     // ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadAttributesFromXml : Not implemented."); }
     // ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
@@ -76,5 +77,6 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.EmailAddress.Address, XmlElementNames.EmailAddress); }
 }

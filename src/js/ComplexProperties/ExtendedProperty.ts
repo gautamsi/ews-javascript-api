@@ -74,6 +74,7 @@ export class ExtendedProperty extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.PropertyDefinition.WriteToXml(writer);
         if (MapiTypeConverter.IsArrayType(this.PropertyDefinition.MapiType)) {

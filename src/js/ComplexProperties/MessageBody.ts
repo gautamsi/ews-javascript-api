@@ -64,10 +64,14 @@ export class MessageBody extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadAttributesFromXml : Not implemented. - should not be called"); }
+    /**@internal */
     ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadTextValueFromXml : Not implemented. - should not be called"); }
     ToString(): string { return (this.Text == null) ? StringHelper.Empty : this.Text; }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(XmlAttributeNames.BodyType, BodyType[this.BodyType]); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (!StringHelper.IsNullOrEmpty(this.Text)) {
             writer.WriteValue(this.Text, XmlElementNames.Body);

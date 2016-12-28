@@ -8,7 +8,7 @@ import { TypeGuards } from "../Interfaces/TypeGuards"
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
 /**
- * XML writer
+ * @internal XML writer
  */
 export class EwsServiceXmlWriter {
     

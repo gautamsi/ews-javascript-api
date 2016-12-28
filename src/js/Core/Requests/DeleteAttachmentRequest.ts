@@ -17,5 +17,6 @@ export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteA
     GetResponseXmlElementName(): string { throw new Error("DeleteAttachmentRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("DeleteAttachmentRequest.ts - GetXmlElementName : Not implemented."); }
     Validate(): any { throw new Error("DeleteAttachmentRequest.ts - Validate : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DeleteAttachmentRequest.ts - WriteElementsToXml : Not implemented."); }
 }

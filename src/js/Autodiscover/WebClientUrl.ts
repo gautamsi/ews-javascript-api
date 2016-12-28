@@ -12,7 +12,7 @@ export class WebClientUrl {
         webClientUrl.Url = obj[XmlElementNames.Url];
         return webClientUrl;
     }
-
+    /**@internal */
     static LoadFromXml(reader: EwsXmlReader): WebClientUrl {
         var webClientUrl = new WebClientUrl();
         var parent = reader.CurrentNode;
