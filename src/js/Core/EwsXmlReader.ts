@@ -4,6 +4,7 @@ import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {EwsUtilities} from "./EwsUtilities";
 import {EwsLogging} from "./EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../ExtensionMethods";
+/** @internal */
 export class EwsXmlReader {
     private static ReadWriteBufferSize: number = 4096;
 

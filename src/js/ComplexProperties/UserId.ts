@@ -62,6 +62,7 @@ export class UserId extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(
             XmlNamespace.Types,

@@ -141,7 +141,7 @@ export class UserConfiguration {//IJsonSerializable
                 StringHelper.Format(
                     Strings.ObjectTypeIncompatibleWithRequestVersion,
                     "UserConfiguration",
-                    UserConfiguration.ObjectVersion));
+                    ExchangeVersion[UserConfiguration.ObjectVersion]));
         }
 
         this.service = service;
@@ -212,12 +212,12 @@ export class UserConfiguration {//IJsonSerializable
     /**
      * Initializes properties.
      *
-     * @param   {UserConfigurationProperties}   requestedProperties   The properties requested for this UserConfiguration.
-     * 
-     * @remarks InitializeProperties is called in 3 cases:
+     * /remarks/    InitializeProperties is called in 3 cases:
      * .  Create new object:  From the UserConfiguration constructor.
      * .  Bind to existing object:  Again from the constructor.  The constructor is called eventually by the GetUserConfiguration request.
      * .  Refresh properties:  From the Load method.
+     * 
+     * @param   {UserConfigurationProperties}   requestedProperties   The properties requested for this UserConfiguration.
      */
     private InitializeProperties(requestedProperties: UserConfigurationProperties): void {
         this.itemId = null;

@@ -4,6 +4,7 @@ import {XmlElementNames} from "../Core/XmlElementNames";
 
 export class AlternateMailboxCollection {
     Entries: AlternateMailbox[] = []; //System.Collections.Generic.List<AlternateMailbox>;
+    /**@internal */
     static LoadFromXml(reader: EwsXmlReader): AlternateMailboxCollection { throw new Error("Not implemented. depricated use LoadFromJson"); }
     static LoadFromJson(obj: any): AlternateMailboxCollection {
         var instance = new AlternateMailboxCollection();

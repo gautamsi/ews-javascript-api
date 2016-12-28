@@ -1,30 +1,30 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {FileAsMapping} from "../../../Enumerations/FileAsMapping";
-import {ContactSource} from "../../../Enumerations/ContactSource";
-import {PhysicalAddressIndex} from "../../../Enumerations/PhysicalAddressIndex";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {CompleteName} from "../../../ComplexProperties/CompleteName";
-import {EmailAddressDictionary} from "../../../ComplexProperties/EmailAddressDictionary";
-import {PhysicalAddressDictionary} from "../../../ComplexProperties/PhysicalAddressDictionary";
-import {PhoneNumberDictionary} from "../../../ComplexProperties/PhoneNumberDictionary";
-import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {ImAddressDictionary} from "../../../ComplexProperties/ImAddressDictionary";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
-import {ByteArrayArray} from "../../../ComplexProperties/ByteArrayArray";
-import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {IndexedPropertyDefinition} from "../../../PropertyDefinitions/IndexedPropertyDefinition";
-import {Schemas} from "./Schemas";
+﻿import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ByteArrayArray } from "../../../ComplexProperties/ByteArrayArray";
+import { ByteArrayPropertyDefinition } from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import { CompleteName } from "../../../ComplexProperties/CompleteName";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ContactSource } from "../../../Enumerations/ContactSource";
+import { ContainedPropertyDefinition } from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import { DateTimePropertyDefinition } from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
+import { EmailAddressDictionary } from "../../../ComplexProperties/EmailAddressDictionary";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FileAsMapping } from "../../../Enumerations/FileAsMapping";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { ImAddressDictionary } from "../../../ComplexProperties/ImAddressDictionary";
+import { IndexedPropertyDefinition } from "../../../PropertyDefinitions/IndexedPropertyDefinition";
+import { PhoneNumberDictionary } from "../../../ComplexProperties/PhoneNumberDictionary";
+import { PhysicalAddressDictionary } from "../../../ComplexProperties/PhysicalAddressDictionary";
+import { PhysicalAddressIndex } from "../../../Enumerations/PhysicalAddressIndex";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * FieldURIs for contacts.
@@ -106,7 +106,8 @@ export class ContactSchema extends ItemSchema {
         XmlElementNames.FileAsMapping,
         FieldUris.FileAsMapping,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        FileAsMapping
     );
 
     /**
@@ -287,7 +288,8 @@ export class ContactSchema extends ItemSchema {
         XmlElementNames.ContactSource,
         FieldUris.ContactSource,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        ContactSource
     );
 
     /**
@@ -376,7 +378,8 @@ export class ContactSchema extends ItemSchema {
         XmlElementNames.PostalAddressIndex,
         FieldUris.PostalAddressIndex,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanDelete | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        PhysicalAddressIndex
     );
 
     /**
@@ -888,7 +891,7 @@ export class ContactSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

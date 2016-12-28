@@ -12,6 +12,7 @@ export class ApprovalRequestData extends ComplexProperty {
     private approvalDecisionMaker: string;
     private approvalDecisionTime: Date;
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ApprovalRequestData.ts - LoadFromJson : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ApprovalRequestData.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 }
 

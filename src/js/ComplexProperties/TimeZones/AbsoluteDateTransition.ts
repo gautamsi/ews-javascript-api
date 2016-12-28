@@ -18,6 +18,7 @@ export class AbsoluteDateTransition extends TimeZoneTransition {
     GetXmlElementName(): string { return XmlElementNames.AbsoluteDateTransition; }
     InitializeFromTransitionTime(transitionTime: any): any { throw new ServiceLocalException(Strings.UnsupportedTimeZonePeriodTransitionTarget); }
     //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("AbsoluteDateTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);
 

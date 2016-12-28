@@ -47,8 +47,8 @@ export class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, 
                 this.Changed();
             }
             else {
-                entry = new EmailAddressEntry(key, value);
-                this.InternalAdd(entry.outValue);
+                let newEntry = new EmailAddressEntry(key, value);
+                this.InternalAdd(newEntry);
             }
         }
     }
@@ -78,7 +78,7 @@ export class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, 
         let entry: IOutParam<EmailAddressEntry> = null;
 
         if (this.Entries.tryGetValue(key, entry)) {
-            emailAddress = entry.outValue.EmailAddress;
+            emailAddress.outValue = entry.outValue.EmailAddress;
 
             return true;
         }

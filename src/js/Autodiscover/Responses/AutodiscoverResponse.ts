@@ -10,6 +10,7 @@ export class AutodiscoverResponse {
     //private errorCode: AutodiscoverErrorCode;
     //private errorMessage: string;
     //private redirectionUrl: Uri;
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
         switch (reader.LocalName) {
             case XmlElementNames.ErrorCode:

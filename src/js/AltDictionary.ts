@@ -190,6 +190,7 @@ export class Dictionary<TKey, TValue>{
     }
 }
 
+/**@internal */
 export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue extends PropertyDefinitionBase> extends Dictionary<string, TValue>{
     //private keys: string[] = [];
     //private objects: StringPropertyDefinitionArray<TKey, TValue> = {};// {[key:string]:TValue};
@@ -197,6 +198,7 @@ export class StringPropertyDefinitionBaseDictionary<TKey extends string, TValue 
     
 }
 
+/**@internal */
 export class PropertyDefinitionDictionary extends StringPropertyDefinitionBaseDictionary<string, PropertyDefinitionBase>{
 }
 
@@ -218,16 +220,20 @@ interface StringArray<TKey, TValue> {
     [index: string]: PropDictionaryValue<TKey, TValue>;
 }
 
+/**@internal */
 export class DictionaryWithStringKey<TValue> extends Dictionary<string, TValue>{
     constructor() {
         super((value) => value);
     }
 }
+
+/**@internal */
 export class DictionaryWithNumericKey<TValue> extends Dictionary<number, TValue>{
     constructor() {
         super((value) => value.toString());
     }
 }
+/**@internal */
 export class DictionaryWithPropertyDefitionKey<TKey extends { Name?: string }, TValue> extends Dictionary<TKey, TValue>{
     constructor() {
         super((value: TKey) => value.Name);

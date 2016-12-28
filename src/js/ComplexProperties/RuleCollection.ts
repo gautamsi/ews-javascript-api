@@ -1,18 +1,17 @@
-﻿import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
-import {ExchangeService} from "../Core/ExchangeService";
-import {Rule} from "./Rule";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../Core/ExchangeService";
+import { IEnumerable } from "../Interfaces/IEnumerable";
+import { Rule } from "./Rule";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents a collection of rules.
  * 
  * @sealed
  */
-export class RuleCollection extends ComplexProperty {
-
-	___implementsInterface: string[] = ["IEnumerable<Rule>", "IJsonCollectionDeserialize"];
+export class RuleCollection extends ComplexProperty implements IEnumerable<Rule> {
 
 	/**
 	 * The OutlookRuleBlobExists flag.
@@ -47,7 +46,7 @@ export class RuleCollection extends ComplexProperty {
      * @param   {number}   index   The index of the rule to get.
      * @return  {Rule}	The rule at the specified index.
      */
-    __thisIndexer(index: number): Rule {
+	_getItem(index: number): Rule {
 		if (index < 0 || index >= this.rules.length) {
 			throw new ArgumentOutOfRangeException("Index");
 		}
@@ -62,7 +61,12 @@ export class RuleCollection extends ComplexProperty {
 		this.rules = [];
 	}
 
-	//GetEnumerator(): Rule[] /*System.Collections.Generic.IEnumerator<Rule>*/ { throw new Error("RuleCollection.ts - GetEnumerator : Not implemented."); }
+	/**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+	GetEnumerator(): Rule[] {
+		return this.rules;
+	}
 
 	/**
      * @internal Loads service object from XML.
@@ -70,7 +74,7 @@ export class RuleCollection extends ComplexProperty {
      * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+	LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
 		let jsRules = EwsServiceJsonReader.ReadAsArray(jsObject, XmlElementNames.Rule);
 		for (let jsRule of jsRules) {
 			let rule: Rule = new Rule();

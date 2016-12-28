@@ -1,21 +1,21 @@
-﻿import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {Convert} from "../ExtensionMethods";
-import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
-import {ExchangeService} from "../Core/ExchangeService";
-import {RuleError} from "./RuleError";
-import {RuleErrorCollection} from "./RuleErrorCollection";
-import {RuleOperation} from "./RuleOperation";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { Convert } from "../ExtensionMethods";
+import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../Core/ExchangeService";
+import { IEnumerable } from "../Interfaces/IEnumerable";
+import { RuleError } from "./RuleError";
+import { RuleErrorCollection } from "./RuleErrorCollection";
+import { RuleOperation } from "./RuleOperation";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents an error that occurred while processing a rule operation.
  * 
  * @sealed
  */
-export class RuleOperationError extends ComplexProperty {
+export class RuleOperationError extends ComplexProperty implements IEnumerable<RuleError>{
 
-	___implementsInterface: string[] = ["IEnumerable<Rule>"];
 
 	/**
 	 * Index of the operation mapping to the error.
@@ -52,11 +52,11 @@ export class RuleOperationError extends ComplexProperty {
      * @param   {number}   index   The index of the rule error to get.
      * @return  {RuleError}	The rule error at the specified index.
      */
-    __thisIndexer(index: number): RuleError {
+	_getItem(index: number): RuleError {
 		if (index < 0 || index >= this.ruleErrors.Count) {
 			throw new ArgumentOutOfRangeException("Index");
 		}
-		return this.ruleErrors.__thisIndexer(index);
+		return this.ruleErrors._getItem(index);
 	}
 
 	/**
@@ -66,7 +66,12 @@ export class RuleOperationError extends ComplexProperty {
 		super();
 	}
 
-	//GetEnumerator(): RuleError[] /*System.Collections.Generic.IEnumerator<RuleError>*/{ throw new Error("RuleOperationError.ts - GetEnumerator : Not implemented.");}
+	/**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+	GetEnumerator(): RuleError[] {
+		return this.ruleErrors.GetEnumerator();
+	}
 
 	/**
 	 * @internal Set operation property by the index of a given opeation enumerator.
@@ -84,18 +89,18 @@ export class RuleOperationError extends ComplexProperty {
      * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+	LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
 		for (let key in jsObject) {
 			switch (key) {
 				case XmlElementNames.OperationIndex:
 					this.operationIndex = Convert.toNumber(jsObject[key]);
-                    break;
-                case XmlElementNames.ValidationErrors:
-                    this.ruleErrors = new RuleErrorCollection();
+					break;
+				case XmlElementNames.ValidationErrors:
+					this.ruleErrors = new RuleErrorCollection();
 					this.ruleErrors.CreateFromXmlJsObjectCollection(jsObject[key], service);
 					break;
-                default:
-                    break;
+				default:
+					break;
 			}
 		}
 	}

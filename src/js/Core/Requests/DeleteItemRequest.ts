@@ -58,6 +58,7 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
                     ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
@@ -77,6 +78,7 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
             writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.itemIds.WriteToXml(
             writer,

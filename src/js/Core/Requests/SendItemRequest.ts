@@ -45,6 +45,7 @@ export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse
             this.SavedCopyDestinationFolderId.Validate(this.Service.RequestedServerVersion);
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
@@ -52,6 +53,7 @@ export class SendItemRequest extends MultiResponseServiceRequest<ServiceResponse
             XmlAttributeNames.SaveItemToFolder,
             this.SavedCopyDestinationFolderId != null);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.ItemIds);
 

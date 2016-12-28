@@ -4,6 +4,7 @@ import {XmlElementNames} from "../Core/XmlElementNames";
 
 export class DocumentSharingLocationCollection {
     Entries: DocumentSharingLocation[] = [];//System.Collections.Generic.List<DocumentSharingLocation>;
+    /**@internal */
     static LoadFromXml(reader: EwsXmlReader): DocumentSharingLocationCollection { throw new Error("Not implemented. Depricated, use LoadFromJson"); }
     static LoadFromJson(obj: any): DocumentSharingLocationCollection {
         var instance = new DocumentSharingLocationCollection();

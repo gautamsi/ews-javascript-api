@@ -165,6 +165,7 @@ export class AutodiscoverRequest {
             (httpWebResponse.status == 307 /*System.Net.HttpStatusCode.RedirectKeepVerb*/) ||
             (httpWebResponse.status == 303 /*System.Net.HttpStatusCode.RedirectMethod*/);
     }
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader): AutodiscoverResponse {
         var elementName = this.GetResponseXmlElementName();
         reader.ReadStartElement(XmlNamespace.Autodiscover, elementName);
@@ -228,6 +229,7 @@ export class AutodiscoverRequest {
             }
         }
     }
+    /**@internal */
     ReadServerVersionInfo(reader: EwsXmlReader): ExchangeServerInfo {
         var serverInfo = new ExchangeServerInfo();
         do {
@@ -258,6 +260,7 @@ export class AutodiscoverRequest {
 
         return serverInfo;
     }
+    /**@internal */
     ReadSoapBody(reader: EwsXmlReader): AutodiscoverResponse {
         var responses = this.LoadFromObject(reader.JsObject);
         return responses
@@ -267,6 +270,7 @@ export class AutodiscoverRequest {
         //reader.ReadEndElement(XmlNamespace.Soap, XmlElementNames.SOAPBodyElementName);
         return responses;
     }
+    /**@internal */
     ReadSoapFault(reader: EwsXmlReader): SoapFaultDetails {
         var soapFaultDetails: SoapFaultDetails = undefined;
         if (reader.JsObject && reader.JsObject[XmlElementNames.SOAPBodyElementName]) {
@@ -328,12 +332,14 @@ export class AutodiscoverRequest {
 
         //////return soapFaultDetails;
     }
+    /**@internal */
     ReadSoapHeader(reader: EwsXmlReader): void {
         // Is this the ServerVersionInfo?
         if (reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.ServerVersionInfo)) {
             this.service.ServerInfo = this.ReadServerVersionInfo(reader);
         }
     }
+    /**@internal */
     ReadSoapHeaders(reader: EwsXmlReader): void {
 
         this.service.ServerInfo = reader.JsObject.Header.ServerVersionInfo;
@@ -349,7 +355,9 @@ export class AutodiscoverRequest {
     Validate(): void {
         //this.Service.Validate();
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented. overridden"); }
+    /**@internal */
     WriteBodyToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Autodiscover, this.GetRequestXmlElementName());
         this.WriteAttributesToXml(writer);
@@ -357,8 +365,11 @@ export class AutodiscoverRequest {
 
         writer.WriteEndElement(); // m:this.GetXmlElementName()
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("Not implemented. overridden"); }
+    /**@internal */
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void { }
+    /**@internal */
     WriteSoapRequest(requestUrl: Uri,
         writer: EwsServiceXmlWriter): void {
 

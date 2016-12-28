@@ -1,13 +1,13 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {ContactSchema} from "./ContactSchema";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {GroupMemberCollection} from "../../../ComplexProperties/GroupMemberCollection";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {Schemas} from "./Schemas";
+﻿import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ContactSchema } from "./ContactSchema";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GroupMemberCollection } from "../../../ComplexProperties/GroupMemberCollection";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * Field URIs for Members.
@@ -54,7 +54,7 @@ export class ContactGroupSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

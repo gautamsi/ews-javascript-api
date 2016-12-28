@@ -10,5 +10,6 @@ export class PlayOnPhoneResponse extends ServiceResponse {
     PhoneCallId: PhoneCallId;
     private phoneCallId: PhoneCallId;
     ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("PlayOnPhoneResponse.ts - ReadElementsFromJson : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("PlayOnPhoneResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
 }

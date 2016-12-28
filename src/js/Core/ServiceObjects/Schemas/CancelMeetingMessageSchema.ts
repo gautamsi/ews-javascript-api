@@ -1,14 +1,14 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {EmailMessageSchema} from "./EmailMessageSchema";
-import {ResponseObjectSchema} from "./ResponseObjectSchema";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {Schemas} from "./Schemas";
+﻿import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { EmailMessageSchema } from "./EmailMessageSchema";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { MessageBody } from "../../../ComplexProperties/MessageBody";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { ResponseObjectSchema } from "./ResponseObjectSchema";
+import { Schemas } from "./Schemas";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import { ServiceObjectSchema } from "./ServiceObjectSchema";
 /**
  * Represents CancelMeetingMessage schema definition.
  */
@@ -33,7 +33,7 @@ export class CancelMeetingMessageSchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

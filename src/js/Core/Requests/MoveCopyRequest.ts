@@ -24,11 +24,13 @@ export class MoveCopyRequest<TServiceObject extends ServiceObject, TResponse ext
         //EwsUtilities.ValidateParam(this.DestinationFolderId, "DestinationFolderId");
         this.DestinationFolderId.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.ToFolderId);
         this.DestinationFolderId.WriteToXml(writer);
         writer.WriteEndElement();
         this.WriteIdsToXml(writer);
     }
+    /**@internal */
     WriteIdsToXml(writer: EwsServiceXmlWriter): void { throw new Error("MoveCopyRequest.ts - WriteIdsToXml : Abstract - must implement."); }
 }

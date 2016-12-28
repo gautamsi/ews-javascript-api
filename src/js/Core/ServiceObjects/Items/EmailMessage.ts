@@ -1,5 +1,4 @@
 import { ApprovalRequestData } from "../../../ComplexProperties/ApprovalRequestData";
-import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
 import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
 import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
@@ -26,8 +25,10 @@ import { Item } from "./Item";
  * Represents an **e-mail message**. Properties available on e-mail messages are defined in the *EmailMessageSchema* class.
  *
  */
-@AttachableAttribute(true)
 export class EmailMessage extends Item {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "EmailMessage"; };
 
     /**
      * Gets the list of To recipients for the e-mail message.

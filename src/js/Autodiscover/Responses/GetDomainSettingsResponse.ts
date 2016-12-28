@@ -16,6 +16,7 @@ export class GetDomainSettingsResponse extends AutodiscoverResponse {
     RedirectTarget: string;
     Settings: { [index: number]: any }; //System.Collections.Generic.IDictionary<DomainSettingName, any>;
     DomainSettingErrors: DomainSettingError[]; //System.Collections.ObjectModel.Collection<DomainSettingError>;
+    /**@internal */
     LoadDomainSettingErrorsFromXml(reader: EwsXmlReader): void {
         if (!reader.IsEmptyElement) {
             do {
@@ -31,6 +32,7 @@ export class GetDomainSettingsResponse extends AutodiscoverResponse {
             reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
         }
     }
+    /**@internal */
     LoadDomainSettingsFromXml(reader: EwsXmlReader): void {
         var parent: Node = reader.CurrentNode;
         if (!reader.IsEmptyElement) {
@@ -62,6 +64,7 @@ export class GetDomainSettingsResponse extends AutodiscoverResponse {
            
         }
     }
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader, parentElementName: string): void {
         do {
             reader.Read();
@@ -86,6 +89,7 @@ export class GetDomainSettingsResponse extends AutodiscoverResponse {
         while (reader.HasRecursiveParent(parentElementName));
         //while (!reader.IsEndElement(XmlNamespace.Autodiscover, endElementName));
     }
+    /**@internal */
     ReadSettingFromXml(reader: EwsXmlReader): void {
         var name: string = null;
         var value: any = null;

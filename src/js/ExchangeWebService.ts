@@ -406,7 +406,6 @@ export { EmptyFolderRequest } from "./Core/Requests/EmptyFolderRequest";
 export { EndDateRecurrenceRange } from "./ComplexProperties/Recurrence/Ranges/EndDateRecurrenceRange";
 export { EnhancedLocation } from "./ComplexProperties/EnhancedLocation";
 export { EntityExtractionResult } from "./ComplexProperties/EntityExtractionResult";
-export { EnumToExchangeVersionMappingHelper } from "./Enumerations/EnumToExchangeVersionMappingHelper";
 export { EventType } from "./Enumerations/EventType";
 export { EwsLogging } from "./Core/EwsLogging";
 

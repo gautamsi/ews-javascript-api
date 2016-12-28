@@ -67,6 +67,7 @@ export class ServiceId extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void {
         this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
         this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);
@@ -81,10 +82,12 @@ export class ServiceId extends ComplexProperty {
         }
     }
     ToString(): string { return (this.UniqueId == null) ? "" : this.UniqueId; }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.Id, this.UniqueId);
         writer.WriteAttributeValue(XmlAttributeNames.ChangeKey, this.ChangeKey);
     }
+    /** @internal */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string, xmlNamespace?: XmlNamespace): void { //todo: fix third call with namespace
         if (arguments.length > 2) {
             super.WriteToXml(writer, xmlElementName, xmlNamespace);

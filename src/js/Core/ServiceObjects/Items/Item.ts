@@ -1,7 +1,6 @@
 ﻿import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
 import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
 import { ArrayHelper, StringHelper } from "../../../ExtensionMethods";
-import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
 import { Attachment } from "../../../ComplexProperties/Attachment";
 import { AttachmentCollection } from "../../../ComplexProperties/AttachmentCollection";
 import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
@@ -53,8 +52,10 @@ import { ServiceObject } from "../ServiceObject";
  * Represents a generic **Item**. Properties available on items are defined in the *ItemSchema* class.
  *
  */
-@AttachableAttribute(true)
 export class Item extends ServiceObject {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "Item"; };
 
     private parentAttachment: ItemAttachment = null;
 

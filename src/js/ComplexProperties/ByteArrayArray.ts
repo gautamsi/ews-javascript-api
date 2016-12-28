@@ -21,6 +21,7 @@ export class ByteArrayArray extends ComplexProperty {
         }
 
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var item of this.content) {
             writer.WriteStartElement(XmlNamespace.Types, ByteArrayArray.ItemXmlElementName);

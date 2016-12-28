@@ -6,6 +6,7 @@ export class UserSettingError {
     ErrorCode: AutodiscoverErrorCode;
     ErrorMessage: string;
     SettingName: string;
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader): any {
         var parent = reader.CurrentNode;
         do {

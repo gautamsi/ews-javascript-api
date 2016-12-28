@@ -1,5 +1,6 @@
 ﻿import {DnsRecordType} from "../Enumerations/DnsRecordType";
 import {DnsRecordHeader} from "./DnsRecordHeader";
+/**@internal */
 export class DnsRecord {
 	RecordType: DnsRecordType;
 	Name: string;

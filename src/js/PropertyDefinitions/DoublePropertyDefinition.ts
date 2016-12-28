@@ -1,10 +1,10 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {Convert} from "../ExtensionMethods";
+﻿import { Convert } from "../ExtensionMethods";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 
-import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents double-precision floating point property definition.
  */
@@ -20,7 +20,7 @@ export class DoublePropertyDefinition extends GenericPropertyDefinition<number> 
      * @param   {ExchangeVersion}           version          The version.
      */
     constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
-        super(propertyName, xmlElementName, uri, flags, version);
+        super(propertyName, xmlElementName, uri, flags, version, false);
     }
 
     /**

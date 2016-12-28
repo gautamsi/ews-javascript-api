@@ -36,6 +36,7 @@ export class UpdateFolderRequest extends MultiResponseServiceRequest<ServiceResp
             folder.Validate();
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.FolderChanges);
 

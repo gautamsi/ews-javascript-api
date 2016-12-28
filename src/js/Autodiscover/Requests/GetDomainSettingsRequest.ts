@@ -49,12 +49,14 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
         }
     }
     Validate(): void { super.Validate(); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(
             "xmlns",
             EwsUtilities.AutodiscoverSoapNamespacePrefix,
             EwsUtilities.AutodiscoverSoapNamespace);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any {
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Request);
 

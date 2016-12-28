@@ -1,11 +1,11 @@
-﻿import {Exception} from "./Exception";
-import {RuleOperation} from "../ComplexProperties/RuleOperation";
-import {RuleOperationErrorCollection} from "../ComplexProperties/RuleOperationErrorCollection";
-import {ServiceError} from "../Enumerations/ServiceError";
-import {ServiceResponse} from "../Core/Responses/ServiceResponse";
-import {UpdateInboxRulesResponse} from "../Core/Responses/UpdateInboxRulesResponse";
+﻿import { Exception } from "./Exception";
+import { RuleOperation } from "../ComplexProperties/RuleOperation";
+import { RuleOperationErrorCollection } from "../ComplexProperties/RuleOperationErrorCollection";
+import { ServiceError } from "../Enumerations/ServiceError";
+import { ServiceResponse } from "../Core/Responses/ServiceResponse";
+import { UpdateInboxRulesResponse } from "../Core/Responses/UpdateInboxRulesResponse";
 
-import {ServiceRemoteException} from "./ServiceRemoteException";
+import { ServiceRemoteException } from "./ServiceRemoteException";
 /**
  * Represents an exception thrown when an error occurs as a result of calling the UpdateInboxRules operation.
  * 
@@ -58,7 +58,7 @@ export class UpdateInboxRulesException extends ServiceRemoteException {
      * @param   {RuleOperation[]}           ruleOperations    The original operations.
      */
     constructor(serviceResponse: UpdateInboxRulesResponse, ruleOperations: RuleOperation[]) {
-        super();
+        super(serviceResponse && serviceResponse.ErrorMessage ? serviceResponse.ErrorMessage : "" || "");
         this.serviceResponse = serviceResponse;
         this.errors = serviceResponse.Errors;
         for (let error of this.errors.Items) {

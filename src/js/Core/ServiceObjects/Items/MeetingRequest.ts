@@ -1,7 +1,6 @@
 import { AcceptMeetingInvitationMessage } from "../ResponseObjects/AcceptMeetingInvitationMessage";
 import { Appointment } from "./Appointment";
 import { AppointmentType } from "../../../Enumerations/AppointmentType";
-import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
 import { AttendeeCollection } from "../../../ComplexProperties/AttendeeCollection";
 import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
 import { ChangeHighlights } from "../../../ComplexProperties/ChangeHighlights";
@@ -32,7 +31,6 @@ import { MeetingMessage } from "./MeetingMessage";
 /**
  * Represents a meeting request that an attendee can accept or decline. Properties available on meeting requests are defined in the MeetingRequestSchema class.
  */
-@AttachableAttribute(true)
 export class MeetingRequest extends MeetingMessage implements ICalendarActionProvider {
 
     /**
@@ -106,7 +104,8 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
     }
 
     /**
-     * Gets a text indicating when this appointment occurs. The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
+     * Gets a text indicating when this appointment occurs. 
+     * The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
      */
     get When(): string {
         return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.When);
@@ -361,7 +360,9 @@ export class MeetingRequest extends MeetingMessage implements ICalendarActionPro
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
      * @return  {Promise<CalendarActionResults>}       A CalendarActionResults object containing the various items that were created or modified as a results of this operation    :Promise.
      */
-    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults> { throw new Error("MeetingRequest.ts - AcceptTentatively : Not implemented."); }
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults> {
+        return this.InternalAccept(true, sendResponse);
+    }
 
     /**
      * Binds to an existing meeting request and loads the specified set of properties. Calling this method results in a call to EWS.

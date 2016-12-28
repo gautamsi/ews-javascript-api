@@ -1,20 +1,21 @@
-﻿import {ArgumentOutOfRangeException, ArgumentNullException} from '../../Exceptions/ArgumentException';
-import {ArrayHelper, StringHelper, TypeSystem} from '../../ExtensionMethods';
-import {ComplexPropertyChangedDelegate} from "../../Misc/DelegateTypes";
-import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
-import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {LogicalOperator} from "../../Enumerations/LogicalOperator";
-import {ServiceValidationException} from '../../Exceptions/ServiceValidationException';
-import {Strings} from "../../Strings";
-import {XmlElementNames} from "../../Core/XmlElementNames";
+﻿import { ArgumentNullException, ArgumentOutOfRangeException } from '../../Exceptions/ArgumentException';
+import { ArrayHelper, StringHelper, TypeSystem } from '../../ExtensionMethods';
+import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
+import { ComplexPropertyChangedDelegate } from "../../Misc/DelegateTypes";
+import { EwsServiceJsonReader } from "../../Core/EwsServiceJsonReader";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { IEnumerable } from "../../Interfaces/IEnumerable";
+import { LogicalOperator } from "../../Enumerations/LogicalOperator";
+import { ServiceValidationException } from '../../Exceptions/ServiceValidationException';
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../../Core/XmlElementNames";
 
-import {SearchFilter} from "./SearchFilter";
+import { SearchFilter } from "./SearchFilter";
 /**
  * Represents a collection of search filters linked by a logical operator. Applications can use SearchFilterCollection to define complex search filters such as "Condition1 AND Condition2".
  */
-export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchFilter>
+export class SearchFilterCollection extends SearchFilter implements IEnumerable<SearchFilter> {
 
 	private searchFilters: SearchFilter[] = [];
 	private logicalOperator: LogicalOperator = LogicalOperator.And;
@@ -24,31 +25,6 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 	 */
 	get Count(): number {
 		return this.searchFilters.length;
-	}
-
-	/**
-	 * Gets or sets the search filter at the specified index.
-	 *
-	 * @param   {number}   index   The zero-based index of the search filter to get or set.
-	 * @return  {SearchFilter}           The search filter at the specified index.
-	 */
-	_getItem(index: number): SearchFilter { // c# this indexer
-		if (index < 0 || index >= this.Count) {
-			throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
-		}
-		return this.searchFilters[index];
-	}
-	/**
-	 * Gets or sets the search filter at the specified index.
-	 *
-	 * @param   {number}   index   The zero-based index of the search filter to get or set.
-	 * @return  {SearchFilter}           The search filter at the specified index.
-	 */
-	_setItem(index: number, value: SearchFilter): void {
-		if (index < 0 || index >= this.Count) {
-			throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
-		}
-		this.searchFilters[index] = value;
 	}
 
 	/**
@@ -88,22 +64,48 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 	constructor(logicalOperator?: LogicalOperator, _searchFilters?: SearchFilter[] | SearchFilter) {
 		super();
 		var searchFilters: SearchFilter[] = [];
-        if (arguments.length <= 2) {
-            if (ArrayHelper.isArray(_searchFilters)) {
-                searchFilters = _searchFilters;
-            }
-            else if (typeof SearchFilter[<any>_searchFilters] !== 'undefined') {
-                searchFilters.push(arguments[1]);
-            }
-        }
-        else {						
-            for (var _i = 1; _i < arguments.length; _i++) {
-                searchFilters[_i - 1] = arguments[_i];
-            }
-        }
+		if (arguments.length <= 2) {
+			if (ArrayHelper.isArray(_searchFilters)) {
+				searchFilters = _searchFilters;
+			}
+			else if (typeof SearchFilter[<any>_searchFilters] !== 'undefined') {
+				searchFilters.push(arguments[1]);
+			}
+		}
+		else {
+			for (var _i = 1; _i < arguments.length; _i++) {
+				searchFilters[_i - 1] = arguments[_i];
+			}
+		}
 
 		this.logicalOperator = logicalOperator || this.logicalOperator;
-		this.AddRange(searchFilters);		
+		this.AddRange(searchFilters);
+	}
+
+	/**
+	 * Gets or sets the search filter at the specified index.
+	 *
+	 * @param   {number}   index   The zero-based index of the search filter to get or set.
+	 * @return  {SearchFilter}           The search filter at the specified index.
+	 */
+	_getItem(index: number): SearchFilter { // c# this indexer
+		if (index < 0 || index >= this.Count) {
+			throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+		}
+		return this.searchFilters[index];
+	}
+
+	/**
+	 * Gets or sets the search filter at the specified index.
+	 *
+	 * @param   {number}   index   The zero-based index of the search filter to get or set.
+	 * @return  {SearchFilter}           The search filter at the specified index.
+	 */
+	_setItem(index: number, value: SearchFilter): void {
+		if (index < 0 || index >= this.Count) {
+			throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+		}
+		this.searchFilters[index] = value;
 	}
 
 	/**
@@ -116,7 +118,7 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 			throw new ArgumentNullException("searchFilter");
 		}
 
-		searchFilter.OnChange.push(this.SearchFilterChanged);
+		searchFilter.OnChange.push(this.SearchFilterChanged.bind(this));
 		this.searchFilters.push(searchFilter);
 		this.Changed();
 	}
@@ -132,7 +134,7 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 		}
 
 		for (let searchFilter of searchFilters) {
-			searchFilter.OnChange.push(this.SearchFilterChanged);
+			searchFilter.OnChange.push(this.SearchFilterChanged.bind(this));
 		}
 		ArrayHelper.AddRange(this.searchFilters, searchFilters);
 		this.Changed();
@@ -162,7 +164,12 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
 		return this.searchFilters.indexOf(searchFilter) >= 0;
 	}
 
-	//GetEnumerator(): SearchFilter[] { throw new Error("SearchFilter_SearchFilterCollection.ts - GetEnumerator : Not implemented."); }
+	/**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+	GetEnumerator(): SearchFilter[] {
+		return this.searchFilters;
+	}
 
 	/**
 	 * @internal Gets the name of the XML element.
@@ -193,7 +200,7 @@ export class SearchFilterCollection extends SearchFilter { //IEnumerable<SearchF
      * @param   {any}                 jsObject                Json Object converted from XML.
      * @param   {ExchangeService}     service                 The service.    
      */
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+	LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
 		for (var key in jsObject) {
 			if (key.indexOf("__") === 0) continue;
 			let filter = SearchFilter.LoadFromXmlJsObject(jsObject[key], service, key);

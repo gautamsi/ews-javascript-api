@@ -11,7 +11,9 @@ export class TimeChangeRecurrence extends ComplexProperty {
     private dayOfTheWeek: DayOfTheWeek;
     private dayOfTheWeekIndex: DayOfTheWeekIndex;
     private month: Month;
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("TimeChangeRecurrence.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("TimeChangeRecurrence.ts - WriteElementsToXml : Not implemented."); }
 }
 

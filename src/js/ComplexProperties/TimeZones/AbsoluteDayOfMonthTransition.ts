@@ -30,6 +30,7 @@ export class AbsoluteDayOfMonthTransition extends AbsoluteMonthTransition {
         this.dayOfMonth = transitionTime.Day;
     }
     //ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("AbsoluteDayOfMonthTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         super.WriteElementsToXml(writer);
 

@@ -16,5 +16,6 @@ export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetSe
     GetResponseXmlElementName(): string { throw new Error("GetServerTimeZonesRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("GetServerTimeZonesRequest.ts - GetXmlElementName : Not implemented."); }
     Validate(): any { throw new Error("GetServerTimeZonesRequest.ts - Validate : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetServerTimeZonesRequest.ts - WriteElementsToXml : Not implemented."); }
 }

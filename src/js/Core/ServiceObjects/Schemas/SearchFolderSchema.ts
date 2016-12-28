@@ -1,11 +1,11 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {SearchFolderParameters} from "../../../ComplexProperties/SearchFolderParameters";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { SearchFolderParameters } from "../../../ComplexProperties/SearchFolderParameters";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {FolderSchema} from "./FolderSchema";
+import { FolderSchema } from "./FolderSchema";
 
 /**
  * Field URIs for search folders.
@@ -39,7 +39,7 @@ export class SearchFolderSchema extends FolderSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

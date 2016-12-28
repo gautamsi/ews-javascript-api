@@ -18,6 +18,7 @@ export class AutodiscoverResponseCollection<TResponse extends AutodiscoverRespon
     GetEnumerator(): any { throw new Error("AutodiscoverResponseCollection.ts - GetEnumerator : Not implemented."); }
     GetResponseCollectionXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseCollectionXmlElementName : Not implemented."); }
     GetResponseInstanceXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseInstanceXmlElementName : Not implemented."); }
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
         do {
             reader.Read();
@@ -58,6 +59,7 @@ export class AutodiscoverResponseCollection<TResponse extends AutodiscoverRespon
         }
     }
 
+    /**@internal */
     LoadResponseCollectionFromXml(reader: EwsXmlReader): void {
         if (!reader.IsEmptyElement) {
             do {

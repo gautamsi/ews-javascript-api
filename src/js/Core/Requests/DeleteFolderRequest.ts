@@ -28,6 +28,7 @@ export class DeleteFolderRequest extends DeleteRequest<ServiceResponse> {
         //EwsUtilities.ValidateParam(this.FolderIds, "FolderIds");
         this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.FolderIds.WriteToXml(
             writer,

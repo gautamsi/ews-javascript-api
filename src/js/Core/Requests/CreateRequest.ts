@@ -35,6 +35,7 @@ export class CreateRequest<TServiceObject extends ServiceObject, TResponse exten
             this.ParentFolderId.Validate(this.Service.RequestedServerVersion);
         }
     }
+/**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (this.ParentFolderId != null) {
             writer.WriteStartElement(XmlNamespace.Messages, this.GetParentFolderXmlElementName());

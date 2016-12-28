@@ -57,10 +57,10 @@ export class ArgumentOutOfRangeException extends ArgumentException {
         var argsLength = arguments.length;
         switch (argsLength) {
             case 0:
-                super();
+                super("ArgumentOutOfRangeException");
                 break;
             case 1:
-                super(null, paramNameOrMessage);
+                super("ArgumentOutOfRangeException", paramNameOrMessage);
                 break;
             case 2:
                 if (typeof messageOrActualValueOrException === 'string') {
@@ -75,7 +75,7 @@ export class ArgumentOutOfRangeException extends ArgumentException {
                 this.actualValue = messageOrActualValueOrException;
                 break;
             default:
-                super();
+                super("ArgumentOutOfRangeException");
                 break;
         }
     }

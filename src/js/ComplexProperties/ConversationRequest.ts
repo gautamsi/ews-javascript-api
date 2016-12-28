@@ -1,19 +1,18 @@
-﻿import {ConversationId} from "./ConversationId";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { ConversationId } from "./ConversationId";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ISelfValidate } from "../Interfaces/ISelfValidate";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * 
  * 
  * @sealed
  */
-export class ConversationRequest extends ComplexProperty {
-    /** @internal */
-    ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable"];
+export class ConversationRequest extends ComplexProperty implements ISelfValidate {
 
     /**
      * Gets or sets the conversation id.

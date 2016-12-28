@@ -35,6 +35,7 @@ export class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemR
         //EwsUtilities.ValidateParam(this.sourceFolderId, "SourceFolderId");
         this.sourceFolderId.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.ArchiveSourceFolderId);
         this.SourceFolderId.WriteToXml(writer);
@@ -42,6 +43,7 @@ export class ArchiveItemRequest extends MultiResponseServiceRequest<ArchiveItemR
 
         this.WriteIdsToXml(writer);
     }
+    /**@internal */
     WriteIdsToXml(writer: EwsServiceXmlWriter): void {
         this.Ids.WriteToXml(
             writer,

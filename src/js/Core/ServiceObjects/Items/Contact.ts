@@ -1,4 +1,3 @@
-import { AttachableAttribute } from "../../../Attributes/AttachableAttribute";
 import { ByteArrayArray } from "../../../ComplexProperties/ByteArrayArray";
 import { CompleteName } from "../../../ComplexProperties/CompleteName";
 import { ContactSource } from "../../../Enumerations/ContactSource";
@@ -6,14 +5,13 @@ import { DateTime } from "../../../DateTime";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
 import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
 import { EmailAddressDictionary } from "../../../ComplexProperties/EmailAddressDictionary";
-import { EnumToExchangeVersionMappingHelper } from "../../../Enumerations/EnumToExchangeVersionMappingHelper";
 import { EwsUtilities } from "../../EwsUtilities";
 import { ExchangeService } from "../../ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { FileAsMapping } from "../../../Enumerations/FileAsMapping";
 import { FileAttachment } from "../../../ComplexProperties/FileAttachment";
-import { ImAddressDictionary } from "../../../ComplexProperties/ImAddressDictionary";
 import { IOutParam } from "../../../Interfaces/IOutParam";
+import { ImAddressDictionary } from "../../../ComplexProperties/ImAddressDictionary";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { PhoneNumberDictionary } from "../../../ComplexProperties/PhoneNumberDictionary";
@@ -33,8 +31,11 @@ import { Item } from "./Item";
  * Represents a **contact**. Properties available on contacts are defined in the *ContactSchema* class.
  * 
  */
-@AttachableAttribute(true)
 export class Contact extends Item {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "Contact"; };
+
     private static ContactPictureName: string = "ContactPicture.jpg";
 
     /**
@@ -545,7 +546,7 @@ export class Contact extends Item {
         // Iterates in reverse order to remove file attachments that have IsContactPhoto set to true.
         for (var index = this.Attachments.Count - 1; index >= 0; index--) {
             //todo: implement safe typecasting
-            var fileAttachment: FileAttachment = <FileAttachment>this.Attachments.__thisIndexer(index);
+            var fileAttachment: FileAttachment = <FileAttachment>this.Attachments._getItem(index);
             if (fileAttachment != null) {
                 if (fileAttachment.IsContactPhoto) {
                     this.Attachments.Remove(fileAttachment);
@@ -594,7 +595,7 @@ export class Contact extends Item {
         var fileAsMapping: IOutParam<any> = { outValue: null };
         if (this.TryGetProperty(Schemas.ContactSchema.FileAsMapping, fileAsMapping)) {
             // FileAsMapping is extended by 5 new values in 2010 mode. Validate that they are used according the version.
-            EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.FileAsMapping, fileAsMapping.outValue, this.Service.RequestedServerVersion);
+            EwsUtilities.ValidateEnumVersionValue(FileAsMapping, fileAsMapping.outValue, this.Service.RequestedServerVersion, "FileAsMapping");
         }
     }
 }

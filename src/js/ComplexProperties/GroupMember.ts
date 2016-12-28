@@ -15,9 +15,13 @@ export class GroupMember extends ComplexProperty {
     AddressInformationChanged(complexProperty: ComplexProperty): any { throw new Error("GroupMember.ts - AddressInformationChanged : Not implemented."); }
     InternalToJson(service: ExchangeService): any { throw new Error("GroupMember.ts - InternalToJson : Not implemented."); }
     LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("GroupMember.ts - LoadFromJson : Not implemented."); }
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GroupMember.ts - ReadAttributesFromXml : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("GroupMember.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("GroupMember.ts - WriteAttributesToXml : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GroupMember.ts - WriteElementsToXml : Not implemented."); }
 }
 

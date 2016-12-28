@@ -1,39 +1,38 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {Sensitivity} from "../../../Enumerations/Sensitivity";
-import {Importance} from "../../../Enumerations/Importance";
-import {IconIndex} from "../../../Enumerations/IconIndex";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {MimeContent} from "../../../ComplexProperties/MimeContent";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {AttachmentsPropertyDefinition} from "../../../PropertyDefinitions/AttachmentsPropertyDefinition";
-import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
-import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {InternetMessageHeaderCollection} from "../../../ComplexProperties/InternetMessageHeaderCollection";
-import {ResponseObjectsPropertyDefinition} from "../../../PropertyDefinitions/ResponseObjectsPropertyDefinition";
-import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
-//import AppointmentSchema = require("./AppointmentSchema");
-import {EffectiveRightsPropertyDefinition} from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
-import {ConversationId} from "../../../ComplexProperties/ConversationId";
-import {UniqueBody} from "../../../ComplexProperties/UniqueBody";
-import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
-import {NormalizedBody} from "../../../ComplexProperties/NormalizedBody";
-import {EntityExtractionResult} from "../../../ComplexProperties/EntityExtractionResult";
-import {Flag} from "../../../ComplexProperties/Flag";
-import {PolicyTag} from "../../../ComplexProperties/PolicyTag";
-import {ArchiveTag} from "../../../ComplexProperties/ArchiveTag";
-import {TextBody} from "../../../ComplexProperties/TextBody";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {Schemas} from "./Schemas";
+﻿import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
+import { AttachmentsPropertyDefinition } from "../../../PropertyDefinitions/AttachmentsPropertyDefinition";
+import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ByteArrayPropertyDefinition } from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ConversationId } from "../../../ComplexProperties/ConversationId";
+import { DateTimePropertyDefinition } from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import { EffectiveRightsPropertyDefinition } from "../../../PropertyDefinitions/EffectiveRightsPropertyDefinition";
+import { EntityExtractionResult } from "../../../ComplexProperties/EntityExtractionResult";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { Flag } from "../../../ComplexProperties/Flag";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { IconIndex } from "../../../Enumerations/IconIndex";
+import { Importance } from "../../../Enumerations/Importance";
+import { IntPropertyDefinition } from "../../../PropertyDefinitions/IntPropertyDefinition";
+import { InternetMessageHeaderCollection } from "../../../ComplexProperties/InternetMessageHeaderCollection";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MessageBody } from "../../../ComplexProperties/MessageBody";
+import { MimeContent } from "../../../ComplexProperties/MimeContent";
+import { NormalizedBody } from "../../../ComplexProperties/NormalizedBody";
+import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { ResponseObjectsPropertyDefinition } from "../../../PropertyDefinitions/ResponseObjectsPropertyDefinition";
+import { Schemas } from "./Schemas";
+import { ScopedDateTimePropertyDefinition } from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import { Sensitivity } from "../../../Enumerations/Sensitivity";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { TextBody } from "../../../ComplexProperties/TextBody";
+import { UniqueBody } from "../../../ComplexProperties/UniqueBody";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import { ServiceObjectSchema } from "./ServiceObjectSchema";
 
 /**
  * Field URIs for Item.
@@ -172,7 +171,8 @@ export class ItemSchema extends ServiceObjectSchema {
         XmlElementNames.Sensitivity,
         FieldUris.Sensitivity,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        Sensitivity
     );
 
     /**
@@ -222,7 +222,8 @@ export class ItemSchema extends ServiceObjectSchema {
         XmlElementNames.Importance,
         FieldUris.Importance,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        Importance
     );
 
     /**
@@ -629,7 +630,8 @@ export class ItemSchema extends ServiceObjectSchema {
         XmlElementNames.IconIndex,
         FieldUris.IconIndex,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013
+        ExchangeVersion.Exchange2013,
+        IconIndex
     );
 
     /**
@@ -640,7 +642,7 @@ export class ItemSchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

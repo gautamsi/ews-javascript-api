@@ -15,5 +15,6 @@ export class DisconnectPhoneCallRequest extends SimpleServiceRequestBase {
     GetResponseXmlElementName(): string { throw new Error("DisconnectPhoneCallRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("DisconnectPhoneCallRequest.ts - GetXmlElementName : Not implemented."); }
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("DisconnectPhoneCallRequest.ts - ParseResponse : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("DisconnectPhoneCallRequest.ts - WriteElementsToXml : Not implemented."); }
 }

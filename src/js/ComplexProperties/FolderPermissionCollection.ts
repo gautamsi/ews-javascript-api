@@ -64,6 +64,7 @@ export class FolderPermissionCollection extends ComplexPropertyCollection<Folder
             permission.Validate(this.isCalendarFolder, permissionIndex);
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, this.InnerCollectionXmlElementName);
         for (var folderPermission of this.Items) {

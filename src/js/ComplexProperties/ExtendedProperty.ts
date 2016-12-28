@@ -1,14 +1,14 @@
-﻿import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {MapiTypeConverter} from "../Misc/MapiTypeConverter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {EwsLogging} from "../Core/EwsLogging";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {ExtendedPropertyDefinition} from "../PropertyDefinitions/ExtendedPropertyDefinition";
-import {StringList} from "./StringList";
-import {ComplexProperty} from "./ComplexProperty";
+﻿import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../Core/ExchangeService";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
+import { MapiTypeConverter } from "../Misc/MapiTypeConverter";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExtendedPropertyDefinition } from "../PropertyDefinitions/ExtendedPropertyDefinition";
+import { StringList } from "./StringList";
+import { ComplexProperty } from "./ComplexProperty";
 export class ExtendedProperty extends ComplexProperty {
     private propertyDefinition: ExtendedPropertyDefinition = null;
     private value: any = null;
@@ -67,13 +67,14 @@ export class ExtendedProperty extends ComplexProperty {
                     var stringList: StringList = new StringList(XmlElementNames.Value);
                     var jsonCollection = EwsServiceJsonReader.ReadAsArray(jsonProperty, key);
                     stringList.CreateFromXmlJsObjectCollection(jsonCollection, service);
-                    this.value = MapiTypeConverter.ConvertToValue(this.PropertyDefinition.MapiType, stringList.Items);
+                    this.value = MapiTypeConverter.ConvertToValue(this.PropertyDefinition.MapiType, stringList.GetEnumerator());
                     break;
                 default:
                     break;
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.PropertyDefinition.WriteToXml(writer);
         if (MapiTypeConverter.IsArrayType(this.PropertyDefinition.MapiType)) {

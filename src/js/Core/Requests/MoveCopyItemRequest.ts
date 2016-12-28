@@ -23,6 +23,7 @@ export class MoveCopyItemRequest<TResponse extends ServiceResponse> extends Move
         super.Validate();
         //EwsUtilities.ValidateParam(this.ItemIds, "ItemIds");
     }
+    /**@internal */
     WriteIdsToXml(writer: EwsServiceXmlWriter): void {
         this.ItemIds.WriteToXml(
             writer,

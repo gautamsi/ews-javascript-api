@@ -15,6 +15,7 @@ export class DomainSettingError {
         this.ErrorMessage = obj[XmlElementNames.ErrorMessage];
         this.SettingName = obj[XmlElementNames.SettingName];
     }
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader): void {
         var parent = reader.CurrentNode;
         do {

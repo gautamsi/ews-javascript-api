@@ -15,5 +15,6 @@ export class SetClientExtensionRequest extends MultiResponseServiceRequest<Servi
     GetResponseXmlElementName(): string { throw new Error("SetClientExtensionRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("SetClientExtensionRequest.ts - GetXmlElementName : Not implemented."); }
     Validate(): any { throw new Error("SetClientExtensionRequest.ts - Validate : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("SetClientExtensionRequest.ts - WriteElementsToXml : Not implemented."); }
 }

@@ -28,7 +28,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
 
         this.UserSettingErrors = new Array<UserSettingError>();
     }
-
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader, parentElementName: string): void {
         do {
             reader.Read();
@@ -53,6 +53,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
         while (reader.HasRecursiveParent(parentElementName));
         //while (!reader.IsEndElement(XmlNamespace.Autodiscover, endElementName));
     }
+    /**@internal */
     LoadUserSettingErrorsFromXml(reader: EwsXmlReader): void {
         if (!reader.IsEmptyElement) {
             do {
@@ -68,6 +69,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
             reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
         }
     }
+    /**@internal */
     LoadUserSettingsFromXml(reader: EwsXmlReader): void {
         var parent: Node = reader.CurrentNode;
         if (!reader.IsEmptyElement) {
@@ -101,6 +103,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
             //while (!reader.IsEndElement(XmlNamespace.Autodiscover, XmlElementNames.UserSettings));
         }
     }
+    /**@internal */
     ReadSettingFromXml(reader: EwsXmlReader): any {
         var name: string = null;
         var value: any = null;

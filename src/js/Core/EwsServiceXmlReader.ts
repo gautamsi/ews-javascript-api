@@ -9,6 +9,7 @@ import {StringHelper} from "../ExtensionMethods";
 
 
 import {EwsXmlReader} from "./EwsXmlReader";
+/**@internal */
 export class EwsServiceXmlReader extends EwsXmlReader {
     get Service(): ExchangeService { return this.service; }
     private service: ExchangeService;

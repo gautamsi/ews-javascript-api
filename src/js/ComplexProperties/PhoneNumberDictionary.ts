@@ -23,8 +23,8 @@ export class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, Ph
                 this.Changed();
             }
             else {
-                entry = new PhoneNumberEntry(key, value);
-                this.InternalAdd(entry.outValue);
+                let newEntry = new PhoneNumberEntry(key, value);
+                this.InternalAdd(newEntry);
             }
         }
     }
@@ -35,7 +35,7 @@ export class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, Ph
         var entry: IOutParam<PhoneNumberEntry> = { outValue: null };
 
         if (this.Entries.tryGetValue(key, entry)) {
-            phoneNumber = entry.outValue.PhoneNumber;
+            phoneNumber.outValue = entry.outValue.PhoneNumber;
 
             return true;
         }

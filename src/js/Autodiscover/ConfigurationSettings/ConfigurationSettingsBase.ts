@@ -4,7 +4,7 @@ import {UserSettingName} from "../../Enumerations/UserSettingName";
 import {EwsXmlReader} from "../../Core/EwsXmlReader";
 import {GetUserSettingsResponse} from "../Responses/GetUserSettingsResponse";
 import {Uri} from "../../Uri";
-
+/** @internal */
 export class ConfigurationSettingsBase {
     ResponseType: AutodiscoverResponseType;
     RedirectTarget: string;
@@ -12,8 +12,8 @@ export class ConfigurationSettingsBase {
     private error: AutodiscoverError;
     ConvertSettings(smtpAddress: string, requestedSettings: UserSettingName[]): GetUserSettingsResponse { throw new Error("ConfigurationSettingsBase.ts - ConvertSettings : Not implemented."); }
     GetNamespace(): string { throw new Error("ConfigurationSettingsBase.ts - GetNamespace : Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("ConfigurationSettingsBase.ts - LoadFromXml : Not implemented."); }
+    //LoadFromXml(reader: EwsXmlReader): any { throw new Error("ConfigurationSettingsBase.ts - LoadFromXml : Not implemented."); }
     MakeRedirectionResponse(redirectUrl: Uri): any { throw new Error("ConfigurationSettingsBase.ts - MakeRedirectionResponse : Not implemented."); }
-    TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("ConfigurationSettingsBase.ts - TryReadCurrentXmlElement : Not implemented."); }
+    //TryReadCurrentXmlElement(reader: EwsXmlReader): boolean { throw new Error("ConfigurationSettingsBase.ts - TryReadCurrentXmlElement : Not implemented."); }
 }
 

@@ -16,6 +16,7 @@ export class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
     constructor(key: ImAddressKey, imAddress: string);
     constructor(key: ImAddressKey = ImAddressKey.ImAddress1, imAddress: string = null) {
         super(key);
+        this.keyType = ImAddressKey;
         this.imAddress = imAddress;
     }
 
@@ -25,5 +26,6 @@ export class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
         this.Key = <ImAddressKey><any>ImAddressKey[jsonProperty[XmlAttributeNames.Key]];
         this.ImAddress = jsonProperty[XmlElementNames.Entry];// ImAddress];//ElementValue becomes Same ElementName when it has attribute. 
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.ImAddress, XmlElementNames.ImAddress); }
 }

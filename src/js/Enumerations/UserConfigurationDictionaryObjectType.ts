@@ -1,4 +1,7 @@
 
+/**
+ * Identifies the user configuration dictionary key and value types.
+ */
 export enum UserConfigurationDictionaryObjectType {
 
     /**

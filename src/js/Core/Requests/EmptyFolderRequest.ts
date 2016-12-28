@@ -30,11 +30,13 @@ export class EmptyFolderRequest extends DeleteRequest<ServiceResponse> {
         //EwsUtilities.ValidateParam(this.FolderIds, "FolderIds");
         this.FolderIds.Validate(this.Service.RequestedServerVersion);
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
         writer.WriteAttributeValue(XmlAttributeNames.DeleteSubFolders, this.DeleteSubFolders);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.FolderIds.WriteToXml(
             writer,

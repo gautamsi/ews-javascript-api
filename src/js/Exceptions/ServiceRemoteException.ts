@@ -1,4 +1,4 @@
-﻿import {Exception} from "./Exception";
+﻿import { Exception } from "./Exception";
 /**
  * Represents an error that occurs when a service operation fails remotely.
  */

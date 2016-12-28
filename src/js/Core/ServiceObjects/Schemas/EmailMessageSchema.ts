@@ -1,18 +1,18 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {ApprovalRequestData} from "../../../ComplexProperties/ApprovalRequestData";
-import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { ApprovalRequestData } from "../../../ComplexProperties/ApprovalRequestData";
+import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ByteArrayPropertyDefinition } from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ContainedPropertyDefinition } from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { VotingInformation } from "../../../ComplexProperties/VotingInformation";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * Field URIs for EmailMessage.
@@ -264,7 +264,7 @@ export class EmailMessageSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

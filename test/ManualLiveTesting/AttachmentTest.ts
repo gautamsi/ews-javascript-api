@@ -36,7 +36,7 @@ import {MockXHRData} from "../MockXHRData";
                     debugger;
 
                     console.log("Attachment count : " + respFind.Items[0].Attachments.Count);
-                    console.log(respFind.Items[0].Attachments.__thisIndexer(0));
+                    console.log(respFind.Items[0].Attachments._getItem(0));
                 },
                     (err) => {
                         debugger;

@@ -1,18 +1,19 @@
-﻿import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {IRefParam} from "../Interfaces/IRefParam";
-import {ItemId} from "./ItemId";
-import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
-import {StringHelper} from "../ExtensionMethods";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { IRefParam } from "../Interfaces/IRefParam";
+import { ISearchStringProvider } from "../Interfaces/ISearchStringProvider";
+import { ItemId } from "./ItemId";
+import { MailboxType } from "../Enumerations/MailboxType";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 /**
  * Represents an e-mail address.
  */
-export class EmailAddress extends ComplexProperty {
+export class EmailAddress extends ComplexProperty implements ISearchStringProvider {
 
     /**
      * SMTP routing type.
@@ -178,11 +179,12 @@ export class EmailAddress extends ComplexProperty {
     }
 
     /**
-     * Get a string representation for using this instance in a search filter.
+     * Get a string representation for using this instance in a search filter. 
+     * ISearchStringProvider.GetSearchString
      *
      * @return  {string}      String representation of instance.
      */
-    GetSearchString(): string { //ISearchStringProvider ISearchStringProvider.GetSearchString
+    GetSearchString(): string {
         return this.Address;
     }
 
@@ -208,7 +210,7 @@ export class EmailAddress extends ComplexProperty {
                     this.routingType = jsObject[key];
                     break;
                 case XmlElementNames.MailboxType:
-                    this.mailboxType = MailboxTypeParser.FromString(jsObject[key])
+                    this.mailboxType = MailboxType.FromEwsEnumString(jsObject[key])
                     break;
                 case XmlElementNames.ItemId:
                     this.id = new ItemId();
@@ -251,7 +253,7 @@ export class EmailAddress extends ComplexProperty {
     }
 
     /**
-     * Writes elements to XML.
+     * @internal Writes elements to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
@@ -259,7 +261,7 @@ export class EmailAddress extends ComplexProperty {
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.Name, this.Name);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.EmailAddress, this.Address);
         writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.RoutingType, this.RoutingType);
-        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, MailboxTypeParser.ToString(this.MailboxType));
+        writer.WriteElementValue(XmlNamespace.Types, XmlElementNames.MailboxType, MailboxType.ToEwsEnumString(this.MailboxType));
 
         if (this.Id != null) {
             this.Id.WriteToXml(writer);//, XmlElementNames.ItemId);

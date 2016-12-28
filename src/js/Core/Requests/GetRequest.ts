@@ -29,5 +29,6 @@ export class GetRequest<TServiceObject extends ServiceObject, TResponse extends 
         //EwsUtilities.ValidateParam(this.PropertySet, "PropertySet");
         this.PropertySet.ValidateForRequest(this, false /*summaryPropertiesOnly*/);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { this.PropertySet.WriteToXml(writer, this.GetServiceObjectType()); }
 }

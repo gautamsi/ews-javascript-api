@@ -23,8 +23,8 @@ export class ImAddressDictionary extends DictionaryProperty<ImAddressKey, ImAddr
                 this.Changed();
             }
             else {
-                entry = new ImAddressEntry(key, value);
-                this.InternalAdd(entry.outValue);
+                let newEntry = new ImAddressEntry(key, value);
+                this.InternalAdd(newEntry);
             }
         }
     }
@@ -34,7 +34,7 @@ export class ImAddressDictionary extends DictionaryProperty<ImAddressKey, ImAddr
         var entry: IOutParam<ImAddressEntry> = { outValue: null };
 
         if (this.Entries.tryGetValue(key, entry)) {
-            imAddress = entry.outValue.ImAddress;
+            imAddress.outValue = entry.outValue.ImAddress;
             return true;
         }
         else {

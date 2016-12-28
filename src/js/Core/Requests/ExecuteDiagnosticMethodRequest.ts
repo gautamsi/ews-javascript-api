@@ -15,5 +15,6 @@ export class ExecuteDiagnosticMethodRequest extends MultiResponseServiceRequest<
     GetResponseMessageXmlElementName(): string { throw new Error("ExecuteDiagnosticMethodRequest.ts - GetResponseMessageXmlElementName : Not implemented."); }
     GetResponseXmlElementName(): string { throw new Error("ExecuteDiagnosticMethodRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("ExecuteDiagnosticMethodRequest.ts - GetXmlElementName : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ExecuteDiagnosticMethodRequest.ts - WriteElementsToXml : Not implemented."); }
 }

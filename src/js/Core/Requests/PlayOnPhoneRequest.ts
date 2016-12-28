@@ -18,5 +18,6 @@ export class PlayOnPhoneRequest extends SimpleServiceRequestBase {//IJsonSeriali
     GetXmlElementName(): string { throw new Error("PlayOnPhoneRequest.ts - GetXmlElementName : Not implemented."); }
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("PlayOnPhoneRequest.ts - ParseResponse : Not implemented."); }
     //ParseResponse(jsonBody: JsonObject): any { throw new Error("PlayOnPhoneRequest.ts - ParseResponse : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("PlayOnPhoneRequest.ts - WriteElementsToXml : Not implemented."); }
 }

@@ -8,5 +8,5 @@ export class GetItemRequestForLoad extends GetItemRequestBase<ServiceResponse> {
     constructor(service: ExchangeService, errorHandlingModeServiceErrorHandling: ServiceErrorHandling) {
         super(service, errorHandlingModeServiceErrorHandling);
     }
-    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { return new GetItemResponse(this.ItemIds.__thisIndexer(responseIndex), this.PropertySet); }
+    CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { return new GetItemResponse(this.ItemIds._getItem(responseIndex), this.PropertySet); }
 }

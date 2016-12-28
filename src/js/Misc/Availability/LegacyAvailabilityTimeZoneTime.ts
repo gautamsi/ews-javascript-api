@@ -53,6 +53,7 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(
             XmlNamespace.Types,

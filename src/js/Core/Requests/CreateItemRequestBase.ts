@@ -42,6 +42,7 @@ export class CreateItemRequestBase<TServiceObject extends ServiceObject, TRespon
         super.Validate();
         //EwsUtilities.ValidateParam(this.Items, "Items");
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
