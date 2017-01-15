@@ -1,16 +1,16 @@
-﻿import {ArgumentOutOfRangeException} from "../../../Exceptions/ArgumentException";
-import {Convert} from "../../../ExtensionMethods";
-import {DateTime} from "../../../DateTime";
-import {EwsServiceXmlReader} from "../../../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {Month} from "../../../Enumerations/Month";
-import {ServiceValidationException} from "../../../Exceptions/ServiceValidationException";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { ArgumentOutOfRangeException } from "../../../Exceptions/ArgumentException";
+import { Convert } from "../../../ExtensionMethods";
+import { DateTime } from "../../../DateTime";
+import { EwsServiceXmlReader } from "../../../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { Month } from "../../../Enumerations/Month";
+import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {Recurrence} from "./Recurrence";
+import { Recurrence } from "./Recurrence";
 /**
  * Represents a recurrence pattern where each occurrence happens on a specific day every year.
  */
@@ -82,11 +82,11 @@ export class YearlyPattern extends Recurrence {
     InternalValidate(): void {
         super.InternalValidate();
 
-        if (!this.month) {
+        if (this.month === null) {
             throw new ServiceValidationException(Strings.MonthMustBeSpecifiedForRecurrencePattern);
         }
 
-        if (!this.dayOfMonth) {
+        if (this.dayOfMonth === null) {
             throw new ServiceValidationException(Strings.DayOfMonthMustBeSpecifiedForRecurrencePattern);
         }
     }
@@ -107,7 +107,7 @@ export class YearlyPattern extends Recurrence {
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.Month,
-            this.Month);
+            Month[this.Month]);
     }
 
     /**

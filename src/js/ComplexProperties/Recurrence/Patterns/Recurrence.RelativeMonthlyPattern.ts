@@ -1,14 +1,14 @@
-﻿import {DateTime} from "../../../DateTime";
-import {DayOfTheWeekIndex} from "../../../Enumerations/DayOfTheWeekIndex";
-import {DayOfTheWeek} from "../../../Enumerations/DayOfTheWeek";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {ServiceValidationException} from "../../../Exceptions/ServiceValidationException";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { DateTime } from "../../../DateTime";
+import { DayOfTheWeekIndex } from "../../../Enumerations/DayOfTheWeekIndex";
+import { DayOfTheWeek } from "../../../Enumerations/DayOfTheWeek";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {IntervalPattern} from "./Recurrence.IntervalPattern";
+import { IntervalPattern } from "./Recurrence.IntervalPattern";
 /**
  * Represents a recurrence pattern where each occurrence happens on a relative day a specific number of months after the previous one. 
 */
@@ -78,11 +78,11 @@ export class RelativeMonthlyPattern extends IntervalPattern {
     InternalValidate(): void {
         super.InternalValidate();
 
-        if (!this.dayOfTheWeek) {
+        if (this.dayOfTheWeek === null) {
             throw new ServiceValidationException(Strings.DayOfTheWeekMustBeSpecifiedForRecurrencePattern);
         }
 
-        if (!this.dayOfTheWeekIndex) {
+        if (this.dayOfTheWeekIndex === null) {
             throw new ServiceValidationException(Strings.DayOfWeekIndexMustBeSpecifiedForRecurrencePattern);
         }
     }
@@ -93,15 +93,17 @@ export class RelativeMonthlyPattern extends IntervalPattern {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     InternalWritePropertiesToXml(writer: EwsServiceXmlWriter): void {
-        super.InternalValidate();
+        super.InternalWritePropertiesToXml(writer);
 
-        if (!this.dayOfTheWeek) {
-            throw new ServiceValidationException(Strings.DayOfTheWeekMustBeSpecifiedForRecurrencePattern);
-        }
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.DaysOfWeek,
+            DayOfTheWeek[this.DayOfTheWeek]);
 
-        if (!this.dayOfTheWeekIndex) {
-            throw new ServiceValidationException(Strings.DayOfWeekIndexMustBeSpecifiedForRecurrencePattern);
-        }
+        writer.WriteElementValue(
+            XmlNamespace.Types,
+            XmlElementNames.DayOfWeekIndex,
+            DayOfTheWeekIndex[this.DayOfTheWeekIndex]);
     }
 
     /**

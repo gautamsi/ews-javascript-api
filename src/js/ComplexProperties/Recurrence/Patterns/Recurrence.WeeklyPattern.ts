@@ -113,7 +113,7 @@ export class WeeklyPattern extends IntervalPattern {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.FirstDayOfWeek,
-                this.firstDayOfWeek);
+                DayOfWeek[this.firstDayOfWeek]);
         }
     }
 

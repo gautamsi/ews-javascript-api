@@ -1,14 +1,14 @@
-﻿import {ArgumentOutOfRangeException} from "../../../Exceptions/ArgumentException";
-import {Convert} from "../../../ExtensionMethods";
-import {DateTime} from "../../../DateTime";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {ServiceValidationException} from "../../../Exceptions/ServiceValidationException";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { ArgumentOutOfRangeException } from "../../../Exceptions/ArgumentException";
+import { Convert } from "../../../ExtensionMethods";
+import { DateTime } from "../../../DateTime";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {IntervalPattern} from "./Recurrence.IntervalPattern";
+import { IntervalPattern } from "./Recurrence.IntervalPattern";
 /**
  * Represents a recurrence pattern where each occurrence happens on a specific day a specific number of months after the previous one.
  */
@@ -67,7 +67,7 @@ export class MonthlyPattern extends IntervalPattern {
     InternalValidate(): void {
         super.InternalValidate();
 
-        if (!this.dayOfMonth) {
+        if (this.dayOfMonth === null) {
             throw new ServiceValidationException(Strings.DayOfMonthMustBeBetween1And31);
         }
     }
