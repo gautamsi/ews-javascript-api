@@ -86,8 +86,8 @@ export class EmailAddressCollection extends ComplexPropertyCollection<EmailAddre
     AddRange(emailOrSmtpAddresses: EmailAddress[] | string[]): void {
         for (let address of emailOrSmtpAddresses) {
             let emailAddress = <EmailAddress>address;
-            if (typeof address === 'string') {
-                address = new EmailAddress(<string>address);
+            if (typeof emailAddress === 'string') {
+                emailAddress = new EmailAddress(<string>address);
             }
             this.InternalAdd(emailAddress);
         }
