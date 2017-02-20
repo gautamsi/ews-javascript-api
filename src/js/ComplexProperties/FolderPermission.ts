@@ -11,7 +11,7 @@ import {FolderPermissionLevel} from "../Enumerations/FolderPermissionLevel";
 import {ExchangeService} from "../Core/ExchangeService";
 import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
 import {LazyMember} from "../Core/LazyMember";
-import {Convert, StringHelper} from "../ExtensionMethods";
+import {ArrayHelper, Convert, StringHelper} from "../ExtensionMethods";
 import {IndexerWithEnumKey} from "../AltDictionary";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {IRefParam} from "../Interfaces/IRefParam";
@@ -21,12 +21,11 @@ export class FolderPermission extends ComplexProperty {
     get UserId(): UserId { return this.userId; }
     set UserId(value) {
         if (this.userId != null) {
-            var index = this.userId.OnChange.indexOf(this.PropertyChanged);
-            if (index >= 0) this.userId.OnChange.splice(index, 1);
+            ArrayHelper.RemoveEntry(this.userId.OnChange,this.PropertyChanged);            
         }
         this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
         if (this.userId != null) {
-            this.userId.OnChange.push(this.PropertyChanged);
+            this.userId.OnChange.push(this.PropertyChanged.bind(this));
         }
     }
     get CanCreateItems(): boolean { return this.canCreateItems; }
@@ -388,6 +387,7 @@ export class FolderPermission extends ComplexProperty {
         this.AdjustPermissionLevel();
     }
     PropertyChanged(complexProperty: ComplexProperty): void { this.Changed(); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FolderPermission.ts - TryReadElementFromXmlJsObject : Not implemented."); }
     //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
     Validate(isCalendarFolder?: boolean, permissionIndex?: number): void {
@@ -421,6 +421,7 @@ export class FolderPermission extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean = false): void {
         if (this.UserId != null) {
             this.UserId.WriteToXml(writer, XmlElementNames.UserId);
@@ -473,6 +474,7 @@ export class FolderPermission extends ComplexProperty {
             isCalendarFolder ? XmlElementNames.CalendarPermissionLevel : XmlElementNames.PermissionLevel,
             this.PermissionLevel);
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace, isCalendarFolder: boolean = false): void {//XmlNamespace - incorrect inheritance error with typesctipt in folderpermission class if removed xmlnamespace parameter
         writer.WriteStartElement(this.Namespace, xmlElementName);
         this.WriteAttributesToXml(writer);

@@ -12,5 +12,6 @@ export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase 
     GetResponseXmlElementName(): string { throw new Error("GetEncryptionConfigurationRequest.ts - GetResponseXmlElementName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("GetEncryptionConfigurationRequest.ts - GetXmlElementName : Not implemented."); }
     ParseResponse(reader: EwsServiceXmlReader): any { throw new Error("GetEncryptionConfigurationRequest.ts - ParseResponse : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("GetEncryptionConfigurationRequest.ts - WriteElementsToXml : Not implemented."); }
 }

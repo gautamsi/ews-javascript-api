@@ -1,4 +1,3 @@
-/// <reference path="../../typings/node/node.d.ts" />
 /// <reference path="../../typings/base64-js.d.ts" />
 
 import * as b64 from 'base64-js';
@@ -40,6 +39,16 @@ export module EnumHelper {
     export function HasFlag(flags: number, checkFlag: number): boolean {
         return (flags & checkFlag) == checkFlag;
     }
+
+    /**
+     * Writes "," separated values from Enumertion anf enum Flags
+     * 
+     * @export
+     * @param {*} enumObj The Enumeration Object itself, for example 'ExchangeVersion' as the parameter Value.
+     * @param {number} checkFlag Flag value(s) to convert to string
+     * @param {boolean} [includeZero=false] include the default 0 value in the string, usually false
+     * @returns {string} returns the coma "," separated string representation of Flags
+     */
     export function ToString(enumObj: any, checkFlag: number, includeZero: boolean = false): string {
         if ((checkFlag & (checkFlag - 1)) == 0)
             return enumObj[checkFlag];
@@ -58,7 +67,7 @@ export module EnumHelper {
         if (includeZero && enumObj[0]) result.push(enumObj[0]);
 
         result.reverse();
-        return result.join(",");
+        return result.join(", ");
     }
 }
 
@@ -79,13 +88,15 @@ module object {
 }
 
 export module ArrayHelper {
-    export function AddRange<T>(array: Array<T>, items: Array<T>): void {
+    export function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly: boolean = false): void {
         if (Object.prototype.toString.call(array) !== "[object Array]")
             throw new Error("input obj is not an array")
         if (Object.prototype.toString.call(items) !== "[object Array]")
             throw new Error("input range is not an array")
         for (var item of items) {
-            array.push(item);
+            if (!(uniqueOnly && array.indexOf(item) >= 0)) {
+                array.push(item);
+            }
         }
     }
 
@@ -146,7 +157,7 @@ export module ArrayHelper {
         rank += maxDepthRank;
         return rank;
     }
-    export function isArray(obj: any) {
+    export function isArray<T>(obj: any): obj is T[] {
         return Object.prototype.toString.call(obj) === "[object Array]";
     }
 }
@@ -280,9 +291,9 @@ export class xml2JsObject {
         const TYPE_STR: string = "__type";
         const TEXT_STR: string = "__text";
         switch (xmlNode.nodeType) {
-            case 1/*Node.ELEMENT_NODE*/:
-                if (xmlNode.prefix && xmlNode.localName !== xmlNode.nodeName)
-                    obj[PREFIX_STR] = xmlNode.prefix;
+            case 1 /*Node.ELEMENT_NODE*/:
+                if ((<Element>xmlNode).prefix && xmlNode.localName !== xmlNode.nodeName)
+                    obj[PREFIX_STR] = (<Element>xmlNode).prefix;
 
                 if (this.typeIncludedNS.indexOf(xmlNode.namespaceURI) >= 0) {
                     obj[TYPE_STR] = xmlNode.localName;

@@ -3,7 +3,7 @@ import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetAppManifestsResponse} from "../Responses/GetAppManifestsResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {StringHelper} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -44,9 +44,9 @@ export class GetAppManifestsRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetAppManifestsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetAppManifestsResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetAppManifestsResponse> {
+    Execute(): Promise<GetAppManifestsResponse> {
 
 		return this.InternalExecute().then((serviceResponse: GetAppManifestsResponse) => {
             serviceResponse.ThrowIfNecessary();

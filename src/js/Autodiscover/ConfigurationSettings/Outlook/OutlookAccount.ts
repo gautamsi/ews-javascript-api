@@ -3,6 +3,7 @@ import {AlternateMailboxCollection} from "../../AlternateMailboxCollection";
 import {GetUserSettingsResponse} from "../../Responses/GetUserSettingsResponse";
 import {UserSettingName} from "../../../Enumerations/UserSettingName";
 import {EwsXmlReader} from "../../../Core/EwsXmlReader";
+/** @internal */
 export class OutlookAccount {
     private static Settings: string = "settings";
     private static RedirectAddr: string = "redirectAddr";
@@ -14,5 +15,5 @@ export class OutlookAccount {
     private alternateMailboxes: AlternateMailboxCollection;
     ConvertToUserSettings(requestedSettings: UserSettingName[], // System.Collections.Generic.List<Microsoft.Exchange.WebServices.Autodiscover.UserSettingName>,
         response: GetUserSettingsResponse): any { throw new Error("OutlookAccount.ts - response: GetUserSettingsResponse): any { throw new Error : Not implemented."); }
-    LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookAccount.ts - LoadFromXml : Not implemented."); }
+    //LoadFromXml(reader: EwsXmlReader): any { throw new Error("OutlookAccount.ts - LoadFromXml : Not implemented."); }
 }

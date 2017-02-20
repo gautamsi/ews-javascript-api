@@ -1,33 +1,33 @@
-﻿import {AffectedTaskOccurrence} from "../../../Enumerations/AffectedTaskOccurrence";
-import {ConversationFlagStatus} from "../../../Enumerations/ConversationFlagStatus";
-import {ConversationId} from "../../../ComplexProperties/ConversationId";
-import {DateTime} from "../../../DateTime";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ExtendedPropertyCollection} from "../../../ComplexProperties/ExtendedPropertyCollection";
-import {Flag} from "../../../ComplexProperties/Flag";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {Guid} from "../../../Guid";
-import {IconIndex} from "../../../Enumerations/IconIndex";
-import {Importance} from "../../../Enumerations/Importance";
-import {IOutParam} from "../../../Interfaces/IOutParam";
-import {IPromise} from "../../../Interfaces";
-import {ItemFlagStatus} from "../../../Enumerations/ItemFlagStatus";
-import {ItemIdCollection} from "../../../ComplexProperties/ItemIdCollection";
-import {KeyValuePair} from "../../../AltDictionary";
-import {NotSupportedException} from "../../../Exceptions/NotSupportedException";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
-import {PropertySet} from "../../PropertySet";
-import {RetentionType} from "../../../Enumerations/RetentionType";
-import {Schemas} from "../Schemas/Schemas";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {StringHelper} from "../../../ExtensionMethods";
-import {StringList} from "../../../ComplexProperties/StringList";
-import {XmlElementNames} from "../../XmlElementNames";
+﻿import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
+import { ConversationFlagStatus } from "../../../Enumerations/ConversationFlagStatus";
+import { ConversationId } from "../../../ComplexProperties/ConversationId";
+import { DateTime } from "../../../DateTime";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { ExtendedPropertyCollection } from "../../../ComplexProperties/ExtendedPropertyCollection";
+import { Flag } from "../../../ComplexProperties/Flag";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { Guid } from "../../../Guid";
+import { IconIndex } from "../../../Enumerations/IconIndex";
+import { Importance } from "../../../Enumerations/Importance";
+import { IOutParam } from "../../../Interfaces/IOutParam";
+import { ItemFlagStatus } from "../../../Enumerations/ItemFlagStatus";
+import { ItemIdCollection } from "../../../ComplexProperties/ItemIdCollection";
+import { KeyValuePair } from "../../../AltDictionary";
+import { NotSupportedException } from "../../../Exceptions/NotSupportedException";
+import { Promise } from "../../../Promise";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertySet } from "../../PropertySet";
+import { RetentionType } from "../../../Enumerations/RetentionType";
+import { Schemas } from "../Schemas/Schemas";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { StringHelper } from "../../../ExtensionMethods";
+import { StringList } from "../../../ComplexProperties/StringList";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ServiceObject} from "../ServiceObject";
+import { ServiceObject } from "../ServiceObject";
 /**
  * Represents a collection of Conversation related properties.
  * Properties available on this object are defined in the ConversationSchema class.
@@ -364,9 +364,9 @@ export class Conversation extends ServiceObject {
      * Clear flags for conversation items. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be unflagged. If contextFolderId is null, flags for items in conversation across the entire mailbox are cleared.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    ClearItemFlags(contextFolderId: FolderId): IPromise<void> {
+    ClearItemFlags(contextFolderId: FolderId): Promise<void> {
         let flag: Flag = new Flag();
         flag.FlagStatus = ItemFlagStatus.NotFlagged;
 
@@ -385,9 +385,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be copied. If contextFolderId is null, items across the entire mailbox are copied.
      * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void> {
+    CopyItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): Promise<void> {
         return this.Service.CopyItemsInConversations(
             [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
             contextFolderId,
@@ -402,9 +402,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}      contextFolderId   The Id of the folder items must belong to in order to be deleted. If contextFolderId is null, items across the entire mailbox are deleted.
      * @param   {DeleteMode}    deleteMode        The deletion mode.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): IPromise<void> {
+    DeleteItems(contextFolderId: FolderId, deleteMode: DeleteMode): Promise<void> {
         return this.Service.DeleteItemsInConversations(
             [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
             contextFolderId,
@@ -418,9 +418,9 @@ export class Conversation extends ServiceObject {
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   **<not used>**Indicates whether the method should return only once disabling this rule and removing the categories from existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysCategorizeItems(processSynchronously: boolean): IPromise<void> {
+    DisableAlwaysCategorizeItems(processSynchronously: boolean): Promise<void> {
         return this.Service.DisableAlwaysCategorizeItemsInConversations(
             [this.Id],
             processSynchronously).then((responses) => {
@@ -433,9 +433,9 @@ export class Conversation extends ServiceObject {
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule and restoring the items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void> {
+    DisableAlwaysDeleteItems(processSynchronously: boolean): Promise<void> {
         return this.Service.DisableAlwaysDeleteItemsInConversations(
             [this.Id],
             processSynchronously).then((responses) => {
@@ -448,9 +448,9 @@ export class Conversation extends ServiceObject {
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once disabling this rule is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): IPromise<void> {
+    DisableAlwaysMoveItemsInConversation(processSynchronously: boolean): Promise<void> {
         return this.Service.DisableAlwaysMoveItemsInConversations(
             [this.Id],
             processSynchronously).then((responses) => {
@@ -464,9 +464,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {string[]}  categories             The categories that should be stamped on items in the conversation.
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and stamping existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.          
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysCategorizeItems(categories: string[], processSynchronously: boolean): IPromise<void> {
+    EnableAlwaysCategorizeItems(categories: string[], processSynchronously: boolean): Promise<void> {
         return this.Service.EnableAlwaysCategorizeItemsInConversations(
             [this.Id],
             categories,
@@ -480,9 +480,9 @@ export class Conversation extends ServiceObject {
      * Calling this method results in a call to EWS.
      *
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and deleting existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysDeleteItems(processSynchronously: boolean): IPromise<void> {
+    EnableAlwaysDeleteItems(processSynchronously: boolean): Promise<void> {
         return this.Service.EnableAlwaysDeleteItemsInConversations(
             [this.Id],
             processSynchronously).then((responses) => {
@@ -496,9 +496,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}  destinationFolderId    The Id of the folder to which conversation items should be moved.
      * @param   {boolean}   processSynchronously   Indicates whether the method should return only once enabling this rule and moving existing items in the conversation is completely done. If processSynchronously is false, the method returns immediately.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): IPromise<void> {
+    EnableAlwaysMoveItems(destinationFolderId: FolderId, processSynchronously: boolean): Promise<void> {
         return this.Service.EnableAlwaysMoveItemsInConversations(
             [this.Id],
             destinationFolderId,
@@ -513,9 +513,9 @@ export class Conversation extends ServiceObject {
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged. If contextFolderId is null, items in conversation across the entire mailbox are flagged.
      * @param   {DateTime}   startDate         The start date (can be null).
      * @param   {DateTime}   dueDate           The due date (can be null).
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    FlagItems(contextFolderId: FolderId, startDate: DateTime, dueDate: DateTime): IPromise<void> {
+    FlagItems(contextFolderId: FolderId, startDate: DateTime, dueDate: DateTime): Promise<void> {
         let flag: Flag = new Flag();
 
         flag.FlagStatus = ItemFlagStatus.Flagged;
@@ -540,9 +540,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}   contextFolderId   The Id of the folder items must belong to in order to be flagged as complete. If contextFolderId is null, items in conversation across the entire mailbox are marked as complete.
      * @param   {DateTime}   completeDate      The complete date (can be null).
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    FlagItemsComplete(contextFolderId: FolderId, completeDate: DateTime): IPromise<void> {
+    FlagItemsComplete(contextFolderId: FolderId, completeDate: DateTime): Promise<void> {
         let flag: Flag = new Flag();
         flag.FlagStatus = ItemFlagStatus.Complete;
 
@@ -643,7 +643,7 @@ export class Conversation extends ServiceObject {
      * @param   {SendCancellationsMode}     sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
      * @param   {AffectedTaskOccurrence}    affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): IPromise<void> {
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void> {
         throw new NotSupportedException();
     }
 
@@ -653,7 +653,7 @@ export class Conversation extends ServiceObject {
      *
      * @param   {PropertySet}   propertySet   The properties to load.
      */
-    InternalLoad(propertySet: PropertySet): IPromise<void> {
+    InternalLoad(propertySet: PropertySet): Promise<void> {
         throw new NotSupportedException();
     }
 
@@ -663,9 +663,9 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}   contextFolderId       The Id of the folder items must belong to in order to be moved. If contextFolderId is null, items across the entire mailbox are moved.
      * @param   {FolderId}   destinationFolderId   The Id of the destination folder.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): IPromise<void> {
+    MoveItemsInConversation(contextFolderId: FolderId, destinationFolderId: FolderId): Promise<void> {
         return this.Service.MoveItemsInConversations(
             [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
             contextFolderId,
@@ -679,19 +679,19 @@ export class Conversation extends ServiceObject {
      *
      * @param   {FolderId}  contextFolderId   The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
      * @param   {boolean}   isRead            if set to true, conversation items are marked as read; otherwise they are marked as unread.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): IPromise<void>;
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean): Promise<void>;
     /**
      * Sets the read state of items in the specified conversation. Calling this method results in a call to EWS.
      *
      * @param   {FolderId}  contextFolderId        The Id of the folder items must belong to in order for their read state to be set. If contextFolderId is null, the read states of items across the entire mailbox are set.
      * @param   {boolean}   isRead                 if set to true, conversation items are marked as read; otherwise they are marked as unread.
      * @param   {boolean}   suppressReadReceipts   if set to true read receipts are suppressed.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): IPromise<void>;
-    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean = null): IPromise<void> {
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean): Promise<void>;
+    SetReadStateForItemsInConversation(contextFolderId: FolderId, isRead: boolean, suppressReadReceipts: boolean = null): Promise<void> {
         return this.Service.SetReadStateForItemsInConversations(
             [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
             contextFolderId,
@@ -707,9 +707,9 @@ export class Conversation extends ServiceObject {
      * @param   {FolderId}          contextFolderId        The Id of the folder items must belong to in order for their retention policy to be set. If contextFolderId is null, the retention policy of items across the entire mailbox are set.
      * @param   {RetentionType}     retentionPolicyType    Retention policy type.
      * @param   {Guid}              retentionPolicyTagId   Retention policy tag id.  Null will clear the policy.
-     * @return  {IPromise<void>}    Promise
+     * @return  {Promise<void>}    Promise
      */
-    SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): IPromise<void> {
+    SetRetentionPolicyForItemsInConversation(contextFolderId: FolderId, retentionPolicyType: RetentionType, retentionPolicyTagId: Guid): Promise<void> {
         return this.Service.SetRetentionPolicyForItemsInConversations(
             [{ key: this.Id, value: this.GlobalLastDeliveryTime }],
             contextFolderId,

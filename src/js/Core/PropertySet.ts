@@ -1,88 +1,351 @@
-﻿import {Strings} from "../Strings";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
-import {ServiceVersionException} from "../Exceptions/ServiceVersionException";
-import {ServiceRequestBase} from "./Requests/ServiceRequestBase";
-import {BasePropertySet} from "../Enumerations/BasePropertySet";
-import {BodyType} from "../Enumerations/BodyType";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
-import {EwsUtilities} from "./EwsUtilities";
-import {EwsServiceXmlWriter} from "./EwsServiceXmlWriter";
+﻿import { ArrayHelper, StringHelper } from "../ExtensionMethods";
+import { BasePropertySet } from "../Enumerations/BasePropertySet";
+import { BodyType } from "../Enumerations/BodyType";
+import { Dictionary } from "../AltDictionary";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "./EwsServiceXmlWriter";
+import { EwsUtilities } from "./EwsUtilities";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IEnumerable } from "../Interfaces/IEnumerable";
+import { ISelfValidate } from "../Interfaces/ISelfValidate";
+import { LazyMember } from "./LazyMember";
+import { PropertyDefinition } from "../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionBase } from "../PropertyDefinitions/PropertyDefinitionBase";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { ServiceObjectType } from "../Enumerations/ServiceObjectType";
+import { ServiceRequestBase } from "./Requests/ServiceRequestBase";
+import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
+import { Strings } from "../Strings";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
-import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
+export type DefaultPropertySetDictionary = LazyMember<Dictionary<BasePropertySet, string>>;
 
-import {LazyMember} from "./LazyMember";
-import {EwsLogging} from "../Core/EwsLogging";
-import {StringHelper} from "../ExtensionMethods";
-import {Dictionary} from "../AltDictionary";
+/**
+ * Represents a set of item or folder properties. Property sets are used to indicate what properties of an item or folder should be loaded when binding to an existing item or folder or when loading an item or folder's properties. 
+ * 
+ * @sealed
+ */
+export class PropertySet implements ISelfValidate, IEnumerable<PropertyDefinitionBase> {
 
-//todo: should be done except for debugger stops
-export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDefinitionBase>
-    //using DefaultPropertySetDictionary = LazyMember<System.Collections.Generic.Dictionary<BasePropertySet, string>>;
+    /**
+     * Returns a predefined property set that only includes the Id property.
+     */
+    static readonly IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
 
-    static get DefaultPropertySetMap(): LazyMember<Dictionary<BasePropertySet, string>> { return this.defaultPropertySetMap; }
-    static IdOnly: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.IdOnly);
-    static FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties); // static readonly
-    private static defaultPropertySetMap: LazyMember<Dictionary<BasePropertySet, string>> = new LazyMember<Dictionary<BasePropertySet, string>>(() => {
-        var result: Dictionary<BasePropertySet, string> = new Dictionary<BasePropertySet, string>((bps) => BasePropertySet[bps]);
+    /**
+     * Returns a predefined property set that includes the first class properties of an item or folder.
+     */
+    static readonly FirstClassProperties: PropertySet = PropertySet.CreateReadonlyPropertySet(BasePropertySet.FirstClassProperties);
+
+    /**
+     * Maps BasePropertySet values to EWS's BaseShape values.
+     */
+    private static defaultPropertySetMap: DefaultPropertySetDictionary = new LazyMember<Dictionary<BasePropertySet, string>>(() => {
+        let result: Dictionary<BasePropertySet, string> = new Dictionary<BasePropertySet, string>((bps) => BasePropertySet[bps]);
         result.Add(BasePropertySet.IdOnly, "IdOnly");
         result.Add(BasePropertySet.FirstClassProperties, "AllProperties");
         return result;
     });
-    private basePropertySet: BasePropertySet;
-    private additionalProperties: PropertyDefinitionBase[] = [];// System.Collections.Generic.List<PropertyDefinitionBase>;
-    private requestedBodyType: BodyType;
-    private requestedUniqueBodyType: BodyType;
-    private requestedNormalizedBodyType: BodyType;
-    private filterHtml: boolean;
-    private convertHtmlCodePageToUTF8: boolean;
-    private inlineImageUrlTemplate: string;
-    private blockExternalImages: boolean;
-    private addTargetToLinks: boolean;
-    private isReadOnly: boolean;
-    private maximumBodySize: number;
 
-    get BasePropertySet(): BasePropertySet { return this.basePropertySet; }
-    set BasePropertySet(value) { this.ThrowIfReadonly(); this.basePropertySet = value; }
-    get RequestedBodyType(): BodyType { return this.requestedBodyType; }
-    set RequestedBodyType(value) { this.ThrowIfReadonly(); this.requestedBodyType = value; }
-    get RequestedUniqueBodyType(): BodyType { return this.requestedUniqueBodyType; }
-    set RequestedUniqueBodyType(value) { this.ThrowIfReadonly(); this.requestedUniqueBodyType = value; }
-    get RequestedNormalizedBodyType(): BodyType { return this.requestedNormalizedBodyType; }
-    set RequestedNormalizedBodyType(value) { this.ThrowIfReadonly(); this.requestedNormalizedBodyType = value; }
-    get Count(): number { return this.additionalProperties.length; }
-    get FilterHtmlContent(): boolean { return this.filterHtml; } //todo - nullable properties implementations;
-    set FilterHtmlContent(value) { this.ThrowIfReadonly(); this.filterHtml = value; }
-    get ConvertHtmlCodePageToUTF8(): boolean { return this.convertHtmlCodePageToUTF8; }
-    set ConvertHtmlCodePageToUTF8(value) { this.ThrowIfReadonly(); this.convertHtmlCodePageToUTF8 = value; }
-    get InlineImageUrlTemplate(): string { return this.inlineImageUrlTemplate; }
-    set InlineImageUrlTemplate(value) { this.ThrowIfReadonly(); this.inlineImageUrlTemplate = value; }
-    get BlockExternalImages(): boolean { return this.blockExternalImages; }
-    set BlockExternalImages(value) { this.ThrowIfReadonly(); this.blockExternalImages = value; }
-    get AddBlankTargetToLinks(): boolean { return this.addTargetToLinks; }
-    set AddBlankTargetToLinks(value) { this.ThrowIfReadonly(); this.addTargetToLinks = value; }
-    get MaximumBodySize(): number { return this.maximumBodySize; }
-    set MaximumBodySize(value) { this.ThrowIfReadonly(); this.maximumBodySize = value; }
+    /**
+     * The base property set this property set is based upon.
+     */
+    private basePropertySet: BasePropertySet = BasePropertySet.IdOnly;
 
-    _getItem(index: number): PropertyDefinitionBase { return this.additionalProperties[index]; } //this[int]
+    /**
+     * The list of additional properties included in this property set.
+     */
+    private additionalProperties: PropertyDefinitionBase[] = [];
 
+    /**
+     * The requested body type for get and find operations. If null, the "best body" is returned.
+     */
+    private requestedBodyType: BodyType = null; //nullable
 
+    /**
+     * The requested unique body type for get and find operations. If null, the should return the same value as body type.
+     */
+    private requestedUniqueBodyType: BodyType = null; //nullable
 
-    //constructor();
-    //constructor(basePropertySet:BasePropertySet);
-    //constructor(additionalProperties: PropertyDefinitionBase[]);
-    constructor(basePropertySet: BasePropertySet = BasePropertySet.IdOnly, additionalProperties?: PropertyDefinitionBase[]) {
+    /**
+     * The requested normalized body type for get and find operations. If null, the should return the same value as body type.
+     */
+    private requestedNormalizedBodyType: BodyType = null; //nullable
+
+    /**
+     * Value indicating whether or not the server should filter HTML content.
+     */
+    private filterHtml: boolean = null; //nullable
+
+    /**
+     * Value indicating whether or not the server should convert HTML code page to UTF8.
+     */
+    private convertHtmlCodePageToUTF8: boolean = null; //nullable
+
+    /**
+     * Value of the URL template to use for the src attribute of inline IMG elements.
+     */
+    private inlineImageUrlTemplate: string = null;
+
+    /**
+     * Value indicating whether or not the server should block references to external images.
+     */
+    private blockExternalImages: boolean = null; //nullable
+
+    /**
+     * Value indicating whether or not to add a blank target attribute to anchor links.
+     */
+    private addTargetToLinks: boolean = null; //nullable
+
+    /**
+     * Value indicating whether or not this PropertySet can be modified.
+     */
+    private isReadOnly: boolean = false;
+
+    /**
+     * Value indicating the maximum body size to retrieve.
+     */
+    private maximumBodySize: number = null; //nullable
+
+    /**
+     * @internal Maps BasePropertySet values to EWS's BaseShape values.
+     */
+    static get DefaultPropertySetMap(): DefaultPropertySetDictionary {
+        return this.defaultPropertySetMap;
+    }
+
+    /**
+     * Gets or sets the base property set the property set is based upon.
+     */
+    get BasePropertySet(): BasePropertySet {
+        return this.basePropertySet;
+    }
+    set BasePropertySet(value) {
+        this.ThrowIfReadonly();
+        this.basePropertySet = value;
+    }
+
+    /**
+     * Gets or sets type of body that should be loaded on items. If RequestedBodyType is null, body is returned as HTML if available, plain text otherwise.
+     * 
+     * @Nullable
+     */
+    get RequestedBodyType(): BodyType {
+        return this.requestedBodyType;
+    }
+    set RequestedBodyType(value) {
+        this.ThrowIfReadonly();
+        this.requestedBodyType = value;
+    }
+
+    /**
+     * Gets or sets type of body that should be loaded on items. If null, the should return the same value as body type.
+     * 
+     * @nullable
+     */
+    get RequestedUniqueBodyType(): BodyType {
+        return this.requestedUniqueBodyType;
+    }
+    set RequestedUniqueBodyType(value) {
+        this.ThrowIfReadonly();
+        this.requestedUniqueBodyType = value;
+    }
+
+    /**
+     * Gets or sets type of normalized body that should be loaded on items. If null, the should return the same value as body type.
+     * 
+     * @nullable
+     */
+    get RequestedNormalizedBodyType(): BodyType {
+        return this.requestedNormalizedBodyType;
+    }
+    set RequestedNormalizedBodyType(value) {
+        this.ThrowIfReadonly();
+        this.requestedNormalizedBodyType = value;
+    }
+
+    /**
+     * Gets the number of explicitly added properties in this set.
+     */
+    get Count(): number {
+        return this.additionalProperties.length;
+    }
+
+    /**
+     * Gets or sets value indicating whether or not to filter potentially unsafe HTML content from message bodies.
+     * 
+     * @nullable
+     */
+    get FilterHtmlContent(): boolean {
+        return this.filterHtml;
+    }
+    set FilterHtmlContent(value) {
+        this.ThrowIfReadonly();
+        this.filterHtml = value;
+    }
+
+    /**
+     * Gets or sets value indicating whether or not to convert HTML code page to UTF8 encoding.
+     * 
+     * @nullable
+     */
+    get ConvertHtmlCodePageToUTF8(): boolean {
+        return this.convertHtmlCodePageToUTF8;
+    }
+    set ConvertHtmlCodePageToUTF8(value) {
+        this.ThrowIfReadonly();
+        this.convertHtmlCodePageToUTF8 = value;
+    }
+
+    /**
+     * Gets or sets a value of the URL template to use for the src attribute of inline IMG elements.
+     * 
+     * @nullable
+     */
+    get InlineImageUrlTemplate(): string {
+        return this.inlineImageUrlTemplate;
+    }
+    set InlineImageUrlTemplate(value) {
+        this.ThrowIfReadonly();
+        this.inlineImageUrlTemplate = value;
+    }
+
+    /**
+     * Gets or sets value indicating whether or not to convert inline images to data URLs.
+     * 
+     * @nullable
+     */
+    get BlockExternalImages(): boolean {
+        return this.blockExternalImages;
+    }
+    set BlockExternalImages(value) {
+        this.ThrowIfReadonly();
+        this.blockExternalImages = value;
+    }
+
+    /**
+     * Gets or sets value indicating whether or not to add blank target attribute to anchor links.
+     * 
+     * @nullable
+     */
+    get AddBlankTargetToLinks(): boolean {
+        return this.addTargetToLinks;
+    }
+    set AddBlankTargetToLinks(value) {
+        this.ThrowIfReadonly();
+        this.addTargetToLinks = value;
+    }
+
+    /**
+     * Gets or sets the maximum size of the body to be retrieved.
+     * 
+     * @nullable
+     * 
+     * @value   The maximum size of the body to be retrieved.
+     */
+    get MaximumBodySize(): number {
+        return this.maximumBodySize;
+    }
+    set MaximumBodySize(value) {
+        this.ThrowIfReadonly();
+        this.maximumBodySize = value;
+    }
+
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     *
+     * @param   {BasePropertySet}   basePropertySet        The base property set to base the property set upon.
+     */
+    constructor(basePropertySet: BasePropertySet);
+
+    /**
+     * Initializes a new instance of **PropertySet** based upon BasePropertySet.IdOnly.
+     *
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(...additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {BasePropertySet}           basePropertySet        The base property set to base the property set upon.
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(basePropertySet: BasePropertySet, additionalProperties: PropertyDefinitionBase[]);
+    /**
+     * Initializes a new instance of **PropertySet**.
+     *
+     * @param   {BasePropertySet}           basePropertySet        The base property set to base the property set upon.
+     * @param   {PropertyDefinitionBase[]}  additionalProperties   Additional properties to include in the property set. Property definitions are available as static members from schema classes (for example, EmailMessageSchema.Subject, AppointmentSchema.Start, ContactSchema.GivenName, etc.)
+     */
+    constructor(basePropertySet: BasePropertySet, ...additionalProperties: PropertyDefinitionBase[]);
+    constructor(basePropertySetOrAdditionalProperties: BasePropertySet | PropertyDefinitionBase | PropertyDefinitionBase[] = null, _additionalProperties: PropertyDefinitionBase | PropertyDefinitionBase[] = null) {
+
+        let argsLength = arguments.length;
+        let basePropertySet: BasePropertySet = BasePropertySet.IdOnly;
+        let additionalProperties: PropertyDefinitionBase[] = [];
+
+        if (argsLength >= 1) {
+            if (typeof basePropertySetOrAdditionalProperties === 'number') {
+                basePropertySet = basePropertySetOrAdditionalProperties;
+            }
+            else if (ArrayHelper.isArray(basePropertySetOrAdditionalProperties)) {
+                additionalProperties = basePropertySetOrAdditionalProperties;
+            }
+            else {
+                additionalProperties = [basePropertySetOrAdditionalProperties];
+            }
+        }
+
+        if (argsLength >= 2) {
+            if (ArrayHelper.isArray(_additionalProperties)) {
+                additionalProperties = _additionalProperties;
+            }
+            else {
+                additionalProperties.push(_additionalProperties);
+            }
+        }
+
+        if (argsLength > 2) {
+            for (var _i = 2; _i < arguments.length; _i++) {
+                additionalProperties.push(arguments[_i]);
+            }
+        }
+
         this.basePropertySet = basePropertySet;
-        if (additionalProperties) {
-            this.additionalProperties.push.apply(this.additionalProperties, additionalProperties); //todo: addrange for array - http://typescript.codeplex.com/workitem/1422
+        if (additionalProperties.length > 0) {
+            this.additionalProperties = additionalProperties;
+            //ArrayHelper.AddRange(this.additionalProperties, <any>additionalProperties);
+            //this.additionalProperties.push.apply(this.additionalProperties, additionalProperties); //todo: addrange for array - http://typescript.codeplex.com/workitem/1422
         }
     }
 
+    /**
+     * Gets the **PropertyDefinitionBase** at the specified index. this[int] indexer
+     *
+     * @param   {number}   index   Index.
+     */
+    _getItem(index: number): PropertyDefinitionBase {
+        return this.additionalProperties[index];
+    }
+
+    /**
+     * Adds the specified property to the property set.
+     *
+     * @param   {PropertyDefinitionBase}   property   The property to add.
+     */
     Add(property: PropertyDefinitionBase): void {
         this.ThrowIfReadonly();
         EwsUtilities.ValidateParam(property, "property");
@@ -91,29 +354,63 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
             this.additionalProperties.push(property);
         }
     }
-    AddRange(properties: PropertyDefinitionBase[] /*System.Collections.Generic.IEnumerable<T>*/): void {
+
+    /**
+     * Adds the specified properties to the property set.
+     *
+     * @param   {PropertyDefinitionBase[]}   properties   The properties to add.
+     */
+    AddRange(properties: PropertyDefinitionBase[]): void {
         this.ThrowIfReadonly();
         EwsUtilities.ValidateParamCollection(properties, "properties");
 
-        for (var property of properties) {
+        for (let property of properties) {
             this.Add(property);
         }
     }
+
+    /**
+     * Remove all explicitly added properties from the property set.
+     */
     Clear(): void {
         this.ThrowIfReadonly();
         this.additionalProperties.splice(0);
     }
+
+    /**
+     * Determines whether the specified property has been explicitly added to this property set using the Add or AddRange methods.
+     *
+     * @param   {PropertyDefinitionBase}    property   The property.
+     * @return  {boolean}                   true if this property set contains the specified propert]; otherwise, false.
+     */
     Contains(property: PropertyDefinitionBase): boolean { return this.additionalProperties.indexOf(property) !== -1; }
 
-    static CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet {
-        var propertySet: PropertySet = new PropertySet(basePropertySet);
+    /**
+     * Creates a read-only PropertySet.
+     *
+     * @param   {BasePropertySet}   basePropertySet   The base property set.
+     * @return  {PropertySet}       PropertySet
+     */
+    private static CreateReadonlyPropertySet(basePropertySet: BasePropertySet): PropertySet {
+        let propertySet: PropertySet = new PropertySet(basePropertySet);
         propertySet.isReadOnly = true;
         return propertySet;
     }
 
-    GetEnumerator(): any { throw new Error("PropertySet.ts - GetEnumerator : Not implemented."); }
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.additionalProperties itself
+     */
+    GetEnumerator(): PropertyDefinitionBase[] {
+        return this.additionalProperties;
+    }
 
-    GetShapeName(serviceObjectType: ServiceObjectType): string {
+    /**
+     * Gets the name of the shape.
+     *
+     * @param   {ServiceObjectType}     serviceObjectType   Type of the service object.
+     * @return  {string}                Shape name.
+     */
+    private static GetShapeName(serviceObjectType: ServiceObjectType): string {
         switch (serviceObjectType) {
             case ServiceObjectType.Item:
                 return XmlElementNames.ItemShape;
@@ -129,31 +426,57 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
                 return StringHelper.Empty;
         }
     }
+
+    /**
+     * @internal Validates this property set.
+     */
     InternalValidate(): void {
-        for (var i = 0; i < this.additionalProperties.length; i++) {
+        for (let i = 0; i < this.additionalProperties.length; i++) {
             if (this.additionalProperties[i] == null) {
                 throw new ServiceValidationException(StringHelper.Format(Strings.AdditionalPropertyIsNull, i));
             }
         }
     }
+
+    /**
+     * Removes the specified property from the set.
+     *
+     * @param   {PropertyDefinitionBase}    property   The property to remove.
+     * @return  {boolean}                   true if the property was successfully removed, false otherwise.
+     */
     Remove(property: PropertyDefinitionBase): boolean {
         this.ThrowIfReadonly();
-        var index = this.additionalProperties.indexOf(property);
-        return typeof (this.additionalProperties.splice(index)) !== undefined;// .Remove(property);
+        return ArrayHelper.RemoveEntry(this.additionalProperties, property);
     }
-    ThrowIfReadonly(): void {
+
+    /**
+     * Throws if readonly property set.
+     */
+    private ThrowIfReadonly(): void {
         if (this.isReadOnly) {
             throw new Error(" PropertySet can not be modified");// System.NotSupportedException(Strings.PropertySetCannotBeModified);
         }
     }
-    Validate(): void { //void ISelfValidate.Validate()
+
+    /**
+     * Implements ISelfValidate.Validate. Validates this property set.
+     */
+    Validate(): void {
         this.InternalValidate();
     }
-    /**@internal */
+
+    /**
+     * @internal Validates this property set instance for request to ensure that:
+     *  1. Properties are valid for the request server version.
+     *  2. If only summary properties are legal for this request (e.g. FindItem) then only summary properties were specified.
+     *
+     * @param   {ServiceRequestBase}    request                 The request.
+     * @param   {boolean}               summaryPropertiesOnly   if set to true then only summary properties are allowed.
+     */
     ValidateForRequest(request: ServiceRequestBase, summaryPropertiesOnly: boolean): void {
-        for (var propDefBase of this.additionalProperties) {
-            //var propDefBase: PropertyDefinitionBase = propItem;
-            var propertyDefinition = <PropertyDefinition>propDefBase;
+        for (let propDefBase of this.additionalProperties) {
+            //let propDefBase: PropertyDefinitionBase = propItem;
+            let propertyDefinition = <PropertyDefinition>propDefBase;
             if (propertyDefinition instanceof PropertyDefinition/* != null*/) {
                 if (propertyDefinition.Version > request.Service.RequestedServerVersion) {
                     throw new ServiceVersionException(
@@ -233,18 +556,31 @@ export class PropertySet /*implements ISelfValidate*/ { //IEnumerable<PropertyDe
             }
         }
     }
+
+    /**
+     * @internal Writes additonal properties to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer                The writer to write to.
+     * @param   {PropertyDefinitionBase[]}   propertyDefinitions   The property definitions to write.
+     */
     static WriteAdditionalPropertiesToXml(writer: EwsServiceXmlWriter, propertyDefinitions: PropertyDefinitionBase[]): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.AdditionalProperties);
 
-        for (var propertyDefinition of propertyDefinitions) {
+        for (let propertyDefinition of propertyDefinitions) {
             propertyDefinition.WriteToXml(writer);
         }
 
         writer.WriteEndElement();
     }
-    //WriteGetShapeToJson(jsonRequest: JsonObject, service: ExchangeService, serviceObjectType: ServiceObjectType): any { throw new Error("PropertySet.ts - WriteGetShapeToJson : Not implemented."); }
+
+    /**
+     * @internal Writes the property set to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer              The writer to write to.
+     * @param   {ServiceObjectType}     serviceObjectType   The type of service object the property set is emitted for.
+     */
     WriteToXml(writer: EwsServiceXmlWriter, serviceObjectType: ServiceObjectType): void {
-        var shapeElementName: string = this.GetShapeName(serviceObjectType);
+        let shapeElementName: string = PropertySet.GetShapeName(serviceObjectType);
 
         writer.WriteStartElement(XmlNamespace.Messages, shapeElementName);
 

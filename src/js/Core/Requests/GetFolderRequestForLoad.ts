@@ -9,6 +9,6 @@ export class GetFolderRequestForLoad extends GetFolderRequestBase<ServiceRespons
         super(service, errorHandlingMode);
     }
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse {
-        return new GetFolderResponse(this.FolderIds.__thisIndexer(responseIndex).GetFolder(), this.PropertySet);
+        return new GetFolderResponse(this.FolderIds._getItem(responseIndex).GetFolder(), this.PropertySet);
     }
 }

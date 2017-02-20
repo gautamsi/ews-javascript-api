@@ -30,6 +30,7 @@ export class ExpandGroupRequest extends MultiResponseServiceRequest<ExpandGroupR
         super.Validate();
         //EwsUtilities.ValidateParam(this.EmailAddress, "EmailAddress");
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (this.EmailAddress != null) {
             this.EmailAddress.WriteToXml(

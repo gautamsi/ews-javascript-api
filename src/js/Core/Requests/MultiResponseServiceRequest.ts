@@ -14,8 +14,7 @@ import {ServiceResponseException} from "../../Exceptions/ServiceResponseExceptio
 import {ServiceXmlDeserializationException} from "../../Exceptions/ServiceXmlDeserializationException";
 import {RenderingMode} from "../../Enumerations/RenderingMode";
 import {StringHelper} from "../../ExtensionMethods";
-import {IPromise} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory"
+import { Promise } from "../../Promise";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /** @internal */
@@ -30,9 +29,9 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
 
     CreateServiceResponse(service: ExchangeService, responseIndex: number): TResponse { throw new Error("abstract; must implemented."); }
     //EndExecute(asyncResult: any/*System.IAsyncResult*/): ServiceResponseCollection<TResponse> { throw new Error("MultiResponseServiceRequest.ts - EndExecute : Not implemented."); }
-    Execute(): IPromise<ServiceResponseCollection<TResponse>> {
+    Execute(): Promise<ServiceResponseCollection<TResponse>> {
 
-        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return new Promise((successDelegate, errorDelegate) => {
             this.InternalExecute().then((value: any) => {
                 var serviceResponses = <ServiceResponseCollection<TResponse>>value;
 

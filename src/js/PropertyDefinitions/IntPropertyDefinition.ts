@@ -1,10 +1,10 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {Convert} from "../ExtensionMethods";
+﻿import { Convert } from "../ExtensionMethods";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 
-import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents Integer property defintion.
  */
@@ -46,7 +46,7 @@ export class IntPropertyDefinition extends GenericPropertyDefinition<number> {
                 super(propertyName, xmlElementName, uri, <ExchangeVersion>versionOrFlags);
                 break;
             case 5:
-                super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version);
+                super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version, false);
                 break;
             case 6:
                 super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version, isNullable);

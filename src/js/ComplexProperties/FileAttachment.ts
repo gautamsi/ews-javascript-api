@@ -9,7 +9,7 @@ import {Strings} from "../Strings";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {IPromise} from "../Interfaces";
+import { Promise } from "../Promise";
 
 import {Attachment} from "./Attachment";
 /**
@@ -122,7 +122,7 @@ export class FileAttachment extends Attachment {
     //  * @param   {string}   fileName   The name of the file to load the content of the attachment into. If the file already exists, it is overwritten.
     //  */        
     // Load(fileName?: string): void;
-    // Load(fileName?: string | any): IPromise<void> {
+    // Load(fileName?: string | any): Promise<void> {
     //     return  super.Load();
     // }
     //ref: //info: - skipped, this can be loaded from base class

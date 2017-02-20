@@ -25,10 +25,10 @@ export class WindowsLiveCredentials extends WSSecurityBasedCredentials {
     static DefaultWindowsLiveUrl: Uri;
     EmitTokenRequest(uriForTokenEndpointReference: Uri): any { throw new Error("WindowsLiveCredentials.ts - EmitTokenRequest : Not implemented."); }
     MakeTokenRequestToWindowsLive(uriForTokenEndpointReference: Uri): any { throw new Error("WindowsLiveCredentials.ts - MakeTokenRequestToWindowsLive : Not implemented."); }
-    ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ParseWindowsLiveRSTResponseBody : Not implemented."); }
+    //ParseWindowsLiveRSTResponseBody(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ParseWindowsLiveRSTResponseBody : Not implemented."); }
     //PrepareWebRequest(request: IEwsHttpWebRequest): any { throw new Error("WindowsLiveCredentials.ts - PrepareWebRequest : Not implemented.");}
     ProcessTokenResponse(response: any): any { throw new Error("WindowsLiveCredentials.ts - ProcessTokenResponse : Not implemented."); }
-    ReadWindowsLiveRSTResponseHeaders(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ReadWindowsLiveRSTResponseHeaders : Not implemented."); }
+    //ReadWindowsLiveRSTResponseHeaders(rstResponse: EwsXmlReader): any { throw new Error("WindowsLiveCredentials.ts - ReadWindowsLiveRSTResponseHeaders : Not implemented."); }
     TraceResponse(response: any, memoryStream: any): any { throw new Error("WindowsLiveCredentials.ts - TraceResponse : Not implemented."); }
     TraceWebException(e: any): any { throw new Error("WindowsLiveCredentials.ts - TraceWebException : Not implemented."); }
 }

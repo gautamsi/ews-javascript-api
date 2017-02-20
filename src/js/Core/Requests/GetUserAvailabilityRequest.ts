@@ -6,7 +6,7 @@ import {ServiceError} from "../../Enumerations/ServiceError";
 import {AvailabilityOptions} from "../../Misc/Availability/AvailabilityOptions";
 import {LegacyAvailabilityTimeZone} from "../../Misc/Availability/LegacyAvailabilityTimeZone";
 import {GetUserAvailabilityResults} from "../../Misc/Availability/GetUserAvailabilityResults";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {ExchangeService} from "../ExchangeService";
 import {XmlElementNames} from "../XmlElementNames";
@@ -31,7 +31,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
     constructor(service: ExchangeService) {
         super(service);
     }
-    Execute(): IPromise<GetUserAvailabilityResults> { return <IPromise<GetUserAvailabilityResults>>this.InternalExecute(); }
+    Execute(): Promise<GetUserAvailabilityResults> { return <Promise<GetUserAvailabilityResults>>this.InternalExecute(); }
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
     GetResponseXmlElementName(): string { return XmlElementNames.GetUserAvailabilityResponse; }
     GetXmlElementName(): string { return XmlElementNames.GetUserAvailabilityRequest; }
@@ -72,6 +72,7 @@ export class GetUserAvailabilityRequest extends SimpleServiceRequestBase {
         super.Validate();
         this.Options.Validate(this.TimeWindow.Duration);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         // Only serialize the TimeZone property against an Exchange 2007 SP1 server.
         // Against Exchange 2010, the time zone is emitted in the request's SOAP header.

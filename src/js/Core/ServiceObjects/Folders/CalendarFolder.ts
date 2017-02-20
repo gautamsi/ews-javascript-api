@@ -7,7 +7,7 @@ import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {FindItemResponse} from "../../Responses/FindItemResponse";
 import {FindItemsResults} from "../../../Search/FindItemsResults";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import {IPromise} from "../../../Interfaces";
+import { Promise } from "../../../Promise";
 import {Item} from "../Items/Item";
 import {PropertySet} from "../../PropertySet";
 import {SearchFilter} from "../../../Search/Filters/SearchFilter";
@@ -36,18 +36,18 @@ export class CalendarFolder extends Folder {
      *
      * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
      * @param   {FolderId}          id            The Id of the calendar folder to bind to.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: FolderId): IPromise<CalendarFolder>;
+    static Bind(service: ExchangeService, id: FolderId): Promise<CalendarFolder>;
     /**
      * Binds to an existing calendar folder and loads its first class properties.
      * Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
      * @param   {WellKnownFolderName}   name          The name of the calendar folder to bind to.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): IPromise<CalendarFolder>;
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<CalendarFolder>;
     /**
      * Binds to an existing calendar folder and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
@@ -55,9 +55,9 @@ export class CalendarFolder extends Folder {
      * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
      * @param   {FolderId}          id            The Id of the calendar folder to bind to.
      * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): IPromise<CalendarFolder>;
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<CalendarFolder>;
     /**
      * Binds to an existing calendar folder and loads the specified set of properties. 
      * Calling this method results in a call to EWS.
@@ -65,10 +65,10 @@ export class CalendarFolder extends Folder {
      * @param   {ExchangeService}       service       The service to use to bind to the folder.
      * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
      * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {IPromise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): IPromise<CalendarFolder>;
-    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<CalendarFolder> {
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<CalendarFolder>;
+    static Bind(service: ExchangeService, idOrName: FolderId | WellKnownFolderName, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<CalendarFolder> {
         if (idOrName instanceof FolderId) {
             return service.BindToFolder<CalendarFolder>(idOrName, propertySet, TypeContainer.CalendarFolder);
         }
@@ -85,7 +85,7 @@ export class CalendarFolder extends Folder {
      * @param   {CalendarView}   view   The view controlling the range of appointments returned.
      * @return  {FindItemsResults<Appointment>}          An object representing the results of the search operation.
      */
-    FindAppointments(view: CalendarView): IPromise<FindItemsResults<Appointment>> {
+    FindAppointments(view: CalendarView): Promise<FindItemsResults<Appointment>> {
         EwsUtilities.ValidateParam(view, "view");
         return this.InternalFindItems<Appointment>(
             <SearchFilter>null,

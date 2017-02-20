@@ -1,23 +1,35 @@
-﻿import {Recurrence} from "../ComplexProperties/Recurrence/Patterns/Recurrence";
-import {RecurrenceRange} from "../ComplexProperties/Recurrence/Ranges/RecurrenceRange";
-import {NoEndRecurrenceRange} from "../ComplexProperties/Recurrence/Ranges/NoEndRecurrenceRange";
-import {EndDateRecurrenceRange} from "../ComplexProperties/Recurrence/Ranges/EndDateRecurrenceRange";
-import {NumberedRecurrenceRange} from "../ComplexProperties/Recurrence/Ranges/NumberedRecurrenceRange";
-import {ExchangeService} from "../Core/ExchangeService";
-import {PropertyBag} from "../Core/PropertyBag";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {ServiceXmlDeserializationException} from "../Exceptions/ServiceXmlDeserializationException";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {StringHelper} from "../ExtensionMethods";
-import {Strings} from "../Strings";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
+﻿import { EndDateRecurrenceRange } from "../ComplexProperties/Recurrence/Ranges/EndDateRecurrenceRange";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { JsonNames } from "../Core/JsonNames";
+import { NoEndRecurrenceRange } from "../ComplexProperties/Recurrence/Ranges/NoEndRecurrenceRange";
+import { NumberedRecurrenceRange } from "../ComplexProperties/Recurrence/Ranges/NumberedRecurrenceRange";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { Recurrence } from "../ComplexProperties/Recurrence/Patterns/Recurrence";
+import { RecurrenceRange } from "../ComplexProperties/Recurrence/Ranges/RecurrenceRange";
+import { ServiceXmlDeserializationException } from "../Exceptions/ServiceXmlDeserializationException";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {PropertyDefinition} from "./PropertyDefinition";
+import { PropertyDefinition } from "./PropertyDefinition";
 /**
  * @internal Represenrs recurrence property definition.
  */
 export class RecurrencePropertyDefinition extends PropertyDefinition {
+
+    /**
+     * not in ews-managed-api - use to find which recurrence is being used. 
+     */
+    private static recurrences: string[] = [XmlElementNames.AbsoluteMonthlyRecurrence, XmlElementNames.AbsoluteYearlyRecurrence, XmlElementNames.DailyRecurrence, XmlElementNames.DailyRegeneration, XmlElementNames.MonthlyRegeneration, XmlElementNames.RelativeMonthlyRecurrence, XmlElementNames.RelativeYearlyRecurrence, XmlElementNames.WeeklyRecurrence, XmlElementNames.WeeklyRegeneration, XmlElementNames.YearlyRegeneration];
+
+    /**
+     * not in ews-managed-api - use to find which recurrence range is being used. 
+     */
+    private static recurrenceRanges: string[] = [XmlElementNames.NoEndRecurrence, XmlElementNames.EndDateRecurrence, XmlElementNames.NumberedRecurrence];
+
     /**
      * Gets the property type.
      */
@@ -121,28 +133,35 @@ export class RecurrencePropertyDefinition extends PropertyDefinition {
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
         let recurrence: Recurrence;
         let range: RecurrenceRange;
-        let keys = "";
+        let props = "";
 
         for (let key in jsObject) {
             if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
                 continue;
-
-            if (jsObject.hasOwnProperty(key)) {
-                recurrence = RecurrencePropertyDefinition.GetRecurrenceFromString(key) || recurrence;
-                range = RecurrencePropertyDefinition.GetRecurrenceRange(key) || range;
-                keys += key + ",";
+            if (RecurrencePropertyDefinition.recurrences.indexOf(key) >= 0) {
+                recurrence = RecurrencePropertyDefinition.GetRecurrenceFromString(key);
+                recurrence.LoadFromXmlJsObject(jsObject[key], service);
             }
+            if (RecurrencePropertyDefinition.recurrenceRanges.indexOf(key) >= 0) {
+                range = RecurrencePropertyDefinition.GetRecurrenceRange(key);
+                range.LoadFromXmlJsObject(jsObject[key], service);
+            }
+            props += key + ",";
+
         }
-        if (keys.length > 1 && keys.lastIndexOf(",") === keys.length - 1) {
-            keys = keys.substr(0, keys.length - 1);
+        if (props.length > 1 && props.lastIndexOf(",") === props.length - 1) {
+            props = props.substr(0, props.length - 1);
         }
 
         if (!recurrence) {
-            throw new ServiceXmlDeserializationException(StringHelper.Format(Strings.InvalidRecurrencePattern, keys));
+            throw new ServiceXmlDeserializationException(StringHelper.Format(Strings.InvalidRecurrencePattern, props));
         }
         if (!range) {
-            throw new ServiceXmlDeserializationException(StringHelper.Format(Strings.InvalidRecurrenceRange, keys));
+            throw new ServiceXmlDeserializationException(StringHelper.Format(Strings.InvalidRecurrenceRange, props));
         }
+
+        range.SetupRecurrence(recurrence);
+        propertyBag._setItem(this, recurrence);
 
     }
 

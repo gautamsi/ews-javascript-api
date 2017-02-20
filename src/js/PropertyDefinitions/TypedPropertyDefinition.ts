@@ -1,15 +1,16 @@
-﻿import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+﻿import { XmlNamespace } from "../Enumerations/XmlNamespace";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { PropertyBag } from "../Core/PropertyBag";
+import { ExchangeService } from "../Core/ExchangeService";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 
-import {PropertyDefinition} from "./PropertyDefinition";
+import { PropertyDefinition } from "./PropertyDefinition";
 /**
  * @internal Represents typed property definition.
  */
 export abstract class TypedPropertyDefinition extends PropertyDefinition {
+
     private isNullable: boolean;
 
     /**
@@ -106,6 +107,7 @@ export abstract class TypedPropertyDefinition extends PropertyDefinition {
     toString(value?: any) {
         return this.ToString(value);
     }
+
     /**
      * @internal Writes to XML.
      *
@@ -116,7 +118,7 @@ export abstract class TypedPropertyDefinition extends PropertyDefinition {
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
         if (value) {
-            writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, this.Name, value);
+            writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, this.Name, this.ToString(value));
         }
     }
 }

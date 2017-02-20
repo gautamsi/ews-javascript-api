@@ -1,8 +1,8 @@
 ﻿import {EmailAddressKey} from "../Enumerations/EmailAddressKey";
-import {IRefParam} from "../interfaces/IRefParam";
+import {IRefParam} from "../Interfaces/IRefParam";
 import {DictionaryKeyType} from "../Enumerations/DictionaryKeyType";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {MailboxType, MailboxTypeParser} from "../Enumerations/MailboxType";
+import {MailboxType} from "../Enumerations/MailboxType";
 import {EmailAddress} from "./EmailAddress";
 import {ComplexProperty} from "./ComplexProperty";
 import {ExchangeService} from "../Core/ExchangeService";
@@ -19,7 +19,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
         this.SetFieldValue<EmailAddress>({ getValue: () => this.emailAddress, setValue: (address: EmailAddress) => { this.emailAddress = address } }, value);
 
         if (this.emailAddress != null) {
-            this.emailAddress.OnChange.push(this.EmailAddressChanged);
+            this.emailAddress.OnChange.push(this.EmailAddressChanged.bind(this));
         }
     }
 
@@ -27,9 +27,10 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
     constructor(key: EmailAddressKey, emailAddress: EmailAddress);
     constructor(key: EmailAddressKey = EmailAddressKey.EmailAddress1, emailAddress: EmailAddress = new EmailAddress()) {
         super(key);
+        this.keyType = EmailAddressKey;
         this.emailAddress = emailAddress;
         if (this.emailAddress != null) {
-            this.emailAddress.OnChange.push(this.EmailAddressChanged);
+            this.emailAddress.OnChange.push(this.EmailAddressChanged.bind(this));
         }
     }
     EmailAddressChanged(complexProperty: ComplexProperty): void { this.Changed(); }
@@ -48,7 +49,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
                     this.EmailAddress.RoutingType = jsonProperty[key];
                     break;
                 case XmlAttributeNames.MailboxType:
-                    this.EmailAddress.MailboxType = MailboxTypeParser.FromString(jsonProperty[key]);
+                    this.EmailAddress.MailboxType = MailboxType.FromEwsEnumString(jsonProperty[key]);
                     break;
                 case XmlElementNames.EmailAddress:
                     this.EmailAddress.Address = jsonProperty[key];
@@ -64,6 +65,7 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
     }
     // ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadAttributesFromXml : Not implemented."); }
     // ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("EmailAddressEntry.ts - ReadTextValueFromXml : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
@@ -71,9 +73,10 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
             writer.WriteAttributeValue(XmlAttributeNames.Name, this.EmailAddress.Name);
             writer.WriteAttributeValue(XmlAttributeNames.RoutingType, this.EmailAddress.RoutingType);
             if (this.EmailAddress.MailboxType != MailboxType.Unknown) {
-                writer.WriteAttributeValue(XmlAttributeNames.MailboxType, MailboxTypeParser.ToString(this.EmailAddress.MailboxType));
+                writer.WriteAttributeValue(XmlAttributeNames.MailboxType, MailboxType.ToEwsEnumString(this.EmailAddress.MailboxType));
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.EmailAddress.Address, XmlElementNames.EmailAddress); }
 }

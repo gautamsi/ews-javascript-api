@@ -1,31 +1,26 @@
-import {Strings} from "../Strings";
-import {TimeZoneDefinition} from "../ComplexProperties/TimeZones/TimeZoneDefinition";
-import {IEwsHttpWebRequestFactory} from "../Interfaces/IEwsHttpWebRequestFactory";
-import {ITraceListener} from "../Interfaces/ITraceListener";
-// import {IEwsHttpWebResponse} from "../Interfaces/IEwsHttpWebResponse";
-// import {IEwsHttpWebRequest} from "../Interfaces/IEwsHttpWebRequest";
-
-import {EwsLogging} from "./EwsLogging";
-import {ExchangeCredentials} from "../Credentials/ExchangeCredentials";
-import {EwsUtilities} from "./EwsUtilities";
-import {ExchangeServerInfo} from "./ExchangeServerInfo";
-
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {TraceFlags} from "../Enumerations/TraceFlags";
-import {IXHROptions, IXHRApi} from "../Interfaces";
-import {XHRFactory} from "../XHRFactory";
-import {SoapFaultDetails} from "../Misc/SoapFaultDetails";
-
-import {StringHelper} from "../ExtensionMethods";
-import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
-import {Uri} from "../Uri";
-
-import {Exception} from "../Exceptions/Exception";
-import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
-import {ServiceRequestUnauthorizedException} from "../Exceptions/ServiceRequestUnauthorizedException";
-import {AccountIsLockedException} from "../Exceptions/AccountIsLockedException";
+import { AccountIsLockedException } from "../Exceptions/AccountIsLockedException";
+import { DateTime, DateTimeKind, TimeZoneInfo } from "../DateTime";
+import { EwsLogging } from "./EwsLogging";
+import { EwsUtilities } from "./EwsUtilities";
+import { Exception } from "../Exceptions/Exception";
+import { ExchangeCredentials } from "../Credentials/ExchangeCredentials";
+import { ExchangeServerInfo } from "./ExchangeServerInfo";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IEwsHttpWebRequestFactory } from "../Interfaces/IEwsHttpWebRequestFactory";
+import { ITraceListener } from "../Interfaces/ITraceListener";
+import { IXHROptions, IXHRApi } from "../Interfaces";
+import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
+import { ServiceRequestUnauthorizedException } from "../Exceptions/ServiceRequestUnauthorizedException";
+import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TimeZoneDefinition } from "../ComplexProperties/TimeZones/TimeZoneDefinition";
+import { TraceFlags } from "../Enumerations/TraceFlags";
+import { Uri } from "../Uri";
+import { XHRFactory } from "../XHRFactory";
 
 export class ExchangeServiceBase {
+    
     static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
     AcceptGzipEncoding: boolean;
@@ -193,7 +188,8 @@ export class ExchangeServiceBase {
         return dateTime.ToISOString();// ISO string should work .ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
     }
     ConvertStartDateToUnspecifiedDateTime(value: string): DateTime {
-        EwsLogging.Log("ExchangeServiceBase.ConvConvertStartDateToUnspecifiedDateTime : DateTimeOffset not implemented, check date values")
+        //EwsLogging.Log("ExchangeServiceBase.ConvConvertStartDateToUnspecifiedDateTime : DateTimeOffset not implemented, check date values")
+        value = value.substring(0, 10); //info: //ref: for DateTimeOffset substitution, this is being called only from recurring datetime StartDate and 
         if (StringHelper.IsNullOrEmpty(value)) {
             return null;
         }
@@ -257,12 +253,12 @@ export class ExchangeServiceBase {
     /**
      * @internal Processes an HTTP error response
      *
+     * /remarks/    This method doesn't handle 500 ISE errors. This is handled by the caller since 500 ISE typically indicates that a SOAP fault has occurred and the handling of a SOAP fault is currently service specific.
      * @param   {XMLHttpRequest}    httpWebResponse            The HTTP web response.
      * @param   {SoapFaultDetails}  webException               The web exception.
      * @param   {TraceFlags}        responseHeadersTraceFlag   The trace flag for response headers.
      * @param   {TraceFlags}        responseTraceFlag          The trace flag for responses.
      * 
-     * @remarks his method doesn't handle 500 ISE errors. This is handled by the caller since 500 ISE typically indicates that a SOAP fault has occurred and the handling of a SOAP fault is currently service specific.
      */
     InternalProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, soapFault: SoapFaultDetails, responseHeadersTraceFlag: TraceFlags, responseTraceFlag: TraceFlags): void {
         EwsLogging.Assert(

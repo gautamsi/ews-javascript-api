@@ -27,7 +27,7 @@ export class Not extends SearchFilter {
 		this.SetFieldValue<SearchFilter>({ getValue: () => this.searchFilter, setValue: (updateValue) => { this.searchFilter = updateValue } }, value);
 
 		if (this.searchFilter !== null) {
-			this.searchFilter.OnChange.push(this.SearchFilterChanged);
+			this.searchFilter.OnChange.push(this.SearchFilterChanged.bind(this));
 		}
 	}
 

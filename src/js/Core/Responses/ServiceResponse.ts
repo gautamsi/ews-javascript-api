@@ -1,19 +1,19 @@
-﻿import {EwsLogging} from "../EwsLogging";
-import {Dictionary, DictionaryWithStringKey} from "../../AltDictionary";
-import {ExchangeService} from "../ExchangeService";
-import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
-import {ExtendedPropertyDefinition} from "../../PropertyDefinitions/ExtendedPropertyDefinition";
-import {IndexedPropertyDefinition} from "../../PropertyDefinitions/IndexedPropertyDefinition";
-import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
-import {ServiceError} from "../../Enumerations/ServiceError";
-import {ServiceObjectSchema} from "../ServiceObjects/Schemas/ServiceObjectSchema";
-import {ServiceResponseException} from "../../Exceptions/ServiceResponseException";
-import {ServiceResult} from "../../Enumerations/ServiceResult";
-import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
-import {Strings} from "../../Strings";
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { Dictionary, DictionaryWithStringKey } from "../../AltDictionary";
+import { EwsLogging } from "../EwsLogging";
+import { EwsServiceJsonReader } from "../EwsServiceJsonReader";
+import { ExchangeService } from "../ExchangeService";
+import { ExtendedPropertyDefinition } from "../../PropertyDefinitions/ExtendedPropertyDefinition";
+import { IndexedPropertyDefinition } from "../../PropertyDefinitions/IndexedPropertyDefinition";
+import { PropertyDefinitionBase } from "../../PropertyDefinitions/PropertyDefinitionBase";
+import { ServiceError } from "../../Enumerations/ServiceError";
+import { ServiceObjectSchema } from "../ServiceObjects/Schemas/ServiceObjectSchema";
+import { ServiceResponseException } from "../../Exceptions/ServiceResponseException";
+import { ServiceResult } from "../../Enumerations/ServiceResult";
+import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
+import { Strings } from "../../Strings";
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
 /**
  * Represents the standard response to an Exchange Web Services operation.
@@ -200,6 +200,7 @@ export class ServiceResponse {
                             this.errorDetails.Add(name, value[key]);
                         }
                     });
+                    break;
                 case XmlElementNames.FieldURI:
                     this.errorProperties.push(ServiceObjectSchema.FindPropertyDefinition(jsObject[key][XmlAttributeNames.FieldURI]));
                     break;
@@ -218,7 +219,7 @@ export class ServiceResponse {
                     this.errorProperties.push(extendedPropDef);
                     break;
                 default:
-                    EwsLogging.Assert(false, "SoapFaultDetails.ParseMessageXml", "Element: " + key + " - Please report example of this operation to ews-javascript-api repo to improve SoapFault parsing");
+                    EwsLogging.Assert(false, "ServiceResponse.ParseMessageXml", "Element: " + key + " - Please report example of this operation to ews-javascript-api repo to improve SoapFault parsing");
                     break;
             }
         }
@@ -233,11 +234,11 @@ export class ServiceResponse {
     ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         /* virtualvoid to be implemented throw new Error("Not implemented.");*/
         let caller = "ServiceResponse->child";
-        try{
+        try {
             caller = (<any>this.constructor).name;
         }
-        catch(e){}
-        EwsLogging.Assert(false, caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is false but ReadElementsFromXmlJsObject is not available in derived class to call.")
+        catch (e) { }
+        EwsLogging.Assert(caller === "ServiceResponse", caller + ".ReadElementsFromXmlJsObject", "BatchProcessingStopped is false but ReadElementsFromXmlJsObject is not available in derived class to call.")
     }
 
     /**

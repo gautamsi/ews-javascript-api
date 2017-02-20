@@ -1,15 +1,15 @@
-﻿import {DateTime} from "../../../DateTime";
-import {DayOfTheWeekIndex} from "../../../Enumerations/DayOfTheWeekIndex";
-import {DayOfTheWeek} from "../../../Enumerations/DayOfTheWeek";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {Month} from "../../../Enumerations/Month";
-import {ServiceValidationException} from "../../../Exceptions/ServiceValidationException";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { DateTime } from "../../../DateTime";
+import { DayOfTheWeekIndex } from "../../../Enumerations/DayOfTheWeekIndex";
+import { DayOfTheWeek } from "../../../Enumerations/DayOfTheWeek";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { Month } from "../../../Enumerations/Month";
+import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {Recurrence} from "./Recurrence";
+import { Recurrence } from "./Recurrence";
 /**
  * Represents a recurrence pattern where each occurrence happens on a relative day every year.
  */
@@ -92,15 +92,15 @@ export class RelativeYearlyPattern extends Recurrence {
     InternalValidate(): void {
         super.InternalValidate();
 
-        if (!this.dayOfTheWeekIndex) {
+        if (this.dayOfTheWeekIndex === null) {
             throw new ServiceValidationException(Strings.DayOfWeekIndexMustBeSpecifiedForRecurrencePattern);
         }
 
-        if (!this.dayOfTheWeek) {
+        if (this.dayOfTheWeek === null) {
             throw new ServiceValidationException(Strings.DayOfTheWeekMustBeSpecifiedForRecurrencePattern);
         }
 
-        if (!this.month) {
+        if (this.month === null) {
             throw new ServiceValidationException(Strings.MonthMustBeSpecifiedForRecurrencePattern);
         }
     }
@@ -116,17 +116,17 @@ export class RelativeYearlyPattern extends Recurrence {
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.DaysOfWeek,
-            this.DayOfTheWeek);
+            DayOfTheWeek[this.DayOfTheWeek]);
 
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.DayOfWeekIndex,
-            this.DayOfTheWeekIndex);
+            DayOfTheWeekIndex[this.DayOfTheWeekIndex]);
 
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.Month,
-            this.Month);
+            Month[this.Month]);
     }
 
     /**

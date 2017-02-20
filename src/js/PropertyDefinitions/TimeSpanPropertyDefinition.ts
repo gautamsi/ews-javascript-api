@@ -1,11 +1,11 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {ExchangeService} from "../Core/ExchangeService";
+﻿import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 
-import {TimeSpan, DateTime} from "../DateTime";
-import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+import { DateTime, TimeSpan } from "../DateTime";
+import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents TimeSpan property definition. based on moment Duration
  */
@@ -21,7 +21,7 @@ export class TimeSpanPropertyDefinition extends GenericPropertyDefinition<TimeSp
      * @param   {ExchangeVersion}           version          The version.
      */
     constructor(propertyName: string, xmlElementName: string, uri: string, flags: PropertyDefinitionFlags, version: ExchangeVersion) {
-        super(propertyName, xmlElementName, uri, flags, version);
+        super(propertyName, xmlElementName, uri, flags, version, false);
     }
 
     /**

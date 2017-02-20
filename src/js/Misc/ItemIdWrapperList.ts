@@ -1,16 +1,58 @@
-﻿import {ItemId} from "../ComplexProperties/ItemId";
-import {Item} from "../Core/ServiceObjects/Items/Item";
-import {ItemIdWrapper} from "./ItemIdWrapper";
-import {ItemWrapper} from "./ItemWrapper";
-import {AbstractItemIdWrapper} from "./AbstractItemIdWrapper";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-export class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
-    get Count(): number { return this.itemIds.length; }
-    //Item: Item;
-    private itemIds: AbstractItemIdWrapper[] = [];//System.Collections.Generic.List<ItemId>;
+﻿import { AbstractItemIdWrapper } from "./AbstractItemIdWrapper";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { IEnumerable } from "../Interfaces/IEnumerable";
+import { Item } from "../Core/ServiceObjects/Items/Item";
+import { ItemId } from "../ComplexProperties/ItemId";
+import { ItemIdWrapper } from "./ItemIdWrapper";
+import { ItemWrapper } from "./ItemWrapper";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
+
+/**
+ * @internal Represents a list a abstracted item Ids.
+ */
+export class ItemIdWrapperList implements IEnumerable<AbstractItemIdWrapper>{
+
+    /**
+     * List of ItemIdWrapper
+     */
+    private itemIds: AbstractItemIdWrapper[] = [];
+
+    /**
+     * @internal Gets the count.
+     * 
+     * @value   The count.
+     */
+    get Count(): number {
+        return this.itemIds.length;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **ItemIdWrapperList** class.
+     */
+    constructor() {
+    }
+
+    /**
+     * Gets the *Item* at the specified index.
+     *
+     * @param   {number}   index   the index
+     */
+    _getItem(index: number): Item {
+        return this.itemIds[index].GetItem();
+    }
+
+    /**
+     * @internal Adds the specified item id.
+     *
+     * @param   {ItemId}   itemId   The item id.
+     */
     Add(itemId: ItemId): void;
+    /**
+     * @internal Adds the specified item.
+     *
+     * @param   {Item}   item   The item.
+     */
     Add(item: Item): void;
     /**this is to shim add method with easy use within file/module. */
     Add(itemOrId: Item | ItemId): void;
@@ -22,17 +64,41 @@ export class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
         else
             throw new Error("FolderIdWrapperList.ts - Add - should not be seeing this.");
     }
-    AddRange(itemIds: ItemId[]/*System.Collections.Generic.IEnumerable<ItemId>*/): void;
-    AddRange(items: Item[]/*System.Collections.Generic.IEnumerable<ItemId>*/): void;
-    AddRange(itemsOrIds: Item[]| ItemId[]): void {
+
+    /**
+     * @internal Adds the range.
+     *
+     * @param   {ItemId}   itemIds   The item ids.
+     */
+    AddRange(itemIds: ItemId[]): void;
+    /**
+     * @internal Adds the range.
+     *
+     * @param   {Item[]}   items   The items.
+     */
+    AddRange(items: Item[]): void;
+    AddRange(itemsOrIds: Item[] | ItemId[]): void {
         if (itemsOrIds != null) {
             for (var itemOrId of itemsOrIds) {
                 this.Add(itemOrId);
             }
         }
     }
-    GetEnumerator(): any { throw new Error("ItemIdWrapperList.ts - GetEnumerator : Not implemented."); }
-    InternalToJson(service: ExchangeService): any { throw new Error("ItemIdWrapperList.ts - InternalToJson : Not implemented."); }
+
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.itemIds
+     */
+    GetEnumerator(): AbstractItemIdWrapper[] {
+        return this.itemIds;
+    }
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {XmlNamespace}          ewsNamesapce     The ews namesapce.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     */
     WriteToXml(writer: EwsServiceXmlWriter, ewsNamesapce: XmlNamespace, xmlElementName: string): void {
         if (this.Count > 0) {
             writer.WriteStartElement(ewsNamesapce, xmlElementName);
@@ -43,8 +109,5 @@ export class ItemIdWrapperList {//IEnumerable<AbstractItemIdWrapper>
 
             writer.WriteEndElement();
         }
-    }
-    __thisIndexer(index: number): Item {
-        return this.itemIds[index].GetItem();
     }
 }

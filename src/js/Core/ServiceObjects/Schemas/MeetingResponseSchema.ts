@@ -1,11 +1,11 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {Schemas} from "./Schemas";
-import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { ScopedDateTimePropertyDefinition } from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import { MeetingMessageSchema } from "./MeetingMessageSchema";
 
 /**
  * Field URIs for meeting response.
@@ -82,7 +82,7 @@ export class MeetingResponseSchema extends MeetingMessageSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

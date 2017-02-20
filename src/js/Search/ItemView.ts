@@ -1,17 +1,16 @@
-﻿import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {Grouping} from "./Grouping";
-import {ItemTraversal} from "../Enumerations/ItemTraversal";
-import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
-import {OrderByCollection} from "./OrderByCollection";
-import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
-import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { Grouping } from "./Grouping";
+import { ItemTraversal } from "../Enumerations/ItemTraversal";
+import { OffsetBasePoint } from "../Enumerations/OffsetBasePoint";
+import { OrderByCollection } from "./OrderByCollection";
+import { ServiceObjectType } from "../Enumerations/ServiceObjectType";
+import { ServiceRequestBase } from "../Core/Requests/ServiceRequestBase";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {PagedView} from "./PagedView";
+import { PagedView } from "./PagedView";
 /**
  * Represents the view settings in a folder search operation.
  * 
@@ -83,7 +82,7 @@ export class ItemView extends PagedView {
      */
     InternalValidate(request: ServiceRequestBase): void {
         super.InternalValidate(request);
-        EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.ItemTraversal, this.Traversal, request.Service.RequestedServerVersion);
+        EwsUtilities.ValidateEnumVersionValue(ItemTraversal, this.Traversal, request.Service.RequestedServerVersion, "ItemTraversal");
     }
 
     /**

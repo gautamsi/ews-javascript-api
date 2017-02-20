@@ -1,15 +1,15 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {Schemas} from "./Schemas";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {EmailMessageSchema} from "./EmailMessageSchema";
+import { EmailMessageSchema } from "./EmailMessageSchema";
 
 /**
  * Field URIs for MeetingMessage.
@@ -80,7 +80,8 @@ export class MeetingMessageSchema extends EmailMessageSchema {
         XmlElementNames.ResponseType,
         FieldUris.ResponseType,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        MeetingResponseType
     );
 
     /**
@@ -106,7 +107,8 @@ export class MeetingMessageSchema extends EmailMessageSchema {
         XmlElementNames.IsOrganizer,
         "cal:IsOrganizer",
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013
+        ExchangeVersion.Exchange2013,
+        false //isNullable
     );
 
     /**
@@ -117,7 +119,7 @@ export class MeetingMessageSchema extends EmailMessageSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

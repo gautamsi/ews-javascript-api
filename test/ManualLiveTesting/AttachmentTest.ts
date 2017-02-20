@@ -1,4 +1,4 @@
-import {AutodiscoverService, useCustomXhr, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
+import {AutodiscoverService, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
     DefaultExtendedPropertySet, BasePropertySet, Item, EmailMessage, Attachment, FileAttachment, ItemAttachment, AttachmentCollection, EmailAddress, MessageBody, FolderId, XmlElementNames
 }  from "../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../MockXHRApi";
@@ -36,7 +36,7 @@ import {MockXHRData} from "../MockXHRData";
                     debugger;
 
                     console.log("Attachment count : " + respFind.Items[0].Attachments.Count);
-                    console.log(respFind.Items[0].Attachments.__thisIndexer(0));
+                    console.log(respFind.Items[0].Attachments._getItem(0));
                 },
                     (err) => {
                         debugger;

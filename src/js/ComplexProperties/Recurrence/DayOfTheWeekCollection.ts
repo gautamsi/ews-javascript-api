@@ -1,23 +1,22 @@
-﻿import {ArgumentOutOfRangeException} from '../../Exceptions/ArgumentException';
-import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {StringHelper, ArrayHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ArgumentOutOfRangeException } from '../../Exceptions/ArgumentException';
+import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { IEnumerable } from "../../Interfaces/IEnumerable";
+import { StringHelper, ArrayHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "../ComplexProperty";
+import { ComplexProperty } from "../ComplexProperty";
 /**
  * Represents a collection of DayOfTheWeek values.
  */
-export class DayOfTheWeekCollection extends ComplexProperty {
+export class DayOfTheWeekCollection extends ComplexProperty implements IEnumerable<DayOfTheWeek> {
 
-    private items: DayOfTheWeek[] = [];// System.Collections.Generic.List<T>;
-    get_Item(index: number): DayOfTheWeek {
-        return this.items[index];
-    }
+    private items: DayOfTheWeek[] = [];
+
     get Count(): number {
         return this.items.length;
     }
@@ -28,6 +27,17 @@ export class DayOfTheWeekCollection extends ComplexProperty {
     constructor() {
         super();
     }
+
+    /**
+     * Gets the DayOfTheWeek at a specific index in the collection.
+     *
+     * @param   {number}        index   Index
+     * @return  {DayOfTheWeek}  DayOfTheWeek at index
+     */
+    _getItem(index: number): DayOfTheWeek {
+        return this.items[index];
+    }
+
 
     /**
      * Adds a day to the collection if it is not already present.
@@ -61,6 +71,13 @@ export class DayOfTheWeekCollection extends ComplexProperty {
             this.Changed();
         }
 
+    }
+
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): DayOfTheWeek[] {
+        return this.items;
     }
 
     /**
@@ -110,7 +127,6 @@ export class DayOfTheWeekCollection extends ComplexProperty {
         this.Changed();
     }
 
-
     /**
      * Convert to string.
      *
@@ -133,7 +149,7 @@ export class DayOfTheWeekCollection extends ComplexProperty {
             let daysOfTheWeekArray: string[] = new Array(this.Count);
 
             for (let i = 0; i < this.Count; i++) {
-                daysOfTheWeekArray[i] = this[i].ToString();
+                daysOfTheWeekArray[i] = DayOfTheWeek[this.items[i]];
             }
 
             return daysOfTheWeekArray.join(separator);

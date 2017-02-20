@@ -6,6 +6,7 @@ export class ProtocolConnectionCollection {
     Connections: ProtocolConnection[] = [];//System.Collections.Generic.List<ProtocolConnection>;
     //private connections: ProtocolConnection[];//System.Collections.Generic.List<ProtocolConnection>;
     constructor() { }
+    /**@internal */
     static LoadFromXml(reader: EwsXmlReader): ProtocolConnectionCollection { throw new Error("Not implemented. - depricated for JS api, use LoadFromJson"); }
     static LoadFromJson(obj: any): ProtocolConnectionCollection {
         var instance = new ProtocolConnectionCollection();

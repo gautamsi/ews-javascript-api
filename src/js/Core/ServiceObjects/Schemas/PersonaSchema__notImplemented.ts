@@ -111,7 +111,7 @@
 //     /**
 //      * Registers properties.
 //      * 
-//      * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+//      * /remarks/ IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
 //      */
 //     RegisterProperties(): void {
 //         super.RegisterProperties();

@@ -1,12 +1,12 @@
-﻿import {ArgumentOutOfRangeException} from "../../../Exceptions/ArgumentException";
-import {DateTime} from "../../../DateTime";
-import {EwsServiceXmlWriter} from "../../../Core/EwsServiceXmlWriter";
-import {ExchangeService} from "../../../Core/ExchangeService";
-import {Strings} from "../../../Strings";
-import {XmlElementNames} from "../../../Core/XmlElementNames";
-import {XmlNamespace} from "../../../Enumerations/XmlNamespace";
+﻿import { ArgumentOutOfRangeException } from "../../../Exceptions/ArgumentException";
+import { DateTime } from "../../../DateTime";
+import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../../Core/ExchangeService";
+import { Strings } from "../../../Strings";
+import { XmlElementNames } from "../../../Core/XmlElementNames";
+import { XmlNamespace } from "../../../Enumerations/XmlNamespace";
 
-import {Recurrence} from "./Recurrence";
+import { Recurrence } from "./Recurrence";
 /**
  * Represents a recurrence pattern where each occurrence happens at a specific interval after the previous one.
  */
@@ -24,7 +24,7 @@ export abstract class IntervalPattern extends Recurrence {
         if (value < 1) {
             throw new ArgumentOutOfRangeException("value", Strings.IntervalMustBeGreaterOrEqualToOne);
         }
-        this.SetFieldValue<number>({ getValue: () => this.numberOfOccurrences, setValue: (updateValue) => { this.numberOfOccurrences = updateValue } }, value);
+        this.SetFieldValue<number>({ getValue: () => this.interval, setValue: (updateValue) => { this.interval = updateValue } }, value);
 
     }
 

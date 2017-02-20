@@ -17,7 +17,7 @@ export class DocumentSharingLocation {
     private anonymousAccessAllowed: boolean;
     private canModifyPermissions: boolean;
     private isDefault: boolean;
-    LoadFromXml(reader: EwsXmlReader): DocumentSharingLocation { throw new Error("DocumentSharingLocation.ts - LoadFromXml : Not implemented."); }
+    //LoadFromXml(reader: EwsXmlReader): DocumentSharingLocation { throw new Error("DocumentSharingLocation.ts - LoadFromXml : Not implemented."); }
     static LoadFromJson(obj: any): DocumentSharingLocation { throw new Error("this was skipped at dev time, fix this"); }
 
 }

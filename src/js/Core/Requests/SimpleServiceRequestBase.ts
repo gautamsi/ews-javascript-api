@@ -3,8 +3,7 @@ import {RenderingMode} from "../../Enumerations/RenderingMode";
 import {ServiceRequestException} from "../../Exceptions/ServiceRequestException";
 import {Strings} from "../../Strings";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {IPromise} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory"
+import { Promise } from "../../Promise";
 import {EwsLogging} from "../EwsLogging";
 import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
 
@@ -13,7 +12,7 @@ import {ServiceRequestBase} from "./ServiceRequestBase";
 export class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
     //EndInternalExecute(asyncResult: any/*System.IAsyncResult*/): any { throw new Error("SimpleServiceRequestBase.ts - EndInternalExecute : Not implemented.");}
-    InternalExecute(): IPromise<any> {
+    InternalExecute(): Promise<any> {
 
 
         //var writer = new Data.EwsServiceXmlWriter();
@@ -34,7 +33,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
         //    //}
         //};
 
-        return PromiseFactory.create((successDelegate, errorDelegate, progressDelegate) => {
+        return new Promise((successDelegate, errorDelegate) => {
             var request = this.BuildXHR();
 
             //this.ReadResponsePrivate(response);

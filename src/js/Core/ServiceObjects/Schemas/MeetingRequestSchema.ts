@@ -1,15 +1,15 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {MeetingRequestType} from "../../../Enumerations/MeetingRequestType";
-import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {ChangeHighlights} from "../../../ComplexProperties/ChangeHighlights";
-import {Schemas} from "./Schemas";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { ChangeHighlights } from "../../../ComplexProperties/ChangeHighlights";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GenericPropertyDefinition, GenericEnumType } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { LegacyFreeBusyStatus } from "../../../Enumerations/LegacyFreeBusyStatus";
+import { MeetingRequestType } from "../../../Enumerations/MeetingRequestType";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {MeetingMessageSchema} from "./MeetingMessageSchema";
+import { MeetingMessageSchema } from "./MeetingMessageSchema";
 
 /**
  * Field URIs for meeting request.
@@ -32,7 +32,9 @@ export class MeetingRequestSchema extends MeetingMessageSchema {
         "MeetingRequestType",
         XmlElementNames.MeetingRequestType,
         FieldUris.MeetingRequestType,
-        ExchangeVersion.Exchange2007_SP1
+        PropertyDefinitionFlags.None,
+        ExchangeVersion.Exchange2007_SP1,
+        MeetingRequestType
     );
 
     /**
@@ -43,7 +45,8 @@ export class MeetingRequestSchema extends MeetingMessageSchema {
         XmlElementNames.IntendedFreeBusyStatus,
         FieldUris.IntendedFreeBusyStatus,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        LegacyFreeBusyStatus
     );
 
     /**
@@ -266,7 +269,7 @@ export class MeetingRequestSchema extends MeetingMessageSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

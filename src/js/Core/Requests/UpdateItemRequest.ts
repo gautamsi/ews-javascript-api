@@ -96,6 +96,7 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
                     ExchangeVersion[ExchangeVersion.Exchange2013]));
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
 
@@ -115,6 +116,7 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
                 SendInvitationsOrCancellationsMode[this.SendInvitationsOrCancellationsMode]);
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (this.SavedItemsDestinationFolder != null) {
             writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.SavedItemFolderId);

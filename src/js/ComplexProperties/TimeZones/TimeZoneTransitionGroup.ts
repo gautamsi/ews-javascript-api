@@ -101,7 +101,7 @@ export class TimeZoneTransitionGroup extends ComplexProperty {
                 // EWS returns a positive offset for time zones that are behind UTC, and
                 // a negative one for time zones ahead of UTC. TimeZoneInfo does it the other
                 // way around.
-                return this.TransitionToStandard.TargetPeriod.Bias.subtract(this.TransitionToDaylight.TargetPeriod.Bias);
+                return this.TransitionToStandard.TargetPeriod.Bias.Subtract(this.TransitionToDaylight.TargetPeriod.Bias);
             }
             else
             {
@@ -170,13 +170,16 @@ export class TimeZoneTransitionGroup extends ComplexProperty {
                 }
             }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         for (var transition of this.transitions)
             {
                 transition.WriteToXml(writer);
             }
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void {super.WriteToXml(writer, XmlElementNames.TransitionsGroup); }
 }
 

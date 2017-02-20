@@ -1,24 +1,24 @@
-﻿import {DateTimePrecision} from "../../Enumerations/DateTimePrecision";
-import {EwsLogging} from "../EwsLogging";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {EwsUtilities} from "../EwsUtilities";
-import {ExchangeServerInfo} from "../ExchangeServerInfo";
-import {ExchangeService} from "../ExchangeService";
-import {ArgumentNullException} from "../../Exceptions/ArgumentException";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {IPromise, IXHROptions, IXHRApi} from "../../Interfaces";
-import {PromiseFactory} from "../../PromiseFactory"
-import {RenderingMode} from "../../Enumerations/RenderingMode";
-import {ServiceResponse} from "../Responses/ServiceResponse";
-import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {SoapFaultDetails} from "../../Misc/SoapFaultDetails";
-import {StringHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {XHRFactory} from "../../XHRFactory"
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ArgumentNullException } from "../../Exceptions/ArgumentException";
+import { DateTimePrecision } from "../../Enumerations/DateTimePrecision";
+import { EwsLogging } from "../EwsLogging";
+import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeServerInfo } from "../ExchangeServerInfo";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { IXHROptions, IXHRApi } from "../../Interfaces";
+import { Promise } from "../../Promise"
+import { RenderingMode } from "../../Enumerations/RenderingMode";
+import { ServiceResponse } from "../Responses/ServiceResponse";
+import { ServiceVersionException } from "../../Exceptions/ServiceVersionException";
+import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XHRFactory } from "../../XHRFactory"
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
 /**
  * @internal Represents an abstract service request.
@@ -31,7 +31,7 @@ export abstract class ServiceRequestBase {
     /**
      * The two contants below are used to set the AnchorMailbox and ExplicitLogonUser values in the request header.
      * 
-     * @remarks Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
+     * /remarks/    Note: Setting this values will route the request directly to the backend hosting the AnchorMailbox. These headers should be used primarily for UnifiedGroup scenario where a request needs to be routed directly to the group mailbox versus the user mailbox.
      */
     protected static AnchorMailboxHeaderName: string = "X-AnchorMailbox";
     protected static ExplicitLogonUserHeaderName: string = "X-OWA-ExplicitLogonUser";
@@ -61,7 +61,7 @@ export abstract class ServiceRequestBase {
     /**
      * @internal Gets or sets the anchor mailbox associated with the request
      *
-     * @remarks Setting this value will add special headers to the request which in turn will route the request directly to the mailbox server against which the request is to be executed.
+     * /remarks/    Setting this value will add special headers to the request which in turn will route the request directly to the mailbox server against which the request is to be executed.
      */
     AnchorMailbox: string = null;
 
@@ -221,12 +221,12 @@ export abstract class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): IPromise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): Promise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
 
     /**
      * Gets string representation of requested server version.
      *
-     * @remarks In order to support E12 RTM servers, ExchangeService has another flag indicating that we should use "Exchange2007" as the server version string rather than Exchange2007_SP1.
+     * /remarks/    In order to support E12 RTM servers, ExchangeService has another flag indicating that we should use "Exchange2007" as the server version string rather than Exchange2007_SP1.
      * @return  {string}      String representation of requested server version.
      */
     private GetRequestedServiceVersionString(): string {
@@ -318,6 +318,7 @@ export abstract class ServiceRequestBase {
                 if (soapFaultDetails != null) {
                     //todo: implement soap fault error throw
                     this.SoapFaultDetails = soapFaultDetails;
+                    soapFaultDetails.HttpStatusCode = webException.status;
 
                     //    switch (soapFaultDetails.ResponseCode) {
                     //        case ServiceError.ErrorInvalidServerVersion:
@@ -355,11 +356,13 @@ export abstract class ServiceRequestBase {
             }
             else {
                 soapFaultDetails = new SoapFaultDetails();
+                soapFaultDetails.HttpStatusCode = webException.status;
                 this.Service.ProcessHttpErrorResponse(webException, soapFaultDetails);
             }
 
             return soapFaultDetails;
         }
+        return null;
     }
 
     /**
@@ -450,9 +453,9 @@ export abstract class ServiceRequestBase {
      * Validates request parameters, and emits the request to the server.
      *
      * @param   {IXHROptions}               request   The request.
-     * @return  {IPromise<XMLHttpRequest>}  The response returned by the server.
+     * @return  {Promise<XMLHttpRequest>}  The response returned by the server.
      */
-    protected ValidateAndEmitRequest(request: IXHROptions): IPromise<XMLHttpRequest> {
+    protected ValidateAndEmitRequest(request: IXHROptions): Promise<XMLHttpRequest> {
         this.Validate();
 
         //var request = this.BuildXHR();
@@ -531,9 +534,8 @@ export abstract class ServiceRequestBase {
     /**
      * @internal Writes XML attributes.
      *
+     * /remarks/    Subclass will override if it has XML attributes.
      * @param   {EwsServiceXmlWriter}   writer   The writer.
-     * 
-     * @remarks Subclass will override if it has XML attributes.
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { }
 

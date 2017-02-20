@@ -79,8 +79,6 @@ export abstract class RecurrenceRange extends ComplexProperty {
      * @param   {ExchangeService}     service                 The service.    
      */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
-        super.LoadFromXmlJsObject(jsObject, service);
-
         for (let key in jsObject) {
             switch (key) {
                 case XmlElementNames.StartDate:

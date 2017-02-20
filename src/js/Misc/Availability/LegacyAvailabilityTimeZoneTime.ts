@@ -1,19 +1,19 @@
-﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {TimeSpan} from "../../DateTime";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {ComplexProperty} from "../../ComplexProperties/ComplexProperty";
+﻿import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { TimeSpan } from "../../DateTime";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
 export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
     get HasTransitionTime(): boolean { return this.Month >= 1 && this.Month <= 12; }
-    Delta: TimeSpan /*System.TimeSpan*/;
-    TimeOfDay: TimeSpan /*System.TimeSpan*/;
-    DayOrder: number;
-    Month: number;
-    DayOfTheWeek: DayOfTheWeek;
-    Year: number;
+    Delta: TimeSpan = TimeSpan.Zero /*System.TimeSpan*/;
+    TimeOfDay: TimeSpan = TimeSpan.Zero /*System.TimeSpan*/;
+    DayOrder: number = 0;
+    Month: number = 0;
+    DayOfTheWeek: DayOfTheWeek = DayOfTheWeek.Sunday;
+    Year: number = 0;
     // private delta: TimeSpan /*System.TimeSpan*/; //backing property not needed
     // private year: number;
     // private month: number;
@@ -53,6 +53,7 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(
             XmlNamespace.Types,
@@ -79,7 +80,7 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.DayOfWeek,
-                this.DayOfTheWeek);
+                DayOfTheWeek[this.DayOfTheWeek]);  // needs to be string
         }
 
         // Only emit year if it's non zero, otherwise AS returns "Request is invalid"
@@ -91,4 +92,3 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
         }
     }
 }
-

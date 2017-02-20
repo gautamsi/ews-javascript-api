@@ -1,20 +1,18 @@
-import {EwsLogging} from "../Core/EwsLogging";
-import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {Strings} from "../Strings";
+import { ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { EwsLogging } from "../Core/EwsLogging";
+import { IEnumerable } from "../Interfaces/IEnumerable";
+import { Strings } from "../Strings";
 
-import {Change} from "./Change";
+import { Change } from "./Change";
 /**
  * Represents a collection of changes as returned by a synchronization operation.
  *
  * @sealed
  * @typeparam	{TChange}	Type representing the type of change (e.g. FolderChange or ItemChange)
  */
-export class ChangeCollection<TChange extends Change> {
+export class ChangeCollection<TChange extends Change> implements IEnumerable<TChange>{
 
-	___implementsInterface: string[] = ["IEnumerable<TChange>"];
-    ___typeName: string = "ChangeCollection";
-    ___typeGenerics: string[] = ["Change"];
-
+	___typeGenerics: string[] = ["Change"];
 
 	private changes: TChange[] = [];
 	private syncState: string = null;
@@ -59,12 +57,12 @@ export class ChangeCollection<TChange extends Change> {
      * @param   {number}   index   Zero-based index.
      * @return  {TChange}		An single change.
      */
-    __thisIndexer(index: number): TChange {
-        if (index < 0 || index >= this.Count) {
-            throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
-        }
-        return this.changes[index];
-    }
+	_getItem(index: number): TChange {
+		if (index < 0 || index >= this.Count) {
+			throw new ArgumentOutOfRangeException("index", Strings.IndexIsOutOfRange);
+		}
+		return this.changes[index];
+	}
 
 	/**
 	 * @internal Adds the specified change.
@@ -80,6 +78,10 @@ export class ChangeCollection<TChange extends Change> {
 		this.changes.push(change);
 	}
 
-
-	//GetEnumerator(): TChange[] /*System.Collections.Generic.IEnumerator<TChange>*/ { throw new Error("ChangeCollection.ts - GetEnumerator : Not implemented."); }
+	/**
+     *  Returns an enumerator that iterates through the collection. this case this.changes
+     */
+	GetEnumerator(): TChange[] {
+		return this.changes;
+	}
 }

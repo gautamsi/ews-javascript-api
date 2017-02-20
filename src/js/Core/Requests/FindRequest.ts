@@ -78,10 +78,12 @@ export class FindRequest<TResponse extends ServiceResponse> extends MultiRespons
             throw new ServiceLocalException(Strings.BothSearchFilterAndQueryStringCannotBeSpecified);
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         super.WriteAttributesToXml(writer);
         this.View.WriteAttributesToXml(writer);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         this.View.WriteToXml(writer, this.GetGroupBy());
 

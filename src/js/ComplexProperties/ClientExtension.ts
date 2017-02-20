@@ -19,9 +19,13 @@ export class ClientExtension extends ComplexProperty {
     IsEnabledByDefault: boolean;
     ProvidedTo: ClientExtensionProvidedTo;
     SpecificUsers: StringList;
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("ClientExtension.ts - ReadAttributesFromXml : Not implemented."); }
+    /**@internal */
     ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("ClientExtension.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteAttributesToXml : Not implemented."); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any { throw new Error("ClientExtension.ts - WriteElementsToXml : Not implemented."); }
 }
 

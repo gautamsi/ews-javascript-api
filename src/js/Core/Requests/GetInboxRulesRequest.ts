@@ -2,7 +2,7 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetInboxRulesResponse} from "../Responses/GetInboxRulesResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {StringHelper} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
@@ -42,9 +42,9 @@ export class GetInboxRulesRequest extends SimpleServiceRequestBase {
 	/**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetInboxRulesResponse>}      Service response  :Promise.
+     * @return  {Promise<GetInboxRulesResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetInboxRulesResponse> {
+    Execute(): Promise<GetInboxRulesResponse> {
 		return this.InternalExecute().then((serviceResponse: GetInboxRulesResponse) => {
 
             serviceResponse.ThrowIfNecessary();

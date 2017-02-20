@@ -24,6 +24,7 @@ export class WebClientUrlCollection {
 
         return instance;
     }
+    /**@internal */
     static LoadFromXml(reader: EwsXmlReader): WebClientUrlCollection {
         var instance = new WebClientUrlCollection();
         var parent = reader.CurrentNode;

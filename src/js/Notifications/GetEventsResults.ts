@@ -1,14 +1,14 @@
-﻿import {ArrayHelper, Convert} from "../ExtensionMethods";
-import {DateTime} from "../DateTime";
-import {Dictionary, DictionaryWithStringKey} from "../AltDictionary";
-import {EventType} from "../Enumerations/EventType";
-import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
-import {ExchangeService} from "../Core/ExchangeService";
-import {FolderEvent} from "./FolderEvent";
-import {ItemEvent} from "./ItemEvent";
-import {LazyMember} from "../Core/LazyMember";
-import {NotificationEvent} from "./NotificationEvent";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { ArrayHelper, Convert } from "../ExtensionMethods";
+import { DateTime } from "../DateTime";
+import { Dictionary, DictionaryWithStringKey } from "../AltDictionary";
+import { EventType } from "../Enumerations/EventType";
+import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../Core/ExchangeService";
+import { FolderEvent } from "./FolderEvent";
+import { ItemEvent } from "./ItemEvent";
+import { LazyMember } from "../Core/LazyMember";
+import { NotificationEvent } from "./NotificationEvent";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
 /**
  * Represents a collection of notification events.
@@ -18,7 +18,7 @@ export class GetEventsResults {
 	/**
 	 * Map XML element name to notification event type.
 	 * 
-	 * @remarks 	If you add a new notification event type, you'll need to add a new entry to the dictionary here.
+	 * /remarks/ 	If you add a new notification event type, you'll need to add a new entry to the dictionary here.
 	 */
 	private static xmlElementNameToEventTypeMap: LazyMember<Dictionary<string, EventType>> = new LazyMember<Dictionary<string, EventType>>(() => {
 		var dictionary: Dictionary<string, EventType> = new DictionaryWithStringKey<EventType>();
@@ -168,7 +168,7 @@ export class GetEventsResults {
      */
 	LoadFromXmlJsObject(eventsResponse: any, service: ExchangeService): void {
 		let response = eventsResponse;
-		if(eventsResponse[XmlElementNames.Notification]){
+		if (eventsResponse[XmlElementNames.Notification]) {
 			response = eventsResponse[XmlElementNames.Notification];
 		}
 		for (let key in response) {

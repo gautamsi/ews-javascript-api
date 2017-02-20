@@ -1,6 +1,6 @@
-﻿import {Schemas} from "./Schemas";
+﻿import { Schemas } from "./Schemas";
 
-import {ServiceObjectSchema} from "./ServiceObjectSchema";
+import { ServiceObjectSchema } from "./ServiceObjectSchema";
 /**
  * Represents PostReply schema definition.
  */
@@ -14,7 +14,7 @@ export class PostReplySchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

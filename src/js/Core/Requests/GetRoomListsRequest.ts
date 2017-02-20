@@ -2,7 +2,7 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetRoomListsResponse} from "../Responses/GetRoomListsResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
@@ -25,9 +25,9 @@ export class GetRoomListsRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetRoomListsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetRoomListsResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetRoomListsResponse> {
+    Execute(): Promise<GetRoomListsResponse> {
         return this.InternalExecute().then((serviceResponse: GetRoomListsResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

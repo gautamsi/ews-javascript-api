@@ -1,20 +1,20 @@
 ﻿
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {EwsUtilities} from "../../Core/EwsUtilities";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { EwsUtilities } from "../../Core/EwsUtilities";
 
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {DomainSettingName} from "../../Enumerations/DomainSettingName";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { DomainSettingName } from "../../Enumerations/DomainSettingName";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 
-import {IPromise} from "../../Interfaces";
-import {Uri} from "../../Uri";
+import { Promise } from "../../Promise";
+import { Uri } from "../../Uri";
 
 
-import {GetDomainSettingsResponseCollection} from "../Responses/GetDomainSettingsResponseCollection";
-import {AutodiscoverService} from "../AutodiscoverService";
-import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
-import {AutodiscoverRequest} from "./AutodiscoverRequest";
+import { GetDomainSettingsResponseCollection } from "../Responses/GetDomainSettingsResponseCollection";
+import { AutodiscoverService } from "../AutodiscoverService";
+import { AutodiscoverResponse } from "../Responses/AutodiscoverResponse";
+import { AutodiscoverRequest } from "./AutodiscoverRequest";
 export class GetDomainSettingsRequest extends AutodiscoverRequest {
     private static GetDomainSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetDomainSettings";
     Domains: string[];// System.Collections.Generic.List<string>;
@@ -29,8 +29,8 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
     }
 
     CreateServiceResponse(): AutodiscoverResponse { return new GetDomainSettingsResponseCollection(); }
-    Execute(): IPromise<GetDomainSettingsResponseCollection> {
-        var responses = <IPromise<GetDomainSettingsResponseCollection>> this.InternalExecute();
+    Execute(): Promise<GetDomainSettingsResponseCollection> {
+        var responses = <Promise<GetDomainSettingsResponseCollection>>this.InternalExecute();
 
         //GetDomainSettingsResponseCollection responses = (GetDomainSettingsResponseCollection) this.InternalExecute();
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
@@ -49,19 +49,21 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
         }
     }
     Validate(): void { super.Validate(); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(
             "xmlns",
             EwsUtilities.AutodiscoverSoapNamespacePrefix,
             EwsUtilities.AutodiscoverSoapNamespace);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any {
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Request);
 
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Domains);
 
         for (var domain of this.Domains) {
-            
+
             //if (!string.IsNullOrEmpty(domain)) {
             if (domain != undefined && domain !== "") {
                 writer.WriteElementValue(

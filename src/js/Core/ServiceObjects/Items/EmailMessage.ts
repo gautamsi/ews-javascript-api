@@ -1,34 +1,34 @@
-import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
-import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
-import {SuppressReadReceipt} from "../ResponseObjects/SuppressReadReceipt";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {EmailAddressCollection} from "../../../ComplexProperties/EmailAddressCollection";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {ApprovalRequestData} from "../../../ComplexProperties/ApprovalRequestData";
-import {VotingInformation} from "../../../ComplexProperties/VotingInformation";
-import {ExchangeService} from "../../ExchangeService";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {PropertySet} from "../../PropertySet";
-import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {Schemas} from "../Schemas/Schemas";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {MessageDisposition} from "../../../Enumerations/MessageDisposition";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {XmlElementNames} from "../../XmlElementNames";
-import {IPromise} from "../../../Interfaces";
-import {PromiseFactory} from '../../../PromiseFactory';
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
+import { ApprovalRequestData } from "../../../ComplexProperties/ApprovalRequestData";
+import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EmailAddressCollection } from "../../../ComplexProperties/EmailAddressCollection";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { MessageBody } from "../../../ComplexProperties/MessageBody";
+import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
+import { Promise } from '../../../Promise';
+import { PropertySet } from "../../PropertySet";
+import { ResponseMessage } from "../ResponseObjects/ResponseMessage";
+import { ResponseMessageType } from "../../../Enumerations/ResponseMessageType";
+import { Schemas } from "../Schemas/Schemas";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { SuppressReadReceipt } from "../ResponseObjects/SuppressReadReceipt";
+import { VotingInformation } from "../../../ComplexProperties/VotingInformation";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {Item} from "./Item";
+import { Item } from "./Item";
 /**
  * Represents an **e-mail message**. Properties available on e-mail messages are defined in the *EmailMessageSchema* class.
  *
  */
-@AttachableAttribute(true)
 export class EmailMessage extends Item {
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute. */
+    public static get Attachable(): boolean { return (<any>this).name === "EmailMessage"; };
 
     /**
      * Gets the list of To recipients for the e-mail message.
@@ -207,7 +207,7 @@ export class EmailMessage extends Item {
     }
 
     /**
-     * Initializes an unsaved local instance of . To bind to an existing e-mail message, use EmailMessage.Bind() instead.
+     * Initializes an unsaved local instance of **EmailMessage**. To bind to an existing e-mail message, use EmailMessage.Bind() instead.
      *
      * @param   {ExchangeService}   service   The ExchangeService object to which the e-mail message will be bound.
      */
@@ -218,6 +218,10 @@ export class EmailMessage extends Item {
      * @param   {ItemAttachment}   parentAttachment   The parent attachment.
      */
     constructor(parentAttachment: ItemAttachment);
+    /**
+     * @internal ~~**used for super call, easier to manage, do not use in Actual code. //todo:fix - [ ] remove from d.ts file**~~.
+     */
+    constructor(serviceOrParentAttachment: ExchangeService | ItemAttachment);
     constructor(serviceOrParentAttachment: ExchangeService | ItemAttachment) {
         super(serviceOrParentAttachment);
     }
@@ -228,19 +232,19 @@ export class EmailMessage extends Item {
      *
      * @param   {ExchangeService}         service     The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id          The Id of the e-mail message to bind to.
-     * @return  {IPromise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise. 
+     * @return  {Promise<EmailMessage>}              An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise. 
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<EmailMessage>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<EmailMessage>;
     /**
      * Binds to an existing e-mail message and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}         service         The service to use to bind to the e-mail message.
      * @param   {ItemId}                  id              The Id of the e-mail message to bind to.
      * @param   {PropertySet}             propertySet     The set of properties to load.
-     * @return  {IPromise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
+     * @return  {Promise<EmailMessage>}                  An EmailMessage instance representing the e-mail message corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<EmailMessage>;
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<EmailMessage> {
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<EmailMessage>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<EmailMessage> {
         return service.BindToItem<EmailMessage>(id, propertySet, EmailMessage);
     }
 
@@ -267,15 +271,15 @@ export class EmailMessage extends Item {
             replyAll ? ResponseMessageType.ReplyAll : ResponseMessageType.Reply);
     }
 
-    //Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
-    //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): IPromise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
+    //Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
+    //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): Promise<void> { throw new Error("EmailMessage.ts - Forward : Not implemented."); }
     /**
      * Forwards the message. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}   bodyPrefix     The prefix to prepend to the original body of the message.
      * @param   {EmailAddress[]}   toRecipients   The recipients to forward the message to.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> {
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): Promise<void> {
         var responseMessage: ResponseMessage = this.CreateForward();
 
         responseMessage.BodyPrefix = bodyPrefix;
@@ -311,7 +315,7 @@ export class EmailMessage extends Item {
      * @param   {FolderId}            parentFolderId       The parent folder id.
      * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
-    private InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): IPromise<void> {
+    private InternalSend(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<void> {
         this.ThrowIfThisIsAttachment();
 
         if (this.IsNew) {
@@ -326,7 +330,7 @@ export class EmailMessage extends Item {
                 return this.InternalCreate(
                     null,                           // null means use the Drafts folder in the mailbox of the authenticated user.
                     MessageDisposition.SaveOnly,
-                    null).then((results) => {
+                    null).then<void>(() => {
                         return this.Service.SendItem(this, parentFolderId);
                     });
             }
@@ -336,7 +340,7 @@ export class EmailMessage extends Item {
             // attachment changes, process them now.
 
             debugger; //todo: check - check for attachment save() promise. 
-            return PromiseFactory.resolve(
+            return Promise.resolve(
                 // Validate and save attachments before sending.
                 this.HasUnprocessedAttachmentChanges() ? this.Attachments.ValidateAndSave() : void 0)
                 .then(() => {
@@ -360,7 +364,7 @@ export class EmailMessage extends Item {
      * @param   {MessageBody}   bodyPrefix   The prefix to prepend to the original body of the message.
      * @param   {boolean}   replyAll     Indicates whether the reply should be sent to all of the original recipients of the message.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void> {
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void> {
         var responseMessage: ResponseMessage = this.CreateReply(replyAll);
 
         responseMessage.BodyPrefix = bodyPrefix;
@@ -371,19 +375,19 @@ export class EmailMessage extends Item {
     /**
      * Sends this e-mail message. Calling this method results in at least one call to EWS.
      */
-    Send(): IPromise<void> { return this.InternalSend(null, MessageDisposition.SendOnly); }
+    Send(): Promise<void> { return this.InternalSend(null, MessageDisposition.SendOnly); }
 
     /**
      * Sends this e-mail message and saves a copy of it in the Sent Items folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
      */
-    SendAndSaveCopy(): IPromise<void>;
+    SendAndSaveCopy(): Promise<void>;
     /**
      * Sends this e-mail message and saves a copy of it in the specified folder. SendAndSaveCopy does not work if the message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method results in a call to EWS.
      *
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy.
      */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): IPromise<void>;
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
     /**
      * Sends this e-mail message and saves a copy of it in the specified folder. SendAndSaveCopy does not work if the
     message has unsaved attachments. In that case, the message must first be saved and then sent. Calling this method
@@ -391,8 +395,8 @@ export class EmailMessage extends Item {
      *
      * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy.
      */
-    SendAndSaveCopy(destinationFolderId: FolderId): IPromise<void>;
-    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): IPromise<void> {
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
+    SendAndSaveCopy(destinationFolderIdOrName?: FolderId | WellKnownFolderName): Promise<void> {
         var destinationFolderId: FolderId = new FolderId(WellKnownFolderName.SentItems);
         if (arguments.length === 1) {
             if (typeof destinationFolderIdOrName === "number") {
@@ -409,7 +413,7 @@ export class EmailMessage extends Item {
      * Suppresses the read receipt on the message. Calling this method results in a call to EWS.
      *
      */
-    SuppressReadReceipt(): IPromise<void> {
+    SuppressReadReceipt(): Promise<void> {
         this.ThrowIfThisIsNew();
         return (new SuppressReadReceipt(this)).InternalCreate(null, null);
     }

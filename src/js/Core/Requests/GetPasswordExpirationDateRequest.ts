@@ -2,7 +2,7 @@
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {XmlElementNames} from "../XmlElementNames";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
@@ -19,7 +19,7 @@ export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {
         super(service);
     }
 
-    Execute(): IPromise<GetPasswordExpirationDateResponse> {
+    Execute(): Promise<GetPasswordExpirationDateResponse> {
         return this.InternalExecute().then((serviceResponse) => {
             serviceResponse.ThrowIfNecessary();
             return <GetPasswordExpirationDateResponse>serviceResponse;
@@ -34,5 +34,6 @@ export class GetPasswordExpirationDateRequest extends SimpleServiceRequestBase {
         serviceResponse.LoadFromXmlJsObject(jsonBody, this.Service);
         return serviceResponse;
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxSmtpAddress, this.MailboxSmtpAddress); }
 }

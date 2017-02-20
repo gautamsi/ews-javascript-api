@@ -1,12 +1,13 @@
-﻿import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {IdFormat} from "../../Enumerations/IdFormat";
-import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ISelfValidate } from "../../Interfaces/ISelfValidate";
+import { IdFormat } from "../../Enumerations/IdFormat";
+import { XmlAttributeNames } from "../../Core/XmlAttributeNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
 /**
  * Represents the base class for Id expressed in a specific format.
  */
-export abstract class AlternateIdBase {//ISelfValidate, IJsonSerializable
+export abstract class AlternateIdBase implements ISelfValidate {//IJsonSerializable
 
     /**
      * Gets or sets the format in which the Id in expressed.
@@ -49,9 +50,9 @@ export abstract class AlternateIdBase {//ISelfValidate, IJsonSerializable
     }
 
     /**
-     * @internal Validate this instance.
+     * Validate this instance.
+     * ISelfValidate.Validate
      * 
-     * @interface   ISelfValidate
      */
     Validate(): void {
         this.InternalValidate();

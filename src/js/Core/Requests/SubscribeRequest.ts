@@ -1,20 +1,19 @@
-﻿import {ArrayHelper, StringHelper} from "../../ExtensionMethods";
-import {EnumToExchangeVersionMappingHelper} from "../../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EventType} from "../../Enumerations/EventType";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {EwsUtilities} from "../EwsUtilities";
-import {ExchangeService} from "../ExchangeService";
-import {FolderIdWrapperList} from "../../Misc/FolderIdWrapperList";
-import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
-import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
-import {Strings} from "../../Strings";
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ArrayHelper, StringHelper } from "../../ExtensionMethods";
+import { EventType } from "../../Enumerations/EventType";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeService } from "../ExchangeService";
+import { FolderIdWrapperList } from "../../Misc/FolderIdWrapperList";
+import { ServiceErrorHandling } from "../../Enumerations/ServiceErrorHandling";
+import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
+import { Strings } from "../../Strings";
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
-import {SubscribeResponse} from "../Responses/SubscribeResponse";
-import {SubscriptionBase} from "../../Notifications/SubscriptionBase";
+import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
+import { SubscribeResponse } from "../Responses/SubscribeResponse";
+import { SubscriptionBase } from "../../Notifications/SubscriptionBase";
 /**
  * @internal Represents an abstract Subscribe request.
  * 
@@ -114,7 +113,7 @@ export abstract class SubscribeRequest<TSubscription extends SubscriptionBase> e
 		}
 
 		this.EventTypes.forEach((eventType) => {
-			EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.EventType, eventType, this.Service.RequestedServerVersion);
+			EwsUtilities.ValidateEnumVersionValue(EventType, eventType, this.Service.RequestedServerVersion, "EventType");
 		});
 	}
 

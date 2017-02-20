@@ -1518,6 +1518,8 @@ export module XmlElementNames {
     export var ExtendedAttributeName: string = "Name";
     export var ExtendedAttributeValue: string = "Value";
     export var SearchScopeType: string = "SearchScopeType";
+    /** per github issue #120 */
+    export var IncludeNonIndexableItems: string = "IncludeNonIndexableItems";
 
     // GetAppManifests
     export var GetAppManifestsRequest: string = "GetAppManifests";

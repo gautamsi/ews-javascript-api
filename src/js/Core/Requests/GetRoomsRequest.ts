@@ -3,7 +3,7 @@ import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetRoomsResponse} from "../Responses/GetRoomsResponse";
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 
@@ -38,9 +38,9 @@ export class GetRoomsRequest extends SimpleServiceRequestBase {
     /**
      * @internal Executes this request.
      *
-     * @return  {IPromise<GetRoomsResponse>}      Service response  :Promise.
+     * @return  {Promise<GetRoomsResponse>}      Service response  :Promise.
      */
-    Execute(): IPromise<GetRoomsResponse> {
+    Execute(): Promise<GetRoomsResponse> {
         return this.InternalExecute().then((serviceResponse: GetRoomsResponse) => {
             serviceResponse.ThrowIfNecessary();
             return serviceResponse;

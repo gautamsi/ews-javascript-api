@@ -1,21 +1,21 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {ConversationFlagStatus} from "../../../Enumerations/ConversationFlagStatus";
-import {Importance} from "../../../Enumerations/Importance";
-import {IconIndex} from "../../../Enumerations/IconIndex";
+﻿import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
 import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
+import {ConversationFlagStatus} from "../../../Enumerations/ConversationFlagStatus";
 import {ConversationId} from "../../../ComplexProperties/ConversationId";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {StringList} from "../../../ComplexProperties/StringList";
 import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import {IconIndex} from "../../../Enumerations/IconIndex";
+import {Importance} from "../../../Enumerations/Importance";
 import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
 import {ItemIdCollection} from "../../../ComplexProperties/ItemIdCollection";
-import {ByteArrayPropertyDefinition} from "../../../PropertyDefinitions/ByteArrayPropertyDefinition";
+import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
 import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
 import {Schemas} from "./Schemas";
+import {StringList} from "../../../ComplexProperties/StringList";
+import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
+import {XmlElementNames} from "../../XmlElementNames";
 
 import {ServiceObjectSchema} from "./ServiceObjectSchema";
 
@@ -215,7 +215,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.FlagStatus,
         FieldUris.FlagStatus,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2010_SP1
+        ExchangeVersion.Exchange2010_SP1,
+        ConversationFlagStatus
     );
 
     /**
@@ -226,7 +227,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.GlobalFlagStatus,
         FieldUris.GlobalFlagStatus,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2010_SP1
+        ExchangeVersion.Exchange2010_SP1,
+        ConversationFlagStatus
     );
 
     /**
@@ -349,7 +351,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.Importance,
         FieldUris.Importance,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2010_SP1
+        ExchangeVersion.Exchange2010_SP1,
+        Importance
     );
 
     /**
@@ -360,7 +363,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.GlobalImportance,
         FieldUris.GlobalImportance,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2010_SP1
+        ExchangeVersion.Exchange2010_SP1,
+        Importance
     );
 
     /**
@@ -428,7 +432,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.IconIndex,
         FieldUris.IconIndex,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013
+        ExchangeVersion.Exchange2013,
+        IconIndex
     );
 
     /**
@@ -439,7 +444,8 @@ export class ConversationSchema extends ServiceObjectSchema {
         XmlElementNames.GlobalIconIndex,
         FieldUris.GlobalIconIndex,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013
+        ExchangeVersion.Exchange2013,
+        IconIndex
     );
 
     /**
@@ -484,7 +490,7 @@ export class ConversationSchema extends ServiceObjectSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

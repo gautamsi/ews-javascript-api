@@ -1,12 +1,12 @@
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {BodyType} from "../Enumerations/BodyType";
-import {StringHelper} from "../ExtensionMethods";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { BodyType } from "../Enumerations/BodyType";
+import { StringHelper } from "../ExtensionMethods";
+import { ExchangeService } from "../Core/ExchangeService";
+import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
 export class MessageBody extends ComplexProperty {
     private bodyType: BodyType = 0;
     private text: string = null;
@@ -49,10 +49,14 @@ export class MessageBody extends ComplexProperty {
             }
             switch (key) {
                 case XmlAttributeNames.BodyType:
-                    this.bodyType = <BodyType><any>BodyType[jsObject[key]];//.ReadEnumValue<BodyType>(key);
+                    this.bodyType = BodyType[<string>jsObject[key]];
                     break;
-                case XmlElementNames.Body: //info - Body Element text - custom parser in ExtensionMethods. 
-                    this.text = jsObject[key];//.ReadAsString(key);
+                case XmlElementNames.Body: //info - Body Element text - custom parser in ews-javascript-api. 
+                case XmlElementNames.TextBody: //info - TextBody Element text - custom parser in ews-javascript-api. 
+                    this.text = jsObject[key];
+                    break;
+                case XmlAttributeNames.IsTruncated:
+                    //ref: IsTruncated not captured 
                     break;
                 default:
                     debugger;//check exact name of body element
@@ -60,10 +64,14 @@ export class MessageBody extends ComplexProperty {
             }
         }
     }
+    /**@internal */
     ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadAttributesFromXml : Not implemented. - should not be called"); }
+    /**@internal */
     ReadTextValueFromXmlJsObject(reader: EwsServiceXmlReader): void { throw new Error("MessageBody.ts - ReadTextValueFromXml : Not implemented. - should not be called"); }
     ToString(): string { return (this.Text == null) ? StringHelper.Empty : this.Text; }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void { writer.WriteAttributeValue(XmlAttributeNames.BodyType, BodyType[this.BodyType]); }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         if (!StringHelper.IsNullOrEmpty(this.Text)) {
             writer.WriteValue(this.Text, XmlElementNames.Body);

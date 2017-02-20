@@ -1,55 +1,56 @@
-import {AcceptMeetingInvitationMessage} from "../ResponseObjects/AcceptMeetingInvitationMessage";
-import {AppointmentOccurrenceId} from "../../../ComplexProperties/AppointmentOccurrenceId";
-import {AppointmentType} from "../../../Enumerations/AppointmentType";
-import {AttachableAttribute} from "../../../Attributes/AttachableAttribute";
-import {AttendeeCollection} from "../../../ComplexProperties/AttendeeCollection";
-import {BodyType} from "../../../Enumerations/BodyType";
-import {CalendarActionResults} from "../../../Misc/CalendarActionResults";
-import {CancelMeetingMessage} from "../ResponseObjects/CancelMeetingMessage";
-import {ConflictResolutionMode} from "../../../Enumerations/ConflictResolutionMode";
-import {DateTime, TimeSpan, TimeZoneInfo} from "../../../DateTime";
-import {DeclineMeetingInvitationMessage} from "../ResponseObjects/DeclineMeetingInvitationMessage";
-import {DeleteMode} from "../../../Enumerations/DeleteMode";
-import {DeletedOccurrenceInfoCollection} from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
-import {ExchangeService} from "../../ExchangeService";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {FolderId} from "../../../ComplexProperties/FolderId";
-import {ICalendarActionProvider} from "../../../Interfaces/ICalendarActionProvider";
-import {IOutParam} from "../../../Interfaces/IOutParam";
-import {IPromise} from "../../../Interfaces";
-import {ItemAttachment} from "../../../ComplexProperties/ItemAttachment";
-import {ItemCollection} from "../../../ComplexProperties/ItemCollection";
-import {ItemId} from "../../../ComplexProperties/ItemId";
-import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
-import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
-import {MessageBody} from "../../../ComplexProperties/MessageBody";
-import {OccurrenceInfoCollection} from "../../../ComplexProperties/OccurrenceInfoCollection";
-import {OccurrenceInfo} from "../../../ComplexProperties/OccurrenceInfo";
-import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
-import {PropertySet} from "../../PropertySet";
-import {Recurrence} from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
-import {RecurringAppointmentMasterId} from "../../../ComplexProperties/RecurringAppointmentMasterId";
-import {ResponseMessageType} from "../../../Enumerations/ResponseMessageType";
-import {ResponseMessage} from "../ResponseObjects/ResponseMessage";
-import {Schemas} from "../Schemas/Schemas";
-import {SendCancellationsMode} from "../../../Enumerations/SendCancellationsMode";
-import {SendInvitationsMode} from "../../../Enumerations/SendInvitationsMode";
-import {SendInvitationsOrCancellationsMode} from "../../../Enumerations/SendInvitationsOrCancellationsMode";
-import {ServiceLocalException} from "../../../Exceptions/ServiceLocalException";
-import {ServiceObjectSchema} from "../Schemas/ServiceObjectSchema";
-import {Strings} from "../../../Strings";
-import {WellKnownFolderName} from "../../../Enumerations/WellKnownFolderName";
-import {XmlElementNames} from "../../XmlElementNames";
+import { AcceptMeetingInvitationMessage } from "../ResponseObjects/AcceptMeetingInvitationMessage";
+import { AppointmentOccurrenceId } from "../../../ComplexProperties/AppointmentOccurrenceId";
+import { AppointmentType } from "../../../Enumerations/AppointmentType";
+import { ArrayHelper } from "../../../ExtensionMethods";
+import { AttendeeCollection } from "../../../ComplexProperties/AttendeeCollection";
+import { BodyType } from "../../../Enumerations/BodyType";
+import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
+import { CancelMeetingMessage } from "../ResponseObjects/CancelMeetingMessage";
+import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
+import { DateTime, TimeSpan, TimeZoneInfo } from "../../../DateTime";
+import { DeclineMeetingInvitationMessage } from "../ResponseObjects/DeclineMeetingInvitationMessage";
+import { DeleteMode } from "../../../Enumerations/DeleteMode";
+import { DeletedOccurrenceInfoCollection } from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
+import { ExchangeService } from "../../ExchangeService";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { FolderId } from "../../../ComplexProperties/FolderId";
+import { ICalendarActionProvider } from "../../../Interfaces/ICalendarActionProvider";
+import { IOutParam } from "../../../Interfaces/IOutParam";
+import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
+import { ItemCollection } from "../../../ComplexProperties/ItemCollection";
+import { ItemId } from "../../../ComplexProperties/ItemId";
+import { LegacyFreeBusyStatus } from "../../../Enumerations/LegacyFreeBusyStatus";
+import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
+import { MessageBody } from "../../../ComplexProperties/MessageBody";
+import { OccurrenceInfo } from "../../../ComplexProperties/OccurrenceInfo";
+import { OccurrenceInfoCollection } from "../../../ComplexProperties/OccurrenceInfoCollection";
+import { OnlineMeetingSettings } from "../../../ComplexProperties/OnlineMeetingSettings";
+import { Promise } from "../../../Promise";
+import { PropertySet } from "../../PropertySet";
+import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
+import { RecurringAppointmentMasterId } from "../../../ComplexProperties/RecurringAppointmentMasterId";
+import { ResponseMessage } from "../ResponseObjects/ResponseMessage";
+import { ResponseMessageType } from "../../../Enumerations/ResponseMessageType";
+import { Schemas } from "../Schemas/Schemas";
+import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";
+import { SendInvitationsMode } from "../../../Enumerations/SendInvitationsMode";
+import { SendInvitationsOrCancellationsMode } from "../../../Enumerations/SendInvitationsOrCancellationsMode";
+import { ServiceLocalException } from "../../../Exceptions/ServiceLocalException";
+import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { Strings } from "../../../Strings";
+import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {Item} from "./Item";
+import { Item } from "./Item";
 /**
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
  */
-@AttachableAttribute(true)
 export class Appointment extends Item implements ICalendarActionProvider {
-    //todo: attachable attribute missing. 
+
+    /** required to check [Attachable] attribute, AttachmentCollection.AddItemAttachment<TItem>() checks for non inherited [Attachable] attribute.*/
+    public static get Attachable(): boolean { return (<any>this).name === "Appointment"; };
 
     /**
      * @internal Gets the default setting for sending cancellations on Delete.
@@ -132,7 +133,8 @@ export class Appointment extends Item implements ICalendarActionProvider {
     }
 
     /**
-     * Gets a text indicating when this appointment occurs. The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
+     * Gets a text indicating when this appointment occurs. 
+     * The text returned by When is localized using the Exchange Server culture or using the culture specified in the PreferredCulture property of the ExchangeService object this appointment is bound to.
      */
     get When(): string {
         return <string>this.PropertyBag._getItem(Schemas.AppointmentSchema.When);
@@ -455,10 +457,15 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {boolean}         isNew              If true, attachment is new.
      */
     constructor(parentAttachment: ItemAttachment, isNew: boolean);
+    /**@internal dummy to avoid TypeScript typef Appointment !== typeof Item error*/
+    constructor(parentAttachment: ItemAttachment);
     constructor(svcOrAttachment: ExchangeService | ItemAttachment, isNew: boolean = false) {
         super(svcOrAttachment);
         if (svcOrAttachment instanceof ItemAttachment) { //todo:fix -can not user instanceof with exchangeservice, creates circular loop with ewsutility
             let parentAttachment = svcOrAttachment;
+            // If we're running against Exchange 2007, we need to explicitly preset
+            // the StartTimeZone property since Exchange 2007 will otherwise scope
+            // start and end to UTC.
             if (parentAttachment.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
                 if (isNew) {
                     this.StartTimeZone = parentAttachment.Service.TimeZone;
@@ -471,35 +478,41 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * Accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    Accept(sendResponse: boolean): IPromise<CalendarActionResults> { return this.InternalAccept(false, sendResponse); }
+    Accept(sendResponse: boolean): Promise<CalendarActionResults> {
+        return this.InternalAccept(false, sendResponse);
+    }
     /**
      * Tentatively accepts the meeting. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    AcceptTentatively(sendResponse: boolean): IPromise<CalendarActionResults> { return this.InternalAccept(true, sendResponse); }
+    AcceptTentatively(sendResponse: boolean): Promise<CalendarActionResults> {
+        return this.InternalAccept(true, sendResponse);
+    }
 
     /**
      * Binds to an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service       The service to use to bind to the appointment.
      * @param   {ItemId}              id            The Id of the appointment to bind to.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId): IPromise<Appointment>;
+    static Bind(service: ExchangeService, id: ItemId): Promise<Appointment>;
     /**
     * Binds to an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service       The service to use to bind to the appointment.
      * @param   {ItemId}              id            The Id of the appointment to bind to.
      * @param   {PropertySet}         propertySet   The set of properties to load.     
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the appointment corresponding to the specified Id :Promise.
      */
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): IPromise<Appointment>;
-    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Appointment> { return service.BindToItem<Appointment>(id, propertySet, Appointment); }
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet): Promise<Appointment>;
+    static Bind(service: ExchangeService, id: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Appointment> {
+        return service.BindToItem<Appointment>(id, propertySet, Appointment);
+    }
 
     /**
      * Binds to an occurence of an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
@@ -507,9 +520,9 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {ExchangeService}  service             The service to use to bind to the appointment.
      * @param   {ItemId}           recurringMasterId   The Id of the recurring master that the index represents an occurrence of.
      * @param   {number}           occurenceIndex      The index of the occurrence.
-     * @return  {IPromise<Appointment>}                An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
+     * @return  {Promise<Appointment>}                 An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
      */
-    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): IPromise<Appointment>;
+    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number): Promise<Appointment>;
     /**
      * Binds to an occurence of an existing appointment and loads the specified set of properties. Calling this method results in a call to EWS.
      *
@@ -517,10 +530,10 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {ItemId}           recurringMasterId   The Id of the recurring master that the index represents an occurrence of.
      * @param   {number}           occurenceIndex      The index of the occurrence.
      * @param   {PropertySet}      propertySet         The set of properties to load.
-     * @return  {IPromise<Appointment>}                An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
+     * @return  {Promise<Appointment>}                 An Appointment instance representing the appointment occurence corresponding to the specified occurence index :Promise.
      */
-    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): IPromise<Appointment>;
-    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Appointment> {
+    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet): Promise<Appointment>;
+    static BindToOccurrence(service: ExchangeService, recurringMasterId: ItemId, occurenceIndex: number, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Appointment> {
         let occurenceId: AppointmentOccurrenceId = new AppointmentOccurrenceId(recurringMasterId.UniqueId, occurenceIndex);
         return Appointment.Bind(
             service,
@@ -533,19 +546,19 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @param   {ExchangeService}     service        The service to use to bind to the appointment.
      * @param   {ItemId}              occurrenceId   The Id of one of the occurrences in the series.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
      */
-    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): IPromise<Appointment>;
+    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId): Promise<Appointment>;
     /**
      * Binds to the master appointment of a recurring series and loads the specified set of properties. Calling this method results in a call to EWS.
      *
      * @param   {ExchangeService}     service        The service to use to bind to the appointment.
      * @param   {ItemId}              occurrenceId   The Id of one of the occurrences in the series.
      * @param   {PropertySet}         propertySet    The set of properties to load.
-     * @return  {IPromise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
+     * @return  {Promise<Appointment>}   An Appointment instance representing the master appointment of the recurring series to which the specified occurrence belongs :Promise.
      */
-    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): IPromise<Appointment>;
-    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): IPromise<Appointment> {
+    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet): Promise<Appointment>;
+    static BindToRecurringMaster(service: ExchangeService, occurrenceId: ItemId, propertySet: PropertySet = PropertySet.FirstClassProperties): Promise<Appointment> {
         let recurringMasterId: RecurringAppointmentMasterId = new RecurringAppointmentMasterId(occurrenceId.UniqueId);
         return Appointment.Bind(
             service,
@@ -556,17 +569,17 @@ export class Appointment extends Item implements ICalendarActionProvider {
     /**
      * Cancels the meeting and sends cancellation messages to all attendees. Calling this method results in a call to EWS.
      *
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    CancelMeeting(): IPromise<CalendarActionResults>;
+    CancelMeeting(): Promise<CalendarActionResults>;
     /**
      * Cancels the meeting and sends cancellation messages to all attendees. Calling this method results in a call to EWS.
      *
      * @param   {string}   cancellationMessageText   Cancellation message text sent to all attendees.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}     A CalendarActionResults object containing the various items that were created or modified as a results of this operation :Promise.
      */
-    CancelMeeting(cancellationMessageText: string): IPromise<CalendarActionResults>;
-    CancelMeeting(cancellationMessageText?: string): IPromise<CalendarActionResults> {
+    CancelMeeting(cancellationMessageText: string): Promise<CalendarActionResults>;
+    CancelMeeting(cancellationMessageText?: string): Promise<CalendarActionResults> {
         if (arguments.length === 0) {
             return this.CreateCancelMeetingMessage().SendAndSaveCopy();
         }
@@ -582,19 +595,25 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {boolean}   tentative   Specifies whether the meeting will be tentatively accepted.
      * @return  {AcceptMeetingInvitationMessage}  An AcceptMeetingInvitationMessage representing the meeting acceptance message.
      */
-    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage { return new AcceptMeetingInvitationMessage(<any><any>this, tentative); }
+    CreateAcceptMessage(tentative: boolean): AcceptMeetingInvitationMessage {
+        return new AcceptMeetingInvitationMessage(<any><any>this, tentative);
+    }
     /**
      * Creates a local meeting cancellation message that can be customized and sent.
      *
      * @return  {CancelMeetingMessage}    A CancelMeetingMessage representing the meeting cancellation message.
      */
-    CreateCancelMeetingMessage(): CancelMeetingMessage { return new CancelMeetingMessage(<any><any>this); }
+    CreateCancelMeetingMessage(): CancelMeetingMessage {
+        return new CancelMeetingMessage(<any><any>this);
+    }
     /**
      * Creates a local meeting declination message that can be customized and sent.
      *
      * @return  {DeclineMeetingInvitationMessage}      A DeclineMeetingInvitation representing the meeting declination message.
      */
-    CreateDeclineMessage(): DeclineMeetingInvitationMessage { return new DeclineMeetingInvitationMessage(<any><any>this); }
+    CreateDeclineMessage(): DeclineMeetingInvitationMessage {
+        return new DeclineMeetingInvitationMessage(<any><any>this);
+    }
     /**
      * Creates a forward message from this appointment.
      *
@@ -624,9 +643,9 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * Declines the meeting invitation. Calling this method results in a call to EWS.
      *
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}   A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
      */
-    Decline(sendResponse: boolean): IPromise<CalendarActionResults> {
+    Decline(sendResponse: boolean): Promise<CalendarActionResults> {
         let decline: DeclineMeetingInvitationMessage = this.CreateDeclineMessage();
 
         if (sendResponse) {
@@ -638,32 +657,48 @@ export class Appointment extends Item implements ICalendarActionProvider {
     }
 
     /** ## internal - do not use on Appointment class */
-    Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): IPromise<void> //info: signature added to implement workaround @github #52
+    Delete(deleteMode: DeleteMode, suppressReadReceipts?: boolean): Promise<void> //info: signature added to implement workaround @github #52
     /**
      * Deletes this appointment. Calling this method results in a call to EWS.
      *
      * @param   {DeleteMode}   deleteMode              The deletion mode.
      * @param   {SendCancellationsMode}   sendCancellationsMode   Specifies if and how cancellations should be sent if this appointment is a meeting.
      */
-    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): IPromise<void>; //info: signature added to implement workaround @github #52 
-    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode | any): IPromise<void> {
+    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode): Promise<void>; //info: signature added to implement workaround @github #52 
+    Delete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode | any): Promise<void> {
         return this.InternalDelete(
             deleteMode,
             sendCancellationsMode,
             null);
     }
 
-    //Forward(bodyPrefix: MessageBody, toRecipients: System.Collections.Generic.IEnumerable<T>): void;
     /**
      * Forwards the appointment. Calling this method results in a call to EWS.
      *
      * @param   {MessageBody}     bodyPrefix     The prefix to prepend to the original body of the message.
      * @param   {EmailAddress[]}  toRecipients   The recipients to forward the appointment to.
      */
-    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): IPromise<void> {
+    Forward(bodyPrefix: MessageBody, toRecipients: EmailAddress[]): void;
+    /**
+     * Forwards the appointment. Calling this method results in a call to EWS.
+     *
+     * @param   {MessageBody}     bodyPrefix     The prefix to prepend to the original body of the message.
+     * @param   {EmailAddress[]}  ...toRecipients   The recipients to forward the appointment to.
+     */
+    Forward(bodyPrefix: MessageBody, ...toRecipients: EmailAddress[]): void;
+    Forward(bodyPrefix: MessageBody, _toRecipients: EmailAddress | EmailAddress[]): Promise<void> {
         let responseMessage: ResponseMessage = this.CreateForward();
-
+        let toRecipients: EmailAddress[] = []
         responseMessage.BodyPrefix = bodyPrefix;
+        if (ArrayHelper.isArray(_toRecipients)) {
+            toRecipients = _toRecipients;
+        }
+        else {
+            for (var _i = 1; _i < arguments.length; _i++) {
+                toRecipients[_i - 1] = arguments[_i];
+            }
+        }
+
         responseMessage.ToRecipients.AddRange(toRecipients);
 
         return responseMessage.SendAndSaveCopy();
@@ -674,7 +709,9 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @return  {boolean}      true if this item type requires custom scoping for scoped date/time properties; otherwise, false.
      */
-    GetIsCustomDateTimeScopingRequired(): boolean { return true; }
+    GetIsCustomDateTimeScopingRequired(): boolean {
+        return true;
+    }
 
     /**
      * @internal Gets a value indicating whether a time zone SOAP header should be emitted in a CreateItem or UpdateItem request so this item can be property saved or updated.
@@ -712,30 +749,36 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
-    GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
+    GetMinimumRequiredServerVersion(): ExchangeVersion {
+        return ExchangeVersion.Exchange2007_SP1;
+    }
 
     /**
      * @internal Internal method to return the schema associated with this type of object.
      *
      * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    GetSchema(): ServiceObjectSchema { return Schemas.AppointmentSchema.Instance; }
+    GetSchema(): ServiceObjectSchema {
+        return Schemas.AppointmentSchema.Instance;
+    }
 
     /**
      * @internal Gets the element name of item in XML
      * 
      * @return  {string} name of elelment
      */
-    GetXmlElementName(): string { return XmlElementNames.CalendarItem; }
+    GetXmlElementName(): string {
+        return XmlElementNames.CalendarItem;
+    }
 
     /**
      * @internal Accepts the meeting.
      *
      * @param   {boolean}   tentative      True if tentative accept.
      * @param   {boolean}   sendResponse   Indicates whether to send a response to the organizer.
-     * @return  {IPromise<CalendarActionResults>}    A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
+     * @return  {Promise<CalendarActionResults>}    A CalendarActionResults object containing the various items that were created or modified as aresults of this operation :Promise.
      */
-    InternalAccept(tentative: boolean, sendResponse: boolean): IPromise<CalendarActionResults> {
+    InternalAccept(tentative: boolean, sendResponse: boolean): Promise<CalendarActionResults> {
         let accept: AcceptMeetingInvitationMessage = this.CreateAcceptMessage(tentative);
 
         if (sendResponse) {
@@ -752,7 +795,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {MessageBody}     bodyPrefix   The prefix to prepend to the body of the meeting.
      * @param   {boolean}         replyAll     Indicates whether the reply should go to the organizer only or to all the attendees.
      */
-    Reply(bodyPrefix: MessageBody, replyAll: boolean): IPromise<void> {
+    Reply(bodyPrefix: MessageBody, replyAll: boolean): Promise<void> {
         let responseMessage: ResponseMessage = this.CreateReply(replyAll);
 
         responseMessage.BodyPrefix = bodyPrefix;
@@ -766,7 +809,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      *
      * @param   {SendInvitationsMode}   sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
+    Save(sendInvitationsMode?: SendInvitationsMode): Promise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      * ### sendInvitationsMode not optional, see github issue #52
@@ -774,7 +817,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save this appointment.
      * @param   {SendInvitationsMode}   sendInvitationsMode     *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
+    Save(destinationFolderName: WellKnownFolderName, sendInvitationsMode?: SendInvitationsMode): Promise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     /**
      * Saves this appointment in the specified folder. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added.
      * ### sendInvitationsMode not optional, see github issue #52
@@ -782,9 +825,9 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save this appointment.
      * @param   {SendInvitationsMode}     sendInvitationsMode   *not Optional* Specifies if and how invitations should be sent if this appointment is a meeting.
      */
-    Save(destinationFolderId: FolderId, sendInvitationsMode?: SendInvitationsMode): IPromise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
+    Save(destinationFolderId: FolderId, sendInvitationsMode?: SendInvitationsMode): Promise<void>; //info: optional sendInvitationsMode to implement workaround @github #52 
     Save(destinationFolderNameOrIdOrSendInvitationMode: FolderId | WellKnownFolderName | SendInvitationsMode,
-        sendInvitationsMode?: SendInvitationsMode): IPromise<void> {
+        sendInvitationsMode?: SendInvitationsMode): Promise<void> {
 
         let argsLength = arguments.length;
         if (argsLength < 1 || argsLength > 2) {
@@ -811,7 +854,7 @@ export class Appointment extends Item implements ICalendarActionProvider {
     }
 
     /** ## internal - do not use on Appointment class */
-    Update(conflictResolutionMode: ConflictResolutionMode): IPromise<void>; //info: added signature to implement workaround @github #52 
+    Update(conflictResolutionMode: ConflictResolutionMode): Promise<void>; //info: added signature to implement workaround @github #52 
     /**
      * Applies the local changes that have been made to this appointment. Calling this method results in at least one call to EWS. Mutliple calls to EWS might be made if attachments have been added or removed.
      * ### sendInvitationsOrCancellationsMode not optional, see github issue #52
@@ -819,8 +862,8 @@ export class Appointment extends Item implements ICalendarActionProvider {
      * @param   {ConflictResolutionMode}   conflictResolutionMode               Specifies how conflicts should be resolved.
      * @param   {SendInvitationsOrCancellationsMode}   sendInvitationsOrCancellationsMode   Specifies if and how invitations or cancellations should be sent if this appointment is a meeting.
      */
-    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): IPromise<void>;
-    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): IPromise<void> {
+    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): Promise<void>;
+    Update(conflictResolutionMode: ConflictResolutionMode, sendInvitationsOrCancellationsMode?: SendInvitationsOrCancellationsMode): Promise<void> {
         return <any>this.InternalUpdate(
             null,
             conflictResolutionMode,

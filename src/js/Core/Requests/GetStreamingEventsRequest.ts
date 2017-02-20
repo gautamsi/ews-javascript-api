@@ -1,12 +1,12 @@
-﻿import {EwsServiceJsonReader} from "../EwsServiceJsonReader";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {GetStreamingEventsResponse} from "../Responses/GetStreamingEventsResponse";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { EwsServiceJsonReader } from "../EwsServiceJsonReader";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { GetStreamingEventsResponse } from "../Responses/GetStreamingEventsResponse";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {HangingServiceRequestBase, HandleResponseObject} from "./HangingServiceRequestBase";
+import { HangingServiceRequestBase, HandleResponseObject } from "./HangingServiceRequestBase";
 /**
  * @internal Represents a GetStreamingEvents request.
  */
@@ -16,7 +16,7 @@ export class GetStreamingEventsRequest extends HangingServiceRequestBase {
 
 	/**
 	 * @internal Allow test code to change heartbeat value
-	 * @remarks	set only.
+	 * /remarks/	set only.
 	 */
 	static set HeartbeatFrequency(value: number) {
 		this.heartbeatFrequency = value;
@@ -69,8 +69,8 @@ export class GetStreamingEventsRequest extends HangingServiceRequestBase {
      * @param   {any}   jsonBody   The js object response body.
      * @return  {any}              Response object.
      */
-    ParseResponse(jsBody: any): any {
-        var jsResponseMessages: any = jsBody[XmlElementNames.ResponseMessages]
+	ParseResponse(jsBody: any): any {
+		var jsResponseMessages: any = jsBody[XmlElementNames.ResponseMessages]
 
 		let response = new GetStreamingEventsResponse(this);
 		response.LoadFromXmlJsObject(jsResponseMessages[XmlElementNames.GetStreamingEventsResponseMessage], this.Service);

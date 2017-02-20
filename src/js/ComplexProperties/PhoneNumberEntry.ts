@@ -22,6 +22,7 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     constructor(key: PhoneNumberKey, imAddress: string);
     constructor(key: PhoneNumberKey = PhoneNumberKey.AssistantPhone, phoneNumber: string = null) {
         super(key);
+        this.keyType= PhoneNumberKey;
         this.phoneNumber = phoneNumber;
     }
     InternalToJson(service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - InternalToJson : Not implemented."); }
@@ -29,5 +30,7 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         this.Key = <PhoneNumberKey><any>PhoneNumberKey[jsonProperty[XmlAttributeNames.Key]];
         this.phoneNumber = jsonProperty[XmlElementNames.Entry];//PhoneNumber
-    } WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
+    } 
+    /**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { writer.WriteValue(this.PhoneNumber, XmlElementNames.PhoneNumber); }
 }

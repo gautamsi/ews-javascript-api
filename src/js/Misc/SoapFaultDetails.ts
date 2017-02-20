@@ -1,18 +1,20 @@
-﻿import {Convert} from "../ExtensionMethods";
-import {Dictionary, DictionaryWithStringKey} from "../AltDictionary";
-import {EwsLogging} from "../Core/EwsLogging";
-import {EwsServiceJsonReader} from "../Core/EwsServiceJsonReader";
-import {Exception} from "../Exceptions/Exception";
-import {ServiceError} from "../Enumerations/ServiceError";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { Convert } from "../ExtensionMethods";
+import { Dictionary, DictionaryWithStringKey } from "../AltDictionary";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsServiceJsonReader } from "../Core/EwsServiceJsonReader";
+import { Exception } from "../Exceptions/Exception";
+import { ServiceError } from "../Enumerations/ServiceError";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
 /**
  * Represents SoapFault details. 
  * 
- * @remarks ews-javascript-api -> removing internal modifier to, this class will be used to pass on to error delegate of promise instead of Exceptions
+ * /remarks/    ews-javascript-api -> removing internal modifier to, this class will be used to pass on to error delegate of promise instead of Exceptions. 
+ * 
+ * /remarks/    ews-javascript-api -> 0.9 - Extending from Error object to avoid BlueBird errors when promise is rejected without and Error object 
  */
-export class SoapFaultDetails {
+export class SoapFaultDetails extends Error {
 
     private faultCode: string = null;
     private faultString: string = null;
@@ -27,7 +29,7 @@ export class SoapFaultDetails {
     /**
      * Message text of the error.
      */
-    private message: string = null;
+    message: string = null; //not private to comply with Error object
 
     /**
      * This is returned by Availability requests.
@@ -181,9 +183,15 @@ export class SoapFaultDetails {
     Exception: Exception;
 
     /**
+     * ews-javascript-api specific: HTTP status code 
+     */
+    HttpStatusCode = 200;
+
+    /**
      * @private Initializes a new instance of the **SoapFaultDetails** class.
      */
     constructor() {
+        super();
     }
 
     /**

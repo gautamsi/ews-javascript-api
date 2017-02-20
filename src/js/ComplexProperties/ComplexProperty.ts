@@ -1,27 +1,27 @@
-﻿import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsLogging} from "../Core/EwsLogging";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ComplexPropertyChangedDelegate} from "../Misc/DelegateTypes";
-import {IRefParam} from "../Interfaces/IRefParam";
-import {ExchangeService} from "../Core/ExchangeService";
+﻿import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsLogging } from "../Core/EwsLogging";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
+import { ComplexPropertyChangedDelegate } from "../Misc/DelegateTypes";
+import { ArrayHelper } from "../ExtensionMethods";
+import { IRefParam } from "../Interfaces/IRefParam";
+import { ExchangeService } from "../Core/ExchangeService";
 
-export class ComplexProperty { //ISelfValidate, IJsonSerializable
-  ___implementsInterface: string[] = ["ISelfValidate", "IJsonSerializable"];
-  ___typeName: string = "ComplexProperty";
+/**
+ * Represents a property that can be sent to or retrieved from EWS.
+ */
+export class ComplexProperty {
+  
+  /**@internal */
   Namespace: XmlNamespace = XmlNamespace.Types;
   //private xmlNamespace: XmlNamespace; ^ no need for pivate property
   OnChange: ComplexPropertyChangedDelegate[] = [];
 
   constructor() {
-
   }
-
 
   Changed(): void {
     if (this.OnChange && this.OnChange.length > 0) {
-      EwsLogging.Assert(false, "ComplexProperty.Changed", "OnChange events not fired due to circular calling, todo: fix needed");
-      return;
       this.OnChange.forEach((delegateInstance, index, array) => {
         if (delegateInstance)
           delegateInstance(this);
@@ -68,8 +68,10 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
     // xmlNamespace || this.Namespace,
     // xmlElementName,
   }
-  ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
-  ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    ReadTextValueFromXmlJsObject(jsObject: EwsServiceXmlReader): void { debugger;/*virtual method for derived class to implement if needed*/ }
   SetFieldValue<T>(field: IRefParam<T>, value: T): void {  //irefparam to workaround ref parameters irefparam.value is actual value;
     var applyChange: boolean = false;
 
@@ -112,12 +114,15 @@ export class ComplexProperty { //ISelfValidate, IJsonSerializable
   {
     this.InternalValidate();
   }
-  WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
-  
-  /** reverted to simplify child clarr override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
+  /**@internal */
+    WriteAttributesToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
+  /**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void { /*virtual method for derived class to implement if needed*/ }
+
+  /** @internal reverted to simplify child class override - it breaks all derived/child class and throws error "incorrectly extends base class" due to TypeScript design */
   //WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void { throw new Error("ComplexProperty.ts - WriteToXml : Not implemented."); }
-  WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
+  /**@internal */
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace): void {
     if (!xmlNamespace)
       xmlNamespace = this.Namespace;
 

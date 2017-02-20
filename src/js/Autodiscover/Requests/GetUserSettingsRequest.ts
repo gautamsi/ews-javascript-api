@@ -11,7 +11,7 @@ import {UserSettingName} from "../../Enumerations/UserSettingName";
 
 import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
 
-import {IPromise} from "../../Interfaces";
+import { Promise } from "../../Promise";
 
 import {AutodiscoverService} from "../AutodiscoverService";
 import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
@@ -34,12 +34,12 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
     CreateServiceResponse(): AutodiscoverResponse {
         return new GetUserSettingsResponseCollection();
     }
-    Execute(): IPromise<GetUserSettingsResponseCollection> {
+    Execute(): Promise<GetUserSettingsResponseCollection> {
         return this.InternalExecute().then((adr: GetUserSettingsResponseCollection) => {
             this.PostProcessResponses(adr)
             return adr;
         });
-        //<IPromise<>> v
+        //<Promise<>> v
         //if (!responses) return;
         //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
         //    this.PostProcessResponses(responses);
@@ -61,6 +61,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
             responses.__thisIndexer(index).SmtpAddress = this.SmtpAddresses[index];
         }
     }
+    /**@internal */
     ReadSoapHeader(reader: EwsXmlReader): void {
         super.ReadSoapHeader(reader);
         return;
@@ -102,12 +103,14 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
             }
         }
     }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(
             "xmlns",
             EwsUtilities.AutodiscoverSoapNamespacePrefix,
             EwsUtilities.AutodiscoverSoapNamespace);
     }
+    /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): any {
         writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Request);
 
@@ -142,6 +145,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
 
         writer.WriteEndElement(); // Request
     }
+    /**@internal */
     WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void {
 
         if (this.expectPartnerToken) {

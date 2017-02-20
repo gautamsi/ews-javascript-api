@@ -6,6 +6,7 @@ import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {XmlElementNames} from "../Core/XmlElementNames";
 //todo: should be done
+/** @internal */
 export class PrivilegedUserId {
     IdType: ConnectingIdType;
     Id: string;

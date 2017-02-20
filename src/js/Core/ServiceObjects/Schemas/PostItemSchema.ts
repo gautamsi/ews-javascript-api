@@ -1,11 +1,11 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {Schemas} from "./Schemas";
-import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { DateTimePropertyDefinition } from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "./Schemas";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * Field URIs for PostItem.
@@ -73,7 +73,7 @@ export class PostItemSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();

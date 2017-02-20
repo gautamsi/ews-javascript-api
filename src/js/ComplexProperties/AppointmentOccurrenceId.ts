@@ -24,6 +24,7 @@ export class AppointmentOccurrenceId extends ItemId {
 
     GetXmlElementName(): string { return XmlElementNames.OccurrenceItemId; }
     InternalToJson(service: ExchangeService): any { throw new Error("AppointmentOccurrenceId.ts - InternalToJson : Not implemented."); }
+    /**@internal */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.RecurringMasterId, this.UniqueId);
         writer.WriteAttributeValue(XmlAttributeNames.InstanceIndex, this.OccurrenceIndex);

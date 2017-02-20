@@ -1,6 +1,7 @@
 ﻿import {DnsRecord} from "./DnsRecord";
 import {DnsRecordType} from "../Enumerations/DnsRecordType";
 import {DnsRecordHeader} from "./DnsRecordHeader";
+/** @internal */
 export class DnsSrvRecord extends DnsRecord {
 	RecordType: DnsRecordType;
 	NameTarget: string;

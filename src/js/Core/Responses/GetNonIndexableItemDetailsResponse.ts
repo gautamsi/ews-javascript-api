@@ -1,13 +1,39 @@
-﻿import {ServiceResponse} from "./ServiceResponse";
-import {NonIndexableItemDetailsResult} from "../../MailboxSearch/NonIndexableItemDetailsResult";
-import {JsonObject} from "../JsonObject";
-import {ExchangeService} from "../ExchangeService";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import { ExchangeService } from "../ExchangeService";
+import { NonIndexableItemDetailsResult } from "../../MailboxSearch/NonIndexableItemDetailsResult";
+import { ServiceResponse } from "./ServiceResponse";
+import { XmlElementNames } from "../XmlElementNames";
+
 /**
- * ## *Not Implemented* 
+ * Represents the GetNonIndexableItemDetails response.
+ * 
+ * @sealed
  */
 export class GetNonIndexableItemDetailsResponse extends ServiceResponse {
-    NonIndexableItemsResult: NonIndexableItemDetailsResult;
-    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any { throw new Error("GetNonIndexableItemDetailsResponse.ts - ReadElementsFromJson : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): any { throw new Error("GetNonIndexableItemDetailsResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); }
+
+    /**
+     * Non indexable item result
+     * 
+     * internal set
+     */
+    NonIndexableItemsResult: NonIndexableItemDetailsResult = null;
+
+    /**
+	 * @internal Initializes a new instance of the **GetDiscoverySearchConfigurationResponse** class.
+	 */
+    constructor() {
+        super();
+    }
+
+    /**
+     * @internal Reads response elements from Xml JsObject.
+     *
+     * @param   {any}               jsObject   The response object.
+     * @param   {ExchangeService}   service    The service.
+     */
+    ReadElementsFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        //super.ReadElementsFromXmlJsObject(jsObject,service);
+        if (jsObject[XmlElementNames.NonIndexableItemDetailsResult]) {
+            this.NonIndexableItemsResult = NonIndexableItemDetailsResult.LoadFromXmlJsObject(jsObject[XmlElementNames.NonIndexableItemDetailsResult], service);
+        }
+    }
 }

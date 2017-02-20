@@ -1,13 +1,13 @@
-﻿import {ServiceObjectSchema} from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
-import {ExchangeService} from "../Core/ExchangeService";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {StringHelper} from "../ExtensionMethods";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { ServiceObjectSchema } from "../Core/ServiceObjects/Schemas/ServiceObjectSchema";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ServiceObjectPropertyDefinition} from "./ServiceObjectPropertyDefinition";
+import { ServiceObjectPropertyDefinition } from "./ServiceObjectPropertyDefinition";
 /**
  * Represents the definition of a folder or item property.
  */
@@ -19,7 +19,7 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     private version: ExchangeVersion;
 
     /**
-     * @internalGets a value indicating whether this property definition is for a nullable type (ref, int?, bool?...).
+     * @internal Gets a value indicating whether this property definition is for a nullable type (ref, int?, bool?...).
      */
     get IsNullable(): boolean { return true; }
 
@@ -45,7 +45,7 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     get Version(): ExchangeVersion { return this.version; }
 
     /**
-     * @internalGets the name of the XML element.
+     * @internal Gets the name of the XML element.
      * 
      * @value {string}  The name of the XML element.
      */
@@ -100,10 +100,10 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     }
 
     /**
-     * @internalGets a list of associated internal properties.
+     * @internal Gets a list of associated internal properties.
      *
+     * /remarks/    This is a hack. It is here (currently) solely to help the API register the MeetingTimeZone property definition that is internal.
      * @return  {PropertyDefinition[]}      A list of PropertyDefinition objects.
-     * @remarks This is a hack. It is here (currently) solely to help the API register the MeetingTimeZone property definition that is internal.
      */
     GetAssociatedInternalProperties(): PropertyDefinition[] /*System.Collections.Generic.List<PropertyDefinition>*/ {
         var properties: PropertyDefinition[] = [];
@@ -114,21 +114,21 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     }
 
     /**
-     * @internalGets the property definition's printable name.
+     * @internal Gets the property definition's printable name.
      *
      * @return  {string}      The property definition's printable name.
      */
     GetPrintableName(): string { return this.Name; }
 
     /**
-     * @internalDetermines whether the specified flag is set.
+     * @internal Determines whether the specified flag is set.
      *
      * @param   {PropertyDefinitionFlags}   flag   The flag.
      * @return  {boolean}   true if the specified flag is set; otherwise, false.
      */
     HasFlag(flag: PropertyDefinitionFlags): boolean;
     /**
-     * @internalDetermines whether the specified flag is set.
+     * @internal Determines whether the specified flag is set.
      *
      * @param   {PropertyDefinitionFlags}   flag      The flag.
      * @param   {ExchangeVersion}           version   Requested version.
@@ -149,7 +149,7 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     abstract LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void;
 
     /**
-     * @internalRegisters associated internal properties.
+     * @internal Registers associated internal properties.
      *
      * @param   {PropertyDefinition[]}   properties   The list in which to add the associated properties.
      */
@@ -157,7 +157,7 @@ export abstract class PropertyDefinition extends ServiceObjectPropertyDefinition
     }
 
     /**
-     * @internalWrites the property value to XML.
+     * @internal Writes the property value to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer              The writer.
      * @param   {PropertyBag}           propertyBag         The property bag.

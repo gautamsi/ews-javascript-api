@@ -1,34 +1,34 @@
-﻿import {XmlElementNames} from "../../XmlElementNames";
-import {LegacyFreeBusyStatus} from "../../../Enumerations/LegacyFreeBusyStatus";
-import {AppointmentType} from "../../../Enumerations/AppointmentType";
-import {MeetingResponseType} from "../../../Enumerations/MeetingResponseType";
-import {Appointment} from "../Items/Appointment";
-import {StartTimeZonePropertyDefinition} from "../../../PropertyDefinitions/StartTimeZonePropertyDefinition";
-import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../../../Enumerations/PropertyDefinitionFlags";
-import {TimeZonePropertyDefinition} from "../../../PropertyDefinitions/TimeZonePropertyDefinition";
-import {ScopedDateTimePropertyDefinition} from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
-import {DateTimePropertyDefinition} from "../../../PropertyDefinitions/DateTimePropertyDefinition";
-import {BoolPropertyDefinition} from "../../../PropertyDefinitions/BoolPropertyDefinition";
-import {GenericPropertyDefinition} from "../../../PropertyDefinitions/GenericPropertyDefinition";
-import {StringPropertyDefinition} from "../../../PropertyDefinitions/StringPropertyDefinition";
-import {ContainedPropertyDefinition} from "../../../PropertyDefinitions/ContainedPropertyDefinition";
-import {EmailAddress} from "../../../ComplexProperties/EmailAddress";
-import {ComplexPropertyDefinition} from "../../../PropertyDefinitions/ComplexPropertyDefinition";
-import {AttendeeCollection} from "../../../ComplexProperties/AttendeeCollection";
-import {IntPropertyDefinition} from "../../../PropertyDefinitions/IntPropertyDefinition";
-import {ItemCollection} from "../../../ComplexProperties/ItemCollection";
-import {TimeSpanPropertyDefinition} from "../../../PropertyDefinitions/TimeSpanPropertyDefinition";
-import {RecurrencePropertyDefinition} from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
-import {OccurrenceInfo} from "../../../ComplexProperties/OccurrenceInfo";
-import {OccurrenceInfoCollection} from "../../../ComplexProperties/OccurrenceInfoCollection";
-import {DeletedOccurrenceInfoCollection} from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
-import {MeetingTimeZonePropertyDefinition} from "../../../PropertyDefinitions/MeetingTimeZonePropertyDefinition";
-import {EnhancedLocation} from "../../../ComplexProperties/EnhancedLocation";
-import {OnlineMeetingSettings} from "../../../ComplexProperties/OnlineMeetingSettings";
-import {PropertyDefinition} from "../../../PropertyDefinitions/PropertyDefinition";
+﻿import { Appointment } from "../Items/Appointment";
+import { AppointmentType } from "../../../Enumerations/AppointmentType";
+import { AttendeeCollection } from "../../../ComplexProperties/AttendeeCollection";
+import { BoolPropertyDefinition } from "../../../PropertyDefinitions/BoolPropertyDefinition";
+import { ComplexPropertyDefinition } from "../../../PropertyDefinitions/ComplexPropertyDefinition";
+import { ContainedPropertyDefinition } from "../../../PropertyDefinitions/ContainedPropertyDefinition";
+import { DateTimePropertyDefinition } from "../../../PropertyDefinitions/DateTimePropertyDefinition";
+import { DeletedOccurrenceInfoCollection } from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
+import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
+import { EnhancedLocation } from "../../../ComplexProperties/EnhancedLocation";
+import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { GenericPropertyDefinition } from "../../../PropertyDefinitions/GenericPropertyDefinition";
+import { IntPropertyDefinition } from "../../../PropertyDefinitions/IntPropertyDefinition";
+import { ItemCollection } from "../../../ComplexProperties/ItemCollection";
+import { LegacyFreeBusyStatus } from "../../../Enumerations/LegacyFreeBusyStatus";
+import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
+import { MeetingTimeZonePropertyDefinition } from "../../../PropertyDefinitions/MeetingTimeZonePropertyDefinition";
+import { OccurrenceInfo } from "../../../ComplexProperties/OccurrenceInfo";
+import { OccurrenceInfoCollection } from "../../../ComplexProperties/OccurrenceInfoCollection";
+import { OnlineMeetingSettings } from "../../../ComplexProperties/OnlineMeetingSettings";
+import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
+import { PropertyDefinitionFlags } from "../../../Enumerations/PropertyDefinitionFlags";
+import { RecurrencePropertyDefinition } from "../../../PropertyDefinitions/RecurrencePropertyDefinition";
+import { ScopedDateTimePropertyDefinition } from "../../../PropertyDefinitions/ScopedDateTimePropertyDefinition";
+import { StartTimeZonePropertyDefinition } from "../../../PropertyDefinitions/StartTimeZonePropertyDefinition";
+import { StringPropertyDefinition } from "../../../PropertyDefinitions/StringPropertyDefinition";
+import { TimeSpanPropertyDefinition } from "../../../PropertyDefinitions/TimeSpanPropertyDefinition";
+import { TimeZonePropertyDefinition } from "../../../PropertyDefinitions/TimeZonePropertyDefinition";
+import { XmlElementNames } from "../../XmlElementNames";
 
-import {ItemSchema} from "./ItemSchema";
+import { ItemSchema } from "./ItemSchema";
 
 /**
  * Field URIs for Appointment.
@@ -166,7 +166,8 @@ export class AppointmentSchema extends ItemSchema {
         XmlElementNames.LegacyFreeBusyStatus,
         FieldUris.LegacyFreeBusyStatus,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        LegacyFreeBusyStatus
     );
 
     /**
@@ -254,7 +255,8 @@ export class AppointmentSchema extends ItemSchema {
         XmlElementNames.CalendarItemType,
         FieldUris.CalendarItemType,
         PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        AppointmentType
     );
 
     /**
@@ -265,7 +267,8 @@ export class AppointmentSchema extends ItemSchema {
         XmlElementNames.MyResponseType,
         FieldUris.MyResponseType,
         PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanUpdate | PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2007_SP1
+        ExchangeVersion.Exchange2007_SP1,
+        MeetingResponseType
     );
 
     /**
@@ -622,7 +625,7 @@ export class AppointmentSchema extends ItemSchema {
     /**
      * Registers properties.
      * 
-     * @remarks IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
+     * /remarks/    IMPORTANT NOTE: PROPERTIES MUST BE REGISTERED IN SCHEMA ORDER (i.e. the same order as they are defined in types.xsd)
      */
     RegisterProperties(): void {
         super.RegisterProperties();
@@ -874,5 +877,5 @@ export interface AppointmentSchema {
 /**
  * Represents the schema for appointment and meeting requests.
  */
-export interface AppointmentSchemaStatic extends AppointmentSchema{    
+export interface AppointmentSchemaStatic extends AppointmentSchema {
 }

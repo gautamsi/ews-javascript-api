@@ -1,20 +1,22 @@
-﻿import {IOwnedProperty} from "../Interfaces/IOwnedProperty";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsLogging} from "../Core/EwsLogging";
-import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+﻿import { CreateComplexPropertyDelegate } from "../Misc/DelegateTypes";
+import { EwsLogging } from "../Core/EwsLogging";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IOwnedProperty } from "../Interfaces/IOwnedProperty";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { ServiceObject } from "../Core/ServiceObjects/ServiceObject";
+import { TypeGuards } from "../Interfaces/TypeGuards"
 
-import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
-import {CreateComplexPropertyDelegate} from "../Misc/DelegateTypes";
-
-import {ComplexPropertyDefinitionBase} from "./ComplexPropertyDefinitionBase";
+import { ComplexProperty } from "../ComplexProperties/ComplexProperty";
+import { ComplexPropertyDefinitionBase } from "./ComplexPropertyDefinitionBase";
 /**
  * @internal Represents base complex property type.
  * 
  * @type <TComplexProperty> The type of the complex property.
  */
 export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
-    Type: any;// System.Type;
+    
+    Type: any;// System.Type; //todo: implement Type using typeof type
+    
     private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
 
 
@@ -77,11 +79,9 @@ export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty>
     CreatePropertyInstance(owner: ServiceObject): ComplexProperty {
 
         var complexProperty: TComplexProperty = this.propertyCreationDelegate();
-        //todo: fix better interface detection by some other means, checking property directly
-        var isIOwnedProperty = complexProperty["___implementsInterface"].indexOf("IOwnedProperty") >= 0;
-        let ownedProperty: IOwnedProperty = <any>complexProperty;
-        if (isIOwnedProperty) {
-            ownedProperty.Owner = owner;
+
+        if (TypeGuards.isIOwnedProperty(complexProperty)) { //IOwnedProperty ownedProperty = complexProperty as IOwnedProperty;
+            complexProperty.Owner = owner;
         }
 
         if (complexProperty)

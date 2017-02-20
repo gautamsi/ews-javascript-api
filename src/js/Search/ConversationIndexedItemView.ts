@@ -1,19 +1,18 @@
-﻿import {ConversationQueryTraversal} from "../Enumerations/ConversationQueryTraversal";
-import {EnumToExchangeVersionMappingHelper} from "../Enumerations/EnumToExchangeVersionMappingHelper";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {Grouping} from "./Grouping";
-import {OffsetBasePoint} from "../Enumerations/OffsetBasePoint";
-import {OrderByCollection} from "./OrderByCollection";
-import {ServiceObjectType} from "../Enumerations/ServiceObjectType";
-import {ServiceRequestBase} from "../Core/Requests/ServiceRequestBase";
-import {ViewFilter} from "../Enumerations/ViewFilter";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { Grouping } from "./Grouping";
+import { OffsetBasePoint } from "../Enumerations/OffsetBasePoint";
+import { OrderByCollection } from "./OrderByCollection";
+import { ServiceObjectType } from "../Enumerations/ServiceObjectType";
+import { ServiceRequestBase } from "../Core/Requests/ServiceRequestBase";
+import { ViewFilter } from "../Enumerations/ViewFilter";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {PagedView} from "./PagedView";
+import { PagedView } from "./PagedView";
 /**
  * Represents the view settings in a folder search operation.
  * 
@@ -61,14 +60,14 @@ export class ConversationIndexedItemView extends PagedView {
      *
      * @param   {number}   pageSize          The maximum number of elements the search operation should return.
      */
-    constructor(pageSize: number);
+	constructor(pageSize: number);
     /**
      * Initializes a new instance of the **ItemView** class.
      *
      * @param   {number}   pageSize          The maximum number of elements the search operation should return.
      * @param   {number}   offset            The offset of the view from the base point.
      */
-    constructor(pageSize: number, offset: number);
+	constructor(pageSize: number, offset: number);
     /**
      * Initializes a new instance of the **ItemView** class.
      *
@@ -76,17 +75,17 @@ export class ConversationIndexedItemView extends PagedView {
      * @param   {number}   offset            The offset of the view from the base point.
      * @param   {number}   offsetBasePoint   The base point of the offset.
      */
-    constructor(pageSize: number, offset: number, offsetBasePoint: OffsetBasePoint);
-    constructor(pageSize: number, offset: number = 0, offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
-        super(pageSize, offset, offsetBasePoint);
-    }
+	constructor(pageSize: number, offset: number, offsetBasePoint: OffsetBasePoint);
+	constructor(pageSize: number, offset: number = 0, offsetBasePoint: OffsetBasePoint = OffsetBasePoint.Beginning) {
+		super(pageSize, offset, offsetBasePoint);
+	}
 
 	/**
      * @internal Gets the type of service object this view applies to.
      *
      * @return  {ServiceObjectType}      A ServiceObjectType value.
      */
-    GetServiceObjectType(): ServiceObjectType {
+	GetServiceObjectType(): ServiceObjectType {
 		return ServiceObjectType.Conversation;
 	}
 
@@ -95,7 +94,7 @@ export class ConversationIndexedItemView extends PagedView {
      *
      * @return  {type}      XML element name.
      */
-    GetViewXmlElementName(): string {
+	GetViewXmlElementName(): string {
 		return XmlElementNames.IndexedPageItemView;
 	}
 
@@ -104,15 +103,15 @@ export class ConversationIndexedItemView extends PagedView {
      *
      * @param   {ServiceRequestBase}   request   The request using this view.
      */
-    InternalValidate(request: ServiceRequestBase): void {
+	InternalValidate(request: ServiceRequestBase): void {
 		super.InternalValidate(request);
 
 		if (this.Traversal) {
-			EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.ConversationQueryTraversal, this.traversal, request.Service.RequestedServerVersion);
+			EwsUtilities.ValidateEnumVersionValue(ConversationQueryTraversal, this.traversal, request.Service.RequestedServerVersion, "ConversationQueryTraversal");
 		}
 
 		if (this.ViewFilter) {
-			EwsUtilities.ValidateEnumVersionValue(EnumToExchangeVersionMappingHelper.ViewFilter, this.viewFilter, request.Service.RequestedServerVersion);
+			EwsUtilities.ValidateEnumVersionValue(ViewFilter, this.viewFilter, request.Service.RequestedServerVersion, "ViewFilter");
 		}
 	}
 
@@ -122,7 +121,7 @@ export class ConversationIndexedItemView extends PagedView {
      * @param   {EwsServiceXmlWriter}   writer    The writer.
      * @param   {Grouping}              groupBy   The group by clause.
      */
-    InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {
+	InternalWriteSearchSettingsToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {
 		super.InternalWriteSearchSettingsToXml(writer, groupBy);
 	}
 
@@ -131,13 +130,13 @@ export class ConversationIndexedItemView extends PagedView {
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+	WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
 		if (this.Traversal) {
-			writer.WriteAttributeValue(XmlAttributeNames.Traversal, this.Traversal);
+			writer.WriteAttributeValue(XmlAttributeNames.Traversal, ConversationQueryTraversal[this.Traversal]);
 		}
 
 		if (this.ViewFilter) {
-			writer.WriteAttributeValue(XmlAttributeNames.ViewFilter, this.ViewFilter);
+			writer.WriteAttributeValue(XmlAttributeNames.ViewFilter, ViewFilter[this.ViewFilter]);
 		}
 	}
 
@@ -146,7 +145,7 @@ export class ConversationIndexedItemView extends PagedView {
 	 *
 	 * @param   {EwsServiceXmlWriter}   writer   The writer.
 	 */
-    WriteOrderByToXml(writer: EwsServiceXmlWriter): void {
+	WriteOrderByToXml(writer: EwsServiceXmlWriter): void {
 		this.orderBy.WriteToXml(writer, XmlElementNames.SortOrder);
 	}
 
@@ -156,7 +155,7 @@ export class ConversationIndexedItemView extends PagedView {
      * @param   {EwsServiceXmlWriter}   writer    The writer.
      * @param   {Grouping}              groupBy   The group by clause.
      */
-    WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {
+	WriteToXml(writer: EwsServiceXmlWriter, groupBy: Grouping): void {
 		writer.WriteStartElement(XmlNamespace.Messages, this.GetViewXmlElementName());
 
 		this.InternalWriteViewToXml(writer);

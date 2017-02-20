@@ -16,6 +16,7 @@ export class ManagementRoles {
         }
     }
     //ToJsonObject(): Microsoft.Exchange.WebServices.Data.JsonObject { throw new Error("ManagementRoles.ts - ToJsonObject : Not implemented."); }
+    /**@internal */
     WriteRolesToXml(writer: EwsServiceXmlWriter, roles: string[], elementName: string): void {
         if (roles && roles.length > 0) {
             writer.WriteStartElement(XmlNamespace.Types, elementName);
@@ -27,6 +28,7 @@ export class ManagementRoles {
             writer.WriteEndElement();
         }
     }
+    /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.ManagementRole);
         this.WriteRolesToXml(writer, this.userRoles, XmlElementNames.UserRoles);

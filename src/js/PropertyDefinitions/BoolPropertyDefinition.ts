@@ -1,11 +1,10 @@
-﻿import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {PropertyBag} from "../Core/PropertyBag";
-import {Convert} from "../ExtensionMethods";
+﻿import { Convert } from "../ExtensionMethods";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 
-
-import {GenericPropertyDefinition} from "./GenericPropertyDefinition";
+import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents Boolean property definition
  */
@@ -47,7 +46,7 @@ export class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
                 super(propertyName, xmlElementName, uri, <ExchangeVersion>versionOrFlags);
                 break;
             case 5:
-                super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version);
+                super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version, false);
                 break;
             case 6:
                 super(propertyName, xmlElementName, uri, <PropertyDefinitionFlags>versionOrFlags, version, isNullable);
@@ -55,6 +54,16 @@ export class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
             default:
                 break;
         }
+    }
+
+    /**
+     * @internal Parses the specified value (added to workaround Generic based value conversion in c#).
+     *
+     * @param   {string}    value   The value.
+     * @return  {any}       Value of string.
+     */
+    Parse(value: string): any {
+        return Convert.toBool(value);
     }
 
     /**
@@ -67,15 +76,5 @@ export class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
         if (value)
             return EwsUtilities.BoolToXSBool(value);
         throw new Error("BoolPropertyDefinition: incorrect call of ToString(value): value is undefined");
-    }
-
-    /**
-     * @internal Parses the specified value (added to workaround Generic based value conversion in c#).
-     *
-     * @param   {string}    value   The value.
-     * @return  {any}       Value of string.
-     */
-    Parse(value: string): any {
-        return Convert.toBool(value);
     }
 }

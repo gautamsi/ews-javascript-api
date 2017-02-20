@@ -17,6 +17,7 @@ export class AlternateMailbox {
     //private server: string;
     //private smtpAddress: string;
     //private ownerSmtpAddress: string;
+    /**@internal */
     LoadFromXml(reader: EwsXmlReader): AlternateMailbox {
         var altMailbox: AlternateMailbox = new AlternateMailbox();
 

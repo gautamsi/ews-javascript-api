@@ -3,6 +3,33 @@ ews-javascript-api
 ==================
 ## Exchange Web Service in JavaScript/TypeScript.
 
+===========================================================================================
+# Current State:
+* Almost all methods in ExchangeService class is comple with respect to c# counterpart ([based on commit#31951f4 ](https://github.com/OfficeDev/ews-managed-api/commit/31951f456519786e41232fa9ff6a3ab20b56cac3)
+    * some method skipped as they are not for client side code or are diaognostic methods. 
+* Roadmap to Beta:
+    * ReWrite XHR/Request and Promise see #94
+    * Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isnt taking any advantage of.
+    * Add jsdoc comment to remaining exported class
+* Roadmap to 1.0
+    * fix bugs from Beta
+    * complete code improvement based on diff from original snapshot
+    * basic tests to be introduced to prevent breaking changes
+    * Add documentation with sample code for each operation in ExchangeService methods
+    * Integrate ntlm and cookies authentication code in main library 
+* Beyond 1.0 
+    * Add npm based typings support for lates TypeScript based workflow
+    * minified version for any developer need 
+    * String Null check to improve reliability, TypeScript 2.0 feature
+    * Complete jsdoc comment in 
+    * Complete code for new features introduced after the snapshot I was working on
+    * Add OAuth authentication with Azure AD (needs admin created APP in Azure AD)
+    * Break into components to have better performance and download
+    * enable non Node scenarios
+    * trimmed version for Outlook Mail APP supported EWS calls  
+
+===========================================================================================
+
 EWS managed API for TypeScript/JavaScript - code ported from OfficeDev/ews-managed-api. availbale for nodejs, browser and mobile devices (cordova).  
 
 Pluggable XHRApi adapter to replace client (browser) based XHR call with server brokered call (example coming soon). Example Ruby on rails, PHP or any server side framework where c# or nodejs is not available
@@ -29,7 +56,32 @@ Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library
 Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
 Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
-also track what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
+keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
+
+# Whats new v0.8.0
+
+* new: [#46](https://github.com/gautamsi/ews-javascript-api/issues/48) ***eDiscovery operations*** availbale, [see MSDN: *eDiscovery in EWS* section on this link](https://msdn.microsoft.com/EN-US/library/office/jj190903(v=exchg.150).aspx#eDisc)
+* new: [#120](https://github.com/gautamsi/ews-javascript-api/issues/120) missing method parameters for SetHoldOnMailboxes operation in c# library, but in EWS operation.
+* fix: [#99](https://github.com/gautamsi/ews-javascript-api/issues/99) - Can't cancel meeting - TypeError
+
+# Whats new v0.7.0
+
+* new: [#46](https://github.com/gautamsi/ews-javascript-api/issues/46) ***UserConfiguration operations*** availbale, [see MSDN: *Working with user configuration objects by using the EWS Managed API 2.0*](https://msdn.microsoft.com/EN-US/library/office/gg274396(v=exchg.80).aspx)
+> Caveat: all binary data and XML data should be converted to base64 string, this library assumes all base64 strings where binary data or c# byte[] is used.
+
+# Whats new v0.6.2
+
+* new: #100 ***More Item Types implemented*** 
+* fix: #114 - ConversationQueryTraversal returns a soap fault
+* fix: #91 - StreamingSubscriptionConnection.OnDisconnect not called for streaming subscription
+* fix: #101 - FindItems() not fulfilled/rejected for an unauthorized request
+* fix: #109 - Appointment: Recurrence is always null
+* fix: #96 - SearchFilter collection not working
+* fix: #99 - Can't cancel meeting - TypeError
+* fix: #95 - Message body text not working
+* fix/PR: #102 - SendCancellationsMode fix enum serialization
+* fix: #86 - Issue with sending meeting responses 
+
 
 # Whats new v0.6.0 (and fixed in 0.5.1 and 0.5.2)
 

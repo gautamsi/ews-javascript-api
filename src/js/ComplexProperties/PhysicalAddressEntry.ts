@@ -72,13 +72,15 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 
 	constructor() {
 		super();
+		this.keyType = PhysicalAddressKey;
 		this.propertyBag = new SimplePropertyBag<string>((key: string) => key);
-		this.propertyBag.OnChange.push(this.PropertyBagChanged);
+		this.propertyBag.OnChange.push(this.PropertyBagChanged.bind(this));
 	}
 	ClearChangeLog(): void { this.propertyBag.ClearChangeLog(); }
 	private GetFieldUri(xmlElementName: string): string { return "contacts:PhysicalAddress:" + xmlElementName; }
 	InternalToJson(service: ExchangeService): any { throw new Error("PhysicalAddressEntry.ts - InternalToJson : Not implemented."); }
-	InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): void {
+	/**@internal */
+    InternalWriteDeleteFieldToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, fieldXmlElementName: string): void {
 		writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
 		writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.IndexedFieldURI);
 		writer.WriteAttributeValue(XmlAttributeNames.FieldURI, this.GetFieldUri(fieldXmlElementName));
@@ -99,7 +101,8 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 		this.PostalCode = jsonProperty[XmlElementNames.PostalCode];
 	}
 	WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[] /*System.Collections.Generic.List<any>*/): boolean { throw new Error("PhysicalAddressEntry.ts - WriteDeleteUpdateToJson : Not implemented."); }
-	WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean {
+	/**@internal */
+    WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean {
 		for (var xmlElementName of PhysicalAddressSchema.XmlElementNames) {
 			this.InternalWriteDeleteFieldToXml(
 				writer,
@@ -108,7 +111,8 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 		}
 		return true;
 	}
-	WriteElementsToXml(writer: EwsServiceXmlWriter): void {
+	/**@internal */
+    WriteElementsToXml(writer: EwsServiceXmlWriter): void {
 		for (var xmlElementName of PhysicalAddressSchema.XmlElementNames) {
 			writer.WriteElementValue(
 				XmlNamespace.Types,
@@ -117,7 +121,8 @@ export class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddres
 		}
 	}
 	WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[] /*System.Collections.Generic.List<JsonObject>*/): boolean { throw new Error("PhysicalAddressEntry.ts - WriteSetUpdateToJson : Not implemented."); }
-	WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean {
+	/**@internal */
+    WriteSetUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject, ownerDictionaryXmlElementName: string): boolean {
 		var fieldsToSet: string[] = [];
 
 		for (var xmlElementName of this.propertyBag.AddedItems) {

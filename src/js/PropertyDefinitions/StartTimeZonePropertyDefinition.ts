@@ -1,14 +1,14 @@
-﻿import {Schemas} from "../Core/ServiceObjects/Schemas/Schemas";
-import {ExchangeService} from "../Core/ExchangeService";
-import {MeetingTimeZone} from "../ComplexProperties/MeetingTimeZone";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {PropertyDefinition} from "./PropertyDefinition";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {PropertyBag} from "../Core/PropertyBag";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { MeetingTimeZone } from "../ComplexProperties/MeetingTimeZone";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinition } from "./PropertyDefinition";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { Schemas } from "../Core/ServiceObjects/Schemas/Schemas";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {TimeZonePropertyDefinition} from "./TimeZonePropertyDefinition";
+import { TimeZonePropertyDefinition } from "./TimeZonePropertyDefinition";
 /**
  * @internal Represents a property definition for properties of type TimeZoneInfo.
  */
@@ -28,14 +28,14 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
     }
 
     /**
-     * @internalDetermines whether the specified flag is set.
+     * @internal Determines whether the specified flag is set.
      *
      * @param   {PropertyDefinitionFlags}   flag      The flag.
      * @param   {ExchangeVersion}           version   Requested version.
      * @return  {boolean}                   true if the specified flag is set; otherwise, false.
      */
     HasFlag(flag: PropertyDefinitionFlags, version?: ExchangeVersion): boolean {
-        if (version && (version === ExchangeVersion.Exchange2007_SP1)) {
+        if (version && (version as ExchangeVersion === ExchangeVersion.Exchange2007_SP1)) {
             return Schemas.AppointmentSchema.MeetingTimeZone.HasFlag(flag, version);
         }
         else {

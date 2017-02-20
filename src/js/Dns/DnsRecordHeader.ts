@@ -1,4 +1,5 @@
 ﻿import {DnsRecordType} from "../Enumerations/DnsRecordType";
+/** @internal */
 export class DnsRecordHeader {
 	NextRecord: number;
 	Name: string;

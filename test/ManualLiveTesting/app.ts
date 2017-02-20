@@ -1,12 +1,14 @@
-import {useCustomPromise, useCustomXhr, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+import {
+    ConfigurationApi, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
     UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
     EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
     ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody,
-    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType} from "../../src/js/ExchangeWebService";
+    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType
+} from "../../src/js/ExchangeWebService";
 
-import {MockXHRApi} from "../MockXHRApi";
-import {MockXHRData} from "../MockXHRData";
-    
+import { MockXHRApi } from "../MockXHRApi";
+import { MockXHRData } from "../MockXHRData";
+
 var credentials: any = undefined;
 if (typeof window === 'undefined') {
     credentials = require("./credentials");
@@ -126,7 +128,7 @@ export class Greeter {
         return;
 
 
-        exch.TimeZoneDefinition = new TimeZoneDefinition();
+        //exch.TimeZoneDefinition = new TimeZoneDefinition();
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
@@ -215,7 +217,7 @@ export class Greeter {
 
         exch.ResolveName("gstest", ResolveNameSearchLocation.DirectoryOnly, true, PropertySet.IdOnly)
             .then((response) => {
-                EwsLogging.Log(response.Items[0].Mailbox.MailboxType, true, true);
+                EwsLogging.Log(response.GetEnumerator()[0].Mailbox.MailboxType, true, true);
                 console.log(response._getItem(0).Contact.DirectoryPhoto);
                 EwsLogging.Log("-------------- request complete ----------", true, true);
             });
@@ -268,7 +270,7 @@ export class Greeter {
         //var x = new Microsoft.Exchange.WebServices.Data.ExchangeService(Microsoft.Exchange.WebServices.Data.ExchangeVersion.Exchange2010_SP2);
         //autod.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
         //EwsLogging.DebugLog(exch.Credentials, true);
-        exch.TimeZoneDefinition = new TimeZoneDefinition();
+        //exch.TimeZoneDefinition = new TimeZoneDefinition();
 
 
         var att1 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
