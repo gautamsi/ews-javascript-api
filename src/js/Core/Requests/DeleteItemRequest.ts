@@ -65,7 +65,7 @@ export class DeleteItemRequest extends DeleteRequest<ServiceResponse> {
         if (this.AffectedTaskOccurrences !== null) {
             writer.WriteAttributeValue(
                 XmlAttributeNames.AffectedTaskOccurrences,
-                this.AffectedTaskOccurrences);
+                AffectedTaskOccurrence[this.AffectedTaskOccurrences]);
         }
 
         if (this.SendCancellationsMode !== null) {
