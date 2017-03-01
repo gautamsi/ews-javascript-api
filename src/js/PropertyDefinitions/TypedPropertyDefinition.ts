@@ -100,12 +100,17 @@ export abstract class TypedPropertyDefinition extends PropertyDefinition {
      * @return  {string}        String representation of property value.
      */
     ToString(value?: any): string {
-        if (value)
+        if (value !== null && typeof value !== 'undefined')
             return value.toString();
         throw new Error("TypedPropertydefinition: incorrect call of ToString(value): value is undefined");
     }
     toString(value?: any) {
-        return this.ToString(value);
+        if (arguments.length > 0) {
+            return this.ToString(value);
+        }
+        else {
+            return this.ToString();
+        }
     }
 
     /**
@@ -117,7 +122,7 @@ export abstract class TypedPropertyDefinition extends PropertyDefinition {
      */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var value = propertyBag._getItem(this);
-        if (value) {
+        if (typeof value !== 'undefined') {
             writer.WriteElementValue(XmlNamespace.Types, this.XmlElementName, this.Name, this.ToString(value));
         }
     }

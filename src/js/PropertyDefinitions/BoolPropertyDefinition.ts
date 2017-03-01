@@ -73,7 +73,7 @@ export class BoolPropertyDefinition extends GenericPropertyDefinition<boolean> {
      * @return  {string}    String representation of Boolean property.
      */
     ToString(value?: any): string {
-        if (value)
+        if (typeof value !== 'undefined')
             return EwsUtilities.BoolToXSBool(value);
         throw new Error("BoolPropertyDefinition: incorrect call of ToString(value): value is undefined");
     }
