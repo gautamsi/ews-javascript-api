@@ -185,7 +185,7 @@ export class FileAttachment extends Attachment {
      * @param   {number}   attachmentIndex   Index of this attachment.
      */
     Validate(attachmentIndex?: number): void {
-        if (StringHelper.IsNullOrEmpty(this.fileName) && (this.base64Content == null)) {
+        if (StringHelper.IsNullOrEmpty(this.Name) && (this.base64Content == null)) {
             throw new ServiceValidationException(StringHelper.Format(Strings.FileAttachmentContentIsNotSet, attachmentIndex));
         }
     }
