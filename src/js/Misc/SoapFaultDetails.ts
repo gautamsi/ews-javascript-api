@@ -13,8 +13,9 @@ import { XmlElementNames } from "../Core/XmlElementNames";
  * /remarks/    ews-javascript-api -> removing internal modifier to, this class will be used to pass on to error delegate of promise instead of Exceptions. 
  * 
  * /remarks/    ews-javascript-api -> 0.9 - Extending from Error object to avoid BlueBird errors when promise is rejected without and Error object 
+ * /remarks/    ews-javascript-api -> 0.9 - extending from Exception which looks like Error to BlueBird. can not extend from Error. Typescript 1.8+ can not extend builtin objects property, it swallows inheriting properties see  https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
  */
-export class SoapFaultDetails extends Error {
+export class SoapFaultDetails extends Exception {
 
     private faultCode: string = null;
     private faultString: string = null;
@@ -29,7 +30,7 @@ export class SoapFaultDetails extends Error {
     /**
      * Message text of the error.
      */
-    message: string = null; //not private to comply with Error object
+    message: string ; //not private to comply with Error object // ref: message is initialized in Exception class
 
     /**
      * This is returned by Availability requests.
@@ -187,12 +188,12 @@ export class SoapFaultDetails extends Error {
      */
     HttpStatusCode = 200;
 
-    /**
-     * @private Initializes a new instance of the **SoapFaultDetails** class.
-     */
-    constructor() {
-        super();
-    }
+    // /**
+    //  * @private Initializes a new instance of the **SoapFaultDetails** class.
+    //  */
+    // // constructor() {
+    // //     super();
+    // // }
 
     /**
      * @internal Parses the soap:Fault content.

@@ -355,8 +355,11 @@ export abstract class ServiceRequestBase {
                 }
             }
             else {
-                soapFaultDetails = new SoapFaultDetails();
+                soapFaultDetails = new SoapFaultDetails(webException && (<any>webException).message ? (<any>webException).message : '');
                 soapFaultDetails.HttpStatusCode = webException.status;
+                if ((<any>webException).stack)
+                    soapFaultDetails.stack = (<any>webException).stack;
+
                 this.Service.ProcessHttpErrorResponse(webException, soapFaultDetails);
             }
 

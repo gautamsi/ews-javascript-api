@@ -28,22 +28,28 @@ export class XHRDefaults implements IXHRApi {
 		return new Promise<XMLHttpRequest>((resolve, reject) => {
 			XHRDefaults.fetchUrl(xhroptions.url, options, (error, meta, body) => {
 				if (error) {
-					reject(error);
-				}
-				let xhrResponse: XMLHttpRequest = <any>{
-					response: body.toString(),
-					status: meta.status,
-					redirectCount: meta.redirectCount,
-					headers: meta.responseHeaders,
-					finalUrl: meta.finalUrl,
-					responseType: '',
-					statusText: undefined,
-				};
-				if (xhrResponse.status === 200) {
-					resolve(setupXhrResponse(xhrResponse));
+					if (typeof (<any>error).status === 'undefined') {
+						(<any>error).status = 0;
+
+					}
+					reject(setupXhrResponse(<any>error));
 				}
 				else {
-					reject(setupXhrResponse(xhrResponse));
+					let xhrResponse: XMLHttpRequest = <any>{
+						response: body.toString(),
+						status: meta.status,
+						redirectCount: meta.redirectCount,
+						headers: meta.responseHeaders,
+						finalUrl: meta.finalUrl,
+						responseType: '',
+						statusText: undefined,
+					};
+					if (xhrResponse.status === 200) {
+						resolve(setupXhrResponse(xhrResponse));
+					}
+					else {
+						reject(setupXhrResponse(xhrResponse));
+					}
 				}
 			});
 		})
@@ -112,7 +118,7 @@ export class XHRDefaults implements IXHRApi {
 /** @internal */
 function setupXhrResponse(xhrResponse: XMLHttpRequest): XMLHttpRequest {
 	xhrResponse[<any>"responseText"] = xhrResponse.response;
-	delete xhrResponse["response"];
+	delete xhrResponse[<any>"response"];
 	xhrResponse.getAllResponseHeaders = function () {
 		var header = "";
 		if ((<any>xhrResponse).headers) {

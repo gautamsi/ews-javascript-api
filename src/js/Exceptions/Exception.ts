@@ -3,7 +3,7 @@
 export class Exception {//} extends Error { //ref: can not extend from Error. Typescript 1.8+ can not extend builtin objects property, it swallows inheriting properties see  https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
 
     /** @internal  */
-    message: string = null;
+    message: string = '';
     //todo: implement stacktrace and source if needed - stack trace implemented by calling Error.captureStack
     stack: string = null;
     InnerException: Exception = null;
@@ -13,7 +13,7 @@ export class Exception {//} extends Error { //ref: can not extend from Error. Ty
     }
     /** @internal  needed for bluebird to work when rejected without inheriting from Error object. BlueBird checks for Error like object not Error subclass itself. */
     get name(): string {
-        return '';
+        return 'Exception';
     }
 
 
