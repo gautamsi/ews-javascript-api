@@ -1,13 +1,13 @@
-﻿import {ExchangeService} from "../Core/ExchangeService";
-import {PropertyBag} from "../Core/PropertyBag";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {TimeZoneDefinition} from "../ComplexProperties/TimeZones/TimeZoneDefinition";
-import {TimeZoneInfo} from "../DateTime";
-import {EwsLogging} from "../Core/EwsLogging";
+﻿import { ExchangeService } from "../Core/ExchangeService";
+import { PropertyBag } from "../Core/PropertyBag";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { TimeZoneDefinition } from "../ComplexProperties/TimeZones/TimeZoneDefinition";
+import { TimeZoneInfo } from "../TimeZoneInfo";
+import { EwsLogging } from "../Core/EwsLogging";
 
-import {PropertyDefinition} from "./PropertyDefinition";
+import { PropertyDefinition } from "./PropertyDefinition";
 /**
  * @internal Represents a property definition for properties of type TimeZoneInfo.
  */
@@ -67,7 +67,7 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
             if (!writer.IsTimeZoneHeaderEmitted || value != writer.Service.TimeZone) {
                 let timeZoneDefinition: TimeZoneDefinition = new TimeZoneDefinition(value);
 
-                timeZoneDefinition.WriteToXml(writer, this.XmlElementName);
+                timeZoneDefinition.WriteToXml(writer);
             }
         }
     }

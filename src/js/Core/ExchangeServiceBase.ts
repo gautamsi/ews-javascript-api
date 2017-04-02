@@ -1,5 +1,5 @@
 import { AccountIsLockedException } from "../Exceptions/AccountIsLockedException";
-import { DateTime, DateTimeKind, TimeZoneInfo } from "../DateTime";
+import { DateTime, DateTimeKind } from "../DateTime";
 import { EwsLogging } from "./EwsLogging";
 import { EwsUtilities } from "./EwsUtilities";
 import { Exception } from "../Exceptions/Exception";
@@ -15,6 +15,7 @@ import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
 import { StringHelper } from "../ExtensionMethods";
 import { Strings } from "../Strings";
 import { TimeZoneDefinition } from "../ComplexProperties/TimeZones/TimeZoneDefinition";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { TraceFlags } from "../Enumerations/TraceFlags";
 import { Uri } from "../Uri";
 import { XHRFactory } from "../XHRFactory";
@@ -230,7 +231,7 @@ export class ExchangeServiceBase {
 
                 if (EwsUtilities.IsLocalTimeZone(this.TimeZone)) {
                     // This returns a DateTime with Kind.Local
-                    return new DateTime(localTime, DateTimeKind.Local);
+                    return new DateTime(localTime.TotalMilliSeconds, DateTimeKind.Local);
                 }
                 else {
                     // This returns a DateTime with Kind.Unspecified

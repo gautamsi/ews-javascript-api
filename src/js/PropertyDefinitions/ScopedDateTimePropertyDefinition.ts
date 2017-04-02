@@ -1,19 +1,20 @@
-﻿import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinition} from "./PropertyDefinition";
-import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
-import {EwsLogging} from "../Core/EwsLogging";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {PropertyBag} from "../Core/PropertyBag";
-import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
-import {IOutParam} from "../Interfaces/IOutParam";
-import {StringHelper} from "../ExtensionMethods";
-import {Strings} from "../Strings";
-import {PropertyException} from "../Exceptions/PropertyException";
-import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
+﻿import { DateTime, DateTimeKind } from "../DateTime";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IOutParam } from "../Interfaces/IOutParam";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinition } from "./PropertyDefinition";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { PropertyException } from "../Exceptions/PropertyException";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 
 
-import {DateTimePropertyDefinition} from "./DateTimePropertyDefinition";
+import { DateTimePropertyDefinition } from "./DateTimePropertyDefinition";
 /**
  * @internal Represents a property definition for DateTime values scoped to a specific time zone property.
  */

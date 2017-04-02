@@ -1,6 +1,6 @@
 ﻿import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
 import { ExchangeService } from "../../Core/ExchangeService";
-import { TimeSpan } from "../../DateTime";
+import { TimeSpan } from "../../TimeSpan";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 import { XmlElementNames } from "../../Core/XmlElementNames";
 import { EwsUtilities } from "../../Core/EwsUtilities";

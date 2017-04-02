@@ -1,11 +1,12 @@
-﻿import { DateTime, TimeSpan } from "../../DateTime";
+﻿import { ArgumentException } from "../../Exceptions/ArgumentException";
+import { DateTime } from "../../DateTime";
 import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
 import { ExchangeService } from "../../Core/ExchangeService";
 import { ISelfValidate } from "../../Interfaces/ISelfValidate";
 import { Strings } from "../../Strings";
+import { TimeSpan } from "../../TimeSpan";
 import { XmlElementNames } from "../../Core/XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
-import { ArgumentException } from "../../Exceptions/ArgumentException";
 
 /**
  * Represents a time period.

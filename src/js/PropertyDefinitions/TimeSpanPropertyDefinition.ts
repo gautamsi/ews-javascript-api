@@ -1,10 +1,11 @@
-﻿import { EwsUtilities } from "../Core/EwsUtilities";
+﻿import { DateTime } from "../DateTime";
+import { EwsUtilities } from "../Core/EwsUtilities";
 import { ExchangeService } from "../Core/ExchangeService";
 import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { PropertyBag } from "../Core/PropertyBag";
 import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 
-import { DateTime, TimeSpan } from "../DateTime";
+import { TimeSpan } from "../TimeSpan";
 import { GenericPropertyDefinition } from "./GenericPropertyDefinition";
 /**
  * @internal Represents TimeSpan property definition. based on moment Duration

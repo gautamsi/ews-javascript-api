@@ -1,5 +1,5 @@
 ﻿import { LegacyAvailabilityTimeZoneTime } from "./LegacyAvailabilityTimeZoneTime";
-import { TimeSpan } from "../../DateTime";
+import { TimeSpan } from "../../TimeSpan";
 import { ExchangeService } from "../../Core/ExchangeService";
 import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";

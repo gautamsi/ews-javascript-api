@@ -78,26 +78,6 @@ export {
     ResponseMessageSchema, CancelMeetingMessageSchema, CalendarResponseObjectSchema
 }
 
-import { TimeZoneTransition } from "./ComplexProperties/TimeZones/TimeZoneTransition";
-import { AbsoluteDateTransition } from "./ComplexProperties/TimeZones/AbsoluteDateTransition";
-import { AbsoluteDayOfMonthTransition } from "./ComplexProperties/TimeZones/AbsoluteDayOfMonthTransition";
-//import {AbsoluteMonthTransition} from "./ComplexProperties/TimeZones/AbsoluteMonthTransition";
-import { RelativeDayOfMonthTransition } from "./ComplexProperties/TimeZones/RelativeDayOfMonthTransition";
-import { TimeZoneDefinition } from "./ComplexProperties/TimeZones/TimeZoneDefinition";
-import { TimeZonePeriod } from "./ComplexProperties/TimeZones/TimeZonePeriod";
-
-TimeZoneTransition.AbsoluteDateTransition = (timeZoneDefinition: TimeZoneDefinition) => {
-    return new AbsoluteDateTransition(timeZoneDefinition);
-}
-TimeZoneTransition.AbsoluteDayOfMonthTransition = (timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod) => {
-    return new AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod);
-}
-TimeZoneTransition.RelativeDayOfMonthTransition = (timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod) => {
-    return new RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod);
-}
-
-export { TimeZoneDefinition, TimeZoneTransition, TimeZonePeriod, AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition }
-
 /**
  * Bootstrap typecontainer
  */
@@ -145,6 +125,22 @@ TypeContainer.ExtendedPropertyDefinition = ExtendedPropertyDefinition;
 export { ServiceObject, Folder, CalendarFolder, ContactsFolder, SearchFolder, TasksFolder }
 export { Appointment, ExchangeService, Item, ItemAttachment, ItemAttachmentOf, MeetingCancellation }
 export { MeetingRequest, MeetingResponse, IndexedPropertyDefinition, ExtendedPropertyDefinition }
+
+/** TimeZoneTransitions */
+export { TimeZoneTransition } from "./ComplexProperties/TimeZones/TimeZoneTransition";
+import { AbsoluteDateTransition } from "./ComplexProperties/TimeZones/AbsoluteDateTransition";
+import { AbsoluteDayOfMonthTransition } from "./ComplexProperties/TimeZones/AbsoluteDayOfMonthTransition";
+//import {AbsoluteMonthTransition} from "./ComplexProperties/TimeZones/AbsoluteMonthTransition";
+import { RelativeDayOfMonthTransition } from "./ComplexProperties/TimeZones/RelativeDayOfMonthTransition";
+export { TimeZoneDefinition } from "./ComplexProperties/TimeZones/TimeZoneDefinition";
+export { TimeZonePeriod } from "./ComplexProperties/TimeZones/TimeZonePeriod";
+
+TypeContainer.AbsoluteDateTransition = AbsoluteDateTransition;
+TypeContainer.AbsoluteDayOfMonthTransition = AbsoluteDayOfMonthTransition;
+TypeContainer.RelativeDayOfMonthTransition = RelativeDayOfMonthTransition;
+
+export { AbsoluteDateTransition, AbsoluteDayOfMonthTransition, RelativeDayOfMonthTransition }
+
 
 import { Recurrence } from "./ComplexProperties/Recurrence/Patterns/Recurrence";
 import { DailyPattern } from "./ComplexProperties/Recurrence/Patterns/Recurrence.DailyPattern";
@@ -338,7 +334,9 @@ export { CreateResponseObjectRequest } from "./Core/Requests/CreateResponseObjec
 export { CreateResponseObjectResponse } from "./Core/Responses/CreateResponseObjectResponse";
 export { CreateRuleOperation } from "./ComplexProperties/CreateRuleOperation";
 export { CreateUserConfigurationRequest } from "./Core/Requests/CreateUserConfigurationRequest";
-export { DateTime, TimeSpan, DateTimeKind, TimeZoneInfo } from "./DateTime";
+export { DateTime, DateTimeKind } from "./DateTime";
+export { TimeSpan } from "./TimeSpan";
+export { TimeZoneInfo } from "./TimeZoneInfo";
 export { DateTimePrecision } from "./Enumerations/DateTimePrecision";
 export { DateTimePropertyDefinition } from "./PropertyDefinitions/DateTimePropertyDefinition";
 export { DayOfTheWeek } from "./Enumerations/DayOfTheWeek";

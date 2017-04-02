@@ -4,7 +4,7 @@ import { AppointmentType } from "../../../Enumerations/AppointmentType";
 import { AttendeeCollection } from "../../../ComplexProperties/AttendeeCollection";
 import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
 import { ChangeHighlights } from "../../../ComplexProperties/ChangeHighlights";
-import { DateTime, TimeSpan, TimeZoneInfo } from "../../../DateTime";
+import { DateTime } from "../../../DateTime";
 import { DeclineMeetingInvitationMessage } from "../ResponseObjects/DeclineMeetingInvitationMessage";
 import { DeletedOccurrenceInfoCollection } from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
 import { EmailAddress } from "../../../ComplexProperties/EmailAddress";
@@ -25,6 +25,8 @@ import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { Schemas } from "../Schemas/Schemas";
 import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
+import { TimeSpan } from "../../../TimeSpan";
+import { TimeZoneInfo } from "../../../TimeZoneInfo";
 import { XmlElementNames } from "../../XmlElementNames";
 
 import { MeetingMessage } from "./MeetingMessage";

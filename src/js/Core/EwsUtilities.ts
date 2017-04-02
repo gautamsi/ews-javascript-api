@@ -1,7 +1,7 @@
 ﻿import { ArgumentException, ArgumentNullException } from "../Exceptions/ArgumentException";
 import { ArrayHelper, Convert, StringHelper } from "../ExtensionMethods";
 import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
-import { DateTime, TimeZoneInfo, DateTimeKind } from "../DateTime";
+import { DateTime, DateTimeKind } from "../DateTime";
 import { DayOfTheWeek } from "../Enumerations/DayOfTheWeek";
 import { DayOfWeek } from "../Enumerations/DayOfWeek";
 import { Dictionary, DictionaryWithStringKey, DictionaryWithNumericKey } from "../AltDictionary";
@@ -27,8 +27,9 @@ import { ServiceObject } from "./ServiceObjects/ServiceObject";
 import { ServiceObjectInfo } from "./ServiceObjects/ServiceObjectInfo";
 import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
 import { Strings } from "../Strings";
-import { TimeSpan, moment } from "../DateTime";
+import { TimeSpan } from "../TimeSpan";
 import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { TypeContainer } from "../TypeContainer";
 import { TypeGuards } from "../Interfaces/TypeGuards";
 import { ViewFilter } from "../Enumerations/ViewFilter";
@@ -512,10 +513,10 @@ export class EwsUtilities {
         return StringHelper.Format(
             "{0}P{1}DT{2}H{3}M{4}S",
             offsetStr,
-            Math.abs(timeSpan.days()),
-            Math.abs(timeSpan.hours()),
-            Math.abs(timeSpan.minutes()),
-            Math.abs(timeSpan.seconds()) + "." + Math.abs(timeSpan.milliseconds()));
+            Math.abs(timeSpan.Days),
+            Math.abs(timeSpan.Hours),
+            Math.abs(timeSpan.Minutes),
+            Math.abs(timeSpan.Seconds) + "." + Math.abs(timeSpan.Milliseconds));
     }
     private static numPad(num: number, length: number) {
         var str = num.toString();
@@ -526,9 +527,9 @@ export class EwsUtilities {
     static TimeSpanToXSTime(timeSpan: TimeSpan): string {
         return StringHelper.Format(
             "{0}:{1}:{2}",
-            this.numPad(timeSpan.hours(), 2),
-            this.numPad(timeSpan.minutes(), 2),
-            this.numPad(timeSpan.seconds(), 2));
+            this.numPad(timeSpan.Hours, 2),
+            this.numPad(timeSpan.Minutes, 2),
+            this.numPad(timeSpan.Seconds, 2));
     }
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
         var regex: RegExp = /(-)?P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.([0-9]+))?S)?)?/; //ref: info: not using \\, may be a bug in EWS managed api. does not match "-P2Y6M5DT12H35M30.4S" with \\ //old /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;

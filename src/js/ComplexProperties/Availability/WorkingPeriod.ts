@@ -1,10 +1,10 @@
-﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {TimeSpan} from "../../DateTime";
+﻿import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { TimeSpan } from "../../TimeSpan";
+import { XmlElementNames } from "../../Core/XmlElementNames";
 
-import {ComplexProperty} from "../ComplexProperty";
+import { ComplexProperty } from "../ComplexProperty";
 export class WorkingPeriod extends ComplexProperty {
     get DaysOfWeek(): DayOfTheWeek[] { return this.daysOfWeek; } /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/
     get StartTime(): TimeSpan { return this.startTime; } /*System.TimeSpan*/
