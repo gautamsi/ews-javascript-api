@@ -21,7 +21,7 @@ export class HangingRequestDisconnectEventArgs {  //extends  EventArgs{
 	Exception: Exception;
 
 	/**
-	 * Initializes a new instance of the  class.
+	 * Initializes a new instance of the **HangingRequestDisconnectEventArgs** class.
 	 *
 	 * @param   {HangingRequestDisconnectReason}   	reason      The reason.
 	 * @param   {Exception}   						exception   The exception.

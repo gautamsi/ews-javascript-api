@@ -55,7 +55,7 @@ export class CalendarActionResults {
 	private meetingCancellation: MeetingCancellation;
 
 	/**
-	 * @internal Initializes a new instance of the  class.
+	 * @internal Initializes a new instance of the **CalendarActionResults** class.
 	 *
 	 * @param   {Item[]}   items   Collection of items that were created or modified as a result of a calendar action.
 	 */	

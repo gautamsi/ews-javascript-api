@@ -554,7 +554,7 @@ export class FolderPermission extends ComplexProperty {
                 throw new ServiceLocalException(
                     StringHelper.Format(
                         Strings.PermissionLevelInvalidForNonCalendarFolder,
-                        this.permissionLevel));
+                        FolderPermissionLevel[this.permissionLevel]));
             }
         }
     }
@@ -615,7 +615,7 @@ export class FolderPermission extends ComplexProperty {
         writer.WriteElementValue(
             XmlNamespace.Types,
             isCalendarFolder ? XmlElementNames.CalendarPermissionLevel : XmlElementNames.PermissionLevel,
-            this.PermissionLevel);
+            FolderPermissionLevel[this.PermissionLevel]);
     }
 
     /**

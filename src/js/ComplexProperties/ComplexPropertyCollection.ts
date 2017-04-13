@@ -74,7 +74,7 @@ export abstract class ComplexPropertyCollection<TComplexProperty extends Complex
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **ComplexPropertyCollection** class.
      *
      */
     constructor() {

@@ -41,7 +41,7 @@ export abstract class DictionaryProperty<TKey, TEntry extends DictionaryEntryPro
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **DictionaryProperty** class.
      *
      * @param   {DictionaryKeyType}	dictionaryKeyType	Dictionary Key type, needed to workaround c# type checking of generics.    
      */
