@@ -1,28 +1,83 @@
-﻿import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ComplexProperty} from "./ComplexProperty";
-import {StandardUser} from "../Enumerations/StandardUser";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {StringHelper} from "../ExtensionMethods";
+﻿import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { StandardUser } from "../Enumerations/StandardUser";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
+
+import { ComplexProperty } from "./ComplexProperty";
+/**
+ * Represents the Id of a user.
+ * 
+ * @sealed
+ */
 export class UserId extends ComplexProperty {
-    get SID(): string { return this.sID; }
-    set SID(value) { this.SetFieldValue<string>({ getValue: () => this.sID, setValue: (data) => this.sID = data }, value); }
-    get PrimarySmtpAddress(): string { return this.primarySmtpAddress; }
-    set PrimarySmtpAddress(value) { this.SetFieldValue<string>({ getValue: () => this.primarySmtpAddress, setValue: (data) => this.primarySmtpAddress = data }, value); }
-    get DisplayName(): string { return this.displayName; }
-    set DisplayName(value) { this.SetFieldValue<string>({ getValue: () => this.displayName, setValue: (data) => this.displayName = data }, value); }
-    get StandardUser(): StandardUser { return this.standardUser; }
-    set StandardUser(value) { this.SetFieldValue<StandardUser>({ getValue: () => this.standardUser, setValue: (data) => this.standardUser = data }, value); }
-    private sID: string;
-    private primarySmtpAddress: string;
-    private displayName: string;
-    private standardUser: StandardUser;
+
+    private sID: string = null;
+    private primarySmtpAddress: string = null;
+    private displayName: string = null;
+    private standardUser: StandardUser = null;
+
+    /**
+     * Gets or sets the SID of the user.
+     */
+    get SID(): string {
+        return this.sID;
+    }
+    set SID(value) {
+        this.SetFieldValue<string>({ getValue: () => this.sID, setValue: (data) => this.sID = data }, value);
+    }
+
+    /**
+     * Gets or sets the primary SMTP address or the user.
+     */
+    get PrimarySmtpAddress(): string {
+        return this.primarySmtpAddress;
+    }
+    set PrimarySmtpAddress(value) {
+        this.SetFieldValue<string>({ getValue: () => this.primarySmtpAddress, setValue: (data) => this.primarySmtpAddress = data }, value);
+    }
+
+    /**
+     * Gets or sets the display name of the user.
+     */
+    get DisplayName(): string {
+        return this.displayName;
+    }
+    set DisplayName(value) {
+        this.SetFieldValue<string>({ getValue: () => this.displayName, setValue: (data) => this.displayName = data }, value);
+    }
+
+    /**
+     * Gets or sets a value indicating which standard user the user represents.
+     * 
+     * @Nullable
+     */
+    get StandardUser(): StandardUser {
+        return this.standardUser;
+    }
+    set StandardUser(value) {
+        this.SetFieldValue<StandardUser>({ getValue: () => this.standardUser, setValue: (data) => this.standardUser = data }, value);
+    }
+
+    /**
+     * Initializes a new instance of the **UserId** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **UserId** class.
+     *
+     * @param   {StandardUser}   standardUser   The StandardUser value used to initialize the UserId.
+     */
     constructor(standardUser: StandardUser);
+    /**
+     * Initializes a new instance of the **UserId** class.
+     *
+     * @param   {string}   primarySmtpAddress   The primary SMTP address used to initialize the UserId.
+     */
     constructor(primarySmtpAddress: string);
-    /**this is to shim constructor with easy use within file/module. */
+    /** @internal this is to shim constructor with easy use within file/module. */
     constructor(primarySmtpAddressOrStandardUser?: string | StandardUser);
     constructor(primarySmtpAddressOrStandardUser?: string | StandardUser) {
         super();
@@ -36,33 +91,48 @@ export class UserId extends ComplexProperty {
         }
     }
 
-    InternalToJson(service: ExchangeService): any { throw new Error("UserId.ts - InternalToJson : Not implemented."); }
+    /**
+     * @internal Determines whether this instance is valid.
+     *
+     * @return  {boolean}      true if this instance is valid; otherwise, false.
+     */
     IsValid(): boolean {
         return typeof this.StandardUser === 'number' || !StringHelper.IsNullOrEmpty(this.PrimarySmtpAddress) || !StringHelper.IsNullOrEmpty(this.SID);
     }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("UserId.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
-        for (var key in jsonProperty) {
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+        for (var key in jsObject) {
             switch (key) {
                 case XmlElementNames.SID:
-                    this.sID = jsonProperty[key];
+                    this.sID = jsObject[key];
                     break;
                 case XmlElementNames.PrimarySmtpAddress:
-                    this.primarySmtpAddress = jsonProperty[key];
+                    this.primarySmtpAddress = jsObject[key];
                     break;
                 case XmlElementNames.DisplayName:
-                    this.displayName = jsonProperty[key];
+                    this.displayName = jsObject[key];
                     break;
                 case XmlElementNames.DistinguishedUser:
                     //debugger;//check for enum value consistency
-                    this.standardUser = <StandardUser><any>StandardUser[jsonProperty[key]];
+                    this.standardUser = <StandardUser><any>StandardUser[jsObject[key]];
                     break;
                 default:
                     break;
             }
         }
     }
-    /**@internal */
+
+    /**
+     * @internal Writes XML elements.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(
             XmlNamespace.Types,
@@ -82,8 +152,6 @@ export class UserId extends ComplexProperty {
         writer.WriteElementValue(
             XmlNamespace.Types,
             XmlElementNames.DistinguishedUser,
-            this.StandardUser);
+            StandardUser[this.StandardUser]);
     }
 }
-
-

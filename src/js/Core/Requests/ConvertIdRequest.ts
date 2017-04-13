@@ -43,7 +43,7 @@ export class ConvertIdRequest extends MultiResponseServiceRequest<ConvertIdRespo
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **ConvertIdRequest** class.
      *
      * @param   {ExchangeService}   service             The service.
      * @param   {ServiceErrorHandling}   errorHandlingMode   Indicates how errors should be handled.

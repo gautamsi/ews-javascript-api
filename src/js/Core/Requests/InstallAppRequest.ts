@@ -20,7 +20,7 @@ export class InstallAppRequest extends SimpleServiceRequestBase {
 	private manifestStream: string = null;
 
 	/**
-	 * Initializes a new instance of the  class.
+	 * Initializes a new instance of the **InstallAppRequest** class.
 	 *
 	 * @param   {ExchangeService}   service          The service.
 	 * @param   {string}   			manifestStream   The manifest's plain text XML stream.
