@@ -154,7 +154,12 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                 //console.log(xhrResponse);
                 successDelegate(void 0);
             }, (resperr: XMLHttpRequest) => {
-                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
+                if (resperr.status && resperr.getAllResponseHeaders) {
+                    EwsLogging.Log("Error in calling service, error code: " + resperr.status + "\r\n " + resperr.getAllResponseHeaders());
+                }
+                else {
+                    EwsLogging.Log("Error in calling service, error code: " + (resperr.status || (<any>resperr).message));
+                }
                 if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             });
         });

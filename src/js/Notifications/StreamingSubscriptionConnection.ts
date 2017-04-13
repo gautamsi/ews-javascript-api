@@ -1,23 +1,28 @@
-﻿import {ArgumentException, ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {ArrayHelper} from "../ExtensionMethods";
-import {Dictionary, DictionaryWithStringKey} from "../AltDictionary";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {Exception} from "../Exceptions/Exception";
-import {ExchangeService} from "../Core/ExchangeService";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {GetStreamingEventsRequest} from "../Core/Requests/GetStreamingEventsRequest";
-import {GetStreamingEventsResponse} from "../Core/Responses/GetStreamingEventsResponse";
-import {HangingRequestDisconnectEventArgs} from "../Core/Requests/HangingRequestDisconnectEventArgs";
-import {NotificationEventArgs} from "./NotificationEventArgs";
-import {ServiceError} from "../Enumerations/ServiceError";
-import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
-import {ServiceResponseException} from "../Exceptions/ServiceResponseException";
-import {ServiceResult} from "../Enumerations/ServiceResult";
-import {StreamingSubscription} from "./StreamingSubscription";
-import {Strings} from "../Strings";
-import {SubscriptionErrorEventArgs} from "./SubscriptionErrorEventArgs";
+﻿import { ArgumentException, ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { ArrayHelper } from "../ExtensionMethods";
+import { Dictionary, DictionaryWithStringKey } from "../AltDictionary";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { Exception } from "../Exceptions/Exception";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { GetStreamingEventsRequest } from "../Core/Requests/GetStreamingEventsRequest";
+import { GetStreamingEventsResponse } from "../Core/Responses/GetStreamingEventsResponse";
+import { HangingRequestDisconnectEventArgs } from "../Core/Requests/HangingRequestDisconnectEventArgs";
+import { NotificationEventArgs } from "./NotificationEventArgs";
+import { Promise } from "../Promise";
+import { ServiceError } from "../Enumerations/ServiceError";
+import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
+import { ServiceResponseException } from "../Exceptions/ServiceResponseException";
+import { ServiceResult } from "../Enumerations/ServiceResult";
+import { StreamingSubscription } from "./StreamingSubscription";
+import { Strings } from "../Strings";
+import { SubscriptionErrorEventArgs } from "./SubscriptionErrorEventArgs";
 
-
+/**
+ * Represents a connection to an ongoing stream of events.
+ * 
+ * @sealed
+ */
 export class StreamingSubscriptionConnection {
 
 	/**
@@ -376,7 +381,7 @@ export class StreamingSubscriptionConnection {
 	 * 
 	 * @exception	{InvalidOperationException}		Thrown when Open is called while connected.
 	 */
-	Open(): void {
+	Open(): Promise<void> {
 		//todo: implement blocking and non blocking multi threading when available.		
 		//lock(this.lockObject) {
 		this.ThrowIfDisposed();
@@ -395,7 +400,7 @@ export class StreamingSubscriptionConnection {
 
 		this.currentHangingRequest.OnDisconnect.push(this.OnRequestDisconnect.bind(this)); //todo: fix if needed multiple instance new HangingServiceRequestBase.HangingRequestDisconnectHandler(this.OnRequestDisconnect)
 
-		this.currentHangingRequest.InternalExecute();
+		return this.currentHangingRequest.InternalExecute();
 		//}
 	}
 
