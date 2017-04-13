@@ -130,8 +130,15 @@ function setupXhrResponse(xhrResponse: XMLHttpRequest): XMLHttpRequest {
 	};
 
 	xhrResponse.getResponseHeader = (header: string) => {
-		if ((<any>xhrResponse).headers && (<any>xhrResponse).headers[header]) {
-			return (<any>xhrResponse).headers[header];
+		if (header) {
+			if ((<any>xhrResponse).headers) {
+				if ((<any>xhrResponse).headers[header]) {
+					return (<any>xhrResponse).headers[header];
+				}
+				if ((<any>xhrResponse).headers[header.toLocaleLowerCase()]) {
+					return (<any>xhrResponse).headers[header.toLocaleLowerCase()];
+				}
+			}
 		}
 		return null;
 	}

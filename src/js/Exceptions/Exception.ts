@@ -37,6 +37,15 @@ export class Exception {//} extends Error { //ref: can not extend from Error. Ty
      * @override user JSON.stringify for now, todo: impelemtn real Exception tostring
      */
     toString() {
-        return JSON.stringify(this);
+        let result = this.stack;
+        try {
+            result = result || JSON.stringify(this);
+        }
+        catch (e) { }
+
+        return result;
+    }
+    ToString() {
+        return this.toString();
     }
 }
