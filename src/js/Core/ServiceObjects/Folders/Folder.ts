@@ -270,7 +270,7 @@ export class Folder extends ServiceObject {
         }
 
         if (viewOrSearchFilter instanceof FolderView) {
-            return this.Service.FindFolders(this.Id, view);
+            return this.Service.FindFolders(this.Id, viewOrSearchFilter);
         }
         else if (viewOrSearchFilter instanceof SearchFilter) {
             if (typeof view === 'undefined' || !(view instanceof FolderView)) {

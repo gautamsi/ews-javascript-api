@@ -312,7 +312,7 @@ export class xml2JsObject {
                         else
                             obj[attr.name] = attr.value;
                     else if (attr.localName === 'xmlns') {
-                        if (xmlNode.namespaceURI !== attr.value && typeof obj[TYPE_STR] === 'undefiend') {
+                        if (xmlNode.namespaceURI !== attr.value && typeof obj[TYPE_STR] === 'undefined') {
                             obj[TYPE_STR] = attr.value;
                         }
                         nonGenericAttributeCount--;

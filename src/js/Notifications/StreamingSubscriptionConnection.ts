@@ -71,6 +71,11 @@ export class StreamingSubscriptionConnection {
 	OnDisconnect: SubscriptionErrorDelegate[] = [];
 
 	/**
+	 * Occurs when a streaming subscription connection gets headers from the server.
+	 */
+	OnResponseHeader: ResponseHeaderDelegate[] = [];
+
+	/**
 	 * Getting the current subscriptions in this connection.
 	 */
 	get CurrentSubscriptions(): StreamingSubscription[] {
@@ -270,6 +275,20 @@ export class StreamingSubscriptionConnection {
 	}
 
 	/**
+	 * Internal helper method called when the request receives headers.
+	 *
+	 * @param   {any}   headers   The headerf from server.
+	 */
+	private InternalOnResponseHeader(headers: any): void {
+		if (this.OnResponseHeader && ArrayHelper.isArray(this.OnResponseHeader)) {
+			try {
+				this.OnResponseHeader.forEach((onHeader) => { onHeader(headers) });
+			}
+			catch (e) { }
+		}
+	}
+
+	/**
 	 * Issues the general failure.
 	 *
 	 * @param   {GetStreamingEventsResponse}   gseResponse   The GetStreamingEvents response.
@@ -399,6 +418,7 @@ export class StreamingSubscriptionConnection {
 			this.connectionTimeout);
 
 		this.currentHangingRequest.OnDisconnect.push(this.OnRequestDisconnect.bind(this)); //todo: fix if needed multiple instance new HangingServiceRequestBase.HangingRequestDisconnectHandler(this.OnRequestDisconnect)
+		this.currentHangingRequest.OnResponseHeader = this.InternalOnResponseHeader.bind(this); //todo: fix if needed multiple instance new HangingServiceRequestBase.HangingRequestDisconnectHandler(this.OnRequestDisconnect)
 
 		return this.currentHangingRequest.InternalExecute();
 		//}
@@ -469,4 +489,14 @@ export interface NotificationEventDelegate {
  */
 export interface SubscriptionErrorDelegate {
 	(sender: any, args: SubscriptionErrorEventArgs): void;
+}
+
+/**
+ * Represents a delegate that is invoked when an error occurs within a streaming subscription connection.
+ *
+ * @param   {any}   						sender   The StreamingSubscriptionConnection instance within which the error occurred.
+ * @param   {SubscriptionErrorEventArgs}   	args     The event data.
+ */
+export interface ResponseHeaderDelegate {
+	(header: any): void;
 }

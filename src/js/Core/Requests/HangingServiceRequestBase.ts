@@ -152,7 +152,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                 }
             }).then((xhrResponse: any) => { //<any> used for progress delegate, not in standard promise
                 //console.log(xhrResponse);
-                successDelegate(void 0);
+                //successDelegate(void 0);
             }, (resperr: XMLHttpRequest) => {
                 if (resperr.status && resperr.getAllResponseHeaders) {
                     EwsLogging.Log("Error in calling service, error code: " + resperr.status + "\r\n " + resperr.getAllResponseHeaders());
