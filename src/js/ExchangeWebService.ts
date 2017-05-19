@@ -826,7 +826,7 @@ export { SortDirection } from "./Enumerations/SortDirection";
 export { StandardUser } from "./Enumerations/StandardUser";
 export { StartTimeZonePropertyDefinition } from "./PropertyDefinitions/StartTimeZonePropertyDefinition";
 export { StreamingSubscription } from "./Notifications/StreamingSubscription";
-export { StreamingSubscriptionConnection } from "./Notifications/StreamingSubscriptionConnection";
+export { StreamingSubscriptionConnection, ResponseHeaderDelegate } from "./Notifications/StreamingSubscriptionConnection";
 export { StringList } from "./ComplexProperties/StringList";
 export { StringPropertyDefinition } from "./PropertyDefinitions/StringPropertyDefinition";
 export { Strings } from "./Strings";
