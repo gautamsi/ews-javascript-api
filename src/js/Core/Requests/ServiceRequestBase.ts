@@ -7,7 +7,7 @@ import { EwsUtilities } from "../EwsUtilities";
 import { ExchangeServerInfo } from "../ExchangeServerInfo";
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
-import { IXHROptions, IXHRApi } from "../../Interfaces";
+import { IXHROptions } from "../../Interfaces";
 import { Promise } from "../../Promise"
 import { RenderingMode } from "../../Enumerations/RenderingMode";
 import { ServiceResponse } from "../Responses/ServiceResponse";
@@ -15,7 +15,6 @@ import { ServiceVersionException } from "../../Exceptions/ServiceVersionExceptio
 import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";
-import { XHRFactory } from "../../XHRFactory"
 import { XmlAttributeNames } from "../XmlAttributeNames";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
@@ -221,7 +220,7 @@ export abstract class ServiceRequestBase {
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }
-    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): Promise<XMLHttpRequest> { return this.service.GetXHRApi.xhr(request); }
+    GetEwsHttpWebResponse(request: IXHROptions /*IEwsHttpWebRequest*/): Promise<XMLHttpRequest> { return this.service.XHRApi.xhr(request); }
 
     /**
      * Gets string representation of requested server version.
@@ -490,7 +489,7 @@ export abstract class ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return this.service.GetXHRApi.xhr(request);
+        return this.service.XHRApi.xhr(request);
 
         //try
         //{
