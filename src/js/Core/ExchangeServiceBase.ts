@@ -20,7 +20,7 @@ import { Uri } from "../Uri";
 import { XHRFactory } from "../XHRFactory";
 
 export class ExchangeServiceBase {
-    
+
     static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
     AcceptGzipEncoding: boolean;
@@ -84,8 +84,13 @@ export class ExchangeServiceBase {
     private static binarySecret: any;//System.Byte[];
     private static defaultUserAgent: string;
 
-    public XHRApi: IXHRApi = null;
-    get GetXHRApi(): IXHRApi { return this.XHRApi || XHRFactory.XHRApi; }
+    private xhrApi: IXHRApi = null;
+    get XHRApi(): IXHRApi {
+        return this.xhrApi || XHRFactory.XHRApi;
+    }
+    set XHRApi(xhrApi: IXHRApi) {
+        this.xhrApi = xhrApi || XHRFactory.XHRApi;
+    }
 
     constructor();
     constructor(timeZone: TimeZoneInfo);
