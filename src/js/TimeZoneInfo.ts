@@ -203,7 +203,7 @@ export class TimeZoneInfo {
         return tz;
     }
 
-    public static CreateFromTimeZoneName(zoneName: string): TimeZoneInfo {
+    public static FindSystemTimeZoneById(zoneName: string): TimeZoneInfo {
         let ianaId = StringHelper.Empty;
         let winId = StringHelper.Empty;
 

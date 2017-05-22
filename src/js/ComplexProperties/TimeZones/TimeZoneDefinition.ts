@@ -289,7 +289,7 @@ export class TimeZoneDefinition extends ComplexProperty {
     ToTimeZoneInfo(service?: ExchangeService): TimeZoneInfo {
         this.Validate();
 
-        return TimeZoneInfo.CreateFromTimeZoneName(this.Id);
+        return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
         //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
         // let result: TimeZoneInfo;
 
