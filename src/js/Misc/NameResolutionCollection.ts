@@ -45,7 +45,7 @@ export class NameResolutionCollection implements IEnumerable<NameResolution> {
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **NameResolutionCollection** class.
      *
      * @param   {ExchangeService}   service   The service.
      */

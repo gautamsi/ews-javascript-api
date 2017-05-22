@@ -15,7 +15,7 @@ export class AccountIsLockedException extends ServiceRemoteException {
     AccountUnlockUrl: Uri = null;
 
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **AccountIsLockedException** class.
      *
      * @param   {string}        message            Error message text.
      * @param   {Uri}           accountUnlockUrl   URL for client to visit to unlock account.

@@ -16,7 +16,7 @@ export class GetAttachmentResponse extends ServiceResponse {
     }
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **GetAttachmentResponse** class.
      *
      * @param   {Attachment}   attachment   The attachment.
      */

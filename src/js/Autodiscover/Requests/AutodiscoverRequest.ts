@@ -13,7 +13,6 @@ import { ServiceResponse } from "../../Core/Responses/ServiceResponse";
 import { ServiceResponseException } from "../../Exceptions/ServiceResponseException";
 import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
 import { Uri } from "../../Uri";
-import { XHRFactory } from "../../XHRFactory";
 import { XmlElementNames } from "../../Core/XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
@@ -106,7 +105,7 @@ export class AutodiscoverRequest {
         return new Promise((successDelegate, errorDelegate) => {
             EwsLogging.DebugLog("sending ews request");
             EwsLogging.DebugLog(xhrOptions, true);
-            this.service.GetXHRApi.xhr(xhrOptions)
+            this.service.XHRApi.xhr(xhrOptions)
                 .then((xhrResponse: XMLHttpRequest) => {
                     var ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
                     //EwsLogging.log(util.inspect(xhrResponse.response, { showHidden: false, depth: null, colors: true }));

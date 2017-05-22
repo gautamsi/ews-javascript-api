@@ -21,7 +21,7 @@ export class GetConversationItemsResponse extends ServiceResponse {
     Conversation: ConversationResponse;
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **GetConversationItemsResponse** class.
      *
      * @param   {PropertySet}   propertySet   The property set.
      */

@@ -12,7 +12,7 @@ export class ItemAttachmentOf<TItem extends Item> extends ItemAttachment {
     set Item(value: TItem) { /** this.Item = value; */  super._setItem(value)}
 
     /**
-     * @internal Initializes a new instance of the  class.
+     * @internal Initializes a new instance of the **ItemAttachmentOf** class.
      *
      * @param   {Item}   owner   The owner of the attachment.
      */

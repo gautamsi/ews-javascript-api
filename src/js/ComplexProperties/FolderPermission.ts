@@ -1,105 +1,28 @@
-﻿import {ServiceLocalException} from "../Exceptions/ServiceLocalException";
-import {Strings} from "../Strings";
-import {StandardUser} from "../Enumerations/StandardUser";
-import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {UserId} from "./UserId";
-import {PermissionScope} from "../Enumerations/PermissionScope";
-import {FolderPermissionReadAccess} from "../Enumerations/FolderPermissionReadAccess";
-import {FolderPermissionLevel} from "../Enumerations/FolderPermissionLevel";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {LazyMember} from "../Core/LazyMember";
-import {ArrayHelper, Convert, StringHelper} from "../ExtensionMethods";
-import {IndexerWithEnumKey} from "../AltDictionary";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {IRefParam} from "../Interfaces/IRefParam";
+﻿import { ArrayHelper, Convert, StringHelper } from "../ExtensionMethods";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../Core/ExchangeService";
+import { FolderPermissionLevel } from "../Enumerations/FolderPermissionLevel";
+import { FolderPermissionReadAccess } from "../Enumerations/FolderPermissionReadAccess";
+import { IRefParam } from "../Interfaces/IRefParam";
+import { IndexerWithEnumKey } from "../AltDictionary";
+import { LazyMember } from "../Core/LazyMember";
+import { PermissionScope } from "../Enumerations/PermissionScope";
+import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
+import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
+import { StandardUser } from "../Enumerations/StandardUser";
+import { Strings } from "../Strings";
+import { UserId } from "./UserId";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {ComplexProperty} from "./ComplexProperty";
+import { ComplexProperty } from "./ComplexProperty";
+/**
+ * Represents a permission on a folder.
+ * 
+ * @sealed
+ */
 export class FolderPermission extends ComplexProperty {
-    get UserId(): UserId { return this.userId; }
-    set UserId(value) {
-        if (this.userId != null) {
-            ArrayHelper.RemoveEntry(this.userId.OnChange,this.PropertyChanged);            
-        }
-        this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
-        if (this.userId != null) {
-            this.userId.OnChange.push(this.PropertyChanged.bind(this));
-        }
-    }
-    get CanCreateItems(): boolean { return this.canCreateItems; }
-    set CanCreateItems(value) {
-        this.SetFieldValue<boolean>({ getValue: () => this.canCreateItems, setValue: (data) => this.canCreateItems = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get CanCreateSubFolders(): boolean { return this.canCreateSubFolders; }
-    set CanCreateSubFolders(value) {
-        this.SetFieldValue<boolean>({ getValue: () => this.canCreateSubFolders, setValue: (data) => this.canCreateSubFolders = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get IsFolderOwner(): boolean { return this.isFolderOwner; }
-    set IsFolderOwner(value) {
-        this.SetFieldValue<boolean>({ getValue: () => this.isFolderOwner, setValue: (data) => this.isFolderOwner = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get IsFolderVisible(): boolean { return this.isFolderVisible; }
-    set IsFolderVisible(value) {
-        this.SetFieldValue<boolean>({ getValue: () => this.isFolderVisible, setValue: (data) => this.isFolderVisible = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get IsFolderContact(): boolean { return this.isFolderContact; }
-    set IsFolderContact(value) {
-        this.SetFieldValue<boolean>({ getValue: () => this.isFolderContact, setValue: (data) => this.isFolderContact = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get EditItems(): PermissionScope { return this.editItems; }
-    set EditItems(value) {
-        this.SetFieldValue<PermissionScope>({ getValue: () => this.editItems, setValue: (data) => this.editItems = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get DeleteItems(): PermissionScope { return this.deleteItems; }
-    set DeleteItems(value) {
-        this.SetFieldValue<PermissionScope>({ getValue: () => this.deleteItems, setValue: (data) => this.deleteItems = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get ReadItems(): FolderPermissionReadAccess { return this.readItems; }
-    set ReadItems(value) {
-        this.SetFieldValue<FolderPermissionReadAccess>({ getValue: () => this.readItems, setValue: (data) => this.readItems = data }, value);
-        this.AdjustPermissionLevel();
-    }
-    get PermissionLevel(): FolderPermissionLevel { return this.permissionLevel; }
-    set PermissionLevel(value) {
-        if (this.permissionLevel != value) {
-            if (value == FolderPermissionLevel.Custom) {
-                throw new ServiceLocalException(Strings.CannotSetPermissionLevelToCustom);
-            }
-            this.AssignIndividualPermissions(FolderPermission.defaultPermissions.Member[value]);
-            this.SetFieldValue<FolderPermissionLevel>({ getValue: () => this.permissionLevel, setValue: (data) => this.permissionLevel = data }, value);
-        }
-    }
-    get DisplayPermissionLevel(): FolderPermissionLevel { 
-        // If permission level is set to Custom, see if there's a variant
-        // that Outlook would map to the same permission level.
-        if (this.permissionLevel == FolderPermissionLevel.Custom) {
-            for (var variant of FolderPermission.levelVariants.Member) {
-                if (this.IsEqualTo(variant)) {
-                    return variant.PermissionLevel;
-                }
-            }
-        }
-        return this.permissionLevel;
-    }
-    private userId: UserId;
-    private canCreateItems: boolean;
-    private canCreateSubFolders: boolean;
-    private isFolderOwner: boolean;
-    private isFolderVisible: boolean;
-    private isFolderContact: boolean;
-    private editItems: PermissionScope;
-    private deleteItems: PermissionScope;
-    private readItems: FolderPermissionReadAccess;
-    private permissionLevel: FolderPermissionLevel;
+
     private static defaultPermissions: LazyMember<IndexerWithEnumKey<FolderPermissionLevel, FolderPermission>> = new LazyMember<IndexerWithEnumKey<FolderPermissionLevel, FolderPermission>>(
         () => {
             var result: IndexerWithEnumKey<FolderPermissionLevel, FolderPermission> = {};// new Dictionary<FolderPermissionLevel, FolderPermission>();
@@ -238,6 +161,10 @@ export class FolderPermission extends ComplexProperty {
 
             return result;
         });
+
+    /**
+     * Variants of pre-defined permission levels that Outlook also displays with the same levels.
+     */
     private static levelVariants: LazyMember<FolderPermission[]> = new LazyMember<FolderPermission[]>(
         () => {
             var results: FolderPermission[] = [];// new List<FolderPermission>();
@@ -269,9 +196,178 @@ export class FolderPermission extends ComplexProperty {
             return results;
         });
 
+    private userId: UserId;
+    private canCreateItems: boolean;
+    private canCreateSubFolders: boolean;
+    private isFolderOwner: boolean;
+    private isFolderVisible: boolean;
+    private isFolderContact: boolean;
+    private editItems: PermissionScope;
+    private deleteItems: PermissionScope;
+    private readItems: FolderPermissionReadAccess;
+    private permissionLevel: FolderPermissionLevel;
+
+
+    /**
+     * Gets the Id of the user the permission applies to.
+     */
+    get UserId(): UserId {
+        return this.userId;
+    }
+    set UserId(value) {
+        if (this.userId != null) {
+            ArrayHelper.RemoveEntry(this.userId.OnChange, this.PropertyChanged);
+        }
+        this.SetFieldValue<UserId>({ getValue: () => this.userId, setValue: (id) => this.userId = id }, value);
+        if (this.userId != null) {
+            this.userId.OnChange.push(this.PropertyChanged.bind(this));
+        }
+    }
+
+    /**
+     * Gets or sets a value indicating whether the user can create new items.
+     */
+    get CanCreateItems(): boolean {
+        return this.canCreateItems;
+    }
+    set CanCreateItems(value) {
+        this.SetFieldValue<boolean>({ getValue: () => this.canCreateItems, setValue: (data) => this.canCreateItems = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating whether the user can create sub-folders.
+     */
+    get CanCreateSubFolders(): boolean {
+        return this.canCreateSubFolders;
+    }
+    set CanCreateSubFolders(value) {
+        this.SetFieldValue<boolean>({ getValue: () => this.canCreateSubFolders, setValue: (data) => this.canCreateSubFolders = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating whether the user owns the folder.
+     */
+    get IsFolderOwner(): boolean {
+        return this.isFolderOwner;
+    }
+    set IsFolderOwner(value) {
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderOwner, setValue: (data) => this.isFolderOwner = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating whether the folder is visible to the user.
+     */
+    get IsFolderVisible(): boolean {
+        return this.isFolderVisible;
+    }
+    set IsFolderVisible(value) {
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderVisible, setValue: (data) => this.isFolderVisible = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating whether the user is a contact for the folder.
+     */
+    get IsFolderContact(): boolean {
+        return this.isFolderContact;
+    }
+    set IsFolderContact(value) {
+        this.SetFieldValue<boolean>({ getValue: () => this.isFolderContact, setValue: (data) => this.isFolderContact = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating if/how the user can edit existing items.
+     */
+    get EditItems(): PermissionScope {
+        return this.editItems;
+    }
+    set EditItems(value) {
+        this.SetFieldValue<PermissionScope>({ getValue: () => this.editItems, setValue: (data) => this.editItems = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets a value indicating if/how the user can delete existing items.
+     */
+    get DeleteItems(): PermissionScope {
+        return this.deleteItems;
+    }
+    set DeleteItems(value) {
+        this.SetFieldValue<PermissionScope>({ getValue: () => this.deleteItems, setValue: (data) => this.deleteItems = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets the read items access permission.
+     */
+    get ReadItems(): FolderPermissionReadAccess {
+        return this.readItems;
+    }
+    set ReadItems(value) {
+        this.SetFieldValue<FolderPermissionReadAccess>({ getValue: () => this.readItems, setValue: (data) => this.readItems = data }, value);
+        this.AdjustPermissionLevel();
+    }
+
+    /**
+     * Gets or sets the permission level.
+     */
+    get PermissionLevel(): FolderPermissionLevel {
+        return this.permissionLevel;
+    }
+    set PermissionLevel(value) {
+        if (this.permissionLevel != value) {
+            if (value == FolderPermissionLevel.Custom) {
+                throw new ServiceLocalException(Strings.CannotSetPermissionLevelToCustom);
+            }
+            this.AssignIndividualPermissions(FolderPermission.defaultPermissions.Member[value]);
+            this.SetFieldValue<FolderPermissionLevel>({ getValue: () => this.permissionLevel, setValue: (data) => this.permissionLevel = data }, value);
+        }
+    }
+
+    /**
+     * Gets the permission level that Outlook would display for this folder permission.
+     */
+    get DisplayPermissionLevel(): FolderPermissionLevel {
+        // If permission level is set to Custom, see if there's a variant
+        // that Outlook would map to the same permission level.
+        if (this.permissionLevel == FolderPermissionLevel.Custom) {
+            for (var variant of FolderPermission.levelVariants.Member) {
+                if (this.IsEqualTo(variant)) {
+                    return variant.PermissionLevel;
+                }
+            }
+        }
+        return this.permissionLevel;
+    }
+
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {UserId}                    userId            The Id of the user  the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel   The level of the permission.
+     */
     constructor(userId: UserId, permissionLevel: FolderPermissionLevel);
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {string}                    primarySmtpAddress  The primary SMTP address of the user the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
+     */
     constructor(primarySmtpAddress: string, permissionLevel: FolderPermissionLevel);
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {StandardUser}              standardUser        The standard user the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
+     */
     constructor(standardUser: StandardUser, permissionLevel: FolderPermissionLevel);
     constructor(userIdOrStandardUserOrSmtpAddress?: UserId | StandardUser | string, permissionLevel?: FolderPermissionLevel) {
         super();
@@ -292,7 +388,10 @@ export class FolderPermission extends ComplexProperty {
         }
     }
 
-    AdjustPermissionLevel(): void {
+    /**
+     * Determines the permission level of this folder permission based on its individual settings, and sets the PermissionLevel property accordingly.
+     */
+    private AdjustPermissionLevel(): void {
         for (var key in FolderPermission.defaultPermissions.Member) {
             var value = FolderPermission.defaultPermissions.Member[key];
             if (this.IsEqualTo(value)) {
@@ -303,7 +402,13 @@ export class FolderPermission extends ComplexProperty {
 
         this.permissionLevel = FolderPermissionLevel.Custom;
     }
-    AssignIndividualPermissions(permission: FolderPermission): void {
+
+    /**
+     * Copies the values of the individual permissions of the specified folder permission to this folder permissions.
+     *
+     * @param   {FolderPermission}   permission   The folder permission to copy the values from.
+     */
+    private AssignIndividualPermissions(permission: FolderPermission): void {
         this.canCreateItems = permission.CanCreateItems;
         this.canCreateSubFolders = permission.CanCreateSubFolders;
         this.isFolderContact = permission.IsFolderContact;
@@ -313,7 +418,13 @@ export class FolderPermission extends ComplexProperty {
         this.deleteItems = permission.DeleteItems;
         this.readItems = permission.ReadItems;
     }
-    Clone(): FolderPermission {
+
+    /**
+     * Create a copy of this FolderPermission instance.
+     *
+     * @return  {FolderPermission}      Clone of this instance.
+     */
+    private Clone(): FolderPermission {
         var res = new FolderPermission();
         res.canCreateItems = this.canCreateItems;
         res.canCreateSubFolders = this.canCreateSubFolders;
@@ -327,57 +438,68 @@ export class FolderPermission extends ComplexProperty {
         res.userId = this.userId;
         return res;
     }
-    InternalToJson(service: ExchangeService, isCalendarFolder: boolean): any { throw new Error("FolderPermission.ts - InternalToJson : Not implemented."); }
+
+    /**
+     * Determines whether the specified folder permission is the same as this one. The comparison does not take UserId and PermissionLevel into consideration.
+     *
+     * @param   {FolderPermission}  permission   The folder permission to compare with this folder permission.
+     * @return  {boolean}           True is the specified folder permission is equal to this one, false otherwise.
+     */
     private IsEqualTo(permission: FolderPermission): boolean {
-        return
-        this.CanCreateItems == permission.CanCreateItems &&
-        this.CanCreateSubFolders == permission.CanCreateSubFolders &&
-        this.IsFolderContact == permission.IsFolderContact &&
-        this.IsFolderVisible == permission.IsFolderVisible &&
-        this.IsFolderOwner == permission.IsFolderOwner &&
-        this.EditItems == permission.EditItems &&
-        this.DeleteItems == permission.DeleteItems &&
-        this.ReadItems == permission.ReadItems;
+        return this.CanCreateItems == permission.CanCreateItems &&
+            this.CanCreateSubFolders == permission.CanCreateSubFolders &&
+            this.IsFolderContact == permission.IsFolderContact &&
+            this.IsFolderVisible == permission.IsFolderVisible &&
+            this.IsFolderOwner == permission.IsFolderOwner &&
+            this.EditItems == permission.EditItems &&
+            this.DeleteItems == permission.DeleteItems &&
+            this.ReadItems == permission.ReadItems;
     }
-    LoadFromJson(jsonProperty: any/*JsonObject*/, service: ExchangeService): any { throw new Error("FolderPermission.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any/*JsonObject*/, service: ExchangeService): void {
-        for (var key in jsonProperty) {
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any/*JsonObject*/, service: ExchangeService): void {
+        for (var key in jsObject) {
             switch (key) {
                 case XmlElementNames.UserId:
                     this.UserId = new UserId();
-                    this.UserId.LoadFromXmlJsObject(jsonProperty[key], service);
+                    this.UserId.LoadFromXmlJsObject(jsObject[key], service);
                     break;
                 case XmlElementNames.CanCreateItems:
-                    this.canCreateItems = Convert.toBool(jsonProperty[key]);
+                    this.canCreateItems = Convert.toBool(jsObject[key]);
                     break;
                 case XmlElementNames.CanCreateSubFolders:
-                    this.canCreateSubFolders = Convert.toBool(jsonProperty[key]);
+                    this.canCreateSubFolders = Convert.toBool(jsObject[key]);
                     break;
                 case XmlElementNames.IsFolderOwner:
-                    this.isFolderOwner = Convert.toBool(jsonProperty[key]);
+                    this.isFolderOwner = Convert.toBool(jsObject[key]);
                     break;
                 case XmlElementNames.IsFolderVisible:
-                    this.isFolderVisible = Convert.toBool(jsonProperty[key]);
+                    this.isFolderVisible = Convert.toBool(jsObject[key]);
                     break;
                 case XmlElementNames.IsFolderContact:
-                    this.isFolderContact = Convert.toBool(jsonProperty[key]);
+                    this.isFolderContact = Convert.toBool(jsObject[key]);
                     break;
                 case XmlElementNames.EditItems:
                     //debugger;//check for assignable enumeration type
-                    this.editItems = <PermissionScope><any>PermissionScope[jsonProperty[key]];
+                    this.editItems = <PermissionScope><any>PermissionScope[jsObject[key]];
                     break;
                 case XmlElementNames.DeleteItems:
                     //debugger;//check for assignable enumeration type
-                    this.deleteItems = <PermissionScope><any>PermissionScope[jsonProperty[key]];
+                    this.deleteItems = <PermissionScope><any>PermissionScope[jsObject[key]];
                     break;
                 case XmlElementNames.ReadItems:
                     //debugger;//check for assignable enumeration type
-                    this.readItems = <FolderPermissionReadAccess><any>FolderPermissionReadAccess[jsonProperty[key]]
+                    this.readItems = <FolderPermissionReadAccess><any>FolderPermissionReadAccess[jsObject[key]]
                     break;
                 case XmlElementNames.PermissionLevel:
                 case XmlElementNames.CalendarPermissionLevel:
                     //debugger;//check for assignable enumeration type
-                    this.permissionLevel = <FolderPermissionLevel><any>FolderPermissionLevel[jsonProperty[key]];
+                    this.permissionLevel = <FolderPermissionLevel><any>FolderPermissionLevel[jsObject[key]];
                     break;
                 default:
                     break;
@@ -386,11 +508,26 @@ export class FolderPermission extends ComplexProperty {
 
         this.AdjustPermissionLevel();
     }
-    PropertyChanged(complexProperty: ComplexProperty): void { this.Changed(); }
-    /**@internal */
-    ReadElementsFromXmlJsObject(reader: EwsServiceXmlReader): boolean { throw new Error("FolderPermission.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+
+    /**
+     * Property was changed.
+     *
+     * @param   {ComplexProperty}   complexProperty   The complex property.
+     */
+    private PropertyChanged(complexProperty: ComplexProperty): void {
+        this.Changed();
+    }
+
     //Validate(isCalendarFolder: boolean, permissionIndex: number): void { throw new Error("FolderPermission.ts - Validate : Not implemented."); }
-    Validate(isCalendarFolder?: boolean, permissionIndex?: number): void {
+
+    /**
+     * @internal Validates this instance.
+     * ## parameters not optional: Typescript inheritance issue if not set as optional in code.
+     *
+     * @param   {boolean}   isCalendarFolder   if set to true calendar permissions are allowed.
+     * @param   {number}    permissionIndex    Index of the permission.
+     */
+    Validate(isCalendarFolder?: boolean, permissionIndex?: number): void { //ref: inheritance issue if parameters are not optional
 
         if (typeof isCalendarFolder === 'undefined' || typeof permissionIndex === 'undefined')
             throw new Error("FolderPermission - Validate: incorrect call to validate, without the isCalendar or permissionIndex pearameter. this signature makes it optional to comply with typescript inheritance system and to avoid compiletime error.");
@@ -417,11 +554,17 @@ export class FolderPermission extends ComplexProperty {
                 throw new ServiceLocalException(
                     StringHelper.Format(
                         Strings.PermissionLevelInvalidForNonCalendarFolder,
-                        this.permissionLevel));
+                        FolderPermissionLevel[this.permissionLevel]));
             }
         }
     }
-    /**@internal */
+
+    /**
+     * @internal Writes elements to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer             The writer.
+     * @param   {boolean}               isCalendarFolder   If true, this permission is for a calendar folder.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter, isCalendarFolder: boolean = false): void {
         if (this.UserId != null) {
             this.UserId.WriteToXml(writer, XmlElementNames.UserId);
@@ -472,10 +615,18 @@ export class FolderPermission extends ComplexProperty {
         writer.WriteElementValue(
             XmlNamespace.Types,
             isCalendarFolder ? XmlElementNames.CalendarPermissionLevel : XmlElementNames.PermissionLevel,
-            this.PermissionLevel);
+            FolderPermissionLevel[this.PermissionLevel]);
     }
-    /**@internal */
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace, isCalendarFolder: boolean = false): void {//XmlNamespace - incorrect inheritance error with typesctipt in folderpermission class if removed xmlnamespace parameter
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer             The writer.
+     * @param   {string}                xmlElementName     Name of the XML element.
+     * @param   {XmlNamespace}          xmlNamespace       
+     * @param   {isCalendarFolder}      isCalendarFolder   If true, this permission is for a calendar folder.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string, xmlNamespace?: XmlNamespace, isCalendarFolder: boolean = false): void { //ref: XmlNamespace - incorrect inheritance error with typesctipt in folderpermission class if removed xmlnamespace parameter
         writer.WriteStartElement(this.Namespace, xmlElementName);
         this.WriteAttributesToXml(writer);
         this.WriteElementsToXml(writer, isCalendarFolder);

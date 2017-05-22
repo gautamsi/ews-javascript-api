@@ -7,7 +7,6 @@ import { HangingRequestDisconnectEventArgs } from "./HangingRequestDisconnectEve
 import { HangingRequestDisconnectReason } from "../../Enumerations/HangingRequestDisconnectReason";
 import { IXHROptions, IXHRApi, IXHRProgress } from "../../Interfaces";
 import { Promise } from "../../Promise";
-import { XHRFactory } from "../../XHRFactory";
 
 import { ServiceRequestBase } from "./ServiceRequestBase";
 /**
@@ -36,7 +35,6 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     //  * ews-javascript-api:  FetchStream object
     //  */
     // private stream: FetchStream;
-    private xhrApi: IXHRApi;
 
 	/**
 	 * @internal Initializes a new instance of the **HangingServiceRequestBase** class.
@@ -49,7 +47,6 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         super(service);
         this.responseHandler = handler;
         this.heartbeatFrequencyMilliseconds = heartbeatFrequency;
-        this.xhrApi = XHRFactory.XHRApi;
     }
 
     /**
@@ -65,7 +62,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
     Disconnect(reason: HangingRequestDisconnectReason, exception: Exception): void;
     Disconnect(reason: HangingRequestDisconnectReason = HangingRequestDisconnectReason.UserInitiated, exception: Exception = null): void {
         if (this.IsConnected) {
-            this.xhrApi.disconnect();
+            this.Service.XHRApi.disconnect();
             this.InternalOnDisconnect(reason, exception);
         }
     }
@@ -152,9 +149,14 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                 }
             }).then((xhrResponse: any) => { //<any> used for progress delegate, not in standard promise
                 //console.log(xhrResponse);
-                successDelegate(void 0);
+                //successDelegate(void 0);
             }, (resperr: XMLHttpRequest) => {
-                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + resperr.getAllResponseHeaders());
+                if (resperr.status && resperr.getAllResponseHeaders) {
+                    EwsLogging.Log("Error in calling service, error code: " + resperr.status + "\r\n " + resperr.getAllResponseHeaders());
+                }
+                else {
+                    EwsLogging.Log("Error in calling service, error code: " + (resperr.status || (<any>resperr).message));
+                }
                 if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             });
         });
@@ -368,7 +370,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         EwsLogging.DebugLog("sending ews request");
         EwsLogging.DebugLog(request, true);
 
-        return this.xhrApi.xhrStream(request, progressDelegate);
+        return this.Service.XHRApi.xhrStream(request, progressDelegate);
         // return new Promise((successDelegate, errorDelegate) => {
         //     this.stream = new FetchStream(this.Service.Url.ToString(), request);
 

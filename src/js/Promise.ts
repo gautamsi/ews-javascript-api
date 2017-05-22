@@ -299,13 +299,6 @@ export interface PromiseConstructor {
 
 export var Promise: PromiseConstructor;
 
-try {
-    var promise = require('bluebird');
-    Promise = promise;
-} catch (e) {
-    Promise = <any>PromiseType;
-}
-
 class PromiseType<T> {
     constructor() {
         throw new NotSupportedException("Promise implementation missing.\nPlease use ConfigurePromise function to assign Promise Object\n" +
@@ -313,6 +306,13 @@ class PromiseType<T> {
             "Q: ConfigurePromise(require('q').Promise)\n" +
             "winjs-node: ConfigurePromise(require('winjs-node').Promise)")
     }
+}
+
+try {
+    var promise = require('bluebird');
+    Promise = promise;
+} catch (e) {
+    Promise = <any>PromiseType;
 }
 
 export function ConfigurePromise(promise: PromiseConstructor) {

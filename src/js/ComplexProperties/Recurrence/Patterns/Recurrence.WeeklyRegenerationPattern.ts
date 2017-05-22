@@ -26,11 +26,11 @@ export class WeeklyRegenerationPattern extends IntervalPattern {
     }
 
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
      */
     constructor();
     /**
-     * Initializes a new instance of the  class.
+     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
      *
      * @param   {DateTime}   startDate   The date and time when the recurrence starts.
      * @param   {interval}   interval    The number of weeks between the current occurrence and the next, after the current occurrence is completed.

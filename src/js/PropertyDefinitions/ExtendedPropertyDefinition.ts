@@ -226,7 +226,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
                 (extPropDef1.Tag === extPropDef2.Tag) &&
                 (extPropDef1.Name === extPropDef2.Name) &&
                 (extPropDef1.PropertySet === extPropDef2.PropertySet) &&
-                (extPropDef1.propertySetId === extPropDef2.propertySetId));
+                (String(extPropDef1.propertySetId) === String(extPropDef2.propertySetId)));
     }
 
     /**

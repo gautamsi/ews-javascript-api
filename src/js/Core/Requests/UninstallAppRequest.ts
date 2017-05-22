@@ -20,7 +20,7 @@ export class UninstallAppRequest extends SimpleServiceRequestBase {
 	private ID: string = null;
 
 	/**
-	 * @internal Initializes a new instance of the  class.
+	 * @internal Initializes a new instance of the **UninstallAppRequest** class.
 	 *
 	 * @param   {ExchangeService}   service   The service.
 	 * @param   {string}   			id        Extension ID

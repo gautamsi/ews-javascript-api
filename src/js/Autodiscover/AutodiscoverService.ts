@@ -36,7 +36,6 @@ import { Uri } from "../Uri";
 
 import { IXHROptions } from "../Interfaces";
 import { Promise } from "../Promise";
-import { XHRFactory } from "../XHRFactory";
 
 import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
 export class AutodiscoverService extends ExchangeServiceBase {
@@ -318,7 +317,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
             type: "GET",
             url: url,
         };
-        return this.GetXHRApi.xhr(xhrOptions)
+        return this.XHRApi.xhr(xhrOptions)
             .then<Uri>((response: XMLHttpRequest) => {
                 if (response != null) {
 
@@ -882,7 +881,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
 
         //todo - optimize code, need to apply logic in failed errors as 401 go to onerror of xhr;
-        return this.GetXHRApi.xhr(xhrOptions)
+        return this.XHRApi.xhr(xhrOptions)
             .then<boolean>((response: XMLHttpRequest) => {
                 if (response != null) {
                     var redirectUrl: any = null;;
