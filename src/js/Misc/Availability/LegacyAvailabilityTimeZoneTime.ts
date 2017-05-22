@@ -1,10 +1,13 @@
-﻿import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+﻿import { DateTime } from "../../DateTime";
+import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../Core/EwsUtilities";
 import { ExchangeService } from "../../Core/ExchangeService";
 import { TimeSpan } from "../../TimeSpan";
-import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { TimeZoneInfo } from "../../TimeZoneInfo";
 import { XmlElementNames } from "../../Core/XmlElementNames";
-import { EwsUtilities } from "../../Core/EwsUtilities";
-import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+
 import { ComplexProperty } from "../../ComplexProperties/ComplexProperty";
 export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
     get HasTransitionTime(): boolean { return this.Month >= 1 && this.Month <= 12; }
@@ -20,13 +23,35 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
     // private dayOrder: number;
     // private dayOfTheWeek: DayOfTheWeek;
     // private timeOfDay: TimeSpan /*System.TimeSpan*/;
+
     constructor() {
         super()
     }
-    InternalToJson(service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - LoadFromJson : Not implemented."); }
-    ToTransitionTime(): any { throw new Error("LegacyAvailabilityTimeZoneTime.ts - ToTransitionTime : Not implemented."); }
-    ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("LegacyAvailabilityTimeZoneTime.ts - TryReadElementFromXmlJsObject : Not implemented."); }
+
+    ToTransitionTime(): TimeZoneInfo.TransitionTime { 
+        if (this.Year == 0)
+            {
+                return TimeZoneInfo.TransitionTime.CreateFloatingDateRule(
+                    new DateTime(
+                        DateTime.MinValue.Year,
+                        DateTime.MinValue.Month,
+                        DateTime.MinValue.Day,
+                        this.TimeOfDay.Hours,
+                        this.TimeOfDay.Minutes,
+                        this.TimeOfDay.Seconds),
+                    this.Month,
+                    this.DayOrder,
+                    EwsUtilities.EwsToSystemDayOfWeek(this.DayOfTheWeek));
+            }
+            else
+            {
+                return TimeZoneInfo.TransitionTime.CreateFixedDateRule(
+                    new DateTime(this.TimeOfDay.TotalMilliseconds),
+                    this.Month,
+                    this.DayOrder);
+            }
+    }
+
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         for (var key in jsonProperty) {
             switch (key) {
@@ -53,6 +78,7 @@ export class LegacyAvailabilityTimeZoneTime extends ComplexProperty {
             }
         }
     }
+
     /**@internal */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteElementValue(

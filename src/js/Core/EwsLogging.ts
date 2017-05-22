@@ -1,4 +1,4 @@
-import {StringHelper} from "../ExtensionMethods";
+import { StringHelper } from "../ExtensionMethods";
 declare var window: any;
 var isNode = (typeof window === 'undefined')
 var util: any = undefined;
@@ -17,8 +17,8 @@ else {
 
 export class EwsLogging {
     static DebugLogEnabled: boolean = true;
-    static Assert(condition: boolean, caller: string, message: string): void {
-        if (this.DebugLogEnabled && !condition)
+    static Assert(condition: boolean, caller: string, message: string, always: boolean = false): void {
+        if ((this.DebugLogEnabled || always) && !condition)
             console.log(StringHelper.Format("[{0}] {1}", caller, message));
     }
 

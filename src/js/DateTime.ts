@@ -1,10 +1,11 @@
-import { ArgumentOutOfRangeException, ArgumentException } from "../js/Exceptions/ArgumentException";
 import moment = require('moment-timezone');
+import { ArgumentOutOfRangeException, ArgumentException } from "./Exceptions/ArgumentException";
+import { DayOfWeek } from "./Enumerations/DayOfWeek";
+import { IOutParam } from "./Interfaces/IOutParam";
+import { StringHelper } from "./ExtensionMethods";
 import { TimeSpan } from "./TimeSpan";
-import { DayOfWeek } from "../js/Enumerations/DayOfWeek";
-import { StringHelper } from "../js/ExtensionMethods";
 
-const ticksToEpoch: number = 621355968000000000;
+const ticksToEpoch: number = 621355968000000000; //can be used when calculating ticks/ms from Windows date to unix date
 export const msToEpoch: number = 62135596800000;
 
 const invalidDateTimeMessage = {
@@ -37,6 +38,7 @@ export class DateTime {
     private get momentDate(): moment.Moment { return this.getMomentDate(); }
     private getMomentDate: Function
     private setMomentDate: Function
+    private originalDateInput: any = null;
 
     public static get Now(): DateTime {
         return new DateTime(moment());
@@ -74,21 +76,24 @@ export class DateTime {
         if (argsLength === 1) {
             if (msOrDateOrMomentOrYear instanceof DateTime) {
                 momentdate = msOrDateOrMomentOrYear.MomentDate.clone();
-                if (momentdate.isUtc()) {
-                    this.kind = DateTimeKind.Utc
-                }
-                else if (momentdate.isLocal()) {
-                    this.kind = DateTimeKind.Local;
-                }
             }
             else {
                 momentdate = moment(msOrDateOrMomentOrYear);
+                this.originalDateInput = msOrDateOrMomentOrYear;
             }
         }
         else {
             if (argsLength === 2) {
-                momentdate = moment(msOrDateOrMomentOrYear);
+                if (monthOrKind === DateTimeKind.Utc && !(msOrDateOrMomentOrYear instanceof moment)) {
+                    momentdate = moment.utc(msOrDateOrMomentOrYear);
+                }
+                else {
+                    momentdate = moment(msOrDateOrMomentOrYear);
+                }
                 this.kind = monthOrKind;
+                if (this.kind === DateTimeKind.Unspecified && !(msOrDateOrMomentOrYear instanceof moment)) {
+                    this.originalDateInput = msOrDateOrMomentOrYear;
+                }
             }
             let momentInput: moment.MomentInputObject = {};
             if (argsLength >= 3) {
@@ -113,6 +118,13 @@ export class DateTime {
         if (momentdate && !momentdate.isValid()) {
             let invalid = momentdate.invalidAt();
             throw new ArgumentOutOfRangeException(momentValidity[invalid], invalidDateTimeMessage[momentValidity[invalid]]);
+        }
+
+        if (momentdate.isUtc()) {
+            this.kind = DateTimeKind.Utc
+        }
+        else if (momentdate.isLocal()) {
+            this.kind = DateTimeKind.Local;
         }
 
         this.getMomentDate = () => momentdate;
@@ -151,10 +163,34 @@ export class DateTime {
         return this.momentDate.format(formatting);
     }
 
+    private static getKindfromMoment(m: moment.Moment): DateTimeKind {
+        if (m.isUTC()) {
+            return DateTimeKind.Utc;
+        }
+        if (m.isLocal()) {
+            return DateTimeKind.Local;
+        }
+        return DateTimeKind.Unspecified;
+    }
     static Parse(value: any, kind: DateTimeKind = DateTimeKind.Unspecified): DateTime {
         let mdate = moment(value);
+        let tempDate: DateTime = null;
         if (mdate.isValid()) {
-            return new DateTime(mdate);
+            switch (kind) {
+                case DateTimeKind.Local:
+                    tempDate = new DateTime(mdate.local());
+                    tempDate.kind = kind;
+                    return tempDate;
+                case DateTimeKind.Utc:
+                    tempDate = new DateTime(moment.utc(value));
+                    tempDate.kind = kind;
+                    return tempDate;
+                default:
+                    tempDate = new DateTime(mdate);
+                    tempDate.originalDateInput = value;
+                    tempDate.kind = kind;
+                    return tempDate;
+            }
         }
         else {
             throw new ArgumentException("invalid date value");
@@ -173,7 +209,9 @@ export class DateTime {
         this.momentDate.utcOffset(value);
     }
 
-
+    static DateimeStringToTimeZone(dtStr: string, zoneStr: string): DateTime {
+        return new DateTime(moment.tz(dtStr, zoneStr));
+    }
 
     static DateTimeToXSDateTime(dateTime: DateTime): string {
         var format = 'YYYY-MM-DDTHH:mm:ss.SSSZ';//using moment format for c#->"yyyy-MM-ddTHH:mm:ss.fff";
@@ -221,7 +259,7 @@ export class DateTime {
     /* c# DateTime properties */
 
     public get Date(): DateTime {
-        return new DateTime(this.momentDate);
+        return new DateTime(this.momentDate.format("Y-MM-DD"));
     }
     public get Day(): number {
         return this.momentDate.date();
@@ -258,7 +296,6 @@ export class DateTime {
         return TimeSpan.FromMilliseconds(this.momentDate.millisecond());
     }
     public get Today(): DateTime {
-        throw "asdasd";
         return new DateTime(moment(this.momentDate.format("LL"), "LL"));
     }
     public get Year(): number {
@@ -383,7 +420,17 @@ export class DateTime {
         return new DateTime(this.MomentDate.utc());
     }
 
-    // TryParse
+    static TryParse(s: string | moment.MomentInput, outDate: IOutParam<DateTime>) {
+        try {
+            outDate.outValue = DateTime.Parse(s);
+            outDate.outValue.kind = this.getKindfromMoment(outDate.outValue.momentDate);
+            return true;
+        } catch (error) {
+            outDate.exception = error;
+        }
+        return false;
+    }
+
     // TryParseExact
     valueOf(): number {
         return this.TotalMilliSeconds;

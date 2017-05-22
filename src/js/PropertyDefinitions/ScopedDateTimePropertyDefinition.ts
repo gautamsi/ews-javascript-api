@@ -75,7 +75,7 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
      * @return  {DateTime}              The converted DateTime.
      */
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: DateTime, propertyBag: PropertyBag, isUpdateOperation: boolean): DateTime {
-        EwsLogging.Assert(false, "ScopedDateTimePropertyDefinition.ScopeToTimeZone", "TimeZone info could be misleading, It should be used as UTC in all cases until fixed");
+        EwsLogging.Assert(false, "ScopedDateTimePropertyDefinition.ScopeToTimeZone", "[Info]:  TimeZone info has been updated, Please report any bugs to github", true);
         if (!propertyBag.Owner.GetIsCustomDateTimeScopingRequired()) {
             // Most item types do not require a custom scoping mechanism. For those item types,
             // use the default scoping mechanism.
@@ -103,7 +103,7 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
                         TimeZoneInfo.Utc);
 
                     // This is necessary to stamp the date/time with the Local kind.
-                    return new DateTime(convertedDateTime, DateTimeKind.Utc);
+                    return new DateTime(convertedDateTime.TotalMilliSeconds, DateTimeKind.Utc);
                 }
                 catch (e) {
                     throw new PropertyException(

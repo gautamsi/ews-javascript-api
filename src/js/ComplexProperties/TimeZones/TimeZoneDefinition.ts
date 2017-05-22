@@ -81,79 +81,81 @@ export class TimeZoneDefinition extends ComplexProperty {
             standardPeriod.Name = TimeZonePeriod.StandardPeriodName;
             standardPeriod.Bias = new TimeSpan(-timeZoneInfo.BaseUtcOffset.TotalMilliseconds);
 
-            let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = timeZoneInfo.GetAdjustmentRules();
+            //ref: very complex to calculate timezone rules and transitions. it works without adding those elements as they are optional, need to find scenario where it is mandatory.
 
-            let transitionToStandardPeriod: TimeZoneTransition = new TimeZoneTransition(this, standardPeriod);
+            // let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = []; // = timeZoneInfo.GetAdjustmentRules();
 
-            if (adjustmentRules.length == 0) {
-                this.periods.Add(standardPeriod.Id, standardPeriod);
+            // let transitionToStandardPeriod: TimeZoneTransition = new TimeZoneTransition(this, standardPeriod);
 
-                // If the time zone info doesn't support Daylight Saving Time, we just need to
-                // create one transition to one group with one transition to the standard period.
-                let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, "0");
-                transitionGroup.Transitions.push(transitionToStandardPeriod);
+            // if (adjustmentRules.length == 0) {
+            //     this.periods.Add(standardPeriod.Id, standardPeriod);
 
-                this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
+            //     // If the time zone info doesn't support Daylight Saving Time, we just need to
+            //     // create one transition to one group with one transition to the standard period.
+            //     let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, "0");
+            //     transitionGroup.Transitions.push(transitionToStandardPeriod);
 
-                let initialTransition: TimeZoneTransition = new TimeZoneTransition(this, transitionGroup);
+            //     this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
 
-                this.transitions.push(initialTransition);
-            }
-            else {
-                for (let i = 0; i < adjustmentRules.length; i++) {
-                    let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
-                    transitionGroup.InitializeFromAdjustmentRule(adjustmentRules[i], standardPeriod);
+            //     let initialTransition: TimeZoneTransition = new TimeZoneTransition(this, transitionGroup);
 
-                    this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
+            //     this.transitions.push(initialTransition);
+            // }
+            // else {
+            //     for (let i = 0; i < adjustmentRules.length; i++) {
+            //         let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
+            //         transitionGroup.InitializeFromAdjustmentRule(adjustmentRules[i], standardPeriod);
 
-                    let transition: TimeZoneTransition;
+            //         this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
 
-                    if (i == 0) {
-                        // If the first adjustment rule's start date in not undefined (DateTime.MinValue)
-                        // we need to add a dummy group with a single, simple transition to the Standard
-                        // period and a group containing the transitions mapping to the adjustment rule.
-                        if (adjustmentRules[i].DateStart > DateTime.MinValue.Date) {
-                            let transitionToDummyGroup: TimeZoneTransition = new TimeZoneTransition(
-                                this,
-                                this.CreateTransitionGroupToPeriod(standardPeriod));
+            //         let transition: TimeZoneTransition;
 
-                            this.transitions.push(transitionToDummyGroup);
+            //         if (i == 0) {
+            //             // If the first adjustment rule's start date in not undefined (DateTime.MinValue)
+            //             // we need to add a dummy group with a single, simple transition to the Standard
+            //             // period and a group containing the transitions mapping to the adjustment rule.
+            //             if (adjustmentRules[i].DateStart > DateTime.MinValue.Date) {
+            //                 let transitionToDummyGroup: TimeZoneTransition = new TimeZoneTransition(
+            //                     this,
+            //                     this.CreateTransitionGroupToPeriod(standardPeriod));
 
-                            let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
-                            absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
+            //                 this.transitions.push(transitionToDummyGroup);
 
-                            transition = absoluteDateTransition;
-                            this.periods.Add(standardPeriod.Id, standardPeriod);
-                        }
-                        else {
-                            transition = new TimeZoneTransition(this, transitionGroup);
-                        }
-                    }
-                    else {
-                        let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
-                        absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
+            //                 let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
+            //                 absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
 
-                        transition = absoluteDateTransition;
-                    }
+            //                 transition = absoluteDateTransition;
+            //                 this.periods.Add(standardPeriod.Id, standardPeriod);
+            //             }
+            //             else {
+            //                 transition = new TimeZoneTransition(this, transitionGroup);
+            //             }
+            //         }
+            //         else {
+            //             let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
+            //             absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
 
-                    this.transitions.push(transition);
-                }
+            //             transition = absoluteDateTransition;
+            //         }
 
-                // If the last adjustment rule's end date is not undefined (DateTime.MaxValue),
-                // we need to create another absolute date transition that occurs the date after
-                // the last rule's end date. We target this additional transition to a group that
-                // contains a single simple transition to the Standard period.
-                let lastAdjustmentRuleEndDate: DateTime = adjustmentRules[adjustmentRules.length - 1].DateEnd;
+            //         this.transitions.push(transition);
+            //     }
 
-                if (lastAdjustmentRuleEndDate < DateTime.MaxValue.Date) {
-                    let transitionToDummyGroup: AbsoluteDateTransition = new AbsoluteDateTransition(
-                        this,
-                        this.CreateTransitionGroupToPeriod(standardPeriod));
-                    transitionToDummyGroup.DateTime = lastAdjustmentRuleEndDate.AddDays(1);
+            //     // If the last adjustment rule's end date is not undefined (DateTime.MaxValue),
+            //     // we need to create another absolute date transition that occurs the date after
+            //     // the last rule's end date. We target this additional transition to a group that
+            //     // contains a single simple transition to the Standard period.
+            //     let lastAdjustmentRuleEndDate: DateTime = adjustmentRules[adjustmentRules.length - 1].DateEnd;
 
-                    this.transitions.push(transitionToDummyGroup);
-                }
-            }
+            //     if (lastAdjustmentRuleEndDate < DateTime.MaxValue.Date) {
+            //         let transitionToDummyGroup: AbsoluteDateTransition = new AbsoluteDateTransition(
+            //             this,
+            //             this.CreateTransitionGroupToPeriod(standardPeriod));
+            //         transitionToDummyGroup.DateTime = lastAdjustmentRuleEndDate.AddDays(1);
+
+            //         this.transitions.push(transitionToDummyGroup);
+            //     }
+            // }
         }
     }
 
@@ -287,71 +289,73 @@ export class TimeZoneDefinition extends ComplexProperty {
     ToTimeZoneInfo(service?: ExchangeService): TimeZoneInfo {
         this.Validate();
 
-        let result: TimeZoneInfo;
+        return TimeZoneInfo.CreateFromTimeZoneName(this.Id);
+        //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
+        // let result: TimeZoneInfo;
 
-        // Retrieve the base offset to UTC, standard and daylight display names from
-        // the last transition group, which is the one that currently applies given that
-        // transitions are ordered chronologically.
-        let creationParams: TimeZoneTransitionGroup.CustomTimeZoneCreateParams =
-            this.transitions[this.transitions.length - 1].TargetGroup.GetCustomTimeZoneCreationParams();
+        // // Retrieve the base offset to UTC, standard and daylight display names from
+        // // the last transition group, which is the one that currently applies given that
+        // // transitions are ordered chronologically.
+        // let creationParams: TimeZoneTransitionGroup.CustomTimeZoneCreateParams =
+        //     this.transitions[this.transitions.length - 1].TargetGroup.GetCustomTimeZoneCreationParams();
 
-        let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
+        // let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
 
-        let startDate: DateTime = DateTime.MinValue;
-        let endDate: DateTime;
-        let effectiveEndDate: DateTime;
+        // let startDate: DateTime = DateTime.MinValue;
+        // let endDate: DateTime;
+        // let effectiveEndDate: DateTime;
 
-        for (let i = 0; i < this.transitions.length; i++) {
-            if (i < this.transitions.length - 1) {
-                endDate = (this.transitions[i + 1] as AbsoluteDateTransition).DateTime;
-                effectiveEndDate = endDate.AddDays(-1);
-            }
-            else {
-                endDate = DateTime.MaxValue;
-                effectiveEndDate = endDate;
-            }
+        // for (let i = 0; i < this.transitions.length; i++) {
+        //     if (i < this.transitions.length - 1) {
+        //         endDate = (this.transitions[i + 1] as AbsoluteDateTransition).DateTime;
+        //         effectiveEndDate = endDate.AddDays(-1);
+        //     }
+        //     else {
+        //         endDate = DateTime.MaxValue;
+        //         effectiveEndDate = endDate;
+        //     }
 
-            // OM:1648848 Due to bad timezone data from clients the 
-            // startDate may not always come before the effectiveEndDate
-            if (startDate < effectiveEndDate) {
-                let adjustmentRule: TimeZoneInfo.AdjustmentRule = this.transitions[i].TargetGroup.CreateAdjustmentRule(startDate, effectiveEndDate);
+        //     // OM:1648848 Due to bad timezone data from clients the 
+        //     // startDate may not always come before the effectiveEndDate
+        //     if (startDate < effectiveEndDate) {
+        //         let adjustmentRule: TimeZoneInfo.AdjustmentRule = this.transitions[i].TargetGroup.CreateAdjustmentRule(startDate, effectiveEndDate);
 
-                if (adjustmentRule != null) {
-                    adjustmentRules.push(adjustmentRule);
-                }
+        //         if (adjustmentRule != null) {
+        //             adjustmentRules.push(adjustmentRule);
+        //         }
 
-                startDate = endDate;
-            }
-            else {
-                // service.TraceMessage(
-                //     TraceFlags.EwsTimeZones,
-                //         string.Format(
-                //             "The startDate '{0}' is not before the effectiveEndDate '{1}'. Will skip creating adjustment rule.",
-                //             startDate,
-                //             effectiveEndDate));
-            }
-        }
+        //         startDate = endDate;
+        //     }
+        //     else {
+        //         // service.TraceMessage(
+        //         //     TraceFlags.EwsTimeZones,
+        //         //         string.Format(
+        //         //             "The startDate '{0}' is not before the effectiveEndDate '{1}'. Will skip creating adjustment rule.",
+        //         //             startDate,
+        //         //             effectiveEndDate));
+        //     }
+        // }
 
-        if (adjustmentRules.length == 0) {
-            // If there are no adjustment rule, the time zone does not support Daylight
-            // saving time.
-            result = TimeZoneInfo.CreateCustomTimeZone(
-                this.Id,
-                creationParams.BaseOffsetToUtc,
-                this.Name,
-                creationParams.StandardDisplayName);
-        }
-        else {
-            result = TimeZoneInfo.CreateCustomTimeZone(
-                this.Id,
-                creationParams.BaseOffsetToUtc,
-                this.Name,
-                creationParams.StandardDisplayName,
-                creationParams.DaylightDisplayName,
-                adjustmentRules);
-        }
+        // if (adjustmentRules.length == 0) {
+        //     // If there are no adjustment rule, the time zone does not support Daylight
+        //     // saving time.
+        //     result = TimeZoneInfo.CreateCustomTimeZone(
+        //         this.Id,
+        //         creationParams.BaseOffsetToUtc,
+        //         this.Name,
+        //         creationParams.StandardDisplayName);
+        // }
+        // else {
+        //     result = TimeZoneInfo.CreateCustomTimeZone(
+        //         this.Id,
+        //         creationParams.BaseOffsetToUtc,
+        //         this.Name,
+        //         creationParams.StandardDisplayName,
+        //         creationParams.DaylightDisplayName,
+        //         adjustmentRules);
+        // }
 
-        return result;
+        // return result;
     }
 
     /**

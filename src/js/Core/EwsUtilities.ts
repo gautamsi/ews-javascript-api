@@ -465,22 +465,25 @@ export class EwsUtilities {
         //             }
     }
     //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
-    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
+    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean {
+        return (TimeZoneInfo.Local == timeZone) || (TimeZoneInfo.Local.Id == timeZone.Id && TimeZoneInfo.Local.HasSameRules(timeZone));
+    }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
     static ParseEnum(value: string, ewsenum): any { throw new Error("EwsUtilities.ts - static Parse : Not implemented."); }
     static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): DateTime {
         // Convert the element's value to a DateTime with no adjustment.
-        var tempDate: DateTime = DateTime.Parse(dateString + "Z");
+        //var tempDate: DateTime = DateTime.Parse(dateString + "Z");
 
         // Set the kind according to the service's time zone
         if (service.TimeZone == TimeZoneInfo.Utc) {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Utc);
+            return DateTime.Parse(dateString, DateTimeKind.Utc);
         }
         else if (EwsUtilities.IsLocalTimeZone(service.TimeZone)) {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Local);
+            return DateTime.Parse(dateString, DateTimeKind.Local);
         }
         else {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Unspecified);
+            return DateTime.DateimeStringToTimeZone(dateString, service.TimeZone.IanaId);
+            //return DateTime.Parse(dateString, DateTimeKind.Unspecified);
         }
     }
     static ParseEnumValueList<T>(list: any[], value: string, separators: string, enumType: any): void {

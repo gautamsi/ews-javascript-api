@@ -21,7 +21,7 @@ import { Uri } from "../Uri";
 import { XHRFactory } from "../XHRFactory";
 
 export class ExchangeServiceBase {
-    
+
     static AccountIsLocked: any /*System.Net.systemnet.HttpStatusCode*/ = 456;
 
     AcceptGzipEncoding: boolean;
@@ -41,7 +41,9 @@ export class ExchangeServiceBase {
     static SessionKey: any[];//System.Byte[];
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
-    get TimeZone(): TimeZoneInfo { return this.timeZone; }//System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {
+        return this.timeZone;
+    }
     get TimeZoneDefinition(): TimeZoneDefinition {
         if (this.timeZoneDefinition == null) {
             this.timeZoneDefinition = new TimeZoneDefinition(this.TimeZone);
@@ -72,7 +74,8 @@ export class ExchangeServiceBase {
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
-    protected timeZone: TimeZoneInfo = TimeZoneInfo.Utc;//System.TimeZoneInfo;//ref: switching to utc instead of local in c# version. 
+    protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;
+    
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;

@@ -260,7 +260,7 @@ export class ExchangeService extends ExchangeServiceBase {
     PreferredCulture: any = null;//System.Globalization.CultureInfo;
     DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
     FileAttachmentContentHandler: IFileAttachmentContentHandler = null;
-    get TimeZone(): TimeZoneInfo {// System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {
         return this.timeZone;
     }
     get UnifiedMessaging(): UnifiedMessaging {

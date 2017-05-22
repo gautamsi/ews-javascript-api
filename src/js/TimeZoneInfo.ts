@@ -1,9 +1,11 @@
-import { ArgumentOutOfRangeException, ArgumentException } from "../js/Exceptions/ArgumentException";
-import { TimeSpan } from "./TimeSpan";
-import { DateTime, DateTimeKind } from "./DateTime";
 import moment = require('moment-timezone');
-import { StringHelper } from "../js/ExtensionMethods";
+import { ArgumentOutOfRangeException, ArgumentException, ArgumentNullException } from "../js/Exceptions/ArgumentException";
+import { ArrayHelper } from "./ExchangeWebService";
+import { DateTime, DateTimeKind } from "./DateTime";
 import { DayOfWeek } from "../js/Enumerations/DayOfWeek";
+import { StringHelper } from "../js/ExtensionMethods";
+import { TimeSpan } from "./TimeSpan";
+var tzmapping = require("./tzmapping");
 
 /**
 * TimeZoneInfo
@@ -35,13 +37,15 @@ export class TimeZoneInfo {
     // }
 
 
+    private static _localTimeZone: TimeZoneInfo = null;
     private readonly _id: string;
-    private readonly _displayName: string;
-    private readonly _standardDisplayName: string;
-    private readonly _daylightDisplayName: string;
+    private _ianaId: string = null;
+    private readonly _displayName: string = null;
+    private readonly _standardDisplayName: string = null;
+    private readonly _daylightDisplayName: string = null;
     private readonly _baseUtcOffset: TimeSpan;
-    private readonly _supportsDaylightSavingTime: boolean;
-    private readonly _adjustmentRules: TimeZoneInfo.AdjustmentRule[];
+    private readonly _supportsDaylightSavingTime: boolean = false;
+    private readonly _adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
 
     // constants for TimeZoneInfo.Local and TimeZoneInfo.Utc
     private static readonly UtcId: string = "UTC";
@@ -53,7 +57,13 @@ export class TimeZoneInfo {
     private static readonly s_maxDateOnly: DateTime = new DateTime(9999, 12, 31);
     private static readonly s_minDateOnly: DateTime = new DateTime(1, 1, 2);
 
-    public get Id() { return this._id; }
+    public get Id(): string {
+        return this._id;
+    }
+
+    public get IanaId(): string {
+        return this._ianaId;
+    }
 
     public get DisplayName(): string {
         return this._displayName || StringHelper.Empty;
@@ -70,6 +80,172 @@ export class TimeZoneInfo {
     public get SupportsDaylightSavingTime(): boolean {
         return this._supportsDaylightSavingTime;
     }
+
+    public static get Local(): TimeZoneInfo {
+        if (this._localTimeZone) {
+            return this._localTimeZone;
+        }
+        return this.CreateLocal();
+    }
+
+    public static get Utc(): TimeZoneInfo {
+        return this.s_utcTimeZone;
+    }
+
+    private constructor(
+        id: string,
+        baseUtcOffset: TimeSpan,
+        displayName: string,
+        standardDisplayName: string,
+        daylightDisplayName: string,
+        adjustmentRules: TimeZoneInfo.AdjustmentRule[],
+        disableDaylightSavingTime: boolean) {
+
+        let adjustmentRulesSupportDst: boolean;
+        //TimeZoneInfo.ValidateTimeZoneInfo(id, baseUtcOffset, adjustmentRules, adjustmentRulesSupportDst);
+
+        this._id = id;
+        this._baseUtcOffset = baseUtcOffset;
+        this._displayName = displayName;
+        this._standardDisplayName = standardDisplayName;
+        this._daylightDisplayName = disableDaylightSavingTime ? null : daylightDisplayName;
+        //this._supportsDaylightSavingTime = adjustmentRulesSupportDst && !disableDaylightSavingTime;
+        this._adjustmentRules = adjustmentRules;
+
+        let tzArray = tzmapping[id];
+        if (ArrayHelper.isArray(tzArray)) {
+            this._supportsDaylightSavingTime = tzArray[4] && !disableDaylightSavingTime;
+        }
+    }
+
+    public static ConvertTime(dateTime: DateTime, sourceTimeZone: TimeZoneInfo, destinationTimeZone: TimeZoneInfo): DateTime {
+        if (sourceTimeZone == null) {
+            throw new ArgumentNullException("sourceTimeZone");
+        }
+
+        if (destinationTimeZone == null) {
+            throw new ArgumentNullException("destinationTimeZone");
+        }
+        let sourceKind: DateTimeKind = this.GetCorrespondingKind(sourceTimeZone);
+        if (dateTime.Kind != DateTimeKind.Unspecified && dateTime.Kind != sourceKind) {
+            throw new ArgumentException("DateTime Kind mismatch with source time", "sourceTimeZone");
+        }
+
+        let targetKind: DateTimeKind = this.GetCorrespondingKind(destinationTimeZone);
+
+        // handle the special case of Loss-less Local->Local and UTC->UTC)
+        if (dateTime.Kind != DateTimeKind.Unspecified && sourceKind != DateTimeKind.Unspecified && sourceKind == targetKind) {
+            return dateTime;
+        }
+
+        let targetIanaId = destinationTimeZone._ianaId;
+        if (StringHelper.IsNullOrEmpty(targetIanaId)) {
+            if (StringHelper.IsNullOrEmpty(destinationTimeZone._id)) {
+                throw new ArgumentException("Destination Timezone does not have valid identifier")
+            }
+            let targetTzData = tzmapping[destinationTimeZone._id] as string[];
+            if (!ArrayHelper.isArray(targetTzData) || !ArrayHelper.isArray(targetTzData[0])) {
+                throw new ArgumentException("Destination Timezone does not have valid identifier")
+            }
+            targetIanaId = targetTzData[0][0];
+        }
+        return new DateTime(dateTime.MomentDate.clone().tz(targetIanaId));
+    }
+
+
+    private static CreateLocal(): TimeZoneInfo {
+        let tzGuess: string = moment.tz.guess();
+        let offset: number = moment().utcOffset();
+        if (StringHelper.IsNullOrEmpty(tzGuess) || StringHelper.IsNullOrEmpty(tzmapping[tzGuess])) {
+            console.assert(false, "Unabele to guess timezone, switching to Utc");
+            return this.Utc;
+        }
+        let tzArray: any[] = tzmapping[tzmapping[tzGuess]];
+
+
+        if (ArrayHelper.isArray<any>(tzArray)) {
+            this._localTimeZone = new TimeZoneInfo(tzmapping[tzGuess], TimeSpan.FromMinutes(offset), tzArray[1], <string>tzArray[2], <string>tzArray[3], [], false);
+        }
+        else {
+            this._localTimeZone = this.CreateCustomTimeZone(tzmapping[tzGuess], TimeSpan.FromMinutes(offset), tzmapping[tzGuess], tzmapping[tzGuess]);
+        }
+        this._localTimeZone._ianaId = tzGuess;
+        return this._localTimeZone;
+
+    }
+
+    public static CreateCustomTimeZone(id: string, baseUtcOffset: TimeSpan, displayName: string, standardDisplayName: string): TimeZoneInfo;
+    public static CreateCustomTimeZone(id: string, baseUtcOffset: TimeSpan, displayName: string, standardDisplayName: string, daylightDisplayName: string, adjustmentRules: TimeZoneInfo.AdjustmentRule[]): TimeZoneInfo;
+    public static CreateCustomTimeZone(id: string, baseUtcOffset: TimeSpan, displayName: string, standardDisplayName: string, daylightDisplayName: string, adjustmentRules: TimeZoneInfo.AdjustmentRule[], disableDaylightSavingTime: boolean): TimeZoneInfo;
+    public static CreateCustomTimeZone(
+        id: string,
+        baseUtcOffset: TimeSpan,
+        displayName: string,
+        standardDisplayName: string,
+        daylightDisplayName: string = null,
+        adjustmentRules: TimeZoneInfo.AdjustmentRule[] = null,
+        disableDaylightSavingTime: boolean = false): TimeZoneInfo {
+        if (!disableDaylightSavingTime && adjustmentRules && adjustmentRules.length > 0) {
+            adjustmentRules = adjustmentRules.slice(0);
+        }
+
+        let tz = new TimeZoneInfo(
+            id,
+            baseUtcOffset,
+            displayName,
+            standardDisplayName,
+            daylightDisplayName || standardDisplayName,
+            adjustmentRules,
+            disableDaylightSavingTime);
+        if (id === this.UtcId) {
+            tz._ianaId = id;
+        }
+        return tz;
+    }
+
+    public static CreateFromTimeZoneName(zoneName: string): TimeZoneInfo {
+        let ianaId = StringHelper.Empty;
+        let winId = StringHelper.Empty;
+
+        let mappedTz: string | any[] = tzmapping[zoneName];
+        let tzArray = mappedTz;
+
+        if (ArrayHelper.isArray<any>(mappedTz)) {
+            ianaId = mappedTz[0][0];
+            winId = zoneName;
+        } else {
+            ianaId = zoneName;
+            winId = mappedTz;
+            tzArray = tzmapping[winId];
+            if (!ArrayHelper.isArray(tzArray)) {
+                throw new Error("TimeZoneInfo->FromZoneName : Invalid mapping data")
+            }
+        }
+
+        let tzinfo = new TimeZoneInfo(winId, TimeSpan.FromMinutes(tzArray[5]), tzArray[1], tzArray[2], tzArray[3], [], !tzArray[4])
+        tzinfo._ianaId = ianaId;
+        return tzinfo;
+    }
+    private static GetCorrespondingKind(timeZone: TimeZoneInfo): DateTimeKind {
+        if (timeZone === TimeZoneInfo.Utc) return DateTimeKind.Utc;
+        if (timeZone === TimeZoneInfo.Local) return DateTimeKind.Local;
+        return DateTimeKind.Unspecified;
+
+    }
+
+    public static GuessLocalTimeZone(): String {
+        return moment.tz.guess();
+    }
+
+    public HasSameRules(other: TimeZoneInfo): boolean {
+        if (other == null) {
+            throw new ArgumentNullException("other");
+        }
+
+        // check the utcOffset and supportsDaylightSavingTime members
+        return this._baseUtcOffset === other._baseUtcOffset && this._supportsDaylightSavingTime === other._supportsDaylightSavingTime;
+    }
+
 }
 
 export module TimeZoneInfo {
