@@ -1,13 +1,13 @@
 declare module "ews-javascript-api" {
 import moment = require('moment-timezone');
 
+
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
 }
 export interface IndexerWithNumericKey<TValue> {
     [index: number]: TValue;
 }
-
 export interface KeyValuePair<TKey, TValue> {
     key: TKey;
     value: TValue;
@@ -223,7 +223,7 @@ export interface IndexerWithEnumKey<TKey, TValue> {
     function RemoveEntry<T>(array: Array<T>, entry: T, comparer?: (T) => boolean): boolean;
     function Find<T>(array: Array<T>, comparer: (item: T) => boolean): T;
     function IndexOf<T>(array: Array<T>, comparer: (item: T) => boolean): number;
-    function OfType<T, U>(array: Array<U>, comparer: (item: U) => boolean): T[];
+    function OfType<T, U>(array: Array<T>, comparer: (item: T) => boolean): U[];
     /**dirty calculation of max dimension, will return more than one if array contains any array element in first testElementCount items */
     function Rank(array: any[], testElementCount?: number): number;
     function isArray<T>(obj: any): obj is T[];
@@ -1438,7 +1438,8 @@ export interface PromiseConstructor {
 } class XHRFactory {
     static xhrHelper: IXHRApi;
     static readonly XHRApi: IXHRApi;
-} class AlternateMailbox {
+}
+ class AlternateMailbox {
     Type: string;
     DisplayName: string;
     LegacyDN: string;
@@ -1567,2957 +1568,8 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
 } class WebClientUrlCollection {
     Urls: WebClientUrl[];
     static LoadFromJson(obj: any): WebClientUrlCollection;
-}/**
- * Represents an AddressEntity object.
- */
- class AddressEntity extends ExtractedEntity {
-    /**
-     * Gets the meeting suggestion Location.
-     */
-    Address: string;
-    /**
-     * Initializes a new instance of the **AddressEntity** class.
-     */
-    constructor();
 }
-/**
- * Represents a collection of AddressEntity objects.
- */
- class AddressEntityCollection extends ComplexPropertyCollection<AddressEntity> {
-}
- class AppointmentOccurrenceId extends ItemId {    OccurrenceIndex: number;
-    constructor(recurringMasterUniqueId: string, occurrenceIndex: number);
-    GetXmlElementName(): string;
-    InternalToJson(service: ExchangeService): any;
-} class ApprovalRequestData extends ComplexProperty {
-    IsUndecidedApprovalRequest: boolean;
-    ApprovalDecision: number;
-    ApprovalDecisionMaker: string;
-    ApprovalDecisionTime: Date;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-}
-/**
- * Represents the archive tag of an item or folder.
- */
- class ArchiveTag extends RetentionTagBase {
-    /**
-     * Initializes a new instance of the **ArchiveTag** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **ArchiveTag** class.
-     *
-     * @param   {boolean}   isExplicit    Is explicit.
-     * @param   {Guid}      retentionId   Retention id.
-     */
-    constructor(isExplicit: boolean, retentionId: Guid);
-}/**
- * Represents an attachment to an item.
- */
- class Attachment extends ComplexProperty {
-    /**
-     * Gets the Id of the attachment.
-     */
-    Id: string;
-    /***
-     * Gets or sets the name of the attachment.
-     */
-    Name: string;
-    /**
-     * Gets or sets the content type of the attachment.
-     */
-    ContentType: string;
-    /**
-     * Gets or sets the content Id of the attachment. ContentId can be used as a custom way to identify an attachment in order to reference it from within the body of the item the attachment belongs to.
-     */
-    ContentId: string;
-    /**
-     * Gets or sets the content location of the attachment. ContentLocation can be used to associate an attachment with a Url defining its location on the Web.
-     */
-    ContentLocation: string;
-    /**
-     * Gets the size of the attachment.
-     */
-    Size: number;
-    /**
-     * Gets the date and time when this attachment was last modified.
-     */
-    LastModifiedTime: DateTime;
-    /**
-     * Gets or sets a value indicating whether this is an inline attachment. Inline attachments are not visible to end users.
-     */
-    IsInline: boolean;
-    /**
-     * Gets the name of the XML element.
-     *
-     * @return  {string}      XML element name.
-     */
-    GetXmlElementName(): string;
-    /**
-     * Loads the attachment. Calling this method results in a call to EWS.
-     */
-    Load(): Promise<void>;
-    /**
-     * Loads the attachment id from json.
-     *
-     * @param   {any}   jsonObject   The json object.
-     */}/**
- * Represents an item's attachment collection.
- */
- class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
-    ___typeGenerics: string[];
-    /**
-     * The item owner that owns this attachment collection
-     */    /**
-     * @interface:IOwnedProperty The owner of this attachment collection.
-     */
-    Owner: ServiceObject;
-    /**
-     * Adds a file attachment to the collection.
-     *
-     * @param   {string}	fileName   The name of the file representing the content of the attachment.
-     * @return  {FileAttachment} 		A FileAttachment instance.
-     */    /**
-     * Adds a file attachment to the collection.
-     *
-     * @param   {string}   name       The display name of the new attachment.
-     * @param   {string}   fileName   The name of the file representing the content of the attachment.
-     * @return  {FileAttachment}      A FileAttachment instance.
-     */    /**
-     * Adds a file attachment to the collection. - isContent parameter is required to be true to be able to use bas64 content directly
-     *
-     * @param   {string}    name       The display name of the new attachment.
-     * @param   {string}    fileContent   base64 ontent of the file representing the content of the attachment.
-     * @param   {boolean}   isContent   if true used as base64 content of file.
-     * @return  {FileAttachment}      A FileAttachment instance.
-     */    /**
-     * Adds a file attachment to the collection. - isContent parameter is required to be true to be able to use bas64 content directly
-     *
-     * @param   {string}    name       The display name of the new attachment.
-     * @param   {string}    fileContent   base64 ontent of the file representing the content of the attachment.
-     * @return  {FileAttachment}      A FileAttachment instance.
-     */
-    AddFileAttachment(name: string, content: string): FileAttachment;
-    /**
-     * Adds an item attachment to the collection
-     *
-     * @type <TItem>    The type of the item to attach.
-     *
-     * @param   {any*}      TItem    Item type, not instance
-     * @param   {string}    TItemElementName    XML Element Name of the Item class
-     * @return  {ItemAttachmentOf<TItem>}      An ItemAttachment instance.
-     */
-    AddItemAttachment<TItem extends Item>(TItem: typeof Item, TItemElementName: string): ItemAttachmentOf<TItem>;
-    /**
-     * Removes all attachments from this collection.
-     */
-    Clear(): void;
-    CreateDefaultComplexProperty(): Attachment;
-    /**
-     * Calls the CreateAttachment web method to create a list of attachments.
-     *
-     * @param   {string}        parentItemId   The Id of the parent item of the new attachments.
-     * @param   {Attachment[]}  attachments    The attachments to create.
-     */    /**
-     * Calls the DeleteAttachment web method to delete a list of attachments.
-     *
-     * @param   {Attachment[]}   attachments   The attachments to delete.
-     */    /**
-     * Removes the specified attachment.
-     *
-     * @param   {Attachment}    attachment   The attachment to remove.
-     * @return  {boolean}       True if the attachment was successfully removed from the collection, false otherwise.
-     */
-    Remove(attachment: Attachment): boolean;
-    /**
-     * Removes the attachment at the specified index.
-     *
-     * @param   {number}   index   Index of the attachment to remove.
-     */
-    RemoveAt(index: number): void;
-}/**
- * Represents an attendee to a meeting.
- */
- class Attendee extends EmailAddress {
-    /**
-     * Gets the type of response the attendee gave to the meeting invitation it received.
-     */
-    readonly ResponseType: MeetingResponseType;
-    /**
-     * Gets the date and time when the attendee last responded to a meeting invitation or update.
-     */
-    readonly LastResponseTime: DateTime;
-    /**
-     * Initializes a new instance of the **Attendee** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **Attendee** class.
-     *
-     * @param   {string}   name          The name used to initialize the Attendee.
-     */
-    constructor(smtpAddress: string);
-    /**
-     * Initializes a new instance of the **Attendee** class.
-     *
-     * @param   {string}   name          The name used to initialize the Attendee.
-     * @param   {string}   smtpAddress   The SMTP address used to initialize the Attendee.
-     */
-    constructor(name: string, smtpAddress: string);
-    /**
-     * Initializes a new instance of the **Attendee** class.
-     *
-     * @param   {string}   name          The name used to initialize the Attendee.
-     * @param   {string}   smtpAddress   The SMTP address used to initialize the Attendee.
-     * @param   {string}   routingType   The routing type used to initialize the Attendee.
-     */
-    constructor(name: string, smtpAddress: string, routingType: string);
-    /**
-     * Initializes a new instance of the **Attendee** class from an EmailAddress.
-     *
-     * @param   {EmailAddress}   mailbox   The mailbox used to initialize the Attendee.
-     */
-    constructor(mailbox: EmailAddress);
-}
-/**
- * Represents a collection of attendees.
- */
- class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
-    /**
-     * Adds an attendee to the collection.
-     *
-     * @param   {Attendee}   attendee   The attendee to add.
-     */
-    Add(attendee: Attendee): void;
-    /**
-     * Adds a attendee to the collection.
-     *
-     * @param   {string}   smtpAddress   The SMTP address of the attendee.
-     * @return  {Attendee}      An Attendee instance initialized with the provided name and SMTP address.
-     */
-    Add(smtpAddress: string): Attendee;
-    /**
-     * Adds a attendee to the collection.
-     *
-     * @param   {string}   name          The name of the attendee.
-     * @param   {string}   smtpAddress   The SMTP address of the attendee.
-     * @return  {Attendee}      An Attendee instance initialized with the provided name and SMTP address.
-     */
-    Add(name: string, smtpAddress: string): Attendee;
-    /**
-     * Clears the collection.
-     */
-    Clear(): void;
-    /**
-     * Removes an attendee from the collection.
-     *
-     * @param   {Attendee}   attendee   The attendee to remove.
-     * @return  {boolean}              True if the attendee was successfully removed from the collection, false otherwise.
-     */
-    Remove(attendee: Attendee): boolean;
-    /**
-     * Removes an attendee from the collection.
-     *
-     * @param   {number}   index   The index of the attendee to remove.
-     */
-    RemoveAt(index: number): void;
-}
- class ByteArrayArray extends ComplexProperty {
-    readonly Content: string[];
-    InternalToJson(service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonCollection: any, serviceExchangeService: any): void;
-}
-/**
- * Encapsulates information on the changehighlights of a meeting request.
- *
- * @sealed
- */
- class ChangeHighlights extends ComplexProperty {
-    /**
-     * Gets a value indicating whether the location has changed.
-     */
-    readonly HasLocationChanged: boolean;
-    /**
-     * Gets the old location
-     */
-    readonly Location: string;
-    /**
-     * Gets a value indicating whether the the start time has changed.
-     */
-    readonly HasStartTimeChanged: boolean;
-    /**
-     * Gets the old start date and time of the meeting.
-     */
-    readonly Start: DateTime;
-    /**
-     * Gets a value indicating whether the the end time has changed.
-     */
-    readonly HasEndTimeChanged: boolean;
-    /**
-     * Gets the old end date and time of the meeting.
-     */
-    readonly End: DateTime;
-}
-/**
- * Represents a client token access request
- */
- class ClientAccessTokenRequest extends ComplexProperty {    /**
-     * Gets the App Id.
-     */
-    readonly Id: string;
-    /**
-     * Gets token type.
-     */
-    readonly TokenType: ClientAccessTokenType;
-    /**
-     * Gets the token scope.
-     */
-    readonly Scope: string;
-    /**
-     * Initializes a new instance of the **ClientAccessTokenRequest** class.
-     *
-     * @param   {string}                    id          id
-     * @param   {ClientAccessTokenType}     tokenType   The tokenType.
-     * @param   {string}                    scope       The scope.
-     */
-    constructor(id: string, tokenType: ClientAccessTokenType);
-    /**
-     * Initializes a new instance of the **ClientAccessTokenRequest** class.
-     *
-     * @param   {string}                    id          id
-     * @param   {ClientAccessTokenType}     tokenType   The tokenType.
-     * @param   {string}                    scope       The scope.
-     */
-    constructor(id: string, tokenType: ClientAccessTokenType, scope: string);
-}
-/**
- * Represents a app in GetAppManifests response.
- *
- * @sealed
- */
- class ClientApp extends ComplexProperty {
-    /**
-     * The manifest for the app.
-     *
-     * internal set
-     */
-    Manifest: string;
-    /**
-     * Metadata related to the app.
-     *
-     * internal set
-     */
-    Metadata: ClientAppMetadata;
-    /**
-     * Initializes a new instance of the **ClientApp** class.
-     */
-    constructor();
-}/**
- * Represents a ClientAppMetadata object.
- *
- * @sealed
- */
- class ClientAppMetadata extends ComplexProperty {
-    /**
-     * The End node url for the app.
-     *
-     * @private set
-     */
-    EndNodeUrl: string;
-    /**
-     * The action url for the app.
-     *
-     * @private set
-     */
-    ActionUrl: string;
-    /**
-     * The app status for the app.
-     *
-     * @private set
-     */
-    AppStatus: string;
-    /**
-     * Initializes a new instance of the **ClientAppMetadata** class.
-     */
-    constructor();
-} class ClientExtension extends ComplexProperty {
-    Type: ExtensionType;
-    Scope: ExtensionInstallScope;
-    ManifestStream: any;
-    MarketplaceAssetID: string;
-    MarketplaceContentMarket: string;
-    AppStatus: string;
-    Etoken: string;
-    IsAvailable: boolean;
-    IsMandatory: boolean;
-    IsEnabledByDefault: boolean;
-    ProvidedTo: ClientExtensionProvidedTo;
-    SpecificUsers: StringList;
-}/**
- * Represents the complete name of a contact.
- */
- class CompleteName extends ComplexProperty {
-    /**
-     * Gets the contact's title.
-     */
-    readonly Title: string;
-    /**
-     * Gets the given name (first name) of the contact.
-     */
-    readonly GivenName: string;
-    /**
-     * Gets the middle name of the contact.
-     */
-    readonly MiddleName: string;
-    /**
-     * Gets the surname (last name) of the contact.
-     */
-    readonly Surname: string;
-    /**
-     * Gets the suffix of the contact.
-     */
-    readonly Suffix: string;
-    /**
-     * Gets the initials of the contact.
-     */
-    readonly Initials: string;
-    /**
-     * Gets the full name of the contact.
-     */
-    readonly FullName: string;
-    /**
-     * Gets the nickname of the contact.
-     */
-    readonly NickName: string;
-    /**
-     * Gets the Yomi given name (first name) of the contact.
-     */
-    readonly YomiGivenName: string;
-    /**
-     * Gets the Yomi surname (last name) of the contact.
-     */
-    readonly YomiSurname: string;
-}/**
- * Represents a property that can be sent to or retrieved from EWS.
- */
- class ComplexProperty {
-    OnChange: ComplexPropertyChangedDelegate[];
-    constructor();
-    Changed(): void;
-    ClearChangeLog(): void;
-    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, readAction: (jsonProperty: any, service: ExchangeService) => void): void;
-    InternalValidate(): void;
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
-    SetFieldValue<T>(field: IRefParam<T>, value: T): void;
-    ReadElementsFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-    ReadElementsFromXmlJsObjectToPatch(jsonProperty: any, service: ExchangeService): void;
-    UpdateFromXmlJsObject(jsObject: any, service: ExchangeService): void;
-    Validate(): void;
-}/**
- * Represents a collection of properties that can be sent to and retrieved from EWS.
- *
- * @type <TComplexProperty>   ComplexProperty type.
- */
- abstract class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty implements IEnumerable<TComplexProperty>, ICustomUpdateSerializer {
-    ___typeGenerics: string[];
-    /**
-     * Gets the total number of properties in the collection.
-     */
-    readonly Count: number;
-    /**
-     * Gets the property at the specified index.
-     *
-     * @param   {number}   index   The zero-based index of the property to get.
-     * @return  {TComplexProperty}           The property at the specified index.
-     */
-    _getItem(index: number): TComplexProperty;
-    /**
-     * Determines whether a specific property is in the collection.
-     *
-     * @param   {TComplexProperty}   complexProperty   The property to locate in the collection.
-     * @return  {boolean}           True if the property was found in the collection, false otherwise.
-     */
-    Contains(complexProperty: TComplexProperty): boolean;
-    /**
-     *  Returns an enumerator that iterates through the collection. this case this.items
-     */
-    GetEnumerator(): TComplexProperty[];
-    /**
-     * Searches for a specific property and return its zero-based index within the collection.
-     *
-     * @param   {TComplexProperty}   complexProperty   The property to locate in the collection.
-     * @return  {number}                     The zero-based index of the property within the collection.
-     */
-    IndexOf(complexProperty: TComplexProperty): number;
-    /**
-     * @private Add complex property.
-     *
-     * @param   {TComplexProperty}   complexProperty   The complex property.
-     * @param   {boolean}   loading           If true, collection is being loaded.
-     */
-    InternalAdd(complexProperty: TComplexProperty, loading: boolean): void;
-}/**
- * Represents an ContactEntity object.
- */
- class ContactEntity extends ExtractedEntity {
-    /**
-     * Gets the contact entity PersonName.
-     */
-    PersonName: string;
-    /**
-     * Gets the contact entity BusinessName.
-     */
-    BusinessName: string;
-    /**
-     * Gets the contact entity PhoneNumbers.
-     */
-    PhoneNumbers: ContactPhoneEntityCollection;
-    /**
-     * Gets the contact entity Urls.
-     */
-    Urls: StringList;
-    /**
-     * Gets the contact entity EmailAddresses.
-     */
-    EmailAddresses: StringList;
-    /**
-     * Gets the contact entity Addresses.
-     */
-    Addresses: StringList;
-    /**
-     * Gets the contact entity ContactString.
-     */
-    ContactString: string;
-    /**
-     * Initializes a new instance of the **ContactEntity** class.
-     */
-    constructor();
-}
-/**
- * Represents a collection of ContactEntity objects.
- */
- class ContactEntityCollection extends ComplexPropertyCollection<ContactEntity> {
-}/**
- * Represents an ContactPhoneEntity object.
- */
- class ContactPhoneEntity extends ComplexProperty {
-    /**
-     * Gets the phone entity OriginalPhoneString.
-     */
-    OriginalPhoneString: string;
-    /**
-     * Gets the phone entity PhoneString.
-     */
-    PhoneString: string;
-    /**
-     * Gets the phone entity Type.
-     */
-    Type: string;
-    /**
-     * Initializes a new instance of the **ContactPhoneEntity** class.
-     */
-    constructor();
-}
-/**
- * Represents a collection of ContactPhoneEntity objects.
- */
- class ContactPhoneEntityCollection extends ComplexPropertyCollection<ContactPhoneEntity> {
-}/**
- * Represents the Id of a Conversation.
- */
- class ConversationId extends ServiceId {
-    /**
-     * Initializes a new instance of **ConversationId**.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of **ConversationId**.
-     *
-     * @param   {string}   uniqueId   The unique Id used to initialize the **ConversationId**.
-     */
-    constructor(uniqueId: string);
-    /**
-     * Gets a string representation of the Conversation Id.
-     *
-     * @return  {string}      The string representation of the conversation id.
-     */
-    ToString(): string;
-    toString(): string;
-}
-/**
- * Represents the response to a GetConversationItems operation.
- *
- * @sealed
- */
- class ConversationNode extends ComplexProperty {    /**
-     * Gets or sets the Internet message id of the node.
-     */
-    InternetMessageId: string;
-    /**
-     * Gets or sets the Internet message id of the parent node.
-     */
-    ParentInternetMessageId: string;
-    /**
-     * Gets or sets the items.
-     */
-    Items: Item[];
-    /**
-     * Gets the item instance.
-     *
-     * @param   {ExchangeService}   service          The service.
-     * @param   {string}            xmlElementName   Name of the XML element.
-     * @return  {Item}              Item.
-     */}
-/**
- * Represents a collection of conversation items.
- *
- * @sealed
- */
- class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {}/**
- *
- *
- * @sealed
- */
- class ConversationRequest extends ComplexProperty implements ISelfValidate {
-    /**
-     * Gets or sets the conversation id.
-     */
-    ConversationId: ConversationId;
-    /**
-     * Gets or sets the sync state representing the current state of the conversation for synchronization purposes.
-     */
-    SyncState: string;
-    /**
-     * Initializes a new instance of the **ConversationRequest** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **ConversationRequest** class.
-     *
-     * @param   {ConversationId}    conversationId   The conversation id.
-     * @param   {string}            syncState        State of the sync.
-     */
-    constructor(conversationId: ConversationId, syncState: string);
-}/**
- *
- *
- * @sealed
- */
- class ConversationResponse extends ComplexProperty {
-    /**
-     * Property set used to fetch items in the conversation.
-     */    /**
-     * Gets the conversation id.
-     *
-     * internal set
-     */
-    ConversationId: ConversationId;
-    /**
-     * Gets the sync state.
-     *
-     * internal set
-     */
-    SyncState: string;
-    /**
-     * Gets the conversation nodes.
-     *
-     * internal set
-     */
-    ConversationNodes: ConversationNodeCollection;
-}
-/**
- * Represents an operation to create a new rule.
- *
- * @sealed
- */
- class CreateRuleOperation extends RuleOperation {
-    /**
-     * Inbox rule to be created.
-     */    /**
-     * Gets or sets the rule to be created.
-     */
-    Rule: Rule;
-    /**
-     * Initializes a new instance of the **CreateRuleOperation** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **CreateRuleOperation** class.
-     *
-     * @param   {Rule}   rule   The inbox rule to create.
-     */
-    constructor(rule: Rule);
-}
-/**
- * Represents the permissions of a delegate user.
- *
- * @sealed
- */
- class DelegatePermissions extends ComplexProperty {    /**
-     * Gets or sets the delegate user's permission on the principal's calendar.
-     */
-    CalendarFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Gets or sets the delegate user's permission on the principal's tasks folder.
-     */
-    TasksFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Gets or sets the delegate user's permission on the principal's inbox.
-     */
-    InboxFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Gets or sets the delegate user's permission on the principal's contacts folder.
-     */
-    ContactsFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Gets or sets the delegate user's permission on the principal's notes folder.
-     */
-    NotesFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Gets or sets the delegate user's permission on the principal's journal folder.
-     */
-    JournalFolderPermissionLevel: DelegateFolderPermissionLevel;
-    /**
-     * Write permission to Xml.
-     *
-     * @param   {EwsServiceXmlWriter}   writer           The writer.
-     * @param   {string}                xmlElementName   The element name.
-     */}
-/**
- * Represents a delegate user.
- *
- * @sealed
- */
- class DelegateUser extends ComplexProperty {
-    /**
-     * Gets the user Id of the delegate user.
-     */
-    readonly UserId: UserId;
-    /**
-     * Gets the list of delegate user's permissions.
-     */
-    readonly Permissions: DelegatePermissions;
-    /**
-     * Gets or sets a value indicating if the delegate user should receive copies of meeting requests.
-     */
-    ReceiveCopiesOfMeetingMessages: boolean;
-    /**
-     * Gets or sets a value indicating if the delegate user should be able to view the principal's private items.
-     */
-    ViewPrivateItems: boolean;
-    /**
-     * Initializes a new instance of the **DelegateUser** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **DelegateUser** class.
-     *
-     * @param   {string}   primarySmtpAddress   The primary SMTP address of the delegate user.
-     */
-    constructor(primarySmtpAddress: string);
-    /**
-     * Initializes a new instance of the **DelegateUser** class.
-     *
-     * @param   {StandardUser}   standardUser   The standard delegate user.
-     */
-    constructor(standardUser: StandardUser);
-}
-/**
- * Encapsulates information on the deleted occurrence of a recurring appointment.
- */
- class DeletedOccurrenceInfo extends ComplexProperty {
-    /**
-     * The original start date and time of the deleted occurrence.
-     *
-     * /remarks/    The EWS schema contains a Start property for deleted occurrences but it's really the original start date and time of the occurrence.
-     */    /**
-     * Gets the original start date and time of the deleted occurrence.
-     */
-    readonly OriginalStart: DateTime;
-}
-/**
- * Represents a collection of deleted occurrence objects.
- */
- class DeletedOccurrenceInfoCollection extends ComplexPropertyCollection<DeletedOccurrenceInfo> {
-}/**
- * Represents an operation to delete an existing rule.
- *
- * @sealed
- */
- class DeleteRuleOperation extends RuleOperation {
-    /**
-     * Id of the inbox rule to delete.
-     */    /**
-     * Gets or sets the Id of the rule to delete.
-     */
-    RuleId: string;
-    /**
-     * Initializes a new instance of the **DeleteRuleOperation** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **DeleteRuleOperation** class.
-     *
-     * @param   {string}   ruleId   The Id of the inbox rule to delete.
-     */
-    constructor(ruleId: string);
-}
- class DictionaryEntryProperty<TKey> extends ComplexProperty {
-    protected keyType: any;    Key: TKey;
-    constructor();
-    constructor(key: TKey);
-    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[]): boolean;
-    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]): boolean;
-}
-/**
- * Represents a generic dictionary that can be sent to or retrieved from EWS.
- *
- * @typeparam   <TKey>      The type of key.
- * @typeparam   <TEntry>    The type of entry.
- */
- abstract class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<TKey>> extends ComplexProperty implements ICustomUpdateSerializer {    /**
-     * Gets the entries.
-     *
-     * @value   The entries.
-     */
-    readonly Entries: Dictionary<TKey, TEntry>;
-    /**
-     * Determines whether this instance contains the specified key.
-     *
-     * @param   {TKey}      key   The key.
-     * @return  {boolean}   true if this instance contains the specified key; otherwise, false.
-     */
-    Contains(key: TKey): boolean;
-    /**
-     * Entry was changed.
-     *
-     * @param   {}   complexProperty   The complex property.
-     */    /**
-     * Remove entry based on key.
-     *
-     * @param   {TKey}   key   The key.
-     */
-    InternalRemove(key: TKey): void;
-    /**
-     * Writes the URI to XML.
-     *
-     * @param   {EwsServiceXmlWriter}   writer   The writer.
-     * @param   {TKey}                  key      The key.
-     */}
-/**
- * Represents an e-mail address.
- */
- class EmailAddress extends ComplexProperty implements ISearchStringProvider {
-    /**
-     * SMTP routing type.
-     */
-    static SmtpRoutingType: string;
-    /**
-     * Display name.
-     */    /**
-     * Email address.
-     */    /**
-     * Routing type.
-     */    /**
-     * Mailbox type.
-     */    /**
-     * ItemId - Contact or PDL.
-     */    /**
-     * Gets or sets the name associated with the e-mail address.
-     */
-    Name: string;
-    /**
-     * Gets or sets the actual address associated with the e-mail address. The type of the Address property must match the specified routing type. If RoutingType is not set, Address is assumed to be an SMTP address.
-     */
-    Address: string;
-    /**
-     * Gets or sets the routing type associated with the e-mail address. If RoutingType is not set, Address is assumed to be an SMTP address.
-     */
-    RoutingType: string;
-    /**
-     * Gets or sets the type of the e-mail address.
-     */
-    MailboxType: MailboxType;
-    /**
-     * Gets or sets the Id of the contact the e-mail address represents. When Id is specified, Address should be set to null.
-     */
-    Id: ItemId;
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     *
-     * @param   {string}        name          The name used to initialize the EmailAddress.
-     */
-    constructor(smtpAddress: string);
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     *
-     * @param   {string}        name          The name used to initialize the EmailAddress.
-     * @param   {string}        address       The address used to initialize the EmailAddress.
-     */
-    constructor(name: string, smtpAddress: string);
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     *
-     * @param   {string}        name          The name used to initialize the EmailAddress.
-     * @param   {string}        address       The address used to initialize the EmailAddress.
-     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
-     */
-    constructor(name: string, address: string, routingType: string);
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     *
-     * @param   {string}        name          The name used to initialize the EmailAddress.
-     * @param   {string}        address       The address used to initialize the EmailAddress.
-     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
-     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
-     */
-    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType);
-    /**
-     * Initializes a new instance of the **EmailAddress** class.
-     *
-     * @param   {string}        name          The name used to initialize the EmailAddress.
-     * @param   {string}        address       The address used to initialize the EmailAddress.
-     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
-     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
-     * @param   {ItemId}        itemId        ItemId of a Contact or PDL.
-     */
-    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType, itemId: ItemId);
-    /**
-     * Initializes a new instance of the **EmailAddress** class from another EmailAddress instance.
-     *
-     * @param   {EmailAddress}   mailbox   EMailAddress instance to copy.
-     */
-    constructor(mailbox: EmailAddress);
-    constructor(smtpAddressOrMailbox: string | EmailAddress);
-    /**
-     * Get a string representation for using this instance in a search filter.
-     * ISearchStringProvider.GetSearchString
-     *
-     * @return  {string}      String representation of instance.
-     */
-    GetSearchString(): string;
-    ReadElementsFromXmlJsObject(reader: any): boolean;
-    /**
-     * Returns a **string** that represents the current **object**.
-     *
-     * @return  {string}      A **string** that represents the current **object**.
-     */
-    ToString(): string;
-    toString(): string;
-}
-/**
- * Represents a collection of e-mail addresses.
- */
- class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
-    /**
-     * XML element name
-     */    /**
-     * Adds an e-mail address to the collection.
-     *
-     * @param   {EmailAddress}   emailAddress   The e-mail address to add.
-     */
-    Add(emailAddress: EmailAddress): void;
-    /**
-     * Adds an e-mail address to the collection.
-     *
-     * @param   {string}   smtpAddress   The SMTP address used to initialize the e-mail address.
-     * @return  {EmailAddress}                 An EmailAddress object initialized with the provided SMTP address.
-     */
-    Add(smtpAddress: string): EmailAddress;
-    /**
-     * Adds an e-mail address to the collection.
-     *
-     * @param   {string}   name          The name used to initialize the e-mail address.
-     * @param   {string}   smtpAddress   The SMTP address used to initialize the e-mail address.
-     * @return  {EmailAddress}           An EmailAddress object initialized with the provided SMTP address.
-     */
-    Add(name: string, smtpAddress: string): EmailAddress;
-    /**
-     * Adds multiple e-mail addresses to the collection.
-     *
-     * @param   {EmailAddress[]}   emailAddresses   The e-mail addresses to add.
-     */
-    AddRange(emailAddresses: EmailAddress[]): void;
-    /**
-     * Adds multiple e-mail addresses to the collection.
-     *
-     * @param   {string[]}   smtpAddresses   The SMTP addresses used to initialize the e-mail addresses.
-     */
-    AddRange(smtpAddresses: string[]): void;
-    /**
-     * Clears the collection.
-     */
-    Clear(): void;
-    /**
-     * Removes an e-mail address from the collection.
-     *
-     * @param   {EmailAddress}  emailAddress   The e-mail address to remove.
-     * @return  {boolean}       True if the email address was successfully removed from the collection, false otherwise.
-     */
-    Remove(emailAddress: EmailAddress): boolean;
-    /**
-     * Removes an e-mail address from the collection.
-     *
-     * @param   {number}   index   The index of the e-mail address to remove.
-     */
-    RemoveAt(index: number): void;
-} class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, EmailAddressEntry> {
-    constructor();
-    /**
-     * Gets or sets the e-mail address at the specified key.
-     *
-     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
-     * @return  {EmailAddress}         The e-mail address at the specified key.
-     */
-    _getItem(key: EmailAddressKey): EmailAddress;
-    /**
-     * Gets or sets the e-mail address at the specified key.
-     *
-     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
-     * @return  {EmailAddress}         The e-mail address at the specified key.
-     */
-    _setItem(key: EmailAddressKey, value: EmailAddress): void;
-    /**
-     * Tries to get the e-mail address associated with the specified key.
-     *
-     * @param   {EmailAddressKey}   key            The key.
-     * @param   {IOutParam<EmailAddress>}   emailAddress   When this method returns, contains the e-mail address associated with the specified key, if the key is found; otherwise, null. This parameter is passed uninitialized.
-     * @return  {boolean}                  true if the Dictionary contains an e-mail address associated with the specified key; otherwise, false.
-     */
-    TryGetValue(key: EmailAddressKey, emailAddress: IOutParam<EmailAddress>): boolean;
-}/**
- * Represents an EmailAddressEntity object.
- */
- class EmailAddressEntity extends ExtractedEntity {
-    /**
-     * Gets the meeting suggestion Location.
-     */
-    EmailAddress: string;
-}
-/**
- * Represents a collection of EmailAddressEntity objects.
- */
- class EmailAddressEntityCollection extends ComplexPropertyCollection<EmailAddressEntity> {
-} class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> {    EmailAddress: EmailAddress;
-    constructor();
-    constructor(key: EmailAddressKey, emailAddress: EmailAddress);
-    EmailAddressChanged(complexProperty: ComplexProperty): void;
-    InternalToJson(service: ExchangeService): any;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}/**
- * Represents an EmailUserEntity object.
- */
- class EmailUserEntity extends ComplexProperty {
-    /**
-     * Gets the EmailUser entity Name.
-     */
-    Name: string;
-    /**
-     * Gets the EmailUser entity UserId.
-     */
-    UserId: string;
-    /**
-     * Initializes a new instance of the **EmailUserEntity** class.
-     */
-    constructor();
-}
-/**
- * Represents a collection of EmailUserEntity objects.
- */
- class EmailUserEntityCollection extends ComplexPropertyCollection<EmailUserEntity> {
-}
-/**
- * Represents Enhanced Location.
- */
- class EnhancedLocation extends ComplexProperty {    /**
-     * Gets or sets the Location DisplayName.
-     */
-    DisplayName: string;
-    /**
-     * Gets or sets the Location Annotation.
-     */
-    Annotation: string;
-    /**
-     * Gets or sets the Persona Postal Address.
-     */
-    PersonaPostalAddress: PersonaPostalAddress;
-    /**
-     * Initializes a new instance of the **EnhancedLocation** class.
-     *
-     * @param   {string}   displayName            The location DisplayName.
-     */
-    constructor(displayName: string);
-    /**
-     * Initializes a new instance of the **EnhancedLocation** class.
-     *
-     * @param   {string}   displayName            The location DisplayName.
-     * @param   {string}   annotation             The annotation on the location.
-     */
-    constructor(displayName: string, annotation: string);
-    /**
-     * Initializes a new instance of the **EnhancedLocation** class.
-     *
-     * @param   {string}                displayName            The location DisplayName.
-     * @param   {string}                annotation             The annotation on the location.
-     * @param   {PersonaPostalAddress}  personaPostalAddress   The persona postal address.
-     */
-    constructor(displayName: string, annotation: string, personaPostalAddress: PersonaPostalAddress);
-    /**
-     * PersonaPostalAddress OnChange.
-     *
-     * @param   {ComplexProperty}   complexProperty   ComplexProperty object.
-     */}
-/**
- * Represents an EntityExtractionResult object.
- */
- class EntityExtractionResult extends ComplexProperty {
-    /**
-     * Gets the extracted Addresses.
-     */
-    Addresses: AddressEntityCollection;
-    /**
-     * Gets the extracted MeetingSuggestions.
-     */
-    MeetingSuggestions: MeetingSuggestionCollection;
-    /**
-     * Gets the extracted TaskSuggestions.
-     */
-    TaskSuggestions: TaskSuggestionCollection;
-    /**
-     * Gets the extracted EmailAddresses.
-     */
-    EmailAddresses: EmailAddressEntityCollection;
-    /**
-     * Gets the extracted Contacts.
-     */
-    Contacts: ContactEntityCollection;
-    /**
-     * Gets the extracted Urls.
-     */
-    Urls: UrlEntityCollection;
-    /**
-     * Gets the extracted PhoneNumbers
-     */
-    PhoneNumbers: PhoneEntityCollection;
-} class ExtendedProperty extends ComplexProperty {
-    readonly PropertyDefinition: ExtendedPropertyDefinition;
-    Value: any;
-    constructor(propertyDefinition?: ExtendedPropertyDefinition);
-    Equals(obj: any): boolean;
-    GetHashCode(): number;
-    GetStringValue(): string;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> implements ICustomUpdateSerializer {
-    CreateComplexProperty(xmlElementName: string): ExtendedProperty;
-    CreateDefaultComplexProperty(): ExtendedProperty;
-    GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string;
-    GetOrAddExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): ExtendedProperty;
-    InternalToJson(service: ExchangeService): any;
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
-    RemoveExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): boolean;
-    SetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, value: any): void;
-    TryGetProperty(propertyDefinition: ExtendedPropertyDefinition, extendedProperty: IOutParam<ExtendedProperty>): boolean;
-    TryGetValue<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean;
-}
-/**
- * Represents an ExtractedEntity object.
- */
- abstract class ExtractedEntity extends ComplexProperty {
-    /**
-     * Gets the Position.
-     */
-    Position: EmailPosition;
-    /**
-     * Initializes a new instance of the **ExtractedEntity** class.
-     */
-    constructor();
-}/**
- * Represents a file attachment.
- */
- class FileAttachment extends Attachment {    /**
-     * Gets the name of the file the attachment is linked to.
-     */
-    FileName: string;
-    /**
-     * Gets the base64 content of the attachment into memory. Content is set only when Load() is called.
-     */
-    Base64Content: string;
-    /**
-     * Gets or sets a value indicating whether this attachment is a contact photo.
-     */
-    IsContactPhoto: boolean;
-    ReadElementsFromXmlJsObjectToPatch(reader: any): boolean;
-}/**
- * Encapsulates information on the occurrence of a recurring appointment.
- */
- class Flag extends ComplexProperty {
-    /**
-     * Gets or sets the flag status.
-     */
-    FlagStatus: ItemFlagStatus;
-    /**
-     * Gets the start date.
-     */
-    StartDate: DateTime;
-    /**
-     * Gets the due date.
-     */
-    DueDate: DateTime;
-    /**
-     * Gets the complete date.
-     */
-    CompleteDate: DateTime;
-    /**
-     * Initializes a new instance of the **Flag** class.
-     */
-    constructor();
-}
- class FolderId extends ServiceId {
-    readonly FolderName: WellKnownFolderName;
-    readonly Mailbox: Mailbox;
-    readonly IsValid: boolean;
-    constructor(folderName?: WellKnownFolderName, mailbox?: Mailbox);
-    Equals(obj: any): boolean;
-    GetXmlElementName(): string;
-    ToString(): string;
-    Validate(version?: ExchangeVersion): void;
-}/**
- * Represents a collection of folder Ids.
- *
- * @sealed
- */
- class FolderIdCollection extends ComplexPropertyCollection<FolderId> {
-    /**
-     * Adds a folder Id to the collection.
-     *
-     * @param   {FolderId}   folderId   The folder Id to add.
-     */
-    Add(folderId: FolderId): void;
-    /**
-     * Adds a well-known folder to the collection.
-     *
-     * @param   {WellKnownFolderName}   folderName   The well known folder to add.
-     * @return  {FolderId}      A FolderId encapsulating the specified Id.
-     */
-    Add(folderName: WellKnownFolderName): FolderId;
-    /**
-     * Clears the collection.
-     */
-    Clear(): void;
-    /**
-     * Removes the specified folder Id from the collection.
-     *
-     * @param   {FolderId}   folderId   The folder Id to remove from the collection.
-     * @return  {boolean}    True if the folder id was successfully removed from the collection, false otherwise.
-     */
-    Remove(folderId: FolderId): boolean;
-    /**
-     * Removes the specified well-known folder from the collection.
-     *
-     * @param   {WellKnownFolderName}   folderName   The well-knwon folder to remove from the collection.
-     * @return  {boolean}               True if the well-known folder was successfully removed from the collection, false otherwise.
-     */
-    Remove(folderName: WellKnownFolderName): boolean;
-    /**
-     * Removes the folder Id at the specified index.
-     *
-     * @param   {number}   index   The zero-based index of the folder Id to remove.
-     */
-    RemoveAt(index: number): void;
-}
-/**
- * Represents a permission on a folder.
- *
- * @sealed
- */
- class FolderPermission extends ComplexProperty {    /**
-     * Variants of pre-defined permission levels that Outlook also displays with the same levels.
-     */    /**
-     * Gets the Id of the user the permission applies to.
-     */
-    UserId: UserId;
-    /**
-     * Gets or sets a value indicating whether the user can create new items.
-     */
-    CanCreateItems: boolean;
-    /**
-     * Gets or sets a value indicating whether the user can create sub-folders.
-     */
-    CanCreateSubFolders: boolean;
-    /**
-     * Gets or sets a value indicating whether the user owns the folder.
-     */
-    IsFolderOwner: boolean;
-    /**
-     * Gets or sets a value indicating whether the folder is visible to the user.
-     */
-    IsFolderVisible: boolean;
-    /**
-     * Gets or sets a value indicating whether the user is a contact for the folder.
-     */
-    IsFolderContact: boolean;
-    /**
-     * Gets or sets a value indicating if/how the user can edit existing items.
-     */
-    EditItems: PermissionScope;
-    /**
-     * Gets or sets a value indicating if/how the user can delete existing items.
-     */
-    DeleteItems: PermissionScope;
-    /**
-     * Gets or sets the read items access permission.
-     */
-    ReadItems: FolderPermissionReadAccess;
-    /**
-     * Gets or sets the permission level.
-     */
-    PermissionLevel: FolderPermissionLevel;
-    /**
-     * Gets the permission level that Outlook would display for this folder permission.
-     */
-    readonly DisplayPermissionLevel: FolderPermissionLevel;
-    /**
-     * Initializes a new instance of the **FolderPermission** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **FolderPermission** class.
-     *
-     * @param   {UserId}                    userId            The Id of the user  the permission applies to.
-     * @param   {FolderPermissionLevel}     permissionLevel   The level of the permission.
-     */
-    constructor(userId: UserId, permissionLevel: FolderPermissionLevel);
-    /**
-     * Initializes a new instance of the **FolderPermission** class.
-     *
-     * @param   {string}                    primarySmtpAddress  The primary SMTP address of the user the permission applies to.
-     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
-     */
-    constructor(primarySmtpAddress: string, permissionLevel: FolderPermissionLevel);
-    /**
-     * Initializes a new instance of the **FolderPermission** class.
-     *
-     * @param   {StandardUser}              standardUser        The standard user the permission applies to.
-     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
-     */
-    constructor(standardUser: StandardUser, permissionLevel: FolderPermissionLevel);
-    /**
-     * Determines the permission level of this folder permission based on its individual settings, and sets the PermissionLevel property accordingly.
-     */    /**
-     * Copies the values of the individual permissions of the specified folder permission to this folder permissions.
-     *
-     * @param   {FolderPermission}   permission   The folder permission to copy the values from.
-     */    /**
-     * Create a copy of this FolderPermission instance.
-     *
-     * @return  {FolderPermission}      Clone of this instance.
-     */    /**
-     * Determines whether the specified folder permission is the same as this one. The comparison does not take UserId and PermissionLevel into consideration.
-     *
-     * @param   {FolderPermission}  permission   The folder permission to compare with this folder permission.
-     * @return  {boolean}           True is the specified folder permission is equal to this one, false otherwise.
-     */    /**
-     * Property was changed.
-     *
-     * @param   {ComplexProperty}   complexProperty   The complex property.
-     */}/**
- * Represents a collection of folder permissions.
- *
- * @sealed
- */
- class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
-    /**
-     * Gets the name of the inner collection XML element.
-     *
-     * @value   XML element name.
-     */    /**
-     * Gets the name of the collection item XML element.
-     *
-     * @value   XML element name.
-     */    /**
-     * Gets a list of unknown user Ids in the collection.
-     */
-    readonly UnknownEntries: string[];
-    /**
-     * Initializes a new instance of the **FolderPermissionCollection** class.
-     *
-     * @param   {Folder}   owner   The folder owner.
-     */
-    constructor(owner: Folder);
-    /**
-     * Adds a permission to the collection.
-     *
-     * @param   {FolderPermission}   permission   The permission to add.
-     */
-    Add(permission: FolderPermission): void;
-    /**
-     * Adds the specified permissions to the collection.
-     *
-     * @param   {FolderPermission[]}   permissions   The permissions to add.
-     */
-    AddRange(permissions: FolderPermission[]): void;
-    /**
-     * Clears this collection.
-     */
-    Clear(): void;
-    /**
-     * Removes a permission from the collection.
-     *
-     * @param   {FolderPermission}  permission   The permission to remove.
-     * @return  {boolean}           True if the folder permission was successfully removed from the collection, false otherwise.
-     */
-    Remove(permission: FolderPermission): boolean;
-    /**
-     * Removes a permission from the collection.
-     *
-     * @param   {number}   index   The zero-based index of the permission to remove.
-     */
-    RemoveAt(index: number): void;
-}
- class GroupMember extends ComplexProperty {
-    Key: string;
-    AddressInformation: EmailAddress;
-    Status: MemberStatus;    AddressInformationChanged(complexProperty: ComplexProperty): any;
-    InternalToJson(service: ExchangeService): any;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-} class GroupMemberCollection extends ComplexPropertyCollection<GroupMember> {    Add(member: GroupMember): any;
-    AddContactEmailAddress(contact: Contact, emailAddressKey: EmailAddressKey): any;
-    AddContactGroup(contactGroupId: ItemId): any;
-    AddDirectoryContact(address: string, routingType: string): any;
-    AddDirectoryPublicFolder(smtpAddress: string): any;
-    AddDirectoryUser(address: string, routingType: string): any;
-    AddOneOff(displayName: string, address: string, routingType: string): any;
-    AddPersonalContact(contactId: ItemId): any;
-    AddPublicGroup(smtpAddress: string): any;
-    AddRange(members: GroupMember[]): any;
-    Clear(): any;
-    ClearChangeLog(): any;
-    CreateComplexProperty(xmlElementName: string): GroupMember;
-    CreateDefaultComplexProperty(): GroupMember;
-    Find(key: string): GroupMember;
-    GetCollectionItemXmlElementName(member: GroupMember): string;
-    InternalValidate(): any;
-    Remove(member: GroupMember): boolean;
-    RemoveAt(index: number): any;
-}/**
- * Represents an AQS highlight term.
- *
- * @sealed
- */
- class HighlightTerm extends ComplexProperty {
-    /**
-     * Term scope.
-     */    /**
-     * Term value.
-     */    /**
-     * Gets term scope.
-     */
-    readonly Scope: string;
-    /**
-     * Gets term value.
-     */
-    readonly Value: string;
-}
- class ImAddressDictionary extends DictionaryProperty<ImAddressKey, ImAddressEntry> {
-    constructor();
-    _getItem(key: ImAddressKey): string;
-    _setItem(key: ImAddressKey, value: string): void;
-    CreateEntryInstance(): ImAddressEntry;
-    GetFieldURI(): string;
-    TryGetValue(key: ImAddressKey, imAddress: IOutParam<string>): boolean;
-} class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {    ImAddress: string;
-    constructor();
-    constructor(key: ImAddressKey, imAddress: string);
-    InternalToJson(service: ExchangeService): any;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}/**
- * Represents an Internet message header.
- */
- class InternetMessageHeader extends ComplexProperty {
-    /**
-     * The name of the header.
-     */
-    Name: string;
-    /**
-     * The value of the header.
-     */
-    Value: string;
-    /**
-     * Obtains a string representation of the header.
-     *
-     * @return  {string}      The string representation of the header.
-     */
-    ToString(): string;
-    toString(): string;
-}
-/**
- * Represents a collection of Internet message headers.
- */
- class InternetMessageHeaderCollection extends ComplexPropertyCollection<InternetMessageHeader> {
-    /**
-     * Find a specific header in the collection.
-     *
-     * @param   {string}   name   The name of the header to locate.
-     * @return  {InternetMessageHeader}     An InternetMessageHeader representing the header with the specified name; null if no header with the specified name was found.
-     */
-    Find(name: string): InternetMessageHeader;
-}/**
- * Represents an item attachment.
- */
- class ItemAttachment extends Attachment {
-    /**
-     * The item associated with the attachment.
-     */
-    protected item: Item;
-    /**
-     * Gets the item associated with the attachment.
-     */
-    Item: Item;
-    /** to workaround base.Item property accessor of c# //ref: //info: */
-    protected _setItem(value: Item): void;
-    /**
-     * Implements the OnChange event handler for the item associated with the attachment.
-     *
-     * @param   {ServiceObject}   serviceObject   The service object that triggered the OnChange event.
-     */    /**
-     * Loads this attachment.
-     *
-     * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
-     */
-    Load(additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
-    /**
-     * Loads this attachment.
-     *
-     * @param   {BodyType}   bodyType               The body type to load.
-     * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
-     */
-    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
-    ReadElementsFromXmlJsObjectToPatch(reader: any): boolean;
-}
-/**
- * Represents a strongly typed item attachment. **Workaround of ItemAttachment<TItem>** - not allowed in typescript to have two class, one generic and one non-generic
- */
- class ItemAttachmentOf<TItem extends Item> extends ItemAttachment {
-    /**
-     * Gets the item associated with the attachment.
-     */
-    Item: TItem;
-}
-/**
- * Represents a collection of items.
- */
- class ItemCollection<TItem extends Item> extends ComplexProperty {
-    __implements: string[];    /**
-     * Gets the total number of items in the collection.
-     */
-    readonly Count: number;
-    /**
-     * Gets the item at the specified index.
-     *
-     * @param   {number}   index   The zero-based index of the item to get.
-     * @return  {TItem}     The item at the specified index.
-     */
-    _getItem(index: number): TItem;
-    /**
-     * Initializes a new instance of the **ItemCollection** class.
-     *
-     */
-    constructor();
-    GetEnumerator(): any;
-} class ItemId extends ServiceId {
-    constructor();
-    constructor(uniqueId: string);
-    GetXmlElementName(): string;
-}
-/**
- * Represents a collection of item Ids.
- *
- * @sealed
- */
- class ItemIdCollection extends ComplexPropertyCollection<ItemId> {
-}
-/**
- * Represents a mailbox reference.
- */
- class Mailbox extends ComplexProperty implements ISearchStringProvider {
-    /**
-     * True if this instance is valid, false otherthise.
-     *
-     * @value   *true* if this instance is valid; otherwise, *false*.
-     */
-    readonly IsValid: boolean;
-    /**
-     * Gets or sets the address used to refer to the user mailbox.
-     */
-    Address: string;
-    /**
-     * Gets or sets the routing type of the address used to refer to the user mailbox.
-     */
-    RoutingType: string;
-    /**
-     * Initializes a new instance of the **Mailbox** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **Mailbox** class.
-     *
-     * @param   {string}   smtpAddress   The primary SMTP address of the mailbox.
-     */
-    constructor(smtpAddress: string);
-    /**
-     * Initializes a new instance of the **Mailbox** class.
-     *
-     * @param   {string}   address       The address used to reference the user mailbox.
-     * @param   {string}   routingType   The routing type of the address used to reference the user mailbox.
-     */
-    constructor(address: string, routingType: string);
-    /**
-     * Determines whether the specified  is equal to the current .
-     *
-     * @param   {any}   obj   The  to compare with the current .
-     * @return  {boolean}       true if the specified  is equal to the current ; otherwise, false.
-     *
-     * @exception   {NullReferenceException}    The **obj** parameter is null.
-     */
-    Equals(obj: any): boolean;
-    /**
-     * Returns a  that represents the current .
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-    /**
-     * Get a string representation for using this instance in a search filter.
-     * ISearchStringProvider.GetSearchString
-     *
-     * @return  {string}      String representation of instance.
-     */
-    GetSearchString(): string;
-}
- class ManagedFolderInformation extends ComplexProperty {
-    CanDelete: boolean;
-    CanRenameOrMove: boolean;
-    MustDisplayComment: boolean;
-    HasQuota: boolean;
-    IsManagedFoldersRoot: boolean;
-    ManagedFolderId: string;
-    Comment: string;
-    StorageQuota: number;
-    FolderSize: number;
-    HomePage: string;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-}/**
- * Represents an MeetingSuggestion object.
- */
- class MeetingSuggestion extends ExtractedEntity {
-    /**
-     * Gets the meeting suggestion Attendees.
-     */
-    Attendees: EmailUserEntityCollection;
-    /**
-     * Gets the meeting suggestion Location.
-     */
-    Location: string;
-    /**
-     * Gets the meeting suggestion Subject.
-     */
-    Subject: string;
-    /**
-     * Gets the meeting suggestion MeetingString.
-     */
-    MeetingString: string;
-    /**
-     * Gets the meeting suggestion StartTime.
-     */
-    StartTime: DateTime;
-    /**
-     * Gets the meeting suggestion EndTime.
-     */
-    EndTime: DateTime;
-}
-/**
- * Represents a collection of MeetingSuggestion objects.
- */
- class MeetingSuggestionCollection extends ComplexPropertyCollection<MeetingSuggestion> {
-}
- class MessageBody extends ComplexProperty {
-    BodyType: BodyType;
-    Text: string;
-    constructor();
-    constructor(text: string);
-    constructor(bodyType: BodyType, text: string);
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
-    ToString(): string;
-}/**
- * Represents the MIME content of an item.
- */
- class MimeContent extends MimeContentBase {
-    /**
-     * Initializes a new instance of the **MimeContent** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **MimeContent** class.
-     *
-     * @param   {string}   characterSet   The character set of the content.
-     * @param   {string}   content        The content.
-     */
-    constructor(characterSet: string, content: string);
-    /**
-     * Returns a **String** that represents the current **Object**.
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-}/**
- * Represents the MIME content of an item.
- */
- abstract class MimeContentBase extends ComplexProperty {
-    /**
-     * characterSet returned
-     */    /**
-     * content received
-     */    /**
-     * to set XMLElementName when reading XML JsObject value.
-     */
-    protected xmlElementName: string;
-    /**
-     * Gets or sets the character set of the content.
-     */
-    CharacterSet: string;
-    /**
-     * Gets or sets the content.  - ews-javascript-api this is base64 value without encoding applied.
-     */
-    Content: string;
-}/**
- * Represents the MIME content of an item.
- */
- class MimeContentUTF8 extends MimeContentBase {
-    /**
-     * Initializes a new instance of the **MimeContentUTF8** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **MimeContentUTF8** class.
-     *
-     * @param   {string}   characterSet   The character set of the content.
-     * @param   {string}   content        The content.
-     */
-    constructor(characterSet: string);
-    /**
-     * Returns a **String** that represents the current **Object**.
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-}
-/**
- * Represents the normalized body of an item - the HTML fragment representation of the body.
- */
- class NormalizedBody extends ComplexProperty {    /**
-     * Gets the type of the normalized body's text.
-     */
-    BodyType: BodyType;
-    /**
-     * Gets the text of the normalized body.
-     */
-    Text: string;
-    /**
-     * Gets whether the body is truncated.
-     */
-    IsTruncated: boolean;
-    /**
-     * Initializes a new instance of the **NormalizedBody** class.
-     */
-    constructor();
-    /**
-     * Returns a **String** that represents the current **Object**.
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-}/**
- * Encapsulates information on the occurrence of a recurring appointment.
- */
- class OccurrenceInfo extends ComplexProperty {
-    /**
-     * Gets the Id of the occurrence.
-     */
-    readonly ItemId: ItemId;
-    /**
-     * Gets the start date and time of the occurrence.
-     */
-    readonly Start: DateTime;
-    /**
-     * Gets the end date and time of the occurrence.
-     */
-    readonly End: DateTime;
-    /**
-     * Gets the original start date and time of the occurrence.
-     */
-    readonly OriginalStart: DateTime;
-}
-/**
- * Represents a collection of OccurrenceInfo objects.
- */
- class OccurrenceInfoCollection extends ComplexPropertyCollection<OccurrenceInfo> {
-}
-/**
- * Represents Lync online meeting settings.
- */
- class OnlineMeetingSettings extends ComplexProperty {    /**
-     * Gets or sets the online meeting setting that describes whether users dialing in by phone have to wait in the lobby.
-     */
-    LobbyBypass: LobbyBypass;
-    /**
-     * Gets or sets the online meeting setting that describes access permission to the meeting.
-     */
-    AccessLevel: OnlineMeetingAccessLevel;
-    /**
-     * Gets or sets the online meeting setting that defines the meeting leaders.
-     */
-    Presenters: Presenters;
-    /**
-     * Initializes a new instance of the **OnlineMeetingSettings** class.
-     */
-    constructor();
-}
-/**
- * Represents PersonaPostalAddress.
- */
- class PersonaPostalAddress extends ComplexProperty {    /**
-     * Gets or sets the Street.
-     */
-    Street: string;
-    /**
-     * Gets or sets the City.
-     */
-    City: string;
-    /**
-     * Gets or sets the state.
-     */
-    State: string;
-    /**
-     * Gets or sets the Country.
-     */
-    Country: string;
-    /**
-     * Gets or sets the PostalCode.
-     */
-    PostalCode: string;
-    /**
-     * Gets or sets the PostOfficeBox.
-     */
-    PostOfficeBox: string;
-    /**
-     * Gets or sets the Type.
-     */
-    Type: string;
-    /**
-     * Gets or sets the location source type.
-     */
-    Source: LocationSource;
-    /**
-     * Gets or sets the location Uri.
-     */
-    Uri: string;
-    /**
-     * Gets or sets a value indicating location latitude.
-     */
-    Latitude: number;
-    /**
-     * Gets or sets a value indicating location longitude.
-     */
-    Longitude: number;
-    /**
-     * Gets or sets the location accuracy.
-     */
-    Accuracy: number;
-    /**
-     * Gets or sets the location altitude.
-     */
-    Altitude: number;
-    /**
-     * Gets or sets the location altitude accuracy.
-     */
-    AltitudeAccuracy: number;
-    /**
-     * Gets or sets the street address.
-     */
-    FormattedAddress: string;
-    /**
-     * Initializes a new instance of the **PersonaPostalAddress** class.
-     *
-     * @param   {string}            street             The Street Address.
-     * @param   {string}            city               The City value.
-     * @param   {string}            state              The State value.
-     * @param   {string}            country            The country value.
-     * @param   {string}            postalCode         The postal code value.
-     * @param   {string}            postOfficeBox      The Post Office Box.
-     * @param   {LocationSource}    locationSource     The location Source.
-     * @param   {string}            locationUri        The location Uri.
-     * @param   {string}            formattedAddress   The location street Address in formatted address.
-     * @param   {number}            latitude           The location latitude.
-     * @param   {number}            longitude          The location longitude.
-     * @param   {number}            accuracy           The location accuracy.
-     * @param   {number}            altitude           The location altitude.
-     * @param   {number}            altitudeAccuracy   The location altitude Accuracy.
-     */
-    constructor(street: string, city: string, state: string, country: string, postalCode: string, postOfficeBox: string, locationSource: LocationSource, locationUri: string, formattedAddress: string, latitude: number, longitude: number, accuracy: number, altitude: number, altitudeAccuracy: number);
-}/**
- * Represents an PhoneEntity object.
- */
- class PhoneEntity extends ExtractedEntity {
-    /**
-     * Gets the phone entity OriginalPhoneString.
-     */
-    OriginalPhoneString: string;
-    /**
-     * Gets the phone entity PhoneString.
-     */
-    PhoneString: string;
-    /**
-     * Gets the phone entity Type.
-     */
-    Type: string;
-}
-/**
- * Represents a collection of PhoneEntity objects.
- */
- class PhoneEntityCollection extends ComplexPropertyCollection<PhoneEntity> {
-}
- class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, PhoneNumberEntry> {
-    constructor();
-    _getItem(key: PhoneNumberKey): string;
-    _setItem(key: PhoneNumberKey, value: string): void;
-    CreateEntryInstance(): PhoneNumberEntry;
-    GetFieldURI(): string;
-    TryGetValue(key: PhoneNumberKey, phoneNumber: IOutParam<string>): boolean;
-}
- class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {    PhoneNumber: string;
-    constructor();
-    constructor(key: PhoneNumberKey, imAddress: string);
-    InternalToJson(service: ExchangeService): any;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
-    constructor();
-    _getItem(key: PhysicalAddressKey): PhysicalAddressEntry;
-    _setItem(key: PhysicalAddressKey, value: PhysicalAddressEntry): void;
-    CreateEntryInstance(): PhysicalAddressEntry;
-    TryGetValue(key: PhysicalAddressKey, physicalAddress: IOutParam<PhysicalAddressEntry>): boolean;
-}/**
- * PhysicalAddressEntry class
- */
- class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {    Street: string;
-    City: string;
-    State: string;
-    CountryOrRegion: string;
-    PostalCode: string;
-    constructor();
-    ClearChangeLog(): void;    InternalToJson(service: ExchangeService): any;
-    InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: any[]): void;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): void;
-    PropertyBagChanged(): void;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[]): boolean;
-    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]): boolean;
-}
-/**
- * Represents the policy tag of an item or folder.
- */
- class PolicyTag extends RetentionTagBase {
-    /**
-     * Initializes a new instance of the **PolicyTag** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **PolicyTag** class.
-     *
-     * @param   {boolean}   isExplicit    Is explicit.
-     * @param   {Guid}      retentionId   Retention id.
-     */
-    constructor(isExplicit: boolean, retentionId: Guid);
-} class RecurringAppointmentMasterId extends ItemId {
-    constructor(occurrenceId: string);
-    GetXmlElementName(): string;
-}
-/**
- * Represents the retention tag of an item.
- */
- class RetentionTagBase extends ComplexProperty {
-    /**
-     * Xml element name.
-     */    /**
-     * Is explicit.
-     */    /**
-     * Retention id.
-     */    /**
-     * Gets or sets if the tag is explicit.
-     */
-    IsExplicit: boolean;
-    /**
-     * Gets or sets the retention id.
-     */
-    RetentionId: Guid;
-    /**
-     * Initializes a new instance of the **RetentionTagBase** class.
-     *
-     * @param {string}  xmlElementName   Xml element name.
-     */
-    constructor(xmlElementName: string);
-    /**
-     * Returns a **String** that represents the current **Object**.
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-}/**
- * Represents a rule that automatically handles incoming messages.
- * A rule consists of a set of conditions and exceptions that determine whether or not a set of actions should be executed on incoming messages.
- *
- * @sealed
- */
- class Rule extends ComplexProperty {
-    /**
-     * The rule ID.
-     */    /**
-     * The rule display name.
-     */    /**
-     * The rule priority.
-     */    /**
-     * The rule status of enabled or not.
-     */    /**
-     * The rule status of is supported or not.
-     */    /**
-     * The rule status of in error or not.
-     */    /**
-     * The rule conditions.
-     */    /**
-     * The rule actions.
-     */    /**
-     * The rule exceptions.
-     */    /**
-     * Gets or sets the Id of this rule.
-     */
-    Id: string;
-    /**
-     * Gets or sets the name of this rule as it should be displayed to the user.
-     */
-    DisplayName: string;
-    /**
-     * Gets or sets the priority of this rule, which determines its execution order.
-     */
-    Priority: number;
-    /**
-     * Gets or sets a value indicating whether this rule is enabled.
-     */
-    IsEnabled: boolean;
-    /**
-     * Gets a value indicating whether this rule can be modified via EWS. If IsNotSupported is true, the rule cannot be modified via EWS.
-     */
-    readonly IsNotSupported: boolean;
-    /**
-     * Gets or sets a value indicating whether this rule has errors. A rule that is in error cannot be processed unless it is updated and the error is corrected.
-     */
-    IsInError: boolean;
-    /**
-     * Gets the conditions that determine whether or not this rule should be executed against incoming messages.
-     */
-    readonly Conditions: RulePredicates;
-    /**
-     * Gets the actions that should be executed against incoming messages if the conditions evaluate as true.
-     */
-    readonly Actions: RuleActions;
-    /**
-     * Gets the exceptions that determine if this rule should be skipped even if its conditions evaluate to true.
-     */
-    readonly Exceptions: RulePredicates;
-    /**
-     * Initializes a new instance of the **Rule** class.
-     */
-    constructor();
-}/**
- * Represents the set of actions available for a rule.
- *
- * @sealed
- */
- class RuleActions extends ComplexProperty {
-    /**
-     * SMS recipient address type.
-     */    /**
-     * The AssignCategories action.
-     */    /**
-     * The CopyToFolder action.
-     */    /**
-     * The Delete action.
-     */    /**
-     * The ForwardAsAttachmentToRecipients action.
-     */    /**
-     * The ForwardToRecipients action.
-     */    /**
-     * The MarkImportance action.
-     */    /**
-     * The MarkAsRead action.
-     */    /**
-     * The MoveToFolder action.
-     */    /**
-     * The PermanentDelete action.
-     */    /**
-     * The RedirectToRecipients action.
-     */    /**
-     * The SendSMSAlertToRecipients action.
-     */    /**
-     * The ServerReplyWithMessage action.
-     */    /**
-     * The StopProcessingRules action.
-     */    /**
-     * Gets the categories that should be stamped on incoming messages.
-     * To disable stamping incoming messages with categories, set AssignCategories to null.
-     */
-    readonly AssignCategories: StringList;
-    /**
-     * Gets or sets the Id of the folder incoming messages should be copied to.
-     * To disable copying incoming messages to a folder, set CopyToFolder to null.
-     */
-    CopyToFolder: FolderId;
-    /**
-     * Gets or sets a value indicating whether incoming messages should be automatically moved to the Deleted Items folder.
-     */
-    Delete: boolean;
-    /**
-     * Gets the e-mail addresses to which incoming messages should be forwarded as attachments.
-     * To disable forwarding incoming messages as attachments, empty the ForwardAsAttachmentToRecipients list.
-     */
-    readonly ForwardAsAttachmentToRecipients: EmailAddressCollection;
-    /**
-     * Gets the e-mail addresses to which incoming messages should be forwarded.
-     * To disable forwarding incoming messages, empty the ForwardToRecipients list.
-     */
-    readonly ForwardToRecipients: EmailAddressCollection;
-    /**
-     * @Nullable Gets or sets the importance that should be stamped on incoming messages.
-     * To disable the stamping of incoming messages with an importance, set MarkImportance to null.
-     */
-    MarkImportance: Importance;
-    /**
-     * Gets or sets a value indicating whether incoming messages should be marked as read.
-     */
-    MarkAsRead: boolean;
-    /**
-     * Gets or sets the Id of the folder to which incoming messages should be moved.
-     * To disable the moving of incoming messages to a folder, set CopyToFolder to null.
-     */
-    MoveToFolder: FolderId;
-    /**
-     * Gets or sets a value indicating whether incoming messages should be permanently deleted. When a message is permanently deleted, it is never saved into the recipient's mailbox. To delete a message after it has been saved into the recipient's mailbox, use the Delete action.
-     */
-    PermanentDelete: boolean;
-    /**
-     * Gets the e-mail addresses to which incoming messages should be redirecteded.
-     * To disable redirection of incoming messages, empty the RedirectToRecipients list. Unlike forwarded mail, redirected mail maintains the original sender and recipients.
-     */
-    readonly RedirectToRecipients: EmailAddressCollection;
-    /**
-     * Gets the phone numbers to which an SMS alert should be sent.
-     * To disable sending SMS alerts for incoming messages, empty the SendSMSAlertToRecipients list.
-     */
-    readonly SendSMSAlertToRecipients: MobilePhone[];
-    /**
-     * Gets or sets the Id of the template message that should be sent as a reply to incoming messages.
-     * To disable automatic replies, set ServerReplyWithMessage to null.
-     */
-    ServerReplyWithMessage: ItemId;
-    /**
-     * Gets or sets a value indicating whether subsequent rules should be evaluated.
-     */
-    StopProcessingRules: boolean;
-    /**
-     * Convert the SMS recipient list from EmailAddressCollection type to MobilePhone collection type.
-     *
-     * @param   {EmailAddressCollection}   emailCollection   Recipient list in EmailAddressCollection type.
-     * @return  {MobilePhone[]}		A MobilePhone collection object containing all SMS recipient in MobilePhone type.
-     */    /**
-     * Convert the SMS recipient list from MobilePhone collection type to EmailAddressCollection type.
-     *
-     * @param   {MobilePhone[]}   recipientCollection   Recipient list in a MobilePhone collection type.
-     * @return  {EmailAddressCollection}		An EmailAddressCollection object containing recipients with "MOBILE" address type.
-     */}/**
- * Represents a collection of rules.
- *
- * @sealed
- */
- class RuleCollection extends ComplexProperty implements IEnumerable<Rule> {
-    /**
-     * The OutlookRuleBlobExists flag.
-     */    /**
-     * The rules in the rule collection.
-     */    /**
-     * Gets a value indicating whether an Outlook rule blob exists in the user's mailbox. To update rules with EWS when the Outlook rule blob exists, call SetInboxRules passing true as the value of the removeOutlookBlob parameter.
-     */
-    OutlookRuleBlobExists: boolean;
-    /**
-     * Gets the number of rules in this collection.
-     */
-    readonly Count: number;
-    /**
-     * Gets the rule at the specified index in the collection.
-     *
-     * @param   {number}   index   The index of the rule to get.
-     * @return  {Rule}	The rule at the specified index.
-     */
-    _getItem(index: number): Rule;
-    /**
-     *  Returns an enumerator that iterates through the collection. this case this.rules
-     */
-    GetEnumerator(): Rule[];
-}/**
- * Represents an error that occurred as a result of executing a rule operation.
- *
- * @sealed
- */
- class RuleError extends ComplexProperty {
-    /**
-     * Rule property.
-     */    /**
-     * Rule validation error code.
-     */    /**
-     * Error message.
-     */    /**
-     * Field value.
-     */    /**
-     * Gets the property which failed validation.
-     */
-    readonly RuleProperty: RuleProperty;
-    /**
-     * Gets the validation error code.
-     */
-    readonly ErrorCode: RuleErrorCode;
-    /**
-     * Gets the error message.
-     */
-    readonly ErrorMessage: string;
-    /**
-     * Gets the value that failed validation.
-     */
-    readonly Value: string;
-}
-/**
- * Represents an operation to be performed on a rule.
- */
- abstract class RuleOperation extends ComplexProperty {
-}
-/**
- * Represents an error that occurred while processing a rule operation.
- *
- * @sealed
- */
- class RuleOperationError extends ComplexProperty implements IEnumerable<RuleError> {
-    /**
-     * Index of the operation mapping to the error.
-     */    /**
-     * RuleOperation object mapping to the error.
-     */    /**
-     * RuleError Collection.
-     */    /**
-     * Gets the operation that resulted in an error.
-     */
-    readonly Operation: RuleOperation;
-    /**
-     * Gets the number of rule errors in the list.
-     */
-    readonly Count: number;
-    /**
-     * Gets the rule error at the specified index.
-     *
-     * @param   {number}   index   The index of the rule error to get.
-     * @return  {RuleError}	The rule error at the specified index.
-     */
-    _getItem(index: number): RuleError;
-    /**
-     *  Returns an enumerator that iterates through the collection. this case this.rules
-     */
-    GetEnumerator(): RuleError[];
-}
-/**
- * Represents a collection of rule operation errors.
- *
- * @sealed
- */
- class RuleOperationErrorCollection extends ComplexPropertyCollection<RuleOperationError> {
-}
-/**
- * Represents the date and time range within which messages have been received.
- *
- * @sealed
- */
- class RulePredicateDateRange extends ComplexProperty {
-    /**
-     * The start DateTime.
-     */    /**
-     * The end DateTime.
-     */    /**
-     * @Nullable Gets or sets the range start date and time.
-     * If Start is set to null, no start date applies.
-     */
-    Start: DateTime;
-    /**
-     * @Nullable Gets or sets the range end date and time.
-     * If End is set to null, no end date applies.
-     */
-    End: DateTime;
-}
-/**
- * Represents the set of conditions and exceptions available for a rule.
- *
- * @sealed
- */
- class RulePredicates extends ComplexProperty {
-    /**
-     * The HasCategories predicate.
-     */    /**
-     * The ContainsBodyStrings predicate.
-     */    /**
-     * The ContainsHeaderStrings predicate.
-     */    /**
-     * The ContainsRecipientStrings predicate.
-     */    /**
-     * The ContainsSenderStrings predicate.
-     */    /**
-     * The ContainsSubjectOrBodyStrings predicate.
-     */    /**
-     * The ContainsSubjectStrings predicate.
-     */    /**
-     * The FlaggedForAction predicate.
-     */    /**
-     * The FromAddresses predicate.
-     */    /**
-     * The FromConnectedAccounts predicate.
-     */    /**
-     * The HasAttachments predicate.
-     */    /**
-     * The Importance predicate.
-     */    /**
-     * The IsApprovalRequest predicate.
-     */    /**
-     * The IsAutomaticForward predicate.
-     */    /**
-     * The IsAutomaticReply predicate.
-     */    /**
-     * The IsEncrypted predicate.
-     */    /**
-     * The IsMeetingRequest predicate.
-     */    /**
-     * The IsMeetingResponse predicate.
-     */    /**
-     * The IsNDR predicate.
-     */    /**
-     * The IsPermissionControlled predicate.
-     */    /**
-     * The IsSigned predicate.
-     */    /**
-     * The IsVoicemail predicate.
-     */    /**
-     * The IsReadReceipt predicate.
-     */    /**
-     * The ItemClasses predicate.
-     */    /**
-     * The MessageClassifications predicate.
-     */    /**
-     * The NotSentToMe predicate.
-     */    /**
-     * The SentCcMe predicate.
-     */    /**
-     * The SentOnlyToMe predicate.
-     */    /**
-     * The SentToAddresses predicate.
-     */    /**
-     * The SentToMe predicate.
-     */    /**
-     * The SentToOrCcMe predicate.
-     */    /**
-     * The Sensitivity predicate.
-     */    /**
-     * The WithinDateRange predicate.
-     */    /**
-     * The WithinSizeRange predicate.
-     */    /**
-     * Gets the categories that an incoming message should be stamped with for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly Categories: StringList;
-    /**
-     * Gets the strings that should appear in the body of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsBodyStrings: StringList;
-    /**
-     * Gets the strings that should appear in the headers of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsHeaderStrings: StringList;
-    /**
-     * Gets the strings that should appear in either the To or Cc fields of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsRecipientStrings: StringList;
-    /**
-     * Gets the strings that should appear in the From field of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsSenderStrings: StringList;
-    /**
-     * Gets the strings that should appear in either the body or the subject of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsSubjectOrBodyStrings: StringList;
-    /**
-     * Gets the strings that should appear in the subject of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ContainsSubjectStrings: StringList;
-    /**
-     * @Nullable Gets or sets the flag for action value that should appear on incoming messages for the condition or execption to apply.
-     * To disable this predicate, set it to null.
-     */
-    FlaggedForAction: FlaggedForAction;
-    /**
-     * Gets the e-mail addresses of the senders of incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly FromAddresses: EmailAddressCollection;
-    /**
-     * Gets or sets a value indicating whether incoming messages must have attachments for the condition or exception to apply.
-     */
-    HasAttachments: boolean;
-    /**
-     * @Nullable Gets or sets the importance that should be stamped on incoming messages for the condition or exception to apply.
-     * To disable this predicate, set it to null.
-     */
-    Importance: Importance;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be approval requests for the condition or exception to apply.
-     */
-    IsApprovalRequest: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be automatic forwards for the condition or exception to apply.
-     */
-    IsAutomaticForward: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be automatic replies for the condition or exception to apply.
-     */
-    IsAutomaticReply: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be S/MIME encrypted for the condition or exception to apply.
-     */
-    IsEncrypted: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be meeting requests for the condition or exception to apply.
-     */
-    IsMeetingRequest: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be meeting responses for the condition or exception to apply.
-     */
-    IsMeetingResponse: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be non-delivery reports (NDR) for the condition or exception to apply.
-     */
-    IsNonDeliveryReport: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be permission controlled (RMS protected) for the condition or exception to apply.
-     */
-    IsPermissionControlled: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be S/MIME signed for the condition or exception to apply.
-     */
-    IsSigned: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be voice mails for the condition or exception to apply.
-     */
-    IsVoicemail: boolean;
-    /**
-     * Gets or sets a value indicating whether incoming messages must be read receipts for the condition or exception to apply.
-     */
-    IsReadReceipt: boolean;
-    /**
-     * Gets the e-mail account names from which incoming messages must have been aggregated for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly FromConnectedAccounts: StringList;
-    /**
-     * Gets the item classes that must be stamped on incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly ItemClasses: StringList;
-    /**
-     * Gets the message classifications that must be stamped on incoming messages for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly MessageClassifications: StringList;
-    /**
-     * Gets or sets a value indicating whether the owner of the mailbox must NOT be a To recipient of the incoming messages for the condition or exception to apply.
-     */
-    NotSentToMe: boolean;
-    /**
-     * Gets or sets a value indicating whether the owner of the mailbox must be a Cc recipient of incoming messages for the condition or exception to apply.
-     */
-    SentCcMe: boolean;
-    /**
-     * Gets or sets a value indicating whether the owner of the mailbox must be the only To recipient of incoming messages for the condition or exception to apply.
-     */
-    SentOnlyToMe: boolean;
-    /**
-     * Gets the e-mail addresses incoming messages must have been sent to for the condition or exception to apply.
-     * To disable this predicate, empty the list.
-     */
-    readonly SentToAddresses: EmailAddressCollection;
-    /**
-     * Gets or sets a value indicating whether the owner of the mailbox must be a To recipient of incoming messages for the condition or exception to apply.
-     */
-    SentToMe: boolean;
-    /**
-     * Gets or sets a value indicating whether the owner of the mailbox must be either a To or Cc recipient of incoming messages for the condition or exception to apply.
-     */
-    SentToOrCcMe: boolean;
-    /**
-     * @Nullable Gets or sets the sensitivity that must be stamped on incoming messages for the condition or exception to apply.
-     * To disable this predicate, set it to null.
-     */
-    Sensitivity: Sensitivity;
-    /**
-     * Gets the date range within which incoming messages must have been received for the condition or exception to apply.
-     * To disable this predicate, set both its Start and End properties to null.
-     */
-    readonly WithinDateRange: RulePredicateDateRange;
-    /**
-     * Gets the minimum and maximum sizes incoming messages must have for the condition or exception to apply.
-     * To disable this predicate, set both its MinimumSize and MaximumSize properties to null.
-     */
-    readonly WithinSizeRange: RulePredicateSizeRange;
-}/**
- * Represents the minimum and maximum size of a message.
- *
- * @sealed
- */
- class RulePredicateSizeRange extends ComplexProperty {
-    /**
-     * Minimum Size.
-     */    /**
-     * Mamixmum Size.
-     */    /**
-     * @Nullable Gets or sets the minimum size, in kilobytes.
-     * If MinimumSize is set to null, no minimum size applies.
-     */
-    MinimumSize: number;
-    /**
-     * @Nullable Gets or sets the maximum size, in kilobytes.
-     * If MaximumSize is set to null, no maximum size applies.
-     */
-    MaximumSize: number;
-}
- class SearchFolderParameters extends ComplexProperty {
-    Traversal: SearchFolderTraversal;
-    RootFolderIds: FolderIdCollection;
-    SearchFilter: SearchFilter;    InternalToJson(service: ExchangeService): any;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-    PropertyChanged(complexProperty: ComplexProperty): any;
-    Validate(): any;
-}
- class ServiceId extends ComplexProperty {
-    readonly IsValid: boolean;
-    protected IsValidProxy(): boolean;
-    UniqueId: string;
-    ChangeKey: string;
-    constructor();
-    constructor(uniqueId: string);
-    Assign(source: ServiceId): void;
-    Equals(obj: any): boolean;
-    GetXmlElementName(): string;
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
-    SameIdAndChangeKey(other: ServiceId): boolean;
-    ToString(): string;
-} class SetClientExtensionAction extends ComplexProperty {}
-/**
- * Represents an operation to update an existing rule.
- *
- * @sealed
- */
- class SetRuleOperation extends RuleOperation {
-    /**
-     * Inbox rule to be updated.
-     */    /**
-     * Gets or sets the rule to be updated.
-     */
-    Rule: Rule;
-    /**
-     * Initializes a new instance of the **SetRuleOperation** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **SetRuleOperation** class.
-     *
-     * @param   {Rule}   rule   The inbox rule to update.
-     */
-    constructor(rule: Rule);
-}
-/**
- * Represents a list of strings.
- *
- * @sealed
- */
- class StringList extends ComplexProperty implements IEnumerable<string> {
-    /**
-     * Gets the number of strings in the list.
-     */
-    readonly Count: number;
-    /**
-     * Initializes a new instance of the **StringList** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **StringList** class.
-     *
-     * @param   {string}   itemXmlElementName   Name of the item XML element.
-     */
-    constructor(itemXmlElementName: string);
-    /**
-     * Initializes a new instance of the **StringList** class.
-     *
-     * @param   {string[]}   strings   The strings.
-     */
-    constructor(strings: string[]);
-    /**
-     * Gets or sets the string at the specified index.
-     *
-     * @param   {number}    index   The index of the string to get or set.
-     * @return  {string}    The string at the specified index.
-     */
-    _getItem(index: number): string;
-    /**
-     * Gets or sets the string at the specified index.
-     *
-     * @param   {number}    index   The index of the string to get or set.
-     * @return  {string}    The string at the specified index.
-     */
-    _setItem(index: number, value: string): void;
-    /**
-     * Adds a string to the list.
-     *
-     * @param   {string}   s   The string to add.
-     */
-    Add(s: string): void;
-    /**
-     * Adds multiple strings to the list.
-     *
-     * @param   {string[]}   strings   The strings to add.
-     */
-    AddRange(strings: string[]): void;
-    /**
-     * Clears the list.
-     */
-    Clear(): void;
-    /**
-     * Determines whether the list contains a specific string.
-     *
-     * @param   {string}    s   The string to check the presence of.
-     * @return  {boolean}   True if s is present in the list, false otherwise.
-     */
-    Contains(s: string): boolean;
-    Equals(obj: any): boolean;
-    /**
-     *  Returns an enumerator that iterates through the collection. this case this.items
-     */
-    GetEnumerator(): string[];
-    GetHashCode(): number;
-    /**
-     * Removes a string from the list.
-     *
-     * @param   {string}   s   The string to remove.
-     * @return  {boolean}       True is s was removed, false otherwise.
-     */
-    Remove(s: string): boolean;
-    /**
-     * Removes the string at the specified position from the list.
-     *
-     * @param   {number}   index   The index of the string to remove.
-     */
-    RemoveAt(index: number): void;
-    /**
-     * Generates a string representation of all the items in the list.
-     *
-     * @return  {string}      A comma-separated list of the strings present in the list.
-     */
-    ToString(): string;
-}
-/**
- * Represents an TaskSuggestion object.
- */
- class TaskSuggestion extends ExtractedEntity {
-    /**
-     * Gets the meeting suggestion TaskString.
-     */
-    TaskString: string;
-    /**
-     * Gets the meeting suggestion Assignees.
-     */
-    Assignees: EmailUserEntityCollection;
-}
-/**
- * Represents a collection of TaskSuggestion objects.
- */
- class TaskSuggestionCollection extends ComplexPropertyCollection<TaskSuggestion> {
-}/**
- * Represents the body of a message.
- */
- class TextBody extends MessageBody {
-    /**
-     * Initializes a new instance of the **TextBody** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **TextBody** class.
-     *
-     * @param   {string}   text   The text of the message body.
-     */
-    constructor(text: string);
-}
-/**
- * Represents the body part of an item that is unique to the conversation the item is part of.
- */
- class UniqueBody extends ComplexProperty {    /**
-     * Gets the type of the normalized body's text.
-     */
-    readonly BodyType: BodyType;
-    /**
-     * Gets the text of the normalized body.
-     */
-    readonly Text: string;
-    /**
-     * Gets whether the body is truncated.
-     */
-    readonly IsTruncated: boolean;
-    /**
-     * Initializes a new instance of the **UniqueBody** class.
-     */
-    constructor();
-    /**
-     * Returns a **String** that represents the current **Object**.
-     *
-     * @return  {string}      A **String** that represents the current **Object**.
-     */
-    ToString(): string;
-    toString(): string;
-}/**
- * Represents an UrlEntity object.
- */
- class UrlEntity extends ExtractedEntity {
-    Url: string;
-    /**
-     * Initializes a new instance of the **UrlEntity** class.
-     */
-    constructor();
-}
-/**
- * Represents a collection of UrlEntity objects.
- */
- class UrlEntityCollection extends ComplexPropertyCollection<UrlEntity> {
-}
-/**
- * Represents a user configuration's Dictionary property.
- *
- * @sealed
- */
- class UserConfigurationDictionary extends ComplexProperty {
-    /**
-     * required before initializing new UserConfigurationDictionary
-     */
-    static _dictionaryKeyPicker: (key) => string;
-    /**
-     * Gets the number of elements in the user configuration dictionary.
-     */
-    readonly Count: number;
-    /**
-     * Gets or sets the element with the specified key.
-     *
-     * @param   {string | DateTime | boolean | number}                          key   The key of the element to get or set.
-     * @return  {DateTime | string | number | boolean | string[] | number[]}    The element with the specified key.
-     */
-    _getItem(key: string | DateTime | boolean | number): DateTime | string | number | boolean | string[] | number[];
-    /**
-     * Gets or sets the element with the specified key.
-     *
-     * @param   {string | DateTime | boolean | number}                          key     The key of the element to get or set.
-     * @param  {DateTime | string | number | boolean | string[] | number[]}     value    The element value to update at specified key.
-     */
-    _setItem(key: string | DateTime | boolean | number, value: DateTime | string | number | boolean | string[] | number[]): void;
-    /**
-     * Adds an element with the provided key and value to the user configuration dictionary.
-     *
-     * @param   {string | DateTime | boolean | number}                          key     The object to use as the key of the element to add. **Restrict usage of byteArray or complex type for key, consider using string and number only**.
-     * @param   {DateTime | string | number | boolean | string[] | number[]}    value   The object to use as the value of the element to add.
-     */
-    Add(key: string | DateTime | boolean | number, value: DateTime | string | number | boolean | string[] | number[]): void;
-    /**
-     * Removes all items from the user configuration dictionary.
-     */
-    Clear(): void;
-    /**
-     * Constructs a dictionary object (key or entry value) from the specified type and string list.
-     *
-     * @param   {UserConfigurationDictionaryObjectType}     type      Object type to construct.
-     * @param   {string[]}                                  value     Value of the dictionary object as a string list
-     * @param   {ExchangeService}                           service   The service.
-     * @return  {any}                                       Dictionary object.
-     */    /**
-     * Determines whether the user configuration dictionary contains an element with the specified key.
-     *
-     * @param   {any}   key     The key to locate in the user configuration dictionary.
-     * @return  {boolean}       true if the user configuration dictionary contains an element with the key; otherwise false.
-     */
-    ContainsKey(key: any): boolean;
-    /**
-     * Gets the dictionary object.
-     *
-     * @param   {any}               jsonObject   The json object.
-     * @param   {ExchangeService}   service      The service.
-     * @return  {any}               the dictionary object
-     */    GetEnumerator(): Dictionary<any, any>;
-    /**
-     * Gets the type of the object.
-     *
-     * @param   {string}   type   The type.
-     * @return  {UserConfigurationDictionaryObjectType}     UserConfigurationDictionaryObjectType for the string value
-     */    /**
-     * Gets the object value.
-     *
-     * @param   {any[]}   valueArray   The value array.
-     * @return  {string[]}  string array from object Array
-     */    /**
-     * Gets the type code.
-     *
-     * @param   {ExchangeServiceBase}                                   service                The service.
-     * @param   {any}                                                   dictionaryObject       The dictionary object.
-     * @param   {IRefParam<UserConfigurationDictionaryObjectType>}      dictionaryObjectType   Type of the dictionary object.
-     * @param   {IRefParam<string>}                                     valueAsString          The value as string.
-     */    /**
-     * Removes the element with the specified key from the user configuration dictionary.
-     *
-     * @param   {key}   key     The key of the element to remove.
-     * @return  {boolean}       true if the element is successfully removed; otherwise false.
-     */
-    Remove(key: any): boolean;
-    /**
-     * Gets the value associated with the specified key.
-     *
-     * @param   {any}   key     The key whose value to get.
-     * @param   {any}   value   When this method returns, the value associated with the specified key, if the key is found; otherwise, null.
-     * @return  {boolean}       true if the user configuration dictionary contains the key; otherwise false.
-     */
-    TryGetValue(key: any, value: IOutParam<any>): boolean;
-    /**
-     * Validate the array object.
-     *
-     * @param   {Array<any>}   dictionaryObjectAsArray   Object to validate
-     */    /**
-     * Validates the specified key and value.
-     *
-     * @param   {any}   key     The dictionary entry key.
-     * @param   {any}   value   The dictionary entry value.
-     */    /**
-     * Validates the dictionary object (key or entry value).
-     *
-     * @param   {any}   dictionaryObject   Object to validate.
-     */    /**
-     * Validates the dictionary object type.
-     *
-     * @param   {any}   type   Type to validate.
-     */    /**
-     * Writes a dictionary entry type to Xml.
-     *
-     * @param   {EwsServiceXmlWriter}                       writer                 The writer.
-     * @param   {UserConfigurationDictionaryObjectType}     dictionaryObjectType   Type to write.
-     */    /**
-     * Writes a dictionary entry value to Xml.
-     *
-     * @param   {EwsServiceXmlWriter}   writer   The writer.
-     * @param   {string}                value    Value to write.
-     */    /**
-     * Writes a dictionary object (key or value) to Xml.
-     *
-     * @param   {EwsServiceXmlWriter}   writer             The writer.
-     * @param   {string}                xmlElementName     The Xml element name.
-     * @param   {any}                   dictionaryObject   The object to write.
-     */    /**
-     * Writes a dictionary Object's value to Xml.
-     *
-     * @param   {EwsServiceXmlWriter}   writer             The writer.
-     * @param   {any}                   dictionaryObject   The dictionary object to write.
-     */}
-/**
- * Represents the Id of a user.
- *
- * @sealed
- */
- class UserId extends ComplexProperty {
-    /**
-     * Gets or sets the SID of the user.
-     */
-    SID: string;
-    /**
-     * Gets or sets the primary SMTP address or the user.
-     */
-    PrimarySmtpAddress: string;
-    /**
-     * Gets or sets the display name of the user.
-     */
-    DisplayName: string;
-    /**
-     * Gets or sets a value indicating which standard user the user represents.
-     *
-     * @Nullable
-     */
-    StandardUser: StandardUser;
-    /**
-     * Initializes a new instance of the **UserId** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **UserId** class.
-     *
-     * @param   {StandardUser}   standardUser   The StandardUser value used to initialize the UserId.
-     */
-    constructor(standardUser: StandardUser);
-    /**
-     * Initializes a new instance of the **UserId** class.
-     *
-     * @param   {string}   primarySmtpAddress   The primary SMTP address used to initialize the UserId.
-     */
-    constructor(primarySmtpAddress: string);
-}
- class VotingInformation extends ComplexProperty {
-    UserOptions: VotingOptionData[];
-    VotingResponse: string;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-}
- class VotingOptionData extends ComplexProperty {
-    DisplayName: string;
-    SendPrompt: SendPrompt;
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
-} class EwsLogging {
+ class EwsLogging {
     static DebugLogEnabled: boolean;
     static Assert(condition: boolean, caller: string, message: string, always?: boolean): void;
     static Log(message: any, always?: boolean, expandObject?: boolean): void;
@@ -7768,6 +4820,2956 @@ export interface InitializeLazyMember<T> {
     var EwsPositionElementName: string;
     var EwsErrorCodeElementName: string;
     var EwsExceptionTypeElementName: string;
+}/**
+ * Represents an AddressEntity object.
+ */
+ class AddressEntity extends ExtractedEntity {
+    /**
+     * Gets the meeting suggestion Location.
+     */
+    Address: string;
+    /**
+     * Initializes a new instance of the **AddressEntity** class.
+     */
+    constructor();
+}
+/**
+ * Represents a collection of AddressEntity objects.
+ */
+ class AddressEntityCollection extends ComplexPropertyCollection<AddressEntity> {
+}
+ class AppointmentOccurrenceId extends ItemId {    OccurrenceIndex: number;
+    constructor(recurringMasterUniqueId: string, occurrenceIndex: number);
+    GetXmlElementName(): string;
+    InternalToJson(service: ExchangeService): any;
+} class ApprovalRequestData extends ComplexProperty {
+    IsUndecidedApprovalRequest: boolean;
+    ApprovalDecision: number;
+    ApprovalDecisionMaker: string;
+    ApprovalDecisionTime: Date;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
+}
+/**
+ * Represents the archive tag of an item or folder.
+ */
+ class ArchiveTag extends RetentionTagBase {
+    /**
+     * Initializes a new instance of the **ArchiveTag** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **ArchiveTag** class.
+     *
+     * @param   {boolean}   isExplicit    Is explicit.
+     * @param   {Guid}      retentionId   Retention id.
+     */
+    constructor(isExplicit: boolean, retentionId: Guid);
+}/**
+ * Represents an attachment to an item.
+ */
+ class Attachment extends ComplexProperty {
+    /**
+     * Gets the Id of the attachment.
+     */
+    Id: string;
+    /***
+     * Gets or sets the name of the attachment.
+     */
+    Name: string;
+    /**
+     * Gets or sets the content type of the attachment.
+     */
+    ContentType: string;
+    /**
+     * Gets or sets the content Id of the attachment. ContentId can be used as a custom way to identify an attachment in order to reference it from within the body of the item the attachment belongs to.
+     */
+    ContentId: string;
+    /**
+     * Gets or sets the content location of the attachment. ContentLocation can be used to associate an attachment with a Url defining its location on the Web.
+     */
+    ContentLocation: string;
+    /**
+     * Gets the size of the attachment.
+     */
+    Size: number;
+    /**
+     * Gets the date and time when this attachment was last modified.
+     */
+    LastModifiedTime: DateTime;
+    /**
+     * Gets or sets a value indicating whether this is an inline attachment. Inline attachments are not visible to end users.
+     */
+    IsInline: boolean;
+    /**
+     * Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
+    GetXmlElementName(): string;
+    /**
+     * Loads the attachment. Calling this method results in a call to EWS.
+     */
+    Load(): Promise<void>;
+    /**
+     * Loads the attachment id from json.
+     *
+     * @param   {any}   jsonObject   The json object.
+     */}/**
+ * Represents an item's attachment collection.
+ */
+ class AttachmentCollection extends ComplexPropertyCollection<Attachment> implements IOwnedProperty {
+    ___typeGenerics: string[];
+    /**
+     * The item owner that owns this attachment collection
+     */    /**
+     * @interface:IOwnedProperty The owner of this attachment collection.
+     */
+    Owner: ServiceObject;
+    /**
+     * Adds a file attachment to the collection.
+     *
+     * @param   {string}	fileName   The name of the file representing the content of the attachment.
+     * @return  {FileAttachment} 		A FileAttachment instance.
+     */    /**
+     * Adds a file attachment to the collection.
+     *
+     * @param   {string}   name       The display name of the new attachment.
+     * @param   {string}   fileName   The name of the file representing the content of the attachment.
+     * @return  {FileAttachment}      A FileAttachment instance.
+     */    /**
+     * Adds a file attachment to the collection. - isContent parameter is required to be true to be able to use bas64 content directly
+     *
+     * @param   {string}    name       The display name of the new attachment.
+     * @param   {string}    fileContent   base64 ontent of the file representing the content of the attachment.
+     * @param   {boolean}   isContent   if true used as base64 content of file.
+     * @return  {FileAttachment}      A FileAttachment instance.
+     */    /**
+     * Adds a file attachment to the collection. - isContent parameter is required to be true to be able to use bas64 content directly
+     *
+     * @param   {string}    name       The display name of the new attachment.
+     * @param   {string}    fileContent   base64 ontent of the file representing the content of the attachment.
+     * @return  {FileAttachment}      A FileAttachment instance.
+     */
+    AddFileAttachment(name: string, content: string): FileAttachment;
+    /**
+     * Adds an item attachment to the collection
+     *
+     * @type <TItem>    The type of the item to attach.
+     *
+     * @param   {any*}      TItem    Item type, not instance
+     * @param   {string}    TItemElementName    XML Element Name of the Item class
+     * @return  {ItemAttachmentOf<TItem>}      An ItemAttachment instance.
+     */
+    AddItemAttachment<TItem extends Item>(TItem: typeof Item, TItemElementName: string): ItemAttachmentOf<TItem>;
+    /**
+     * Removes all attachments from this collection.
+     */
+    Clear(): void;
+    CreateDefaultComplexProperty(): Attachment;
+    /**
+     * Calls the CreateAttachment web method to create a list of attachments.
+     *
+     * @param   {string}        parentItemId   The Id of the parent item of the new attachments.
+     * @param   {Attachment[]}  attachments    The attachments to create.
+     */    /**
+     * Calls the DeleteAttachment web method to delete a list of attachments.
+     *
+     * @param   {Attachment[]}   attachments   The attachments to delete.
+     */    /**
+     * Removes the specified attachment.
+     *
+     * @param   {Attachment}    attachment   The attachment to remove.
+     * @return  {boolean}       True if the attachment was successfully removed from the collection, false otherwise.
+     */
+    Remove(attachment: Attachment): boolean;
+    /**
+     * Removes the attachment at the specified index.
+     *
+     * @param   {number}   index   Index of the attachment to remove.
+     */
+    RemoveAt(index: number): void;
+}/**
+ * Represents an attendee to a meeting.
+ */
+ class Attendee extends EmailAddress {
+    /**
+     * Gets the type of response the attendee gave to the meeting invitation it received.
+     */
+    readonly ResponseType: MeetingResponseType;
+    /**
+     * Gets the date and time when the attendee last responded to a meeting invitation or update.
+     */
+    readonly LastResponseTime: DateTime;
+    /**
+     * Initializes a new instance of the **Attendee** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **Attendee** class.
+     *
+     * @param   {string}   name          The name used to initialize the Attendee.
+     */
+    constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **Attendee** class.
+     *
+     * @param   {string}   name          The name used to initialize the Attendee.
+     * @param   {string}   smtpAddress   The SMTP address used to initialize the Attendee.
+     */
+    constructor(name: string, smtpAddress: string);
+    /**
+     * Initializes a new instance of the **Attendee** class.
+     *
+     * @param   {string}   name          The name used to initialize the Attendee.
+     * @param   {string}   smtpAddress   The SMTP address used to initialize the Attendee.
+     * @param   {string}   routingType   The routing type used to initialize the Attendee.
+     */
+    constructor(name: string, smtpAddress: string, routingType: string);
+    /**
+     * Initializes a new instance of the **Attendee** class from an EmailAddress.
+     *
+     * @param   {EmailAddress}   mailbox   The mailbox used to initialize the Attendee.
+     */
+    constructor(mailbox: EmailAddress);
+}
+/**
+ * Represents a collection of attendees.
+ */
+ class AttendeeCollection extends ComplexPropertyCollection<Attendee> {
+    /**
+     * Adds an attendee to the collection.
+     *
+     * @param   {Attendee}   attendee   The attendee to add.
+     */
+    Add(attendee: Attendee): void;
+    /**
+     * Adds a attendee to the collection.
+     *
+     * @param   {string}   smtpAddress   The SMTP address of the attendee.
+     * @return  {Attendee}      An Attendee instance initialized with the provided name and SMTP address.
+     */
+    Add(smtpAddress: string): Attendee;
+    /**
+     * Adds a attendee to the collection.
+     *
+     * @param   {string}   name          The name of the attendee.
+     * @param   {string}   smtpAddress   The SMTP address of the attendee.
+     * @return  {Attendee}      An Attendee instance initialized with the provided name and SMTP address.
+     */
+    Add(name: string, smtpAddress: string): Attendee;
+    /**
+     * Clears the collection.
+     */
+    Clear(): void;
+    /**
+     * Removes an attendee from the collection.
+     *
+     * @param   {Attendee}   attendee   The attendee to remove.
+     * @return  {boolean}              True if the attendee was successfully removed from the collection, false otherwise.
+     */
+    Remove(attendee: Attendee): boolean;
+    /**
+     * Removes an attendee from the collection.
+     *
+     * @param   {number}   index   The index of the attendee to remove.
+     */
+    RemoveAt(index: number): void;
+}
+ class ByteArrayArray extends ComplexProperty {
+    readonly Content: string[];
+    InternalToJson(service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonCollection: any, serviceExchangeService: any): void;
+}
+/**
+ * Encapsulates information on the changehighlights of a meeting request.
+ *
+ * @sealed
+ */
+ class ChangeHighlights extends ComplexProperty {
+    /**
+     * Gets a value indicating whether the location has changed.
+     */
+    readonly HasLocationChanged: boolean;
+    /**
+     * Gets the old location
+     */
+    readonly Location: string;
+    /**
+     * Gets a value indicating whether the the start time has changed.
+     */
+    readonly HasStartTimeChanged: boolean;
+    /**
+     * Gets the old start date and time of the meeting.
+     */
+    readonly Start: DateTime;
+    /**
+     * Gets a value indicating whether the the end time has changed.
+     */
+    readonly HasEndTimeChanged: boolean;
+    /**
+     * Gets the old end date and time of the meeting.
+     */
+    readonly End: DateTime;
+}
+/**
+ * Represents a client token access request
+ */
+ class ClientAccessTokenRequest extends ComplexProperty {    /**
+     * Gets the App Id.
+     */
+    readonly Id: string;
+    /**
+     * Gets token type.
+     */
+    readonly TokenType: ClientAccessTokenType;
+    /**
+     * Gets the token scope.
+     */
+    readonly Scope: string;
+    /**
+     * Initializes a new instance of the **ClientAccessTokenRequest** class.
+     *
+     * @param   {string}                    id          id
+     * @param   {ClientAccessTokenType}     tokenType   The tokenType.
+     * @param   {string}                    scope       The scope.
+     */
+    constructor(id: string, tokenType: ClientAccessTokenType);
+    /**
+     * Initializes a new instance of the **ClientAccessTokenRequest** class.
+     *
+     * @param   {string}                    id          id
+     * @param   {ClientAccessTokenType}     tokenType   The tokenType.
+     * @param   {string}                    scope       The scope.
+     */
+    constructor(id: string, tokenType: ClientAccessTokenType, scope: string);
+}
+/**
+ * Represents a app in GetAppManifests response.
+ *
+ * @sealed
+ */
+ class ClientApp extends ComplexProperty {
+    /**
+     * The manifest for the app.
+     *
+     * internal set
+     */
+    Manifest: string;
+    /**
+     * Metadata related to the app.
+     *
+     * internal set
+     */
+    Metadata: ClientAppMetadata;
+    /**
+     * Initializes a new instance of the **ClientApp** class.
+     */
+    constructor();
+}/**
+ * Represents a ClientAppMetadata object.
+ *
+ * @sealed
+ */
+ class ClientAppMetadata extends ComplexProperty {
+    /**
+     * The End node url for the app.
+     *
+     * @private set
+     */
+    EndNodeUrl: string;
+    /**
+     * The action url for the app.
+     *
+     * @private set
+     */
+    ActionUrl: string;
+    /**
+     * The app status for the app.
+     *
+     * @private set
+     */
+    AppStatus: string;
+    /**
+     * Initializes a new instance of the **ClientAppMetadata** class.
+     */
+    constructor();
+} class ClientExtension extends ComplexProperty {
+    Type: ExtensionType;
+    Scope: ExtensionInstallScope;
+    ManifestStream: any;
+    MarketplaceAssetID: string;
+    MarketplaceContentMarket: string;
+    AppStatus: string;
+    Etoken: string;
+    IsAvailable: boolean;
+    IsMandatory: boolean;
+    IsEnabledByDefault: boolean;
+    ProvidedTo: ClientExtensionProvidedTo;
+    SpecificUsers: StringList;
+}/**
+ * Represents the complete name of a contact.
+ */
+ class CompleteName extends ComplexProperty {
+    /**
+     * Gets the contact's title.
+     */
+    readonly Title: string;
+    /**
+     * Gets the given name (first name) of the contact.
+     */
+    readonly GivenName: string;
+    /**
+     * Gets the middle name of the contact.
+     */
+    readonly MiddleName: string;
+    /**
+     * Gets the surname (last name) of the contact.
+     */
+    readonly Surname: string;
+    /**
+     * Gets the suffix of the contact.
+     */
+    readonly Suffix: string;
+    /**
+     * Gets the initials of the contact.
+     */
+    readonly Initials: string;
+    /**
+     * Gets the full name of the contact.
+     */
+    readonly FullName: string;
+    /**
+     * Gets the nickname of the contact.
+     */
+    readonly NickName: string;
+    /**
+     * Gets the Yomi given name (first name) of the contact.
+     */
+    readonly YomiGivenName: string;
+    /**
+     * Gets the Yomi surname (last name) of the contact.
+     */
+    readonly YomiSurname: string;
+}/**
+ * Represents a property that can be sent to or retrieved from EWS.
+ */
+ class ComplexProperty {
+    OnChange: ComplexPropertyChangedDelegate[];
+    constructor();
+    Changed(): void;
+    ClearChangeLog(): void;
+    InternalLoadFromXmlJsObject(jsObject: any, service: ExchangeService, readAction: (jsonProperty: any, service: ExchangeService) => void): void;
+    InternalValidate(): void;
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    SetFieldValue<T>(field: IRefParam<T>, value: T): void;
+    ReadElementsFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+    ReadElementsFromXmlJsObjectToPatch(jsonProperty: any, service: ExchangeService): void;
+    UpdateFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    Validate(): void;
+}/**
+ * Represents a collection of properties that can be sent to and retrieved from EWS.
+ *
+ * @type <TComplexProperty>   ComplexProperty type.
+ */
+ abstract class ComplexPropertyCollection<TComplexProperty extends ComplexProperty> extends ComplexProperty implements IEnumerable<TComplexProperty>, ICustomUpdateSerializer {
+    ___typeGenerics: string[];
+    /**
+     * Gets the total number of properties in the collection.
+     */
+    readonly Count: number;
+    /**
+     * Gets the property at the specified index.
+     *
+     * @param   {number}   index   The zero-based index of the property to get.
+     * @return  {TComplexProperty}           The property at the specified index.
+     */
+    _getItem(index: number): TComplexProperty;
+    /**
+     * Determines whether a specific property is in the collection.
+     *
+     * @param   {TComplexProperty}   complexProperty   The property to locate in the collection.
+     * @return  {boolean}           True if the property was found in the collection, false otherwise.
+     */
+    Contains(complexProperty: TComplexProperty): boolean;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): TComplexProperty[];
+    /**
+     * Searches for a specific property and return its zero-based index within the collection.
+     *
+     * @param   {TComplexProperty}   complexProperty   The property to locate in the collection.
+     * @return  {number}                     The zero-based index of the property within the collection.
+     */
+    IndexOf(complexProperty: TComplexProperty): number;
+    /**
+     * @private Add complex property.
+     *
+     * @param   {TComplexProperty}   complexProperty   The complex property.
+     * @param   {boolean}   loading           If true, collection is being loaded.
+     */
+    InternalAdd(complexProperty: TComplexProperty, loading: boolean): void;
+}/**
+ * Represents an ContactEntity object.
+ */
+ class ContactEntity extends ExtractedEntity {
+    /**
+     * Gets the contact entity PersonName.
+     */
+    PersonName: string;
+    /**
+     * Gets the contact entity BusinessName.
+     */
+    BusinessName: string;
+    /**
+     * Gets the contact entity PhoneNumbers.
+     */
+    PhoneNumbers: ContactPhoneEntityCollection;
+    /**
+     * Gets the contact entity Urls.
+     */
+    Urls: StringList;
+    /**
+     * Gets the contact entity EmailAddresses.
+     */
+    EmailAddresses: StringList;
+    /**
+     * Gets the contact entity Addresses.
+     */
+    Addresses: StringList;
+    /**
+     * Gets the contact entity ContactString.
+     */
+    ContactString: string;
+    /**
+     * Initializes a new instance of the **ContactEntity** class.
+     */
+    constructor();
+}
+/**
+ * Represents a collection of ContactEntity objects.
+ */
+ class ContactEntityCollection extends ComplexPropertyCollection<ContactEntity> {
+}/**
+ * Represents an ContactPhoneEntity object.
+ */
+ class ContactPhoneEntity extends ComplexProperty {
+    /**
+     * Gets the phone entity OriginalPhoneString.
+     */
+    OriginalPhoneString: string;
+    /**
+     * Gets the phone entity PhoneString.
+     */
+    PhoneString: string;
+    /**
+     * Gets the phone entity Type.
+     */
+    Type: string;
+    /**
+     * Initializes a new instance of the **ContactPhoneEntity** class.
+     */
+    constructor();
+}
+/**
+ * Represents a collection of ContactPhoneEntity objects.
+ */
+ class ContactPhoneEntityCollection extends ComplexPropertyCollection<ContactPhoneEntity> {
+}/**
+ * Represents the Id of a Conversation.
+ */
+ class ConversationId extends ServiceId {
+    /**
+     * Initializes a new instance of **ConversationId**.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of **ConversationId**.
+     *
+     * @param   {string}   uniqueId   The unique Id used to initialize the **ConversationId**.
+     */
+    constructor(uniqueId: string);
+    /**
+     * Gets a string representation of the Conversation Id.
+     *
+     * @return  {string}      The string representation of the conversation id.
+     */
+    ToString(): string;
+    toString(): string;
+}
+/**
+ * Represents the response to a GetConversationItems operation.
+ *
+ * @sealed
+ */
+ class ConversationNode extends ComplexProperty {    /**
+     * Gets or sets the Internet message id of the node.
+     */
+    InternetMessageId: string;
+    /**
+     * Gets or sets the Internet message id of the parent node.
+     */
+    ParentInternetMessageId: string;
+    /**
+     * Gets or sets the items.
+     */
+    Items: Item[];
+    /**
+     * Gets the item instance.
+     *
+     * @param   {ExchangeService}   service          The service.
+     * @param   {string}            xmlElementName   Name of the XML element.
+     * @return  {Item}              Item.
+     */}
+/**
+ * Represents a collection of conversation items.
+ *
+ * @sealed
+ */
+ class ConversationNodeCollection extends ComplexPropertyCollection<ConversationNode> {}/**
+ *
+ *
+ * @sealed
+ */
+ class ConversationRequest extends ComplexProperty implements ISelfValidate {
+    /**
+     * Gets or sets the conversation id.
+     */
+    ConversationId: ConversationId;
+    /**
+     * Gets or sets the sync state representing the current state of the conversation for synchronization purposes.
+     */
+    SyncState: string;
+    /**
+     * Initializes a new instance of the **ConversationRequest** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **ConversationRequest** class.
+     *
+     * @param   {ConversationId}    conversationId   The conversation id.
+     * @param   {string}            syncState        State of the sync.
+     */
+    constructor(conversationId: ConversationId, syncState: string);
+}/**
+ *
+ *
+ * @sealed
+ */
+ class ConversationResponse extends ComplexProperty {
+    /**
+     * Property set used to fetch items in the conversation.
+     */    /**
+     * Gets the conversation id.
+     *
+     * internal set
+     */
+    ConversationId: ConversationId;
+    /**
+     * Gets the sync state.
+     *
+     * internal set
+     */
+    SyncState: string;
+    /**
+     * Gets the conversation nodes.
+     *
+     * internal set
+     */
+    ConversationNodes: ConversationNodeCollection;
+}
+/**
+ * Represents an operation to create a new rule.
+ *
+ * @sealed
+ */
+ class CreateRuleOperation extends RuleOperation {
+    /**
+     * Inbox rule to be created.
+     */    /**
+     * Gets or sets the rule to be created.
+     */
+    Rule: Rule;
+    /**
+     * Initializes a new instance of the **CreateRuleOperation** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **CreateRuleOperation** class.
+     *
+     * @param   {Rule}   rule   The inbox rule to create.
+     */
+    constructor(rule: Rule);
+}
+/**
+ * Represents the permissions of a delegate user.
+ *
+ * @sealed
+ */
+ class DelegatePermissions extends ComplexProperty {    /**
+     * Gets or sets the delegate user's permission on the principal's calendar.
+     */
+    CalendarFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Gets or sets the delegate user's permission on the principal's tasks folder.
+     */
+    TasksFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Gets or sets the delegate user's permission on the principal's inbox.
+     */
+    InboxFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Gets or sets the delegate user's permission on the principal's contacts folder.
+     */
+    ContactsFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Gets or sets the delegate user's permission on the principal's notes folder.
+     */
+    NotesFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Gets or sets the delegate user's permission on the principal's journal folder.
+     */
+    JournalFolderPermissionLevel: DelegateFolderPermissionLevel;
+    /**
+     * Write permission to Xml.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   The element name.
+     */}
+/**
+ * Represents a delegate user.
+ *
+ * @sealed
+ */
+ class DelegateUser extends ComplexProperty {
+    /**
+     * Gets the user Id of the delegate user.
+     */
+    readonly UserId: UserId;
+    /**
+     * Gets the list of delegate user's permissions.
+     */
+    readonly Permissions: DelegatePermissions;
+    /**
+     * Gets or sets a value indicating if the delegate user should receive copies of meeting requests.
+     */
+    ReceiveCopiesOfMeetingMessages: boolean;
+    /**
+     * Gets or sets a value indicating if the delegate user should be able to view the principal's private items.
+     */
+    ViewPrivateItems: boolean;
+    /**
+     * Initializes a new instance of the **DelegateUser** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **DelegateUser** class.
+     *
+     * @param   {string}   primarySmtpAddress   The primary SMTP address of the delegate user.
+     */
+    constructor(primarySmtpAddress: string);
+    /**
+     * Initializes a new instance of the **DelegateUser** class.
+     *
+     * @param   {StandardUser}   standardUser   The standard delegate user.
+     */
+    constructor(standardUser: StandardUser);
+}
+/**
+ * Encapsulates information on the deleted occurrence of a recurring appointment.
+ */
+ class DeletedOccurrenceInfo extends ComplexProperty {
+    /**
+     * The original start date and time of the deleted occurrence.
+     *
+     * /remarks/    The EWS schema contains a Start property for deleted occurrences but it's really the original start date and time of the occurrence.
+     */    /**
+     * Gets the original start date and time of the deleted occurrence.
+     */
+    readonly OriginalStart: DateTime;
+}
+/**
+ * Represents a collection of deleted occurrence objects.
+ */
+ class DeletedOccurrenceInfoCollection extends ComplexPropertyCollection<DeletedOccurrenceInfo> {
+}/**
+ * Represents an operation to delete an existing rule.
+ *
+ * @sealed
+ */
+ class DeleteRuleOperation extends RuleOperation {
+    /**
+     * Id of the inbox rule to delete.
+     */    /**
+     * Gets or sets the Id of the rule to delete.
+     */
+    RuleId: string;
+    /**
+     * Initializes a new instance of the **DeleteRuleOperation** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **DeleteRuleOperation** class.
+     *
+     * @param   {string}   ruleId   The Id of the inbox rule to delete.
+     */
+    constructor(ruleId: string);
+}
+ class DictionaryEntryProperty<TKey> extends ComplexProperty {
+    protected keyType: any;    Key: TKey;
+    constructor();
+    constructor(key: TKey);
+    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[]): boolean;
+    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]): boolean;
+}
+/**
+ * Represents a generic dictionary that can be sent to or retrieved from EWS.
+ *
+ * @typeparam   <TKey>      The type of key.
+ * @typeparam   <TEntry>    The type of entry.
+ */
+ abstract class DictionaryProperty<TKey, TEntry extends DictionaryEntryProperty<TKey>> extends ComplexProperty implements ICustomUpdateSerializer {    /**
+     * Gets the entries.
+     *
+     * @value   The entries.
+     */
+    readonly Entries: Dictionary<TKey, TEntry>;
+    /**
+     * Determines whether this instance contains the specified key.
+     *
+     * @param   {TKey}      key   The key.
+     * @return  {boolean}   true if this instance contains the specified key; otherwise, false.
+     */
+    Contains(key: TKey): boolean;
+    /**
+     * Entry was changed.
+     *
+     * @param   {}   complexProperty   The complex property.
+     */    /**
+     * Remove entry based on key.
+     *
+     * @param   {TKey}   key   The key.
+     */
+    InternalRemove(key: TKey): void;
+    /**
+     * Writes the URI to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     * @param   {TKey}                  key      The key.
+     */}
+/**
+ * Represents an e-mail address.
+ */
+ class EmailAddress extends ComplexProperty implements ISearchStringProvider {
+    /**
+     * SMTP routing type.
+     */
+    static SmtpRoutingType: string;
+    /**
+     * Display name.
+     */    /**
+     * Email address.
+     */    /**
+     * Routing type.
+     */    /**
+     * Mailbox type.
+     */    /**
+     * ItemId - Contact or PDL.
+     */    /**
+     * Gets or sets the name associated with the e-mail address.
+     */
+    Name: string;
+    /**
+     * Gets or sets the actual address associated with the e-mail address. The type of the Address property must match the specified routing type. If RoutingType is not set, Address is assumed to be an SMTP address.
+     */
+    Address: string;
+    /**
+     * Gets or sets the routing type associated with the e-mail address. If RoutingType is not set, Address is assumed to be an SMTP address.
+     */
+    RoutingType: string;
+    /**
+     * Gets or sets the type of the e-mail address.
+     */
+    MailboxType: MailboxType;
+    /**
+     * Gets or sets the Id of the contact the e-mail address represents. When Id is specified, Address should be set to null.
+     */
+    Id: ItemId;
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     */
+    constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     */
+    constructor(name: string, smtpAddress: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     */
+    constructor(name: string, address: string, routingType: string);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
+     */
+    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType);
+    /**
+     * Initializes a new instance of the **EmailAddress** class.
+     *
+     * @param   {string}        name          The name used to initialize the EmailAddress.
+     * @param   {string}        address       The address used to initialize the EmailAddress.
+     * @param   {string}        routingType   The routing type used to initialize the EmailAddress.
+     * @param   {MailboxType}   mailboxType   Mailbox type of the participant.
+     * @param   {ItemId}        itemId        ItemId of a Contact or PDL.
+     */
+    constructor(name: string, address: string, routingType: string, mailboxType: MailboxType, itemId: ItemId);
+    /**
+     * Initializes a new instance of the **EmailAddress** class from another EmailAddress instance.
+     *
+     * @param   {EmailAddress}   mailbox   EMailAddress instance to copy.
+     */
+    constructor(mailbox: EmailAddress);
+    constructor(smtpAddressOrMailbox: string | EmailAddress);
+    /**
+     * Get a string representation for using this instance in a search filter.
+     * ISearchStringProvider.GetSearchString
+     *
+     * @return  {string}      String representation of instance.
+     */
+    GetSearchString(): string;
+    ReadElementsFromXmlJsObject(reader: any): boolean;
+    /**
+     * Returns a **string** that represents the current **object**.
+     *
+     * @return  {string}      A **string** that represents the current **object**.
+     */
+    ToString(): string;
+    toString(): string;
+}
+/**
+ * Represents a collection of e-mail addresses.
+ */
+ class EmailAddressCollection extends ComplexPropertyCollection<EmailAddress> {
+    /**
+     * XML element name
+     */    /**
+     * Adds an e-mail address to the collection.
+     *
+     * @param   {EmailAddress}   emailAddress   The e-mail address to add.
+     */
+    Add(emailAddress: EmailAddress): void;
+    /**
+     * Adds an e-mail address to the collection.
+     *
+     * @param   {string}   smtpAddress   The SMTP address used to initialize the e-mail address.
+     * @return  {EmailAddress}                 An EmailAddress object initialized with the provided SMTP address.
+     */
+    Add(smtpAddress: string): EmailAddress;
+    /**
+     * Adds an e-mail address to the collection.
+     *
+     * @param   {string}   name          The name used to initialize the e-mail address.
+     * @param   {string}   smtpAddress   The SMTP address used to initialize the e-mail address.
+     * @return  {EmailAddress}           An EmailAddress object initialized with the provided SMTP address.
+     */
+    Add(name: string, smtpAddress: string): EmailAddress;
+    /**
+     * Adds multiple e-mail addresses to the collection.
+     *
+     * @param   {EmailAddress[]}   emailAddresses   The e-mail addresses to add.
+     */
+    AddRange(emailAddresses: EmailAddress[]): void;
+    /**
+     * Adds multiple e-mail addresses to the collection.
+     *
+     * @param   {string[]}   smtpAddresses   The SMTP addresses used to initialize the e-mail addresses.
+     */
+    AddRange(smtpAddresses: string[]): void;
+    /**
+     * Clears the collection.
+     */
+    Clear(): void;
+    /**
+     * Removes an e-mail address from the collection.
+     *
+     * @param   {EmailAddress}  emailAddress   The e-mail address to remove.
+     * @return  {boolean}       True if the email address was successfully removed from the collection, false otherwise.
+     */
+    Remove(emailAddress: EmailAddress): boolean;
+    /**
+     * Removes an e-mail address from the collection.
+     *
+     * @param   {number}   index   The index of the e-mail address to remove.
+     */
+    RemoveAt(index: number): void;
+} class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, EmailAddressEntry> {
+    constructor();
+    /**
+     * Gets or sets the e-mail address at the specified key.
+     *
+     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
+     * @return  {EmailAddress}         The e-mail address at the specified key.
+     */
+    _getItem(key: EmailAddressKey): EmailAddress;
+    /**
+     * Gets or sets the e-mail address at the specified key.
+     *
+     * @param   {EmailAddressKey}   key   The key of the e-mail address to get or set.
+     * @return  {EmailAddress}         The e-mail address at the specified key.
+     */
+    _setItem(key: EmailAddressKey, value: EmailAddress): void;
+    /**
+     * Tries to get the e-mail address associated with the specified key.
+     *
+     * @param   {EmailAddressKey}   key            The key.
+     * @param   {IOutParam<EmailAddress>}   emailAddress   When this method returns, contains the e-mail address associated with the specified key, if the key is found; otherwise, null. This parameter is passed uninitialized.
+     * @return  {boolean}                  true if the Dictionary contains an e-mail address associated with the specified key; otherwise, false.
+     */
+    TryGetValue(key: EmailAddressKey, emailAddress: IOutParam<EmailAddress>): boolean;
+}/**
+ * Represents an EmailAddressEntity object.
+ */
+ class EmailAddressEntity extends ExtractedEntity {
+    /**
+     * Gets the meeting suggestion Location.
+     */
+    EmailAddress: string;
+}
+/**
+ * Represents a collection of EmailAddressEntity objects.
+ */
+ class EmailAddressEntityCollection extends ComplexPropertyCollection<EmailAddressEntity> {
+} class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> {    EmailAddress: EmailAddress;
+    constructor();
+    constructor(key: EmailAddressKey, emailAddress: EmailAddress);
+    EmailAddressChanged(complexProperty: ComplexProperty): void;
+    InternalToJson(service: ExchangeService): any;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}/**
+ * Represents an EmailUserEntity object.
+ */
+ class EmailUserEntity extends ComplexProperty {
+    /**
+     * Gets the EmailUser entity Name.
+     */
+    Name: string;
+    /**
+     * Gets the EmailUser entity UserId.
+     */
+    UserId: string;
+    /**
+     * Initializes a new instance of the **EmailUserEntity** class.
+     */
+    constructor();
+}
+/**
+ * Represents a collection of EmailUserEntity objects.
+ */
+ class EmailUserEntityCollection extends ComplexPropertyCollection<EmailUserEntity> {
+}
+/**
+ * Represents Enhanced Location.
+ */
+ class EnhancedLocation extends ComplexProperty {    /**
+     * Gets or sets the Location DisplayName.
+     */
+    DisplayName: string;
+    /**
+     * Gets or sets the Location Annotation.
+     */
+    Annotation: string;
+    /**
+     * Gets or sets the Persona Postal Address.
+     */
+    PersonaPostalAddress: PersonaPostalAddress;
+    /**
+     * Initializes a new instance of the **EnhancedLocation** class.
+     *
+     * @param   {string}   displayName            The location DisplayName.
+     */
+    constructor(displayName: string);
+    /**
+     * Initializes a new instance of the **EnhancedLocation** class.
+     *
+     * @param   {string}   displayName            The location DisplayName.
+     * @param   {string}   annotation             The annotation on the location.
+     */
+    constructor(displayName: string, annotation: string);
+    /**
+     * Initializes a new instance of the **EnhancedLocation** class.
+     *
+     * @param   {string}                displayName            The location DisplayName.
+     * @param   {string}                annotation             The annotation on the location.
+     * @param   {PersonaPostalAddress}  personaPostalAddress   The persona postal address.
+     */
+    constructor(displayName: string, annotation: string, personaPostalAddress: PersonaPostalAddress);
+    /**
+     * PersonaPostalAddress OnChange.
+     *
+     * @param   {ComplexProperty}   complexProperty   ComplexProperty object.
+     */}
+/**
+ * Represents an EntityExtractionResult object.
+ */
+ class EntityExtractionResult extends ComplexProperty {
+    /**
+     * Gets the extracted Addresses.
+     */
+    Addresses: AddressEntityCollection;
+    /**
+     * Gets the extracted MeetingSuggestions.
+     */
+    MeetingSuggestions: MeetingSuggestionCollection;
+    /**
+     * Gets the extracted TaskSuggestions.
+     */
+    TaskSuggestions: TaskSuggestionCollection;
+    /**
+     * Gets the extracted EmailAddresses.
+     */
+    EmailAddresses: EmailAddressEntityCollection;
+    /**
+     * Gets the extracted Contacts.
+     */
+    Contacts: ContactEntityCollection;
+    /**
+     * Gets the extracted Urls.
+     */
+    Urls: UrlEntityCollection;
+    /**
+     * Gets the extracted PhoneNumbers
+     */
+    PhoneNumbers: PhoneEntityCollection;
+} class ExtendedProperty extends ComplexProperty {
+    readonly PropertyDefinition: ExtendedPropertyDefinition;
+    Value: any;
+    constructor(propertyDefinition?: ExtendedPropertyDefinition);
+    Equals(obj: any): boolean;
+    GetHashCode(): number;
+    GetStringValue(): string;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> implements ICustomUpdateSerializer {
+    CreateComplexProperty(xmlElementName: string): ExtendedProperty;
+    CreateDefaultComplexProperty(): ExtendedProperty;
+    GetCollectionItemXmlElementName(complexProperty: ExtendedProperty): string;
+    GetOrAddExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): ExtendedProperty;
+    InternalToJson(service: ExchangeService): any;
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    RemoveExtendedProperty(propertyDefinition: ExtendedPropertyDefinition): boolean;
+    SetExtendedProperty(propertyDefinition: ExtendedPropertyDefinition, value: any): void;
+    TryGetProperty(propertyDefinition: ExtendedPropertyDefinition, extendedProperty: IOutParam<ExtendedProperty>): boolean;
+    TryGetValue<T>(propertyDefinition: ExtendedPropertyDefinition, propertyValue: IOutParam<T>): boolean;
+}
+/**
+ * Represents an ExtractedEntity object.
+ */
+ abstract class ExtractedEntity extends ComplexProperty {
+    /**
+     * Gets the Position.
+     */
+    Position: EmailPosition;
+    /**
+     * Initializes a new instance of the **ExtractedEntity** class.
+     */
+    constructor();
+}/**
+ * Represents a file attachment.
+ */
+ class FileAttachment extends Attachment {    /**
+     * Gets the name of the file the attachment is linked to.
+     */
+    FileName: string;
+    /**
+     * Gets the base64 content of the attachment into memory. Content is set only when Load() is called.
+     */
+    Base64Content: string;
+    /**
+     * Gets or sets a value indicating whether this attachment is a contact photo.
+     */
+    IsContactPhoto: boolean;
+    ReadElementsFromXmlJsObjectToPatch(reader: any): boolean;
+}/**
+ * Encapsulates information on the occurrence of a recurring appointment.
+ */
+ class Flag extends ComplexProperty {
+    /**
+     * Gets or sets the flag status.
+     */
+    FlagStatus: ItemFlagStatus;
+    /**
+     * Gets the start date.
+     */
+    StartDate: DateTime;
+    /**
+     * Gets the due date.
+     */
+    DueDate: DateTime;
+    /**
+     * Gets the complete date.
+     */
+    CompleteDate: DateTime;
+    /**
+     * Initializes a new instance of the **Flag** class.
+     */
+    constructor();
+}
+ class FolderId extends ServiceId {
+    readonly FolderName: WellKnownFolderName;
+    readonly Mailbox: Mailbox;
+    readonly IsValid: boolean;
+    constructor(folderName?: WellKnownFolderName, mailbox?: Mailbox);
+    Equals(obj: any): boolean;
+    GetXmlElementName(): string;
+    ToString(): string;
+    Validate(version?: ExchangeVersion): void;
+}/**
+ * Represents a collection of folder Ids.
+ *
+ * @sealed
+ */
+ class FolderIdCollection extends ComplexPropertyCollection<FolderId> {
+    /**
+     * Adds a folder Id to the collection.
+     *
+     * @param   {FolderId}   folderId   The folder Id to add.
+     */
+    Add(folderId: FolderId): void;
+    /**
+     * Adds a well-known folder to the collection.
+     *
+     * @param   {WellKnownFolderName}   folderName   The well known folder to add.
+     * @return  {FolderId}      A FolderId encapsulating the specified Id.
+     */
+    Add(folderName: WellKnownFolderName): FolderId;
+    /**
+     * Clears the collection.
+     */
+    Clear(): void;
+    /**
+     * Removes the specified folder Id from the collection.
+     *
+     * @param   {FolderId}   folderId   The folder Id to remove from the collection.
+     * @return  {boolean}    True if the folder id was successfully removed from the collection, false otherwise.
+     */
+    Remove(folderId: FolderId): boolean;
+    /**
+     * Removes the specified well-known folder from the collection.
+     *
+     * @param   {WellKnownFolderName}   folderName   The well-knwon folder to remove from the collection.
+     * @return  {boolean}               True if the well-known folder was successfully removed from the collection, false otherwise.
+     */
+    Remove(folderName: WellKnownFolderName): boolean;
+    /**
+     * Removes the folder Id at the specified index.
+     *
+     * @param   {number}   index   The zero-based index of the folder Id to remove.
+     */
+    RemoveAt(index: number): void;
+}
+/**
+ * Represents a permission on a folder.
+ *
+ * @sealed
+ */
+ class FolderPermission extends ComplexProperty {    /**
+     * Variants of pre-defined permission levels that Outlook also displays with the same levels.
+     */    /**
+     * Gets the Id of the user the permission applies to.
+     */
+    UserId: UserId;
+    /**
+     * Gets or sets a value indicating whether the user can create new items.
+     */
+    CanCreateItems: boolean;
+    /**
+     * Gets or sets a value indicating whether the user can create sub-folders.
+     */
+    CanCreateSubFolders: boolean;
+    /**
+     * Gets or sets a value indicating whether the user owns the folder.
+     */
+    IsFolderOwner: boolean;
+    /**
+     * Gets or sets a value indicating whether the folder is visible to the user.
+     */
+    IsFolderVisible: boolean;
+    /**
+     * Gets or sets a value indicating whether the user is a contact for the folder.
+     */
+    IsFolderContact: boolean;
+    /**
+     * Gets or sets a value indicating if/how the user can edit existing items.
+     */
+    EditItems: PermissionScope;
+    /**
+     * Gets or sets a value indicating if/how the user can delete existing items.
+     */
+    DeleteItems: PermissionScope;
+    /**
+     * Gets or sets the read items access permission.
+     */
+    ReadItems: FolderPermissionReadAccess;
+    /**
+     * Gets or sets the permission level.
+     */
+    PermissionLevel: FolderPermissionLevel;
+    /**
+     * Gets the permission level that Outlook would display for this folder permission.
+     */
+    readonly DisplayPermissionLevel: FolderPermissionLevel;
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {UserId}                    userId            The Id of the user  the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel   The level of the permission.
+     */
+    constructor(userId: UserId, permissionLevel: FolderPermissionLevel);
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {string}                    primarySmtpAddress  The primary SMTP address of the user the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
+     */
+    constructor(primarySmtpAddress: string, permissionLevel: FolderPermissionLevel);
+    /**
+     * Initializes a new instance of the **FolderPermission** class.
+     *
+     * @param   {StandardUser}              standardUser        The standard user the permission applies to.
+     * @param   {FolderPermissionLevel}     permissionLevel     The level of the permission.
+     */
+    constructor(standardUser: StandardUser, permissionLevel: FolderPermissionLevel);
+    /**
+     * Determines the permission level of this folder permission based on its individual settings, and sets the PermissionLevel property accordingly.
+     */    /**
+     * Copies the values of the individual permissions of the specified folder permission to this folder permissions.
+     *
+     * @param   {FolderPermission}   permission   The folder permission to copy the values from.
+     */    /**
+     * Create a copy of this FolderPermission instance.
+     *
+     * @return  {FolderPermission}      Clone of this instance.
+     */    /**
+     * Determines whether the specified folder permission is the same as this one. The comparison does not take UserId and PermissionLevel into consideration.
+     *
+     * @param   {FolderPermission}  permission   The folder permission to compare with this folder permission.
+     * @return  {boolean}           True is the specified folder permission is equal to this one, false otherwise.
+     */    /**
+     * Property was changed.
+     *
+     * @param   {ComplexProperty}   complexProperty   The complex property.
+     */}/**
+ * Represents a collection of folder permissions.
+ *
+ * @sealed
+ */
+ class FolderPermissionCollection extends ComplexPropertyCollection<FolderPermission> {
+    /**
+     * Gets the name of the inner collection XML element.
+     *
+     * @value   XML element name.
+     */    /**
+     * Gets the name of the collection item XML element.
+     *
+     * @value   XML element name.
+     */    /**
+     * Gets a list of unknown user Ids in the collection.
+     */
+    readonly UnknownEntries: string[];
+    /**
+     * Initializes a new instance of the **FolderPermissionCollection** class.
+     *
+     * @param   {Folder}   owner   The folder owner.
+     */
+    constructor(owner: Folder);
+    /**
+     * Adds a permission to the collection.
+     *
+     * @param   {FolderPermission}   permission   The permission to add.
+     */
+    Add(permission: FolderPermission): void;
+    /**
+     * Adds the specified permissions to the collection.
+     *
+     * @param   {FolderPermission[]}   permissions   The permissions to add.
+     */
+    AddRange(permissions: FolderPermission[]): void;
+    /**
+     * Clears this collection.
+     */
+    Clear(): void;
+    /**
+     * Removes a permission from the collection.
+     *
+     * @param   {FolderPermission}  permission   The permission to remove.
+     * @return  {boolean}           True if the folder permission was successfully removed from the collection, false otherwise.
+     */
+    Remove(permission: FolderPermission): boolean;
+    /**
+     * Removes a permission from the collection.
+     *
+     * @param   {number}   index   The zero-based index of the permission to remove.
+     */
+    RemoveAt(index: number): void;
+}
+ class GroupMember extends ComplexProperty {
+    Key: string;
+    AddressInformation: EmailAddress;
+    Status: MemberStatus;    AddressInformationChanged(complexProperty: ComplexProperty): any;
+    InternalToJson(service: ExchangeService): any;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
+} class GroupMemberCollection extends ComplexPropertyCollection<GroupMember> {    Add(member: GroupMember): any;
+    AddContactEmailAddress(contact: Contact, emailAddressKey: EmailAddressKey): any;
+    AddContactGroup(contactGroupId: ItemId): any;
+    AddDirectoryContact(address: string, routingType: string): any;
+    AddDirectoryPublicFolder(smtpAddress: string): any;
+    AddDirectoryUser(address: string, routingType: string): any;
+    AddOneOff(displayName: string, address: string, routingType: string): any;
+    AddPersonalContact(contactId: ItemId): any;
+    AddPublicGroup(smtpAddress: string): any;
+    AddRange(members: GroupMember[]): any;
+    Clear(): any;
+    ClearChangeLog(): any;
+    CreateComplexProperty(xmlElementName: string): GroupMember;
+    CreateDefaultComplexProperty(): GroupMember;
+    Find(key: string): GroupMember;
+    GetCollectionItemXmlElementName(member: GroupMember): string;
+    InternalValidate(): any;
+    Remove(member: GroupMember): boolean;
+    RemoveAt(index: number): any;
+}/**
+ * Represents an AQS highlight term.
+ *
+ * @sealed
+ */
+ class HighlightTerm extends ComplexProperty {
+    /**
+     * Term scope.
+     */    /**
+     * Term value.
+     */    /**
+     * Gets term scope.
+     */
+    readonly Scope: string;
+    /**
+     * Gets term value.
+     */
+    readonly Value: string;
+}
+ class ImAddressDictionary extends DictionaryProperty<ImAddressKey, ImAddressEntry> {
+    constructor();
+    _getItem(key: ImAddressKey): string;
+    _setItem(key: ImAddressKey, value: string): void;
+    CreateEntryInstance(): ImAddressEntry;
+    GetFieldURI(): string;
+    TryGetValue(key: ImAddressKey, imAddress: IOutParam<string>): boolean;
+} class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {    ImAddress: string;
+    constructor();
+    constructor(key: ImAddressKey, imAddress: string);
+    InternalToJson(service: ExchangeService): any;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}/**
+ * Represents an Internet message header.
+ */
+ class InternetMessageHeader extends ComplexProperty {
+    /**
+     * The name of the header.
+     */
+    Name: string;
+    /**
+     * The value of the header.
+     */
+    Value: string;
+    /**
+     * Obtains a string representation of the header.
+     *
+     * @return  {string}      The string representation of the header.
+     */
+    ToString(): string;
+    toString(): string;
+}
+/**
+ * Represents a collection of Internet message headers.
+ */
+ class InternetMessageHeaderCollection extends ComplexPropertyCollection<InternetMessageHeader> {
+    /**
+     * Find a specific header in the collection.
+     *
+     * @param   {string}   name   The name of the header to locate.
+     * @return  {InternetMessageHeader}     An InternetMessageHeader representing the header with the specified name; null if no header with the specified name was found.
+     */
+    Find(name: string): InternetMessageHeader;
+}/**
+ * Represents an item attachment.
+ */
+ class ItemAttachment extends Attachment {
+    /**
+     * The item associated with the attachment.
+     */
+    protected item: Item;
+    /**
+     * Gets the item associated with the attachment.
+     */
+    Item: Item;
+    /** to workaround base.Item property accessor of c# //ref: //info: */
+    protected _setItem(value: Item): void;
+    /**
+     * Implements the OnChange event handler for the item associated with the attachment.
+     *
+     * @param   {ServiceObject}   serviceObject   The service object that triggered the OnChange event.
+     */    /**
+     * Loads this attachment.
+     *
+     * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
+     */
+    Load(additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
+    /**
+     * Loads this attachment.
+     *
+     * @param   {BodyType}   bodyType               The body type to load.
+     * @param   {PropertyDefinitionBase[]}   additionalProperties   The optional additional properties to load.
+     */
+    Load(bodyType?: BodyType, additionalProperties?: PropertyDefinitionBase[]): Promise<void>;
+    ReadElementsFromXmlJsObjectToPatch(reader: any): boolean;
+}
+/**
+ * Represents a strongly typed item attachment. **Workaround of ItemAttachment<TItem>** - not allowed in typescript to have two class, one generic and one non-generic
+ */
+ class ItemAttachmentOf<TItem extends Item> extends ItemAttachment {
+    /**
+     * Gets the item associated with the attachment.
+     */
+    Item: TItem;
+}
+/**
+ * Represents a collection of items.
+ */
+ class ItemCollection<TItem extends Item> extends ComplexProperty {
+    __implements: string[];    /**
+     * Gets the total number of items in the collection.
+     */
+    readonly Count: number;
+    /**
+     * Gets the item at the specified index.
+     *
+     * @param   {number}   index   The zero-based index of the item to get.
+     * @return  {TItem}     The item at the specified index.
+     */
+    _getItem(index: number): TItem;
+    /**
+     * Initializes a new instance of the **ItemCollection** class.
+     *
+     */
+    constructor();
+    GetEnumerator(): any;
+} class ItemId extends ServiceId {
+    constructor();
+    constructor(uniqueId: string);
+    GetXmlElementName(): string;
+}
+/**
+ * Represents a collection of item Ids.
+ *
+ * @sealed
+ */
+ class ItemIdCollection extends ComplexPropertyCollection<ItemId> {
+}
+/**
+ * Represents a mailbox reference.
+ */
+ class Mailbox extends ComplexProperty implements ISearchStringProvider {
+    /**
+     * True if this instance is valid, false otherthise.
+     *
+     * @value   *true* if this instance is valid; otherwise, *false*.
+     */
+    readonly IsValid: boolean;
+    /**
+     * Gets or sets the address used to refer to the user mailbox.
+     */
+    Address: string;
+    /**
+     * Gets or sets the routing type of the address used to refer to the user mailbox.
+     */
+    RoutingType: string;
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     *
+     * @param   {string}   smtpAddress   The primary SMTP address of the mailbox.
+     */
+    constructor(smtpAddress: string);
+    /**
+     * Initializes a new instance of the **Mailbox** class.
+     *
+     * @param   {string}   address       The address used to reference the user mailbox.
+     * @param   {string}   routingType   The routing type of the address used to reference the user mailbox.
+     */
+    constructor(address: string, routingType: string);
+    /**
+     * Determines whether the specified  is equal to the current .
+     *
+     * @param   {any}   obj   The  to compare with the current .
+     * @return  {boolean}       true if the specified  is equal to the current ; otherwise, false.
+     *
+     * @exception   {NullReferenceException}    The **obj** parameter is null.
+     */
+    Equals(obj: any): boolean;
+    /**
+     * Returns a  that represents the current .
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+    /**
+     * Get a string representation for using this instance in a search filter.
+     * ISearchStringProvider.GetSearchString
+     *
+     * @return  {string}      String representation of instance.
+     */
+    GetSearchString(): string;
+}
+ class ManagedFolderInformation extends ComplexProperty {
+    CanDelete: boolean;
+    CanRenameOrMove: boolean;
+    MustDisplayComment: boolean;
+    HasQuota: boolean;
+    IsManagedFoldersRoot: boolean;
+    ManagedFolderId: string;
+    Comment: string;
+    StorageQuota: number;
+    FolderSize: number;
+    HomePage: string;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+}/**
+ * Represents an MeetingSuggestion object.
+ */
+ class MeetingSuggestion extends ExtractedEntity {
+    /**
+     * Gets the meeting suggestion Attendees.
+     */
+    Attendees: EmailUserEntityCollection;
+    /**
+     * Gets the meeting suggestion Location.
+     */
+    Location: string;
+    /**
+     * Gets the meeting suggestion Subject.
+     */
+    Subject: string;
+    /**
+     * Gets the meeting suggestion MeetingString.
+     */
+    MeetingString: string;
+    /**
+     * Gets the meeting suggestion StartTime.
+     */
+    StartTime: DateTime;
+    /**
+     * Gets the meeting suggestion EndTime.
+     */
+    EndTime: DateTime;
+}
+/**
+ * Represents a collection of MeetingSuggestion objects.
+ */
+ class MeetingSuggestionCollection extends ComplexPropertyCollection<MeetingSuggestion> {
+}
+ class MessageBody extends ComplexProperty {
+    BodyType: BodyType;
+    Text: string;
+    constructor();
+    constructor(text: string);
+    constructor(bodyType: BodyType, text: string);
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    ToString(): string;
+}/**
+ * Represents the MIME content of an item.
+ */
+ class MimeContent extends MimeContentBase {
+    /**
+     * Initializes a new instance of the **MimeContent** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **MimeContent** class.
+     *
+     * @param   {string}   characterSet   The character set of the content.
+     * @param   {string}   content        The content.
+     */
+    constructor(characterSet: string, content: string);
+    /**
+     * Returns a **String** that represents the current **Object**.
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+}/**
+ * Represents the MIME content of an item.
+ */
+ abstract class MimeContentBase extends ComplexProperty {
+    /**
+     * characterSet returned
+     */    /**
+     * content received
+     */    /**
+     * to set XMLElementName when reading XML JsObject value.
+     */
+    protected xmlElementName: string;
+    /**
+     * Gets or sets the character set of the content.
+     */
+    CharacterSet: string;
+    /**
+     * Gets or sets the content.  - ews-javascript-api this is base64 value without encoding applied.
+     */
+    Content: string;
+}/**
+ * Represents the MIME content of an item.
+ */
+ class MimeContentUTF8 extends MimeContentBase {
+    /**
+     * Initializes a new instance of the **MimeContentUTF8** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **MimeContentUTF8** class.
+     *
+     * @param   {string}   characterSet   The character set of the content.
+     * @param   {string}   content        The content.
+     */
+    constructor(characterSet: string);
+    /**
+     * Returns a **String** that represents the current **Object**.
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+}
+/**
+ * Represents the normalized body of an item - the HTML fragment representation of the body.
+ */
+ class NormalizedBody extends ComplexProperty {    /**
+     * Gets the type of the normalized body's text.
+     */
+    BodyType: BodyType;
+    /**
+     * Gets the text of the normalized body.
+     */
+    Text: string;
+    /**
+     * Gets whether the body is truncated.
+     */
+    IsTruncated: boolean;
+    /**
+     * Initializes a new instance of the **NormalizedBody** class.
+     */
+    constructor();
+    /**
+     * Returns a **String** that represents the current **Object**.
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+}/**
+ * Encapsulates information on the occurrence of a recurring appointment.
+ */
+ class OccurrenceInfo extends ComplexProperty {
+    /**
+     * Gets the Id of the occurrence.
+     */
+    readonly ItemId: ItemId;
+    /**
+     * Gets the start date and time of the occurrence.
+     */
+    readonly Start: DateTime;
+    /**
+     * Gets the end date and time of the occurrence.
+     */
+    readonly End: DateTime;
+    /**
+     * Gets the original start date and time of the occurrence.
+     */
+    readonly OriginalStart: DateTime;
+}
+/**
+ * Represents a collection of OccurrenceInfo objects.
+ */
+ class OccurrenceInfoCollection extends ComplexPropertyCollection<OccurrenceInfo> {
+}
+/**
+ * Represents Lync online meeting settings.
+ */
+ class OnlineMeetingSettings extends ComplexProperty {    /**
+     * Gets or sets the online meeting setting that describes whether users dialing in by phone have to wait in the lobby.
+     */
+    LobbyBypass: LobbyBypass;
+    /**
+     * Gets or sets the online meeting setting that describes access permission to the meeting.
+     */
+    AccessLevel: OnlineMeetingAccessLevel;
+    /**
+     * Gets or sets the online meeting setting that defines the meeting leaders.
+     */
+    Presenters: Presenters;
+    /**
+     * Initializes a new instance of the **OnlineMeetingSettings** class.
+     */
+    constructor();
+}
+/**
+ * Represents PersonaPostalAddress.
+ */
+ class PersonaPostalAddress extends ComplexProperty {    /**
+     * Gets or sets the Street.
+     */
+    Street: string;
+    /**
+     * Gets or sets the City.
+     */
+    City: string;
+    /**
+     * Gets or sets the state.
+     */
+    State: string;
+    /**
+     * Gets or sets the Country.
+     */
+    Country: string;
+    /**
+     * Gets or sets the PostalCode.
+     */
+    PostalCode: string;
+    /**
+     * Gets or sets the PostOfficeBox.
+     */
+    PostOfficeBox: string;
+    /**
+     * Gets or sets the Type.
+     */
+    Type: string;
+    /**
+     * Gets or sets the location source type.
+     */
+    Source: LocationSource;
+    /**
+     * Gets or sets the location Uri.
+     */
+    Uri: string;
+    /**
+     * Gets or sets a value indicating location latitude.
+     */
+    Latitude: number;
+    /**
+     * Gets or sets a value indicating location longitude.
+     */
+    Longitude: number;
+    /**
+     * Gets or sets the location accuracy.
+     */
+    Accuracy: number;
+    /**
+     * Gets or sets the location altitude.
+     */
+    Altitude: number;
+    /**
+     * Gets or sets the location altitude accuracy.
+     */
+    AltitudeAccuracy: number;
+    /**
+     * Gets or sets the street address.
+     */
+    FormattedAddress: string;
+    /**
+     * Initializes a new instance of the **PersonaPostalAddress** class.
+     *
+     * @param   {string}            street             The Street Address.
+     * @param   {string}            city               The City value.
+     * @param   {string}            state              The State value.
+     * @param   {string}            country            The country value.
+     * @param   {string}            postalCode         The postal code value.
+     * @param   {string}            postOfficeBox      The Post Office Box.
+     * @param   {LocationSource}    locationSource     The location Source.
+     * @param   {string}            locationUri        The location Uri.
+     * @param   {string}            formattedAddress   The location street Address in formatted address.
+     * @param   {number}            latitude           The location latitude.
+     * @param   {number}            longitude          The location longitude.
+     * @param   {number}            accuracy           The location accuracy.
+     * @param   {number}            altitude           The location altitude.
+     * @param   {number}            altitudeAccuracy   The location altitude Accuracy.
+     */
+    constructor(street: string, city: string, state: string, country: string, postalCode: string, postOfficeBox: string, locationSource: LocationSource, locationUri: string, formattedAddress: string, latitude: number, longitude: number, accuracy: number, altitude: number, altitudeAccuracy: number);
+}/**
+ * Represents an PhoneEntity object.
+ */
+ class PhoneEntity extends ExtractedEntity {
+    /**
+     * Gets the phone entity OriginalPhoneString.
+     */
+    OriginalPhoneString: string;
+    /**
+     * Gets the phone entity PhoneString.
+     */
+    PhoneString: string;
+    /**
+     * Gets the phone entity Type.
+     */
+    Type: string;
+}
+/**
+ * Represents a collection of PhoneEntity objects.
+ */
+ class PhoneEntityCollection extends ComplexPropertyCollection<PhoneEntity> {
+}
+ class PhoneNumberDictionary extends DictionaryProperty<PhoneNumberKey, PhoneNumberEntry> {
+    constructor();
+    _getItem(key: PhoneNumberKey): string;
+    _setItem(key: PhoneNumberKey, value: string): void;
+    CreateEntryInstance(): PhoneNumberEntry;
+    GetFieldURI(): string;
+    TryGetValue(key: PhoneNumberKey, phoneNumber: IOutParam<string>): boolean;
+}
+ class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {    PhoneNumber: string;
+    constructor();
+    constructor(key: PhoneNumberKey, imAddress: string);
+    InternalToJson(service: ExchangeService): any;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class PhysicalAddressDictionary extends DictionaryProperty<PhysicalAddressKey, PhysicalAddressEntry> {
+    constructor();
+    _getItem(key: PhysicalAddressKey): PhysicalAddressEntry;
+    _setItem(key: PhysicalAddressKey, value: PhysicalAddressEntry): void;
+    CreateEntryInstance(): PhysicalAddressEntry;
+    TryGetValue(key: PhysicalAddressKey, physicalAddress: IOutParam<PhysicalAddressEntry>): boolean;
+}/**
+ * PhysicalAddressEntry class
+ */
+ class PhysicalAddressEntry extends DictionaryEntryProperty<PhysicalAddressKey> {    Street: string;
+    City: string;
+    State: string;
+    CountryOrRegion: string;
+    PostalCode: string;
+    constructor();
+    ClearChangeLog(): void;    InternalToJson(service: ExchangeService): any;
+    InternalWriteDeleteUpdateToJson(ewsObject: ServiceObject, propertyName: string, updates: any[]): void;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): void;
+    PropertyBagChanged(): void;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+    WriteDeleteUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, updates: any[]): boolean;
+    WriteSetUpdateToJson(service: ExchangeService, ewsObject: ServiceObject, propertyDefinition: PropertyDefinition, updates: any[]): boolean;
+}
+/**
+ * Represents the policy tag of an item or folder.
+ */
+ class PolicyTag extends RetentionTagBase {
+    /**
+     * Initializes a new instance of the **PolicyTag** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **PolicyTag** class.
+     *
+     * @param   {boolean}   isExplicit    Is explicit.
+     * @param   {Guid}      retentionId   Retention id.
+     */
+    constructor(isExplicit: boolean, retentionId: Guid);
+} class RecurringAppointmentMasterId extends ItemId {
+    constructor(occurrenceId: string);
+    GetXmlElementName(): string;
+}
+/**
+ * Represents the retention tag of an item.
+ */
+ class RetentionTagBase extends ComplexProperty {
+    /**
+     * Xml element name.
+     */    /**
+     * Is explicit.
+     */    /**
+     * Retention id.
+     */    /**
+     * Gets or sets if the tag is explicit.
+     */
+    IsExplicit: boolean;
+    /**
+     * Gets or sets the retention id.
+     */
+    RetentionId: Guid;
+    /**
+     * Initializes a new instance of the **RetentionTagBase** class.
+     *
+     * @param {string}  xmlElementName   Xml element name.
+     */
+    constructor(xmlElementName: string);
+    /**
+     * Returns a **String** that represents the current **Object**.
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+}/**
+ * Represents a rule that automatically handles incoming messages.
+ * A rule consists of a set of conditions and exceptions that determine whether or not a set of actions should be executed on incoming messages.
+ *
+ * @sealed
+ */
+ class Rule extends ComplexProperty {
+    /**
+     * The rule ID.
+     */    /**
+     * The rule display name.
+     */    /**
+     * The rule priority.
+     */    /**
+     * The rule status of enabled or not.
+     */    /**
+     * The rule status of is supported or not.
+     */    /**
+     * The rule status of in error or not.
+     */    /**
+     * The rule conditions.
+     */    /**
+     * The rule actions.
+     */    /**
+     * The rule exceptions.
+     */    /**
+     * Gets or sets the Id of this rule.
+     */
+    Id: string;
+    /**
+     * Gets or sets the name of this rule as it should be displayed to the user.
+     */
+    DisplayName: string;
+    /**
+     * Gets or sets the priority of this rule, which determines its execution order.
+     */
+    Priority: number;
+    /**
+     * Gets or sets a value indicating whether this rule is enabled.
+     */
+    IsEnabled: boolean;
+    /**
+     * Gets a value indicating whether this rule can be modified via EWS. If IsNotSupported is true, the rule cannot be modified via EWS.
+     */
+    readonly IsNotSupported: boolean;
+    /**
+     * Gets or sets a value indicating whether this rule has errors. A rule that is in error cannot be processed unless it is updated and the error is corrected.
+     */
+    IsInError: boolean;
+    /**
+     * Gets the conditions that determine whether or not this rule should be executed against incoming messages.
+     */
+    readonly Conditions: RulePredicates;
+    /**
+     * Gets the actions that should be executed against incoming messages if the conditions evaluate as true.
+     */
+    readonly Actions: RuleActions;
+    /**
+     * Gets the exceptions that determine if this rule should be skipped even if its conditions evaluate to true.
+     */
+    readonly Exceptions: RulePredicates;
+    /**
+     * Initializes a new instance of the **Rule** class.
+     */
+    constructor();
+}/**
+ * Represents the set of actions available for a rule.
+ *
+ * @sealed
+ */
+ class RuleActions extends ComplexProperty {
+    /**
+     * SMS recipient address type.
+     */    /**
+     * The AssignCategories action.
+     */    /**
+     * The CopyToFolder action.
+     */    /**
+     * The Delete action.
+     */    /**
+     * The ForwardAsAttachmentToRecipients action.
+     */    /**
+     * The ForwardToRecipients action.
+     */    /**
+     * The MarkImportance action.
+     */    /**
+     * The MarkAsRead action.
+     */    /**
+     * The MoveToFolder action.
+     */    /**
+     * The PermanentDelete action.
+     */    /**
+     * The RedirectToRecipients action.
+     */    /**
+     * The SendSMSAlertToRecipients action.
+     */    /**
+     * The ServerReplyWithMessage action.
+     */    /**
+     * The StopProcessingRules action.
+     */    /**
+     * Gets the categories that should be stamped on incoming messages.
+     * To disable stamping incoming messages with categories, set AssignCategories to null.
+     */
+    readonly AssignCategories: StringList;
+    /**
+     * Gets or sets the Id of the folder incoming messages should be copied to.
+     * To disable copying incoming messages to a folder, set CopyToFolder to null.
+     */
+    CopyToFolder: FolderId;
+    /**
+     * Gets or sets a value indicating whether incoming messages should be automatically moved to the Deleted Items folder.
+     */
+    Delete: boolean;
+    /**
+     * Gets the e-mail addresses to which incoming messages should be forwarded as attachments.
+     * To disable forwarding incoming messages as attachments, empty the ForwardAsAttachmentToRecipients list.
+     */
+    readonly ForwardAsAttachmentToRecipients: EmailAddressCollection;
+    /**
+     * Gets the e-mail addresses to which incoming messages should be forwarded.
+     * To disable forwarding incoming messages, empty the ForwardToRecipients list.
+     */
+    readonly ForwardToRecipients: EmailAddressCollection;
+    /**
+     * @Nullable Gets or sets the importance that should be stamped on incoming messages.
+     * To disable the stamping of incoming messages with an importance, set MarkImportance to null.
+     */
+    MarkImportance: Importance;
+    /**
+     * Gets or sets a value indicating whether incoming messages should be marked as read.
+     */
+    MarkAsRead: boolean;
+    /**
+     * Gets or sets the Id of the folder to which incoming messages should be moved.
+     * To disable the moving of incoming messages to a folder, set CopyToFolder to null.
+     */
+    MoveToFolder: FolderId;
+    /**
+     * Gets or sets a value indicating whether incoming messages should be permanently deleted. When a message is permanently deleted, it is never saved into the recipient's mailbox. To delete a message after it has been saved into the recipient's mailbox, use the Delete action.
+     */
+    PermanentDelete: boolean;
+    /**
+     * Gets the e-mail addresses to which incoming messages should be redirecteded.
+     * To disable redirection of incoming messages, empty the RedirectToRecipients list. Unlike forwarded mail, redirected mail maintains the original sender and recipients.
+     */
+    readonly RedirectToRecipients: EmailAddressCollection;
+    /**
+     * Gets the phone numbers to which an SMS alert should be sent.
+     * To disable sending SMS alerts for incoming messages, empty the SendSMSAlertToRecipients list.
+     */
+    readonly SendSMSAlertToRecipients: MobilePhone[];
+    /**
+     * Gets or sets the Id of the template message that should be sent as a reply to incoming messages.
+     * To disable automatic replies, set ServerReplyWithMessage to null.
+     */
+    ServerReplyWithMessage: ItemId;
+    /**
+     * Gets or sets a value indicating whether subsequent rules should be evaluated.
+     */
+    StopProcessingRules: boolean;
+    /**
+     * Convert the SMS recipient list from EmailAddressCollection type to MobilePhone collection type.
+     *
+     * @param   {EmailAddressCollection}   emailCollection   Recipient list in EmailAddressCollection type.
+     * @return  {MobilePhone[]}		A MobilePhone collection object containing all SMS recipient in MobilePhone type.
+     */    /**
+     * Convert the SMS recipient list from MobilePhone collection type to EmailAddressCollection type.
+     *
+     * @param   {MobilePhone[]}   recipientCollection   Recipient list in a MobilePhone collection type.
+     * @return  {EmailAddressCollection}		An EmailAddressCollection object containing recipients with "MOBILE" address type.
+     */}/**
+ * Represents a collection of rules.
+ *
+ * @sealed
+ */
+ class RuleCollection extends ComplexProperty implements IEnumerable<Rule> {
+    /**
+     * The OutlookRuleBlobExists flag.
+     */    /**
+     * The rules in the rule collection.
+     */    /**
+     * Gets a value indicating whether an Outlook rule blob exists in the user's mailbox. To update rules with EWS when the Outlook rule blob exists, call SetInboxRules passing true as the value of the removeOutlookBlob parameter.
+     */
+    OutlookRuleBlobExists: boolean;
+    /**
+     * Gets the number of rules in this collection.
+     */
+    readonly Count: number;
+    /**
+     * Gets the rule at the specified index in the collection.
+     *
+     * @param   {number}   index   The index of the rule to get.
+     * @return  {Rule}	The rule at the specified index.
+     */
+    _getItem(index: number): Rule;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+    GetEnumerator(): Rule[];
+}/**
+ * Represents an error that occurred as a result of executing a rule operation.
+ *
+ * @sealed
+ */
+ class RuleError extends ComplexProperty {
+    /**
+     * Rule property.
+     */    /**
+     * Rule validation error code.
+     */    /**
+     * Error message.
+     */    /**
+     * Field value.
+     */    /**
+     * Gets the property which failed validation.
+     */
+    readonly RuleProperty: RuleProperty;
+    /**
+     * Gets the validation error code.
+     */
+    readonly ErrorCode: RuleErrorCode;
+    /**
+     * Gets the error message.
+     */
+    readonly ErrorMessage: string;
+    /**
+     * Gets the value that failed validation.
+     */
+    readonly Value: string;
+}
+/**
+ * Represents an operation to be performed on a rule.
+ */
+ abstract class RuleOperation extends ComplexProperty {
+}
+/**
+ * Represents an error that occurred while processing a rule operation.
+ *
+ * @sealed
+ */
+ class RuleOperationError extends ComplexProperty implements IEnumerable<RuleError> {
+    /**
+     * Index of the operation mapping to the error.
+     */    /**
+     * RuleOperation object mapping to the error.
+     */    /**
+     * RuleError Collection.
+     */    /**
+     * Gets the operation that resulted in an error.
+     */
+    readonly Operation: RuleOperation;
+    /**
+     * Gets the number of rule errors in the list.
+     */
+    readonly Count: number;
+    /**
+     * Gets the rule error at the specified index.
+     *
+     * @param   {number}   index   The index of the rule error to get.
+     * @return  {RuleError}	The rule error at the specified index.
+     */
+    _getItem(index: number): RuleError;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.rules
+     */
+    GetEnumerator(): RuleError[];
+}
+/**
+ * Represents a collection of rule operation errors.
+ *
+ * @sealed
+ */
+ class RuleOperationErrorCollection extends ComplexPropertyCollection<RuleOperationError> {
+}
+/**
+ * Represents the date and time range within which messages have been received.
+ *
+ * @sealed
+ */
+ class RulePredicateDateRange extends ComplexProperty {
+    /**
+     * The start DateTime.
+     */    /**
+     * The end DateTime.
+     */    /**
+     * @Nullable Gets or sets the range start date and time.
+     * If Start is set to null, no start date applies.
+     */
+    Start: DateTime;
+    /**
+     * @Nullable Gets or sets the range end date and time.
+     * If End is set to null, no end date applies.
+     */
+    End: DateTime;
+}
+/**
+ * Represents the set of conditions and exceptions available for a rule.
+ *
+ * @sealed
+ */
+ class RulePredicates extends ComplexProperty {
+    /**
+     * The HasCategories predicate.
+     */    /**
+     * The ContainsBodyStrings predicate.
+     */    /**
+     * The ContainsHeaderStrings predicate.
+     */    /**
+     * The ContainsRecipientStrings predicate.
+     */    /**
+     * The ContainsSenderStrings predicate.
+     */    /**
+     * The ContainsSubjectOrBodyStrings predicate.
+     */    /**
+     * The ContainsSubjectStrings predicate.
+     */    /**
+     * The FlaggedForAction predicate.
+     */    /**
+     * The FromAddresses predicate.
+     */    /**
+     * The FromConnectedAccounts predicate.
+     */    /**
+     * The HasAttachments predicate.
+     */    /**
+     * The Importance predicate.
+     */    /**
+     * The IsApprovalRequest predicate.
+     */    /**
+     * The IsAutomaticForward predicate.
+     */    /**
+     * The IsAutomaticReply predicate.
+     */    /**
+     * The IsEncrypted predicate.
+     */    /**
+     * The IsMeetingRequest predicate.
+     */    /**
+     * The IsMeetingResponse predicate.
+     */    /**
+     * The IsNDR predicate.
+     */    /**
+     * The IsPermissionControlled predicate.
+     */    /**
+     * The IsSigned predicate.
+     */    /**
+     * The IsVoicemail predicate.
+     */    /**
+     * The IsReadReceipt predicate.
+     */    /**
+     * The ItemClasses predicate.
+     */    /**
+     * The MessageClassifications predicate.
+     */    /**
+     * The NotSentToMe predicate.
+     */    /**
+     * The SentCcMe predicate.
+     */    /**
+     * The SentOnlyToMe predicate.
+     */    /**
+     * The SentToAddresses predicate.
+     */    /**
+     * The SentToMe predicate.
+     */    /**
+     * The SentToOrCcMe predicate.
+     */    /**
+     * The Sensitivity predicate.
+     */    /**
+     * The WithinDateRange predicate.
+     */    /**
+     * The WithinSizeRange predicate.
+     */    /**
+     * Gets the categories that an incoming message should be stamped with for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly Categories: StringList;
+    /**
+     * Gets the strings that should appear in the body of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsBodyStrings: StringList;
+    /**
+     * Gets the strings that should appear in the headers of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsHeaderStrings: StringList;
+    /**
+     * Gets the strings that should appear in either the To or Cc fields of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsRecipientStrings: StringList;
+    /**
+     * Gets the strings that should appear in the From field of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsSenderStrings: StringList;
+    /**
+     * Gets the strings that should appear in either the body or the subject of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsSubjectOrBodyStrings: StringList;
+    /**
+     * Gets the strings that should appear in the subject of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ContainsSubjectStrings: StringList;
+    /**
+     * @Nullable Gets or sets the flag for action value that should appear on incoming messages for the condition or execption to apply.
+     * To disable this predicate, set it to null.
+     */
+    FlaggedForAction: FlaggedForAction;
+    /**
+     * Gets the e-mail addresses of the senders of incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly FromAddresses: EmailAddressCollection;
+    /**
+     * Gets or sets a value indicating whether incoming messages must have attachments for the condition or exception to apply.
+     */
+    HasAttachments: boolean;
+    /**
+     * @Nullable Gets or sets the importance that should be stamped on incoming messages for the condition or exception to apply.
+     * To disable this predicate, set it to null.
+     */
+    Importance: Importance;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be approval requests for the condition or exception to apply.
+     */
+    IsApprovalRequest: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be automatic forwards for the condition or exception to apply.
+     */
+    IsAutomaticForward: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be automatic replies for the condition or exception to apply.
+     */
+    IsAutomaticReply: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be S/MIME encrypted for the condition or exception to apply.
+     */
+    IsEncrypted: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be meeting requests for the condition or exception to apply.
+     */
+    IsMeetingRequest: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be meeting responses for the condition or exception to apply.
+     */
+    IsMeetingResponse: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be non-delivery reports (NDR) for the condition or exception to apply.
+     */
+    IsNonDeliveryReport: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be permission controlled (RMS protected) for the condition or exception to apply.
+     */
+    IsPermissionControlled: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be S/MIME signed for the condition or exception to apply.
+     */
+    IsSigned: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be voice mails for the condition or exception to apply.
+     */
+    IsVoicemail: boolean;
+    /**
+     * Gets or sets a value indicating whether incoming messages must be read receipts for the condition or exception to apply.
+     */
+    IsReadReceipt: boolean;
+    /**
+     * Gets the e-mail account names from which incoming messages must have been aggregated for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly FromConnectedAccounts: StringList;
+    /**
+     * Gets the item classes that must be stamped on incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly ItemClasses: StringList;
+    /**
+     * Gets the message classifications that must be stamped on incoming messages for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly MessageClassifications: StringList;
+    /**
+     * Gets or sets a value indicating whether the owner of the mailbox must NOT be a To recipient of the incoming messages for the condition or exception to apply.
+     */
+    NotSentToMe: boolean;
+    /**
+     * Gets or sets a value indicating whether the owner of the mailbox must be a Cc recipient of incoming messages for the condition or exception to apply.
+     */
+    SentCcMe: boolean;
+    /**
+     * Gets or sets a value indicating whether the owner of the mailbox must be the only To recipient of incoming messages for the condition or exception to apply.
+     */
+    SentOnlyToMe: boolean;
+    /**
+     * Gets the e-mail addresses incoming messages must have been sent to for the condition or exception to apply.
+     * To disable this predicate, empty the list.
+     */
+    readonly SentToAddresses: EmailAddressCollection;
+    /**
+     * Gets or sets a value indicating whether the owner of the mailbox must be a To recipient of incoming messages for the condition or exception to apply.
+     */
+    SentToMe: boolean;
+    /**
+     * Gets or sets a value indicating whether the owner of the mailbox must be either a To or Cc recipient of incoming messages for the condition or exception to apply.
+     */
+    SentToOrCcMe: boolean;
+    /**
+     * @Nullable Gets or sets the sensitivity that must be stamped on incoming messages for the condition or exception to apply.
+     * To disable this predicate, set it to null.
+     */
+    Sensitivity: Sensitivity;
+    /**
+     * Gets the date range within which incoming messages must have been received for the condition or exception to apply.
+     * To disable this predicate, set both its Start and End properties to null.
+     */
+    readonly WithinDateRange: RulePredicateDateRange;
+    /**
+     * Gets the minimum and maximum sizes incoming messages must have for the condition or exception to apply.
+     * To disable this predicate, set both its MinimumSize and MaximumSize properties to null.
+     */
+    readonly WithinSizeRange: RulePredicateSizeRange;
+}/**
+ * Represents the minimum and maximum size of a message.
+ *
+ * @sealed
+ */
+ class RulePredicateSizeRange extends ComplexProperty {
+    /**
+     * Minimum Size.
+     */    /**
+     * Mamixmum Size.
+     */    /**
+     * @Nullable Gets or sets the minimum size, in kilobytes.
+     * If MinimumSize is set to null, no minimum size applies.
+     */
+    MinimumSize: number;
+    /**
+     * @Nullable Gets or sets the maximum size, in kilobytes.
+     * If MaximumSize is set to null, no maximum size applies.
+     */
+    MaximumSize: number;
+}
+ class SearchFolderParameters extends ComplexProperty {
+    Traversal: SearchFolderTraversal;
+    RootFolderIds: FolderIdCollection;
+    SearchFilter: SearchFilter;    InternalToJson(service: ExchangeService): any;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
+    PropertyChanged(complexProperty: ComplexProperty): any;
+    Validate(): any;
+}
+ class ServiceId extends ComplexProperty {
+    readonly IsValid: boolean;
+    protected IsValidProxy(): boolean;
+    UniqueId: string;
+    ChangeKey: string;
+    constructor();
+    constructor(uniqueId: string);
+    Assign(source: ServiceId): void;
+    Equals(obj: any): boolean;
+    GetXmlElementName(): string;
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    SameIdAndChangeKey(other: ServiceId): boolean;
+    ToString(): string;
+} class SetClientExtensionAction extends ComplexProperty {}
+/**
+ * Represents an operation to update an existing rule.
+ *
+ * @sealed
+ */
+ class SetRuleOperation extends RuleOperation {
+    /**
+     * Inbox rule to be updated.
+     */    /**
+     * Gets or sets the rule to be updated.
+     */
+    Rule: Rule;
+    /**
+     * Initializes a new instance of the **SetRuleOperation** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **SetRuleOperation** class.
+     *
+     * @param   {Rule}   rule   The inbox rule to update.
+     */
+    constructor(rule: Rule);
+}
+/**
+ * Represents a list of strings.
+ *
+ * @sealed
+ */
+ class StringList extends ComplexProperty implements IEnumerable<string> {
+    /**
+     * Gets the number of strings in the list.
+     */
+    readonly Count: number;
+    /**
+     * Initializes a new instance of the **StringList** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **StringList** class.
+     *
+     * @param   {string}   itemXmlElementName   Name of the item XML element.
+     */
+    constructor(itemXmlElementName: string);
+    /**
+     * Initializes a new instance of the **StringList** class.
+     *
+     * @param   {string[]}   strings   The strings.
+     */
+    constructor(strings: string[]);
+    /**
+     * Gets or sets the string at the specified index.
+     *
+     * @param   {number}    index   The index of the string to get or set.
+     * @return  {string}    The string at the specified index.
+     */
+    _getItem(index: number): string;
+    /**
+     * Gets or sets the string at the specified index.
+     *
+     * @param   {number}    index   The index of the string to get or set.
+     * @return  {string}    The string at the specified index.
+     */
+    _setItem(index: number, value: string): void;
+    /**
+     * Adds a string to the list.
+     *
+     * @param   {string}   s   The string to add.
+     */
+    Add(s: string): void;
+    /**
+     * Adds multiple strings to the list.
+     *
+     * @param   {string[]}   strings   The strings to add.
+     */
+    AddRange(strings: string[]): void;
+    /**
+     * Clears the list.
+     */
+    Clear(): void;
+    /**
+     * Determines whether the list contains a specific string.
+     *
+     * @param   {string}    s   The string to check the presence of.
+     * @return  {boolean}   True if s is present in the list, false otherwise.
+     */
+    Contains(s: string): boolean;
+    Equals(obj: any): boolean;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): string[];
+    GetHashCode(): number;
+    /**
+     * Removes a string from the list.
+     *
+     * @param   {string}   s   The string to remove.
+     * @return  {boolean}       True is s was removed, false otherwise.
+     */
+    Remove(s: string): boolean;
+    /**
+     * Removes the string at the specified position from the list.
+     *
+     * @param   {number}   index   The index of the string to remove.
+     */
+    RemoveAt(index: number): void;
+    /**
+     * Generates a string representation of all the items in the list.
+     *
+     * @return  {string}      A comma-separated list of the strings present in the list.
+     */
+    ToString(): string;
+}
+/**
+ * Represents an TaskSuggestion object.
+ */
+ class TaskSuggestion extends ExtractedEntity {
+    /**
+     * Gets the meeting suggestion TaskString.
+     */
+    TaskString: string;
+    /**
+     * Gets the meeting suggestion Assignees.
+     */
+    Assignees: EmailUserEntityCollection;
+}
+/**
+ * Represents a collection of TaskSuggestion objects.
+ */
+ class TaskSuggestionCollection extends ComplexPropertyCollection<TaskSuggestion> {
+}/**
+ * Represents the body of a message.
+ */
+ class TextBody extends MessageBody {
+    /**
+     * Initializes a new instance of the **TextBody** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **TextBody** class.
+     *
+     * @param   {string}   text   The text of the message body.
+     */
+    constructor(text: string);
+}
+/**
+ * Represents the body part of an item that is unique to the conversation the item is part of.
+ */
+ class UniqueBody extends ComplexProperty {    /**
+     * Gets the type of the normalized body's text.
+     */
+    readonly BodyType: BodyType;
+    /**
+     * Gets the text of the normalized body.
+     */
+    readonly Text: string;
+    /**
+     * Gets whether the body is truncated.
+     */
+    readonly IsTruncated: boolean;
+    /**
+     * Initializes a new instance of the **UniqueBody** class.
+     */
+    constructor();
+    /**
+     * Returns a **String** that represents the current **Object**.
+     *
+     * @return  {string}      A **String** that represents the current **Object**.
+     */
+    ToString(): string;
+    toString(): string;
+}/**
+ * Represents an UrlEntity object.
+ */
+ class UrlEntity extends ExtractedEntity {
+    Url: string;
+    /**
+     * Initializes a new instance of the **UrlEntity** class.
+     */
+    constructor();
+}
+/**
+ * Represents a collection of UrlEntity objects.
+ */
+ class UrlEntityCollection extends ComplexPropertyCollection<UrlEntity> {
+}
+/**
+ * Represents a user configuration's Dictionary property.
+ *
+ * @sealed
+ */
+ class UserConfigurationDictionary extends ComplexProperty {
+    /**
+     * required before initializing new UserConfigurationDictionary
+     */
+    static _dictionaryKeyPicker: (key) => string;
+    /**
+     * Gets the number of elements in the user configuration dictionary.
+     */
+    readonly Count: number;
+    /**
+     * Gets or sets the element with the specified key.
+     *
+     * @param   {string | DateTime | boolean | number}                          key   The key of the element to get or set.
+     * @return  {DateTime | string | number | boolean | string[] | number[]}    The element with the specified key.
+     */
+    _getItem(key: string | DateTime | boolean | number): DateTime | string | number | boolean | string[] | number[];
+    /**
+     * Gets or sets the element with the specified key.
+     *
+     * @param   {string | DateTime | boolean | number}                          key     The key of the element to get or set.
+     * @param  {DateTime | string | number | boolean | string[] | number[]}     value    The element value to update at specified key.
+     */
+    _setItem(key: string | DateTime | boolean | number, value: DateTime | string | number | boolean | string[] | number[]): void;
+    /**
+     * Adds an element with the provided key and value to the user configuration dictionary.
+     *
+     * @param   {string | DateTime | boolean | number}                          key     The object to use as the key of the element to add. **Restrict usage of byteArray or complex type for key, consider using string and number only**.
+     * @param   {DateTime | string | number | boolean | string[] | number[]}    value   The object to use as the value of the element to add.
+     */
+    Add(key: string | DateTime | boolean | number, value: DateTime | string | number | boolean | string[] | number[]): void;
+    /**
+     * Removes all items from the user configuration dictionary.
+     */
+    Clear(): void;
+    /**
+     * Constructs a dictionary object (key or entry value) from the specified type and string list.
+     *
+     * @param   {UserConfigurationDictionaryObjectType}     type      Object type to construct.
+     * @param   {string[]}                                  value     Value of the dictionary object as a string list
+     * @param   {ExchangeService}                           service   The service.
+     * @return  {any}                                       Dictionary object.
+     */    /**
+     * Determines whether the user configuration dictionary contains an element with the specified key.
+     *
+     * @param   {any}   key     The key to locate in the user configuration dictionary.
+     * @return  {boolean}       true if the user configuration dictionary contains an element with the key; otherwise false.
+     */
+    ContainsKey(key: any): boolean;
+    /**
+     * Gets the dictionary object.
+     *
+     * @param   {any}               jsonObject   The json object.
+     * @param   {ExchangeService}   service      The service.
+     * @return  {any}               the dictionary object
+     */    GetEnumerator(): Dictionary<any, any>;
+    /**
+     * Gets the type of the object.
+     *
+     * @param   {string}   type   The type.
+     * @return  {UserConfigurationDictionaryObjectType}     UserConfigurationDictionaryObjectType for the string value
+     */    /**
+     * Gets the object value.
+     *
+     * @param   {any[]}   valueArray   The value array.
+     * @return  {string[]}  string array from object Array
+     */    /**
+     * Gets the type code.
+     *
+     * @param   {ExchangeServiceBase}                                   service                The service.
+     * @param   {any}                                                   dictionaryObject       The dictionary object.
+     * @param   {IRefParam<UserConfigurationDictionaryObjectType>}      dictionaryObjectType   Type of the dictionary object.
+     * @param   {IRefParam<string>}                                     valueAsString          The value as string.
+     */    /**
+     * Removes the element with the specified key from the user configuration dictionary.
+     *
+     * @param   {key}   key     The key of the element to remove.
+     * @return  {boolean}       true if the element is successfully removed; otherwise false.
+     */
+    Remove(key: any): boolean;
+    /**
+     * Gets the value associated with the specified key.
+     *
+     * @param   {any}   key     The key whose value to get.
+     * @param   {any}   value   When this method returns, the value associated with the specified key, if the key is found; otherwise, null.
+     * @return  {boolean}       true if the user configuration dictionary contains the key; otherwise false.
+     */
+    TryGetValue(key: any, value: IOutParam<any>): boolean;
+    /**
+     * Validate the array object.
+     *
+     * @param   {Array<any>}   dictionaryObjectAsArray   Object to validate
+     */    /**
+     * Validates the specified key and value.
+     *
+     * @param   {any}   key     The dictionary entry key.
+     * @param   {any}   value   The dictionary entry value.
+     */    /**
+     * Validates the dictionary object (key or entry value).
+     *
+     * @param   {any}   dictionaryObject   Object to validate.
+     */    /**
+     * Validates the dictionary object type.
+     *
+     * @param   {any}   type   Type to validate.
+     */    /**
+     * Writes a dictionary entry type to Xml.
+     *
+     * @param   {EwsServiceXmlWriter}                       writer                 The writer.
+     * @param   {UserConfigurationDictionaryObjectType}     dictionaryObjectType   Type to write.
+     */    /**
+     * Writes a dictionary entry value to Xml.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     * @param   {string}                value    Value to write.
+     */    /**
+     * Writes a dictionary object (key or value) to Xml.
+     *
+     * @param   {EwsServiceXmlWriter}   writer             The writer.
+     * @param   {string}                xmlElementName     The Xml element name.
+     * @param   {any}                   dictionaryObject   The object to write.
+     */    /**
+     * Writes a dictionary Object's value to Xml.
+     *
+     * @param   {EwsServiceXmlWriter}   writer             The writer.
+     * @param   {any}                   dictionaryObject   The dictionary object to write.
+     */}
+/**
+ * Represents the Id of a user.
+ *
+ * @sealed
+ */
+ class UserId extends ComplexProperty {
+    /**
+     * Gets or sets the SID of the user.
+     */
+    SID: string;
+    /**
+     * Gets or sets the primary SMTP address or the user.
+     */
+    PrimarySmtpAddress: string;
+    /**
+     * Gets or sets the display name of the user.
+     */
+    DisplayName: string;
+    /**
+     * Gets or sets a value indicating which standard user the user represents.
+     *
+     * @Nullable
+     */
+    StandardUser: StandardUser;
+    /**
+     * Initializes a new instance of the **UserId** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **UserId** class.
+     *
+     * @param   {StandardUser}   standardUser   The StandardUser value used to initialize the UserId.
+     */
+    constructor(standardUser: StandardUser);
+    /**
+     * Initializes a new instance of the **UserId** class.
+     *
+     * @param   {string}   primarySmtpAddress   The primary SMTP address used to initialize the UserId.
+     */
+    constructor(primarySmtpAddress: string);
+}
+ class VotingInformation extends ComplexProperty {
+    UserOptions: VotingOptionData[];
+    VotingResponse: string;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
+}
+ class VotingOptionData extends ComplexProperty {
+    DisplayName: string;
+    SendPrompt: SendPrompt;
+    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any;
 }
  class ClientCertificateCredentials extends ExchangeCredentials {
     ClientCertificates: any;    PrepareWebRequest(request: any): any;
@@ -16667,168 +16669,6 @@ export interface IIndexedPropertyDefinition {
     CreateResponseInstance(): GetUserSettingsResponse;
     GetResponseCollectionXmlElementName(): string;
     GetResponseInstanceXmlElementName(): string;
-} class CalendarEvent extends ComplexProperty {
-    readonly StartTime: DateTime;
-    readonly EndTime: DateTime;
-    readonly FreeBusyStatus: LegacyFreeBusyStatus;
-    readonly Details: CalendarEventDetails;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class CalendarEventDetails extends ComplexProperty {
-    readonly StoreId: string;
-    readonly Subject: string;
-    readonly Location: string;
-    readonly IsMeeting: boolean;
-    readonly IsRecurring: boolean;
-    readonly IsException: boolean;
-    readonly IsReminderSet: boolean;
-    readonly IsPrivate: boolean;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class Conflict extends ComplexProperty {
-    readonly ConflictType: ConflictType;
-    readonly NumberOfMembers: number;
-    readonly NumberOfMembersAvailable: number;
-    readonly NumberOfMembersWithConflict: number;
-    readonly NumberOfMembersWithNoData: number;
-    readonly FreeBusyStatus: LegacyFreeBusyStatus;
-    constructor(conflictType: ConflictType);
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
-/**
- * Represents a user's Out of Office (OOF) settings.
- */
- class OofSettings extends ComplexProperty implements ISelfValidate {
-    /**
-     * Gets or sets the user's OOF state.
-     *
-     * @value The user's OOF state.
-     */
-    State: OofState;
-    /**
-     * Gets or sets a value indicating who should receive external OOF messages.
-     */
-    ExternalAudience: OofExternalAudience;
-    /**
-     * Gets or sets the duration of the OOF status when State is set to OofState.Scheduled.
-     */
-    Duration: TimeWindow;
-    /**
-     * Gets or sets the OOF response sent other users in the user's domain or trusted domain.
-     */
-    InternalReply: OofReply;
-    /**
-     * Gets or sets the OOF response sent to addresses outside the user's domain or trusted domain.
-     */
-    ExternalReply: OofReply;
-    /**
-     * Gets a value indicating the authorized external OOF notifications.
-     */
-    AllowExternalOof: OofExternalAudience;
-    /**
-     * Initializes a new instance of OofSettings.
-     */
-    constructor();
-    /**
-     * Serializes an OofReply. Emits an empty OofReply in case the one passed in is null.
-     *
-     * @param   {OofReply}              oofReply         The oof reply.
-     * @param   {EwsServiceXmlWriter}   writer           The writer.
-     * @param   {string}                xmlElementName   Name of the XML element.
-     */    /**
-     * Validates this instance.
-     */
-    Validate(): void;
-} class Suggestion extends ComplexProperty {    readonly Date: DateTime;
-    readonly Quality: SuggestionQuality;
-    readonly TimeSuggestions: TimeSuggestion[];
-    constructor();
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-} class TimeSuggestion extends ComplexProperty {
-    readonly MeetingTime: DateTime;
-    readonly IsWorkTime: boolean;
-    readonly Quality: SuggestionQuality;
-    readonly Conflicts: Conflict[];
-    constructor();
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class WorkingHours extends ComplexProperty {
-    LegacyTimeZone: LegacyAvailabilityTimeZone;
-    readonly TimeZone: TimeZoneInfo;
-    readonly DaysOfTheWeek: DayOfTheWeek[];
-    readonly StartTime: TimeSpan;
-    readonly EndTime: TimeSpan;
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}
- class WorkingPeriod extends ComplexProperty {
-    readonly DaysOfWeek: DayOfTheWeek[];
-    readonly StartTime: TimeSpan;
-    readonly EndTime: TimeSpan;    constructor();
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
-    ReadElementsFromXmlJsObject(reader: any): boolean;
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
-}/**
- * Represents a collection of DayOfTheWeek values.
- */
- class DayOfTheWeekCollection extends ComplexProperty implements IEnumerable<DayOfTheWeek> {    readonly Count: number;
-    /**
-     * Gets the DayOfTheWeek at a specific index in the collection.
-     *
-     * @param   {number}        index   Index
-     * @return  {DayOfTheWeek}  DayOfTheWeek at index
-     */
-    _getItem(index: number): DayOfTheWeek;
-    /**
-     * Adds a day to the collection if it is not already present.
-     *
-     * @param   {DayOfTheWeek}   dayOfTheWeek   The day to add.
-     */
-    Add(dayOfTheWeek: DayOfTheWeek): void;
-    /**
-     * Adds multiple days to the collection if they are not already present.
-     *
-     * @param   {DayOfTheWeek[]}   daysOfTheWeek   The days to add.
-     */
-    AddRange(daysOfTheWeek: DayOfTheWeek[]): void;
-    /**
-     * Clears the collection.
-     */
-    Clear(): void;
-    /**
-     *  Returns an enumerator that iterates through the collection. this case this.items
-     */
-    GetEnumerator(): DayOfTheWeek[];
-    /**
-     * Remove a specific day from the collection.
-     *
-     * @param   {DayOfTheWeek}   dayOfTheWeek   The day to remove.
-     * @return  {boolean}       True if the day was removed from the collection, false otherwise.
-     */
-    Remove(dayOfTheWeek: DayOfTheWeek): boolean;
-    /**
-     * Removes the day at a specific index.
-     *
-     * @param   {number}   index   The index of the day to remove.
-     */
-    RemoveAt(index: number): void;
-    /**
-     * Convert to string.
-     *
-     * @param   {string}   separator   The separator.
-     * @return  {string}               String representation of collection.
-     */
-    ToString(): string;
-    /**
-     * Convert to string.
-     *
-     * @param   {string}   separator   The separator.
-     * @return  {string}               String representation of collection.
-     */
-    ToString(separator: string): string;
-} module TimeZoneTransitionGroup {
 } class ArchiveItemResponse extends ServiceResponse {
     Item: Item;    GetObjectInstance(service: ExchangeService, xmlElementName: string): Item;
     ReadElementsFromJson(responseObject: any, service: ExchangeService): any;
@@ -16852,10 +16692,19 @@ export interface IIndexedPropertyDefinition {
     readonly ConvertedId: AlternateIdBase;
 }
 /**
- * ## *Not Implemented*
+ * Represents the response to an individual attachment creation operation.
+ * @sealed
  */
- class CreateAttachmentResponse extends ServiceResponse {
-    Attachment: Attachment;    ReadElementsFromJson(responseObject: JsonObject, service: ExchangeService): any;
+ class CreateAttachmentResponse extends ServiceResponse {    /**
+     * Gets the attachment that was created.
+     */
+    readonly Attachment: Attachment;
+    /**
+     * Initializes a new instance of the **CreateAttachmentResponse** class.
+     *
+     * @param   {Attachment}   attachment   The attachment.
+     */
+    constructor(attachment: Attachment);
 }
  class CreateFolderResponse extends ServiceResponse {    constructor(folder: Folder);
     GetObjectInstance(service: ExchangeService, xmlElementName: string): Folder;
@@ -17257,6 +17106,168 @@ export interface IIndexedPropertyDefinition {
     CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject;
     CreateItemFromItemClass(itemAttachment: ItemAttachment, itemClass: string, isNew: boolean): Item;
     static IsFolderType(xmlElementName: string): boolean;
+} class CalendarEvent extends ComplexProperty {
+    readonly StartTime: DateTime;
+    readonly EndTime: DateTime;
+    readonly FreeBusyStatus: LegacyFreeBusyStatus;
+    readonly Details: CalendarEventDetails;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class CalendarEventDetails extends ComplexProperty {
+    readonly StoreId: string;
+    readonly Subject: string;
+    readonly Location: string;
+    readonly IsMeeting: boolean;
+    readonly IsRecurring: boolean;
+    readonly IsException: boolean;
+    readonly IsReminderSet: boolean;
+    readonly IsPrivate: boolean;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class Conflict extends ComplexProperty {
+    readonly ConflictType: ConflictType;
+    readonly NumberOfMembers: number;
+    readonly NumberOfMembersAvailable: number;
+    readonly NumberOfMembersWithConflict: number;
+    readonly NumberOfMembersWithNoData: number;
+    readonly FreeBusyStatus: LegacyFreeBusyStatus;
+    constructor(conflictType: ConflictType);
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+/**
+ * Represents a user's Out of Office (OOF) settings.
+ */
+ class OofSettings extends ComplexProperty implements ISelfValidate {
+    /**
+     * Gets or sets the user's OOF state.
+     *
+     * @value The user's OOF state.
+     */
+    State: OofState;
+    /**
+     * Gets or sets a value indicating who should receive external OOF messages.
+     */
+    ExternalAudience: OofExternalAudience;
+    /**
+     * Gets or sets the duration of the OOF status when State is set to OofState.Scheduled.
+     */
+    Duration: TimeWindow;
+    /**
+     * Gets or sets the OOF response sent other users in the user's domain or trusted domain.
+     */
+    InternalReply: OofReply;
+    /**
+     * Gets or sets the OOF response sent to addresses outside the user's domain or trusted domain.
+     */
+    ExternalReply: OofReply;
+    /**
+     * Gets a value indicating the authorized external OOF notifications.
+     */
+    AllowExternalOof: OofExternalAudience;
+    /**
+     * Initializes a new instance of OofSettings.
+     */
+    constructor();
+    /**
+     * Serializes an OofReply. Emits an empty OofReply in case the one passed in is null.
+     *
+     * @param   {OofReply}              oofReply         The oof reply.
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     */    /**
+     * Validates this instance.
+     */
+    Validate(): void;
+} class Suggestion extends ComplexProperty {    readonly Date: DateTime;
+    readonly Quality: SuggestionQuality;
+    readonly TimeSuggestions: TimeSuggestion[];
+    constructor();
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+} class TimeSuggestion extends ComplexProperty {
+    readonly MeetingTime: DateTime;
+    readonly IsWorkTime: boolean;
+    readonly Quality: SuggestionQuality;
+    readonly Conflicts: Conflict[];
+    constructor();
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class WorkingHours extends ComplexProperty {
+    LegacyTimeZone: LegacyAvailabilityTimeZone;
+    readonly TimeZone: TimeZoneInfo;
+    readonly DaysOfTheWeek: DayOfTheWeek[];
+    readonly StartTime: TimeSpan;
+    readonly EndTime: TimeSpan;
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}
+ class WorkingPeriod extends ComplexProperty {
+    readonly DaysOfWeek: DayOfTheWeek[];
+    readonly StartTime: TimeSpan;
+    readonly EndTime: TimeSpan;    constructor();
+    LoadFromJson(jsonProperty: any, service: ExchangeService): any;
+    ReadElementsFromXmlJsObject(reader: any): boolean;
+    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void;
+}/**
+ * Represents a collection of DayOfTheWeek values.
+ */
+ class DayOfTheWeekCollection extends ComplexProperty implements IEnumerable<DayOfTheWeek> {    readonly Count: number;
+    /**
+     * Gets the DayOfTheWeek at a specific index in the collection.
+     *
+     * @param   {number}        index   Index
+     * @return  {DayOfTheWeek}  DayOfTheWeek at index
+     */
+    _getItem(index: number): DayOfTheWeek;
+    /**
+     * Adds a day to the collection if it is not already present.
+     *
+     * @param   {DayOfTheWeek}   dayOfTheWeek   The day to add.
+     */
+    Add(dayOfTheWeek: DayOfTheWeek): void;
+    /**
+     * Adds multiple days to the collection if they are not already present.
+     *
+     * @param   {DayOfTheWeek[]}   daysOfTheWeek   The days to add.
+     */
+    AddRange(daysOfTheWeek: DayOfTheWeek[]): void;
+    /**
+     * Clears the collection.
+     */
+    Clear(): void;
+    /**
+     *  Returns an enumerator that iterates through the collection. this case this.items
+     */
+    GetEnumerator(): DayOfTheWeek[];
+    /**
+     * Remove a specific day from the collection.
+     *
+     * @param   {DayOfTheWeek}   dayOfTheWeek   The day to remove.
+     * @return  {boolean}       True if the day was removed from the collection, false otherwise.
+     */
+    Remove(dayOfTheWeek: DayOfTheWeek): boolean;
+    /**
+     * Removes the day at a specific index.
+     *
+     * @param   {number}   index   The index of the day to remove.
+     */
+    RemoveAt(index: number): void;
+    /**
+     * Convert to string.
+     *
+     * @param   {string}   separator   The separator.
+     * @return  {string}               String representation of collection.
+     */
+    ToString(): string;
+    /**
+     * Convert to string.
+     *
+     * @param   {string}   separator   The separator.
+     * @return  {string}               String representation of collection.
+     */
+    ToString(separator: string): string;
+} module TimeZoneTransitionGroup {
 }
 /**
  * Represents information about an attendee for which to request availability information.
@@ -17957,783 +17968,360 @@ export interface ISearchFilterCollection {
 } class OutlookUser {
     static AvailableUserSettings: UserSettingName[];    ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any;
 }/**
- * Represents a recurrence pattern, as used by Appointment and Task items.
+ * Represents a meeting acceptance message.
+ *
  */
- class Recurrence extends ComplexProperty {
-    startDate: DateTime;
-    numberOfOccurrences: number;
-    endDate: DateTime;
-    /**
-     * Gets or sets the date and time when the recurrence start.
-     */
-    StartDate: DateTime;
-    /**
-     * Gets a value indicating whether the pattern has a fixed number of occurrences or an end date.
-     */
-    readonly HasEnd: boolean;
-    /**
-     * Gets or sets the number of occurrences after which the recurrence ends. Setting NumberOfOccurrences resets EndDate.
-     */
-    NumberOfOccurrences: number;
-    /**
-     * Gets or sets the date after which the recurrence ends. Setting EndDate resets NumberOfOccurrences.
-     */
-    EndDate: DateTime;
-    /**
-     * Gets a property value or throw if null.
+ class AcceptMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {    /**
+     * Gets a value indicating whether the associated meeting is tentatively accepted.
      *
-     * @typeparam   {T}     Value type.
-     * @param   {T}         value   The value.
-     * @param   {string}    name    The property name.
-     * @return  {T}         Property value
      */
-    GetFieldValueOrThrowIfNull<T>(value: any, name: string): T;
+    readonly Tentative: boolean;
     /**
-     * Compares two objects by converting them to JSON and comparing their string values
+     * Initializes a new instance of the **AcceptMeetingInvitationMessage** class.
      *
-     * @param   {Recurrence}    otherRecurrence   object to compare to
-     * @return  {boolean}       true if the objects serialize to the same string
+     * @param   {Item}            referenceItem   The reference item.
+     * @param   {boolean}         tentative       if set to true accept invitation tentatively.
      */
-    IsSame(otherRecurrence: Recurrence): boolean;
-    /**
-     * Sets up this recurrence so that it never ends. Calling NeverEnds is equivalent to setting both NumberOfOccurrences and EndDate to null.
-     */
-    NeverEnds(): void;
-}
- module Recurrence {
-    var DailyPattern: new () => DailyPattern;
-    var DailyRegenerationPattern: new () => DailyRegenerationPattern;
-    var IntervalPattern: new () => IntervalPattern;
-    var MonthlyPattern: new () => MonthlyPattern;
-    var MonthlyRegenerationPattern: new () => MonthlyRegenerationPattern;
-    var RelativeMonthlyPattern: new () => RelativeMonthlyPattern;
-    var RelativeYearlyPattern: new () => RelativeYearlyPattern;
-    var WeeklyPattern: new () => WeeklyPattern;
-    var WeeklyRegenerationPattern: new () => WeeklyRegenerationPattern;
-    var YearlyPattern: new () => YearlyPattern;
-    var YearlyRegenerationPattern: new () => YearlyRegenerationPattern;
+    constructor(referenceItem: Item, tentative: boolean);
 }
 /**
- * Represents a recurrence pattern where each occurrence happens a specific number of days after the previous one.
+ * Represents the base class for accept, tentatively accept and decline response messages.
+ *
+ * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
  */
- class DailyPattern extends IntervalPattern {
+ abstract class CalendarResponseMessage<TMessage extends EmailMessage> extends CalendarResponseMessageBase<TMessage> {
     /**
-     * Initializes a new instance of the **DailyPattern** class.
+     * Gets or sets the body of the response.
      */
-    constructor();
+    Body: MessageBody;
     /**
-     * Initializes a new instance of the **DailyPattern** class.
-     *
-     * @param   {DateTime}  startDate   The date and time when the recurrence starts.
-     * @param   {number}    interval    The number of days between each occurrence.
+     * Gets a list of recipients the response will be sent to.
      */
-    constructor(startDate: DateTime, interval: number);
+    readonly ToRecipients: EmailAddressCollection;
+    /**
+     * Gets a list of recipients the response will be sent to as Cc.
+     */
+    readonly CcRecipients: EmailAddressCollection;
+    /**
+     * Gets a list of recipients this response will be sent to as Bcc.
+     */
+    readonly BccRecipients: EmailAddressCollection;
+    ItemClass: string;
+    /**
+     * Gets or sets the sensitivity of this response.
+     */
+    Sensitivity: Sensitivity;
+    /**
+     * Gets a list of attachments to this response.
+     */
+    readonly Attachments: AttachmentCollection;
+    readonly InternetMessageHeaders: InternetMessageHeaderCollection;
+    /**
+     * Gets or sets the sender of this response.
+     */
+    Sender: EmailAddress;
 }
 /**
- * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of days after the previous one is completed.
+ * Represents the base class for all calendar-related response messages.
+ *
+ * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
  */
- class DailyRegenerationPattern extends IntervalPattern {
+ abstract class CalendarResponseMessageBase<TMessage extends EmailMessage> extends ResponseObject<TMessage> {
     /**
-     * Gets a value indicating whether this instance is a regeneration pattern.
+     * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    readonly IsRegenerationPattern: boolean;
+    Save(): Promise<CalendarActionResults | any>;
     /**
-     * Initializes a new instance of the **DailyRegenerationPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **DailyRegenerationPattern** class.
+     * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
-     * @param   {number}   interval    The number of days between the current occurrence and the next, after the current occurrence is completed.
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
      */
-    constructor(startDate: DateTime, interval: number);
+    Save(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
+    /**
+     * Saves the response in the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the response.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     */
+    Save(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
+    /**
+     * Sends this response without saving a copy. Calling this method results in a call to EWS.
+     *
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     */
+    Send(): Promise<CalendarActionResults | any>;
+    /**
+     * Sends this response ans saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
+     *
+     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     */
+    SendAndSaveCopy(): Promise<CalendarActionResults | any>;
+    /**
+     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the copy of the message.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     */
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
+    /**
+     * Sends this response ans saves a copy in the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the copy of the message.
+     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
+     */
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
+}
+/**
+ * Represents a meeting cancellation message.
+ *
+ */
+ class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCancellation> {
+    /**
+     * Gets or sets the body of the response.
+     *
+     */
+    Body: MessageBody;
+    /**
+     * Initializes a new instance of the **CancelMeetingMessage** class.
+     *
+     * @param   {Item}   referenceItem   The reference item.
+     */
+    constructor(referenceItem: Item);
+    /**
+     * Gets the minimum required server version.
+     *
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion;
+    /**
+     * Internal method to return the schema associated with this type of object.
+     *
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
+     */
+    GetSchema(): ServiceObjectSchema;
+    /**
+     * Gets the element name of item in XML
+     *
+     * @return  {string} name of elelment
+     */
+    GetXmlElementName(): string;
 }/**
- * Represents a recurrence pattern where each occurrence happens at a specific interval after the previous one.
+ * Represents a meeting declination message.
  */
- abstract class IntervalPattern extends Recurrence {    /**
-     * Gets or sets the interval between occurrences.
+ class DeclineMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {
+    /**
+     * Initializes a new instance of the **DeclineMeetingInvitationMessage** class.
+     *
+     * @param   {Item}   referenceItem   The reference item.
      */
-    Interval: number;
+    constructor(referenceItem: Item);
 }
 /**
- * Represents a recurrence pattern where each occurrence happens on a specific day a specific number of months after the previous one.
+ * Represents a reply to a post item.
+ *
+ * @sealed
  */
- class MonthlyPattern extends IntervalPattern {    /**
-     * Gets or sets the day of the month when each occurrence happens. DayOfMonth must be between 1 and 31.
+ class PostReply extends ServiceObject {    /**
+     * Gets or sets the subject of the post reply.
      */
-    DayOfMonth: number;
+    Subject: string;
     /**
-     * Initializes a new instance of the **MonthlyPattern** class.
+     * Gets or sets the body of the post reply.
      */
-    constructor();
+    Body: MessageBody;
     /**
-     * Initializes a new instance of the **MonthlyPattern** class.
+     * Gets or sets the body prefix that should be prepended to the original post item's body.
+     */
+    BodyPrefix: MessageBody;
+    /**
+     * Saves the post reply in the same folder as the original post item. Calling this method results in a call to EWS.
      *
-     * @param   {DateTime}  startDate    The date and time when the recurrence starts.
-     * @param   {number}    interval     The number of months between each occurrence.
-     * @param   {number}    dayOfMonth   The day of the month when each occurrence happens.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    constructor(startDate: DateTime, interval: number, dayOfMonth: number);
-}
-/**
- * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of months after the previous one is completed.
- */
- class MonthlyRegenerationPattern extends IntervalPattern {
+    Save(): Promise<PostItem>;
     /**
-     * Gets a value indicating whether this instance is a regeneration pattern.
+     * Saves the post reply in the specified folder. Calling this method results in a call to EWS.
      *
-     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the post reply.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    readonly IsRegenerationPattern: boolean;
+    Save(destinationFolderId: FolderId): Promise<PostItem>;
     /**
-     * Initializes a new instance of the **MonthlyRegenerationPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **MonthlyRegenerationPattern** class.
+     * Saves the post reply in a specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
-     * @param   {number}   interval    The number of days between the current occurrence and the next, after the current occurrence is completed.
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the post reply.
+     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
      */
-    constructor(startDate: DateTime, interval: number);
-}
-/**
- * Represents a recurrence pattern where each occurrence happens on a relative day a specific number of months after the previous one.
-*/
- class RelativeMonthlyPattern extends IntervalPattern {
-    /**
-     * Gets or sets the relative position of the day specified in DayOfTheWeek within the month.
-     */
-    DayOfTheWeekIndex: DayOfTheWeekIndex;
-    /**
-     * The day of the week when each occurrence happens.
-     */
-    DayOfTheWeek: DayOfTheWeek;
-    /**
-     * Initializes a new instance of the **RelativeMonthlyPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **RelativeMonthlyPattern** class.
-     *
-     * @param   {DateTime}              startDate           The date and time when the recurrence starts.
-     * @param   {number}                interval            The number of months between each occurrence.
-     * @param   {DayOfTheWeek}          dayOfTheWeek        The day of the week each occurrence happens.
-     * @param   {DayOfTheWeekIndex}   dayOfTheWeekIndex   The relative position of the day within the month.
-     */
-    constructor(startDate: DateTime, interval: number, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex);
+    Save(destinationFolderName: WellKnownFolderName): Promise<PostItem>;
 }/**
- * Represents a recurrence pattern where each occurrence happens on a relative day every year.
+ * Represents the base class for e-mail related responses (Reply, Reply all and Forward).
+ *
  */
- class RelativeYearlyPattern extends Recurrence {    /**
-     * Gets or sets the relative position of the day specified in DayOfTheWeek within the month.
-     */
-    DayOfTheWeekIndex: DayOfTheWeekIndex;
-    /**
-     * Gets or sets the day of the week when each occurrence happens.
-     */
-    DayOfTheWeek: DayOfTheWeek;
-    /**
-     * Gets or sets the month of the year when each occurrence happens.
-     */
-    Month: Month;
-    /**
-     * Initializes a new instance of the **RelativeYearlyPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **RelativeYearlyPattern** class.
+ class ResponseMessage extends ResponseObject<EmailMessage> {    /**
+     * Gets a value indicating the type of response this object represents.
      *
-     * @param   {DateTime}              startDate           The date and time when the recurrence starts.
-     * @param   {Month}                 month               The month of the year each occurrence happens.
-     * @param   {DayOfTheWeek}          dayOfTheWeek        The day of the week each occurrence happens.
-     * @param   {DayOfTheWeekIndex}     dayOfTheWeekIndex   The relative position of the day within the month.
      */
-    constructor(startDate: DateTime, month: Month, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex);
+    readonly ResponseType: ResponseMessageType;
+    /**
+     * Gets or sets the body of the response.
+     *
+     */
+    Body: MessageBody;
+    /**
+     * Gets a list of recipients the response will be sent to.
+     *
+     */
+    readonly ToRecipients: EmailAddressCollection;
+    /**
+     * Gets a list of recipients the response will be sent to as Cc.
+     *
+     */
+    readonly CcRecipients: EmailAddressCollection;
+    /**
+     * Gets a list of recipients this response will be sent to as Bcc.
+     *
+     */
+    readonly BccRecipients: EmailAddressCollection;
+    /**
+     * Gets or sets the subject of this response.
+     *
+     */
+    Subject: string;
+    /**
+     * Gets or sets the body prefix of this response. The body prefix will be prepended to the original
+    message's body when the response is created.
+     *
+     */
+    BodyPrefix: MessageBody;
+    /**
+     * Initializes a new instance of the **ResponseMessage** class.
+     *
+     * @param   {Item}                    referenceItem   The reference item.
+     * @param   {ResponseMessageType}     responseType    Type of the response.
+     */
+    constructor(referenceItem: Item, responseType: ResponseMessageType);
+    /**
+     * Gets the minimum required server version.
+     *
+     * @return  {type}      Earliest Exchange version in which this service object type is supported.
+     */
+    GetMinimumRequiredServerVersion(): ExchangeVersion;
+    /**
+     * Internal method to return the schema associated with this type of object.
+     *
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
+     */
+    GetSchema(): ServiceObjectSchema;
+    /**
+     * Get XML Element Name - workaround for c# attributes
+     */
+    GetXmlElementName(): string;
+    /**
+     * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
+     *
+     * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
+     */
+    GetXmlElementNameOverride(): string;
 }/**
- * Represents a recurrence pattern where each occurrence happens on specific days a specific number of weeks after the previous one.
+ * Represents the base class for all responses that can be sent.
+ *
+ * @typeparam   {TMessage}     Type of message.
  */
- class WeeklyPattern extends IntervalPattern {
-    /**
-     * Gets the list of the days of the week when occurrences happen.
+ abstract class ResponseObject<TMessage extends EmailMessage> extends ServiceObject {    /**
+     * Gets or sets a value indicating whether read receipts will be requested from recipients of this response.
      */
-    readonly DaysOfTheWeek: DayOfTheWeekCollection;
+    IsReadReceiptRequested: boolean;
     /**
-     * Gets or sets the first day of the week for this recurrence.
+     * Gets or sets a value indicating whether delivery receipts should be sent to the sender.
      */
-    FirstDayOfWeek: DayOfWeek;
+    IsDeliveryReceiptRequested: boolean;
     /**
-     * Initializes a new instance of the **WeeklyPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **WeeklyPattern** class.
+     * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
      *
-     * @param   {DateTime}          startDate       The date and time when the recurrence starts.
-     * @param   {number}            interval        The number of weeks between each occurrence.
-     * @param   {DayOfTheWeek[]}    daysOfTheWeek   The days of the week when occurrences happen.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
      */
-    constructor(startDate: DateTime, interval: number, daysOfTheWeek: DayOfTheWeek[]);
+    Save(): Promise<TMessage>;
     /**
-     * Change event handler.
+     * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {ComplexProperty}   complexProperty   The complex property.
-     */}
-/**
- * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of weeks after the previous one is completed.
- */
- class WeeklyRegenerationPattern extends IntervalPattern {
+     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
+     * @return  {Promise<TMessage>}      A TMessage that represents the response.
+     */
+    Save(destinationFolderName: WellKnownFolderName): Promise<TMessage>;
     /**
-     * Gets a value indicating whether this instance is a regeneration pattern.
+     * Saves the response in the specified folder. Calling this method results in a call to EWS.
      *
-     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the response.
+     * @return  {Promise<TMessage>}                         A TMessage that represents the response.
      */
-    readonly IsRegenerationPattern: boolean;
+    Save(destinationFolderId: FolderId): Promise<TMessage>;
     /**
-     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
+     * Sends this response without saving a copy. Calling this method results in a call to EWS.
      */
-    constructor();
+    Send(): Promise<void>;
     /**
-     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
+     * Sends this response and saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
+     */
+    SendAndSaveCopy(): Promise<void>;
+    /**
+     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
      *
-     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
-     * @param   {interval}   interval    The number of weeks between the current occurrence and the next, after the current occurrence is completed.
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy of the message.
      */
-    constructor(startDate: DateTime, interval: number);
+    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
+    /**
+     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy of the message.
+     */
+    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
 }/**
- * Represents a recurrence pattern where each occurrence happens on a specific day every year.
+ * Represents a response object created to supress read receipts for an item.
+ *
  */
- class YearlyPattern extends Recurrence {
-    /**
-     * Gets or sets the month of the year when each occurrence happens.
-     */
-    Month: Month;
-    /**
-     * Gets or sets the day of the month when each occurrence happens. DayOfMonth must be between 1 and 31.
-     */
-    DayOfMonth: number;
-    /**
-     * Initializes a new instance of the **YearlyPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **YearlyPattern** class.
-     *
-     * @param   {DateTime}  startDate    The date and time when the recurrence starts.
-     * @param   {Month}     month        The month of the year each occurrence happens.
-     * @param   {number}    dayOfMonth   The day of the month each occurrence happens.
-     */
-    constructor(startDate: DateTime, month: Month, dayOfMonth: number);
-}
-/**
- * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of years after the previous one is completed.
- */
- class YearlyRegenerationPattern extends IntervalPattern {
-    /**
-     * Gets a value indicating whether this instance is a regeneration pattern.
-     *
-     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
-     */
-    readonly IsRegenerationPattern: boolean;
-    /**
-     * Initializes a new instance of the **YearlyRegenerationPattern** class.
-     */
-    constructor();
-    /**
-     * Initializes a new instance of the **YearlyRegenerationPattern** class.
-     *
-     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
-     * @param   {number}   interval    The number of years between the current occurrence and the next, after the current occurrence is completed.
-     */
-    constructor(startDate: DateTime, interval: number);
-}/**
- * Represents a folder containing appointments.
- */
- class CalendarFolder extends Folder {
-    /**
-     * Initializes an unsaved local instance of **CalendarFolder**. To bind to an existing calendar folder, use CalendarFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the calendar folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing calendar folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
-     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
-     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): Promise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
-     * @param   {WellKnownFolderName}   name          The name of the calendar folder to bind to.
-     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
-     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<CalendarFolder>;
-    /**
-     * Binds to an existing calendar folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<CalendarFolder>;
-    /**
-     * Obtains a list of appointments by searching the contents of this folder and performing recurrence expansion for recurring appointments. Calling this method results in a call to EWS.
-     *
-     * @param   {CalendarView}   view   The view controlling the range of appointments returned.
-     * @return  {FindItemsResults<Appointment>}          An object representing the results of the search operation.
-     */
-    FindAppointments(view: CalendarView): Promise<FindItemsResults<Appointment>>;
-}
-/**
- * Represents a folder containing contacts.
- */
- class ContactsFolder extends Folder {
-    /**
-     * Initializes an unsaved local instance of **ContactsFolder**. To bind to an existing contacts folder, use ContactsFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing contacts folder and loads the specified set of properties.
-     *
-     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
-     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
-     * @param   {PropertySet}       propertySet     The set of properties to load.
-     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads its first class properties.
-     *
-     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
-     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
-     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): Promise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads the specified set of properties.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
-     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<ContactsFolder>;
-    /**
-     * Binds to an existing contacts folder and loads its first class properties.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
-     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
-     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<ContactsFolder>;
-} class Folder extends ServiceObject {
-    /**
-     * Gets the Id of the folder.
-     *
-     */
-    readonly Id: FolderId;
-    /**
-     * Gets the Id of this folder's parent folder.
-     *
-     */
-    readonly ParentFolderId: FolderId;
-    /**
-     * Gets the number of child folders this folder has.
-     *
-     */
-    readonly ChildFolderCount: number;
-    /**
-     * Gets or sets the display name of the folder.
-     *
-     */
-    DisplayName: string;
-    /**
-     * Gets or sets the custom class name of this folder.
-     *
-     */
-    FolderClass: string;
-    /**
-     * Gets the total number of items contained in the folder.
-     *
-     */
-    readonly TotalCount: number;
-    /**
-     * Gets a list of extended properties associated with the folder. **Unstable Need testing**
-     *
-     */
-    readonly ExtendedProperties: ExtendedPropertyCollection;
-    /**
-     * Gets the Email Lifecycle Management (ELC) information associated with the folder.
-     *
-     */
-    readonly ManagedFolderInformation: ManagedFolderInformation;
-    /**
-     * Gets a value indicating the effective rights the current authenticated user has on the folder.
-     *
-     */
-    readonly EffectiveRights: EffectiveRights;
-    /**
-     * Gets a list of permissions for the folder.
-     *
-     */
-    readonly Permissions: FolderPermissionCollection;
-    /**
-     * Gets the number of unread items in the folder.
-     *
-     */
-    readonly UnreadCount: number;
-    /**
-     * Gets or sets the policy tag.
-     *
-     */
-    PolicyTag: PolicyTag;
-    /**
-     * Gets or sets the archive tag.
-     *
-     */
-    ArchiveTag: ArchiveTag;
-    /**
-     * Gets the well known name of this folder, if any, as a string.
-     * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
-     *
-     */
-    readonly WellKnownFolderNameAsString: string;
-    /**
-     * Gets the well known name of this folder, if any.
-     * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
-     *
-     */
-    readonly WellKnownFolderName: WellKnownFolderName;
-    /**
-     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
-     */
-    /**
-     * Initializes an unsaved local instance of **Folder**. To bind to an existing folder, use Folder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   EWS service to which this object belongs.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the folder.
-     * @param   {FolderId}          id            The Id of the folder to bind to.
-     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId): Promise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the folder.
-     * @param   {FolderId}          id            The Id of the folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<Folder>;
-    /**
-     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the folder.
-     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<Folder>;
-    /**
-     * Copies this folder into the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to copy this folder.
-     * @return  {Promise<Folder>}      A Folder representing the copy of this folder :Promise.
-     */
-    Copy(destinationFolderName: WellKnownFolderName): Promise<Folder>;
-    /**
-     * Copies this folder into a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId    The Id of the folder in which to copy this folder.
-     * @return  {Promise<Folder>}                  A Folder representing the copy of this folder :Promise.
-     */
-    Copy(destinationFolderId: FolderId): Promise<Folder>;
-    /**
-     * Deletes the folder. Calling this method results in a call to EWS.
-     *
-     * @param   {DeleteMode}   deleteMode   Deletion mode.
-     */
-    Delete(deleteMode: DeleteMode): Promise<void>;
-    /**
-     * Empties the folder. Calling this method results in a call to EWS.
-     *
-     * @param   {DeleteMode}    deleteMode         The deletion mode.
-     * @param   {boolean}       deleteSubFolders   Indicates whether sub-folders should also be deleted.
-     */
-    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): Promise<void>;
-    /**
-     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderView}   view           The view controlling the number of folders returned.
-     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
-     */
-    FindFolders(view: FolderView): Promise<FindFoldersResults>;
-    /**
-     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}      searchFilter    The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {FolderView}        view            The view controlling the number of folders returned.
-     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
-     */
-    FindFolders(searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(view: ItemView): Promise<FindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {string}    queryString   query string to be used for indexed search
-     * @param   {ItemView}  view          The view controlling the number of items returned.
-     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(queryString: string, view: ItemView): Promise<FindItemsResults<Item>>;
-    /**
-     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {ItemView}      view          The view controlling the number of items returned.
-     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
-     */
-    FindItems(searchFilter: SearchFilter, view: ItemView): Promise<FindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {string}        queryString    Query string to be used for indexed search
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(queryString: string, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
-    /**
-     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
-     *
-     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
-     * @param   {ItemView}      view           The view controlling the number of items returned.
-     * @param   {Grouping}      groupBy        The grouping criteria.
-     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
-     */
-    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
-    /**
-     * ### ~~*shim used internally to minimize code flow logic from calling functions*~~
-    */
-    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
-    /**
-     * Marks all items in folder as read. Calling this method results in a call to EWS.
-     *
-     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
-     */
-    MarkAllItemsAsRead(suppressReadReceipts: boolean): Promise<void>;
-    /**
-     * Marks all items in folder as read. Calling this method results in a call to EWS.
-     *
-     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
-     */
-    MarkAllItemsAsUnread(suppressReadReceipts: boolean): Promise<void>;
-    /**
-     * Moves this folder to the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to move this folder.
-     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
-     */
-    Move(destinationFolderName: WellKnownFolderName): Promise<Folder>;
-    /**
-     * Moves this folder to a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to move this folder.
-     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
-     */
-    Move(destinationFolderId: FolderId): Promise<Folder>;
-    /**
-     * Removes an extended property.
-     *
-     * @param   {ExtendedPropertyDefinition}   extendedPropertyDefinition   The extended property definition.
-     * @return  {boolean}       True if property was removed.
-     */
-    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean;
-    /**
-     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this folder.
-     */
-    Save(parentFolderName: WellKnownFolderName): Promise<void>;
-    /**
-     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this folder.
-     */
-    Save(parentFolderId: FolderId): Promise<void>;
-    /**
-     * Sets the extended property.
-     *
-     * @param   {ExtendedPropertyDefinition}    extendedPropertyDefinition   The extended property definition.
-     * @param   {any}                           value                        The value.
-     */
-    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void;
-    /**
-     * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
-     *
-     */
-    Update(): Promise<void>;
-}/**
- * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc.
- * this to is to avoid circular referencing with requirejs/commonjs/nodejs
- */
- class FolderInfo extends ServiceObjectInfo {
-    InitializeServiceObjectClassMap(): any;
-    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject;
-}/**
- * Represents a search folder.
- */
- class SearchFolder extends Folder {
-    /**
-     * Gets the search parameters associated with the search folder.
-     */
-    readonly SearchParameters: SearchFolderParameters;
-    /**
-     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
-     *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
-     */
-    constructor(service: ExchangeService);
-    /**
-     * Binds to an existing search folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
-     * @param   {FolderId}          id            The Id of the search folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
-     * @param   {FolderId}          id            The Id of the search folder to bind to.
-     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
-     */
-    static Bind(service: ExchangeService, id: FolderId): Promise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
-     *
-     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
-     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
-     */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<SearchFolder>;
-    /**
-     * Binds to an existing search folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
+ class SuppressReadReceipt extends ServiceObject {    /**
+     * Initializes a new instance of the **SuppressReadReceipt** class.
      *
-     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
-     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
-     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     * @param   {Item}   referenceItem   The reference item.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<SearchFolder>;
-}
-/**
- * Represents a folder containing task items.
- */
- class TasksFolder extends Folder {
+    constructor(referenceItem: Item);
     /**
-     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
+     * Gets the minimum required server version.
      *
-     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
      */
-    constructor(service: ExchangeService);
+    GetMinimumRequiredServerVersion(): ExchangeVersion;
     /**
-     * Binds to an existing tasks folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
+     * Internal method to return the schema associated with this type of object.
      *
-     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
-     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
-     * @param   {PropertySet}       propertySet   The set of properties to load.
-     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
      */
-    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<TasksFolder>;
+    GetSchema(): ServiceObjectSchema;
+    GetXmlElementName(): string;
     /**
-     * Binds to an existing tasks folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
+     * Create the response object.
      *
-     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
-     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
-     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     * @param   {FolderId}            parentFolderId       The parent folder id.
+     * @param   {MessageDisposition}  messageDisposition   The message disposition.
      */
-    static Bind(service: ExchangeService, id: FolderId): Promise<TasksFolder>;
+    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<void>;
     /**
-     * Binds to an existing tasks folder and loads the specified set of properties.
-     * Calling this method results in a call to EWS.
+     * Deletes the object.
      *
-     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
-     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
-     * @param   {PropertySet}           propertySet   The set of properties to load.
-     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     * @param   {DeleteMode}              deleteMode                The deletion mode.
+     * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
+     * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<TasksFolder>;
+    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void>;
     /**
-     * Binds to an existing tasks folder and loads its first class properties.
-     * Calling this method results in a call to EWS.
+     * Loads the specified set of properties on the object.
      *
-     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
-     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
-     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     * @param   {PropertySet}   propertySet   The properties to load.
      */
-    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<TasksFolder>;
+    InternalLoad(propertySet: PropertySet): Promise<void>;
 }
 /**
  * Represents an **appointment or a meeting**. Properties available on appointments are defined in the *AppointmentSchema* class.
@@ -20938,361 +20526,6 @@ export interface ISearchFilterCollection {
     Update(conflictResolutionMode: ConflictResolutionMode): Promise<Task>;
     /** ##internal ~~ workaround GitHub #52 */
     Update(conflictResolutionMode: ConflictResolutionMode): Promise<any>;
-}/**
- * Represents a meeting acceptance message.
- *
- */
- class AcceptMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {    /**
-     * Gets a value indicating whether the associated meeting is tentatively accepted.
-     *
-     */
-    readonly Tentative: boolean;
-    /**
-     * Initializes a new instance of the **AcceptMeetingInvitationMessage** class.
-     *
-     * @param   {Item}            referenceItem   The reference item.
-     * @param   {boolean}         tentative       if set to true accept invitation tentatively.
-     */
-    constructor(referenceItem: Item, tentative: boolean);
-}
-/**
- * Represents the base class for accept, tentatively accept and decline response messages.
- *
- * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
- */
- abstract class CalendarResponseMessage<TMessage extends EmailMessage> extends CalendarResponseMessageBase<TMessage> {
-    /**
-     * Gets or sets the body of the response.
-     */
-    Body: MessageBody;
-    /**
-     * Gets a list of recipients the response will be sent to.
-     */
-    readonly ToRecipients: EmailAddressCollection;
-    /**
-     * Gets a list of recipients the response will be sent to as Cc.
-     */
-    readonly CcRecipients: EmailAddressCollection;
-    /**
-     * Gets a list of recipients this response will be sent to as Bcc.
-     */
-    readonly BccRecipients: EmailAddressCollection;
-    ItemClass: string;
-    /**
-     * Gets or sets the sensitivity of this response.
-     */
-    Sensitivity: Sensitivity;
-    /**
-     * Gets a list of attachments to this response.
-     */
-    readonly Attachments: AttachmentCollection;
-    readonly InternetMessageHeaders: InternetMessageHeaderCollection;
-    /**
-     * Gets or sets the sender of this response.
-     */
-    Sender: EmailAddress;
-}
-/**
- * Represents the base class for all calendar-related response messages.
- *
- * @typeparam   {TMessage}     The type of message that is created when this response message is saved.
- */
- abstract class CalendarResponseMessageBase<TMessage extends EmailMessage> extends ResponseObject<TMessage> {
-    /**
-     * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
-     *
-     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    Save(): Promise<CalendarActionResults | any>;
-    /**
-     * Saves the response in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    Save(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
-    /**
-     * Saves the response in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    Save(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
-    /**
-     * Sends this response without saving a copy. Calling this method results in a call to EWS.
-     *
-     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    Send(): Promise<CalendarActionResults | any>;
-    /**
-     * Sends this response ans saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
-     *
-     * @return  {CalendarActionResults}      A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    SendAndSaveCopy(): Promise<CalendarActionResults | any>;
-    /**
-     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the copy of the message.
-     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<CalendarActionResults | any>;
-    /**
-     * Sends this response ans saves a copy in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}                destinationFolderId   The Id of the folder in which to save the copy of the message.
-     * @return  {CalendarActionResults}   A CalendarActionResults object containing the various items that were created or modified as a results of this operation.
-     */
-    SendAndSaveCopy(destinationFolderId: FolderId): Promise<CalendarActionResults | any>;
-}
-/**
- * Represents a meeting cancellation message.
- *
- */
- class CancelMeetingMessage extends CalendarResponseMessageBase<MeetingCancellation> {
-    /**
-     * Gets or sets the body of the response.
-     *
-     */
-    Body: MessageBody;
-    /**
-     * Initializes a new instance of the **CancelMeetingMessage** class.
-     *
-     * @param   {Item}   referenceItem   The reference item.
-     */
-    constructor(referenceItem: Item);
-    /**
-     * Gets the minimum required server version.
-     *
-     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
-     */
-    GetMinimumRequiredServerVersion(): ExchangeVersion;
-    /**
-     * Internal method to return the schema associated with this type of object.
-     *
-     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
-     */
-    GetSchema(): ServiceObjectSchema;
-    /**
-     * Gets the element name of item in XML
-     *
-     * @return  {string} name of elelment
-     */
-    GetXmlElementName(): string;
-}/**
- * Represents a meeting declination message.
- */
- class DeclineMeetingInvitationMessage extends CalendarResponseMessage<MeetingResponse> {
-    /**
-     * Initializes a new instance of the **DeclineMeetingInvitationMessage** class.
-     *
-     * @param   {Item}   referenceItem   The reference item.
-     */
-    constructor(referenceItem: Item);
-}
-/**
- * Represents a reply to a post item.
- *
- * @sealed
- */
- class PostReply extends ServiceObject {    /**
-     * Gets or sets the subject of the post reply.
-     */
-    Subject: string;
-    /**
-     * Gets or sets the body of the post reply.
-     */
-    Body: MessageBody;
-    /**
-     * Gets or sets the body prefix that should be prepended to the original post item's body.
-     */
-    BodyPrefix: MessageBody;
-    /**
-     * Saves the post reply in the same folder as the original post item. Calling this method results in a call to EWS.
-     *
-     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
-     */
-    Save(): Promise<PostItem>;
-    /**
-     * Saves the post reply in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the post reply.
-     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
-     */
-    Save(destinationFolderId: FolderId): Promise<PostItem>;
-    /**
-     * Saves the post reply in a specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the post reply.
-     * @return  {Promise<PostItem>}    A PostItem representing the posted reply :Promise.
-     */
-    Save(destinationFolderName: WellKnownFolderName): Promise<PostItem>;
-}/**
- * Represents the base class for e-mail related responses (Reply, Reply all and Forward).
- *
- */
- class ResponseMessage extends ResponseObject<EmailMessage> {    /**
-     * Gets a value indicating the type of response this object represents.
-     *
-     */
-    readonly ResponseType: ResponseMessageType;
-    /**
-     * Gets or sets the body of the response.
-     *
-     */
-    Body: MessageBody;
-    /**
-     * Gets a list of recipients the response will be sent to.
-     *
-     */
-    readonly ToRecipients: EmailAddressCollection;
-    /**
-     * Gets a list of recipients the response will be sent to as Cc.
-     *
-     */
-    readonly CcRecipients: EmailAddressCollection;
-    /**
-     * Gets a list of recipients this response will be sent to as Bcc.
-     *
-     */
-    readonly BccRecipients: EmailAddressCollection;
-    /**
-     * Gets or sets the subject of this response.
-     *
-     */
-    Subject: string;
-    /**
-     * Gets or sets the body prefix of this response. The body prefix will be prepended to the original
-    message's body when the response is created.
-     *
-     */
-    BodyPrefix: MessageBody;
-    /**
-     * Initializes a new instance of the **ResponseMessage** class.
-     *
-     * @param   {Item}                    referenceItem   The reference item.
-     * @param   {ResponseMessageType}     responseType    Type of the response.
-     */
-    constructor(referenceItem: Item, responseType: ResponseMessageType);
-    /**
-     * Gets the minimum required server version.
-     *
-     * @return  {type}      Earliest Exchange version in which this service object type is supported.
-     */
-    GetMinimumRequiredServerVersion(): ExchangeVersion;
-    /**
-     * Internal method to return the schema associated with this type of object.
-     *
-     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
-     */
-    GetSchema(): ServiceObjectSchema;
-    /**
-     * Get XML Element Name - workaround for c# attributes
-     */
-    GetXmlElementName(): string;
-    /**
-     * This methods lets subclasses of ServiceObject override the default mechanism by which the XML element name associated with their type is retrieved.
-     *
-     * @return  {string}      The XML element name associated with this type. If this method returns null or empty, the XML element name associated with this type is determined by the EwsObjectDefinition attribute that decorates the type, if present.
-     */
-    GetXmlElementNameOverride(): string;
-}/**
- * Represents the base class for all responses that can be sent.
- *
- * @typeparam   {TMessage}     Type of message.
- */
- abstract class ResponseObject<TMessage extends EmailMessage> extends ServiceObject {    /**
-     * Gets or sets a value indicating whether read receipts will be requested from recipients of this response.
-     */
-    IsReadReceiptRequested: boolean;
-    /**
-     * Gets or sets a value indicating whether delivery receipts should be sent to the sender.
-     */
-    IsDeliveryReceiptRequested: boolean;
-    /**
-     * Saves the response in the Drafts folder. Calling this method results in a call to EWS.
-     *
-     * @return  {Promise<TMessage>}      A TMessage that represents the response.
-     */
-    Save(): Promise<TMessage>;
-    /**
-     * Saves the response in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}     destinationFolderName   The name of the folder in which to save the response.
-     * @return  {Promise<TMessage>}      A TMessage that represents the response.
-     */
-    Save(destinationFolderName: WellKnownFolderName): Promise<TMessage>;
-    /**
-     * Saves the response in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the response.
-     * @return  {Promise<TMessage>}                         A TMessage that represents the response.
-     */
-    Save(destinationFolderId: FolderId): Promise<TMessage>;
-    /**
-     * Sends this response without saving a copy. Calling this method results in a call to EWS.
-     */
-    Send(): Promise<void>;
-    /**
-     * Sends this response and saves a copy in the Sent Items folder. Calling this method results in a call to EWS.
-     */
-    SendAndSaveCopy(): Promise<void>;
-    /**
-     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to save the copy of the message.
-     */
-    SendAndSaveCopy(destinationFolderName: WellKnownFolderName): Promise<void>;
-    /**
-     * Sends this response and saves a copy in the specified folder. Calling this method results in a call to EWS.
-     *
-     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to save the copy of the message.
-     */
-    SendAndSaveCopy(destinationFolderId: FolderId): Promise<void>;
-}/**
- * Represents a response object created to supress read receipts for an item.
- *
- */
- class SuppressReadReceipt extends ServiceObject {    /**
-     * Initializes a new instance of the **SuppressReadReceipt** class.
-     *
-     * @param   {Item}   referenceItem   The reference item.
-     */
-    constructor(referenceItem: Item);
-    /**
-     * Gets the minimum required server version.
-     *
-     * @return  {ExchangeVersion}      Earliest Exchange version in which this service object type is supported.
-     */
-    GetMinimumRequiredServerVersion(): ExchangeVersion;
-    /**
-     * Internal method to return the schema associated with this type of object.
-     *
-     * @return  {ServiceObjectSchema}      The schema associated with this type of object.
-     */
-    GetSchema(): ServiceObjectSchema;
-    GetXmlElementName(): string;
-    /**
-     * Create the response object.
-     *
-     * @param   {FolderId}            parentFolderId       The parent folder id.
-     * @param   {MessageDisposition}  messageDisposition   The message disposition.
-     */
-    InternalCreate(parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<void>;
-    /**
-     * Deletes the object.
-     *
-     * @param   {DeleteMode}              deleteMode                The deletion mode.
-     * @param   {SendCancellationsMode}   sendCancellationsMode     Indicates whether meeting cancellation messages should be sent.
-     * @param   {AffectedTaskOccurrence}  affectedTaskOccurrences   Indicate which occurrence of a recurring task should be deleted.
-     */
-    InternalDelete(deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence): Promise<void>;
-    /**
-     * Loads the specified set of properties on the object.
-     *
-     * @param   {PropertySet}   propertySet   The properties to load.
-     */
-    InternalLoad(propertySet: PropertySet): Promise<void>;
 }
 /**
  * Represents the schema for appointment and meeting requests.
@@ -24513,5 +23746,783 @@ export interface TaskSchema {
  * Represents the schema for task items.
  */
 export interface TaskSchemaStatic extends TaskSchema {
+}/**
+ * Represents a folder containing appointments.
+ */
+ class CalendarFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **CalendarFolder**. To bind to an existing calendar folder, use CalendarFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the calendar folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing calendar folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
+     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the calendar folder.
+     * @param   {WellKnownFolderName}   name          The name of the calendar folder to bind to.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the calendar folder.
+     * @param   {FolderId}          id            The Id of the calendar folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<CalendarFolder>;
+    /**
+     * Binds to an existing calendar folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<CalendarFolder>}      A CalendarFolder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<CalendarFolder>;
+    /**
+     * Obtains a list of appointments by searching the contents of this folder and performing recurrence expansion for recurring appointments. Calling this method results in a call to EWS.
+     *
+     * @param   {CalendarView}   view   The view controlling the range of appointments returned.
+     * @return  {FindItemsResults<Appointment>}          An object representing the results of the search operation.
+     */
+    FindAppointments(view: CalendarView): Promise<FindItemsResults<Appointment>>;
+}
+/**
+ * Represents a folder containing contacts.
+ */
+ class ContactsFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **ContactsFolder**. To bind to an existing contacts folder, use ContactsFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing contacts folder and loads the specified set of properties.
+     *
+     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
+     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
+     * @param   {PropertySet}       propertySet     The set of properties to load.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads its first class properties.
+     *
+     * @param   {ExchangeService}   service         The service to use to bind to the contacts folder.
+     * @param   {FolderId}          id              The Id of the contacts folder to bind to.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads the specified set of properties.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
+     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<ContactsFolder>;
+    /**
+     * Binds to an existing contacts folder and loads its first class properties.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the contacts folder.
+     * @param   {WellKnownFolderName}   name          The name of the contacts folder to bind to.
+     * @return  {Promise<ContactsFolder>}      A ContactsFolder instance representing the contacts folder with the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<ContactsFolder>;
+} class Folder extends ServiceObject {
+    /**
+     * Gets the Id of the folder.
+     *
+     */
+    readonly Id: FolderId;
+    /**
+     * Gets the Id of this folder's parent folder.
+     *
+     */
+    readonly ParentFolderId: FolderId;
+    /**
+     * Gets the number of child folders this folder has.
+     *
+     */
+    readonly ChildFolderCount: number;
+    /**
+     * Gets or sets the display name of the folder.
+     *
+     */
+    DisplayName: string;
+    /**
+     * Gets or sets the custom class name of this folder.
+     *
+     */
+    FolderClass: string;
+    /**
+     * Gets the total number of items contained in the folder.
+     *
+     */
+    readonly TotalCount: number;
+    /**
+     * Gets a list of extended properties associated with the folder. **Unstable Need testing**
+     *
+     */
+    readonly ExtendedProperties: ExtendedPropertyCollection;
+    /**
+     * Gets the Email Lifecycle Management (ELC) information associated with the folder.
+     *
+     */
+    readonly ManagedFolderInformation: ManagedFolderInformation;
+    /**
+     * Gets a value indicating the effective rights the current authenticated user has on the folder.
+     *
+     */
+    readonly EffectiveRights: EffectiveRights;
+    /**
+     * Gets a list of permissions for the folder.
+     *
+     */
+    readonly Permissions: FolderPermissionCollection;
+    /**
+     * Gets the number of unread items in the folder.
+     *
+     */
+    readonly UnreadCount: number;
+    /**
+     * Gets or sets the policy tag.
+     *
+     */
+    PolicyTag: PolicyTag;
+    /**
+     * Gets or sets the archive tag.
+     *
+     */
+    ArchiveTag: ArchiveTag;
+    /**
+     * Gets the well known name of this folder, if any, as a string.
+     * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
+     *
+     */
+    readonly WellKnownFolderNameAsString: string;
+    /**
+     * Gets the well known name of this folder, if any.
+     * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
+     *
+     */
+    readonly WellKnownFolderName: WellKnownFolderName;
+    /**
+     * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs
+     */
+    /**
+     * Initializes an unsaved local instance of **Folder**. To bind to an existing folder, use Folder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   EWS service to which this object belongs.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the folder.
+     * @param   {FolderId}          id            The Id of the folder to bind to.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the folder.
+     * @param   {FolderId}          id            The Id of the folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified Id :Promise.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<Folder>;
+    /**
+     * Binds to an existing folder, whatever its actual type is, and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the folder.
+     * @param   {WellKnownFolderName}   name          The name of the folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<Folder>}      A Folder instance representing the folder corresponding to the specified name :Promise.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<Folder>;
+    /**
+     * Copies this folder into the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to copy this folder.
+     * @return  {Promise<Folder>}      A Folder representing the copy of this folder :Promise.
+     */
+    Copy(destinationFolderName: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Copies this folder into a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   destinationFolderId    The Id of the folder in which to copy this folder.
+     * @return  {Promise<Folder>}                  A Folder representing the copy of this folder :Promise.
+     */
+    Copy(destinationFolderId: FolderId): Promise<Folder>;
+    /**
+     * Deletes the folder. Calling this method results in a call to EWS.
+     *
+     * @param   {DeleteMode}   deleteMode   Deletion mode.
+     */
+    Delete(deleteMode: DeleteMode): Promise<void>;
+    /**
+     * Empties the folder. Calling this method results in a call to EWS.
+     *
+     * @param   {DeleteMode}    deleteMode         The deletion mode.
+     * @param   {boolean}       deleteSubFolders   Indicates whether sub-folders should also be deleted.
+     */
+    Empty(deleteMode: DeleteMode, deleteSubFolders: boolean): Promise<void>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderView}   view           The view controlling the number of folders returned.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     */
+    FindFolders(view: FolderView): Promise<FindFoldersResults>;
+    /**
+     * Obtains a list of folders by searching the sub-folders of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}      searchFilter    The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {FolderView}        view            The view controlling the number of folders returned.
+     * @return  {Promise<FindFoldersResults>}      An object representing the results of the search operation :Promise.
+     */
+    FindFolders(searchFilter: SearchFilter, view: FolderView): Promise<FindFoldersResults>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemView}  view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {string}    queryString   query string to be used for indexed search
+     * @param   {ItemView}  view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(queryString: string, view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ItemView}      view          The view controlling the number of items returned.
+     * @return  {Promise<FindItemsResults<Item>>}      An object representing the results of the search operation :Promise.
+     */
+    FindItems(searchFilter: SearchFilter, view: ItemView): Promise<FindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {string}        queryString    Query string to be used for indexed search
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(queryString: string, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * Obtains a grouped list of items by searching the contents of this folder. Calling this method results in a call to EWS.
+     *
+     * @param   {SearchFilter}  searchFilter   The search filter. Available search filter classes include SearchFilter.IsEqualTo, SearchFilter.ContainsSubstring and SearchFilter.SearchFilterCollection
+     * @param   {ItemView}      view           The view controlling the number of items returned.
+     * @param   {Grouping}      groupBy        The grouping criteria.
+     * @return  {Promise<GroupedFindItemsResults<Item>>}       A collection of grouped items representing the contents of this folder :Promise.
+     */
+    FindItems(searchFilter: SearchFilter, view: ItemView, groupBy: Grouping): Promise<GroupedFindItemsResults<Item>>;
+    /**
+     * ### ~~*shim used internally to minimize code flow logic from calling functions*~~
+    */
+    InternalFindItems<TItem extends Item>(searchFilterOrQueryString: SearchFilter | string, view: ViewBase, groupBy: Grouping): Promise<ServiceResponseCollection<FindItemResponse<TItem>>>;
+    /**
+     * Marks all items in folder as read. Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
+     */
+    MarkAllItemsAsRead(suppressReadReceipts: boolean): Promise<void>;
+    /**
+     * Marks all items in folder as read. Calling this method results in a call to EWS.
+     *
+     * @param   {boolean}   suppressReadReceipts   If true, suppress sending read receipts for items.
+     */
+    MarkAllItemsAsUnread(suppressReadReceipts: boolean): Promise<void>;
+    /**
+     * Moves this folder to the specified folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   destinationFolderName   The name of the folder in which to move this folder.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     */
+    Move(destinationFolderName: WellKnownFolderName): Promise<Folder>;
+    /**
+     * Moves this folder to a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   destinationFolderId   The Id of the folder in which to move this folder.
+     * @return  {Promise<Folder>}      A new folder representing this folder in its new location. After Move completes, this folder does not exist anymore :Promise.
+     */
+    Move(destinationFolderId: FolderId): Promise<Folder>;
+    /**
+     * Removes an extended property.
+     *
+     * @param   {ExtendedPropertyDefinition}   extendedPropertyDefinition   The extended property definition.
+     * @return  {boolean}       True if property was removed.
+     */
+    RemoveExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition): boolean;
+    /**
+     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {WellKnownFolderName}   parentFolderName   The name of the folder in which to save this folder.
+     */
+    Save(parentFolderName: WellKnownFolderName): Promise<void>;
+    /**
+     * Saves this folder in a specific folder. Calling this method results in a call to EWS.
+     *
+     * @param   {FolderId}   parentFolderId   The Id of the folder in which to save this folder.
+     */
+    Save(parentFolderId: FolderId): Promise<void>;
+    /**
+     * Sets the extended property.
+     *
+     * @param   {ExtendedPropertyDefinition}    extendedPropertyDefinition   The extended property definition.
+     * @param   {any}                           value                        The value.
+     */
+    SetExtendedProperty(extendedPropertyDefinition: ExtendedPropertyDefinition, value: any): void;
+    /**
+     * Applies the local changes that have been made to this folder. Calling this method results in a call to EWS.
+     *
+     */
+    Update(): Promise<void>;
+}/**
+ * this is partial section of CreateEwsObjectFromXmlElementName from serviceobjectinfo, other parts are moved to different object type like itemInfo etc.
+ * this to is to avoid circular referencing with requirejs/commonjs/nodejs
+ */
+ class FolderInfo extends ServiceObjectInfo {
+    InitializeServiceObjectClassMap(): any;
+    CreateEwsObjectFromXmlElementName<TServiceObject extends ServiceObject>(service: ExchangeService, xmlElementName: string): TServiceObject;
+}/**
+ * Represents a search folder.
+ */
+ class SearchFolder extends Folder {
+    /**
+     * Gets the search parameters associated with the search folder.
+     */
+    readonly SearchParameters: SearchFolderParameters;
+    /**
+     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing search folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
+     * @param   {FolderId}          id            The Id of the search folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the search folder.
+     * @param   {FolderId}          id            The Id of the search folder to bind to.
+     * @return  {Promise<SearchFolder>}        A SearchFolder instance representing the search folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
+     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<SearchFolder>;
+    /**
+     * Binds to an existing search folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the search folder.
+     * @param   {WellKnownFolderName}   name          The name of the search folder to bind to.
+     * @return  {Promise<SearchFolder>}            A SearchFolder instance representing the search folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<SearchFolder>;
+}
+/**
+ * Represents a folder containing task items.
+ */
+ class TasksFolder extends Folder {
+    /**
+     * Initializes an unsaved local instance of **SearchFolder**. To bind to an existing contacts folder, use SearchFolder.Bind() instead.
+     *
+     * @param   {ExchangeService}   service   The ExchangeService object to which the contacts folder will be bound.
+     */
+    constructor(service: ExchangeService);
+    /**
+     * Binds to an existing tasks folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
+     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
+     * @param   {PropertySet}       propertySet   The set of properties to load.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId, propertySet: PropertySet): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}   service       The service to use to bind to the tasks folder.
+     * @param   {FolderId}          id            The Id of the tasks folder to bind to.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the task folder corresponding to the specified Id.
+     */
+    static Bind(service: ExchangeService, id: FolderId): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads the specified set of properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
+     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
+     * @param   {PropertySet}           propertySet   The set of properties to load.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName, propertySet: PropertySet): Promise<TasksFolder>;
+    /**
+     * Binds to an existing tasks folder and loads its first class properties.
+     * Calling this method results in a call to EWS.
+     *
+     * @param   {ExchangeService}       service       The service to use to bind to the tasks folder.
+     * @param   {WellKnownFolderName}   name          The name of the tasks folder to bind to.
+     * @return  {Promise<TasksFolder>}         A TasksFolder instance representing the tasks folder with the specified name.
+     */
+    static Bind(service: ExchangeService, name: WellKnownFolderName): Promise<TasksFolder>;
+}/**
+ * Represents a recurrence pattern, as used by Appointment and Task items.
+ */
+ class Recurrence extends ComplexProperty {
+    startDate: DateTime;
+    numberOfOccurrences: number;
+    endDate: DateTime;
+    /**
+     * Gets or sets the date and time when the recurrence start.
+     */
+    StartDate: DateTime;
+    /**
+     * Gets a value indicating whether the pattern has a fixed number of occurrences or an end date.
+     */
+    readonly HasEnd: boolean;
+    /**
+     * Gets or sets the number of occurrences after which the recurrence ends. Setting NumberOfOccurrences resets EndDate.
+     */
+    NumberOfOccurrences: number;
+    /**
+     * Gets or sets the date after which the recurrence ends. Setting EndDate resets NumberOfOccurrences.
+     */
+    EndDate: DateTime;
+    /**
+     * Gets a property value or throw if null.
+     *
+     * @typeparam   {T}     Value type.
+     * @param   {T}         value   The value.
+     * @param   {string}    name    The property name.
+     * @return  {T}         Property value
+     */
+    GetFieldValueOrThrowIfNull<T>(value: any, name: string): T;
+    /**
+     * Compares two objects by converting them to JSON and comparing their string values
+     *
+     * @param   {Recurrence}    otherRecurrence   object to compare to
+     * @return  {boolean}       true if the objects serialize to the same string
+     */
+    IsSame(otherRecurrence: Recurrence): boolean;
+    /**
+     * Sets up this recurrence so that it never ends. Calling NeverEnds is equivalent to setting both NumberOfOccurrences and EndDate to null.
+     */
+    NeverEnds(): void;
+}
+ module Recurrence {
+    var DailyPattern: new () => DailyPattern;
+    var DailyRegenerationPattern: new () => DailyRegenerationPattern;
+    var IntervalPattern: new () => IntervalPattern;
+    var MonthlyPattern: new () => MonthlyPattern;
+    var MonthlyRegenerationPattern: new () => MonthlyRegenerationPattern;
+    var RelativeMonthlyPattern: new () => RelativeMonthlyPattern;
+    var RelativeYearlyPattern: new () => RelativeYearlyPattern;
+    var WeeklyPattern: new () => WeeklyPattern;
+    var WeeklyRegenerationPattern: new () => WeeklyRegenerationPattern;
+    var YearlyPattern: new () => YearlyPattern;
+    var YearlyRegenerationPattern: new () => YearlyRegenerationPattern;
+}
+/**
+ * Represents a recurrence pattern where each occurrence happens a specific number of days after the previous one.
+ */
+ class DailyPattern extends IntervalPattern {
+    /**
+     * Initializes a new instance of the **DailyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **DailyPattern** class.
+     *
+     * @param   {DateTime}  startDate   The date and time when the recurrence starts.
+     * @param   {number}    interval    The number of days between each occurrence.
+     */
+    constructor(startDate: DateTime, interval: number);
+}
+/**
+ * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of days after the previous one is completed.
+ */
+ class DailyRegenerationPattern extends IntervalPattern {
+    /**
+     * Gets a value indicating whether this instance is a regeneration pattern.
+     *
+     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     */
+    readonly IsRegenerationPattern: boolean;
+    /**
+     * Initializes a new instance of the **DailyRegenerationPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **DailyRegenerationPattern** class.
+     *
+     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
+     * @param   {number}   interval    The number of days between the current occurrence and the next, after the current occurrence is completed.
+     */
+    constructor(startDate: DateTime, interval: number);
+}/**
+ * Represents a recurrence pattern where each occurrence happens at a specific interval after the previous one.
+ */
+ abstract class IntervalPattern extends Recurrence {    /**
+     * Gets or sets the interval between occurrences.
+     */
+    Interval: number;
+}
+/**
+ * Represents a recurrence pattern where each occurrence happens on a specific day a specific number of months after the previous one.
+ */
+ class MonthlyPattern extends IntervalPattern {    /**
+     * Gets or sets the day of the month when each occurrence happens. DayOfMonth must be between 1 and 31.
+     */
+    DayOfMonth: number;
+    /**
+     * Initializes a new instance of the **MonthlyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **MonthlyPattern** class.
+     *
+     * @param   {DateTime}  startDate    The date and time when the recurrence starts.
+     * @param   {number}    interval     The number of months between each occurrence.
+     * @param   {number}    dayOfMonth   The day of the month when each occurrence happens.
+     */
+    constructor(startDate: DateTime, interval: number, dayOfMonth: number);
+}
+/**
+ * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of months after the previous one is completed.
+ */
+ class MonthlyRegenerationPattern extends IntervalPattern {
+    /**
+     * Gets a value indicating whether this instance is a regeneration pattern.
+     *
+     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     */
+    readonly IsRegenerationPattern: boolean;
+    /**
+     * Initializes a new instance of the **MonthlyRegenerationPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **MonthlyRegenerationPattern** class.
+     *
+     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
+     * @param   {number}   interval    The number of days between the current occurrence and the next, after the current occurrence is completed.
+     */
+    constructor(startDate: DateTime, interval: number);
+}
+/**
+ * Represents a recurrence pattern where each occurrence happens on a relative day a specific number of months after the previous one.
+*/
+ class RelativeMonthlyPattern extends IntervalPattern {
+    /**
+     * Gets or sets the relative position of the day specified in DayOfTheWeek within the month.
+     */
+    DayOfTheWeekIndex: DayOfTheWeekIndex;
+    /**
+     * The day of the week when each occurrence happens.
+     */
+    DayOfTheWeek: DayOfTheWeek;
+    /**
+     * Initializes a new instance of the **RelativeMonthlyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **RelativeMonthlyPattern** class.
+     *
+     * @param   {DateTime}              startDate           The date and time when the recurrence starts.
+     * @param   {number}                interval            The number of months between each occurrence.
+     * @param   {DayOfTheWeek}          dayOfTheWeek        The day of the week each occurrence happens.
+     * @param   {DayOfTheWeekIndex}   dayOfTheWeekIndex   The relative position of the day within the month.
+     */
+    constructor(startDate: DateTime, interval: number, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex);
+}/**
+ * Represents a recurrence pattern where each occurrence happens on a relative day every year.
+ */
+ class RelativeYearlyPattern extends Recurrence {    /**
+     * Gets or sets the relative position of the day specified in DayOfTheWeek within the month.
+     */
+    DayOfTheWeekIndex: DayOfTheWeekIndex;
+    /**
+     * Gets or sets the day of the week when each occurrence happens.
+     */
+    DayOfTheWeek: DayOfTheWeek;
+    /**
+     * Gets or sets the month of the year when each occurrence happens.
+     */
+    Month: Month;
+    /**
+     * Initializes a new instance of the **RelativeYearlyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **RelativeYearlyPattern** class.
+     *
+     * @param   {DateTime}              startDate           The date and time when the recurrence starts.
+     * @param   {Month}                 month               The month of the year each occurrence happens.
+     * @param   {DayOfTheWeek}          dayOfTheWeek        The day of the week each occurrence happens.
+     * @param   {DayOfTheWeekIndex}     dayOfTheWeekIndex   The relative position of the day within the month.
+     */
+    constructor(startDate: DateTime, month: Month, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex);
+}/**
+ * Represents a recurrence pattern where each occurrence happens on specific days a specific number of weeks after the previous one.
+ */
+ class WeeklyPattern extends IntervalPattern {
+    /**
+     * Gets the list of the days of the week when occurrences happen.
+     */
+    readonly DaysOfTheWeek: DayOfTheWeekCollection;
+    /**
+     * Gets or sets the first day of the week for this recurrence.
+     */
+    FirstDayOfWeek: DayOfWeek;
+    /**
+     * Initializes a new instance of the **WeeklyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **WeeklyPattern** class.
+     *
+     * @param   {DateTime}          startDate       The date and time when the recurrence starts.
+     * @param   {number}            interval        The number of weeks between each occurrence.
+     * @param   {DayOfTheWeek[]}    daysOfTheWeek   The days of the week when occurrences happen.
+     */
+    constructor(startDate: DateTime, interval: number, daysOfTheWeek: DayOfTheWeek[]);
+    /**
+     * Change event handler.
+     *
+     * @param   {ComplexProperty}   complexProperty   The complex property.
+     */}
+/**
+ * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of weeks after the previous one is completed.
+ */
+ class WeeklyRegenerationPattern extends IntervalPattern {
+    /**
+     * Gets a value indicating whether this instance is a regeneration pattern.
+     *
+     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     */
+    readonly IsRegenerationPattern: boolean;
+    /**
+     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **WeeklyRegenerationPattern** class.
+     *
+     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
+     * @param   {interval}   interval    The number of weeks between the current occurrence and the next, after the current occurrence is completed.
+     */
+    constructor(startDate: DateTime, interval: number);
+}/**
+ * Represents a recurrence pattern where each occurrence happens on a specific day every year.
+ */
+ class YearlyPattern extends Recurrence {
+    /**
+     * Gets or sets the month of the year when each occurrence happens.
+     */
+    Month: Month;
+    /**
+     * Gets or sets the day of the month when each occurrence happens. DayOfMonth must be between 1 and 31.
+     */
+    DayOfMonth: number;
+    /**
+     * Initializes a new instance of the **YearlyPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **YearlyPattern** class.
+     *
+     * @param   {DateTime}  startDate    The date and time when the recurrence starts.
+     * @param   {Month}     month        The month of the year each occurrence happens.
+     * @param   {number}    dayOfMonth   The day of the month each occurrence happens.
+     */
+    constructor(startDate: DateTime, month: Month, dayOfMonth: number);
+}
+/**
+ * Represents a regeneration pattern, as used with recurring tasks, where each occurrence happens a specified number of years after the previous one is completed.
+ */
+ class YearlyRegenerationPattern extends IntervalPattern {
+    /**
+     * Gets a value indicating whether this instance is a regeneration pattern.
+     *
+     * @value   *true* if this instance is a regeneration pattern; otherwise, *false*.</value>
+     */
+    readonly IsRegenerationPattern: boolean;
+    /**
+     * Initializes a new instance of the **YearlyRegenerationPattern** class.
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **YearlyRegenerationPattern** class.
+     *
+     * @param   {DateTime}   startDate   The date and time when the recurrence starts.
+     * @param   {number}   interval    The number of years between the current occurrence and the next, after the current occurrence is completed.
+     */
+    constructor(startDate: DateTime, interval: number);
 }
 }

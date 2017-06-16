@@ -130,11 +130,11 @@ export module ArrayHelper {
         return array.indexOf(item);
     }
 
-    export function OfType<T, U>(array: Array<U>, comparer: (item: U) => boolean): T[] {
-        var result: T[] = [];
+    export function OfType<T, U>(array: Array<T>, comparer: (item: T) => boolean): U[] {
+        var result: U[] = [];
         for (var entry of array) {
             if (comparer(entry)) {
-                result.push(<T><any>entry);
+                result.push(<U><any>entry);
             }
         }
         return result;

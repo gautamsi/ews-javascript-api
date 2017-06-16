@@ -101,7 +101,7 @@ export class GetEventsResults {
 	 * @value	The folder events.
 	 */
 	get FolderEvents(): FolderEvent[] {
-		return ArrayHelper.OfType<FolderEvent, NotificationEvent>(this.events, (item) => item instanceof FolderEvent);
+		return ArrayHelper.OfType<NotificationEvent, FolderEvent>(this.events, (item) => item instanceof FolderEvent);
 	}
 
 	/**
@@ -110,7 +110,7 @@ export class GetEventsResults {
 	 * @value	The item events.
 	 */
 	get ItemEvents(): ItemEvent[] {
-		return ArrayHelper.OfType<ItemEvent, NotificationEvent>(this.events, (item) => item instanceof ItemEvent);
+		return ArrayHelper.OfType<NotificationEvent, ItemEvent>(this.events, (item) => item instanceof ItemEvent);
 	}
 
 	/**
