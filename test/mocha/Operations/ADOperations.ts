@@ -1,4 +1,4 @@
-import {AutodiscoverService, ExchangeCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri, DateTime}  from "../../../src/js/ExchangeWebService";
+import {AutodiscoverService, WebCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri, DateTime}  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";
 import {MockXHRData} from "../../MockXHRData";
 
@@ -11,7 +11,7 @@ describe.skip("AD Operation tests", () => {
 
 	var exch = new ExchangeService(ExchangeVersion.Exchange2010_SP1);
 	exch.Url = new Uri("https://fake");
-	exch.Credentials = new ExchangeCredentials("username", "password");
+	exch.Credentials = new WebCredentials("username", "password");
 	var mockXhr = new MockXHRApi();
 	it("GetPasswordExpirationDate Operation ", () => {
 		mockXhr.requestXml = [MockXHRData.Operations.ADOperations.GetPasswordExpirationRequest];

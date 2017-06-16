@@ -156,7 +156,7 @@ export class DateTime {
     }
 
     Difference(toDate: DateTime): TimeSpan {
-        return new TimeSpan(this.momentDate.diff(toDate.momentDate));
+        return new TimeSpan(toDate.momentDate.diff(this.momentDate));
     }
 
     Format(formatting: string): string {
@@ -202,7 +202,7 @@ export class DateTime {
     }
 
     toString(): string {
-        return this.ToISOString();
+        return this.momentDate.toString();
     }
 
     utcOffset(value: number) {
@@ -409,6 +409,10 @@ export class DateTime {
 
     ToShortDateString(): string {
         return this.MomentDate.format("l");
+    }
+
+    ToShortTimeString(): string {
+        return this.MomentDate.format("LT");
     }
 
     ToString(): string {

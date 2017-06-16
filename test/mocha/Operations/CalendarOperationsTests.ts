@@ -1,4 +1,4 @@
-import {AutodiscoverService, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName, DefaultExtendedPropertySet, BasePropertySet}  from "../../../src/js/ExchangeWebService";
+import {AutodiscoverService, WebCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName, DefaultExtendedPropertySet, BasePropertySet}  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";
 import {MockXHRData} from "../../MockXHRData";
 
@@ -11,7 +11,7 @@ describe.skip("Calendar Operation tests", () => {
     var MyPropertySetId: Guid = new Guid("{C11FF724-AA03-4555-9952-8FA248A11C3E}");
     var exch = new ExchangeService(ExchangeVersion.Exchange2013);
     exch.Url = new Uri("https://fake");
-    exch.Credentials = new ExchangeCredentials("username", "password");
+    exch.Credentials = new WebCredentials("username", "password");
     var mockXhr = new MockXHRApi();
     it.skip("find appointments and load extended property ", (done) => {
         mockXhr.requestXml = [MockXHRData.Operations.ItemOperations.FindItemRequest1ItemView];

@@ -44,6 +44,7 @@ export class ExchangeServiceBase {
     get TimeZone(): TimeZoneInfo {
         return this.timeZone;
     }
+    /**@internal */
     get TimeZoneDefinition(): TimeZoneDefinition {
         if (this.timeZoneDefinition == null) {
             this.timeZoneDefinition = new TimeZoneDefinition(this.TimeZone);
@@ -112,7 +113,7 @@ export class ExchangeServiceBase {
             throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
         }
         var timeZone: TimeZoneInfo = null;
-        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
+        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2013_SP1;
         var service: ExchangeServiceBase = null;
 
         if (argsLength >= 1) {

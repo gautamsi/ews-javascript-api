@@ -1,4 +1,4 @@
-import {AutodiscoverService, ExchangeCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
+import {AutodiscoverService, WebCredentials, ExchangeService, ConflictResolutionMode, Guid, ExtendedPropertyDefinition, MapiPropertyType, PropertySet, ExchangeVersion, ItemView, UserSettingName, EwsLogging, Uri, DateTime, WellKnownFolderName,
 DefaultExtendedPropertySet, BasePropertySet, Item, EmailMessage, Attachment, FileAttachment, ItemAttachment, AttachmentCollection, EmailAddress, MessageBody, FolderId
 }  from "../../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../../MockXHRApi";
@@ -14,7 +14,7 @@ describe("Attachment Operation tests", () => {
     var AttachedFileContent = "c29tZSB0ZXh0";
     var exch = new ExchangeService(ExchangeVersion.Exchange2013);
     exch.Url = new Uri("https://fake");
-    exch.Credentials = new ExchangeCredentials("username", "password");
+    exch.Credentials = new WebCredentials("username", "password");
     var mockXhr = new MockXHRApi();
     it("Create and Send Attachment", (done) => {
         mockXhr.requestXml = [MockXHRData.Operations.AttachmentOperations.CreateItemWithAttachment];

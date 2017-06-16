@@ -1,11 +1,11 @@
 import moment = require('moment-timezone');
+import { TimeZoneMappingData } from "./tzmapping";
+
 import { ArgumentOutOfRangeException, ArgumentException, ArgumentNullException } from "../js/Exceptions/ArgumentException";
-import { ArrayHelper } from "./ExchangeWebService";
+import { ArrayHelper, StringHelper } from "../js/ExtensionMethods";
 import { DateTime, DateTimeKind } from "./DateTime";
 import { DayOfWeek } from "../js/Enumerations/DayOfWeek";
-import { StringHelper } from "../js/ExtensionMethods";
 import { TimeSpan } from "./TimeSpan";
-var tzmapping = require("./tzmapping");
 
 /**
 * TimeZoneInfo
@@ -112,7 +112,7 @@ export class TimeZoneInfo {
         //this._supportsDaylightSavingTime = adjustmentRulesSupportDst && !disableDaylightSavingTime;
         this._adjustmentRules = adjustmentRules;
 
-        let tzArray = tzmapping[id];
+        let tzArray = TimeZoneMappingData[id];
         if (ArrayHelper.isArray(tzArray)) {
             this._supportsDaylightSavingTime = tzArray[4] && !disableDaylightSavingTime;
         }
@@ -143,7 +143,7 @@ export class TimeZoneInfo {
             if (StringHelper.IsNullOrEmpty(destinationTimeZone._id)) {
                 throw new ArgumentException("Destination Timezone does not have valid identifier")
             }
-            let targetTzData = tzmapping[destinationTimeZone._id] as string[];
+            let targetTzData = TimeZoneMappingData[destinationTimeZone._id] as string[];
             if (!ArrayHelper.isArray(targetTzData) || !ArrayHelper.isArray(targetTzData[0])) {
                 throw new ArgumentException("Destination Timezone does not have valid identifier")
             }
@@ -156,18 +156,18 @@ export class TimeZoneInfo {
     private static CreateLocal(): TimeZoneInfo {
         let tzGuess: string = moment.tz.guess();
         let offset: number = moment().utcOffset();
-        if (StringHelper.IsNullOrEmpty(tzGuess) || StringHelper.IsNullOrEmpty(tzmapping[tzGuess])) {
+        if (StringHelper.IsNullOrEmpty(tzGuess) || StringHelper.IsNullOrEmpty(TimeZoneMappingData[tzGuess])) {
             console.assert(false, "Unabele to guess timezone, switching to Utc");
             return this.Utc;
         }
-        let tzArray: any[] = tzmapping[tzmapping[tzGuess]];
+        let tzArray: any[] = TimeZoneMappingData[TimeZoneMappingData[tzGuess]];
 
 
         if (ArrayHelper.isArray<any>(tzArray)) {
-            this._localTimeZone = new TimeZoneInfo(tzmapping[tzGuess], TimeSpan.FromMinutes(offset), tzArray[1], <string>tzArray[2], <string>tzArray[3], [], false);
+            this._localTimeZone = new TimeZoneInfo(TimeZoneMappingData[tzGuess], TimeSpan.FromMinutes(offset), tzArray[1], <string>tzArray[2], <string>tzArray[3], [], false);
         }
         else {
-            this._localTimeZone = this.CreateCustomTimeZone(tzmapping[tzGuess], TimeSpan.FromMinutes(offset), tzmapping[tzGuess], tzmapping[tzGuess]);
+            this._localTimeZone = this.CreateCustomTimeZone(TimeZoneMappingData[tzGuess], TimeSpan.FromMinutes(offset), TimeZoneMappingData[tzGuess], TimeZoneMappingData[tzGuess]);
         }
         this._localTimeZone._ianaId = tzGuess;
         return this._localTimeZone;
@@ -207,7 +207,7 @@ export class TimeZoneInfo {
         let ianaId = StringHelper.Empty;
         let winId = StringHelper.Empty;
 
-        let mappedTz: string | any[] = tzmapping[zoneName];
+        let mappedTz: string | any[] = TimeZoneMappingData[zoneName];
         let tzArray = mappedTz;
 
         if (ArrayHelper.isArray<any>(mappedTz)) {
@@ -216,7 +216,7 @@ export class TimeZoneInfo {
         } else {
             ianaId = zoneName;
             winId = mappedTz;
-            tzArray = tzmapping[winId];
+            tzArray = TimeZoneMappingData[winId];
             if (!ArrayHelper.isArray(tzArray)) {
                 throw new Error("TimeZoneInfo->FromZoneName : Invalid mapping data")
             }
@@ -226,6 +226,10 @@ export class TimeZoneInfo {
         tzinfo._ianaId = ianaId;
         return tzinfo;
     }
+
+    public static get ListWindowsTimeZones(): () => string[] {
+        return () => Object.keys(TimeZoneMappingData).filter(x=>x.indexOf("/") < 0);
+    }
     private static GetCorrespondingKind(timeZone: TimeZoneInfo): DateTimeKind {
         if (timeZone === TimeZoneInfo.Utc) return DateTimeKind.Utc;
         if (timeZone === TimeZoneInfo.Local) return DateTimeKind.Local;
@@ -233,7 +237,7 @@ export class TimeZoneInfo {
 
     }
 
-    public static GuessLocalTimeZone(): String {
+    public static GuessLocalTimeZone(): string {
         return moment.tz.guess();
     }
 

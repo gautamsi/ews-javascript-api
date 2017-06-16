@@ -1,9 +1,9 @@
 import {
-    ConfigurationApi, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+    ConfigurationApi, Uri, AttendeeInfo, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
     UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
     EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
     ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody,
-    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType
+    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType, WebCredentials
 } from "../../src/js/ExchangeWebService";
 
 import { MockXHRApi } from "../MockXHRApi";
@@ -28,7 +28,7 @@ export class Greeter {
     start() {
 
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
-        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        exch.Credentials = new WebCredentials(credentials.userName, credentials.password);
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         EwsLogging.DebugLogEnabled = true;
 

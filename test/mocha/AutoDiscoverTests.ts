@@ -1,4 +1,4 @@
-import {AutodiscoverService, ExchangeCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri}  from "../../src/js/ExchangeWebService";
+import {AutodiscoverService, WebCredentials, ExchangeService, ExchangeVersion, UserSettingName, EwsLogging, Uri}  from "../../src/js/ExchangeWebService";
 import {MockXHRApi} from "../MockXHRApi";
 import {MockXHRData} from "../MockXHRData";
 
@@ -11,7 +11,7 @@ describe.skip("AutoDiscover tests", () => {
 	describe("AutoDiscover settings with single user", () => {
 		var autod = new AutodiscoverService(ExchangeVersion.Exchange2010_SP1);
 		autod.Url = new Uri("https://fake");
-		autod.Credentials = new ExchangeCredentials("username", "password");
+		autod.Credentials = new WebCredentials("username", "password");
 		var mockXhr = new MockXHRApi();
 		it("GetUserSetting with single user", () => {
 			mockXhr.requestXml = [MockXHRData.AutoDiscover.autodiscoverRequestWithSingleUserRequest];

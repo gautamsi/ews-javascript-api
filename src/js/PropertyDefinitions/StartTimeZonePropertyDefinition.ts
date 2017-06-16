@@ -6,6 +6,7 @@ import { PropertyBag } from "../Core/PropertyBag";
 import { PropertyDefinition } from "./PropertyDefinition";
 import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
 import { Schemas } from "../Core/ServiceObjects/Schemas/Schemas";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { XmlElementNames } from "../Core/XmlElementNames";
 
 import { TimeZonePropertyDefinition } from "./TimeZonePropertyDefinition";
@@ -68,7 +69,7 @@ export class StartTimeZonePropertyDefinition extends TimeZonePropertyDefinition 
             if (writer.Service.RequestedServerVersion == ExchangeVersion.Exchange2007_SP1) {
                 var service = <ExchangeService>writer.Service;
                 if (service != null && service.Exchange2007CompatibilityMode == false) {
-                    var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone(/*<TimeZoneInfo>value*/);
+                    var meetingTimeZone: MeetingTimeZone = new MeetingTimeZone(<TimeZoneInfo>value);
                     meetingTimeZone.WriteToXml(writer, XmlElementNames.MeetingTimeZone);
                 }
             }

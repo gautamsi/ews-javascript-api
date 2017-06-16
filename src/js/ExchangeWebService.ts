@@ -132,7 +132,7 @@ import { AbsoluteDateTransition } from "./ComplexProperties/TimeZones/AbsoluteDa
 import { AbsoluteDayOfMonthTransition } from "./ComplexProperties/TimeZones/AbsoluteDayOfMonthTransition";
 //import {AbsoluteMonthTransition} from "./ComplexProperties/TimeZones/AbsoluteMonthTransition";
 import { RelativeDayOfMonthTransition } from "./ComplexProperties/TimeZones/RelativeDayOfMonthTransition";
-export { TimeZoneDefinition } from "./ComplexProperties/TimeZones/TimeZoneDefinition";
+//export { TimeZoneDefinition } from "./ComplexProperties/TimeZones/TimeZoneDefinition";
 export { TimeZonePeriod } from "./ComplexProperties/TimeZones/TimeZonePeriod";
 
 TypeContainer.AbsoluteDateTransition = AbsoluteDateTransition;
