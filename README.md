@@ -8,7 +8,7 @@ ews-javascript-api
 * Almost all methods in ExchangeService class is comple with respect to c# counterpart ([based on commit#31951f4 ](https://github.com/OfficeDev/ews-managed-api/commit/31951f456519786e41232fa9ff6a3ab20b56cac3)
     * some method skipped as they are not for client side code or are diaognostic methods. 
 * Roadmap to Beta:
-    * ReWrite XHR/Request and Promise see #94
+    * ~ReWrite XHR/Request and Promise see #94~ done
     * Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isnt taking any advantage of.
     * Add jsdoc comment to remaining exported class
 * Roadmap to 1.0
@@ -18,7 +18,7 @@ ews-javascript-api
     * Add documentation with sample code for each operation in ExchangeService methods
     * Integrate ntlm and cookies authentication code in main library 
 * Beyond 1.0 
-    * Add npm based typings support for lates TypeScript based workflow
+    * ~Add npm based typings support for lates TypeScript based workflow~ completed in `0.9.0`
     * minified version for any developer need 
     * String Null check to improve reliability, TypeScript 2.0 feature
     * Complete jsdoc comment in 
@@ -38,29 +38,54 @@ Works with **Office 365/Exchange Online** and on-premises Exchange (2007 - 2016)
 
 ## Authentication
 * Basic - inbuilt
-* [NTLM](https://gist.github.com/gautamsi/28211eda711e3e7dc04c) - using XHRApi adapter
-* [Cookies/FBA Authentication with TMG/ISA](https://gist.github.com/gautamsi/4aec3307942de9087e89) - using XHRApi adapter 
+* OAuth - inbuilt (see https://stackoverflow.com/a/43785262/5884960 for more details on how to use.)
+* NTLM and NTLMv2 - using [ews-javascript-api-auth](https://github.com/gautamsi/ews-javascript-api-auth) 
+* Cookies/FBA Authentication with TMG/ISA - using [ews-javascript-api-auth](https://github.com/gautamsi/ews-javascript-api-auth) 
 
 > use SSL for basic authentication  
 NTLM and Cookies Authentication works with nodejs only
 
 ## Modules
 * commonjs module for NodeJs
-* AMD module for browser*
+* AMD module for other scenarios* (not documented yet)
 
-All http call is wrapped in promise using WinJS promise.  
-Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library/office/jj536567.aspx) should work with little modificaion to Promise format
+All http call is wrapped in promise using default BlueBird promise.  You can also interchange compatible promise api.  
+Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library/office/jj536567.aspx) should work with little modificaion to Promise format   
+You can also leverage new async/await feature of nodejs (>7.0.6) or in TypeScript transpilation with es5/es6 code.  
 
 
 ## Documentation
-Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  
+Api document generated using TypeDoc and is hosted at [ews-javascript-api.github.io/api](http://ews-javascript-api.github.io/api).  ** outdated
 Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more details
 
 keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.9.0
+
+* new: [#94](https://github.com/gautamsi/ews-javascript-api/issues/94) new XHR algorithm and BlueBird like Promise support. default is Bluebird. Breaking changes published in #131. how to replace promise api, see pull request comment. This also enabled streaming subscription over ntlm authentication as well as cookies auth. see #65 
+* new: [#180](https://github.com/gautamsi/ews-javascript-api/issues/180#issuecomment-302836777) can now use XHR api per `ExchangeService` instance see issue link for how to 
+* new: [#148](https://github.com/gautamsi/ews-javascript-api/issues/148) TimeZone implemented, see comment of pull request for known issues and workaround
+* new: [#145](https://github.com/gautamsi/ews-javascript-api/issues/145) various `OnChange`tracking is implemented, various array like fields (EmailSddresses, PhoneNumbers etc.)  can now be updated properly. see #137
+* new: [#140](https://github.com/gautamsi/ews-javascript-api/issues/140) `DateTime` object is now more compatible with c# counterpart, see issue for more details on which all property and functions are available  
+* new: [#131](https://github.com/gautamsi/ews-javascript-api/issues/131) Can this library be used in new Typescript projects - Typing field in package.json published. works as expected in latest typescript.  
+* fix: [#181](https://github.com/gautamsi/ews-javascript-api/issues/181) - PropertySet comparison bug
+* fix: [#178](https://github.com/gautamsi/ews-javascript-api/issues/178) - Throw error when call folder.FindFolders(folderView)
+* fix: [#174](https://github.com/gautamsi/ews-javascript-api/issues/174) - Stop subscribe mailbox with unknown error - This also adds `OnResponseHeader` delegate on `StreamingSubscriptionConnection` object. helps in detemining when connection is established
+* fix: [#167](https://github.com/gautamsi/ews-javascript-api/issues/167) - Exception.js does not handle Circular references - fixed issue with Exception Stack Trace when there is circular reference
+* fix: [#164](https://github.com/gautamsi/ews-javascript-api/issues/164) - Can't update permissions on calendar folder
+* fix: [#163](https://github.com/gautamsi/ews-javascript-api/issues/163) - BUG: FileAttachment.Load does not work, throws error
+* fix: [#156](https://github.com/gautamsi/ews-javascript-api/issues/156) - AllDayEvent on Exchange2007_SP1
+* fix: [#151](https://github.com/gautamsi/ews-javascript-api/issues/151) - Problems with Recurrence.RelativeMonthlyPattern
+* fix: [#150](https://github.com/gautamsi/ews-javascript-api/issues/150) - Impossible to set Interval on Recurrence
+* fix: [#143](https://github.com/gautamsi/ews-javascript-api/issues/143) - Get Email Message source - TextBody element was not captured due to the way code is organized.
+* fix: [#137](https://github.com/gautamsi/ews-javascript-api/issues/137) - contact.Save not working properly || email adresses, phonenumbers etc. not saved.  #123 is also fixed.
+* fix: [#126](https://github.com/gautamsi/ews-javascript-api/issues/126) - Mail attachment problem - wasnt working properly below 2013 version
+* fix: [#65](https://github.com/gautamsi/ews-javascript-api/issues/65) - Is StreamingSubscriptionConnection api working on NTLM auth? - now it works
+* fix: [#58](https://github.com/gautamsi/ews-javascript-api/issues/58) - Availability is using GMT and not leveraging user's current timezone
+
 # Whats new v0.8.0
 
-* new: [#46](https://github.com/gautamsi/ews-javascript-api/issues/48) ***eDiscovery operations*** availbale, [see MSDN: *eDiscovery in EWS* section on this link](https://msdn.microsoft.com/EN-US/library/office/jj190903(v=exchg.150).aspx#eDisc)
+* new: [#48](https://github.com/gautamsi/ews-javascript-api/issues/48) ***eDiscovery operations*** availbale, [see MSDN: *eDiscovery in EWS* section on this link](https://msdn.microsoft.com/EN-US/library/office/jj190903(v=exchg.150).aspx#eDisc)
 * new: [#120](https://github.com/gautamsi/ews-javascript-api/issues/120) missing method parameters for SetHoldOnMailboxes operation in c# library, but in EWS operation.
 * fix: [#99](https://github.com/gautamsi/ews-javascript-api/issues/99) - Can't cancel meeting - TypeError
 
@@ -296,14 +321,19 @@ CopyItemsInConversations
 DeleteItemsInConversations   
 SetReadStateForItemsInConversations   
 SetRetentionPolicyForItemsInConversations   
-SetFlagStatusForItemsInConversations   
-GetAppManifests  \*   
-GetAppMarketplaceUrl  \*   
-DisableApp  \*   
-InstallApp  \*   
-UninstallApp  \*   
-
-\* is for new items in recent update
+SetFlagStatusForItemsInConversations    
+GetAppManifests    
+GetAppMarketplaceUrl   
+DisableApp   
+InstallApp   
+UninstallApp   
+GetDiscoverySearchConfiguration   
+GetHoldOnMailboxes   
+GetNonIndexableItemDetails   
+GetNonIndexableItemStatistics   
+GetSearchableMailboxes   
+SearchMailboxes   
+SetHoldOnMailboxes   
 
 
 ## List of Folder object methods available
