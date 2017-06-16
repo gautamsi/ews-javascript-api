@@ -1,19 +1,20 @@
-﻿import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinition} from "./PropertyDefinition";
-import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
-import {EwsLogging} from "../Core/EwsLogging";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {PropertyBag} from "../Core/PropertyBag";
-import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
-import {IOutParam} from "../Interfaces/IOutParam";
-import {StringHelper} from "../ExtensionMethods";
-import {Strings} from "../Strings";
-import {PropertyException} from "../Exceptions/PropertyException";
-import {TimeZoneConversionException} from "../Exceptions/TimeZoneConversionException";
+﻿import { DateTime, DateTimeKind } from "../DateTime";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { IOutParam } from "../Interfaces/IOutParam";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinition } from "./PropertyDefinition";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { PropertyException } from "../Exceptions/PropertyException";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 
 
-import {DateTimePropertyDefinition} from "./DateTimePropertyDefinition";
+import { DateTimePropertyDefinition } from "./DateTimePropertyDefinition";
 /**
  * @internal Represents a property definition for DateTime values scoped to a specific time zone property.
  */
@@ -74,7 +75,7 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
      * @return  {DateTime}              The converted DateTime.
      */
     ScopeToTimeZone(service: ExchangeServiceBase, dateTime: DateTime, propertyBag: PropertyBag, isUpdateOperation: boolean): DateTime {
-        EwsLogging.Assert(false, "ScopedDateTimePropertyDefinition.ScopeToTimeZone", "TimeZone info could be misleading, It should be used as UTC in all cases until fixed");
+        EwsLogging.Assert(false, "ScopedDateTimePropertyDefinition.ScopeToTimeZone", "[Info]:  TimeZone info has been updated, Please report any bugs to github", true);
         if (!propertyBag.Owner.GetIsCustomDateTimeScopingRequired()) {
             // Most item types do not require a custom scoping mechanism. For those item types,
             // use the default scoping mechanism.
@@ -102,7 +103,7 @@ export class ScopedDateTimePropertyDefinition extends DateTimePropertyDefinition
                         TimeZoneInfo.Utc);
 
                     // This is necessary to stamp the date/time with the Local kind.
-                    return new DateTime(convertedDateTime, DateTimeKind.Utc);
+                    return new DateTime(convertedDateTime.TotalMilliSeconds, DateTimeKind.Utc);
                 }
                 catch (e) {
                     throw new PropertyException(

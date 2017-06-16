@@ -1,8 +1,14 @@
-import {ServiceObjectSchemaStatic} from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
-import {IIndexedPropertyDefinition} from "./PropertyDefinitions/IndexedPropertyDefinition";
-import {IExtendedPropertyDefinition} from "./PropertyDefinitions/ExtendedPropertyDefinition";
+import { ExtendedPropertyDefinition } from "./PropertyDefinitions/ExtendedPropertyDefinition";
+import { IndexedPropertyDefinition } from "./PropertyDefinitions/IndexedPropertyDefinition";
+
+import { ServiceObjectSchemaStatic } from "./Core/ServiceObjects/Schemas/ServiceObjectSchema";
+
+import { AbsoluteDateTransition } from "./ComplexProperties/TimeZones/AbsoluteDateTransition";
+import { AbsoluteDayOfMonthTransition } from "./ComplexProperties/TimeZones/AbsoluteDayOfMonthTransition";
+import { RelativeDayOfMonthTransition } from "./ComplexProperties/TimeZones/RelativeDayOfMonthTransition";
+
 /**
- * TypeContainer  - contains Type as properties. Required to evade circular dependency. Initilized in ExchangeWebService.ts which is going to weave type objects.
+ * @internal TypeContainer  - contains Type as properties. Required to evade circular dependency. Initilized in ExchangeWebService.ts which is going to weave type objects.
  */
 export class TypeContainer {
     constructor(parameters) {
@@ -80,10 +86,30 @@ export class TypeContainer {
     /**
      * IndexedPropertyDefinition
      */
-    public static IndexedPropertyDefinition: IIndexedPropertyDefinition;
+    public static IndexedPropertyDefinition: typeof IndexedPropertyDefinition;
 
     /**
      * ExtendedPropertyDefinition
      */
-    public static ExtendedPropertyDefinition: IExtendedPropertyDefinition;
+    public static ExtendedPropertyDefinition: typeof ExtendedPropertyDefinition;
+
+
+    /**
+     * TimeZone
+     */
+
+    /**
+     * Type object of AbsoluteDateTransition (not instance)
+     */
+    public static AbsoluteDateTransition: typeof AbsoluteDateTransition;
+
+    /** 
+     * Type object of AbsoluteDayOfMonthTransition (not instance)
+    */
+    public static AbsoluteDayOfMonthTransition: typeof AbsoluteDayOfMonthTransition;
+
+    /** 
+     * Type object of RelativeDayOfMonthTransition (not instance)
+    */
+    public static RelativeDayOfMonthTransition: typeof RelativeDayOfMonthTransition;
 }

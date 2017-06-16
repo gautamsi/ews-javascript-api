@@ -1,32 +1,66 @@
-﻿import {TimeZonePeriod} from "./TimeZonePeriod";
-import {AbsoluteDateTransition} from "./AbsoluteDateTransition";
-import {RelativeDayOfMonthTransition} from "./RelativeDayOfMonthTransition";
-import {AbsoluteDayOfMonthTransition} from "./AbsoluteDayOfMonthTransition";
-import {TimeZoneTransitionGroup} from "./TimeZoneTransitionGroup";
-import {TimeZoneDefinition} from "./TimeZoneDefinition";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {JsonObject} from "../../Core/JsonObject";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {StringHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
-import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {ComplexProperty} from "../ComplexProperty";
-export class TimeZoneTransition extends ComplexProperty {
-    private static PeriodTarget: string = "Period";
-    private static GroupTarget: string = "Group";
+﻿import { AbsoluteDayOfMonthTransition } from "./AbsoluteDayOfMonthTransition";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { IOutParam } from "../../Interfaces/IOutParam";
+import { RelativeDayOfMonthTransition } from "./RelativeDayOfMonthTransition";
+import { ServiceLocalException } from "../../Exceptions/ServiceLocalException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { TimeZoneDefinition } from "./TimeZoneDefinition";
+import { TimeZoneInfo } from "../../TimeZoneInfo";
+import { TimeZonePeriod } from "./TimeZonePeriod";
+import { TimeZoneTransitionGroup } from "./TimeZoneTransitionGroup";
+import { TypeContainer } from "../../TypeContainer";
+import { XmlAttributeNames } from "../../Core/XmlAttributeNames";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-    get TargetPeriod(): TimeZonePeriod { return this.targetPeriod; }
-    get TargetGroup(): TimeZoneTransitionGroup { return this.targetGroup; }
+import { ComplexProperty } from "../ComplexProperty";
+/**
+ * @internal Represents the base class for all time zone transitions.
+ */
+export class TimeZoneTransition extends ComplexProperty {
+
+    private static readonly PeriodTarget: string = "Period";
+    private static readonly GroupTarget: string = "Group";
+
     private timeZoneDefinition: TimeZoneDefinition;
     private targetPeriod: TimeZonePeriod;
     private targetGroup: TimeZoneTransitionGroup;
+
+    /**
+     * @internal Gets the target period of the transition.
+     */
+    get TargetPeriod(): TimeZonePeriod { return this.targetPeriod; 
+    }
+
+    /**
+     * @internal Gets the target transition group of the transition.
+     */
+    get TargetGroup(): TimeZoneTransitionGroup { return this.targetGroup; 
+    }
+
+    /**
+     * @internal Initializes a new instance of the **TimeZoneTransition** class.
+     *
+     * @param   {TimeZoneDefinition}   timeZoneDefinition   The time zone definition the transition will belong to.
+     */
     constructor(timeZoneDefinition: TimeZoneDefinition);
-    constructor(timeZoneDefinition, targetGroup: TimeZoneTransitionGroup);
-    constructor(timeZoneDefinition, targetPeriod: TimeZonePeriod);
-    constructor(timeZoneDefinition, targetPeriodOrGroup?: TimeZonePeriod | TimeZoneTransitionGroup) {
+    /**
+     * @internal Initializes a new instance of the **TimeZoneTransition** class.
+     *
+     * @param   {TimeZoneDefinition}        timeZoneDefinition   The time zone definition the transition will belong to.
+     * @param   {TimeZoneTransitionGroup}   targetGroup          The transition group the transition will target.
+     */
+    constructor(timeZoneDefinition: TimeZoneDefinition, targetGroup: TimeZoneTransitionGroup);
+    /**
+     * @internal Initializes a new instance of the **TimeZoneTransition** class.
+     *
+     * @param   {TimeZoneDefinition}    timeZoneDefinition   The time zone definition the transition will belong to.
+     * @param   {TimeZonePeriod}        targetPeriod         The period the transition will target.
+     */
+    constructor(timeZoneDefinition: TimeZoneDefinition, targetPeriod: TimeZonePeriod);
+    constructor(timeZoneDefinition: TimeZoneDefinition, targetPeriodOrGroup?: TimeZonePeriod | TimeZoneTransitionGroup) {
         super();
         this.timeZoneDefinition = timeZoneDefinition;
 
@@ -37,18 +71,22 @@ export class TimeZoneTransition extends ComplexProperty {
             this.targetGroup = targetPeriodOrGroup;
         }
     }
-    static AbsoluteDateTransition(timeZoneDefinition: TimeZoneDefinition): AbsoluteDateTransition { throw new Error("TimeZoneTransition.ts - uninitialized workaround - bootstrap to prevent circular dependency"); }
-    static RelativeDayOfMonthTransition(timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod): RelativeDayOfMonthTransition { throw new Error("TimeZoneTransition.ts - uninitialized workaround - bootstrap to prevent circular dependency"); }
-    static AbsoluteDayOfMonthTransition(timeZoneDefinition: TimeZoneDefinition, targetPeriod?: TimeZonePeriod): AbsoluteDayOfMonthTransition { throw new Error("TimeZoneTransition.ts - uninitialized workaround - bootstrap to prevent circular dependency"); }
-    //static AbsoluteDateTransition(timeZoneDefinition:TimeZoneDefinition):AbsoluteDateTransition {throw new Error("TimeZoneTransition.ts - uninitialized workaround - bootstrap to prevent circular dependency");}
-    Create(timeZoneDefinition: TimeZoneDefinition, xmlElementName: string): TimeZoneTransition {
+
+    /**
+     * @internal Creates a time zone period transition of the appropriate type given an XML element name.
+     *
+     * @param   {TimeZoneDefinition}    timeZoneDefinition   The time zone definition to which the transition will belong.
+     * @param   {string}                xmlElementName       The XML element name.
+     * @return  {TimeZoneTransition}    A TimeZonePeriodTransition instance.
+     */
+    static Create(timeZoneDefinition: TimeZoneDefinition, xmlElementName: string): TimeZoneTransition {
         switch (xmlElementName) {
             case XmlElementNames.AbsoluteDateTransition:
-                return TimeZoneTransition.AbsoluteDateTransition(timeZoneDefinition);//check: avoid circular module loading; new AbsoluteDateTransition(timeZoneDefinition);
+                return new TypeContainer.AbsoluteDateTransition(timeZoneDefinition);
             case XmlElementNames.RecurringDayTransition:
-                return TimeZoneTransition.RelativeDayOfMonthTransition(timeZoneDefinition);//check: avoid circular module loading new RelativeDayOfMonthTransition(timeZoneDefinition);
+                return new TypeContainer.RelativeDayOfMonthTransition(timeZoneDefinition);
             case XmlElementNames.RecurringDateTransition:
-                return TimeZoneTransition.AbsoluteDayOfMonthTransition(timeZoneDefinition);//check: avoid circular module loading new AbsoluteDayOfMonthTransition(timeZoneDefinition);
+                return new TypeContainer.AbsoluteDayOfMonthTransition(timeZoneDefinition);
             case XmlElementNames.Transition:
                 return new TimeZoneTransition(timeZoneDefinition);
             default:
@@ -58,65 +96,112 @@ export class TimeZoneTransition extends ComplexProperty {
                         xmlElementName));
         }
     }
-    CreateTimeZoneTransition(timeZoneDefinition: TimeZoneDefinition, targetPeriod: TimeZonePeriod, transitionTime: any): TimeZoneTransition {
+
+    /**
+     * @internal Creates a time zone transition based on the specified transition time.
+     *
+     * @param   {TimeZoneDefinition}            timeZoneDefinition   The time zone definition that will own the transition.
+     * @param   {TimeZonePeriod}                targetPeriod         The period the transition will target.
+     * @param   {TimeZoneInfo.TransitionTime}   transitionTime       The transition time to initialize from.
+     * @return  {TimeZoneTransition}            A TimeZoneTransition.
+     */
+    static CreateTimeZoneTransition(timeZoneDefinition: TimeZoneDefinition, targetPeriod: TimeZonePeriod, transitionTime: TimeZoneInfo.TransitionTime): TimeZoneTransition {
         var transition: TimeZoneTransition;
 
         if (transitionTime.IsFixedDateRule) {
-            transition = TimeZoneTransition.AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod); //check: avoid circular module loadingnew AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod);
+            transition = new TypeContainer.AbsoluteDayOfMonthTransition(timeZoneDefinition, targetPeriod);
         }
         else {
-            transition = TimeZoneTransition.RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod); //check: avoid circular module loadingnew RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod);
+            transition = new TypeContainer.RelativeDayOfMonthTransition(timeZoneDefinition, targetPeriod);
         }
 
         transition.InitializeFromTransitionTime(transitionTime);
 
         return transition;
     }
-    CreateTransitionTime(): any { throw new ServiceLocalException(Strings.InvalidOrUnsupportedTimeZoneDefinition); }
-    GetXmlElementName(): string { return XmlElementNames.Transition; }
-    InitializeFromTransitionTime(transitionTime: any): any { /*virtual method - throw new Error("TimeZoneTransition.ts - InitializeFromTransitionTime : Not implemented.");*/ }
-    //InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneTransition.ts - InternalToJson : Not implemented."); }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneTransition.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
 
-        throw new Error("TimeZoneTransition.ts - LoadFromXmlJsObject : Not implemented.");
-        //super.LoadFromXmlJsObject(jsonProperty, service);
-
-        // for(var key in jsonProperty)
-        // {
-        //     switch (key) {
-        //         case XmlElementNames.To:
-        //             string targetKind = jsonProperty.ReadAsJsonObject(key).ReadAsString(XmlAttributeNames.Kind);
-        //             string targetId = jsonProperty.ReadAsJsonObject(key).ReadAsString(XmlElementNames.Value);
-
-        //             switch (targetKind) {
-        //                 case TimeZoneTransition.PeriodTarget:
-        //                     if (!this.timeZoneDefinition.Periods.TryGetValue(targetId, out this.targetPeriod)) {
-        //                         throw new ServiceLocalException(
-        //                             string.Format(
-        //                                 Strings.PeriodNotFound,
-        //                                 targetId));
-        //                     }
-
-        //                     break;
-        //                 case TimeZoneTransition.GroupTarget:
-        //                     if (!this.timeZoneDefinition.TransitionGroups.TryGetValue(targetId, out this.targetGroup)) {
-        //                         throw new ServiceLocalException(
-        //                             string.Format(
-        //                                 Strings.TransitionGroupNotFound,
-        //                                 targetId));
-        //                     }
-
-        //                     break;
-        //                 default:
-        //                     throw new ServiceLocalException(Strings.UnsupportedTimeZonePeriodTransitionTarget);
-        //             }
-        //             break;
-        //     }
-        // }
+    /**
+     * @internal Creates a time zone transition time.
+     * @virtual
+     *
+     * @return  {TimeZoneInfo.TransitionTime}      A TimeZoneInfo.TransitionTime.
+     */
+    CreateTransitionTime(): TimeZoneInfo.TransitionTime {
+        throw new ServiceLocalException(Strings.InvalidOrUnsupportedTimeZoneDefinition);
     }
-    //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("TimeZoneTransition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
-    /**@internal */
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
+    GetXmlElementName(): string {
+        return XmlElementNames.Transition;
+    }
+
+    /**
+     * @internal Initializes this transition based on the specified transition time.
+     * @virtual
+     *
+     * @param   {TimeZoneInfo.TransitionTime}   transitionTime   The transition time to initialize from.
+     */
+    InitializeFromTransitionTime(transitionTime: TimeZoneInfo.TransitionTime): void { }
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
+
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlElementNames.To:
+                    let targetKind: string = jsObject[key][XmlAttributeNames.Kind];
+                    let targetId: string = jsObject[key][XmlElementNames.To];
+
+                    switch (targetKind) {
+                        case TimeZoneTransition.PeriodTarget:
+                            let targetPeriod: IOutParam<TimeZonePeriod> = { outValue: null }
+                            if (!this.timeZoneDefinition.Periods.tryGetValue(targetId, targetPeriod)) {
+                                throw new ServiceLocalException(
+                                    StringHelper.Format(
+                                        Strings.PeriodNotFound,
+                                        targetId));
+                            }
+                            else {
+                                this.targetPeriod = targetPeriod.outValue;
+                            }
+
+                            break;
+                        case TimeZoneTransition.GroupTarget:
+                            let targetGroup: IOutParam<TimeZoneTransitionGroup> = { outValue: null }
+
+                            if (!this.timeZoneDefinition.TransitionGroups.tryGetValue(targetId, targetGroup)) {
+                                throw new ServiceLocalException(
+                                    StringHelper.Format(
+                                        Strings.TransitionGroupNotFound,
+                                        targetId));
+                            }
+                            else {
+                                this.targetGroup = targetGroup.outValue;
+                            }
+
+                            break;
+                        default:
+                            throw new ServiceLocalException(Strings.UnsupportedTimeZonePeriodTransitionTarget);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @internal Writes elements to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.To);
 
@@ -131,7 +216,13 @@ export class TimeZoneTransition extends ComplexProperty {
 
         writer.WriteEndElement(); // To
     }
-    /**@internal */
-    WriteToXml(writer: EwsServiceXmlWriter): void { super.WriteToXml(writer, this.GetXmlElementName()); }
-}
 
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter): void {
+        super.WriteToXml(writer, this.GetXmlElementName());
+    }
+}

@@ -1,5 +1,5 @@
 import { AccountIsLockedException } from "../Exceptions/AccountIsLockedException";
-import { DateTime, DateTimeKind, TimeZoneInfo } from "../DateTime";
+import { DateTime, DateTimeKind } from "../DateTime";
 import { EwsLogging } from "./EwsLogging";
 import { EwsUtilities } from "./EwsUtilities";
 import { Exception } from "../Exceptions/Exception";
@@ -15,6 +15,7 @@ import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
 import { StringHelper } from "../ExtensionMethods";
 import { Strings } from "../Strings";
 import { TimeZoneDefinition } from "../ComplexProperties/TimeZones/TimeZoneDefinition";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { TraceFlags } from "../Enumerations/TraceFlags";
 import { Uri } from "../Uri";
 import { XHRFactory } from "../XHRFactory";
@@ -40,7 +41,10 @@ export class ExchangeServiceBase {
     static SessionKey: any[];//System.Byte[];
     SuppressXmlVersionHeader: boolean;
     Timeout: number;
-    get TimeZone(): TimeZoneInfo { return this.timeZone; }//System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {
+        return this.timeZone;
+    }
+    /**@internal */
     get TimeZoneDefinition(): TimeZoneDefinition {
         if (this.timeZoneDefinition == null) {
             this.timeZoneDefinition = new TimeZoneDefinition(this.TimeZone);
@@ -71,7 +75,8 @@ export class ExchangeServiceBase {
     private sendClientLatencies: boolean;
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
-    protected timeZone: TimeZoneInfo = TimeZoneInfo.Utc;//System.TimeZoneInfo;//ref: switching to utc instead of local in c# version. 
+    protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;
+    
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;
@@ -108,7 +113,7 @@ export class ExchangeServiceBase {
             throw new Error("ExchangeServiceBase.ts - ctor with " + argsLength + " parameters, invalid number of arguments, check documentation and try again.");
         }
         var timeZone: TimeZoneInfo = null;
-        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2007_SP1;
+        var requestedServerVersion: ExchangeVersion = ExchangeVersion.Exchange2013_SP1;
         var service: ExchangeServiceBase = null;
 
         if (argsLength >= 1) {
@@ -235,7 +240,7 @@ export class ExchangeServiceBase {
 
                 if (EwsUtilities.IsLocalTimeZone(this.TimeZone)) {
                     // This returns a DateTime with Kind.Local
-                    return new DateTime(localTime, DateTimeKind.Local);
+                    return new DateTime(localTime.TotalMilliSeconds, DateTimeKind.Local);
                 }
                 else {
                     // This returns a DateTime with Kind.Unspecified

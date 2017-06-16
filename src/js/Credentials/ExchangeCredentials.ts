@@ -1,7 +1,7 @@
 import {base64Helper, StringHelper} from "../ExtensionMethods";
 import {Uri} from "../Uri";
 import {IXHROptions} from "../Interfaces";
-export class ExchangeCredentials {
+export abstract class ExchangeCredentials {
     //NeedSignature: boolean;
     static WsSecurityPathSuffix: string = "/wssecurity";
 

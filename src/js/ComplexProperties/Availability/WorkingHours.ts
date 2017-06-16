@@ -1,17 +1,21 @@
-﻿import {DayOfTheWeek} from "../../Enumerations/DayOfTheWeek";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {LegacyAvailabilityTimeZone} from "../../Misc/Availability/LegacyAvailabilityTimeZone";
-import {TimeSpan, moment} from "../../DateTime";
-import {WorkingPeriod} from "./WorkingPeriod";
-import {ComplexProperty} from "../ComplexProperty";
+﻿import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { LegacyAvailabilityTimeZone } from "../../Misc/Availability/LegacyAvailabilityTimeZone";
+import { TimeSpan } from "../../TimeSpan";
+import { TimeZoneInfo } from "../../TimeZoneInfo";
+import { WorkingPeriod } from "./WorkingPeriod";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+
+import { ComplexProperty } from "../ComplexProperty";
 export class WorkingHours extends ComplexProperty {
     LegacyTimeZone: LegacyAvailabilityTimeZone = new LegacyAvailabilityTimeZone();
-    get TimeZone(): moment.Moment { return this.timeZone; }//System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {
+        return this.timeZone;
+    }
     get DaysOfTheWeek(): DayOfTheWeek[] { return this.daysOfTheWeek; }/*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/
     get StartTime(): TimeSpan { return this.startTime; } /*System.TimeSpan*/
     get EndTime(): TimeSpan { return this.endTime; } /*System.TimeSpan*/
-    private timeZone: moment.Moment;//System.TimeZoneInfo
+    private timeZone: TimeZoneInfo;
     private daysOfTheWeek: DayOfTheWeek[] = [] /*System.Collections.ObjectModel.Collection<DayOfTheWeek>*/;
     private startTime: TimeSpan /*System.TimeSpan*/;
     private endTime: TimeSpan /*System.TimeSpan*/;
@@ -40,7 +44,7 @@ export class WorkingHours extends ComplexProperty {
 
                         workingPeriod.LoadFromXmlJsObject(workingPeriodEntry, service);
 
-                         workingPeriods.push(workingPeriod);
+                        workingPeriods.push(workingPeriod);
                     }
 
                     // Availability supports a structure that can technically represent different working

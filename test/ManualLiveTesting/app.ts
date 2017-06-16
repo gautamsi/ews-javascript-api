@@ -1,9 +1,9 @@
 import {
-    ConfigurationApi, Uri, AttendeeInfo, TimeZoneDefinition, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
+    ConfigurationApi, Uri, AttendeeInfo, TimeWindow, DateTime, TimeSpan, DateTimeKind, TimeZoneInfo, AvailabilityData, EmailMessageSchema, ItemSchema, AggregateType, SortDirection, AutodiscoverService, ExchangeVersion, ExchangeCredentials, ExchangeService,
     UserSettingName, DomainSettingName, BasePropertySet, PropertySet, EnumHelper, FolderId, WellKnownFolderName, DOMParser, ItemView, Grouping, EmailMessage,
     EwsLogging, AppointmentSchema, CalendarActionResults, EwsUtilities, MeetingCancellation, MeetingRequest, MeetingResponse, Appointment, Item, StringHelper,
     ResolveNameSearchLocation, ExtendedPropertyDefinition, MapiPropertyType, ConflictResolutionMode, Guid, DefaultExtendedPropertySet, SendInvitationsMode, MessageBody,
-    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType
+    CalendarView, OofSettings, OofState, OofExternalAudience, OofReply, BodyType, WebCredentials
 } from "../../src/js/ExchangeWebService";
 
 import { MockXHRApi } from "../MockXHRApi";
@@ -28,13 +28,13 @@ export class Greeter {
     start() {
 
         var exch = new ExchangeService(ExchangeVersion.Exchange2013);
-        exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
+        exch.Credentials = new WebCredentials(credentials.userName, credentials.password);
         exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         EwsLogging.DebugLogEnabled = true;
 
         var appt = new Appointment(exch);
-        appt.Start = new DateTime().Add(48, 'hour');
-        appt.End = new DateTime().Add(49, 'hour');
+        appt.Start = DateTime.Now.Add(48, 'hour');
+        appt.End = DateTime.Now.Add(49, 'hour');
         appt.Subject = "some subject";
         appt.Location = "Plot 371 2nd floor";
         appt.Body = new MessageBody(BodyType.HTML, "Some body text");
@@ -137,7 +137,7 @@ export class Greeter {
         // var att2 = new AttendeeInfo("abhijitp@microsoft.com");
         // var att3 = new AttendeeInfo("pardeb@microsoft.com");
         // var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
-        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).asMilliseconds()));
+        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).TotalMilliseconds));
         var ats = [att1, att2];//, att3, att4];
         exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
             .then((fi) => {
@@ -279,7 +279,7 @@ export class Greeter {
         // var att2 = new AttendeeInfo("abhijitp@microsoft.com");
         // var att3 = new AttendeeInfo("pardeb@microsoft.com");
         // var att4 = new AttendeeInfo("bakul.jais@microsoft.com");
-        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).asMilliseconds()));
+        var tmw = new TimeWindow(DateTime.Now, new DateTime(DateTime.Now.TotalMilliSeconds + TimeSpan.FromHours(48).TotalMilliseconds));
         var ats = [att1, att2];//, att3, att4];
         exch.GetUserAvailability(ats, tmw, AvailabilityData.FreeBusyAndSuggestions)
             .then((fi) => {

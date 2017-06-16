@@ -1,18 +1,19 @@
-﻿import {PropertyException} from "../Exceptions/PropertyException";
-import {Strings} from "../Strings";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {ExchangeServiceBase} from "../Core/ExchangeServiceBase";
-import {PropertyBag} from "../Core/PropertyBag";
-import {ExchangeService} from "../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {DateTime, DateTimeKind, TimeZoneInfo} from "../DateTime";
-import {StringHelper} from "../ExtensionMethods";
-import {EwsLogging} from "../Core/EwsLogging";
+﻿import { DateTime, DateTimeKind } from "../DateTime";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyBag } from "../Core/PropertyBag";
+import { PropertyDefinitionFlags } from "../Enumerations/PropertyDefinitionFlags";
+import { PropertyException } from "../Exceptions/PropertyException";
+import { StringHelper } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { TimeZoneInfo } from "../TimeZoneInfo";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {PropertyDefinition} from "./PropertyDefinition";
+import { PropertyDefinition } from "./PropertyDefinition";
 /**
  * @internal Represents DateTime property definition.
  */
@@ -136,7 +137,7 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
                 service.TimeZone,
                 TimeZoneInfo.Utc);
 
-            return new DateTime(convertedDateTime, DateTimeKind.Utc);
+            return new DateTime(convertedDateTime.TotalMilliSeconds, DateTimeKind.Utc);
         }
         catch (e)//TimeZoneConversionException
         {

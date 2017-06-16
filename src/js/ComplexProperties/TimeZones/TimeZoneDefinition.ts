@@ -1,42 +1,172 @@
-﻿import {TimeZoneTransition} from "./TimeZoneTransition";
-import {TimeZonePeriod} from "./TimeZonePeriod";
-import {TimeZoneTransitionGroup} from "./TimeZoneTransitionGroup";
-import {AbsoluteDateTransition} from "./AbsoluteDateTransition";
-import {ServiceLocalException} from "../../Exceptions/ServiceLocalException";
-import {Strings} from "../../Strings";
-import {DateTime, TimeZoneInfo} from "../../DateTime";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {EwsLogging} from "../../Core/EwsLogging";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
-import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {Dictionary, DictionaryWithStringKey} from "../../AltDictionary";
-import {ComplexProperty} from "../ComplexProperty";
+﻿import { AbsoluteDateTransition } from "./AbsoluteDateTransition";
+import { DateTime } from "../../DateTime";
+import { Dictionary, DictionaryWithStringKey } from "../../AltDictionary";
+import { EwsLogging } from "../../Core/EwsLogging";
+import { EwsServiceJsonReader } from "../../Core/EwsServiceJsonReader";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { ServiceLocalException } from "../../Exceptions/ServiceLocalException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { TimeSpan } from "../../TimeSpan";
+import { TimeZoneInfo } from "../../TimeZoneInfo";
+import { TimeZonePeriod } from "./TimeZonePeriod";
+import { TimeZoneTransition } from "./TimeZoneTransition";
+import { TimeZoneTransitionGroup } from "./TimeZoneTransitionGroup";
+import { TraceFlags } from "../../Enumerations/TraceFlags";
+import { XmlAttributeNames } from "../../Core/XmlAttributeNames";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+
+import { ComplexProperty } from "../ComplexProperty";
+/**
+ * @internal Represents a time zone period as defined in the EWS schema.
+ */
 export class TimeZoneDefinition extends ComplexProperty {
-    private static NoIdPrefix: string = "NoId_";
-    Name: string = "UTC";//check:utc by default
-    Id: string = "UTC";//check:utc by default
-    get Periods(): Dictionary<string, TimeZonePeriod> { return this.periods; }// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-    get TransitionGroups(): Dictionary<string, TimeZoneTransitionGroup> { return this.transitionGroups; }// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
-    //private name: string; backing property not needed
-    //private id: string;
-    private periods: Dictionary<string, TimeZonePeriod> = new DictionaryWithStringKey<TimeZonePeriod>();// System.Collections.Generic.Dictionary<string, TimeZonePeriod>;
-    private transitionGroups: Dictionary<string, TimeZoneTransitionGroup> = new DictionaryWithStringKey<TimeZoneTransitionGroup>();// System.Collections.Generic.Dictionary<string, TimeZoneTransitionGroup>;
-    private transitions: TimeZoneTransition[] = [];//System.Collections.Generic.List<TimeZoneTransition>;
+
+    /**
+     * Prefix for generated ids.
+     */
+    private static readonly NoIdPrefix: string = "NoId_";
+
+    private periods: Dictionary<string, TimeZonePeriod> = new DictionaryWithStringKey<TimeZonePeriod>();
+    private transitionGroups: Dictionary<string, TimeZoneTransitionGroup> = new DictionaryWithStringKey<TimeZoneTransitionGroup>();
+    private transitions: TimeZoneTransition[] = [];
+
+    /**
+     * @internal Gets or sets the name of this time zone definition.
+     */
+    Name: string = "UTC";
+
+    /**
+     * @internal Gets or sets the Id of this time zone definition.
+     */
+    Id: string = "UTC";
+
+    /**
+     * @internal Gets the periods associated with this time zone definition, indexed by Id.
+     */
+    get Periods(): Dictionary<string, TimeZonePeriod> {
+        return this.periods;
+    }
+
+    /**
+     * @internal Gets the transition groups associated with this time zone definition, indexed by Id.
+     */
+    get TransitionGroups(): Dictionary<string, TimeZoneTransitionGroup> {
+        return this.transitionGroups;
+    }
+
+    /**
+     * @internal Initializes a new instance of the **TimeZoneDefinition** class.
+     */
     constructor();
-    constructor(timezoneInfo: TimeZoneInfo);
-    constructor(timezoneInfo?: TimeZoneInfo) {
+    /**
+     * @internal Initializes a new instance of the **TimeZoneDefinition** class.
+     *
+     * @param   {TimeZoneInfo}   timeZoneInfo   The time zone info used to initialize this definition.
+     */
+    constructor(timeZoneInfo: TimeZoneInfo);
+    constructor(timeZoneInfo: TimeZoneInfo = null) {
         super()
-        if (typeof timezoneInfo !== 'undefined' && timezoneInfo !== TimeZoneInfo.Utc) {
-            EwsLogging.Assert(false, "TimeZoneDefinition.ts - ctor", "timezone not implemented properly, always default to UTC")
-            //throw new Error("TimeZoneDefinition.ts - ctor - timezone not implemented")
+        if (timeZoneInfo != null && typeof timeZoneInfo !== 'undefined') {
+            this.Id = timeZoneInfo.Id;
+            this.Name = timeZoneInfo.DisplayName;
+
+            // TimeZoneInfo only supports one standard period, which bias is the time zone's base
+            // offset to UTC.
+            let standardPeriod: TimeZonePeriod = new TimeZonePeriod();
+            standardPeriod.Id = TimeZonePeriod.StandardPeriodId;
+            standardPeriod.Name = TimeZonePeriod.StandardPeriodName;
+            standardPeriod.Bias = new TimeSpan(-timeZoneInfo.BaseUtcOffset.TotalMilliseconds);
+
+            //ref: very complex to calculate timezone rules and transitions. it works without adding those elements as they are optional, need to find scenario where it is mandatory.
+
+            // let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = []; // = timeZoneInfo.GetAdjustmentRules();
+
+            // let transitionToStandardPeriod: TimeZoneTransition = new TimeZoneTransition(this, standardPeriod);
+
+            // if (adjustmentRules.length == 0) {
+            //     this.periods.Add(standardPeriod.Id, standardPeriod);
+
+            //     // If the time zone info doesn't support Daylight Saving Time, we just need to
+            //     // create one transition to one group with one transition to the standard period.
+            //     let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, "0");
+            //     transitionGroup.Transitions.push(transitionToStandardPeriod);
+
+            //     this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
+
+            //     let initialTransition: TimeZoneTransition = new TimeZoneTransition(this, transitionGroup);
+
+            //     this.transitions.push(initialTransition);
+            // }
+            // else {
+            //     for (let i = 0; i < adjustmentRules.length; i++) {
+            //         let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
+            //         transitionGroup.InitializeFromAdjustmentRule(adjustmentRules[i], standardPeriod);
+
+            //         this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
+
+            //         let transition: TimeZoneTransition;
+
+            //         if (i == 0) {
+            //             // If the first adjustment rule's start date in not undefined (DateTime.MinValue)
+            //             // we need to add a dummy group with a single, simple transition to the Standard
+            //             // period and a group containing the transitions mapping to the adjustment rule.
+            //             if (adjustmentRules[i].DateStart > DateTime.MinValue.Date) {
+            //                 let transitionToDummyGroup: TimeZoneTransition = new TimeZoneTransition(
+            //                     this,
+            //                     this.CreateTransitionGroupToPeriod(standardPeriod));
+
+            //                 this.transitions.push(transitionToDummyGroup);
+
+            //                 let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
+            //                 absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
+
+            //                 transition = absoluteDateTransition;
+            //                 this.periods.Add(standardPeriod.Id, standardPeriod);
+            //             }
+            //             else {
+            //                 transition = new TimeZoneTransition(this, transitionGroup);
+            //             }
+            //         }
+            //         else {
+            //             let absoluteDateTransition: AbsoluteDateTransition = new AbsoluteDateTransition(this, transitionGroup);
+            //             absoluteDateTransition.DateTime = adjustmentRules[i].DateStart;
+
+            //             transition = absoluteDateTransition;
+            //         }
+
+            //         this.transitions.push(transition);
+            //     }
+
+            //     // If the last adjustment rule's end date is not undefined (DateTime.MaxValue),
+            //     // we need to create another absolute date transition that occurs the date after
+            //     // the last rule's end date. We target this additional transition to a group that
+            //     // contains a single simple transition to the Standard period.
+            //     let lastAdjustmentRuleEndDate: DateTime = adjustmentRules[adjustmentRules.length - 1].DateEnd;
+
+            //     if (lastAdjustmentRuleEndDate < DateTime.MaxValue.Date) {
+            //         let transitionToDummyGroup: AbsoluteDateTransition = new AbsoluteDateTransition(
+            //             this,
+            //             this.CreateTransitionGroupToPeriod(standardPeriod));
+            //         transitionToDummyGroup.DateTime = lastAdjustmentRuleEndDate.AddDays(1);
+
+            //         this.transitions.push(transitionToDummyGroup);
+            //     }
+            // }
         }
     }
 
-    CompareTransitions(x: TimeZoneTransition, y: TimeZoneTransition): number {
+    /**
+     * Compares the transitions.
+     *
+     * @param   {TimeZoneTransition}   x   The first transition.
+     * @param   {TimeZoneTransition}   y   The second transition.
+     * @return  {number}       A negative number if x is less than y, 0 if x and y are equal, a positive number if x is greater than y.
+     */
+    private CompareTransitions(x: TimeZoneTransition, y: TimeZoneTransition): number {
         if (x == y) {
             return 0;
         }
@@ -47,17 +177,23 @@ export class TimeZoneDefinition extends ComplexProperty {
             return 1;
         }
         else {
-            var firstTransition: AbsoluteDateTransition = <AbsoluteDateTransition>x;
-            var secondTransition: AbsoluteDateTransition = <AbsoluteDateTransition>y;
+            let firstTransition: AbsoluteDateTransition = <AbsoluteDateTransition>x;
+            let secondTransition: AbsoluteDateTransition = <AbsoluteDateTransition>y;
 
             return DateTime.Compare(firstTransition.DateTime, secondTransition.DateTime);
         }
     }
 
-    CreateTransitionGroupToPeriod(timeZonePeriod: TimeZonePeriod): TimeZoneTransitionGroup {
-        var transitionToPeriod: TimeZoneTransition = new TimeZoneTransition(this, timeZonePeriod);
+    /**
+     * Adds a transition group with a single transition to the specified period.
+     *
+     * @param   {TimeZonePeriod}   timeZonePeriod   The time zone period.
+     * @return  {TimeZoneTransitionGroup}           A TimeZoneTransitionGroup.
+     */
+    private CreateTransitionGroupToPeriod(timeZonePeriod: TimeZonePeriod): TimeZoneTransitionGroup {
+        let transitionToPeriod: TimeZoneTransition = new TimeZoneTransition(this, timeZonePeriod);
 
-        var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
+        let transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this, this.transitionGroups.Count.toString());
         transitionGroup.Transitions.push(transitionToPeriod);
 
         this.transitionGroups.Add(transitionGroup.Id, transitionGroup);
@@ -65,71 +201,166 @@ export class TimeZoneDefinition extends ComplexProperty {
         return transitionGroup;
     }
 
-    //InternalToJson(service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - InternalToJson : Not implemented."); }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("TimeZoneDefinition.ts - LoadFromJson : Not implemented."); }
-    LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
-        throw new Error("TimeZoneDefinition.ts - LoadFromXmlJsObject : Not implemented.");
-        // for (var key in jsonProperty) {
-        //     switch (key) {
-        //         case XmlAttributeNames.Name:
-        //             this.Name = jsonProperty[key];
-        //             break;
-        //         case XmlAttributeNames.Id:
-        //             this.Id = jsonProperty[key];
-        //             break;
-        //         case XmlElementNames.Periods:
-        //             var jsonperiods: any[] = EwsServiceJsonReader.ReadAsArray(jsonProperty[key], XmlElementNames.Period);
-        //             for (var jsonPeriod of jsonperiods) {
-        //                 var period: TimeZonePeriod = new TimeZonePeriod();
-        //                 period.LoadFromXmlJsObject(jsonPeriod, service);
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
+    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
 
-        //                 this.periods.addUpdate(period.Id, period);
-        //             }
+        for (var key in jsObject) {
+            switch (key) {
+                case XmlAttributeNames.Name:
+                    this.Name = jsObject[key];
+                    break;
+                case XmlAttributeNames.Id:
+                    this.Id = jsObject[key];
+                    break;
+                case XmlElementNames.Periods:
+                    var jsperiods: any[] = EwsServiceJsonReader.ReadAsArray(jsObject[key], XmlElementNames.Period);
+                    for (var jsPeriod of jsperiods) {
+                        var period: TimeZonePeriod = new TimeZonePeriod();
+                        period.LoadFromXmlJsObject(jsPeriod, service);
 
-        //             break;
+                        // OM:1648848 Bad timezone data from clients can include duplicate rules
+                        // for one year, with duplicate ID. In that case, let the first one win.
+                        if (!this.periods.containsKey(period.Id)) {
+                            this.periods.Add(period.Id, period);
+                        }
+                        else {
+                            service.TraceMessage(
+                                TraceFlags.EwsTimeZones,
+                                StringHelper.Format(
+                                    "An entry with the same key (Id) '{0}' already exists in Periods. Cannot add another one. Existing entry: [Name='{1}', Bias='{2}']. Entry to skip: [Name='{3}', Bias='{4}'].",
+                                    period.Id,
+                                    this.Periods.get(period.Id).Name,
+                                    this.Periods.get(period.Id).Bias,
+                                    period.Name,
+                                    period.Bias));
+                        }
+                    }
+                    break;
 
-        //         case XmlElementNames.TransitionsGroups:
-        //             var arrayOfTransitionsType: any[] = EwsServiceJsonReader.ReadAsArray(jsonProperty[key], XmlElementNames.TransitionsGroup);
-        //             for (var arrayOfTransitionsTypeInstance of arrayOfTransitionsType) {
-        //                 var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this);
-        //                 transitionGroup.LoadFromXmlJsObject(arrayOfTransitionsTypeInstance, service);
+                case XmlElementNames.TransitionsGroups:
+                    var arrayOfTransitionsType: any[] = EwsServiceJsonReader.ReadAsArray(jsObject[key], XmlElementNames.TransitionsGroup);
+                    for (var arrayOfTransitionsTypeInstance of arrayOfTransitionsType) {
+                        var transitionGroup: TimeZoneTransitionGroup = new TimeZoneTransitionGroup(this);
+                        transitionGroup.LoadFromXmlJsObject(arrayOfTransitionsTypeInstance, service);
 
-        //                 this.transitionGroups.addUpdate(transitionGroup.Id, transitionGroup);
-        //             }
+                        this.transitionGroups.addUpdate(transitionGroup.Id, transitionGroup);
+                    }
+                    break;
 
-        //             break;
+                case XmlElementNames.Transitions:
 
-        //         case XmlElementNames.Transitions:
-        //             JsonObject arrayOfTransitionsType = jsonProperty.ReadAsJsonObject(key);
+                    for (let _key in jsObject[key]) {
+                        if (TimeZoneTransitionGroup.transitionTypes.indexOf(_key) >= 0) {
+                            let transitions: string[] = EwsServiceJsonReader.ReadAsArray(jsObject[key], _key);
+                            for (let item of transitions) {
+                                let transition: TimeZoneTransition = TimeZoneTransition.Create(this, _key);
+                                transition.LoadFromXmlJsObject(item, service);
+                                this.transitions.push(transition);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        //             foreach(object uncastJsonTransition in arrayOfTransitionsType.ReadAsArray(XmlElementNames.Transition))
-        //             {
-        //                 JsonObject jsonTransition = uncastJsonTransition as JsonObject;
-        //                 TimeZoneTransition transition = TimeZoneTransition.Create(this, jsonTransition.ReadTypeString());
+        // EWS can return a TimeZone definition with no Id. Generate a new Id in this case.
+        if (StringHelper.IsNullOrEmpty(this.Id)) {
+            let nameValue: string = StringHelper.IsNullOrEmpty(this.Name) ? StringHelper.Empty : this.Name;
+            //this.Id = TimeZoneDefinition.NoIdPrefix + Math.abs(nameValue.GetHashCode()).ToString();
+            this.Id = TimeZoneDefinition.NoIdPrefix + nameValue;
+        }
 
-        //                 transition.LoadFromJson(jsonTransition, service);
+        this.transitions.sort(this.CompareTransitions);
+    }
 
-        //                 this.transitions.Add(transition);
-        //             }
+    /**
+     * @internal Converts this time zone definition into a TimeZoneInfo structure.
+     *
+     * @param   {ExchangeService}   service   The service.
+     * @return  {TimeZoneInfo}      A TimeZoneInfo representing the same time zone as this definition.
+     */
+    ToTimeZoneInfo(service?: ExchangeService): TimeZoneInfo {
+        this.Validate();
 
-        //             break;
-        //         default:
-        //             break;
+        return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+        //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
+        // let result: TimeZoneInfo;
+
+        // // Retrieve the base offset to UTC, standard and daylight display names from
+        // // the last transition group, which is the one that currently applies given that
+        // // transitions are ordered chronologically.
+        // let creationParams: TimeZoneTransitionGroup.CustomTimeZoneCreateParams =
+        //     this.transitions[this.transitions.length - 1].TargetGroup.GetCustomTimeZoneCreationParams();
+
+        // let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
+
+        // let startDate: DateTime = DateTime.MinValue;
+        // let endDate: DateTime;
+        // let effectiveEndDate: DateTime;
+
+        // for (let i = 0; i < this.transitions.length; i++) {
+        //     if (i < this.transitions.length - 1) {
+        //         endDate = (this.transitions[i + 1] as AbsoluteDateTransition).DateTime;
+        //         effectiveEndDate = endDate.AddDays(-1);
+        //     }
+        //     else {
+        //         endDate = DateTime.MaxValue;
+        //         effectiveEndDate = endDate;
+        //     }
+
+        //     // OM:1648848 Due to bad timezone data from clients the 
+        //     // startDate may not always come before the effectiveEndDate
+        //     if (startDate < effectiveEndDate) {
+        //         let adjustmentRule: TimeZoneInfo.AdjustmentRule = this.transitions[i].TargetGroup.CreateAdjustmentRule(startDate, effectiveEndDate);
+
+        //         if (adjustmentRule != null) {
+        //             adjustmentRules.push(adjustmentRule);
+        //         }
+
+        //         startDate = endDate;
+        //     }
+        //     else {
+        //         // service.TraceMessage(
+        //         //     TraceFlags.EwsTimeZones,
+        //         //         string.Format(
+        //         //             "The startDate '{0}' is not before the effectiveEndDate '{1}'. Will skip creating adjustment rule.",
+        //         //             startDate,
+        //         //             effectiveEndDate));
         //     }
         // }
 
-        // // EWS can return a TimeZone definition with no Id. Generate a new Id in this case.
-        // if (string.IsNullOrEmpty(this.id)) {
-        //     string nameValue = string.IsNullOrEmpty(this.Name) ? string.Empty : this.Name;
-        //     this.Id = NoIdPrefix + Math.Abs(nameValue.GetHashCode()).ToString();
+        // if (adjustmentRules.length == 0) {
+        //     // If there are no adjustment rule, the time zone does not support Daylight
+        //     // saving time.
+        //     result = TimeZoneInfo.CreateCustomTimeZone(
+        //         this.Id,
+        //         creationParams.BaseOffsetToUtc,
+        //         this.Name,
+        //         creationParams.StandardDisplayName);
+        // }
+        // else {
+        //     result = TimeZoneInfo.CreateCustomTimeZone(
+        //         this.Id,
+        //         creationParams.BaseOffsetToUtc,
+        //         this.Name,
+        //         creationParams.StandardDisplayName,
+        //         creationParams.DaylightDisplayName,
+        //         adjustmentRules);
         // }
 
-        // this.transitions.Sort(this.CompareTransitions);
+        // return result;
     }
-    //ReadAttributesFromXmlJsObject(reader: any): any { throw new Error("TimeZoneDefinition.ts - ReadAttributesFromXml : Not implemented."); }
-    ToTimeZoneInfo(service?: ExchangeService): any /*System.TimeZoneInfo*/ { throw new Error("TimeZoneDefinition.ts - ToTimeZoneInfo : Not implemented."); }
-    //ReadElementsFromXmlJsObject(reader: any): boolean { throw new Error("TimeZoneDefinition.ts - TryReadElementFromXmlJsObject : Not implemented."); }
 
+    /**
+     * @internal Validates this time zone definition.
+     */
     Validate(): void {
         // The definition must have at least one period, one transition group and one transition,
         // and there must be as many transitions as there are transition groups.
@@ -145,7 +376,7 @@ export class TimeZoneDefinition extends ComplexProperty {
 
         // All transitions must be to transition groups and be either TimeZoneTransition or
         // AbsoluteDateTransition instances.
-        for (var transition of this.transitions) {
+        for (let transition of this.transitions) {
             //Type transitionType = transition.GetType();
 
             if (!(transition instanceof TimeZoneTransition) && !(transition instanceof AbsoluteDateTransition)) {
@@ -158,12 +389,16 @@ export class TimeZoneDefinition extends ComplexProperty {
         }
 
         // All transition groups must be valid.
-        for (var transitionGroup of this.transitionGroups.Values) {
+        for (let transitionGroup of this.transitionGroups.Values) {
             transitionGroup.Validate();
         }
     }
 
-    /**@internal */
+    /**
+     * @internal Writes the attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         // The Name attribute is only supported in Exchange 2010 and above.
         if (writer.Service.RequestedServerVersion != ExchangeVersion.Exchange2007_SP1) {
@@ -173,14 +408,18 @@ export class TimeZoneDefinition extends ComplexProperty {
         writer.WriteAttributeValue(XmlAttributeNames.Id, this.Id);
     }
 
-    /**@internal */
+    /**
+     * @internal Writes elements to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
         // We only emit the full time zone definition against Exchange 2010 servers and above.
         if (writer.Service.RequestedServerVersion != ExchangeVersion.Exchange2007_SP1) {
             if (this.periods.Count > 0) {
                 writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.Periods);
 
-                for (var keyValuePair of this.periods.Items) {
+                for (let keyValuePair of this.periods.Items) {
                     keyValuePair.value.WriteToXml(writer);
                 }
 
@@ -190,7 +429,7 @@ export class TimeZoneDefinition extends ComplexProperty {
             if (this.transitionGroups.Count > 0) {
                 writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.TransitionsGroups);
 
-                for (var transitionPair of this.transitionGroups.Items) {
+                for (let transitionPair of this.transitionGroups.Items) {
                     transitionPair.value.WriteToXml(writer);
                 }
 
@@ -200,7 +439,7 @@ export class TimeZoneDefinition extends ComplexProperty {
             if (this.transitions.length > 0) {
                 writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.Transitions);
 
-                for (var transition of this.transitions) {
+                for (let transition of this.transitions) {
                     transition.WriteToXml(writer);
                 }
 
@@ -208,9 +447,13 @@ export class TimeZoneDefinition extends ComplexProperty {
             }
         }
     }
-    /**@internal */
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string): void {
-        super.WriteToXml(writer, xmlElementName || XmlElementNames.TimeZoneDefinition, this.Namespace);
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter): void {
+        super.WriteToXml(writer, XmlElementNames.TimeZoneDefinition);
     }
 }
-

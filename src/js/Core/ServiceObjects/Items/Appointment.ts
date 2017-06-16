@@ -7,7 +7,7 @@ import { BodyType } from "../../../Enumerations/BodyType";
 import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
 import { CancelMeetingMessage } from "../ResponseObjects/CancelMeetingMessage";
 import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
-import { DateTime, TimeSpan, TimeZoneInfo } from "../../../DateTime";
+import { DateTime } from "../../../DateTime";
 import { DeclineMeetingInvitationMessage } from "../ResponseObjects/DeclineMeetingInvitationMessage";
 import { DeleteMode } from "../../../Enumerations/DeleteMode";
 import { DeletedOccurrenceInfoCollection } from "../../../ComplexProperties/DeletedOccurrenceInfoCollection";
@@ -40,6 +40,8 @@ import { SendInvitationsOrCancellationsMode } from "../../../Enumerations/SendIn
 import { ServiceLocalException } from "../../../Exceptions/ServiceLocalException";
 import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";
 import { Strings } from "../../../Strings";
+import { TimeSpan } from "../../../TimeSpan";
+import { TimeZoneInfo } from "../../../TimeZoneInfo";
 import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
 import { XmlElementNames } from "../../XmlElementNames";
 

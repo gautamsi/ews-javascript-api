@@ -39,7 +39,7 @@ import { CreateFolderRequest } from "./Requests/CreateFolderRequest";
 import { CreateItemRequest } from "./Requests/CreateItemRequest";
 import { CreateResponseObjectRequest } from "./Requests/CreateResponseObjectRequest";
 import { CreateUserConfigurationRequest } from "./Requests/CreateUserConfigurationRequest";
-import { DateTime, TimeZoneInfo } from "../DateTime";
+import { DateTime } from "../DateTime";
 import { DateTimePrecision } from "../Enumerations/DateTimePrecision";
 import { DelegateInformation } from "../Misc/DelegateInformation";
 import { DelegateManagementResponse } from "./Responses/DelegateManagementResponse";
@@ -201,6 +201,7 @@ import { SyncFolderItemsRequest } from "./Requests/SyncFolderItemsRequest";
 import { SyncFolderItemsScope } from "../Enumerations/SyncFolderItemsScope";
 import { TeamMailboxLifecycleState } from "../Enumerations/TeamMailboxLifecycleState";
 import { TimeWindow } from "../Misc/Availability/TimeWindow";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { TraceFlags } from "../Enumerations/TraceFlags";
 import { UnifiedMessaging } from "../UnifiedMessaging/UnifiedMessaging";
 import { UninstallAppRequest } from "./Requests/UninstallAppRequest";
@@ -259,7 +260,7 @@ export class ExchangeService extends ExchangeServiceBase {
     PreferredCulture: any = null;//System.Globalization.CultureInfo;
     DateTimePrecision: DateTimePrecision = DateTimePrecision.Default;
     FileAttachmentContentHandler: IFileAttachmentContentHandler = null;
-    get TimeZone(): TimeZoneInfo {// System.TimeZoneInfo;
+    get TimeZone(): TimeZoneInfo {
         return this.timeZone;
     }
     get UnifiedMessaging(): UnifiedMessaging {

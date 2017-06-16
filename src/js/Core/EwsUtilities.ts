@@ -1,7 +1,7 @@
 ﻿import { ArgumentException, ArgumentNullException } from "../Exceptions/ArgumentException";
 import { ArrayHelper, Convert, StringHelper } from "../ExtensionMethods";
 import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
-import { DateTime, TimeZoneInfo, DateTimeKind } from "../DateTime";
+import { DateTime, DateTimeKind } from "../DateTime";
 import { DayOfTheWeek } from "../Enumerations/DayOfTheWeek";
 import { DayOfWeek } from "../Enumerations/DayOfWeek";
 import { Dictionary, DictionaryWithStringKey, DictionaryWithNumericKey } from "../AltDictionary";
@@ -27,8 +27,9 @@ import { ServiceObject } from "./ServiceObjects/ServiceObject";
 import { ServiceObjectInfo } from "./ServiceObjects/ServiceObjectInfo";
 import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
 import { Strings } from "../Strings";
-import { TimeSpan, moment } from "../DateTime";
+import { TimeSpan } from "../TimeSpan";
 import { TimeZoneConversionException } from "../Exceptions/TimeZoneConversionException";
+import { TimeZoneInfo } from "../TimeZoneInfo";
 import { TypeContainer } from "../TypeContainer";
 import { TypeGuards } from "../Interfaces/TypeGuards";
 import { ViewFilter } from "../Enumerations/ViewFilter";
@@ -464,22 +465,25 @@ export class EwsUtilities {
         //             }
     }
     //static GetSimplifiedTypeName(typeName: string): string{ throw new Error("EwsUtilities.ts - static GetSimplifiedTypeName : Not implemented.");}
-    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean { return TimeZoneInfo.IsLocalTimeZone(timeZone); }
+    static IsLocalTimeZone(timeZone: TimeZoneInfo): boolean {
+        return (TimeZoneInfo.Local == timeZone) || (TimeZoneInfo.Local.Id == timeZone.Id && TimeZoneInfo.Local.HasSameRules(timeZone));
+    }
     //static Parse(value: string): any{ throw new Error("EwsUtilities.ts - static Parse : Not implemented.");}
     static ParseEnum(value: string, ewsenum): any { throw new Error("EwsUtilities.ts - static Parse : Not implemented."); }
     static ParseAsUnbiasedDatetimescopedToServicetimeZone(dateString: string, service: ExchangeService): DateTime {
         // Convert the element's value to a DateTime with no adjustment.
-        var tempDate: DateTime = DateTime.Parse(dateString + "Z");
+        //var tempDate: DateTime = DateTime.Parse(dateString + "Z");
 
         // Set the kind according to the service's time zone
         if (service.TimeZone == TimeZoneInfo.Utc) {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Utc);
+            return DateTime.Parse(dateString, DateTimeKind.Utc);
         }
         else if (EwsUtilities.IsLocalTimeZone(service.TimeZone)) {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Local);
+            return DateTime.Parse(dateString, DateTimeKind.Local);
         }
         else {
-            return new DateTime(tempDate.TotalMilliSeconds, DateTimeKind.Unspecified);
+            return DateTime.DateimeStringToTimeZone(dateString, service.TimeZone.IanaId);
+            //return DateTime.Parse(dateString, DateTimeKind.Unspecified);
         }
     }
     static ParseEnumValueList<T>(list: any[], value: string, separators: string, enumType: any): void {
@@ -512,10 +516,10 @@ export class EwsUtilities {
         return StringHelper.Format(
             "{0}P{1}DT{2}H{3}M{4}S",
             offsetStr,
-            Math.abs(timeSpan.days()),
-            Math.abs(timeSpan.hours()),
-            Math.abs(timeSpan.minutes()),
-            Math.abs(timeSpan.seconds()) + "." + Math.abs(timeSpan.milliseconds()));
+            Math.abs(timeSpan.Days),
+            Math.abs(timeSpan.Hours),
+            Math.abs(timeSpan.Minutes),
+            Math.abs(timeSpan.Seconds) + "." + Math.abs(timeSpan.Milliseconds));
     }
     private static numPad(num: number, length: number) {
         var str = num.toString();
@@ -526,9 +530,9 @@ export class EwsUtilities {
     static TimeSpanToXSTime(timeSpan: TimeSpan): string {
         return StringHelper.Format(
             "{0}:{1}:{2}",
-            this.numPad(timeSpan.hours(), 2),
-            this.numPad(timeSpan.minutes(), 2),
-            this.numPad(timeSpan.seconds(), 2));
+            this.numPad(timeSpan.Hours, 2),
+            this.numPad(timeSpan.Minutes, 2),
+            this.numPad(timeSpan.Seconds, 2));
     }
     static XSDurationToTimeSpan(xsDuration: string): TimeSpan {
         var regex: RegExp = /(-)?P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)(\.([0-9]+))?S)?)?/; //ref: info: not using \\, may be a bug in EWS managed api. does not match "-P2Y6M5DT12H35M30.4S" with \\ //old /(-)?P([0-9]+)Y?([0-9]+)M?([0-9]+)D?T([0-9]+)H?([0-9]+)M?([0-9]+\.[0-9]+)?S?/;

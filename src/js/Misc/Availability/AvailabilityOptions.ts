@@ -5,9 +5,10 @@ import {XmlElementNames} from "../../Core/XmlElementNames";
 import {TimeWindow} from "./TimeWindow";
 import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
 import {EwsUtilities} from "../../Core/EwsUtilities";
-import {DateTime, TimeSpan} from "../../DateTime";
+import {DateTime} from "../../DateTime";
 import {Strings} from "../../Strings";
 import {StringHelper} from "../../ExtensionMethods";
+import { TimeSpan } from "../../TimeSpan";
 import {GetUserAvailabilityRequest} from "../../Core/Requests/GetUserAvailabilityRequest";
 export class AvailabilityOptions {
     private mergedFreeBusyInterval: number = 30;
