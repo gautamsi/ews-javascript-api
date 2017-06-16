@@ -76,7 +76,7 @@ export class ExchangeServiceBase {
     private serverInfo: ExchangeServerInfo;
     private timeout: number;
     protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;
-    
+
     private timeZoneDefinition: TimeZoneDefinition;
     private traceEnabled: boolean;
     private traceFlags: TraceFlags;
@@ -307,6 +307,9 @@ export class ExchangeServiceBase {
         if (exception) {
             if (soapFault !== null) {
                 soapFault.Exception = exception;
+                if (StringHelper.IsNullOrEmpty(soapFault.message) && !StringHelper.IsNullOrEmpty(exception.message)) {
+                    soapFault.message = exception.message;
+                }
             }
             else {
                 throw exception;

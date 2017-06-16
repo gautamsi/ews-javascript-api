@@ -699,7 +699,7 @@ export class Item extends ServiceObject {
         debugger;//filtering of specific type needed.
         if (!isUpdateOperation &&
             (this.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP2)) {
-            for (var itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Attachments.Items, (a) => a instanceof TypeContainer.ItemAttachment))//.OfType<ItemAttachment>()) //info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround
+            for (var itemAttachment of ArrayHelper.OfType<Attachment, ItemAttachment>(this.Attachments.Items, (a) => a instanceof TypeContainer.ItemAttachment))//.OfType<ItemAttachment>()) //info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround
             {
                 if ((itemAttachment.Item != null) && itemAttachment.Item.GetIsTimeZoneHeaderRequired(false /* isUpdateOperation */)) {
                     return true;
@@ -844,17 +844,11 @@ export class Item extends ServiceObject {
         this.ThrowIfThisIsNew();
         this.ThrowIfThisIsAttachment();
 
+        var returnedPromise: Promise<Item> = null;
         var returnedItem: Item = null;
 
-        // Regardless of whether item is dirty or not, if it has unprocessed
-        // attachment changes, validate them and process now.
-        if (this.HasUnprocessedAttachmentChanges()) {
-            this.Attachments.Validate();
-            this.Attachments.Save();
-        }
-
         if (this.IsDirty && this.PropertyBag.GetIsUpdateCallNecessary()) {
-            return this.Service.UpdateItem(
+            returnedPromise = this.Service.UpdateItem(
                 this,
                 parentFolderId,
                 conflictResolutionMode,
@@ -863,7 +857,19 @@ export class Item extends ServiceObject {
                 suppressReadReceipts);
         }
 
-        return Promise.resolve(returnedItem);
+        return Promise.resolve(returnedPromise).then((item: Item) => {
+            // Regardless of whether item is dirty or not, if it has unprocessed
+            // attachment changes, validate them and process now.
+            if (this.HasUnprocessedAttachmentChanges()) {
+                this.Attachments.Validate();
+                return this.Attachments.Save().then(() => {
+                    return item;
+                });
+            }
+            return item;
+        });
+
+        //return Promise.resolve(returnedItem);
     }
 
     /**

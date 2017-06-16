@@ -218,7 +218,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
         }
 
         // Recurse: process item attachments to check for new or deleted sub-attachments.
-        for (let itemAttachment of ArrayHelper.OfType<ItemAttachment, Attachment>(this.Items, (attach) => { return attach instanceof ItemAttachment; })) {
+        for (let itemAttachment of ArrayHelper.OfType<Attachment, ItemAttachment>(this.Items, (attach) => { return attach instanceof ItemAttachment; })) {
             if (itemAttachment.Item != null) {
                 if (itemAttachment.Item.Attachments.HasUnprocessedChanges()) {
                     return true;
@@ -336,7 +336,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
                 }
             }).then(() => {
                 // Process all of the item attachments in this collection.
-                let itemAttachments = ArrayHelper.OfType<ItemAttachment, Attachment>(attachments, (attachment) => attachment instanceof ItemAttachment);
+                let itemAttachments = ArrayHelper.OfType<Attachment, ItemAttachment>(attachments, (attachment) => attachment instanceof ItemAttachment);
                 return itemAttachments.reduce((prev, curr, index) => {
                     return prev.then<void>(() => {
                         return curr.Item.Attachments.Save().then(() => {
