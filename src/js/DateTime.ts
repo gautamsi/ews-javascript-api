@@ -82,19 +82,19 @@ export class DateTime {
                 this.originalDateInput = msOrDateOrMomentOrYear;
             }
         }
-        else {
-            if (argsLength === 2) {
-                if (monthOrKind === DateTimeKind.Utc && !(msOrDateOrMomentOrYear instanceof moment)) {
-                    momentdate = moment.utc(msOrDateOrMomentOrYear);
-                }
-                else {
-                    momentdate = moment(msOrDateOrMomentOrYear);
-                }
-                this.kind = monthOrKind;
-                if (this.kind === DateTimeKind.Unspecified && !(msOrDateOrMomentOrYear instanceof moment)) {
-                    this.originalDateInput = msOrDateOrMomentOrYear;
-                }
+        else if (argsLength === 2) {
+            if (monthOrKind === DateTimeKind.Utc && !(msOrDateOrMomentOrYear instanceof moment)) {
+                momentdate = moment.utc(msOrDateOrMomentOrYear);
             }
+            else {
+                momentdate = moment(msOrDateOrMomentOrYear);
+            }
+            this.kind = monthOrKind;
+            if (this.kind === DateTimeKind.Unspecified && !(msOrDateOrMomentOrYear instanceof moment)) {
+                this.originalDateInput = msOrDateOrMomentOrYear;
+            }
+        }
+        else {
             let momentInput: moment.MomentInputObject = {};
             if (argsLength >= 3) {
                 momentInput.year = <number>msOrDateOrMomentOrYear;
