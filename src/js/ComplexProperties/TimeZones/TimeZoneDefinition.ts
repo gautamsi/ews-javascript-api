@@ -37,12 +37,12 @@ export class TimeZoneDefinition extends ComplexProperty {
     /**
      * @internal Gets or sets the name of this time zone definition.
      */
-    Name: string = "UTC";
+    Name: string;
 
     /**
      * @internal Gets or sets the Id of this time zone definition.
      */
-    Id: string = "UTC";
+    Id: string;
 
     /**
      * @internal Gets the periods associated with this time zone definition, indexed by Id.
@@ -289,8 +289,9 @@ export class TimeZoneDefinition extends ComplexProperty {
     ToTimeZoneInfo(service?: ExchangeService): TimeZoneInfo {
         this.Validate();
 
-        return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
         //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
+        return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+
         // let result: TimeZoneInfo;
 
         // // Retrieve the base offset to UTC, standard and daylight display names from

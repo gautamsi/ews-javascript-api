@@ -1,5 +1,6 @@
 import moment = require('moment-timezone');
 import { TimeZoneMappingData } from "./tzmapping";
+import { CustomTimeZoneMappingData } from "./tzmappingex";
 
 import { ArgumentOutOfRangeException, ArgumentException, ArgumentNullException } from "../js/Exceptions/ArgumentException";
 import { ArrayHelper, StringHelper } from "../js/ExtensionMethods";
@@ -203,11 +204,24 @@ export class TimeZoneInfo {
         return tz;
     }
 
+    public static AddTimeZoneMapping(source: string, mappedTz: string) {
+        CustomTimeZoneMappingData[source] = mappedTz;
+    }
+
     public static FindSystemTimeZoneById(zoneName: string): TimeZoneInfo {
         let ianaId = StringHelper.Empty;
         let winId = StringHelper.Empty;
 
         let mappedTz: string | any[] = TimeZoneMappingData[zoneName];
+        if (typeof mappedTz === 'undefined') {
+            let zoneNameMapped = CustomTimeZoneMappingData[zoneName];
+            if (zoneNameMapped) {
+                mappedTz = TimeZoneMappingData[zoneNameMapped];
+            }
+            if (typeof mappedTz === 'undefined') {
+                throw new Error("TimeZoneInfo->FromZoneName : Can not find zone name in mapped timezone data, try adding custom Map by calling TimeZoneInfo.AddTimeZoneMapping(sourceName, destinationName)");
+            }
+        }
         let tzArray = mappedTz;
 
         if (ArrayHelper.isArray<any>(mappedTz)) {
@@ -228,7 +242,7 @@ export class TimeZoneInfo {
     }
 
     public static get ListWindowsTimeZones(): () => string[] {
-        return () => Object.keys(TimeZoneMappingData).filter(x=>x.indexOf("/") < 0);
+        return () => Object.keys(TimeZoneMappingData).filter(x => x.indexOf("/") < 0);
     }
     private static GetCorrespondingKind(timeZone: TimeZoneInfo): DateTimeKind {
         if (timeZone === TimeZoneInfo.Utc) return DateTimeKind.Utc;
