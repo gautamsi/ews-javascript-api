@@ -5,7 +5,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## @internal *Not Implemented* 
+ * ## @internal *Not Implemented*  Server to server call - not needed
  */
 export class GetClientExtensionRequest extends SimpleServiceRequestBase {
     private requestedExtensionIds: StringList;

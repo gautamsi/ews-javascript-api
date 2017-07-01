@@ -4,7 +4,7 @@ import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 /**
- * ## @internal *Not Implemented* 
+ * ## @internal *Not Implemented*   Server to server call - not needed
  */
 export class GetEncryptionConfigurationRequest extends SimpleServiceRequestBase {
     Execute(): GetEncryptionConfigurationResponse { throw new Error("GetEncryptionConfigurationRequest.ts - Execute : Not implemented."); }
