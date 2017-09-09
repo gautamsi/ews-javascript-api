@@ -5,7 +5,7 @@ ews-javascript-api
 
 ===========================================================================================    
 
-##September 2017 Update:
+## September 2017 Update:  
 You can now use this in Ionic, Cordova, Browser based process (where CORS is disabled), Outlook Add-in or Mail apps. see [`ews-js-api-browser`](https://github.com/gautamsi/ews-js-api-browser) for more detail    
 # Current State:
 * Almost all methods in ExchangeService class is comple with respect to c# counterpart ([based on commit#31951f4 ](https://github.com/OfficeDev/ews-managed-api/commit/31951f456519786e41232fa9ff6a3ab20b56cac3)
