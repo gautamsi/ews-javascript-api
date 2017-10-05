@@ -3910,6 +3910,7 @@ export class ExchangeService extends ExchangeServiceBase {
     private GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): Promise<Uri> {
         var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
         autodiscoverService.Credentials = this.Credentials;
+        autodiscoverService.XHRApi = this.XHRApi;
         autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
             autodiscoverService.EnableScpLookup = this.EnableScpLookup
 
