@@ -28,6 +28,7 @@ export class AttendeeAvailability extends ServiceResponse {
                     break;
                 case XmlElementNames.CalendarEventArray:
                     var calendarEventArray = jsObject[key];
+                    if (!calendarEventArray) break;
                     var calendarEvents:any[] = calendarEventArray[XmlElementNames.CalendarEvent];
                     if (!Array.isArray(calendarEvents)) {
                         calendarEvents = [calendarEvents]
