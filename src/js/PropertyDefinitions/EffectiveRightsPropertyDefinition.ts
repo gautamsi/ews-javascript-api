@@ -82,7 +82,7 @@ export class EffectiveRightsPropertyDefinition extends PropertyDefinition {
                 }
             }
         }
-        propertyBag._setItem(this, jsObject);
+        propertyBag._setItem(this, effectiveRightsValue);
     }
 
     /**
