@@ -512,18 +512,18 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         var host = hosts[currentHostIndex];
         // var isScpHost:bool = currentHostIndex < scpHostCount;
-        var autodiscoverUrlOut:IOutParam<Uri> = { outValue:null };
+        var autodiscoverUrlOut: IOutParam<Uri> = { outValue: null };
         return this.TryGetAutodiscoverEndpointUrl(host, autodiscoverUrlOut)
             .then<TGetSettingsResponseCollection>((value) => {
                 if (value) {
+                    // If we got this far, the response was successful, set Url.
+                    this.Url = autodiscoverUrlOut.outValue;
+
                     return getSettingsMethod(
                         identities,
                         settings,
                         requestedVersion,
                         autodiscoverUrlRef, this).then((response) => {
-                            // If we got this far, the response was successful, set Url.
-                            this.Url = autodiscoverUrlRef.getValue();
-
                             // Not external if Autodiscover endpoint found via SCP returned the settings.
                             //if (isScpHost) {
                             //    this.IsExternal = false;
@@ -852,7 +852,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
             }
         }, (err) => { throw err; });
     }
-    
+
     private TryGetEnabledEndpointsForHost(host: IRefParam<string>, endpoints: IOutParam<AutodiscoverEndpoints>, currentHop: number = 0): Promise<boolean> {
 
         this.TraceMessage(

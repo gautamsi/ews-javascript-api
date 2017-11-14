@@ -85,8 +85,8 @@ export class AutodiscoverRequest {
         var writer = new EwsServiceXmlWriter(this.service);
         this.WriteSoapRequest(this.url, writer);
 
-        if (!this.service || !this.Service.Credentials && (!this.Service.Credentials.UserName || this.service.Credentials.Password))
-            throw new Error("missing credential");
+        if (!this.service)
+            throw new Error("Missing Service");
 
         //var cred = "Basic " + btoa(this.Service.Credentials.UserName + ":" + this.Service.Credentials.Password);
         var cc = writer.GetXML();
@@ -101,7 +101,11 @@ export class AutodiscoverRequest {
             //    var m = x;
             //}
         };
-        this.service.Credentials.PrepareWebRequest(xhrOptions);
+
+        //If not set, credentials might come from custom XHRApi
+        if (this.service.Credentials)
+            this.service.Credentials.PrepareWebRequest(xhrOptions);
+
         return new Promise((successDelegate, errorDelegate) => {
             EwsLogging.DebugLog("sending ews request");
             EwsLogging.DebugLog(xhrOptions, true);
