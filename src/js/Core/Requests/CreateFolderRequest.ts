@@ -21,7 +21,7 @@ export class CreateFolderRequest extends CreateRequest<Folder, ServiceResponse> 
     }
     CreateServiceResponse(service: ExchangeService, responseIndex: number): ServiceResponse { 
         //return new CreateFolderResponse(<Folder>EwsUtilities.GetEnumeratedObjectAt(this.Folders, responseIndex));
-        if (this.Folders.length >= responseIndex) { throw new Error(Strings.IEnumerableDoesNotContainThatManyObject); }
+        if (this.Folders.length <= responseIndex) { throw new Error(Strings.IEnumerableDoesNotContainThatManyObject); }
         return new CreateFolderResponse(this.Folders[responseIndex]);
     }
     GetMinimumRequiredServerVersion(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
