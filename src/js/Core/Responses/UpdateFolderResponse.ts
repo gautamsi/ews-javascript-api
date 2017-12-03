@@ -20,7 +20,7 @@ export class UpdateFolderResponse extends ServiceResponse {
         }
     }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        debugger;//todo: check if this is needed. 
+        //debugger;//todo: check if this is needed. 
         //throw new Error("UpdateFolderResponse.ts - ReadElementsFromXmlJsObject : Not implemented."); 
     }
 }

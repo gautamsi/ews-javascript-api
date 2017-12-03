@@ -246,7 +246,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
                 value = AlternateMailboxCollection.LoadFromJson(obj[XmlElementNames.AlternateMailboxes]);
                 break;
             case XmlElementNames.DocumentSharingLocationCollectionSetting://DocumentSharingLocations:
-                debugger;
+                //debugger;
                 EwsLogging.Log("------------DocumentSharingLocationCollection needs test and fix ----------------", true);
                 EwsLogging.Log(obj, true, true);
                 value = DocumentSharingLocationCollection.LoadFromJson(obj);

@@ -12,7 +12,7 @@ export class ArchiveItemResponse extends ServiceResponse {
     }
     ReadElementsFromJson(responseObject: any, service: ExchangeService): any { throw new Error("ArchiveItemResponse.ts - ReadElementsFromJson : Not implemented."); }
     ReadElementsFromXmlJsObject(responseObject: any, service: ExchangeService): void {
-        debugger;
+        //debugger;
         var items: Item[] = EwsServiceJsonReader.ReadServiceObjectsCollectionFromJson<Item>(
             responseObject,
             service,

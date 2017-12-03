@@ -696,7 +696,7 @@ export class Item extends ServiceObject {
         // Starting E14SP2, attachment will be sent along with CreateItem requests. 
         // if the attachment used to require the Timezone header, CreateItem request should do so too.
         //
-        debugger;//filtering of specific type needed.
+        //debugger;//todo: filtering of specific type needed.
         if (!isUpdateOperation &&
             (this.Service.RequestedServerVersion >= ExchangeVersion.Exchange2010_SP2)) {
             for (var itemAttachment of ArrayHelper.OfType<Attachment, ItemAttachment>(this.Attachments.Items, (a) => a instanceof TypeContainer.ItemAttachment))//.OfType<ItemAttachment>()) //info: cannot check instanceof to avoid circular dependency in js. TypeContainer is workaround

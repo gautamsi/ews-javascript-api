@@ -59,7 +59,7 @@ export class MultiResponseServiceRequest<TResponse extends ServiceResponse> exte
                 }
 
             }, (resperr: any) => {
-                debugger;
+                //debugger;
                 if (errorDelegate) {
                     errorDelegate(resperr);
                 }

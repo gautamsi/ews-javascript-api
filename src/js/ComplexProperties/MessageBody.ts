@@ -7,6 +7,7 @@ import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
 import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 
 import { ComplexProperty } from "./ComplexProperty";
+import { EwsLogging } from "../Core/EwsLogging";
 export class MessageBody extends ComplexProperty {
     private bodyType: BodyType = 0;
     private text: string = null;
@@ -59,7 +60,8 @@ export class MessageBody extends ComplexProperty {
                     //ref: IsTruncated not captured 
                     break;
                 default:
-                    debugger;//check exact name of body element
+                    //debugger;//check exact name of body element
+                    EwsLogging.Log(`MessageBody->LoadFromXmlJsObject : element ${key} is skipped, open issue to fix this. `, true)
                     break;
             }
         }

@@ -173,7 +173,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      * @return  {string}                Formatted value.
      */
     FormatField(name: string, fieldValue: string): string {
-        debugger;
+        //debugger;
         return (fieldValue != null)
             ? StringHelper.Format(ExtendedPropertyDefinition.FieldFormat, name, fieldValue)
             : "";
@@ -239,11 +239,11 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         for (var key in jsObject) {
             switch (key) {
                 case XmlAttributeNames.DistinguishedPropertySetId:
-                    debugger;
+                    //debugger;
                     this.propertySet = isNaN(jsObject[key]) ? DefaultExtendedPropertySet[jsObject[key]] : <any><DefaultExtendedPropertySet>+(jsObject[key]);// jsObject.ReadEnumValue<DefaultExtendedPropertySet>(key);
                     break;
                 case XmlAttributeNames.PropertySetId:
-                    debugger;
+                    //debugger;
                     this.propertySetId = new Guid(jsObject[key]);// new Guid(jsObject.ReadAsString(key));
                     break;
                 case XmlAttributeNames.PropertyTag:

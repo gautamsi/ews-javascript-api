@@ -1,10 +1,11 @@
-﻿import {SuggestionQuality} from "../../Enumerations/SuggestionQuality";
-import {TimeSuggestion} from "./TimeSuggestion";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {DateTime, DateTimeKind} from "../../DateTime";
-import {EwsServiceJsonReader} from "../../Core/EwsServiceJsonReader";
-import {ExchangeService} from "../../Core/ExchangeService";
-import {ComplexProperty} from "../ComplexProperty";
+﻿import { SuggestionQuality } from "../../Enumerations/SuggestionQuality";
+import { TimeSuggestion } from "./TimeSuggestion";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { DateTime, DateTimeKind } from "../../DateTime";
+import { EwsServiceJsonReader } from "../../Core/EwsServiceJsonReader";
+import { ExchangeService } from "../../Core/ExchangeService";
+import { ComplexProperty } from "../ComplexProperty";
+import { EwsLogging } from "../../Core/EwsLogging";
 export class Suggestion extends ComplexProperty {
     private date: DateTime = null;
     private quality: SuggestionQuality = SuggestionQuality.Excellent;
@@ -25,8 +26,8 @@ export class Suggestion extends ComplexProperty {
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
 
         this.date = DateTime.Parse(jsonProperty[XmlElementNames.Date]);
-        console.log("bug: Suggestion->LoadFromXml:    need to change to millisecond and with datetimekind")
-        debugger;
+        EwsLogging.Log("bug: Suggestion->LoadFromXml:    need to change to millisecond and with datetimekind", true)
+        //debugger;
         this.quality = <SuggestionQuality><any>SuggestionQuality[jsonProperty[XmlElementNames.DayQuality]];
 
         var suggestionArrayObj: any = jsonProperty[XmlElementNames.SuggestionArray];

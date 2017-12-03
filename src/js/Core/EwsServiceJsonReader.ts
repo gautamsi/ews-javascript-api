@@ -59,8 +59,8 @@ export class EwsServiceJsonReader {
                             summaryPropertiesOnly);
                         serviceObjects.push(serviceObject);
                     }
-                    else
-                        debugger;
+                    // else
+                    //     debugger;
                 }
             }
 

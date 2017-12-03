@@ -216,7 +216,7 @@ export abstract class ServiceRequestBase {
             //{
             //    requestObject.SerializeToJson(serviceRequestStream);
             //}
-            debugger;
+            //debugger;
         }
     }
     //EndGetEwsHttpWebResponse(request: IEwsHttpWebRequest, asyncResult: any /*System.IAsyncResult*/): IEwsHttpWebResponse { throw new Error("Could not implemented."); }

@@ -125,7 +125,7 @@ export class FolderPermissionCollection extends ComplexPropertyCollection<Folder
         if (jsonFolderPermissions && jsonFolderPermissions[this.CollectionItemXmlElementName])
             jsonFolderPermissions = jsonFolderPermissions[this.CollectionItemXmlElementName];
         if (!Array.isArray(jsonFolderPermissions)) {
-            debugger;
+            //debugger;
             throw new Error("FolderPermissionCollection.ts - LoadFromXmlJsObject - Invalid xml parsing, jsonproperty must contain collectionxmlelementname and collectionitemelementname underneeth");
         }
         for (let jsonFolderPermission of jsonFolderPermissions) {
@@ -136,7 +136,7 @@ export class FolderPermissionCollection extends ComplexPropertyCollection<Folder
         if (jsObjectCollection[XmlElementNames.UnknownEntries]) {
             let jsonUnknownEntries: any[] = jsObjectCollection[XmlElementNames.UnknownEntries];
             if (typeof jsonUnknownEntries !== 'object' && !Array.isArray(jsonFolderPermissions)) {
-                debugger;
+                //debugger;
                 throw new Error("FolderPermissionCollection.ts - LoadFromXmlJsObject - Invalid xml returned - check for consistency, UnknownEntries must be array type");
             }
 

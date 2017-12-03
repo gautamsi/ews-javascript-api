@@ -339,7 +339,7 @@ export class EmailMessage extends Item {
             // Regardless of whether item is dirty or not, if it has unprocessed
             // attachment changes, process them now.
 
-            debugger; //todo: check - check for attachment save() promise. 
+            //debugger; //todo: check - check for attachment save() promise. 
             return Promise.resolve(
                 // Validate and save attachments before sending.
                 this.HasUnprocessedAttachmentChanges() ? this.Attachments.ValidateAndSave() : void 0)

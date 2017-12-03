@@ -136,7 +136,7 @@ export abstract class ComplexPropertyDefinitionBase extends PropertyDefinition {
      */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
         var complexProperty: ComplexProperty = <ComplexProperty>propertyBag._getItem(this);
-        debugger;
+        //debugger;
         if (complexProperty) {
             complexProperty.WriteToXml(writer, this.XmlElementName);
         }
