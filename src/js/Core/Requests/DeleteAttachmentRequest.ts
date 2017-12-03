@@ -12,7 +12,7 @@ import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 import { DeleteAttachmentResponse } from "../Responses/DeleteAttachmentResponse";
 import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 /**
- * Represents a DeleteAttachment request.
+ * @internal Represents a DeleteAttachment request.
  * @sealed
  */
 export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable

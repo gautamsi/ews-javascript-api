@@ -9,7 +9,7 @@ import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 import { GetServerTimeZonesResponse } from "../Responses/GetServerTimeZonesResponse";
 import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 /**
- * internal Represents a GetServerTimeZones request.
+ * @internal Represents a GetServerTimeZones request.
  */
 export class GetServerTimeZonesRequest extends MultiResponseServiceRequest<GetServerTimeZonesResponse> {
     private ids: string[];

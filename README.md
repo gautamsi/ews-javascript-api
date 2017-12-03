@@ -63,6 +63,12 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.9.2
+
+* new: `ExchangeService.GetServerTimeZones()` can be used to get Windows TimeZone information from server
+* fix: #207 fewer debugger statements. less annoyment when debugging code.
+* DateTme and TimeZone related fixes, see #186, #187, #198, #209 
+
 # Whats new v0.9.0
 
 * new: [#94](https://github.com/gautamsi/ews-javascript-api/issues/94) new XHR algorithm and BlueBird like Promise support. default is Bluebird. Breaking changes published in #131. how to replace promise api, see pull request comment. This also enabled streaming subscription over ntlm authentication as well as cookies auth. see #65 
