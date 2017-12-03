@@ -1,5 +1,4 @@
-﻿import { EwsServiceXmlReader } from "../Core/EwsServiceXmlReader";
-import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 import { ExchangeService } from "../Core/ExchangeService";
 import { StandardUser } from "../Enumerations/StandardUser";
 import { StringHelper } from "../ExtensionMethods";

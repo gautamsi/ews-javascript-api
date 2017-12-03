@@ -380,7 +380,7 @@ export abstract class ServiceObject {
             }
             else {
                 // Other subclasses of PropertyDefinitionBase are not supported.
-                let constructorName = "Chile of ServiceObject";
+                let constructorName = "Child of ServiceObject";
                 if ((<any>propertyDefinition.constructor).name) {
                     constructorName = (<any>propertyDefinition.constructor).name;
                 }

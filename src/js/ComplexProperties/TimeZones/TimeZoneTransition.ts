@@ -226,3 +226,9 @@ export class TimeZoneTransition extends ComplexProperty {
         super.WriteToXml(writer, this.GetXmlElementName());
     }
 }
+
+export module TimeZoneTransition {
+    export var AbsoluteDateTransition;
+    export var AbsoluteDayOfMonthTransition;
+    export var RelativeDayOfMonthTransition;
+}

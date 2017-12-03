@@ -202,7 +202,7 @@ gulp.task("ts-def-prep", ["ts-def-compile"], function () {
         }))
         .pipe(concat("temp.d.ts"))
         .pipe(replace(/^.*import.*\{.*\}.*from.*\;/gm, ''))
-        .pipe(replace("import moment = require('moment-timezone');", ''))
+        .pipe(replace("import * as moment from 'moment-timezone';", ''))
         .pipe(replace(/^.*export.*\{.*\}.*from.*\;/gm, ''))
         .pipe(replace(/^.*export.*\{.*\};$/gm, ''))
         .pipe(replace(/^.*\/\/\/\s*\<reference.*\>/gm, ''))

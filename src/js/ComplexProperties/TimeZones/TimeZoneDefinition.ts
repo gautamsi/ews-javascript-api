@@ -286,77 +286,78 @@ export class TimeZoneDefinition extends ComplexProperty {
      * @param   {ExchangeService}   service   The service.
      * @return  {TimeZoneInfo}      A TimeZoneInfo representing the same time zone as this definition.
      */
-    ToTimeZoneInfo(service?: ExchangeService): TimeZoneInfo {
+    ToTimeZoneInfo(service?: ExchangeService, parse: boolean = false): TimeZoneInfo {
         this.Validate();
 
-        //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
-        return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+        if (!parse) {
+            //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
+            return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+        }
+        let result: TimeZoneInfo;
 
-        // let result: TimeZoneInfo;
+        // Retrieve the base offset to UTC, standard and daylight display names from
+        // the last transition group, which is the one that currently applies given that
+        // transitions are ordered chronologically.
+        let creationParams: TimeZoneTransitionGroup.CustomTimeZoneCreateParams =
+            this.transitions[this.transitions.length - 1].TargetGroup.GetCustomTimeZoneCreationParams();
 
-        // // Retrieve the base offset to UTC, standard and daylight display names from
-        // // the last transition group, which is the one that currently applies given that
-        // // transitions are ordered chronologically.
-        // let creationParams: TimeZoneTransitionGroup.CustomTimeZoneCreateParams =
-        //     this.transitions[this.transitions.length - 1].TargetGroup.GetCustomTimeZoneCreationParams();
+        let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
 
-        // let adjustmentRules: TimeZoneInfo.AdjustmentRule[] = [];
+        let startDate: DateTime = DateTime.MinValue;
+        let endDate: DateTime;
+        let effectiveEndDate: DateTime;
 
-        // let startDate: DateTime = DateTime.MinValue;
-        // let endDate: DateTime;
-        // let effectiveEndDate: DateTime;
+        for (let i = 0; i < this.transitions.length; i++) {
+            if (i < this.transitions.length - 1) {
+                endDate = (this.transitions[i + 1] as AbsoluteDateTransition).DateTime;
+                effectiveEndDate = endDate.AddDays(-1);
+            }
+            else {
+                endDate = DateTime.MaxValue;
+                effectiveEndDate = endDate;
+            }
 
-        // for (let i = 0; i < this.transitions.length; i++) {
-        //     if (i < this.transitions.length - 1) {
-        //         endDate = (this.transitions[i + 1] as AbsoluteDateTransition).DateTime;
-        //         effectiveEndDate = endDate.AddDays(-1);
-        //     }
-        //     else {
-        //         endDate = DateTime.MaxValue;
-        //         effectiveEndDate = endDate;
-        //     }
+            // OM:1648848 Due to bad timezone data from clients the 
+            // startDate may not always come before the effectiveEndDate
+            if (startDate < effectiveEndDate) {
+                let adjustmentRule: TimeZoneInfo.AdjustmentRule = this.transitions[i].TargetGroup.CreateAdjustmentRule(startDate, effectiveEndDate);
 
-        //     // OM:1648848 Due to bad timezone data from clients the 
-        //     // startDate may not always come before the effectiveEndDate
-        //     if (startDate < effectiveEndDate) {
-        //         let adjustmentRule: TimeZoneInfo.AdjustmentRule = this.transitions[i].TargetGroup.CreateAdjustmentRule(startDate, effectiveEndDate);
+                if (adjustmentRule != null) {
+                    adjustmentRules.push(adjustmentRule);
+                }
 
-        //         if (adjustmentRule != null) {
-        //             adjustmentRules.push(adjustmentRule);
-        //         }
+                startDate = endDate;
+            }
+            else {
+                // service.TraceMessage(
+                //     TraceFlags.EwsTimeZones,
+                //         string.Format(
+                //             "The startDate '{0}' is not before the effectiveEndDate '{1}'. Will skip creating adjustment rule.",
+                //             startDate,
+                //             effectiveEndDate));
+            }
+        }
 
-        //         startDate = endDate;
-        //     }
-        //     else {
-        //         // service.TraceMessage(
-        //         //     TraceFlags.EwsTimeZones,
-        //         //         string.Format(
-        //         //             "The startDate '{0}' is not before the effectiveEndDate '{1}'. Will skip creating adjustment rule.",
-        //         //             startDate,
-        //         //             effectiveEndDate));
-        //     }
-        // }
+        if (adjustmentRules.length == 0) {
+            // If there are no adjustment rule, the time zone does not support Daylight
+            // saving time.
+            result = TimeZoneInfo.CreateCustomTimeZone(
+                this.Id,
+                creationParams.BaseOffsetToUtc,
+                this.Name,
+                creationParams.StandardDisplayName);
+        }
+        else {
+            result = TimeZoneInfo.CreateCustomTimeZone(
+                this.Id,
+                creationParams.BaseOffsetToUtc,
+                this.Name,
+                creationParams.StandardDisplayName,
+                creationParams.DaylightDisplayName,
+                adjustmentRules);
+        }
 
-        // if (adjustmentRules.length == 0) {
-        //     // If there are no adjustment rule, the time zone does not support Daylight
-        //     // saving time.
-        //     result = TimeZoneInfo.CreateCustomTimeZone(
-        //         this.Id,
-        //         creationParams.BaseOffsetToUtc,
-        //         this.Name,
-        //         creationParams.StandardDisplayName);
-        // }
-        // else {
-        //     result = TimeZoneInfo.CreateCustomTimeZone(
-        //         this.Id,
-        //         creationParams.BaseOffsetToUtc,
-        //         this.Name,
-        //         creationParams.StandardDisplayName,
-        //         creationParams.DaylightDisplayName,
-        //         adjustmentRules);
-        // }
-
-        // return result;
+        return result;
     }
 
     /**
@@ -380,7 +381,7 @@ export class TimeZoneDefinition extends ComplexProperty {
         for (let transition of this.transitions) {
             //Type transitionType = transition.GetType();
 
-            if (!(transition instanceof TimeZoneTransition) && !(transition instanceof AbsoluteDateTransition)) {
+            if (!(transition instanceof TimeZoneTransition) && !(<any>transition instanceof AbsoluteDateTransition)) {
                 throw new ServiceLocalException(Strings.InvalidOrUnsupportedTimeZoneDefinition);
             }
 

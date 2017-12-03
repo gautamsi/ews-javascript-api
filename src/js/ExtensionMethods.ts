@@ -477,7 +477,7 @@ export class UriHelper {
 declare var window: any;
 var isNode = (typeof window === 'undefined')
 var dp: any = undefined;
-
+declare var Buffer: any;
 declare var require: any;
 
 if (isNode) {

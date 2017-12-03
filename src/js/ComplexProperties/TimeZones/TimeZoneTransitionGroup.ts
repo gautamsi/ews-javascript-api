@@ -41,14 +41,16 @@ export class TimeZoneTransitionGroup extends ComplexProperty {
      * Gets the transition to the Daylight period.
      */
     private get TransitionToDaylight(): TimeZoneTransition {
-        this.InitializeTransitions(); return this.TransitionToDaylight;
+        this.InitializeTransitions();
+        return this.transitionToDaylight;
     }
 
     /**
      * Gets the transition to the Standard period.
      */
     private get TransitionToStandard(): TimeZoneTransition {
-        this.InitializeTransitions(); return this.transitionToStandard;
+        this.InitializeTransitions();
+        return this.transitionToStandard;
     }
 
     /**
@@ -251,9 +253,16 @@ export class TimeZoneTransitionGroup extends ComplexProperty {
         // If there are two transitions, none of them should be of type TimeZoneTransition
         if (this.transitions.length == 2) {
             for (let transition of this.transitions) {
-                if (transition instanceof TimeZoneTransition) {
-                    throw new ServiceLocalException(Strings.InvalidOrUnsupportedTimeZoneDefinition);
+                try {
+                    let type = (<any>transition.constructor).name;
+                    //if (transition instanceof TimeZoneTransition) { // ref:  can not use due to prototype chain issue
+                    if (type === "TimeZoneTransition") {
+                        throw new ServiceLocalException(Strings.InvalidOrUnsupportedTimeZoneDefinition);
+                    }
+                } catch (error) {
+
                 }
+
             }
         }
 

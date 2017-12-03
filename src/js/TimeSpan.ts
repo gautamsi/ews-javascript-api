@@ -1,4 +1,5 @@
-import moment = require('moment-timezone');
+import * as moment from 'moment-timezone';
+
 import { ArgumentOutOfRangeException, ArgumentException } from "../js/Exceptions/ArgumentException";
 
 export class TimeSpan {
@@ -7,7 +8,7 @@ export class TimeSpan {
     private setMomentDuration: (value) => void;
 
     constructor(ms: number);
-    constructor(duration: moment.DurationInputArg1 | moment.DurationInputObject );
+    constructor(duration: moment.DurationInputArg1 | moment.DurationInputObject);
     constructor(hours: number, minutes: number, seconds);
     constructor(days: number, hours: number, minutes: number, seconds);
     constructor(days: number, hours: number, minutes: number, seconds: number, milliseconds);
@@ -114,10 +115,10 @@ export class TimeSpan {
     Add(ts: TimeSpan): TimeSpan;
     Add(a: number | TimeSpan, p?: moment.unitOfTime.Base): TimeSpan {
         if (arguments.length === 1) {
-            return new TimeSpan(this.duration.add(a));
+            return new TimeSpan(typeof a === 'number' ? this.duration.add(a) : a.TotalMilliseconds);
         }
         else {
-            return new TimeSpan(this.duration.add(a, p));
+            return new TimeSpan(this.duration.add(a as number, p));
         }
     }
 
@@ -181,8 +182,7 @@ export class TimeSpan {
     }
     toString() {
         return this.duration.toISOString();
-    }
-
+    }    
 }
 
 module TimeSpan2 {

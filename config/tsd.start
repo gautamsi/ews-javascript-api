@@ -1,2 +1,2 @@
 declare module "ews-javascript-api" {
-import moment = require('moment-timezone');
+import * as moment from 'moment-timezone';
