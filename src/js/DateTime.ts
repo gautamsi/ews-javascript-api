@@ -1,4 +1,5 @@
-import moment = require('moment-timezone');
+import * as moment from 'moment-timezone';
+
 import { ArgumentOutOfRangeException, ArgumentException } from "./Exceptions/ArgumentException";
 import { DayOfWeek } from "./Enumerations/DayOfWeek";
 import { IOutParam } from "./Interfaces/IOutParam";
@@ -67,15 +68,18 @@ export class DateTime {
         minute?: number,
         second?: number,
         millisecond?: number,
-        kind?: DateTimeKind) {
+        kind: DateTimeKind = DateTimeKind.Unspecified) {
 
 
         let argsLength = arguments.length;
         let momentdate: moment.Moment = moment();
 
+        this.kind = kind;
+
         if (argsLength === 1) {
             if (msOrDateOrMomentOrYear instanceof DateTime) {
                 momentdate = msOrDateOrMomentOrYear.MomentDate.clone();
+                this.kind = msOrDateOrMomentOrYear.kind;
             }
             else {
                 momentdate = moment(msOrDateOrMomentOrYear);
@@ -84,10 +88,10 @@ export class DateTime {
         }
         else if (argsLength === 2) {
             if (monthOrKind === DateTimeKind.Utc && !(msOrDateOrMomentOrYear instanceof moment)) {
-                momentdate = moment.utc(msOrDateOrMomentOrYear);
+                momentdate = moment.utc(<any>msOrDateOrMomentOrYear);
             }
             else {
-                momentdate = moment(msOrDateOrMomentOrYear);
+                momentdate = moment(<any>msOrDateOrMomentOrYear);
             }
             this.kind = monthOrKind;
             if (this.kind === DateTimeKind.Unspecified && !(msOrDateOrMomentOrYear instanceof moment)) {
@@ -109,7 +113,6 @@ export class DateTime {
 
             if (argsLength >= 7) {
                 momentInput.millisecond = millisecond;
-                this.kind = kind || this.kind;
             }
 
             momentdate = moment(momentInput);
@@ -120,12 +123,12 @@ export class DateTime {
             throw new ArgumentOutOfRangeException(momentValidity[invalid], invalidDateTimeMessage[momentValidity[invalid]]);
         }
 
-        if (momentdate.isUtc()) {
-            this.kind = DateTimeKind.Utc
-        }
-        else if (momentdate.isLocal()) {
-            this.kind = DateTimeKind.Local;
-        }
+        // if (momentdate.isUtc()) {
+        //     this.kind = DateTimeKind.Utc
+        // }
+        // else if (momentdate.isLocal()) {
+        //     this.kind = DateTimeKind.Local;
+        // }
 
         this.getMomentDate = () => momentdate;
         this.setMomentDate = (value) => momentdate = value;
@@ -259,7 +262,10 @@ export class DateTime {
     /* c# DateTime properties */
 
     public get Date(): DateTime {
-        return new DateTime(this.momentDate.format("Y-MM-DD"));
+        if (this === DateTime.MaxValue || this === DateTime.MinValue) {
+            return new DateTime(this.momentDate.utc().format("YYYY-MM-DD"))
+        }
+        return new DateTime(this.momentDate.format("YYYY-MM-DD"));
     }
     public get Day(): number {
         return this.momentDate.date();

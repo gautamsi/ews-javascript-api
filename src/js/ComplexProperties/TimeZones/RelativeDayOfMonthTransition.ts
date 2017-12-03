@@ -1,5 +1,5 @@
 ﻿import { Convert } from "../../ExtensionMethods";
-import { DateTime } from "../../DateTime";
+import { DateTime, msToEpoch } from "../../DateTime";
 import { DayOfTheWeek } from "../../Enumerations/DayOfTheWeek";
 import { EwsLogging } from "../../Core/EwsLogging";
 import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
@@ -59,7 +59,7 @@ export class RelativeDayOfMonthTransition extends AbsoluteMonthTransition {
      */
 	CreateTransitionTime(): TimeZoneInfo.TransitionTime {
 		return TimeZoneInfo.TransitionTime.CreateFloatingDateRule(
-			new DateTime(this.TimeOffset.Milliseconds),
+			new DateTime(this.TimeOffset.Milliseconds - msToEpoch),
 			this.Month,
 			this.WeekIndex == -1 ? 5 : this.WeekIndex,
 			EwsUtilities.EwsToSystemDayOfWeek(this.DayOfTheWeek));

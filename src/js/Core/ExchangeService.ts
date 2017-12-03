@@ -116,6 +116,8 @@ import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
 import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
 import { GetSearchableMailboxesRequest } from "./Requests/GetSearchableMailboxesRequest";
 import { GetSearchableMailboxesResponse } from "./Responses/GetSearchableMailboxesResponse";
+import { GetServerTimeZonesRequest } from "./Requests/GetServerTimeZonesRequest";
+import { GetServerTimeZonesResponse } from "./Responses/GetServerTimeZonesResponse";
 import { GetUserAvailabilityRequest } from "./Requests/GetUserAvailabilityRequest";
 import { GetUserAvailabilityResults } from "../Misc/Availability/GetUserAvailabilityResults";
 import { GetUserConfigurationRequest } from "./Requests/GetUserConfigurationRequest";
@@ -128,14 +130,14 @@ import { GroupedFindItemsResults } from "../Search/GroupedFindItemsResults";
 import { Grouping } from "../Search/Grouping";
 import { Guid } from "../Guid";
 import { HoldAction } from "../Enumerations/HoldAction";
-import { IdFormat } from "../Enumerations/IdFormat";
 import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
+import { IXHROptions } from "../Interfaces";
+import { IdFormat } from "../Enumerations/IdFormat";
 import { ImpersonatedUserId } from "../Misc/ImpersonatedUserId";
 import { InstallAppRequest } from "./Requests/InstallAppRequest";
 import { Item } from "./ServiceObjects/Items/Item";
 import { ItemChange } from "../Sync/ItemChange";
 import { ItemId } from "../ComplexProperties/ItemId";
-import { IXHROptions } from "../Interfaces";
 import { KeyValuePair } from "../AltDictionary";
 import { Mailbox } from "../ComplexProperties/Mailbox";
 import { MailboxQuery } from "../MailboxSearch/MailboxQuery";
@@ -4297,7 +4299,23 @@ export class ExchangeService extends ExchangeServiceBase {
     }
     /* #endregion Utilities */
 
+    //#region Additional Operations not in official EWS Managed Api in the commit
 
+    /**
+     * Get the TimeZoneInfo objects from server
+     * 
+     * @returns {Promise<TimeZoneInfo[]>} 
+     */
+    GetServerTimeZones(): Promise<TimeZoneInfo[]> {
+        let argsLength = arguments.length;
+        let request: GetServerTimeZonesRequest = new GetServerTimeZonesRequest(this);
+
+        return request.Execute().then((response: ServiceResponseCollection<GetServerTimeZonesResponse>) => {
+            return response.Responses[0].TimeZones;
+        });
+    }
+    
+    //#endregion
 }
 
 //module ExchangeService { -> moved to its own file to remove circular dependency.

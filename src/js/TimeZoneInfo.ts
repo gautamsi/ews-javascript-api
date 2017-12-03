@@ -1,4 +1,4 @@
-import moment = require('moment-timezone');
+import * as moment from 'moment-timezone';
 import { TimeZoneMappingData } from "./tzmapping";
 import { CustomTimeZoneMappingData } from "./tzmappingex";
 
@@ -322,9 +322,9 @@ export module TimeZoneInfo {
 
         /** @internal */
         get HasDaylightSaving(): boolean {
-            return ((this.DaylightDelta != TimeSpan.Zero)
-                || ((this.DaylightTransitionStart.TimeOfDay != DateTime.MinValue)
-                    || (this.DaylightTransitionEnd.TimeOfDay != DateTime.MinValue.AddMilliseconds(1))));
+            return ((this.DaylightDelta.TotalMilliseconds != TimeSpan.Zero.TotalMilliseconds)
+                || ((this.DaylightTransitionStart.TimeOfDay.TotalMilliSeconds != DateTime.MinValue.TotalMilliSeconds)
+                    || (this.DaylightTransitionEnd.TimeOfDay.TotalMilliSeconds != DateTime.MinValue.AddMilliseconds(1).TotalMilliSeconds)));
         }
 
         private constructor(
@@ -469,11 +469,11 @@ export module TimeZoneInfo {
                 throw new ArgumentException("Argument_TimeSpanHasSeconds", "daylightDelta");
             }
 
-            if (dateStart != DateTime.MinValue && dateStart.Kind == DateTimeKind.Unspecified && dateStart.TimeOfDay != TimeSpan.Zero) {
+            if (dateStart.TotalMilliSeconds != DateTime.MinValue.TotalMilliSeconds && dateStart.Kind == DateTimeKind.Unspecified && dateStart.TimeOfDay.TotalMilliseconds != TimeSpan.Zero.TotalMilliseconds) {
                 throw new ArgumentException("Argument_DateTimeHasTimeOfDay", "dateStart");
             }
 
-            if (dateEnd != DateTime.MaxValue && dateEnd.Kind == DateTimeKind.Unspecified && dateEnd.TimeOfDay != TimeSpan.Zero) {
+            if (dateEnd.TotalMilliSeconds != DateTime.MaxValue.TotalMilliSeconds && dateEnd.Kind == DateTimeKind.Unspecified && dateEnd.TimeOfDay.TotalMilliseconds != TimeSpan.Zero.TotalMilliseconds) {
                 throw new ArgumentException("Argument_DateTimeHasTimeOfDay", "dateEnd");
             }
         }

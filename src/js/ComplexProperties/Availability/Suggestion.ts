@@ -25,6 +25,8 @@ export class Suggestion extends ComplexProperty {
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
 
         this.date = DateTime.Parse(jsonProperty[XmlElementNames.Date]);
+        console.log("bug: Suggestion->LoadFromXml:    need to change to millisecond and with datetimekind")
+        debugger;
         this.quality = <SuggestionQuality><any>SuggestionQuality[jsonProperty[XmlElementNames.DayQuality]];
 
         var suggestionArrayObj: any = jsonProperty[XmlElementNames.SuggestionArray];
