@@ -1,13 +1,13 @@
-﻿import {TraceFlags} from "../../Enumerations/TraceFlags";
-import {RenderingMode} from "../../Enumerations/RenderingMode";
-import {ServiceRequestException} from "../../Exceptions/ServiceRequestException";
-import {Strings} from "../../Strings";
-import {EwsServiceXmlReader} from "../EwsServiceXmlReader";
+﻿import { TraceFlags } from "../../Enumerations/TraceFlags";
+import { RenderingMode } from "../../Enumerations/RenderingMode";
+import { ServiceRequestException } from "../../Exceptions/ServiceRequestException";
+import { Strings } from "../../Strings";
+import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
 import { Promise } from "../../Promise";
-import {EwsLogging} from "../EwsLogging";
-import {StringHelper, DOMParser, xml2JsObject} from "../../ExtensionMethods";
+import { EwsLogging } from "../EwsLogging";
+import { StringHelper, DOMParser, xml2JsObject } from "../../ExtensionMethods";
 
-import {ServiceRequestBase} from "./ServiceRequestBase";
+import { ServiceRequestBase } from "./ServiceRequestBase";
 /** @internal */
 export class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
@@ -47,16 +47,16 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
                     var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
                     //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
                     var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
-                    
+
                     if (successDelegate)
                         successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
                 }
                 else {
                     if (errorDelegate)
-                        errorDelegate(this.ProcessWebException(serviceResponse || xhrResponse.responseText || xhrResponse.response) || serviceResponse);
+                        errorDelegate(this.ProcessWebException(xhrResponse) || xhrResponse);
                 }
             }, (resperr: XMLHttpRequest) => {
-                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + ((resperr.getAllResponseHeaders)?resperr.getAllResponseHeaders():""));
+                EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + ((resperr.getAllResponseHeaders) ? resperr.getAllResponseHeaders() : ""));
                 if (errorDelegate) errorDelegate(this.ProcessWebException(resperr) || resperr);
             });
         });
