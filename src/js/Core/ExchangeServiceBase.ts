@@ -219,8 +219,9 @@ export class ExchangeServiceBase {
         else {
             // Assume an unbiased date/time is in UTC. Convert to UTC otherwise.
             //ref: //fix: hard convert to UTC date as no request contains TZ information.
-            if (value.toLowerCase().indexOf("z") < 0)
+            if (value.toLowerCase().indexOf("z") < 0 && ["+", "-"].indexOf(value.substr(19, 1)) < 0) {
                 value += "Z";
+            }
 
             var dateTime: DateTime = DateTime.Parse(
                 value);
