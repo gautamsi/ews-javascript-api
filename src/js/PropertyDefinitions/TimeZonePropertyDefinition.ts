@@ -67,7 +67,12 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
             if (!writer.IsTimeZoneHeaderEmitted || value != writer.Service.TimeZone) {
                 let timeZoneDefinition: TimeZoneDefinition = new TimeZoneDefinition(value);
 
-                timeZoneDefinition.WriteToXml(writer);
+                //Use the actual xmlElementName of this property definition, as it may have different names depending on the context
+                // e.g. StartTimeZone, EndTimeZone
+                writer.WriteStartElement(timeZoneDefinition.Namespace, this.XmlElementName);
+                timeZoneDefinition.WriteAttributesToXml(writer);
+                timeZoneDefinition.WriteElementsToXml(writer);
+                writer.WriteEndElement();
             }
         }
     }
