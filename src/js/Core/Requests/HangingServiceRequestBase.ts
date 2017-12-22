@@ -136,7 +136,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
                         //console.log(meta);
                         break;
                     case "end":
-                        this.IsConnected = false;
+                        this.InternalOnDisconnect(HangingRequestDisconnectReason.Clean, null);
                         break;
                     case "error":
                         this.Disconnect(HangingRequestDisconnectReason.Exception, <any>progress.error);
