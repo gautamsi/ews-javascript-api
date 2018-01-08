@@ -1438,6 +1438,7 @@ export interface PromiseConstructor {
 } class XHRFactory {
     static xhrHelper: IXHRApi;
     static readonly XHRApi: IXHRApi;
+    static newXHRApi(): IXHRApi;
 }
  class AlternateMailbox {
     Type: string;

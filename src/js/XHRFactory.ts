@@ -11,4 +11,8 @@ export class XHRFactory {
 		}
 		return this.xhrHelper;
 	}
+
+	public static newXHRApi() {
+		return new XHRDefaults();
+	}
 }

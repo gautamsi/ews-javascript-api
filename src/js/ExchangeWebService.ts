@@ -10,6 +10,7 @@ export { Promise } from "./Promise";
 /** XHR setup */
 export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
 export { ConfigurationApi } from "./ConfigurationApi";
+export { XHRFactory } from "./XHRFactory";
 
 /**Schema Bootstrapping */
 import { Schemas } from "./Core/ServiceObjects/Schemas/Schemas";
