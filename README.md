@@ -194,7 +194,7 @@ keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javasc
 ```javascript
 //classic Javascript style
 var ews = require('ews-javascript-api');
-var exch = new ews.ExchangeService(ExchangeVersion.Exchange2013);
+var exch = new ews.ExchangeService(ews.ExchangeVersion.Exchange2013);
 //ES6 TypeScript style
 import {ExchangeService, AutodiscoverService, Folder, Item, ExchangeVersion} from "ews-javascript-api";
 var exch = new ExchangeService(ExchangeVersion.Exchange2013);
