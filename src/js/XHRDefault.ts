@@ -1,16 +1,20 @@
-﻿import { FetchStream, fetchUrl } from 'fetch';
+﻿import { FetchStream, fetchUrl, FetchOptions } from 'fetch';
 import { Promise } from "./Promise";
 import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 
-/** @internal */
-export class XHRDefaults implements IXHRApi {
+/** 
+ * Default implementation of XHRApi using fetch
+ */
+export class XHRDefault implements IXHRApi {
 	static FetchStream: typeof FetchStream = FetchStream;
 	static fetchUrl: typeof fetchUrl = null;
+	static defaultOptions: FetchOptions = {};
 
+	fetchOptions: FetchOptions = {};
 	private stream: FetchStream;
 
 	xhr(xhroptions: IXHROptions, progressDelegate?: (progressData: IXHRProgress) => void): Promise<XMLHttpRequest> {
-		if (XHRDefaults.fetchUrl === null) {
+		if (XHRDefault.fetchUrl === null) {
 			throw new Error("xhrApi - stub method, must be bootstrapped");
 		}
 		//setup xhr for github.com/andris9/fetch options
@@ -26,7 +30,7 @@ export class XHRDefaults implements IXHRApi {
 		// delete xhroptions["type"];
 
 		return new Promise<XMLHttpRequest>((resolve, reject) => {
-			XHRDefaults.fetchUrl(xhroptions.url, options, (error, meta, body) => {
+			XHRDefault.fetchUrl(xhroptions.url, this.getOptions(options), (error, meta, body) => {
 				if (error) {
 					if (typeof (<any>error).status === 'undefined') {
 						(<any>error).status = 0;
@@ -56,7 +60,7 @@ export class XHRDefaults implements IXHRApi {
 	}
 
 	xhrStream(xhroptions: IXHROptions, progressDelegate: (progressData: IXHRProgress) => void): Promise<XMLHttpRequest> {
-		if (XHRDefaults.FetchStream === null) {
+		if (XHRDefault.FetchStream === null) {
 			throw new Error("xhrApi - stub method, must be bootstrapped");
 		}
 
@@ -68,7 +72,7 @@ export class XHRDefaults implements IXHRApi {
 		}
 
 		return new Promise((resolve, reject) => {
-			this.stream = new XHRDefaults.FetchStream(xhroptions.url, options);
+			this.stream = new XHRDefault.FetchStream(xhroptions.url, this.getOptions(options));
 
 			this.stream.on("data", (chunk) => {
 				//console.log(chunk.toString());
@@ -105,13 +109,19 @@ export class XHRDefaults implements IXHRApi {
 		return "default";
 	}
 
-	constructor() {
+	constructor(fetchOptions: FetchOptions = {}) {
+		this.fetchOptions = fetchOptions;
 		try {
 			let fetch = require("fetch");
-			XHRDefaults.FetchStream = fetch.FetchStream;
-			XHRDefaults.fetchUrl = fetch.fetchUrl;
+			XHRDefault.FetchStream = fetch.FetchStream;
+			XHRDefault.fetchUrl = fetch.fetchUrl;
 		}
 		catch (e) { }
+	}
+
+	private getOptions(opts: FetchOptions) {
+		let headers = Object.assign({}, (XHRDefault.defaultOptions || {}).headers, (this.fetchOptions || {}).headers, (opts || {}).headers)
+		return Object.assign({}, XHRDefault.defaultOptions, this.fetchOptions, opts, { headers });
 	}
 }
 
@@ -144,4 +154,47 @@ function setupXhrResponse(xhrResponse: XMLHttpRequest): XMLHttpRequest {
 	}
 
 	return xhrResponse;
+}
+
+export interface xFetchOptions {
+	/** how many redirects allowed, defaults to 10 */
+	maxRedirects: number;
+	/** set to true if redirects are not allowed, defaults to false */
+	disableRedirects: boolean;
+	/** optional header fields, in the form of {'Header-Field':'value'} */
+	headers: { [key: string]: (any) };
+	/** maximum allowd length for the file, the remainder is cut off. Defaults to Infinity */
+	maxResponseLength: number;
+	/** defaults to GET */
+	method: string;
+	/** request body */
+	payload: string;
+	/** set to false, to disable content gzipping, needed for Node v0.5.9 which has buggy zlib */
+	disableGzip: boolean;
+	/** an array of cookie definitions in the form of ['name=val'] */
+	cookies: any;
+	/** for sharing cookies between requests, see below */
+	cookieJar: any;
+	/** valid for fetchUrl */
+	outputEncoding: string;
+	/** valid for fetchUrl, set to true to disable automatic charset decoding to utf-8 */
+	disableDecoding: boolean;
+	/** valid for fetchUrl, set input encoding */
+	overrideCharset: string;
+	/** use high performance asyncronous DNS resolution based on c-ares instead of a thread pool calling getaddrinfo(3) */
+	asyncDnsLoookup: boolean;
+	/** set a timeout in ms */
+	timeout: number;
+	/** pass-through http.request agent parameter for https */
+	agentHttps: any;
+	/** pass-through http.request agent parameter for http */
+	agentHttp: any;
+	/** pass-through http.request agent parameter as fallback, if agentHttps or agentHttp are not specified */
+	agent: any;
+	/** whether to reject self-signed certificates (true, default behavior), or ignore and allow them (false) */
+	rejectUnauthorized: boolean;
+	/** is the username for Basic auth */
+	user: string;
+	/** is the password for Basic auth */
+	pass: string;
 }
