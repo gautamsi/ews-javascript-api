@@ -6,10 +6,13 @@ import { EwsUtilities } from "../Core/EwsUtilities";
 import { ExchangeService } from "../Core/ExchangeService";
 import { ExtendedProperty } from "./ExtendedProperty";
 import { ExtendedPropertyDefinition } from "../PropertyDefinitions/ExtendedPropertyDefinition";
-import { IOutParam } from "../Interfaces/IOutParam";
 import { ICustomUpdateSerializer } from "../Interfaces/ICustomXmlUpdateSerializer";
+import { IOutParam } from "../Interfaces/IOutParam";
+import { PropertyDefinition } from "../PropertyDefinitions/PropertyDefinition";
+import { ServiceObject } from "../Core/ServiceObjects/ServiceObject";
 import { Strings } from "../Strings";
 import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
 import { ComplexPropertyCollection } from "./ComplexPropertyCollection";
 export class ExtendedPropertyCollection extends ComplexPropertyCollection<ExtendedProperty> implements ICustomUpdateSerializer {
@@ -69,6 +72,64 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
             return false;
         }
     }
+
+    /**
+     * @internal Writes the deletion update to XML.
+     * ICustomUpdateSerializer.WriteDeleteUpdateToXml
+     *
+     * @param   {EwsServiceXmlWriter}   writer      The writer.
+     * @param   {ServiceObject}         ewsObject   The ews object.
+     * @return  {boolean}               True if property generated serialization.
+     */
+    WriteDeleteUpdateToXml(writer: EwsServiceXmlWriter, ewsObject: ServiceObject): boolean {
+        // Use the default XML serializer.
+        for (let extendedProperty of this.Items) {
+            writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
+            extendedProperty.PropertyDefinition.WriteToXml(writer);
+            writer.WriteEndElement();
+        }
+
+        return true;
+    }
+
+    /**
+     * @internal Writes the update to XML.
+     * ICustomUpdateSerializer.WriteSetUpdateToXml
+     *
+     * @param   {EwsServiceXmlWriter}   writer               The writer.
+     * @param   {ServiceObject}         ewsObject            The ews object.
+     * @param   {PropertyDefinition}    propertyDefinition   Property definition.
+     * @return  {boolean}               True if property generated serialization.
+     */
+    WriteSetUpdateToXml(
+        writer: EwsServiceXmlWriter,
+        ewsObject: ServiceObject,
+        propertyDefinition: PropertyDefinition): boolean {
+        let propertiesToSet: ExtendedProperty[] = [];
+
+        ArrayHelper.AddRange(propertiesToSet, this.AddedItems);
+        ArrayHelper.AddRange(propertiesToSet, this.ModifiedItems);
+
+        for (let extendedProperty of propertiesToSet) {
+            writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetSetFieldXmlElementName());
+            extendedProperty.PropertyDefinition.WriteToXml(writer);
+
+            writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetXmlElementName());
+            extendedProperty.WriteToXml(writer, XmlElementNames.ExtendedProperty);
+            writer.WriteEndElement();
+
+            writer.WriteEndElement();
+        }
+
+        for (let extendedProperty of this.RemovedItems) {
+            writer.WriteStartElement(XmlNamespace.Types, ewsObject.GetDeleteFieldXmlElementName());
+            extendedProperty.PropertyDefinition.WriteToXml(writer);
+            writer.WriteEndElement();
+        }
+
+        return true;
+    }
+
     /**@internal */
     WriteToXml(writer: EwsServiceXmlWriter, xmlElementName: string): void {
         for (var extendedProperty of this.Items) {
