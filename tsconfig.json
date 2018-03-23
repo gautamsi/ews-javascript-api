@@ -12,7 +12,11 @@
         "allowUnreachableCode": true,
         "pretty": false,
         "inlineSourceMap": false,
-        "stripInternal": true
+        "stripInternal": true,
+        "lib": [
+            "es2015",
+            "dom"
+        ]
     },
     "compileOnSave": false,
     "exclude": [
@@ -22,5 +26,5 @@
         "src/js/System.d.ts",
         "typings/ExchangeWebService.d.ts",
         "src/js/Microsoft.Exchange.WebServices.d__.ts"
-    ]    
+    ]
 }
