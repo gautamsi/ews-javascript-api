@@ -158,7 +158,7 @@ export class TimeZoneInfo {
         let tzGuess: string = moment.tz.guess();
         let offset: number = moment().utcOffset();
         if (StringHelper.IsNullOrEmpty(tzGuess) || StringHelper.IsNullOrEmpty(TimeZoneMappingData[tzGuess])) {
-            console.assert(false, "Unabele to guess timezone, switching to Utc");
+            console.log("Unable to guess timezone, switching to Utc");
             return this.Utc;
         }
         let tzArray: any[] = TimeZoneMappingData[TimeZoneMappingData[tzGuess]];
