@@ -159,7 +159,7 @@ export class TimeZoneInfo {
         let offset: number = moment().utcOffset();
         if (StringHelper.IsNullOrEmpty(tzGuess) || StringHelper.IsNullOrEmpty(TimeZoneMappingData[tzGuess])) {
             console.log("Unable to guess timezone, switching to Utc");
-            return this.Utc;
+            tzGuess = "Etc/UTC";
         }
         let tzArray: any[] = TimeZoneMappingData[TimeZoneMappingData[tzGuess]];
 
