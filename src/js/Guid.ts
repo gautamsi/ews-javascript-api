@@ -10,7 +10,7 @@ export class Guid {
 	constructor();
 	constructor(str: string);
 	constructor(str?: string) {
-		let regx = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+		var regx = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 		if (arguments.length > 0) {
 			if (StringHelper.IsNullOrEmpty(str) || str === null) {
 				throw new TypeError("Guid.ctor - invalid input");
