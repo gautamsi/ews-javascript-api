@@ -52,7 +52,7 @@ export class XHRDefault implements IXHRApi {
 						resolve(setupXhrResponse(xhrResponse));
 					}
 					else {
-						reject(setupXhrResponse(xhrResponse));
+						reject(new Error("Error status: " + xhrResponse.status));
 					}
 				}
 			});
