@@ -87,6 +87,14 @@ module object {
     }
 }
 
+/**
+ * explicitly checks if the obj is null or undefined
+ * @param obj input to be checked
+ */
+export function isNullOrUndefined(obj: any): boolean {
+    return typeof obj === 'undefined' || obj === null;
+}
+
 export module ArrayHelper {
     export function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly: boolean = false): void {
         if (Object.prototype.toString.call(array) !== "[object Array]")
@@ -299,9 +307,9 @@ export class xml2JsObject {
                     obj[TYPE_STR] = xmlNode.localName;
                 }
                 var nonGenericAttributeCount = 0;
-                for (var i = 0; i < xmlNode.attributes.length; i++) {
+                for (var i = 0; i < xmlNode["attributes"].length; i++) {
                     nonGenericAttributeCount++;
-                    var attr: Attr = xmlNode.attributes.item(i);
+                    var attr: Attr = xmlNode["attributes"].item(i);
                     if (attr.prefix)
                         if (attr.prefix === 'xmlns') {
                             this.addXMLNS(xmlnsRoot, attr.localName, attr.value);
