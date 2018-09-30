@@ -16,7 +16,7 @@ else {
 
 
 export class EwsLogging {
-    static DebugLogEnabled: boolean = true;
+    static DebugLogEnabled: boolean = false;
     static Assert(condition: boolean, caller: string, message: string, always: boolean = false): void {
         if ((this.DebugLogEnabled || always) && !condition)
             console.log(StringHelper.Format("[{0}] {1}", caller, message));
