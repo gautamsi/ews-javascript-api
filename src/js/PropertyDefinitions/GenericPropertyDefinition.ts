@@ -107,14 +107,16 @@ export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefi
      * @return  {string}        String representation of property value.
      */
     ToString(value?: any): string {
-        if (value) {
-            if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
-                this.enumType.ToEwsEnumString(value);
-            }
-            else
-                return value.toString();
+        if (value === void 0 || value === null) {
+            throw new Error("GenericPropertyDefinition: incorrect call of ToString(value): value is undefined/null");
         }
-        throw new Error("GenericPropertyDefinition: incorrect call of ToString(value): value is undefined");
+
+        if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
+            this.enumType.ToEwsEnumString(value);
+        }
+        else {
+            return value.toString();
+        }
     }
     toString(value?: any): string {
         return this.ToString(value);
