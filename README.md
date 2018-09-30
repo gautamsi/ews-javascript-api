@@ -63,7 +63,7 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
-# Whats new v0.9.3
+# Whats new v0.9.4 (no 0.9.3)
 
 * new: you can now use ContactGroup for private DL functionality, `GroupMember` and `GroupMemberCollection` classes are implemented 
 * new: added code for passing options to underlying Fetch library. most requested option was allowing use of untrusted certificate.  
@@ -75,7 +75,7 @@ keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javasc
 * fix: #274 fixed array initialization in `DeleteAttachmentRequest`, it was preventing any request to DeleteAttachment in EWS. 
 * fix: #277 fixed an issue where setting `Contact.FileAsMapping` would not work and cause unhandled Excepttion 
 
-## snippet for 0.9.3
+## snippet for 0.9.4
 
 ### how to provide fetch options:
 ```ts
