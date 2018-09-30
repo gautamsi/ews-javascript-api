@@ -25,8 +25,6 @@ export class PhoneNumberEntry extends DictionaryEntryProperty<PhoneNumberKey> {
         this.keyType= PhoneNumberKey;
         this.phoneNumber = phoneNumber;
     }
-    InternalToJson(service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("PhoneNumberEntry.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         this.Key = <PhoneNumberKey><any>PhoneNumberKey[jsonProperty[XmlAttributeNames.Key]];
         this.phoneNumber = jsonProperty[XmlElementNames.Entry];//PhoneNumber

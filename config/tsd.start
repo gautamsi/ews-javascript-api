@@ -1,2 +1,3 @@
 declare module "ews-javascript-api" {
 import * as moment from 'moment-timezone';
+import { FetchStream, fetchUrl, FetchOptions } from 'fetch';

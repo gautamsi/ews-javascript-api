@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "almond": "^0.3.3",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "debug": "^2.6.8",
+    "debug": "^4.0.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",

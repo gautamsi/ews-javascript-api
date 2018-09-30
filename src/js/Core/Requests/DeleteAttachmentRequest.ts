@@ -1,23 +1,23 @@
 ﻿import { Attachment } from "../../ComplexProperties/Attachment";
+import { DeleteAttachmentResponse } from "../Responses/DeleteAttachmentResponse";
 import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
 import { EwsUtilities } from "../EwsUtilities";
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 import { ServiceErrorHandling } from "../../Enumerations/ServiceErrorHandling";
 import { StringHelper } from "../../ExtensionMethods";
 import { XmlAttributeNames } from "../XmlAttributeNames";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import { DeleteAttachmentResponse } from "../Responses/DeleteAttachmentResponse";
-import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 /**
  * @internal Represents a DeleteAttachment request.
  * @sealed
  */
-export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {//IJsonSerializable
+export class DeleteAttachmentRequest extends MultiResponseServiceRequest<DeleteAttachmentResponse> {
 
-    private attachments: Attachment[];
+    private attachments: Attachment[] = [];
 
     /**
      * Gets the attachments.

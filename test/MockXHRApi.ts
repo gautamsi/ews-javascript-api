@@ -17,7 +17,7 @@ export class MockXHRApi implements IXHRApi {
 			}
 			result.response = this.responseXml.splice(0, 1).pop();
 			result.responseText = result.response;
-			successDelegate(result);
+			successDelegate(<any>result);
 		});
 	}
 	xhrStream(x: any, y: any): Promise<XMLHttpRequest> {

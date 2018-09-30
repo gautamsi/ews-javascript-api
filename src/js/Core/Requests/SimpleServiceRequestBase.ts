@@ -6,8 +6,10 @@ import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
 import { Promise } from "../../Promise";
 import { EwsLogging } from "../EwsLogging";
 import { StringHelper, DOMParser, xml2JsObject } from "../../ExtensionMethods";
-
 import { ServiceRequestBase } from "./ServiceRequestBase";
+import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
+import { Exception } from "../../Exceptions/Exception";
+
 /** @internal */
 export class SimpleServiceRequestBase extends ServiceRequestBase {
     //BeginExecute(callback: System.AsyncCallback, state: any): any/*System.IAsyncResult*/ { throw new Error("SimpleServiceRequestBase.ts - BeginExecute : Not implemented.");}
@@ -44,12 +46,21 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
                 EwsLogging.DebugLog(req, true);
                 if (xhrResponse.status == 200) {
                     EwsLogging.DebugLog(xhrResponse, true);
-                    var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
-                    //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
-                    var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
+                    try {
 
-                    if (successDelegate)
-                        successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
+                        var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
+                        //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
+                        var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
+
+                        if (successDelegate)
+                            successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
+                    } catch (err) {
+                        if (err instanceof Exception)
+                            errorDelegate(err);
+                        else
+                            errorDelegate(new SoapFaultDetails(err.message));
+                    }
+
                 }
                 else {
                     if (errorDelegate)
@@ -112,7 +123,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
                 //IEwsHttpWebResponse exceptionResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(e);
                 this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, response);
             }
-            throw new ServiceRequestException(StringHelper.Format(Strings.ServiceRequestFailed, ex.Message), ex);
+            throw new ServiceRequestException(StringHelper.Format(Strings.ServiceRequestFailed, ex.message /* ex can be generic Error*/), ex);
         }
 
 

@@ -20,8 +20,6 @@ export class ImAddressEntry extends DictionaryEntryProperty<ImAddressKey> {
         this.imAddress = imAddress;
     }
 
-    InternalToJson(service: ExchangeService): any { throw new Error("ImAddressEntry.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("ImAddressEntry.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         this.Key = <ImAddressKey><any>ImAddressKey[jsonProperty[XmlAttributeNames.Key]];
         this.ImAddress = jsonProperty[XmlElementNames.Entry];// ImAddress];//ElementValue becomes Same ElementName when it has attribute. 

@@ -108,7 +108,6 @@ export class FileAttachment extends Attachment {
      * @return  {string}      XML element name.
      */
     GetXmlElementName(): string { return XmlElementNames.FileAttachment; }
-    //InternalToJson(service: ExchangeService): any { throw new Error("FileAttachment.ts - InternalToJson : Not implemented."); }
     
     // /**
     //  * Loads the content of the file attachment into the specified stream. Calling this method results in a call to EWS.

@@ -7,6 +7,7 @@
         "noImplicitAny": false,
         "removeComments": false,
         "noLib": false,
+        "skipLibCheck": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowUnreachableCode": true,

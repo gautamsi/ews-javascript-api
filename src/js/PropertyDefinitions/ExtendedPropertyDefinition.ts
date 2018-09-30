@@ -1,18 +1,16 @@
-﻿import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {PropertyDefinitionFlags} from "../Enumerations/PropertyDefinitionFlags";
-import {DefaultExtendedPropertySet} from "../Enumerations/DefaultExtendedPropertySet";
-import {MapiPropertyType} from "../Enumerations/MapiPropertyType";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {ArgumentOutOfRangeException} from "../Exceptions/ArgumentException";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
-import {Guid} from "../Guid";
-import {Strings} from "../Strings";
-import {StringHelper, Convert} from "../ExtensionMethods";
+﻿import { ArgumentOutOfRangeException } from "../Exceptions/ArgumentException";
+import { DefaultExtendedPropertySet } from "../Enumerations/DefaultExtendedPropertySet";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { Guid } from "../Guid";
+import { MapiPropertyType } from "../Enumerations/MapiPropertyType";
+import { PropertyDefinitionBase } from "./PropertyDefinitionBase";
+import { StringHelper, Convert } from "../ExtensionMethods";
+import { Strings } from "../Strings";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { isNullOrUndefined } from "util";
 
-import {PropertyDefinitionBase} from "./PropertyDefinitionBase";
 /**
  * Represents the definition of an extended property.
  */
@@ -270,7 +268,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        if (this.propertySet) {
+        if (!isNullOrUndefined(this.propertySet)) {
             writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, DefaultExtendedPropertySet[this.propertySet]);
         }
         if (this.propertySetId) {
@@ -294,11 +292,11 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
  * ExtendedPropertyDefinition interface to be used with TypeContainer - removes circular dependency
  */
 export interface IExtendedPropertyDefinition {
-    new (): ExtendedPropertyDefinition;
-    new (mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (tag: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (propertySet: DefaultExtendedPropertySet, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (propertySet: DefaultExtendedPropertySet, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (propertySetId: Guid, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
-    new (propertySetId: Guid, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(): ExtendedPropertyDefinition;
+    new(mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(tag: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(propertySet: DefaultExtendedPropertySet, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(propertySet: DefaultExtendedPropertySet, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(propertySetId: Guid, name: string, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
+    new(propertySetId: Guid, id: number, mapiType: MapiPropertyType): ExtendedPropertyDefinition;
 }

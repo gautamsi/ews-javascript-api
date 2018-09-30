@@ -36,8 +36,6 @@ export class ExtendedProperty extends ComplexProperty {
     Equals(obj: any): boolean { throw new Error("ExtendedProperty.ts - Equals : Not implemented."); }
     GetHashCode(): number { throw new Error("ExtendedProperty.ts - GetHashCode : Not implemented."); }
     GetStringValue(): string { throw new Error("ExtendedProperty.ts - GetStringValue : Not implemented."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("ExtendedProperty.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("ExtendedProperty.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         if (jsonProperty[XmlElementNames.ExtendedFieldURI]) {
             this.propertyDefinition = new ExtendedPropertyDefinition();

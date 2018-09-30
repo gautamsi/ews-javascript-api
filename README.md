@@ -63,6 +63,30 @@ Check [Wiki](https://github.com/gautamsi/ews-javascript-api/wiki) for more detai
 
 keep track of what is coming in [backlog](https://github.com/gautamsi/ews-javascript-api/milestones/backlog), keep eye on [milestones](https://github.com/gautamsi/ews-javascript-api/milestones) when I start working on it 
 
+# Whats new v0.9.3
+
+* new: you can now use ContactGroup for private DL functionality, `GroupMember` and `GroupMemberCollection` classes are implemented 
+* new: added code for passing options to underlying Fetch library. most requested option was allowing use of untrusted certificate.  
+* fix: #241 `ExtendedPropertyCollection` code updated, was not letting changes in Email or Phone number in contact object. 
+* fix: #242 `SimpleServiceRequestBase` code improved, should prevent unhandled rejection in case of response status 200 and local parsing errors. 
+* fix: #250 fixed writing logic for `ExtendedPropertyDefinition` propertyset in output xml. 
+* fix: #256 `ServiceResponseCollection.GetEnumerator()` is now returning `Responses` array rather than throwing error. 
+* fix: #261 added skipLibCheck option in tsconfig, otherwise building from source would be throwing some error for type checking in dependency libs. 
+* fix: #274 fixed array initialization in `DeleteAttachmentRequest`, it was preventing any request to DeleteAttachment in EWS. 
+* fix: #277 fixed an issue where setting `Contact.FileAsMapping` would not work and cause unhandled Excepttion 
+
+## snippet for 0.9.3
+
+### how to provide fetch options:
+```ts
+import {....., ConfigurationApi, .......} from 'ews-javascript-api';
+// use this before instantiating ExchangeService 
+ConfigurationApi.SetXHROptions({rejectUnauthorized : false});
+```
+
+for more details on which all options supported, see https://github.com/gautamsi/ews-javascript-api/blob/6618c29c08a5ad087abe9636c3128bef9837d4ae/src/js/XHRDefault.ts#L159 and https://github.com/andris9/fetch
+
+
 # Whats new v0.9.2
 
 * new: `ExchangeService.GetServerTimeZones()` can be used to get Windows TimeZone information from server

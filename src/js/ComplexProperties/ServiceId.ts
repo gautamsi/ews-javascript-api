@@ -51,8 +51,6 @@ export class ServiceId extends ComplexProperty {
     //GetHashCode(): number { return this.IsValid ? this.UniqueId.GetHashCode() : super.GetHashCode();}
     //GetJsonTypeName(): string { throw new Error("ServiceId.ts - GetJsonTypeName : Not implemented."); }
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
-    //InternalToJson(service: ExchangeService): any { throw new Error("ServiceId.ts - InternalToJson : Not implemented."); }
-    //LoadFromJson(jsonProperty: JsonObject, service: ExchangeService): any { throw new Error("ServiceId.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (var key in jsObject) {
             switch (key) {

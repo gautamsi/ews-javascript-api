@@ -657,16 +657,18 @@ export class UserConfigurationDictionary extends ComplexProperty {//IEnumerable,
                     throw new ServiceLocalException(Strings.NullStringArrayElementInvalid);
                 }
             }
-            //check for byte[] for base64 conversion to single element //todo: byte[] conversion to base64 using Buffer
-            let dictionaryObjectAsByteArray: number[] = ArrayHelper.OfType<number, number>(dictionaryObject, (item) => { return typeof item === 'number' });
-            if (dictionaryObjectAsByteArray.length > 0 && dictionaryObjectAsByteArray.length === dictionaryObject.length) {
-                // Convert byte array to base64 string
-                dictionaryObjectType = UserConfigurationDictionaryObjectType.ByteArray;
-                valueAsString = Convert.ToBase64String(dictionaryObjectAsByteArray);
-                this.WriteEntryTypeToXml(writer, dictionaryObjectType);
-                this.WriteEntryValueToXml(writer, valueAsString);
-            } else {
-                throw new ServiceLocalException(Strings.NullStringArrayElementInvalid);
+            else {
+                //check for byte[] for base64 conversion to single element //todo: byte[] conversion to base64 using Buffer
+                let dictionaryObjectAsByteArray: number[] = ArrayHelper.OfType<number, number>(dictionaryObject, (item) => { return typeof item === 'number' });
+                if (dictionaryObjectAsByteArray.length > 0 && dictionaryObjectAsByteArray.length === dictionaryObject.length) {
+                    // Convert byte array to base64 string
+                    dictionaryObjectType = UserConfigurationDictionaryObjectType.ByteArray;
+                    valueAsString = Convert.ToBase64String(dictionaryObjectAsByteArray);
+                    this.WriteEntryTypeToXml(writer, dictionaryObjectType);
+                    this.WriteEntryValueToXml(writer, valueAsString);
+                } else {
+                    throw new ServiceLocalException(Strings.NullStringArrayElementInvalid);
+                }
             }
         }
         else {

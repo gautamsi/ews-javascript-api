@@ -464,7 +464,7 @@ export { ExtendedAttribute } from "./MailboxSearch/ExtendedAttribute";
 export { ExtendedProperty } from "./ComplexProperties/ExtendedProperty";
 export { ExtendedPropertyCollection } from "./ComplexProperties/ExtendedPropertyCollection";
 export { ExtensionInstallScope } from "./Enumerations/ExtensionInstallScope";
-export { DOMParser, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper, xml2JsObject } from "./ExtensionMethods";
+export { DOMParser, isNullOrUndefined, Convert, ArrayHelper, base64Helper, EnumHelper, StringHelper, TypeSystem, UriHelper, xml2JsObject } from "./ExtensionMethods";
 
 export { ExtensionType } from "./Enumerations/ExtensionType";
 export { ExtractedEntity } from "./ComplexProperties/ExtractedEntity";

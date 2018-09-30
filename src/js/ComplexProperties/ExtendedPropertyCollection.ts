@@ -27,7 +27,6 @@ export class ExtendedPropertyCollection extends ComplexPropertyCollection<Extend
         }
         return extendedProperty.outValue;
     }
-    InternalToJson(service: ExchangeService): any { throw new Error("ExtendedPropertyCollection.ts - InternalToJson : Not implemented."); }
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {//localElementName: string
         var extendedProperty = new ExtendedProperty();
         //debugger; //debug: //todo: check for need of local element -not tested
