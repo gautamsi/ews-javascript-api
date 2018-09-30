@@ -66,7 +66,6 @@ export class ItemAttachment extends Attachment {
      */
     GetXmlElementName(): string { return XmlElementNames.ItemAttachment; }
 
-    //InternalToJson(service: ExchangeService): any { throw new Error("ItemAttachment.ts - InternalToJson : Not implemented."); }
 
     /**
      * Implements the OnChange event handler for the item associated with the attachment.

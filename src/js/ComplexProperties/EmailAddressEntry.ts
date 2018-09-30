@@ -34,8 +34,6 @@ export class EmailAddressEntry extends DictionaryEntryProperty<EmailAddressKey> 
         }
     }
     EmailAddressChanged(complexProperty: ComplexProperty): void { this.Changed(); }
-    InternalToJson(service: ExchangeService): any { throw new Error("EmailAddressEntry.ts - InternalToJson : Not implemented."); }
-    LoadFromJson(jsonProperty: any, service: ExchangeService): any { throw new Error("EmailAddressEntry.ts - LoadFromJson : Not implemented."); }
     LoadFromXmlJsObject(jsonProperty: any, service: ExchangeService): void {
         for (var key in jsonProperty) {
             switch (key) {
