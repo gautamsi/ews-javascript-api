@@ -196,7 +196,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
         sb += this.FormatField(ExtendedPropertyDefinition.MapiTypeFieldName, MapiPropertyType[this.MapiType]);
         sb += this.FormatField(ExtendedPropertyDefinition.IdFieldName, this.Id.toString());
         sb += this.FormatField(ExtendedPropertyDefinition.PropertySetFieldName, DefaultExtendedPropertySet[this.PropertySet]);
-        sb += this.FormatField(ExtendedPropertyDefinition.PropertySetIdFieldName, this.PropertySetId != null ? this.PropertySetId.ToString() : "");
+        sb += this.FormatField(ExtendedPropertyDefinition.PropertySetIdFieldName, this.PropertySetId != null ? this.PropertySetId.toString() : "");
         sb += this.FormatField(ExtendedPropertyDefinition.TagFieldName, this.Tag.toString());
         sb += "}";
         return sb;
@@ -272,7 +272,7 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
             writer.WriteAttributeValue(XmlAttributeNames.DistinguishedPropertySetId, DefaultExtendedPropertySet[this.propertySet]);
         }
         if (this.propertySetId) {
-            writer.WriteAttributeValue(XmlAttributeNames.PropertySetId, this.propertySetId.ToString());
+            writer.WriteAttributeValue(XmlAttributeNames.PropertySetId, this.propertySetId.toString());
         }
         if (this.tag) {
             writer.WriteAttributeValue(XmlAttributeNames.PropertyTag, this.tag);
