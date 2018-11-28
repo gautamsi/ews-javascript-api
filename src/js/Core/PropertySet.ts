@@ -320,7 +320,10 @@ export class PropertySet implements ISelfValidate, IEnumerable<PropertyDefinitio
 
         if (argsLength > 2) {
             for (var _i = 2; _i < arguments.length; _i++) {
-                additionalProperties.push(arguments[_i]);
+                let argument = arguments[_i];
+                if (argument.uri) {
+                    additionalProperties.push(argument);
+                }
             }
         }
 
