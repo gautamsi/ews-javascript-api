@@ -40,7 +40,7 @@ export type RequiredServerVersionEnums = typeof ConversationQueryTraversal | typ
 
 /**
  * @internal EWS utilities
- * 
+ *
  * @static
  */
 export class EwsUtilities {
@@ -439,10 +439,10 @@ export class EwsUtilities {
         //                 // Convert generic type to printable form (e.g. List<Item>)
         //                 string genericPrefix = type.Name.Substring(0, type.Name.IndexOf('`'));
         //                 StringBuilder nameBuilder = new StringBuilder(genericPrefix);
-        // 
+        //
         //                 // Note: building array of generic parameters is done recursively. Each parameter could be any type.
         //                 string[] genericArgs = type.GetGenericArguments().ToList<Type>().ConvertAll<string>(t => GetPrintableTypeName(t)).ToArray<string>();
-        // 
+        //
         //                 nameBuilder.Append("<");
         //                 nameBuilder.Append(string.Join(",", genericArgs));
         //                 nameBuilder.Append(">");
@@ -492,6 +492,10 @@ export class EwsUtilities {
         //         "EwsUtilities.ParseEnumValueList",
         //         "T is not an enum type.");
 
+        if (!value) {
+            return;
+        }
+
         var enumValues: string[] = value.split(separators);
 
         for (var enumValue of enumValues) {
@@ -510,7 +514,7 @@ export class EwsUtilities {
         // Optional '-' offset
         var offsetStr: string = (timeSpan.TotalSeconds < 0) ? "-" : StringHelper.Empty;
 
-        // The TimeSpan structure does not have a Year or Month 
+        // The TimeSpan structure does not have a Year or Month
         // property, therefore we wouldn't be able to return an xs:duration
         // string from a TimeSpan that included the nY or nM components.
         return StringHelper.Format(
