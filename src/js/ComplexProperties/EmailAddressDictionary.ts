@@ -75,7 +75,7 @@ export class EmailAddressDictionary extends DictionaryProperty<EmailAddressKey, 
      * @return  {boolean}                  true if the Dictionary contains an e-mail address associated with the specified key; otherwise, false.
      */
     TryGetValue(key: EmailAddressKey, emailAddress: IOutParam<EmailAddress>): boolean {
-        let entry: IOutParam<EmailAddressEntry> = null;
+        let entry: IOutParam<EmailAddressEntry> = { outValue: null };
 
         if (this.Entries.tryGetValue(key, entry)) {
             emailAddress.outValue = entry.outValue.EmailAddress;
