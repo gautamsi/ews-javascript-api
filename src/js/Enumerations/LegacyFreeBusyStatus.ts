@@ -7,30 +7,30 @@ export enum LegacyFreeBusyStatus {
     /**
      * The time slot associated with the appointment appears as free.
      */
-    Free = 0,
+    Free = 'Free',
     
     /**
      * The time slot associated with the appointment appears as tentative.
      */
-    Tentative = 1,
+    Tentative = 'Tentative',
     
     /**
      * The time slot associated with the appointment appears as busy.
      */
-    Busy = 2,
+    Busy = 'Busy',
     
     /**
      * The time slot associated with the appointment appears as Out of Office.
      */
-    OOF = 3,
+    OOF = 'OOF',
     
     /**
      * The time slot associated with the appointment appears as working else where.
      */
-    WorkingElsewhere = 4,
+    WorkingElsewhere = 'WorkingElsewhere',
     
     /**
      * No free/busy status is associated with the appointment.
      */
-    NoData = 5
+    NoData = 'NoData'
 }
