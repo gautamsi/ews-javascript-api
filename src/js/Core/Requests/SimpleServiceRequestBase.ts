@@ -40,13 +40,13 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
 
             //this.ReadResponsePrivate(response);
             this.ValidateAndEmitRequest(request).then((xhrResponse: XMLHttpRequest) => {
-                var dom = new DOMParser();
-                var xml2js = new xml2JsObject();
-                var req = xml2js.parseXMLNode(dom.parseFromString(request.data, "text/xml").documentElement, true);
-                EwsLogging.DebugLog(req, true);
-                if (xhrResponse.status == 200) {
-                    EwsLogging.DebugLog(xhrResponse, true);
-                    try {
+                try {
+                    var dom = new DOMParser();
+                    var xml2js = new xml2JsObject();
+                    var req = xml2js.parseXMLNode(dom.parseFromString(request.data, "text/xml").documentElement, true);
+                    EwsLogging.DebugLog(req, true);
+                    if (xhrResponse.status == 200) {
+                        EwsLogging.DebugLog(xhrResponse, true);
 
                         var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
                         //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
@@ -54,17 +54,16 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
 
                         if (successDelegate)
                             successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
-                    } catch (err) {
-                        if (err instanceof Exception)
-                            errorDelegate(err);
-                        else
-                            errorDelegate(new SoapFaultDetails(err.message));
                     }
-
-                }
-                else {
-                    if (errorDelegate)
-                        errorDelegate(this.ProcessWebException(xhrResponse) || xhrResponse);
+                    else {
+                        if (errorDelegate)
+                            errorDelegate(this.ProcessWebException(xhrResponse) || xhrResponse);
+                    }
+                } catch (err) {
+                    if (err instanceof Exception)
+                        errorDelegate(err);
+                    else
+                        errorDelegate(new SoapFaultDetails(err.message));
                 }
             }, (resperr: XMLHttpRequest) => {
                 EwsLogging.Log("Error in calling service, error code:" + resperr.status + "\r\n" + ((resperr.getAllResponseHeaders) ? resperr.getAllResponseHeaders() : ""));
