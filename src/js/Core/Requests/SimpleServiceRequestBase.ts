@@ -50,7 +50,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
 
                         var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
                         //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
-                        var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
+                        var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject, xhrResponse);
 
                         if (successDelegate)
                             successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
@@ -73,11 +73,11 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
         });
 
     }
-    private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/): any {
+    private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/, xhrResponse: any): any {
         var serviceResponse: any;
 
         try {
-            this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, response);
+            this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, xhrResponse);
             // If tracing is enabled, we read the entire response into a MemoryStream so that we
             // can pass it along to the ITraceListener. Then we parse the response from the
             // MemoryStream.

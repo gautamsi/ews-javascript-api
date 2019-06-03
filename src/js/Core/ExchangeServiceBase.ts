@@ -386,9 +386,8 @@ export class ExchangeServiceBase {
     }
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest/*IEwsHttpWebResponse*/, webException: any): any { throw new Error("ExchangeServiceBase.ts - ProcessHttpErrorResponse : Not implemented."); }
     ProcessHttpResponseHeaders(traceType: TraceFlags, response: any): void {
-        return;
         //todo: implement tracing
-        this.TraceHttpResponseHeaders(traceType, response);
+        // this.TraceHttpResponseHeaders(traceType, response);
 
         this.SaveHttpResponseHeaders(response.Headers);
     }
