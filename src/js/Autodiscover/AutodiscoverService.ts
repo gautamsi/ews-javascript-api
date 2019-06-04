@@ -650,8 +650,6 @@ export class AutodiscoverService extends ExchangeServiceBase {
             else {
                 return response;
             }
-        }, (err) => {
-
         });
     }
     private InternalGetLegacyUserSettings(emailAddress: string, requestedSettings: UserSettingName[]): Promise<GetUserSettingsResponse> {
@@ -753,8 +751,6 @@ export class AutodiscoverService extends ExchangeServiceBase {
             else {
                 return response;
             }
-        }, (err) => {
-
         });
     }
     //PrepareHttpWebRequestForUrl(url: Uri): Data.IEwsHttpWebRequest{ throw new Error("AutodiscoverService.ts - PrepareHttpWebRequestForUrl : Not implemented.");}
