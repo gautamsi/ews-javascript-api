@@ -2,7 +2,7 @@
   "name": "ews-javascript-api",
   "version": "0.9.4",
   "description": "EWS Managed api in JavaScript",
-  "main": "js/ExchangeWebService.js",
+  "main": "./src/js/ExchangeWebService.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "npmprep": "gulp build && gulp build-typedef && gulp npm-prep && npm version"
