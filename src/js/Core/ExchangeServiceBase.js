@@ -274,8 +274,8 @@ var ExchangeServiceBase = /** @class */ (function () {
     ExchangeServiceBase.prototype.SaveHttpResponseHeaders = function (headers /* System.Net.WebHeaderCollection*/) {
         //debug:
         this.httpResponseHeaders = {};
-        for (var key in headers.headers) {
-            this.httpResponseHeaders[key] = headers.headers[key];
+        for (var key in headers) {
+            this.httpResponseHeaders[key] = headers[key];
         }
         if (this.OnResponseHeadersCaptured != null) {
             this.OnResponseHeadersCaptured(headers);

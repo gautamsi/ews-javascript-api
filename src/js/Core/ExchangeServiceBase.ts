@@ -395,8 +395,8 @@ export class ExchangeServiceBase {
         //debug:
         this.httpResponseHeaders = {};
 
-        for (var key in headers.headers) {
-            this.httpResponseHeaders[key] = headers.headers[key];
+        for (var key in headers) {
+            this.httpResponseHeaders[key] = headers[key];
         }
 
         if (this.OnResponseHeadersCaptured != null) {
