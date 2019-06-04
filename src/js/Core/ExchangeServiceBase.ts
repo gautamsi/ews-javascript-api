@@ -389,7 +389,7 @@ export class ExchangeServiceBase {
         //todo: implement tracing
         // this.TraceHttpResponseHeaders(traceType, response);
 
-        this.SaveHttpResponseHeaders(response.Headers);
+        this.SaveHttpResponseHeaders(response.headers);
     }
     SaveHttpResponseHeaders(headers: IXHROptions/* System.Net.WebHeaderCollection*/): any {
         //debug:

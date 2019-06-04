@@ -269,7 +269,7 @@ var ExchangeServiceBase = /** @class */ (function () {
     ExchangeServiceBase.prototype.ProcessHttpResponseHeaders = function (traceType, response) {
         //todo: implement tracing
         // this.TraceHttpResponseHeaders(traceType, response);
-        this.SaveHttpResponseHeaders(response.Headers);
+        this.SaveHttpResponseHeaders(response.headers);
     };
     ExchangeServiceBase.prototype.SaveHttpResponseHeaders = function (headers /* System.Net.WebHeaderCollection*/) {
         //debug:
