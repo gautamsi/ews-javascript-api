@@ -3078,7 +3078,7 @@ export interface EnumVersionDelegate {
         [index: string]: string;
     };
     httpResponseHeaders: {
-        [index: string]: string;
+        [index: string]: string | string[];
     };
     HttpWebRequestFactory: IEwsHttpWebRequestFactory;
     KeepAlive: boolean;
