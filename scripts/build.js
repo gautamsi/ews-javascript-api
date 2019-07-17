@@ -1,28 +1,48 @@
 const { cat, rm, cp, exec, mkdir } = require("shelljs")
 const replace = require('replace-in-file');
+const ora = require('ora');
 
 const typingSource = "build/output/node/js/**/*.d.ts";
 const typingFile = "typings/ExchangeWebService.d.ts";
 const typePrefixFile = "scripts/config/tsd.start";
 const typeSuffixFile = "scripts/config/tsd.end";
 
-preClean();
-compile();
-mergeDef();
-cleanDef();
-fixDef();
-cleanupDef();
-copyFiles();
+const spinner = ora({ spinner: "arc", color: "yellow" });
+
+(async () => {
+  spinner.start("Cleaning up from previous session");
+  preClean();
+  spinner.succeed();
+  spinner.start("Compiling TypeScript");
+  await compile();
+  spinner.succeed();
+
+  spinner.start("Combining TypeScript definitions")
+  mergeDef();
+  cleanDef();
+  fixDef();
+  cleanupDef();
+  spinner.succeed();
+  spinner.start("Copying npm files")
+  copyFiles();
+  spinner.succeed();
+  spinner.stop();
+  spinner.clear();
+})();
+
 
 function preClean() {
   rm('-rf', 'build/output/node');
+  mkdir("-p", "build/output/node/");
 }
 
 function compile() {
-  exec("tsc -p tsconfig.build.json", { shell: true, stdio: 'inherit' })
+  return new Promise(resolve => {
+    exec("tsc -p tsconfig.build.json", { shell: true, stdio: 'inherit' }, resolve);
+  })
 }
 
-function mergeDef(){
+function mergeDef() {
   cat(typingSource).to(typingFile);
 }
 
