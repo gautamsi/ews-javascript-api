@@ -1,22 +1,56 @@
-﻿import {ExchangeService} from "../Core/ExchangeService";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {EwsServiceXmlReader} from "../Core/EwsServiceXmlReader";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {XmlAttributeNames} from "../Core/XmlAttributeNames";
+﻿import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { StringHelper } from "../ExtensionMethods";
+import { XmlAttributeNames } from "../Core/XmlAttributeNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
-import {StringHelper} from "../ExtensionMethods";
-
-import {ComplexProperty} from "./ComplexProperty";
-export class ServiceId extends ComplexProperty {
-    public get IsValid(): boolean { return this.IsValidProxy(); }
-    protected IsValidProxy(): boolean { return !StringHelper.IsNullOrEmpty(this.UniqueId); } //proxy to be able to call super. from inherited child
+import { ComplexProperty } from "./ComplexProperty";
+/**
+ * Represents the Id of an Exchange object.
+ *
+ * @abstract
+ * @class ServiceId
+ * @extends {ComplexProperty}
+ */
+export abstract class ServiceId extends ComplexProperty {
+    /**
+     *Gets the unique Id of the Exchange object.
+     *
+     * @type {string}
+     */
     UniqueId: string;
-    ChangeKey: string;
-    //private changeKey: string; not needed for proxy
-    //private uniqueId: string; - not needed for proxy
 
+    /**
+     *Gets the change key associated with the Exchange object. The change key represents the the version of the associated item or folder.
+     *
+     * @type {string}
+     */
+    ChangeKey: string;
+
+    /**
+     * True if this instance is valid, false otherthise.
+     * 
+     * @value   *true* if this instance is valid; otherwise, *false*.
+     */
+    public get IsValid(): boolean {
+        return this.IsValidProxy();
+    }
+
+    /** @internal IsValid proxy to be able to call super. from inherited child */
+    protected IsValidProxy(): boolean {
+        return !StringHelper.IsNullOrEmpty(this.UniqueId);
+    }
+
+    /**
+     * Initializes a new instance of the **ServiceId** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **ServiceId** class.
+     *
+     * @param   {string}   uniqueId   The unique id.
+     */
     constructor(uniqueId: string);
     constructor(uniqueId?: string) {
         super();
@@ -26,10 +60,23 @@ export class ServiceId extends ComplexProperty {
         }
     }
 
+    /**
+     * @internal Assigns from existing id.
+     *
+     * @param   {ServiceId}   source   The source.
+     */
     Assign(source: ServiceId): void {
         this.UniqueId = source.UniqueId;
         this.ChangeKey = source.ChangeKey;
     }
+
+    /**
+     * Determines whether the specified *ServiceId* is equal to the current *ServiceId*.
+     * We do not consider the ChangeKey for ServiceId.Equals.
+     *
+     * @param   {any}       obj   The  to compare with the current .
+     * @return  {boolean}   true if the specified  is equal to the current ; otherwise, false.
+     */
     Equals(obj: any): boolean {
         if (this === obj) {//object.ReferenceEquals(this, obj)) {
             return true;
@@ -48,9 +95,22 @@ export class ServiceId extends ComplexProperty {
             }
         }
     }
+
     //GetHashCode(): number { return this.IsValid ? this.UniqueId.GetHashCode() : super.GetHashCode();}
-    //GetJsonTypeName(): string { throw new Error("ServiceId.ts - GetJsonTypeName : Not implemented."); }
+
+    /**
+     * @internal Gets the name of the XML element.
+     *
+     * @return  {string}      XML element name.
+     */
     GetXmlElementName(): string { throw new Error("abstract method must implement."); }
+
+    /**
+     * @internal Loads service object from XML.
+     *
+     * @param   {any}				jsObject	Json Object converted from XML.
+     * @param   {ExchangeService}	service	The service.    
+     */
     LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void {
         for (var key in jsObject) {
             switch (key) {
@@ -65,11 +125,12 @@ export class ServiceId extends ComplexProperty {
             }
         }
     }
-    /**@internal */
-    ReadAttributesFromXmlJsObject(reader: EwsServiceXmlReader): void {
-        this.UniqueId = reader.ReadAttributeValue(null, XmlAttributeNames.Id);
-        this.ChangeKey = reader.ReadAttributeValue(null, XmlAttributeNames.ChangeKey);
-    }
+
+    /**
+     * Determines whether two ServiceId instances are equal (including ChangeKeys)
+     *
+     * @param   {ServiceId}   other   The ServiceId to compare with the current ServiceId.
+     */
     SameIdAndChangeKey(other: ServiceId): boolean {
         if (this.Equals(other)) {
             return ((this.ChangeKey == null) && (other.ChangeKey == null)) ||
@@ -79,14 +140,34 @@ export class ServiceId extends ComplexProperty {
             return false;
         }
     }
-    ToString(): string { return (this.UniqueId == null) ? "" : this.UniqueId; }
-    /**@internal */
+
+    /**
+     * Returns a *String* that represents the current *ServiceId*.
+     *
+     * @return  {string}      A *String* that represents the current *ServiceId*.
+     */
+    ToString(): string {
+        return (this.UniqueId == null) ? "" : this.UniqueId;
+    }
+
+    /**
+     * @internal Writes attributes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer   The writer.
+     */
     WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
         writer.WriteAttributeValue(XmlAttributeNames.Id, this.UniqueId);
         writer.WriteAttributeValue(XmlAttributeNames.ChangeKey, this.ChangeKey);
     }
-    /** @internal */
-    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string, xmlNamespace?: XmlNamespace): void { //todo: fix third call with namespace
+
+    /**
+     * @internal Writes to XML.
+     *
+     * @param   {EwsServiceXmlWriter}   writer           The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
+     * @param   {XmlNamespace}          xmlNamespace     The XML namespace.
+     */
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string, xmlNamespace?: XmlNamespace): void {
         if (arguments.length > 2) {
             super.WriteToXml(writer, xmlElementName, xmlNamespace);
         }

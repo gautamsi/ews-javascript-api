@@ -92,7 +92,15 @@ module object {
  * @param obj input to be checked
  */
 export function isNullOrUndefined(obj: any): boolean {
-    return typeof obj === 'undefined' || obj === null;
+    return obj === undefined || obj === null;
+}
+
+/**
+ * explicitly checks if the obj has value and it is NOT null or undefined
+ * @param obj input to be checked
+ */
+export function hasValue(obj: any): boolean {
+    return !isNullOrUndefined(obj);
 }
 
 export module ArrayHelper {
