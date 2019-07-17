@@ -454,8 +454,9 @@ export class TimeZoneDefinition extends ComplexProperty {
      * @internal Writes to XML.
      *
      * @param   {EwsServiceXmlWriter}   writer   The writer.
+     * @param   {string}                xmlElementName   Name of the XML element.
      */
-    WriteToXml(writer: EwsServiceXmlWriter): void {
-        super.WriteToXml(writer, XmlElementNames.TimeZoneDefinition);
+    WriteToXml(writer: EwsServiceXmlWriter, xmlElementName?: string): void {
+        super.WriteToXml(writer, xmlElementName || XmlElementNames.TimeZoneDefinition);
     }
 }
