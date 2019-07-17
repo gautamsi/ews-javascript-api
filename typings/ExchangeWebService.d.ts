@@ -1561,15 +1561,66 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
      */
     constructor();
 }
+/**
+ * Represents the Id of a folder.
+ *
+ * @class FolderId
+ * @extends {ServiceId}
+ */
  class FolderId extends ServiceId {
+    /**
+     * Gets the name of the folder associated with the folder Id. Name and Id are mutually exclusive; if one is set, the other is null.
+     *
+     * @readonly
+     * @type {WellKnownFolderName}
+     */
     readonly FolderName: WellKnownFolderName;
+    /**
+     * Gets the mailbox of the folder. Mailbox is only set when FolderName is set.
+     *
+     * @readonly
+     * @type {Mailbox}
+     */
     readonly Mailbox: Mailbox;
+    /**
+     * True if this instance is valid, false otherthise.
+     *
+     * @value   *true* if this instance is valid; otherwise, *false*.
+     */
     readonly IsValid: boolean;
-    constructor(folderName?: WellKnownFolderName, mailbox?: Mailbox);
+    /**
+     * Initializes a new instance of the **FolderId** class. Use this constructor to link this FolderId to an existing folder that you have the unique Id of.
+    *
+    * @param   {String} uniqueId The unique Id used to initialize the FolderId.
+    */
+    constructor(uniqueId: string);
+    /**
+     * Initializes a new instance of the **FolderId** class. Use this constructor to link this FolderId to a well known folder (e.g. Inbox, Calendar or Contacts).
+    *
+    * @param   {WellKnownFolderName}    folderName  The folder name used to initialize the FolderId.
+    */
+    constructor(folderName: WellKnownFolderName);
+    /**
+     * Initializes a new instance of the **FolderId** class. Use this constructor to link this FolderId to a well known folder (e.g. Inbox, Calendar or Contacts) in a specific mailbox.
+    *
+    * @param   {WellKnownFolderName}    folderName   The folder name used to initialize the FolderId.
+    * @param   {Mailbox}                mailbox      The mailbox used to initialize the FolderId.
+    */
+    constructor(folderName: WellKnownFolderName, mailbox: Mailbox);
+    /**
+     * Determines whether the specified *FolderId* is equal to the current *FolderId*.
+     * We do not consider the ChangeKey for FolderId.Equals.
+     *
+     * @param   {any}       obj   The  to compare with the current .
+     * @return  {boolean}   true if the specified  is equal to the current ; otherwise, false.
+     */
     Equals(obj: any): boolean;
-    GetXmlElementName(): string;
+    /**
+     * Returns a *String* that represents the current *FolderId*.
+     *
+     * @return  {string}      A *String* that represents the current *FolderId*.
+     */
     ToString(): string;
-    Validate(version?: ExchangeVersion): void;
 }
 /**
  * Represents a collection of folder Ids.
@@ -2074,10 +2125,23 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     constructor();
     GetEnumerator(): any;
 }
+/**
+ * Represents the Id of an Exchange item.
+ *
+ * @class ItemId
+ * @extends {ServiceId}
+ */
  class ItemId extends ServiceId {
+    /**
+     * Initializes a new instance of the **ItemId**.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **ItemId**.
+     *
+     * @param   {String} uniqueId   The unique Id used to initialize the ItemId
+     */
     constructor(uniqueId: string);
-    GetXmlElementName(): string;
 }
 /**
  * Represents a collection of item Ids.
@@ -3292,18 +3356,61 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     PropertyChanged(complexProperty: ComplexProperty): any;
     Validate(): any;
 }
- class ServiceId extends ComplexProperty {
-    readonly IsValid: boolean;
-    protected IsValidProxy(): boolean;
+/**
+ * Represents the Id of an Exchange object.
+ *
+ * @abstract
+ * @class ServiceId
+ * @extends {ComplexProperty}
+ */
+ abstract class ServiceId extends ComplexProperty {
+    /**
+     *Gets the unique Id of the Exchange object.
+     *
+     * @type {string}
+     */
     UniqueId: string;
+    /**
+     *Gets the change key associated with the Exchange object. The change key represents the the version of the associated item or folder.
+     *
+     * @type {string}
+     */
     ChangeKey: string;
+    /**
+     * True if this instance is valid, false otherthise.
+     *
+     * @value   *true* if this instance is valid; otherwise, *false*.
+     */
+    readonly IsValid: boolean;
+    /**
+     * Initializes a new instance of the **ServiceId** class.
+     */
     constructor();
+    /**
+     * Initializes a new instance of the **ServiceId** class.
+     *
+     * @param   {string}   uniqueId   The unique id.
+     */
     constructor(uniqueId: string);
-    Assign(source: ServiceId): void;
+    /**
+     * Determines whether the specified *ServiceId* is equal to the current *ServiceId*.
+     * We do not consider the ChangeKey for ServiceId.Equals.
+     *
+     * @param   {any}       obj   The  to compare with the current .
+     * @return  {boolean}   true if the specified  is equal to the current ; otherwise, false.
+     */
     Equals(obj: any): boolean;
-    GetXmlElementName(): string;
-    LoadFromXmlJsObject(jsObject: any, service: ExchangeService): void;
+    /**
+     * Determines whether two ServiceId instances are equal (including ChangeKeys)
+     *
+     * @param   {ServiceId}   other   The ServiceId to compare with the current ServiceId.
+     */
     SameIdAndChangeKey(other: ServiceId): boolean;
+    /**
+     * Returns a *String* that represents the current *ServiceId*.
+     *
+     * @return  {string}      A *String* that represents the current *ServiceId*.
+     */
     ToString(): string;
 }
  class SetClientExtensionAction extends ComplexProperty {
@@ -20092,6 +20199,11 @@ export interface TaskSchemaStatic extends TaskSchema {
  * @param obj input to be checked
  */
  function isNullOrUndefined(obj: any): boolean;
+/**
+ * explicitly checks if the obj has value and it is NOT null or undefined
+ * @param obj input to be checked
+ */
+ function hasValue(obj: any): boolean;
  module ArrayHelper {
     function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly?: boolean): void;
     function RemoveEntry<T>(array: Array<T>, entry: T, comparer?: (T: any) => boolean): boolean;

@@ -50,12 +50,12 @@ function cleanDef() {
   const options = {
     files: typingFile,
     from: [
-      /\n?^.*import.*\{.*\}.*from.*\;/gm,
-      /\nimport \* as moment from 'moment-timezone';/g,
+      /\r?\n?^.*import.*\{.*\}.*from.*\;/gm,
+      /\r?\nimport \* as moment from 'moment-timezone';/g,
       /^.*export.*\{.*\}.*from.*\;/gm,
       /^.*export.*\{.*\};$/gm,
       /^.*\/\/\/\s*\<reference.*\>/gm,
-      /(\n\s*\/\*\*\s*\n([^\*]|(\*(?!\/)))*\*\/)?\n\s*private\s.*;/gm, // replace line with private and also preceding lines with jsdoc comments
+      /(\r?\n\s*\/\*\*\s*\r?\n([^\*]|(\*(?!\/)))*\*\/)?\r?\n\s*private\s.*;/gm, // replace line with private and also preceding lines with jsdoc comments
       // /^\s*private\s.*;/gm, // original replacing private did not replace p
       /\r\n\r\n/g,
       /\n\n/g,
