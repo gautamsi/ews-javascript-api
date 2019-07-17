@@ -39,7 +39,7 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
      * @param   {PropertyBag}       propertyBag   The property bag.
      */
     LoadPropertyValueFromXmlJsObject(jsObject: any, service: ExchangeService, propertyBag: PropertyBag): void {
-        EwsLogging.Assert(false, "TimeZonePropertyDefinition.LoadPropertyValueFromXmlJsObject", "TimeZone info has been updated, Please report any bugs to github");
+        EwsLogging.DebugLog("[TimeZonePropertyDefinition.LoadPropertyValueFromXmlJsObject]: TimeZone info has been updated, Please report any bugs to github");
         let timeZoneDefinition: TimeZoneDefinition = new TimeZoneDefinition();
 
         if (jsObject) {
@@ -57,7 +57,7 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
      * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
      */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
-        EwsLogging.Assert(false, "TimeZonePropertyDefinition.WritePropertyValueToXml", "[Info]:  TimeZone info has been updated, Please report any bugs to github", true);
+        EwsLogging.DebugLog("[TimeZonePropertyDefinition.WritePropertyValueToXml]: TimeZone info has been updated, Please report any bugs to github");        
         let value = <TimeZoneInfo>propertyBag._getItem(this);
 
         if (value != null) {
