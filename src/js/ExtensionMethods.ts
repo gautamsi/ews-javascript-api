@@ -553,7 +553,7 @@ export module base64Helper {
 
     export function btoa(textToEncode: string): string {
         if (isNode) {
-            var b = new Buffer(textToEncode);
+            var b = new Buffer.from(textToEncode);
             return b.toString('base64');
         } else {
             return window.btoa(textToEncode);
@@ -561,7 +561,7 @@ export module base64Helper {
     }
     export function atob(textToDecode: string): string {
         if (isNode) {
-            var b = new Buffer(textToDecode, 'base64');
+            var b = new Buffer.from(textToDecode, 'base64');
             return b.toString();
         } else {
             return window.atob(textToDecode);
