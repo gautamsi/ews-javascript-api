@@ -127,7 +127,7 @@ export class EwsServiceXmlWriter {
                     strValue = EwsUtilities.BoolToXSBool(<boolean>value);
                     break;
                 case "number":
-                    strValue = value;
+                    strValue = value.toString();
                     //todo check for datetime
                     //strValue = this.Service.ConvertDateTimeToUniversalDateTimeString((DateTime) value);
                     break;
