@@ -3,6 +3,7 @@ import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
 import { EwsUtilities } from "../EwsUtilities";
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { hasValue } from "../../ExtensionMethods";
 import { MeetingRequestsDeliveryScope } from "../../Enumerations/MeetingRequestsDeliveryScope";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
@@ -94,7 +95,7 @@ export class AddDelegateRequest extends DelegateManagementRequestBase<DelegateMa
             delegateUser.ValidateUpdateDelegate();
         }
 
-        if (this.MeetingRequestsDeliveryScope) {
+        if (hasValue(this.MeetingRequestsDeliveryScope)) {
             EwsUtilities.ValidateEnumVersionValue(MeetingRequestsDeliveryScope, this.MeetingRequestsDeliveryScope, this.Service.RequestedServerVersion, "MeetingRequestsDeliveryScope");
         }
     }
@@ -115,7 +116,7 @@ export class AddDelegateRequest extends DelegateManagementRequestBase<DelegateMa
 
         writer.WriteEndElement(); // DelegateUsers
 
-        if (this.MeetingRequestsDeliveryScope) {
+        if (hasValue(this.MeetingRequestsDeliveryScope)) {
             writer.WriteElementValue(
                 XmlNamespace.Messages,
                 XmlElementNames.DeliverMeetingRequests,

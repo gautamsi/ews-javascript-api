@@ -1,22 +1,22 @@
-﻿import {Attachment} from "../../ComplexProperties/Attachment";
-import {PropertyDefinitionBase} from "../../PropertyDefinitions/PropertyDefinitionBase";
-import {BodyType} from "../../Enumerations/BodyType";
-import {Strings} from "../../Strings";
-import {ExchangeService} from "../ExchangeService";
-import {EwsUtilities} from "../EwsUtilities";
-import {PropertySet} from "../PropertySet";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {Schemas} from "../ServiceObjects/Schemas/Schemas";
-import {ArgumentException, ArgumentNullException} from "../../Exceptions/ArgumentException";
-import {StringHelper, Convert} from "../../ExtensionMethods";
+﻿import { ArgumentException } from "../../Exceptions/ArgumentException";
+import { Attachment } from "../../ComplexProperties/Attachment";
+import { BodyType } from "../../Enumerations/BodyType";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { PropertyDefinitionBase } from "../../PropertyDefinitions/PropertyDefinitionBase";
+import { PropertySet } from "../PropertySet";
+import { Schemas } from "../ServiceObjects/Schemas/Schemas";
+import { ServiceErrorHandling } from "../../Enumerations/ServiceErrorHandling";
+import { StringHelper, hasValue } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {GetAttachmentResponse} from "../Responses/GetAttachmentResponse";
-import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import { GetAttachmentResponse } from "../Responses/GetAttachmentResponse";
+import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 /**
  * @internal Represents a GetAttachment request. 
  */
@@ -172,7 +172,7 @@ export class GetAttachmentRequest extends MultiResponseServiceRequest<GetAttachm
         if (this.BodyType || this.AdditionalProperties.length > 0) {
             writer.WriteStartElement(XmlNamespace.Messages, XmlElementNames.AttachmentShape);
 
-            if (this.BodyType) {
+            if (hasValue(this.BodyType)) {
                 writer.WriteElementValue(
                     XmlNamespace.Types,
                     XmlElementNames.BodyType,

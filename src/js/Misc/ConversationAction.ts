@@ -1,20 +1,20 @@
-﻿import {ArgumentException} from '../Exceptions/ArgumentException';
-import {ConversationActionType} from "../Enumerations/ConversationActionType";
-import {ConversationId} from "../ComplexProperties/ConversationId";
-import {DateTime} from "../DateTime";
-import {DeleteMode} from "../Enumerations/DeleteMode";
-import {EwsLogging} from "../Core/EwsLogging";
-import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
-import {EwsUtilities} from "../Core/EwsUtilities";
-import {ExchangeService} from "../Core/ExchangeService";
-import {Flag} from "../ComplexProperties/Flag";
-import {FolderIdWrapper} from "./FolderIdWrapper";
-import {Guid} from "../Guid";
-import {RetentionType} from "../Enumerations/RetentionType";
-import {StringHelper} from "../ExtensionMethods";
-import {StringList} from "../ComplexProperties/StringList";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
+﻿import { ArgumentException } from '../Exceptions/ArgumentException';
+import { ConversationActionType } from "../Enumerations/ConversationActionType";
+import { ConversationId } from "../ComplexProperties/ConversationId";
+import { DateTime } from "../DateTime";
+import { DeleteMode } from "../Enumerations/DeleteMode";
+import { EwsLogging } from "../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../Core/EwsUtilities";
+import { ExchangeService } from "../Core/ExchangeService";
+import { Flag } from "../ComplexProperties/Flag";
+import { FolderIdWrapper } from "./FolderIdWrapper";
+import { Guid } from "../Guid";
+import { RetentionType } from "../Enumerations/RetentionType";
+import { StringHelper, hasValue } from "../ExtensionMethods";
+import { StringList } from "../ComplexProperties/StringList";
+import { XmlElementNames } from "../Core/XmlElementNames";
+import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
 /**
  * @internal ConversationAction class that represents ConversationActionType in the request XML.
@@ -262,7 +262,7 @@ export class ConversationAction {//IJsonSerializable
                         XmlElementNames.IsRead,
                         this.IsRead);
 
-                    if (this.SuppressReadReceipts) {
+                    if (hasValue(this.SuppressReadReceipts)) {
                         writer.WriteElementValue(
                             XmlNamespace.Types,
                             XmlElementNames.SuppressReadReceipts,

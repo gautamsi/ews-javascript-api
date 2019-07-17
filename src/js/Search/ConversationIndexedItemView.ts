@@ -1,8 +1,8 @@
 ﻿import { ConversationQueryTraversal } from "../Enumerations/ConversationQueryTraversal";
 import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 import { EwsUtilities } from "../Core/EwsUtilities";
-import { ExchangeService } from "../Core/ExchangeService";
 import { Grouping } from "./Grouping";
+import { hasValue } from "../ExtensionMethods";
 import { OffsetBasePoint } from "../Enumerations/OffsetBasePoint";
 import { OrderByCollection } from "./OrderByCollection";
 import { ServiceObjectType } from "../Enumerations/ServiceObjectType";
@@ -106,7 +106,7 @@ export class ConversationIndexedItemView extends PagedView {
 	InternalValidate(request: ServiceRequestBase): void {
 		super.InternalValidate(request);
 
-		if (this.Traversal) {
+		if (hasValue(this.Traversal)) {
 			EwsUtilities.ValidateEnumVersionValue(ConversationQueryTraversal, this.traversal, request.Service.RequestedServerVersion, "ConversationQueryTraversal");
 		}
 
@@ -131,7 +131,7 @@ export class ConversationIndexedItemView extends PagedView {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
 	WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-		if (this.Traversal) {
+		if (hasValue(this.Traversal)) {
 			writer.WriteAttributeValue(XmlAttributeNames.Traversal, ConversationQueryTraversal[this.Traversal]);
 		}
 

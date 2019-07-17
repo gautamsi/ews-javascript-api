@@ -2,6 +2,7 @@
 import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 import { EwsUtilities } from "../Core/EwsUtilities";
 import { ExchangeService } from "../Core/ExchangeService";
+import { hasValue } from "../ExtensionMethods";
 import { Time } from "../Misc/Time";
 import { TimeChangeRecurrence } from "./TimeChangeRecurrence";
 import { TimeSpan } from "../TimeSpan";
@@ -146,7 +147,7 @@ export class TimeChange extends ComplexProperty {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        if (this.Offset) {
+        if (hasValue(this.Offset)) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.Offset,

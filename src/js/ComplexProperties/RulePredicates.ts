@@ -1,4 +1,4 @@
-﻿import {Convert} from "../ExtensionMethods";
+﻿import {Convert, hasValue} from "../ExtensionMethods";
 import {EmailAddressCollection} from "./EmailAddressCollection";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
 import {EwsUtilities} from "../Core/EwsUtilities";
@@ -655,7 +655,7 @@ export class RulePredicates extends ComplexProperty {
 			this.ContainsSubjectStrings.WriteToXml(writer, XmlElementNames.ContainsSubjectStrings);
 		}
 
-		if (this.FlaggedForAction) {
+		if (hasValue(this.FlaggedForAction)) {
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				XmlElementNames.FlaggedForAction,
@@ -677,7 +677,7 @@ export class RulePredicates extends ComplexProperty {
 				this.HasAttachments);
 		}
 
-		if (this.Importance) {
+		if (hasValue(this.Importance)) {
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				XmlElementNames.Importance,
@@ -808,7 +808,7 @@ export class RulePredicates extends ComplexProperty {
 				this.SentToOrCcMe);
 		}
 
-		if (this.Sensitivity) {
+		if (hasValue(this.Sensitivity)) {
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				XmlElementNames.Sensitivity,

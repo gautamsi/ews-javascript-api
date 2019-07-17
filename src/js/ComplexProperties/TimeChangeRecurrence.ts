@@ -2,8 +2,8 @@
 import { DayOfTheWeekIndex } from "../Enumerations/DayOfTheWeekIndex";
 import { EwsServiceXmlWriter } from "../Core/EwsServiceXmlWriter";
 import { ExchangeService } from "../Core/ExchangeService";
+import { hasValue } from "../ExtensionMethods";
 import { Month } from "../Enumerations/Month";
-import { XmlAttributeNames } from "../Core/XmlAttributeNames";
 import { XmlElementNames } from "../Core/XmlElementNames";
 import { XmlNamespace } from "../Enumerations/XmlNamespace";
 
@@ -90,14 +90,14 @@ export class TimeChangeRecurrence extends ComplexProperty {
      * @param   {EwsServiceXmlWriter}   writer   The writer.
      */
     WriteElementsToXml(writer: EwsServiceXmlWriter): void {
-        if (this.DayOfTheWeek) {
+        if (hasValue(this.DayOfTheWeek)) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.DaysOfWeek,
                 this.DayOfTheWeek);
         }
 
-        if (this.dayOfTheWeekIndex) {
+        if (hasValue(this.dayOfTheWeekIndex)) {
             writer.WriteElementValue(
                 XmlNamespace.Types,
                 XmlElementNames.DayOfWeekIndex,
