@@ -1,12 +1,13 @@
 ﻿import { ComplexProperty } from "../../ComplexProperty";
 import { DateTime } from "../../../DateTime";
-import { DayOfTheWeekCollection } from "../DayOfTheWeekCollection";
 import { DayOfTheWeek } from "../../../Enumerations/DayOfTheWeek";
+import { DayOfTheWeekCollection } from "../DayOfTheWeekCollection";
 import { DayOfWeek } from "../../../Enumerations/DayOfWeek";
 import { EwsServiceXmlWriter } from "../../../Core/EwsServiceXmlWriter";
 import { EwsUtilities } from "../../../Core/EwsUtilities";
 import { ExchangeService } from "../../../Core/ExchangeService";
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
+import { hasValue } from "../../../ExtensionMethods";
 import { ServiceValidationException } from "../../../Exceptions/ServiceValidationException";
 import { Strings } from "../../../Strings";
 import { XmlElementNames } from "../../../Core/XmlElementNames";
@@ -101,7 +102,7 @@ export class WeeklyPattern extends IntervalPattern {
 
         this.DaysOfTheWeek.WriteToXml(writer, XmlElementNames.DaysOfWeek);
 
-        if (this.firstDayOfWeek) {
+        if (hasValue(this.firstDayOfWeek)) {
             //  We only allow the "FirstDayOfWeek" parameter for the Exchange2010_SP1 schema
             //  version.
             //

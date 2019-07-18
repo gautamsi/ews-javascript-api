@@ -5,7 +5,7 @@ import { GetNonIndexableItemDetailsResponse } from "../Responses/GetNonIndexable
 import { Promise } from "../../Promise";
 import { SearchPageDirection } from "../../Enumerations/SearchPageDirection";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
-import { StringHelper } from "../../ExtensionMethods";
+import { StringHelper, hasValue } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
@@ -134,7 +134,7 @@ export class GetNonIndexableItemDetailsRequest extends SimpleServiceRequestBase 
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.PageItemReference, this.PageItemReference);
         }
 
-        if (this.PageDirection) {
+        if (hasValue(this.PageDirection)) {
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.PageDirection, SearchPageDirection[this.PageDirection]);
         }
 

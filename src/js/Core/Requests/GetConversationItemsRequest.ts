@@ -1,21 +1,21 @@
-﻿import {ArrayHelper, StringHelper} from "../../ExtensionMethods";
-import {ConversationRequest} from "../../ComplexProperties/ConversationRequest";
-import {ConversationSortOrder} from "../../Enumerations/ConversationSortOrder";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {FolderIdCollection} from "../../ComplexProperties/FolderIdCollection";
-import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
-import {PropertySet} from "../PropertySet";
-import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
-import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
-import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {Strings} from "../../Strings";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { ConversationRequest } from "../../ComplexProperties/ConversationRequest";
+import { ConversationSortOrder } from "../../Enumerations/ConversationSortOrder";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { FolderIdCollection } from "../../ComplexProperties/FolderIdCollection";
+import { MailboxSearchLocation } from "../../Enumerations/MailboxSearchLocation";
+import { PropertySet } from "../PropertySet";
+import { ServiceErrorHandling } from "../../Enumerations/ServiceErrorHandling";
+import { ServiceObjectType } from "../../Enumerations/ServiceObjectType";
+import { ServiceVersionException } from "../../Exceptions/ServiceVersionException";
+import { StringHelper, hasValue } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {GetConversationItemsResponse} from "../Responses/GetConversationItemsResponse";
-import {MultiResponseServiceRequest} from "./MultiResponseServiceRequest";
+import { GetConversationItemsResponse } from "../Responses/GetConversationItemsResponse";
+import { MultiResponseServiceRequest } from "./MultiResponseServiceRequest";
 /**
  * @internal Represents a request to a GetConversationItems operation
  * 
@@ -167,11 +167,11 @@ export class GetConversationItemsRequest extends MultiResponseServiceRequest<Get
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MaxItemsToReturn, this.MaxItemsToReturn);
         }
 
-        if (this.SortOrder) {
+        if (hasValue(this.SortOrder)) {
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.SortOrder, ConversationSortOrder[this.SortOrder]);
         }
 
-        if (this.MailboxScope) {
+        if (hasValue(this.MailboxScope)) {
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, MailboxSearchLocation[this.MailboxScope]);
         }
 

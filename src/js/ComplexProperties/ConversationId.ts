@@ -1,6 +1,6 @@
-﻿import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {ServiceId} from "./ServiceId";
+import { ServiceId } from "./ServiceId";
 /**
  * Represents the Id of a Conversation.
  */
@@ -25,7 +25,9 @@ export class ConversationId extends ServiceId {
      *
      * @return  {string}      XML element name.
      */
-    GetXmlElementName(): string { return XmlElementNames.ConversationId; }
+    GetXmlElementName(): string {
+        return XmlElementNames.ConversationId;
+    }
 
     /**
      * Gets a string representation of the Conversation Id.
@@ -36,5 +38,7 @@ export class ConversationId extends ServiceId {
         // We have ignored the change key portion
         return this.UniqueId;
     }
-    toString(): string { return this.ToString(); }
+    toString(): string {
+        return this.ToString();
+    }
 }

@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig",
+    "compilerOptions": {
+        "declaration": true,
+        "noEmit": false,
+        "rootDir": "src/",
+    },
+    "exclude": [
+        "node_modules",
+        "projects",
+        "test",
+        "build",
+        "src/js/System.d.ts",
+        "typings/ExchangeWebService.d.ts",
+        "src/js/Microsoft.Exchange.WebServices.d__.ts"
+    ]
+}

@@ -6,7 +6,7 @@ import {Item} from "../ServiceObjects/Items/Item";
 import {FolderId} from "../../ComplexProperties/FolderId";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {StringHelper} from "../../ExtensionMethods";
+import {StringHelper, hasValue} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {Strings} from "../../Strings";
@@ -104,7 +104,7 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
             writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
         }
 
-        if (this.SuppressReadReceipts) {
+        if (hasValue(this.SuppressReadReceipts)) {
             writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
 

@@ -92,7 +92,15 @@ module object {
  * @param obj input to be checked
  */
 export function isNullOrUndefined(obj: any): boolean {
-    return typeof obj === 'undefined' || obj === null;
+    return obj === undefined || obj === null;
+}
+
+/**
+ * explicitly checks if the obj has value and it is NOT null or undefined
+ * @param obj input to be checked
+ */
+export function hasValue(obj: any): boolean {
+    return !isNullOrUndefined(obj);
 }
 
 export module ArrayHelper {
@@ -545,7 +553,7 @@ export module base64Helper {
 
     export function btoa(textToEncode: string): string {
         if (isNode) {
-            var b = new Buffer(textToEncode);
+            var b = new Buffer.from(textToEncode);
             return b.toString('base64');
         } else {
             return window.btoa(textToEncode);
@@ -553,7 +561,7 @@ export module base64Helper {
     }
     export function atob(textToDecode: string): string {
         if (isNode) {
-            var b = new Buffer(textToDecode, 'base64');
+            var b = new Buffer.from(textToDecode, 'base64');
             return b.toString();
         } else {
             return window.atob(textToDecode);
