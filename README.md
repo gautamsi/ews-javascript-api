@@ -66,6 +66,8 @@ NTLM and Cookies Authentication works with nodejs only
 
 All http call is wrapped in promise using default BlueBird promise.  You can also interchange compatible promise api.  
 Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library/office/jj536567.aspx) should work with little modificaion to Promise format   
+
+## async/await latest nodejs
 You can also leverage new async/await feature of nodejs (>7.0.6) or in TypeScript transpilation with es5/es6 code.  
 
 
@@ -158,6 +160,20 @@ exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndS
     //log errors or do something with errors
 });
         
+```
+
+# Use with React Native
+
+there is some issues with how react native exposes native browser methods, here are changes needs to be done to us `ews-js-api-browser` with react native. 
+    Add following lines to some place before requiring `ews-js-api-browser`. you need to use `xmldom` and `base-64` packages.
+```js
+if (!global.DOMParser) {
+    global.DOMParser = require('xmldom').DOMParser;
+}
+if (!global.atob || !global.btoa) {
+    global.atob = require('base-64').decode;
+    global.btoa = require('base-64').encode;
+}
 ```
 
 # Porting status
