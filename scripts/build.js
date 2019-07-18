@@ -13,31 +13,39 @@ const outputDir = "build/output/node";
 const spinner = ora({ spinner: "arc", color: "yellow" });
 
 (async () => {
-  spinner.start("Cleaning up from previous session");
-  preClean();
-  spinner.succeed();
-  spinner.start("Compiling TypeScript");
-  await compile();
-  spinner.succeed();
+  try {
+    spinner.start("Cleaning up from previous session");
+    preClean();
+    spinner.succeed();
+    spinner.start("Compiling TypeScript");
+    await compile();
+    spinner.succeed();
 
-  spinner.start("Combining TypeScript definitions")
-  mergeDef();
-  cleanDef();
-  fixDef();
-  cleanupDef();
-  spinner.succeed();
-  spinner.start("Copying npm files")
-  copyFiles();
-  copyPackageJson();
-  spinner.succeed();
-  spinner.stop();
-  spinner.clear();
+    spinner.start("Combining TypeScript definitions")
+    mergeDef();
+    cleanDef();
+    fixDef();
+    cleanupDef();
+    spinner.succeed();
+    spinner.start("Copying npm files")
+    copyFiles();
+    copyPackageJson();
+    spinner.succeed();
+  } catch (error) {
+    console.error(error);
+    spinner.fail();
+  } finally {
+    spinner.stop();
+    spinner.clear();
+  }
 })();
 
 
 function preClean() {
   rm('-rf', outputDir);
-  mkdir("-p", outputDir);
+  try {
+    mkdir("-p", outputDir);
+  } catch (error) { }
 }
 
 function compile() {
