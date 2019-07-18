@@ -1,11 +1,14 @@
 const { cat, rm, cp, exec, mkdir } = require("shelljs")
 const replace = require('replace-in-file');
 const ora = require('ora');
+const { readFile, writeFile } = require('jsonfile')
+const os = require("os");
 
 const typingSource = "build/output/node/js/**/*.d.ts";
 const typingFile = "typings/ExchangeWebService.d.ts";
 const typePrefixFile = "scripts/config/tsd.start";
 const typeSuffixFile = "scripts/config/tsd.end";
+const outputDir = "build/output/node";
 
 const spinner = ora({ spinner: "arc", color: "yellow" });
 
@@ -25,6 +28,7 @@ const spinner = ora({ spinner: "arc", color: "yellow" });
   spinner.succeed();
   spinner.start("Copying npm files")
   copyFiles();
+  copyPackageJson();
   spinner.succeed();
   spinner.stop();
   spinner.clear();
@@ -32,8 +36,8 @@ const spinner = ora({ spinner: "arc", color: "yellow" });
 
 
 function preClean() {
-  rm('-rf', 'build/output/node');
-  mkdir("-p", "build/output/node/");
+  rm('-rf', outputDir);
+  mkdir("-p", outputDir);
 }
 
 function compile() {
@@ -78,8 +82,17 @@ function copyFiles() {
     "./README.md",
     "./LICENSE",
     "./COPYRIGHT",
-    "./package.json",
-  ], "build/output/node");
+  ], outputDir);
   mkdir("build/output/node/typings");
   cp("./typings/ExchangeWebService.d.ts", "build/output/node/typings/ExchangeWebService.d.ts");
+}
+
+function copyPackageJson() {
+  return new Promise(async resolve => {
+    const file = 'package.json'
+    const obj = await readFile(file).catch(error => console.error(error));
+    delete obj.devDependencies;
+    await writeFile(`${outputDir}/package.json`, obj, { spaces: 4, EOL: os.EOL }).catch(error => console.error(error));
+    resolve();
+  });
 }
