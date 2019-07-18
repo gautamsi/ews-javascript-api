@@ -2,7 +2,7 @@
 --// MIT License; Full text at - https://github.com/gautamsi/ews-javascript-api/blob/master/LICENSE
 --// Packages license notices pending
 --//Script to put together the file - Get-Content .\singleFileBuildSequence.txt | ?{![string]::IsNullOrEmpty($_)} | %{ if($_.StartsWith("--")){$_.replace("--","")}else{ Get-Content $_ | ?{$_ -notmatch '\s*import.*\.\/.*'}}} | Out-File Test.ts
---// - new script to strip all import, use required imports in next lines Script to put together the file - Get-Content .\singularBuildFileSequence.txt | ?{![string]::IsNullOrEmpty($_)} | %{ if($_.StartsWith("--")){$_.replace("--","")}else{ Get-Content $_ | ?{$_ -notmatch '\s*import.*from.*'}}} | Out-File Test.ts
+--// - new script to strip all import, use required imports in next lines Script to put together the file - Get-Content .\singleFileBuildSequence.txt | ?{![string]::IsNullOrEmpty($_)} | %{ if($_.StartsWith("--")){$_.replace("--","")}else{ Get-Content $_ | ?{$_ -notmatch '\s*import.*from.*'}}} | Out-File Test.ts
 --import * as b64 from 'base64-js';
 --import * as uuid from 'uuid';
 --import * as moment from 'moment-timezone';

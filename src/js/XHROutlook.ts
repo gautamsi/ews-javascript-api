@@ -45,5 +45,5 @@ export class XHROutlook implements IXHRApi {
 }
 
 export function ConfigureForOutlook() {
-	ConfigurationApi.ConfigureXHR(new XHROutlook());
+    ConfigurationApi.ConfigureXHR(new XHROutlook());
 }
