@@ -3842,7 +3842,7 @@ export class ExchangeService extends ExchangeServiceBase {
     AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): Promise<void> {
         //validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
-        var exchangeServiceUrl: Uri = null;
+        let exchangeServiceUrl: Uri = null;
 
         if (this.RequestedServerVersion > ExchangeVersion.Exchange2007_SP1) {
 
@@ -3872,25 +3872,28 @@ export class ExchangeService extends ExchangeServiceBase {
 
 
                     // Try legacy Autodiscover provider
-
-                    var exchangeServiceUrl = this.GetAutodiscoverUrl(
+                    return this.GetAutodiscoverUrl(
                         emailAddress,
                         ExchangeVersion.Exchange2007_SP1,
-                        validateRedirectionUrlCallback).then((url) => {
-
+                        validateRedirectionUrlCallback).then(url => {
                             this.Url = this.AdjustServiceUriFromCredentials(url);
+                        }, error => {
+                            throw error;
                         });
-
                 });
         }
 
-
-
-
-
-
-
+        // Try legacy Autodiscover provider
+        return this.GetAutodiscoverUrl(
+            emailAddress,
+            ExchangeVersion.Exchange2007_SP1,
+            validateRedirectionUrlCallback).then(url => {
+                this.Url = this.AdjustServiceUriFromCredentials(url);
+            }, error => {
+                throw error;
+            });
     }
+
     /**
      * Default implementation of AutodiscoverRedirectionUrlValidationCallback. Always returns true indicating that the URL can be used.
      *
@@ -3910,16 +3913,13 @@ export class ExchangeService extends ExchangeServiceBase {
      * @return  {Promise<Uri>}                                  Ews URL :Promise.
      */
     private GetAutodiscoverUrl(emailAddress: string, requestedServerVersion: ExchangeVersion, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): Promise<Uri> {
-        var autodiscoverService: AutodiscoverService = new AutodiscoverService(null, null, requestedServerVersion);
-        autodiscoverService.Credentials = this.Credentials;
-        autodiscoverService.XHRApi = this.XHRApi;
-        autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback,
-            autodiscoverService.EnableScpLookup = this.EnableScpLookup
+        const autodiscoverService: AutodiscoverService = new AutodiscoverService(this, requestedServerVersion);
+        autodiscoverService.RedirectionUrlValidationCallback = validateRedirectionUrlCallback;
+        autodiscoverService.EnableScpLookup = this.EnableScpLookup;
 
         return autodiscoverService.GetUserSettings(
             emailAddress,
-            UserSettingName.InternalEwsUrl,
-            UserSettingName.ExternalEwsUrl)
+            [UserSettingName.InternalEwsUrl, UserSettingName.ExternalEwsUrl])
             .then<Uri>((response) => {
                 switch (response.ErrorCode) {
                     case AutodiscoverErrorCode.NoError:

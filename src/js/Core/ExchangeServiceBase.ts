@@ -12,7 +12,7 @@ import { IXHROptions, IXHRApi } from "../Interfaces";
 import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
 import { ServiceRequestUnauthorizedException } from "../Exceptions/ServiceRequestUnauthorizedException";
 import { SoapFaultDetails } from "../Misc/SoapFaultDetails";
-import { StringHelper } from "../ExtensionMethods";
+import { StringHelper, hasValue } from "../ExtensionMethods";
 import { Strings } from "../Strings";
 import { TimeZoneDefinition } from "../ComplexProperties/TimeZones/TimeZoneDefinition";
 import { TimeZoneInfo } from "../TimeZoneInfo";
@@ -146,9 +146,10 @@ export class ExchangeServiceBase {
 
         this.requestedServerVersion = requestedServerVersion;
 
-        if (service !== null && typeof service !== 'undefined') {
+        if (hasValue(service)) {
             this.useDefaultCredentials = service.useDefaultCredentials;
             this.credentials = service.credentials;
+            this.Credentials = service.Credentials;
             this.traceEnabled = service.traceEnabled;
             this.traceListener = service.traceListener;
             this.traceFlags = service.traceFlags;
@@ -161,6 +162,7 @@ export class ExchangeServiceBase {
             this.timeZone = service.timeZone;
             this.httpHeaders = service.httpHeaders;
             this.ewsHttpWebRequestFactory = service.ewsHttpWebRequestFactory;
+            this.xhrApi = service.xhrApi;
         }
 
         if (timeZone !== null && typeof timeZone !== 'undefined') {
