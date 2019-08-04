@@ -22,7 +22,8 @@ export class XHRDefault implements IXHRApi {
 			url: xhroptions.url,
 			payload: xhroptions.data,
 			headers: xhroptions.headers,
-			method: <any>xhroptions.type
+			method: <any>xhroptions.type,
+			disableRedirects: !xhroptions.allowRedirect,
 		}
 		// xhroptions["payload"] = xhroptions.data;
 		// delete xhroptions["data"];
