@@ -1,7 +1,9 @@
-[![Gitter](https://badges.gitter.im/gautamsi/ews-javascript-api.svg)](https://gitter.im/gautamsi/ews-javascript-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ews-javascript-api 
 ==================
 ## Exchange Web Service in JavaScript/TypeScript.
+
+## Support
+Contact @gautamsi for support. Use [![Gitter](https://badges.gitter.im/gautamsi/ews-javascript-api.svg)](https://gitter.im/gautamsi/ews-javascript-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) for 1:1 support and paid support. Also looking for sponsors to fund remaining development on this. 
 
 ===========================================================================================    
 
