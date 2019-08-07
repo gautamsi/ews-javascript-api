@@ -25,11 +25,7 @@ export class XHRDefault implements IXHRApi {
 			method: <any>xhroptions.type,
 			disableRedirects: !xhroptions.allowRedirect,
 		}
-		// xhroptions["payload"] = xhroptions.data;
-		// delete xhroptions["data"];
-		// xhroptions["method"] = xhroptions.type;
-		// delete xhroptions["type"];
-
+		
 		return new Promise<XMLHttpRequest>((resolve, reject) => {
 			XHRDefault.fetchUrl(xhroptions.url, this.getOptions(options), (error, meta, body) => {
 				if (error) {

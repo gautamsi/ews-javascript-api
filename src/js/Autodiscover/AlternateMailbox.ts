@@ -1,59 +1,106 @@
-﻿//todo: fix this - import Xml = require("System.Xml");
+﻿import { XmlElementNames } from "../Core/XmlElementNames";
 
-import {EwsXmlReader} from "../Core/EwsXmlReader";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {XmlNamespace} from "../Enumerations/XmlNamespace";
-
+/**
+ * Represents an alternate mailbox.
+ * @sealed
+ */
 export class AlternateMailbox {
-    Type: string;
-    DisplayName: string;
-    LegacyDN: string;
-    Server: string;
-    SmtpAddress: string;
-    OwnerSmtpAddress: string;
-    //private type: string;
-    //private displayName: string;
-    //private legacyDN: string;
-    //private server: string;
-    //private smtpAddress: string;
-    //private ownerSmtpAddress: string;
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader): AlternateMailbox {
-        var altMailbox: AlternateMailbox = new AlternateMailbox();
+  private type: string;
+  private displayName: string;
+  private legacyDN: string;
+  private server: string;
+  private smtpAddress: string;
+  private ownerSmtpAddress: string;
 
-        do {
-            reader.Read();
-            if (reader.NodeType == 1){//todo:  1 = System.Xml.XmlNodeType.Element) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.Type:
-                        altMailbox.Type = reader.ReadElementValue();//  reader.ReadElementValue<string>();
-                        break;
-                    case XmlElementNames.DisplayName:
-                        altMailbox.DisplayName = reader.ReadElementValue();//reader.ReadElementValue<string>();
-                        break;
-                    case XmlElementNames.LegacyDN:
-                        altMailbox.LegacyDN = reader.ReadElementValue();//reader.ReadElementValue<string>();
-                        break;
-                    case XmlElementNames.Server:
-                        altMailbox.Server = reader.ReadElementValue();//reader.ReadElementValue<string>();
-                        break;
-                    case XmlElementNames.SmtpAddress:
-                        altMailbox.SmtpAddress = reader.ReadElementValue();//reader.ReadElementValue<string>();
-                        break;
-                    case XmlElementNames.OwnerSmtpAddress:
-                        altMailbox.OwnerSmtpAddress = reader.ReadElementValue();//reader.ReadElementValue<string>();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        while (!reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.AlternateMailbox));
-        reader.SeekLast(); // to go back to last one, fix for xmlnode based reader.
-        return altMailbox;
-    }
-    static LoadFromJson(obj: any): AlternateMailbox { throw new Error("this was skipped as not needed at dev time, fix this"); }
+  /**
+   * Gets the alternate mailbox type.
+   */
+  get Type(): string {
+    return this.type;
+  }
+  /** @internal set */
+  set Type(value: string) {
+    this.type = value;
+  }
 
+  /**
+   * Gets the alternate mailbox display name.
+   */
+  get DisplayName(): string {
+    return this.displayName;
+  }
+  /** @internal set */
+  set DisplayName(value: string) {
+    this.displayName = value;
+  }
+
+  /**
+   * Gets the alternate mailbox legacy DN.
+   */
+  get LegacyDN(): string {
+    return this.legacyDN;
+  }
+  /** @internal set */
+  set LegacyDN(value: string) {
+    this.legacyDN = value;
+  }
+
+  /**
+   * Gets the alernate mailbox server.
+   */
+  get Server(): string {
+    return this.server;
+  }
+  /** @internal set */
+  set Server(value: string) {
+    this.server = value;
+  }
+
+  /**
+   * Gets the alternate mailbox address.
+   * It has value only when Server and LegacyDN is empty.
+   */
+  get SmtpAddress(): string {
+    return this.smtpAddress;
+  }
+  /** @internal set */
+  set SmtpAddress(value: string) {
+    this.smtpAddress = value;
+  }
+
+  /**
+   * Gets the alternate mailbox owner SmtpAddress.
+   */
+  get OwnerSmtpAddress(): string {
+    return this.ownerSmtpAddress;
+  }
+  /** @internal set */
+  set OwnerSmtpAddress(value: string) {
+    this.ownerSmtpAddress = value;
+  }
+
+  /**
+   * Initializes a new instance of the **AlternateMailbox** class.
+   */
+  private constructor() {
+  }
+  
+  /**
+   * @internal Loads AlternateMailbox instance.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   * @returns {AlternateMailbox}  AlternateMailbox.
+   */
+  static LoadFromXmlJsObject(jsObject: any): AlternateMailbox {
+    const altMailbox = new AlternateMailbox();
+
+    altMailbox.Type = jsObject[XmlElementNames.Type] || null;
+    altMailbox.DisplayName = jsObject[XmlElementNames.DisplayName] || null;
+    altMailbox.LegacyDN = jsObject[XmlElementNames.DisplayName] || null;
+    altMailbox.Server = jsObject[XmlElementNames.DisplayName] || null;
+    altMailbox.SmtpAddress = jsObject[XmlElementNames.DisplayName] || null;
+    altMailbox.OwnerSmtpAddress = jsObject[XmlElementNames.DisplayName] || null;
+
+    return altMailbox;
+  }
 }
-
-

@@ -56,99 +56,242 @@ export interface StringKeyPicker<TValue> {
 export interface IndexerWithEnumKey<TKey, TValue> {
     [index: number]: TValue;
 }
+/**
+ * Represents an alternate mailbox.
+ * @sealed
+ */
  class AlternateMailbox {
+    /**
+     * Gets the alternate mailbox type.
+     */
+    /** @internal set */
     Type: string;
+    /**
+     * Gets the alternate mailbox display name.
+     */
+    /** @internal set */
     DisplayName: string;
+    /**
+     * Gets the alternate mailbox legacy DN.
+     */
+    /** @internal set */
     LegacyDN: string;
+    /**
+     * Gets the alernate mailbox server.
+     */
+    /** @internal set */
     Server: string;
+    /**
+     * Gets the alternate mailbox address.
+     * It has value only when Server and LegacyDN is empty.
+     */
+    /** @internal set */
     SmtpAddress: string;
+    /**
+     * Gets the alternate mailbox owner SmtpAddress.
+     */
+    /** @internal set */
     OwnerSmtpAddress: string;
-    static LoadFromJson(obj: any): AlternateMailbox;
 }
+/**
+ * Represents a user setting that is a collection of alternate mailboxes.
+ * @sealed
+ */
  class AlternateMailboxCollection {
+    entries: AlternateMailbox[];
+    /**
+     * Gets the collection of alternate mailboxes.
+     */
+    /** @private set */
     Entries: AlternateMailbox[];
-    static LoadFromJson(obj: any): AlternateMailboxCollection;
-} class AutodiscoverError {
-    Time: string;
-    Id: string;
-    ErrorCode: number;
-    Message: string;
-    DebugData: string;
+}/**
+ * Represents an error returned by the Autodiscover service.
+ * @sealed
+ */
+ class AutodiscoverError {
+    /**
+     * Gets the time when the error was returned.
+     */
+    readonly Time: string;
+    /**
+     * Gets a hash of the name of the computer that is running Microsoft Exchange Server that has the Client Access server role installed.
+     */
+    readonly Id: string;
+    /**
+     * Gets the error code.
+     */
+    readonly ErrorCode: number;
+    /**
+     * Gets the error message.
+     */
+    readonly Message: string;
+    /**
+     * Gets the debug data.
+     */
+    readonly DebugData: string;
+    /**
+     * Parses the XML Js Object creates an Autodiscover error.
+     *
+     * @param   {any}   jsObject   The object.
+     * @return  {AutodiscoverError}            An Autodiscover error.
+     */
+    Parse(jsObject: any): AutodiscoverError;
 }
- class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse {
+/**
+ * Represents a collection of responses to a call to the Autodiscover service.
+ * @typeparam {TResponse} The type of the responses in the collection.
+ */
+ abstract class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse {
+    /**
+     * Gets the number of responses in the collection.
+     */
     readonly Count: number;
-    Item: TResponse;
-    Responses: TResponse[];
-    constructor();
+    /**
+     * Gets the response at the specified index.
+     *
+     * @param   {number}   index   Index.
+     * @returns {TResponse} TResponse at the index
+     */
     __thisIndexer(index: number): TResponse;
-    CreateResponseInstance(): TResponse;
-    GetEnumerator(): any;
-    GetResponseCollectionXmlElementName(): string;
-    GetResponseInstanceXmlElementName(): string;
-    LoadFromJson(obj: any): void;
-    LoadResponseCollectionFromJson(obj: any): void;
+    /**
+     * Create a response instance.
+     *
+     * @return  {TResponse}      TResponse.
+     */
+    abstract CreateResponseInstance(): TResponse;
+    /**
+     * Gets an enumerator that iterates through the elements of the collection.
+     *
+     * @return  {TResponse[]}      An IEnumerator for the collection.
+     */
+    GetEnumerator(): TResponse[];
 }
+/**
+ * Represents a binding to the Exchange Autodiscover Service.
+ * @sealed
+ */
  class AutodiscoverService extends ExchangeServiceBase {
+    /**
+     * Maximum number of Url (or address) redirections that will be followed by an Autodiscover call
+     *
+     * @static
+     */
     static AutodiscoverMaxRedirections: number;
-    IsExternal: boolean;
+    /**
+     *  Set Autodiscover hard coded url for Office 365, useful in GCC and O365 in China. This is also helpful if O365 need changing url for some reason (beta testing, transition to different url), no need to update lib
+     *
+     * @static
+     * @type {string}
+     */
+    static Office365AutodiscoverUrl: string;
+    /**
+     *  Set Autodiscover hard coded check for header when it is auto redirected (skip 302 and follow the redirect in lib, likely browsers)
+     *
+     * @static
+     * @type {string}
+     */
+    static Office365AutodiscoverRedirectHeader: string;
+    /**
+     *  Set Autodiscover hard coded check for header value when it is auto redirected (skip 302 and follow the redirect in lib, likely browsers)
+     *
+     * @static
+     * @type {string}
+     */
+    static Office365AutodiscoverRedirectHeaderValue: string;
+    Domain: string;
+    Url: Uri;
+    IsExternal: boolean | null;
     RedirectionUrlValidationCallback: AutodiscoverRedirectionUrlValidationCallback;
     DnsServerAddress: any;
     EnableScpLookup: boolean;
-    GetScpUrlsForDomainCallback: Function;
-    Domain: string;
-    Url: Uri;
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     */
     constructor();
-    constructor(domain: string);
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     *
+     * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
+     */
     constructor(requestedServerVersion: ExchangeVersion);
-    constructor(service: ExchangeServiceBase);
-    constructor(url: Uri);
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     *
+     * @param   {string}    domain  The domain that will be used to determine the URL of the service.
+     */
+    constructor(domain: string);
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     *
+     * @param   {Uri}               url                      The URL of the service.
+     * @param   {string}            domain                   The domain that will be used to determine the URL of the service.
+     * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
+     */
     constructor(domain: string, requestedServerVersion: ExchangeVersion);
-    constructor(service: ExchangeServiceBase, requestedServerVersion: ExchangeVersion);
-    constructor(url: Uri, domain: string);
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     *
+     * @param   {Uri}   url The URL of the service.
+     */
+    constructor(url: Uri);
+    /**
+     * Initializes a new instance of the **AutodiscoverService** class.
+     *
+     * @param   {Uri}               url                      The URL of the service.
+     * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
+     */
     constructor(url: Uri, requestedServerVersion: ExchangeVersion);
-    constructor(url: Uri, domain: string, requestedServerVersion: ExchangeVersion);
-    CallRedirectionUrlValidationCallback(redirectionUrl: string): boolean;
-    DefaultAutodiscoverRedirectionUrlValidationCallback(redirectionUrl: string): boolean;
-    GetAutodiscoverEndpointUrl(host: string): Promise<Uri>;
-    GetAutodiscoverServiceHosts(domainName: string): string[];
-    GetAutodiscoverServiceUrls(domainName: string): string[];
-    GetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion): Promise<GetDomainSettingsResponseCollection>;
+    /**
+     * Disables SCP lookup if duplicate email address redirection.
+     *
+     * @param   {string}    emailAddress                The email address to use.
+     * @param   {string[]}  redirectionEmailAddresses   The list of prior redirection email addresses.
+     */
+    DisableScpLookupIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: string[]): void;
+    /**
+     * Retrieves the specified settings for a set of domains.
+     *
+     * @param   {string[]}                  domains             The SMTP addresses of the domains.
+     * @param   {ExchangeVersion}           requestedVersion    Requested version of the Exchange service.
+     * @param   {...DomainSettingName[]}    domainSettingNames  The domain setting names.
+     * @return  {Promise<GetDomainSettingsResponseCollection>}  A GetDomainSettingsResponseCollection object containing the responses for each individual domain.
+     */
     GetDomainSettings(domains: string[], requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponseCollection>;
+    /**
+     * Retrieves the specified settings for a domain.
+     *
+     * @param   {string}                    domain               The domain.
+     * @param   {ExchangeVersion}           requestedVersion     Requested version of the Exchange service.
+     * @param   {...DomainSettingName[]}    domainSettingNames   The domain setting names.
+     * @return  {Promise<GetDomainSettingsResponse>}  A DomainResponse object containing the requested settings for the specified domain.
+     */
     GetDomainSettings(domain: string, requestedVersion: ExchangeVersion, ...domainSettingNames: DomainSettingName[]): Promise<GetDomainSettingsResponse>;
-    GetRedirectUrl(domainName: string): Promise<Uri>;
-    GetSettings<TGetSettingsResponseCollection, TSettingName>(identities: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, getSettingsMethod: GetSettingsMethod<TGetSettingsResponseCollection, TSettingName>, getDomainMethod: () => string): Promise<TGetSettingsResponseCollection>;
-    /**internal method */
-    GetUserSettings(smtpAddresses: string[], settings: UserSettingName[]): Promise<GetUserSettingsResponseCollection>;
     /**
      * Retrieves the specified settings for single SMTP address.
-     *
+     * @remarks This method handles will run the entire Autodiscover "discovery" algorithm and will follow address and URL redirections.
      * @param   {string}   userSmtpAddress    The SMTP addresses of the user.
      * @param   {UserSettingName[]}   userSettingNames   The user setting names.
      * @return  {Promise<GetUserSettingsResponse>} A UserResponse object containing the requested settings for the specified user.
      */
     GetUserSettings(userSmtpAddress: string, userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
-    GetUserSettings(userSmtpAddress: string, ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponse>;
+    /**
+     * Retrieves the specified settings for a set of users.
+     *
+     * @param   {string[]}              userSmtpAddresses   The SMTP addresses of the users.
+     * @param   {...UserSettingName[]}  userSettingNames    The user setting names.
+     * @return  {Promise<GetUserSettingsResponseCollection>}    A GetUserSettingsResponseCollection object containing the responses for each individual user.
+     */
     GetUsersSettings(userSmtpAddresses: string[], ...userSettingNames: UserSettingName[]): Promise<GetUserSettingsResponseCollection>;
-    InternalGetDomainSettings(domains: string[], settings: DomainSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): Promise<GetDomainSettingsResponseCollection>;
-    InternalGetSoapUserSettings(smtpAddress: string, requestedSettings: UserSettingName[]): Promise<GetUserSettingsResponse>;
-    InternalGetSoapUserSettingsRecursive(smtpAddresses: string[], requestedSettings: UserSettingName[], redirectionEmailAddresses?: string[], currentHop?: number): Promise<GetUserSettingsResponse>;
-    InternalGetUserSettings(smtpAddresses: string[], settings: UserSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrlRef: IRefParam<Uri>, thisref: AutodiscoverService, currentHop?: number): Promise<GetUserSettingsResponseCollection>;
     ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, webException: any): any;
     TraceResponse(response: XMLHttpRequest, memoryStream: any): any;
-    TryGetAutodiscoverEndpointUrl(host: string, url: IOutParam<Uri>): Promise<boolean>;
     ThrowIfDuplicateRedirection(emailAddress: string, redirectionEmailAddresses: IRefParam<string[]>): void;
-    TryGetRedirectionResponse(response: XMLHttpRequest, redirectUrl: IOutParam<Uri>): boolean;
 }
 export interface GetSettingsMethod<TGetSettingsResponseCollection, TSettingName> {
-    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>, thisref: AutodiscoverService): Promise<TGetSettingsResponseCollection>;
+    (smtpAddresses: string[], settings: TSettingName[], requestedVersion: ExchangeVersion, autodiscoverUrl: IRefParam<Uri>): Promise<TGetSettingsResponseCollection>;
 }
 export interface AutodiscoverRedirectionUrlValidationCallback {
     (redirectionUrl: string): boolean;
-}
- class ComparisonHelpers {
-    CaseInsensitiveContains(collection: any[], match: string): boolean;
-}
- class OutlookUser {
+} class OutlookUser {
     static AvailableUserSettings: UserSettingName[];
     ConvertToUserSettings(requestedSettings: UserSettingName[], response: GetUserSettingsResponse): any;
 }
@@ -174,121 +317,199 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     Entries: DocumentSharingLocation[];
     static LoadFromJson(obj: any): DocumentSharingLocationCollection;
 }
+/**
+ * Represents an error from a GetDomainSettings request.
+ * @sealed
+ */
  class DomainSettingError {
-    ErrorCode: AutodiscoverErrorCode;
-    ErrorMessage: string;
-    SettingName: string;
-    LoadFromObject(obj: any): void;
+    /**
+     * Gets the error code.
+     */
+    readonly ErrorCode: AutodiscoverErrorCode;
+    /**
+     * Gets the error message.
+     */
+    readonly ErrorMessage: string;
+    /**
+     * Gets the name of the setting.
+     */
+    readonly SettingName: string;
 }
+/**
+ * Represents the email Protocol connection settings for pop/imap/smtp protocols.
+ * @sealed
+ */
  class ProtocolConnection {
+    /**
+     * Gets or sets the encryption method.
+     */
     EncryptionMethod: string;
+    /**
+     * Gets or sets the Hostname.
+     */
     Hostname: string;
+    /**
+     * Gets or sets the port number.
+     */
     Port: number;
 }
+/**
+ * Represents a user setting that is a collection of protocol connection.
+ * @sealed
+ */
  class ProtocolConnectionCollection {
     Connections: ProtocolConnection[];
-    constructor();
-    static LoadFromJson(obj: any): ProtocolConnectionCollection;
-}
- class AutodiscoverRequest {
-    readonly Service: AutodiscoverService;
-    readonly Url: Uri;
-    constructor(service: AutodiscoverService, url: Uri);
-    CreateServiceResponse(): AutodiscoverResponse;
-    GetRequestXmlElementName(): string;
-    GetResponseStream(response: any): any;
-    GetResponseXmlElementName(): string;
-    GetWsAddressingActionName(): string;
-    InternalExecute(): Promise<AutodiscoverResponse>;
-    static IsRedirectionResponse(httpWebResponse: XMLHttpRequest): boolean;
-    LoadFromObject(obj: any): AutodiscoverResponse;
-    ProcessWebException(webException: XMLHttpRequest): void;
-    Validate(): void;
-}
- class GetDomainSettingsRequest extends AutodiscoverRequest {
-    Domains: string[];
-    Settings: DomainSettingName[];
-    RequestedVersion: ExchangeVersion;
-    constructor(service: AutodiscoverService, url: Uri);
-    CreateServiceResponse(): AutodiscoverResponse;
-    Execute(): Promise<GetDomainSettingsResponseCollection>;
-    GetRequestXmlElementName(): string;
-    GetResponseXmlElementName(): string;
-    GetWsAddressingActionName(): string;
-    PostProcessResponses(responses: GetDomainSettingsResponseCollection): any;
-    Validate(): void;
-}
- class GetUserSettingsRequest extends AutodiscoverRequest {
-    static GetUserSettingsActionUri: string;
-    SmtpAddresses: string[];
-    Settings: UserSettingName[];
-    PartnerToken: string;
-    PartnerTokenReference: string;
-    constructor(service: AutodiscoverService, url: Uri);
-    CreateServiceResponse(): AutodiscoverResponse;
-    Execute(): Promise<GetUserSettingsResponseCollection>;
-    GetRequestXmlElementName(): string;
-    GetResponseXmlElementName(): string;
-    GetWsAddressingActionName(): string;
-    PostProcessResponses(responses: GetUserSettingsResponseCollection): void;
-    Validate(): void;
-}
- class AutodiscoverResponse {
+}/**
+ * Represents the base class for all responses returned by the Autodiscover service.
+ */
+ abstract class AutodiscoverResponse {
+    /**
+     * Gets the error code that was returned by the service.
+     */
+    /** @internal */
     ErrorCode: AutodiscoverErrorCode;
+    /**
+     * Gets the error message that was returned by the service.
+     */
+    /** @internal */
     ErrorMessage: string;
-    RedirectionUrl: Uri;
-    LoadFromJson(obj: any): void;
 }
+/**
+ * Represents the response to a GetDomainSettings call for an individual domain.
+ * @sealed
+ */
  class GetDomainSettingsResponse extends AutodiscoverResponse {
+    /**
+     * Gets the domain this response applies to.
+     */
+    /** @internal */
     Domain: string;
-    RedirectTarget: string;
-    Settings: {
-        [index: number]: any;
-    };
-    DomainSettingErrors: DomainSettingError[];
-    LoadDomainSettingErrorsFromJson(obj: any): void;
-    LoadDomainSettingsFromJson(obj: any): void;
-    LoadFromJson(obj: any): void;
-    ReadSettingFromJson(obj: any): void;
-}
- class GetDomainSettingsResponseCollection extends AutodiscoverResponseCollection<GetDomainSettingsResponse> {
-    CreateResponseInstance(): GetDomainSettingsResponse;
-    GetResponseCollectionXmlElementName(): string;
-    GetResponseInstanceXmlElementName(): string;
-}
- class GetUserSettingsResponse extends AutodiscoverResponse {
-    SmtpAddress: string;
-    RedirectTarget: string;
-    Settings: {
-        [index: number]: any;
-    };
-    UserSettingErrors: UserSettingError[];
+    /**
+     * Gets the redirectionTarget (URL or email address)
+     */
+    readonly RedirectTarget: string;
+    /**
+     * Gets the requested settings for the domain.
+     */
+    readonly Settings: Dictionary<DomainSettingName, any>;
+    /**
+     * Gets error information for settings that could not be returned.
+     */
+    readonly DomainSettingErrors: DomainSettingError[];
+    /**
+     * Initializes a new instance of the **GetDomainSettingsResponse** class.
+     */
     constructor();
-    LoadFromJson(obj: any): void;
-    LoadUserSettingErrorsFromJson(obj: any): void;
-    LoadUserSettingsFromJson(obj: any): void;
-    ReadSettingFromJson(obj: any): void;
+}
+/**
+ * Represents a collection of responses to GetDomainSettings
+ * @sealed
+ */
+ class GetDomainSettingsResponseCollection extends AutodiscoverResponseCollection<GetDomainSettingsResponse> {
+    /**
+     * Initializes a new instance of the **GetDomainSettingsResponseCollection<GetDomainSettingsResponse>** class.
+     */
+    constructor();
+}
+/**
+ * Represents the response to a GetUsersSettings call for an individual user.
+ * @sealed
+ */
+ class GetUserSettingsResponse extends AutodiscoverResponse {
+    /**
+     * Gets the SMTP address this response applies to.
+     */
+    /** @internal */
+    SmtpAddress: string;
+    /**
+     * Gets the redirectionTarget (URL or email address)
+     */
+    /** @internal */
+    RedirectTarget: string;
+    /**
+     * Gets the requested settings for the user.
+     */
+    /** @internal */
+    Settings: Dictionary<UserSettingName, any>;
+    /**
+     * Gets error information for settings that could not be returned.
+     */
+    /** @internal */
+    UserSettingErrors: UserSettingError[];
+    /**
+     * Initializes a new instance of the **GetUserSettingsResponse** class.
+     */
+    constructor();
+    /**
+     * Reads user setting from XML jsObject.
+     *
+     * @param   {any} jsObject  Json Object converted from XML.
+     */
+    ReadSettingFromXmlJsObject(jsObject: any): void;
+    /**
+     * Tries the get the user setting value.
+     *
+     * @param   {UserSettingName}   setting   The setting.
+     * @return  {T}  The setting value.
+     */
     GetSettingValue<T>(setting: UserSettingName): T;
 }
+/**
+ * Represents a collection of responses to GetUserSettings
+ * @sealed
+ */
  class GetUserSettingsResponseCollection extends AutodiscoverResponseCollection<GetUserSettingsResponse> {
-    CreateResponseInstance(): GetUserSettingsResponse;
-    GetResponseCollectionXmlElementName(): string;
-    GetResponseInstanceXmlElementName(): string;
+    /**
+     * Initializes a new instance of the **GetUserSettingsResponseCollection<GetUserSettingsResponse>** class.
+     */
+    constructor();
 }
+/**
+ * Represents an error from a GetUserSettings request.
+ * @sealed
+ */
  class UserSettingError {
+    /**
+     * Gets the error code.
+     */
+    /** @internal */
     ErrorCode: AutodiscoverErrorCode;
+    /**
+     * Gets the error message.
+     */
+    /** @internal */
     ErrorMessage: string;
+    /**
+     * Gets the name of the setting.
+     */
+    /** @internal */
     SettingName: string;
-    LoadFromJson(obj: any): any;
 }
+/**
+ * Represents the URL of the Exchange web client.
+ * @sealed
+ */
  class WebClientUrl {
+    /**
+     * Gets the authentication methods.
+     */
+    /** @internal set */
     AuthenticationMethods: string;
+    /**
+     * Gets the URL.
+     */
+    /** @internal set */
     Url: string;
-    static LoadFromJson(obj: any): WebClientUrl;
 }
+/**
+ * Represents a user setting that is a collection of Exchange web client URLs.
+ * @sealed
+ */
  class WebClientUrlCollection {
-    Urls: WebClientUrl[];
-    static LoadFromJson(obj: any): WebClientUrlCollection;
+    /**
+     * Gets the URLs.
+     */
+    readonly Urls: WebClientUrl[];
 }
 /**
  * Represents an AddressEntity object.
@@ -19912,11 +20133,47 @@ export interface TaskSchemaStatic extends TaskSchema {
      */
     constructor(message: string, innerException: Exception);
 }
+/**
+ * Represents an exception that is thrown when the Autodiscover service returns an error.
+ */
  class AutodiscoverRemoteException extends ServiceRemoteException {
-    Error: AutodiscoverError;
+    /**
+     * Gets the error.
+     *  @value the Error
+     */
+    readonly Error: AutodiscoverError;
+    /**
+     * Initializes a new instance of the **AutodiscoverRemoteException** class.
+     *
+     * @param   {AutodiscoverError} error   The error.
+     */
+    constructor(error: AutodiscoverError);
+    /**
+     * Initializes a new instance of the **AutodiscoverRemoteException** class.
+     *
+     * @param   {string}            message     The message.
+     * @param   {AutodiscoverError} error       The error.
+     */
+    constructor(message: string, error: AutodiscoverError);
+    /**
+     * Initializes a new instance of the **AutodiscoverRemoteException** class.
+     *
+     * @param   {string}            message          The message.
+     * @param   {AutodiscoverError} error            The error.
+     * @param   {Exception}         innerException   The inner exception.
+     */
+    constructor(message: string, error: AutodiscoverError, innerException: Exception);
 }
+/**
+ * Represents an exception from an autodiscover error response.
+ *
+ * @extends {ServiceRemoteException}
+ */
  class AutodiscoverResponseException extends ServiceRemoteException {
-    ErrorCode: AutodiscoverErrorCode;
+    /**
+     * Gets the ErrorCode for the exception.
+     */
+    readonly ErrorCode: AutodiscoverErrorCode;
 }
 /**
  * Represents a remote service exception that can have multiple service responses.
@@ -20275,6 +20532,7 @@ export interface IXHROptions {
     headers?: any;
     data?: any;
     responseType?: string;
+    allowRedirect?: boolean;
     customRequestInitializer?: (request: XMLHttpRequest) => void;
 }
 export interface IXHRProgress {

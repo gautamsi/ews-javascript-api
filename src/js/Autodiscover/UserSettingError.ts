@@ -1,40 +1,75 @@
-﻿import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {EwsXmlReader} from "../Core/EwsXmlReader";
+﻿import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
+/**
+ * Represents an error from a GetUserSettings request.
+ * @sealed
+ */
 export class UserSettingError {
-    ErrorCode: AutodiscoverErrorCode;
-    ErrorMessage: string;
-    SettingName: string;
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader): any {
-        var parent = reader.CurrentNode;
-        do {
-            reader.Read();
+  private errorCode: AutodiscoverErrorCode;
+  private errorMessage: string;
+  private settingName: string;
 
-            if (reader.NodeType == Node.ELEMENT_NODE) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.ErrorCode:
-                        var errorstring = reader.ReadElementValue();
-                        this.ErrorCode = AutodiscoverErrorCode[errorstring];
-                        break;
-                    case XmlElementNames.ErrorMessage:
-                        this.ErrorMessage = reader.ReadElementValue();
-                        break;
-                    case XmlElementNames.SettingName:
-                        this.SettingName = reader.ReadElementValue();
-                        break;
-                }
-            }
-        }
-        while (reader.HasRecursiveParentNode(parent, parent.localName));
-        reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
-    }
+  /**
+   * Gets the error code.
+   */
+  get ErrorCode(): AutodiscoverErrorCode {
+    return this.errorCode;
+  }
+  /** @internal */
+  set ErrorCode(value) {
+    this.errorCode = value;
+  }
 
-    LoadFromJson(obj: any): any {
-        var errorstring: string = obj[XmlElementNames.ErrorCode];
-        this.ErrorCode = AutodiscoverErrorCode[errorstring];
-        this.ErrorMessage = obj[XmlElementNames.ErrorMessage];
-        this.SettingName = obj[XmlElementNames.SettingName];
-    }
+  /**
+   * Gets the error message.
+   */
+  get ErrorMessage(): string {
+    return this.errorMessage;
+  }
+  /** @internal */
+  set ErrorMessage(value) {
+    this.errorMessage = value;
+  }
+
+  /**
+   * Gets the name of the setting.
+   */
+  get SettingName(): string {
+    return this.settingName;
+  }
+  /** @internal */
+  set SettingName(value) {
+    this.settingName = value;
+  }
+
+  /**
+   * @internal Initializes a new instance of the **UserSettingError** class.
+   */
+  constructor();
+  /**
+   * @internal Initializes a new instance of the **UserSettingError** class.
+   *
+   * @param   {AutodiscoverErrorCode}   errorCode      The error code.
+   * @param   {string}                  errorMessage   The error message.
+   * @param   {string}                  settingName    Name of the setting.
+   */
+  constructor(errorCode: AutodiscoverErrorCode, errorMessage: string, settingName: string);
+  constructor(errorCode: AutodiscoverErrorCode = AutodiscoverErrorCode.NoError, errorMessage: string = null, settingName: string = null) {
+    this.errorCode = errorCode;
+    this.errorMessage = errorMessage;
+    this.settingName = settingName;
+  }
+
+  /**
+   * @internal Loads settings error from XML jsObject.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  LoadFromXmlJsObject(jsObject: any): any {
+    var errorstring: string = jsObject[XmlElementNames.ErrorCode];
+    this.errorCode = AutodiscoverErrorCode[errorstring] || AutodiscoverErrorCode.NoError;
+    this.errorMessage = jsObject[XmlElementNames.ErrorMessage] || null;
+    this.settingName = jsObject[XmlElementNames.SettingName] || null;
+  }
 }

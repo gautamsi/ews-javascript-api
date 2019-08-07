@@ -1,4 +1,5 @@
-﻿import { AutodiscoverDnsClient } from "./AutodiscoverDnsClient";
+﻿import { ArgumentException } from "../Exceptions/ArgumentException";
+import { AutodiscoverDnsClient } from "./AutodiscoverDnsClient";
 import { AutodiscoverEndpoints } from "../Enumerations/AutodiscoverEndpoints";
 import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
 import { AutodiscoverLocalException } from "../Exceptions/AutodiscoverLocalException";
@@ -19,7 +20,7 @@ import { IRefParam } from "../Interfaces/IRefParam";
 import { IXHROptions } from "../Interfaces";
 import { OAuthCredentials } from "../Credentials/OAuthCredentials";
 import { PartnerTokenCredentials } from "../Credentials/PartnerTokenCredentials";
-// import { Promise } from "../Promise";
+import { Promise } from "../Promise";
 import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
 import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
 import { StringHelper, EnumHelper, UriHelper, hasValue, isNullOrUndefined } from "../ExtensionMethods";
@@ -31,7 +32,6 @@ import { WindowsLiveCredentials } from "../Credentials/WindowsLiveCredentials";
 import { X509CertificateCredentials } from "../Credentials/X509CertificateCredentials";
 
 import { ExchangeServiceBase } from "../Core/ExchangeServiceBase";
-import { ArgumentException } from "../Exceptions/ArgumentException";
 /**
  * Represents a binding to the Exchange Autodiscover Service.
  * @sealed
