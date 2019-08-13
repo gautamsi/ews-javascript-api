@@ -161,7 +161,7 @@ export abstract class AutodiscoverRequest {
 
       EwsLogging.DebugLog(responseObject, true);
       if (xhrResponse.status == 200) {
-
+        EwsLogging.DebugLog(xhrResponse, true);
         this.ReadSoapHeader(responseObject[XmlElementNames.SOAPHeaderElementName]);
 
         var response: AutodiscoverResponse = this.ReadSoapBody(responseObject);

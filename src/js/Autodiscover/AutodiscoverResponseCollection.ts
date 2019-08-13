@@ -89,7 +89,7 @@ export abstract class AutodiscoverResponseCollection<TResponse extends Autodisco
   private LoadResponseCollectionFromXmlJsObject(jsObject: any): void {
     var element = this.GetResponseInstanceXmlElementName()
     var responses: any = undefined;
-    if (Object.prototype.toString.call(jsObject[element]) === "[object Array]")
+    if (Array.isArray(jsObject[element]))
       responses = jsObject[element];
     else
       responses = [jsObject[element]];

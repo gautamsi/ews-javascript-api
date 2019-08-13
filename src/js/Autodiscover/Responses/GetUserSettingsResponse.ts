@@ -105,7 +105,7 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
 
     for (var i = 0; i < errors.length; i++) {
       var error = new UserSettingError();
-      error.LoadFromXmlJsObject(errors[0]);
+      error.LoadFromXmlJsObject(errors[i]);
       this.UserSettingErrors.push(error);
     }
   }
@@ -172,14 +172,14 @@ export class GetUserSettingsResponse extends AutodiscoverResponse {
         //debugger;
         EwsLogging.Log("------------DocumentSharingLocationCollection needs test and fix ----------------", true);
         EwsLogging.Log(jsObject, true, true);
-        value = DocumentSharingLocationCollection.LoadFromJson(jsObject);
+        value = DocumentSharingLocationCollection.LoadFromXmlJsObject(jsObject);
         break;
     }
 
     // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
     var userSettingName: UserSettingName = UserSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
     if (userSettingName !== undefined)
-      this.Settings[userSettingName] = value;
+      this.Settings.Add(userSettingName, value);
     else
       EwsLogging.Assert(false,
         "GetUserSettingsResponse.ReadSettingFromXml",

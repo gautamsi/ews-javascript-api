@@ -75,7 +75,7 @@ export class GetDomainSettingsResponse extends AutodiscoverResponse {
 
     for (var i = 0; i < errors.length; i++) {
       var error = new DomainSettingError();
-      error.LoadFromXmlJsObject(errors[0]);
+      error.LoadFromXmlJsObject(errors[i]);
       this.DomainSettingErrors.push(error);
     }
 

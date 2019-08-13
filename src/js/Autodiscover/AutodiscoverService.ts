@@ -708,7 +708,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
     // If Url is specified, call service directly.
     if (this.Url != null) {
-
+      urlRef = this.url;
       response = await getSettingsMethod(
         identities,
         settings,

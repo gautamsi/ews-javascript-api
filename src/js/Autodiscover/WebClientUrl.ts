@@ -52,10 +52,10 @@ export class WebClientUrl {
    * @param   {any} jsObject  Json Object converted from XML.
    * @returns {WebClientUrl}  WebClientUrl.
    */
-  static LoadFromXmlJsObject(obj: any): WebClientUrl {
+  static LoadFromXmlJsObject(jsObject: any): WebClientUrl {
     const webClientUrl = new WebClientUrl();
-    webClientUrl.AuthenticationMethods = obj[XmlElementNames.AuthenticationMethods];
-    webClientUrl.Url = obj[XmlElementNames.Url];
+    webClientUrl.AuthenticationMethods = jsObject[XmlElementNames.AuthenticationMethods];
+    webClientUrl.Url = jsObject[XmlElementNames.Url];
     return webClientUrl;
   }
 }
