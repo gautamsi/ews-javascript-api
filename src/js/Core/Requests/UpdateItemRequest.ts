@@ -104,7 +104,7 @@ export class UpdateItemRequest extends MultiResponseServiceRequest<UpdateItemRes
             writer.WriteAttributeValue(XmlAttributeNames.MessageDisposition, MessageDisposition[this.MessageDisposition]);
         }
 
-        if (hasValue(this.SuppressReadReceipts)) {
+        if (this.SuppressReadReceipts) {
             writer.WriteAttributeValue(XmlAttributeNames.SuppressReadReceipts, true);
         }
 
