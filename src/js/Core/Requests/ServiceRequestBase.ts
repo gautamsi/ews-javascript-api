@@ -602,13 +602,13 @@ export abstract class ServiceRequestBase {
         }
 
         // Emit the MailboxCulture header
-        if (this.Service.PreferredCulture != null) {
-            //todo: fix preferred culture.
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.MailboxCulture,
-                this.Service.PreferredCulture.Name);
-        }
+        // if (this.Service.PreferredCulture != null) {
+        //     //todo: fix preferred culture.
+        //     writer.WriteElementValue(
+        //         XmlNamespace.Types,
+        //         XmlElementNames.MailboxCulture,
+        //         this.Service.PreferredCulture.Name);
+        // }
 
         // Emit the DateTimePrecision header
         if (this.Service.DateTimePrecision != DateTimePrecision.Default) {

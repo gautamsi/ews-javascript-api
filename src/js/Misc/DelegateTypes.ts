@@ -25,7 +25,7 @@ export interface CustomXmlSerializationDelegate {
 //}
 
 export interface ResponseHeadersCapturedHandler {
-    (responseHeaders: any /*System.Net.WebHeaderCollection*/): any;
+    (responseHeaders: any /*System.Net.WebHeaderCollection*/): void;
 }
 //class ResponseHeadersCapturedHandler extends System.MulticastDelegate {
 //    //BeginInvoke(responseHeaders: System.Net.WebHeaderCollection, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
