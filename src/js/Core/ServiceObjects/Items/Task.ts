@@ -327,7 +327,7 @@ export class Task extends Item {
     /** ##internal ~~ workaround GitHub #52 */
     Update(conflictResolutionMode: ConflictResolutionMode): Promise<any>;
     Update(conflictResolutionMode: ConflictResolutionMode): Promise<Task> {
-        return this.InternalUpdate(
+        return <Promise<Task>>this.InternalUpdate(
             null /* parentFolder */,
             conflictResolutionMode,
             MessageDisposition.SaveOnly,

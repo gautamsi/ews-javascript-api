@@ -6,7 +6,7 @@ import {Item} from "../ServiceObjects/Items/Item";
 import {FolderId} from "../../ComplexProperties/FolderId";
 import {ServiceErrorHandling} from "../../Enumerations/ServiceErrorHandling";
 import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {StringHelper} from "../../ExtensionMethods";
+import {StringHelper, hasValue} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlAttributeNames} from "../XmlAttributeNames";
 import {Strings} from "../../Strings";

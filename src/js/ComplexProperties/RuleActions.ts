@@ -1,4 +1,4 @@
-﻿import {Convert} from "../ExtensionMethods";
+﻿import {Convert, hasValue} from "../ExtensionMethods";
 import {EmailAddress} from "./EmailAddress";
 import {EmailAddressCollection} from "./EmailAddressCollection";
 import {EwsServiceXmlWriter} from "../Core/EwsServiceXmlWriter";
@@ -363,7 +363,7 @@ export class RuleActions extends ComplexProperty {
 			this.ForwardToRecipients.WriteToXml(writer, XmlElementNames.ForwardToRecipients);
 		}
 
-		if (this.MarkImportance) {
+		if (hasValue(this.MarkImportance)) {
 			writer.WriteElementValue(
 				XmlNamespace.Types,
 				XmlElementNames.MarkImportance,

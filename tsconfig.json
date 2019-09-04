@@ -4,9 +4,12 @@
         "module": "commonjs",
         //"moduleResolution": "node",
         "declaration": false,
+        "noEmit": true,
+        "outDir": "build/output/node",
         "noImplicitAny": false,
         "removeComments": false,
         "noLib": false,
+        "strict": false,
         "skipLibCheck": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
@@ -17,6 +20,9 @@
         "lib": [
             "es2015",
             "dom"
+        ],
+        "typeRoots": [
+            "typings"
         ]
     },
     "compileOnSave": false,

@@ -15,6 +15,7 @@ import { GetDomainSettingsResponseCollection } from "../Responses/GetDomainSetti
 import { AutodiscoverService } from "../AutodiscoverService";
 import { AutodiscoverResponse } from "../Responses/AutodiscoverResponse";
 import { AutodiscoverRequest } from "./AutodiscoverRequest";
+import { hasValue } from "../../ExtensionMethods";
 export class GetDomainSettingsRequest extends AutodiscoverRequest {
     private static GetDomainSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetDomainSettings";
     Domains: string[];// System.Collections.Generic.List<string>;
@@ -85,7 +86,7 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
 
         writer.WriteEndElement(); //RequestedSettings
 
-        if (this.requestedVersion) {
+        if (hasValue(this.requestedVersion)) {
             writer.WriteElementValue(XmlNamespace.Autodiscover,
                 XmlElementNames.RequestedVersion,
                 this.requestedVersion);

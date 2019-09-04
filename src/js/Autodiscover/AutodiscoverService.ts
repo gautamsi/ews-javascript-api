@@ -635,7 +635,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
         var request = new GetDomainSettingsRequest(thisref, autodiscoverUrlRef.getValue());
         request.Settings = settings;
         request.Domains = domains;
-        return request.Execute().then((response) => {
+        return <any>request.Execute().then((response) => {
             // Did we get redirected?
             if (response.ErrorCode == AutodiscoverErrorCode.RedirectUrl && response.RedirectionUrl != null) {
                 this.TraceMessage(
@@ -736,7 +736,7 @@ export class AutodiscoverService extends ExchangeServiceBase {
 
         request.SmtpAddresses = smtpAddresses;
         request.Settings = settings;
-        return request.Execute().then((response) => {
+        return <any>request.Execute().then((response) => {
             // Did we get redirected?
             if (response.ErrorCode == AutodiscoverErrorCode.RedirectUrl && response.RedirectionUrl != null) {
                 this.TraceMessage(

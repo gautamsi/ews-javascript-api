@@ -96,6 +96,12 @@ export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefi
         if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
             return this.enumType.FromEwsEnumString(value);
         }
+
+        // if enum type is set, use this to get enum number instead of string
+        if(this.enumType && typeof value === 'string') {
+            return this.enumType[value];
+        }
+
         EwsLogging.Assert(false, "GenericPropertyDefinition<TPropertyValue>.Parse", "GenericPropertyDefinition<TPropertyValue> needs to be improved");
         return value;
     }
@@ -112,11 +118,14 @@ export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefi
         }
 
         if (TypeGuards.hasEwsEnumAttribute(this.enumType)) {
-            this.enumType.ToEwsEnumString(value);
+            return this.enumType.ToEwsEnumString(value);
         }
-        else {
-            return value.toString();
+
+        if(this.enumType && typeof value === "number") {
+            return this.enumType[value];
         }
+
+        return value.toString();
     }
     toString(value?: any): string {
         return this.ToString(value);

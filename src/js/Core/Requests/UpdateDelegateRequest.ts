@@ -1,14 +1,15 @@
-﻿import {MeetingRequestsDeliveryScope} from "../../Enumerations/MeetingRequestsDeliveryScope";
-import {DelegateUser} from "../../ComplexProperties/DelegateUser";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {EwsUtilities} from "../EwsUtilities";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+﻿import { hasValue } from "../../ExtensionMethods";
+import { DelegateUser } from "../../ComplexProperties/DelegateUser";
+import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { EwsUtilities } from "../EwsUtilities";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { MeetingRequestsDeliveryScope } from "../../Enumerations/MeetingRequestsDeliveryScope";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {DelegateManagementResponse} from "../Responses/DelegateManagementResponse";
-import {DelegateManagementRequestBase} from "./DelegateManagementRequestBase";
+import { DelegateManagementResponse } from "../Responses/DelegateManagementResponse";
+import { DelegateManagementRequestBase } from "./DelegateManagementRequestBase";
 /**
  * @internal Represents an UpdateDelegate request. 
  */
@@ -111,7 +112,7 @@ export class UpdateDelegateRequest extends DelegateManagementRequestBase<Delegat
 
         writer.WriteEndElement(); // DelegateUsers
 
-        if (this.MeetingRequestsDeliveryScope) {
+        if (hasValue(this.MeetingRequestsDeliveryScope)) {
             writer.WriteElementValue(
                 XmlNamespace.Messages,
                 XmlElementNames.DeliverMeetingRequests,

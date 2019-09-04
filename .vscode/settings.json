@@ -7,6 +7,5 @@
         "**/.DS_Store": true,
         "build": true,
         "node_modules": true,
-        "projects": true
     }
 }

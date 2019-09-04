@@ -1,21 +1,21 @@
-﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
-import {ExchangeService} from "../ExchangeService";
-import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import {FindConversationResponse} from "../Responses/FindConversationResponse";
-import {FolderIdWrapper} from "../../Misc/FolderIdWrapper";
+﻿import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
+import { ExchangeService } from "../ExchangeService";
+import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
+import { FindConversationResponse } from "../Responses/FindConversationResponse";
+import { FolderIdWrapper } from "../../Misc/FolderIdWrapper";
+import { MailboxSearchLocation } from "../../Enumerations/MailboxSearchLocation";
 import { Promise } from "../../Promise";
-import {MailboxSearchLocation} from "../../Enumerations/MailboxSearchLocation";
-import {SeekToConditionItemView} from "../../Search/SeekToConditionItemView";
-import {ServiceObjectType} from "../../Enumerations/ServiceObjectType";
-import {ServiceVersionException} from "../../Exceptions/ServiceVersionException";
-import {StringHelper} from "../../ExtensionMethods";
-import {Strings} from "../../Strings";
-import {ViewBase} from "../../Search/ViewBase";
-import {XmlAttributeNames} from "../XmlAttributeNames";
-import {XmlElementNames} from "../XmlElementNames";
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
+import { SeekToConditionItemView } from "../../Search/SeekToConditionItemView";
+import { ServiceObjectType } from "../../Enumerations/ServiceObjectType";
+import { ServiceVersionException } from "../../Exceptions/ServiceVersionException";
+import { StringHelper, hasValue } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { ViewBase } from "../../Search/ViewBase";
+import { XmlAttributeNames } from "../XmlAttributeNames";
+import { XmlElementNames } from "../XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
+import { SimpleServiceRequestBase } from "./SimpleServiceRequestBase";
 /**
  * @internal Represents a request to a Find Conversation operation
  * 
@@ -225,7 +225,7 @@ export class FindConversationRequest extends SimpleServiceRequestBase {//IJsonSe
 
         // Emit the MailboxScope flag
         // 
-        if (this.MailboxScope) {
+        if (hasValue(this.MailboxScope)) {
             writer.WriteElementValue(XmlNamespace.Messages, XmlElementNames.MailboxScope, MailboxSearchLocation[this.MailboxScope]);
         }
 

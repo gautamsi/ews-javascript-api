@@ -130,7 +130,7 @@ export abstract class ResponseObject<TMessage extends EmailMessage> extends Serv
             }
         }
         return this.InternalCreate(destinationFolderId, MessageDisposition.SaveOnly).then((result) => {
-            return result[0];
+            return <TMessage>result[0];
         });
     }
 
