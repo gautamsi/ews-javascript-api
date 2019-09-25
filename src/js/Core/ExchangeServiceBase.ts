@@ -371,24 +371,24 @@ export abstract class ExchangeServiceBase {
   //#region Constructor
 
   /**
-   * @internal Initializes a new instance of the **ExchangeServiceBase** class.
+   * Initializes a new instance of the **ExchangeServiceBase** class.
    *
    */
   constructor();
   /**
-   * @internal Initializes a new instance of the **ExchangeServiceBase** class.
+   * Initializes a new instance of the **ExchangeServiceBase** class.
    *
    * @param   {TimeZoneInfo}   timeZone   The time zone to which the service is scoped.
    */
   constructor(timeZone: TimeZoneInfo);
   /**
-   * @internal Initializes a new instance of the **ExchangeServiceBase** class.
+   * Initializes a new instance of the **ExchangeServiceBase** class.
    *
    * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
    */
   constructor(requestedServerVersion: ExchangeVersion);
   /**
-   * @internal Initializes a new instance of the **ExchangeServiceBase** class.
+   * Initializes a new instance of the **ExchangeServiceBase** class.
    *
    * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
    * @param   {TimeZoneInfo}      timeZone                 The time zone to which the service is scoped.
