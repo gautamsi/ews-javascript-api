@@ -22,13 +22,10 @@ export class XHRDefault implements IXHRApi {
 			url: xhroptions.url,
 			payload: xhroptions.data,
 			headers: xhroptions.headers,
-			method: <any>xhroptions.type
+			method: <any>xhroptions.type,
+			disableRedirects: !xhroptions.allowRedirect,
 		}
-		// xhroptions["payload"] = xhroptions.data;
-		// delete xhroptions["data"];
-		// xhroptions["method"] = xhroptions.type;
-		// delete xhroptions["type"];
-
+		
 		return new Promise<XMLHttpRequest>((resolve, reject) => {
 			XHRDefault.fetchUrl(xhroptions.url, this.getOptions(options), (error, meta, body) => {
 				if (error) {

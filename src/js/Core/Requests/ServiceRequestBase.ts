@@ -18,6 +18,7 @@ import { Strings } from "../../Strings";
 import { XmlAttributeNames } from "../XmlAttributeNames";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { HttpStatusCode } from "../../../lib/HttpStatusCode";
 
 /**
  * @internal Represents an abstract service request.
@@ -251,7 +252,7 @@ export abstract class ServiceRequestBase {
             //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
             var soapFaultDetails: SoapFaultDetails = null;
 
-            if (webException.status == 500  /*System.Net.HttpStatusCode.InternalServerError*/) {
+            if (webException.status == HttpStatusCode.InternalServerError) {
                 //this.Service.ProcessHttpResponseHeaders(TraceFlags.EwsResponseHttpHeaders, httpWebResponse);
 
                 // If tracing is enabled, we read the entire response into a MemoryStream so that we
@@ -602,13 +603,13 @@ export abstract class ServiceRequestBase {
         }
 
         // Emit the MailboxCulture header
-        if (this.Service.PreferredCulture != null) {
-            //todo: fix preferred culture.
-            writer.WriteElementValue(
-                XmlNamespace.Types,
-                XmlElementNames.MailboxCulture,
-                this.Service.PreferredCulture.Name);
-        }
+        // if (this.Service.PreferredCulture != null) {
+        //     //todo: fix preferred culture.
+        //     writer.WriteElementValue(
+        //         XmlNamespace.Types,
+        //         XmlElementNames.MailboxCulture,
+        //         this.Service.PreferredCulture.Name);
+        // }
 
         // Emit the DateTimePrecision header
         if (this.Service.DateTimePrecision != DateTimePrecision.Default) {

@@ -1,43 +1,51 @@
-﻿import {AutodiscoverErrorCode} from "../Enumerations/AutodiscoverErrorCode";
-import {XmlElementNames} from "../Core/XmlElementNames";
-import {EwsXmlReader} from "../Core/EwsXmlReader";
+﻿import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
+/**
+ * Represents an error from a GetDomainSettings request.
+ * @sealed
+ */
 export class DomainSettingError {
-    ErrorCode: AutodiscoverErrorCode;
-    ErrorMessage: string;
-    SettingName: string;
-    //private errorCode: AutodiscoverErrorCode;
-    //private errorMessage: string;
-    //private settingName: string;
-    LoadFromObject(obj: any): void {
-        var errorstring: string = obj[XmlElementNames.ErrorCode];
-        this.ErrorCode = AutodiscoverErrorCode[errorstring];
-        this.ErrorMessage = obj[XmlElementNames.ErrorMessage];
-        this.SettingName = obj[XmlElementNames.SettingName];
-    }
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader): void {
-        var parent = reader.CurrentNode;
-        do {
-            reader.Read();
+  private errorCode: AutodiscoverErrorCode;
+  private errorMessage: string;
+  private settingName: string;
 
-            if (reader.NodeType == Node.ELEMENT_NODE) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.ErrorCode:
-                        var errorstring = reader.ReadElementValue();
-                        this.ErrorCode = AutodiscoverErrorCode[errorstring];
-                        break;
-                    case XmlElementNames.ErrorMessage:
-                        this.ErrorMessage = reader.ReadElementValue();
-                        break;
-                    case XmlElementNames.SettingName:
-                        this.SettingName = reader.ReadElementValue();
-                        break;
-                }
-            }
-        }
-        while (reader.HasRecursiveParentNode(parent, parent.localName));
-        reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
-    }
+  /**
+   * Gets the error code.
+   */
+  get ErrorCode(): AutodiscoverErrorCode {
+    return this.errorCode;
+  }
 
+  /**
+   * Gets the error message.
+   */
+  get ErrorMessage(): string {
+    return this.errorMessage;
+  }
+
+  /**
+   * Gets the name of the setting.
+   */
+  get SettingName(): string {
+    return this.settingName;
+  }
+
+  /**
+   * @internal Initializes a new instance of the **DomainSettingError** class.
+   */
+  constructor() {
+  }
+
+  /**
+   * @internal Loads settings error from XML jsObject.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  LoadFromXmlJsObject(jsObject: any): void {
+    const errorstring: string = jsObject[XmlElementNames.ErrorCode];
+    this.errorCode = AutodiscoverErrorCode[errorstring] || AutodiscoverErrorCode.NoError;
+    this.errorMessage = jsObject[XmlElementNames.ErrorMessage] || null;
+    this.settingName = jsObject[XmlElementNames.SettingName] || null;
+  }
 }

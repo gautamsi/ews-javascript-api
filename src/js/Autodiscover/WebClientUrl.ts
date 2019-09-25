@@ -1,38 +1,61 @@
-﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { XmlElementNames } from "../Core/XmlElementNames";
 
+/**
+ * Represents the URL of the Exchange web client.
+ * @sealed
+ */
 export class WebClientUrl {
-    AuthenticationMethods: string;
-    Url: string;
-    //private authenticationMethods: string;
-    //private url: string;
-    static LoadFromJson(obj: any): WebClientUrl {
-        var webClientUrl = new WebClientUrl();
-        webClientUrl.AuthenticationMethods = obj[XmlElementNames.AuthenticationMethods];
-        webClientUrl.Url = obj[XmlElementNames.Url];
-        return webClientUrl;
-    }
-    /**@internal */
-    static LoadFromXml(reader: EwsXmlReader): WebClientUrl {
-        var webClientUrl = new WebClientUrl();
-        var parent = reader.CurrentNode;
-        do {
-            reader.Read();
+  private authenticationMethods: string;
+  private url: string;
 
-            if (reader.NodeType == Node.ELEMENT_NODE) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.AuthenticationMethods:
-                        webClientUrl.AuthenticationMethods = reader.ReadElementValue();
-                        break;
-                    case XmlElementNames.Url:
-                        webClientUrl.Url = reader.ReadElementValue();
-                        break;
-                }
-            }
-        }
-        while (reader.HasRecursiveParentNode(parent, parent.localName));
-        //reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
+  /**
+   * Gets the authentication methods.
+   */
+  get AuthenticationMethods(): string {
+    return this.authenticationMethods;
+  }
+  /** @internal set */
+  set AuthenticationMethods(value: string) {
+    this.authenticationMethods = value;
+  }
 
-        return webClientUrl;
-    }
+  /**
+   * Gets the URL.
+   */
+  get Url(): string {
+    return this.url;
+  }
+  /** @internal set */
+  set Url(value: string) {
+    this.url = value;
+  }
+
+  /**
+   * @internal Initializes a new instance of the **WebClientUrl** class.
+   */
+  constructor();
+  /**
+   * @internal Initializes a new instance of the **WebClientUrl** class.
+   *
+   * @param   {string}   authenticationMethods   The authentication methods.
+   * @param   {string}   url                     The URL.
+   */
+  constructor(authenticationMethods: string, url: string);
+  constructor(authenticationMethods: string = null, url: string = null) {
+    this.authenticationMethods = authenticationMethods;
+    this.url = url;
+  }
+
+  /**
+   * @internal Loads WebClientUrl instance
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   * @returns {WebClientUrl}  WebClientUrl.
+   */
+  static LoadFromXmlJsObject(jsObject: any): WebClientUrl {
+    const webClientUrl = new WebClientUrl();
+    webClientUrl.AuthenticationMethods = jsObject[XmlElementNames.AuthenticationMethods];
+    webClientUrl.Url = jsObject[XmlElementNames.Url];
+    return webClientUrl;
+  }
 }

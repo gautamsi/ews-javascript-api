@@ -8,6 +8,7 @@ export interface IXHROptions {
 	headers?: any;
 	data?: any;
 	responseType?: string;
+	allowRedirect?: boolean;
 	customRequestInitializer?: (request: XMLHttpRequest) => void;
 }
 

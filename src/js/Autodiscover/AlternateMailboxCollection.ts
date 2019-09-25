@@ -1,29 +1,44 @@
-﻿import {AlternateMailbox} from "./AlternateMailbox";
-import {EwsXmlReader} from "../Core/EwsXmlReader";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { AlternateMailbox } from "./AlternateMailbox";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
+/**
+ * Represents a user setting that is a collection of alternate mailboxes.
+ * @sealed
+ */
 export class AlternateMailboxCollection {
-    Entries: AlternateMailbox[] = []; //System.Collections.Generic.List<AlternateMailbox>;
-    /**@internal */
-    static LoadFromXml(reader: EwsXmlReader): AlternateMailboxCollection { throw new Error("Not implemented. depricated use LoadFromJson"); }
-    static LoadFromJson(obj: any): AlternateMailboxCollection {
-        var instance = new AlternateMailboxCollection();
+  entries: AlternateMailbox[] = [];
 
-        var element = XmlElementNames.AlternateMailbox;
-        var responses = undefined;
-        if (Object.prototype.toString.call(obj[element]) === "[object Array]")
-            responses = obj[element];
-        else
-            responses = [obj[element]];
+  /**
+   * Gets the collection of alternate mailboxes.
+   */
+  get Entries(): AlternateMailbox[] {
+    return this.entries;
+  }
+  /** @private set */
+  set Entries(value) {
+    this.entries = value;
+  }
 
-        for (var i = 0; i < responses.length; i++) {
-            instance.Entries.push(responses[i]);
-            //AlternateMailbox.LoadFromJson(responses[i]);
-            //instance.Entries.push(responses);
-        }
+  /**
+   * @internal Loads instance of AlternateMailboxCollection.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   * @returns {AlternateMailboxCollection}
+   */
+  static LoadFromXmlJsObject(obj: any): AlternateMailboxCollection {
+    const instance = new AlternateMailboxCollection();
 
-        return instance;
+    const element = XmlElementNames.AlternateMailbox;
+    let responses = undefined;
+    if (Array.isArray(obj[element]))
+      responses = obj[element];
+    else
+      responses = [obj[element]];
+
+    for (let i = 0; i < responses.length; i++) {
+      instance.Entries.push(AlternateMailbox.LoadFromXmlJsObject(responses[i]));
     }
+
+    return instance;
+  }
 }
-
-

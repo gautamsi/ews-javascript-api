@@ -1,36 +1,57 @@
-﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
-import {Uri} from "../../Uri";
-import {AutodiscoverErrorCode} from "../../Enumerations/AutodiscoverErrorCode";
-import {XmlElementNames} from "../../Core/XmlElementNames";
+﻿import { AutodiscoverErrorCode } from "../../Enumerations/AutodiscoverErrorCode";
+import { Uri } from "../../Uri";
+import { XmlElementNames } from "../../Core/XmlElementNames";
 
-export class AutodiscoverResponse {
-    ErrorCode: AutodiscoverErrorCode;
-    ErrorMessage: string;
-    RedirectionUrl: Uri;
-    //private errorCode: AutodiscoverErrorCode;
-    //private errorMessage: string;
-    //private redirectionUrl: Uri;
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
-        switch (reader.LocalName) {
-            case XmlElementNames.ErrorCode:
-                var errorstring = reader.ReadElementValue();
-                this.ErrorCode = AutodiscoverErrorCode[errorstring];
-                break;
-            case XmlElementNames.ErrorMessage:
-                this.ErrorMessage = reader.ReadElementValue();
-                break;
-            default:
-                break;
-        }
-    }
-    LoadFromJson(obj: any/*, endElementName: string*/): void {
+/**
+ * Represents the base class for all responses returned by the Autodiscover service.
+ */
+export abstract class AutodiscoverResponse {
+  private errorCode: AutodiscoverErrorCode = AutodiscoverErrorCode.NoError;
+  private errorMessage: string;
+  private redirectionUrl: Uri;
 
-        var errorstring: string = obj[XmlElementNames.ErrorCode];
-        this.ErrorCode = AutodiscoverErrorCode[errorstring];
+  /**
+   * Gets the error code that was returned by the service.
+   */
+  get ErrorCode(): AutodiscoverErrorCode {
+    return this.errorCode;
+  }
+  /** @internal */
+  set ErrorCode(value) {
+    this.errorCode = value;
+  }
 
-        var errmsg = obj[XmlElementNames.ErrorMessage]
-        this.ErrorMessage = errmsg;
+  /**
+   * Gets the error message that was returned by the service.
+   */
+  get ErrorMessage(): string {
+    return this.errorMessage;
+  }
+  /** @internal */
+  set ErrorMessage(value) {
+    this.errorMessage = value;
+  }
 
-    }
+  /**
+   * @internal Gets or sets the redirection URL.
+   */
+  get RedirectionUrl(): Uri {
+    return this.redirectionUrl;
+  }
+  set RedirectionUrl(value) {
+    this.redirectionUrl = value;
+  }
+
+  /**
+   * @internal Loads service object from XML.
+   *
+   * @param   {any} responseObject  Json Object converted from XML.
+   */
+  LoadFromXmlJsObject(jsObject: any): void {
+    var errorstring: string = jsObject[XmlElementNames.ErrorCode];
+    this.errorCode = AutodiscoverErrorCode[errorstring];
+
+    var errmsg = jsObject[XmlElementNames.ErrorMessage]
+    this.errorMessage = errmsg;
+  }
 }

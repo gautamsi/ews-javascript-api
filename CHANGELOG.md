@@ -3,6 +3,12 @@ ews-javascript-api
 ==================
 # CHANGELOG
 
+# Whats new v0.10.0
+* new/fix: #324 Autodiscover is back again, improved and supports DNS fallback using Autodiscover SRV records
+
+# Whats new v0.9.6
+* fix: #316 fixed issue where Update Item operation was failing.
+
 # Whats new v0.9.5
 * fix: #276 You can now use `FolderId` with `uniqueId` string parameter
 * fix: #300 fix issue with `LegacyfreeBusyStatus` serialization, this also fixes lots of other enum attribute failing to serialize/de-serialize properly.

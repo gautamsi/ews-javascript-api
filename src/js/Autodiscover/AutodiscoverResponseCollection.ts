@@ -1,78 +1,103 @@
-﻿import {EwsXmlReader} from "../Core/EwsXmlReader";
+﻿import { AutodiscoverResponse } from "./Responses/AutodiscoverResponse";
 
-import {AutodiscoverResponse} from "./Responses/AutodiscoverResponse";
+/**
+ * Represents a collection of responses to a call to the Autodiscover service.
+ * @typeparam {TResponse} The type of the responses in the collection.
+ */
+export abstract class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
+  private responses: TResponse[];
 
-export class AutodiscoverResponseCollection<TResponse extends AutodiscoverResponse> extends AutodiscoverResponse { //IEnumerable<TResponse>
-    get Count(): number{return this.Responses.length};
-    Item: TResponse;
-    Responses: TResponse[] = [];//System.Collections.Generic.List<TResponse>;
-    //private responses: TResponse[];//System.Collections.Generic.List<TResponse>;
+  /**
+   * Gets the number of responses in the collection.
+   */
+  get Count(): number {
+    return this.responses.length
+  };
 
-    constructor() {
-        super();
+  /**
+   * @internal Gets the responses list.
+   */
+  get Responses(): TResponse[] {
+    return this.responses;
+  }
+
+  /**
+   * @internal Initializes a new instance of the **AutodiscoverResponseCollection<TResponse>** class.
+   */
+  constructor() {
+    super();
+    this.responses = [];
+  }
+
+  /**
+   * Gets the response at the specified index.
+   *
+   * @param   {number}   index   Index.
+   * @returns {TResponse} TResponse at the index
+   */
+  __thisIndexer(index: number): TResponse {
+    return this.Responses[index];
+  }
+
+  /**
+   * @internal Create a response instance.
+   *
+   * @return  {TResponse}      TResponse.
+   */
+  abstract CreateResponseInstance(): TResponse;
+
+  /**
+   * Gets an enumerator that iterates through the elements of the collection.
+   *
+   * @return  {TResponse[]}      An IEnumerator for the collection.
+   */
+  GetEnumerator(): TResponse[] {
+    return this.responses;
+  }
+
+  /**
+   * @internal Gets the name of the response collection XML element.
+   *
+   * @return  {string}      Response collection XMl element name.
+   */
+  abstract GetResponseCollectionXmlElementName(): string;
+
+  /**
+   * @internal Gets the name of the response instance XML element.
+   *
+   * @return  {string}      Response instance XMl element name.
+   */
+  abstract GetResponseInstanceXmlElementName(): string;
+
+  /**
+   * @internal Loads response from XML.
+   *
+   * @param   {any} responseObject  Json Object converted from XML.
+   */
+  LoadFromXmlJsObject(responseObject: any): void {
+
+    var element = this.GetResponseCollectionXmlElementName()
+    super.LoadFromXmlJsObject(responseObject);
+    this.LoadResponseCollectionFromXmlJsObject(responseObject[element]);
+  }
+
+  /**
+   * Loads the response collection from XML.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  private LoadResponseCollectionFromXmlJsObject(jsObject: any): void {
+    var element = this.GetResponseInstanceXmlElementName()
+    var responses: any = undefined;
+    if (Array.isArray(jsObject[element]))
+      responses = jsObject[element];
+    else
+      responses = [jsObject[element]];
+
+    for (var i = 0; i < responses.length; i++) {
+      var response: TResponse = this.CreateResponseInstance();
+      response.LoadFromXmlJsObject(responses[i]);
+      this.Responses.push(response);
     }
-    __thisIndexer(index: number): TResponse {
-        return this.Responses[index];
-    }
-    CreateResponseInstance(): TResponse { throw new Error("AutodiscoverResponseCollection.ts - CreateResponseInstance : Not implemented."); }
-    GetEnumerator(): any { throw new Error("AutodiscoverResponseCollection.ts - GetEnumerator : Not implemented."); }
-    GetResponseCollectionXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseCollectionXmlElementName : Not implemented."); }
-    GetResponseInstanceXmlElementName(): string { throw new Error("AutodiscoverResponseCollection.ts - GetResponseInstanceXmlElementName : Not implemented."); }
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader, endElementName: string): void {
-        do {
-            reader.Read();
-
-            if (reader.NodeType == 1 /*Node.ELEMENT_NODE*/) {
-                if (reader.LocalName == this.GetResponseCollectionXmlElementName()) {
-                    this.LoadResponseCollectionFromXml(reader);
-                }
-                else {
-                    super.LoadFromXml(reader, endElementName);
-                }
-            }
-        }
-
-        while (reader.HasRecursiveParent(endElementName));
-        //while (!reader.IsEndElement(XmlNamespace.Autodiscover, endElementName));
-    }
-
-    LoadFromJson(obj: any): void {
-
-        var element = this.GetResponseCollectionXmlElementName()
-        super.LoadFromJson(obj);
-        this.LoadResponseCollectionFromJson(obj[element]);
-    }
-
-    LoadResponseCollectionFromJson(obj: any): void {
-        var element = this.GetResponseInstanceXmlElementName()
-        var responses:any = undefined;
-        if (Object.prototype.toString.call(obj[element]) === "[object Array]")
-            responses = obj[element];
-        else
-            responses = [obj[element]];
-
-        for (var i = 0; i < responses.length; i++) {
-            var response: TResponse = this.CreateResponseInstance();
-            response.LoadFromJson(responses[i]);
-            this.Responses.push(response);
-        }
-    }
-
-    /**@internal */
-    LoadResponseCollectionFromXml(reader: EwsXmlReader): void {
-        if (!reader.IsEmptyElement) {
-            do {
-                reader.Read();
-                if ((reader.NodeType == 1 /*Node.ELEMENT_NODE*/ /*System.Xml.XmlNodeType.Element*/) && (reader.LocalName == this.GetResponseInstanceXmlElementName())) {
-                    var response: TResponse = this.CreateResponseInstance();
-                    response.LoadFromXml(reader, this.GetResponseInstanceXmlElementName());
-                    this.Responses.push(response);
-                }
-            }
-            while (reader.HasRecursiveParent(this.GetResponseCollectionXmlElementName()));
-            //while (!reader.IsEndElement(XmlNamespace.Autodiscover, this.GetResponseCollectionXmlElementName()));
-        }
-    }
+  }
 }
-

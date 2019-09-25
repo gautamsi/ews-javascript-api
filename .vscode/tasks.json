@@ -8,23 +8,13 @@
 
 {
     "version": "0.1.0",
-    "command": "gulp",
+    "command": "npm",
     "isShellCommand": true,
     "args": [
-        "--no-color"
+        "run"
     ],
     "tasks": [
         {
-            "taskName": "ts-compile",
-            "problemMatcher": "$tsc"
-        },{
-            "taskName": "ts-wather",
-            "problemMatcher": "$tsc"
-        },{
-            "taskName": "tests",
-            "args": [],
-            "isTestCommand": true
-        },{
             "taskName": "build",
             "args": [],
             "isBuildCommand": true
