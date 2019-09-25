@@ -40,7 +40,7 @@ export abstract class AutodiscoverResponseCollection<TResponse extends Autodisco
   }
 
   /**
-   * Create a response instance.
+   * @internal Create a response instance.
    *
    * @return  {TResponse}      TResponse.
    */

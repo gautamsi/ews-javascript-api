@@ -16,6 +16,7 @@ import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";
 import { Uri } from "../../Uri";
 import { XmlElementNames } from "../../Core/XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";
+import { HttpStatusCode } from "../../../lib/HttpStatusCode";
 
 /**
  * @internal Represents the base class for all requested made to the Autodiscover service.
@@ -203,10 +204,10 @@ export abstract class AutodiscoverRequest {
    * @return  {boolean}           True if redirection response.
    */
   static IsRedirectionResponse(httpWebResponse: XMLHttpRequest): boolean {
-    return (httpWebResponse.status == 302 /*System.Net.HttpStatusCode.Redirect*/) ||
-      (httpWebResponse.status == 301 /*System.Net.HttpStatusCode.Moved*/) ||
-      (httpWebResponse.status == 307 /*System.Net.HttpStatusCode.RedirectKeepVerb*/) ||
-      (httpWebResponse.status == 303 /*System.Net.HttpStatusCode.RedirectMethod*/);
+    return (httpWebResponse.status == HttpStatusCode.Redirect) ||
+      (httpWebResponse.status == HttpStatusCode.Moved) ||
+      (httpWebResponse.status == HttpStatusCode.RedirectKeepVerb) ||
+      (httpWebResponse.status == HttpStatusCode.RedirectMethod);
   }
 
   /**
@@ -232,7 +233,7 @@ export abstract class AutodiscoverRequest {
       //IEwsHttpWebResponse httpWebResponse = this.Service.HttpWebRequestFactory.CreateExceptionResponse(webException);
       var soapFaultDetails: SoapFaultDetails = null;
 
-      if (webException.status == 500 /*System.Net.HttpStatusCode.InternalServerError*/) {
+      if (webException.status == HttpStatusCode.InternalServerError) {
         // If tracing is enabled, we read the entire response into a MemoryStream so that we
         // can pass it along to the ITraceListener. Then we parse the response from the
         // MemoryStream.

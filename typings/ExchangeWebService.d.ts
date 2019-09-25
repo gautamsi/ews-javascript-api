@@ -154,12 +154,6 @@ export interface IndexerWithEnumKey<TKey, TValue> {
      */
     __thisIndexer(index: number): TResponse;
     /**
-     * Create a response instance.
-     *
-     * @return  {TResponse}      TResponse.
-     */
-    abstract CreateResponseInstance(): TResponse;
-    /**
      * Gets an enumerator that iterates through the elements of the collection.
      *
      * @return  {TResponse[]}      An IEnumerator for the collection.
@@ -302,20 +296,55 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     GetSiteName(): string;
     TraceMessage(message: string): any;
 }
+/**
+ * Represents a sharing location.
+ * @sealed
+ */
  class DocumentSharingLocation {
-    ServiceUrl: string;
-    LocationUrl: string;
-    DisplayName: string;
-    SupportedFileExtensions: string[];
-    ExternalAccessAllowed: boolean;
-    AnonymousAccessAllowed: boolean;
-    CanModifyPermissions: boolean;
-    IsDefault: boolean;
-    static LoadFromJson(obj: any): DocumentSharingLocation;
+    /**
+     * Gets the URL of the web service to use to manipulate documents at the sharing location.
+     */
+    readonly ServiceUrl: string;
+    /**
+     * Gets the URL of the sharing location (for viewing the contents in a web browser).
+     */
+    readonly LocationUrl: string;
+    /**
+     * Gets the display name of the location.
+     */
+    readonly DisplayName: string;
+    /**
+     * Gets the space-separated list of file extensions that are allowed at the location.
+     * @remarks Example:  "docx pptx xlsx"
+     */
+    readonly SupportedFileExtensions: string[];
+    /**
+     * Gets a flag indicating whether external users (outside the enterprise/tenant) can view documents at the location.
+     */
+    readonly ExternalAccessAllowed: boolean;
+    /**
+     * Gets a flag indicating whether anonymous users can view documents at the location.
+     */
+    readonly AnonymousAccessAllowed: boolean;
+    /**
+     * Gets a flag indicating whether the user can modify permissions for documents at the location.
+     * @remarks This will be true for the user's "My Site," for example. However, documents at team and project sites will typically be ACLed by the site owner, so the user will not be able to modify permissions. This will most likely by false even if the caller is the owner, to avoid surprises. They should go to SharePoint to modify permissions for team and project sites.
+     */
+    readonly CanModifyPermissions: boolean;
+    /**
+     * Gets a flag indicating whether this location is the user's default location.  This will generally be their My Site.
+     */
+    readonly IsDefault: boolean;
 }
+/**
+ * Represents a user setting that is a collection of alternate mailboxes.
+ * @sealed
+ */
  class DocumentSharingLocationCollection {
-    Entries: DocumentSharingLocation[];
-    static LoadFromJson(obj: any): DocumentSharingLocationCollection;
+    /**
+     * Gets the collection of alternate mailboxes.
+     */
+    readonly Entries: DocumentSharingLocation[];
 }
 /**
  * Represents an error from a GetDomainSettings request.
@@ -3996,19 +4025,42 @@ export interface EnumVersionDelegate {
  *
  */
  class ExchangeService extends ExchangeServiceBase {
+    /**
+     * Gets or sets the URL of the Exchange Web Services.
+     */
     Url: Uri;
+    /**
+     * Gets or sets the Id of the user that EWS should impersonate.
+     */
     ImpersonatedUserId: ImpersonatedUserId;
+    /**
+     * [summary]
+     */
     ManagementRoles: ManagementRoles;
-    PreferredCulture: any;
+    /**
+     * Gets or sets the DateTime precision for DateTime values returned from Exchange Web Services.
+     */
     DateTimePrecision: DateTimePrecision;
+    /**
+     * Gets or sets a file attachment content handler.
+     */
     FileAttachmentContentHandler: IFileAttachmentContentHandler;
+    /**
+     * Gets the time zone this service is scoped to.
+     */
     readonly TimeZone: TimeZoneInfo;
+    /**
+     * Provides access to the Unified Messaging functionalities.
+     */
     readonly UnifiedMessaging: UnifiedMessaging;
-    readonly EnableScpLookup: boolean;
-    Exchange2007CompatibilityMode: boolean;
-    readonly RenderingMethod: RenderingMode;
+    /**
+     * Gets or sets a value indicating whether the AutodiscoverUrl method should perform SCP (Service Connection Point) record lookup when determining the Autodiscover service URL.
+     */
+    EnableScpLookup: boolean;
+    /**
+     * Gets or sets a value indicating whether trace output is pretty printed.
+     */
     TraceEnablePrettyPrinting: boolean;
-    TargetServerVersion: string;
     /**
      * Obtains a list of folders by searching the sub-folders of the specified folder.
      *
@@ -5204,60 +5256,89 @@ export interface EnumVersionDelegate {
      */
     GetServerTimeZones(): Promise<TimeZoneInfo[]>;
 }
- class ExchangeServiceBase {
-    static AccountIsLocked: any;
-    AcceptGzipEncoding: boolean;
-    ClientRequestId: string;
-    ConnectionGroupName: string;
-    CookieContainer: any;
-    Credentials: ExchangeCredentials;
-    HttpHeaders: {
-        [index: string]: string;
-    };
-    HttpResponseHeaders: {
-        [index: string]: string;
-    };
-    HttpWebRequestFactory: IEwsHttpWebRequestFactory;
-    KeepAlive: boolean;
-    PreAuthenticate: boolean;
-    readonly RequestedServerVersion: ExchangeVersion;
-    ReturnClientRequestId: boolean;
-    SendClientLatencies: boolean;
-    ServerInfo: ExchangeServerInfo;
-    static SessionKey: any[];
-    SuppressXmlVersionHeader: boolean;
-    Timeout: number;
-    readonly TimeZone: TimeZoneInfo;
-    TraceEnabled: boolean;
-    TraceFlags: TraceFlags;
-    TraceListener: ITraceListener;
-    UseDefaultCredentials: boolean;
-    UserAgent: string;
-    WebProxy: any;
+/**
+ * Represents an abstract binding to an Exchange Service.
+ */
+ abstract class ExchangeServiceBase {
+    OnResponseHeadersCaptured: ResponseHeadersCapturedHandler;
     protected timeZone: TimeZoneInfo;
+    /**
+     * Provides an event that applications can implement to emit custom SOAP headers in requests that are sent to Exchange.
+     * @event
+     */
+    OnSerializeCustomSoapHeaders: CustomXmlSerializationDelegate;
+    /**
+     * Gets or sets a value indicating whether client latency info is push to server.
+     */
+    SendClientLatencies: boolean;
+    /**
+     * Gets or sets a value indicating whether tracing is enabled.
+     */
+    TraceEnabled: boolean;
+    /**
+     * Gets or sets the trace flags.
+     */
+    TraceFlags: TraceFlags;
+    /**
+     * Gets or sets the trace listener.
+     */
+    TraceListener: ITraceListener;
+    /**
+     * Gets or sets the credentials used to authenticate with the Exchange Web Services. Setting the Credentials property automatically sets the UseDefaultCredentials to false.
+     */
+    Credentials: ExchangeCredentials;
+    /**
+     * Gets or sets the timeout used when sending HTTP requests and when receiving HTTP responses, in milliseconds. Defaults to 100000.
+     */
+    Timeout: number;
+    /**
+     * Gets or sets a value that indicates whether HTTP pre-authentication should be performed.
+     */
+    PreAuthenticate: boolean;
+    /**
+     * Gets or sets a value indicating whether GZip compression encoding should be accepted.
+     * @remarks This value will tell the server that the client is able to handle GZip compression encoding. The server will only send Gzip compressed content if it has been configured to do so.
+     * @remarks {ewsjs} not used in ewsjs
+     */
+    AcceptGzipEncoding: boolean;
+    /**
+     * Gets the requested server version.
+     */
+    readonly RequestedServerVersion: ExchangeVersion;
+    /**
+     * Gets or sets the user agent.
+     */
+    UserAgent: string;
+    /**
+     * Gets information associated with the server that processed the last request. Will be null if no requests have been processed.
+     */
+    /** @internal set */
+    ServerInfo: ExchangeServerInfo;
+    /**
+     * Gets or sets if the request to the internet resource should contain a Connection HTTP header with the value Keep-alive
+     */
+    KeepAlive: boolean;
+    /**
+     * Gets or sets the name of the connection group for the request.
+     */
+    ConnectionGroupName: string;
+    /**
+     * Gets or sets the request id for the request.
+     */
+    ClientRequestId: string;
+    /**
+     * Gets or sets a flag to indicate whether the client requires the server side to return the  request id.
+     */
+    ReturnClientRequestId: boolean;
+    /**
+     * Gets a collection of HTTP headers that will be sent with each request to EWS.
+     */
+    readonly HttpHeaders: Dictionary<string, string>;
+    /**
+     * Gets a collection of HTTP headers from the last response.
+     */
+    readonly HttpResponseHeaders: Dictionary<string, string>;
     XHRApi: IXHRApi;
-    constructor();
-    constructor(timeZone: TimeZoneInfo);
-    constructor(requestedServerVersion: ExchangeVersion);
-    constructor(requestedServerVersion: ExchangeVersion, timeZone: TimeZoneInfo);
-    constructor(service: ExchangeServiceBase);
-    constructor(service: ExchangeServiceBase, requestedServerVersion: ExchangeVersion);
-    ConvertDateTimeToUniversalDateTimeString(value: DateTime): string;
-    ConvertStartDateToUnspecifiedDateTime(value: string): DateTime;
-    ConvertUniversalDateTimeStringToLocalDateTime(value: string): DateTime;
-    DoOnSerializeCustomSoapHeaders(writer: any): void;
-    IsTraceEnabledFor(traceFlags: TraceFlags): boolean;
-    PrepareHttpWebRequestForUrl(url: Uri, acceptGzipEncoding: boolean, allowAutoRedirect: boolean): IXHROptions;
-    ProcessHttpErrorResponse(httpWebResponse: XMLHttpRequest, webException: any): any;
-    ProcessHttpResponseHeaders(traceType: TraceFlags, response: any): void;
-    SaveHttpResponseHeaders(headers: IXHROptions): any;
-    SetContentType(request: IXHROptions): void;
-    SetCustomUserAgent(userAgent: string): any;
-    TraceHttpRequestHeaders(traceType: TraceFlags, request: any): any;
-    TraceHttpResponseHeaders(traceType: TraceFlags, response: any): any;
-    TraceMessage(traceType: TraceFlags, logEntry: string): any;
-    TraceXml(traceType: TraceFlags, stream: any): any;
-    Validate(): any;
 }
 /**
  * JSON names not shared with the XmlElementNames or XmlAttributeNames classes.
@@ -20562,48 +20643,7 @@ export interface ICustomUpdateSerializer {
 }
 export interface IEnumerable<T> {
     GetEnumerator(): Array<T>;
-}
-export interface IEwsHttpWebRequest {
-    Accept: string;
-    AllowAutoRedirect: boolean;
-    ClientCertificates: any;
-    ContentType: string;
-    CookieContainer: any;
-    Credentials: any;
-    Headers: any;
-    Method: string;
-    PreAuthenticate: boolean;
-    Proxy: any;
-    RequestUri: string;
-    Timeout: number;
-    UseDefaultCredentials: boolean;
-    UserAgent: string;
-    KeepAlive: boolean;
-    ConnectionGroupName: string;
-    Abort(): void;
-    BeginGetRequestStream(callback: any, state: any): any;
-    BeginGetResponse(callback: any, state: any): any;
-    EndGetRequestStream(asyncResult: any): any;
-    EndGetResponse(asyncResult: any): IEwsHttpWebResponse;
-    GetRequestStream(): any;
-    GetResponse(): IEwsHttpWebResponse;
-}
-export interface IEwsHttpWebRequestFactory {
-    CreateExceptionResponse(exception: any): IEwsHttpWebResponse;
-    CreateRequest(uri: string): IEwsHttpWebRequest;
-}
-export interface IEwsHttpWebResponse {
-    ContentEncoding: string;
-    ContentType: string;
-    Headers: any;
-    ResponseUri: string;
-    StatusCode: any;
-    StatusDescription: string;
-    ProtocolVersion: any;
-    Close(): void;
-    GetResponseStream(): any;
-}
-export interface IFileAttachmentContentHandler {
+}export interface IFileAttachmentContentHandler {
     GetOutputStream(attachmentId: string): any;
 }
 export interface IJsonCollectionDeserializer {
@@ -20631,7 +20671,16 @@ export interface ISearchStringProvider {
 export interface ISelfValidate {
     Validate(): any;
 }
+/**
+ * ITraceListener handles message tracing.
+ */
 export interface ITraceListener {
+    /**
+     * Handles a trace message
+     *
+     * @param   {string}   traceType      Type of trace message.
+     * @param   {string}   traceMessage   The trace message.
+     */
     Trace(traceType: string, traceMessage: string): void;
 }
 export interface HasEwsEnumAttribute {
@@ -21639,7 +21688,7 @@ export interface CustomXmlSerializationDelegate {
     (writer: any): any;
 }
 export interface ResponseHeadersCapturedHandler {
-    (responseHeaders: any): any;
+    (responseHeaders: any): void;
 }
 export interface ServiceObjectChangedDelegate {
     (serviceObject: ServiceObject): void;
@@ -21659,8 +21708,8 @@ export interface CreateServiceObjectWithServiceParam {
 export interface CreateServiceObjectWithAttachmentParam {
     (itemAttachment: ItemAttachment, isNew: boolean): any;
 }
- class EwsTraceListener {
-    Trace(traceType: string, traceMessage: string): void;
+export interface TextWriter {
+    Write(message: any): void;
 }
 /**
  * Represents the results of an ExpandGroup operation.
