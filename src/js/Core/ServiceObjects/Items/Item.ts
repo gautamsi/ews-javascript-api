@@ -1,6 +1,6 @@
 ﻿import { AffectedTaskOccurrence } from "../../../Enumerations/AffectedTaskOccurrence";
 import { ArchiveTag } from "../../../ComplexProperties/ArchiveTag";
-import { ArrayHelper, StringHelper } from "../../../ExtensionMethods";
+import { ArrayHelper, StringHelper, isNullOrUndefined } from "../../../ExtensionMethods";
 import { Attachment } from "../../../ComplexProperties/Attachment";
 import { AttachmentCollection } from "../../../ComplexProperties/AttachmentCollection";
 import { ConflictResolutionMode } from "../../../Enumerations/ConflictResolutionMode";
@@ -670,7 +670,9 @@ export class Item extends ServiceObject {
      * @param   {boolean}   suppressReadReceipts   Whether to suppress read receipts
      */
     Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean): Promise<void>
-    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): Promise<void> { return this.InternalDelete(deleteMode, null, null, suppressReadReceipts); }
+    Delete(deleteMode: DeleteMode, suppressReadReceipts: boolean = false): Promise<void> {
+        return this.InternalDelete(deleteMode, null, null, suppressReadReceipts);
+    }
 
     /**
      * @internal Gets a list of extended properties defined on this object.
@@ -785,16 +787,14 @@ export class Item extends ServiceObject {
         this.ThrowIfThisIsAttachment();
 
         // If sendCancellationsMode is null, use the default value that's appropriate for item type.
-        // if (!sendCancellationsMode)
-        // {
-        //     sendCancellationsMode = this.DefaultSendCancellationsMode;
-        // }
+        if (isNullOrUndefined(sendCancellationsMode)) {
+            sendCancellationsMode = this.DefaultSendCancellationsMode;
+        }
 
         // If affectedTaskOccurrences is null, use the default value that's appropriate for item type.
-        // if (!affectedTaskOccurrences)
-        // {
-        //     affectedTaskOccurrences = this.DefaultAffectedTaskOccurrences;
-        // }
+        if (isNullOrUndefined(affectedTaskOccurrences)) {
+            affectedTaskOccurrences = this.DefaultAffectedTaskOccurrences;
+        }
 
         return this.Service.DeleteItem(
             this.Id,
