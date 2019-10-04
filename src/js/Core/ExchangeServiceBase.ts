@@ -753,24 +753,24 @@ export abstract class ExchangeServiceBase {
     //todo: implement tracing
     this.TraceHttpResponseHeaders(traceType, response);
 
-    this.SaveHttpResponseHeaders(response.getAllResponseHeaders());
+    this.SaveHttpResponseHeaders(response);
   }
 
   /**
    * Save the HTTP response headers.
    *
-   * @param   {Object}   headers   The response headers
+   * @param   {Object}   response   The response headers
    */
-  private SaveHttpResponseHeaders(headers: any/* System.Net.WebHeaderCollection*/): any {
+  private SaveHttpResponseHeaders(response: any/* System.Net.WebHeaderCollection*/): any {
     //debug:
     this.httpResponseHeaders.clear();
 
-    for (var key in headers.headers) {
-      this.httpResponseHeaders.Add(key, headers.headers[key]);
+    for (var key in response.headers || {}) {
+      this.httpResponseHeaders.Add(key, response.headers[key]);
     }
 
     if (this.OnResponseHeadersCaptured != null) {
-      this.OnResponseHeadersCaptured(headers);
+      this.OnResponseHeadersCaptured(this.httpResponseHeaders);
     }
   }
 
