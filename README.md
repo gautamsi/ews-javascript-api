@@ -15,9 +15,9 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 # Current State:
 * Almost all methods in ExchangeService class is comple with respect to c# counterpart ([based on commit#31951f4 ](https://github.com/OfficeDev/ews-managed-api/commit/31951f456519786e41232fa9ff6a3ab20b56cac3)
     * some method skipped as they are not for client side code or are diaognostic methods. 
-* Roadmap to Beta:
+* Roadmap to 1.0 Beta:
     * ~ReWrite XHR/Request and Promise see #94~ done
-    * Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isnt taking any advantage of.
+    * ~Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isnt taking any advantage of.~
     * Add jsdoc comment to remaining exported class
 * Roadmap to 1.0
     * fix bugs from Beta
@@ -38,10 +38,8 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 
 ===========================================================================================
 
-# Whats new v0.9.5
-* fix: #276 You can now use `FolderId` with `uniqueId` string parameter
-* fix: #300 fix issue with `LegacyfreeBusyStatus` serialization, this also fixes lots of other enum attribute failing to serialize/de-serialize properly.
-* fix - general: better detection of enum value in if condition for a value. default enum value of 0 is neglected earlier.
+# Whats new v0.10.0 (in progress)
+* new/fix: #324 Autodiscover is back again, improved and supports DNS fallback using Autodiscover SRV records
 
 [See older change in CHANGELOG.md](./CHANGELOG.md)
 
@@ -95,7 +93,7 @@ var exch = new ews.ExchangeService(ews.ExchangeVersion.Exchange2013);
 import {ExchangeService, AutodiscoverService, Folder, Item, ExchangeVersion} from "ews-javascript-api";
 var exch = new ExchangeService(ExchangeVersion.Exchange2013);
 ```
-## Autodiscover user settings (** not working anymore, needs rewrite)
+## Autodiscover user settings (** Working again as of 0.10 **)
 ```javascript
 //import ews module
 var ews = require('ews-javascript-api');
@@ -103,7 +101,7 @@ var ews = require('ews-javascript-api');
 var autod = new ews.AutodiscoverService(new ews.Uri("https://autodiscover-s.outlook.com/autodiscover/autodiscover.svc"), ews.ExchangeVersion.Exchange2010);
 //you can omit url and it will autodiscover the url, version helps throw error on client side for unsupported operations.example - //var autod = new ews.AutodiscoverService(ews.ExchangeVersion.Exchange2010);
 //set credential for service
-autod.Credentials = new ews.ExchangeCredentials("userName", "password");
+autod.Credentials = new ews.WebCredentials("userName", "password");
 //create array to include list of desired settings
 var settings = [
 ews.UserSettingName.InternalEwsUrl,

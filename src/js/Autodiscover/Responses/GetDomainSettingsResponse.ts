@@ -1,193 +1,149 @@
-﻿import {EwsXmlReader} from "../../Core/EwsXmlReader";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {XmlAttributeNames} from "../../Core/XmlAttributeNames";
+﻿import { Dictionary } from "../../AltDictionary";
+import { DomainSettingError } from "../DomainSettingError";
+import { DomainSettingName } from "../../Enumerations/DomainSettingName";
+import { EwsLogging } from "../../Core/EwsLogging";
+import { StringHelper, isNullOrUndefined } from "../../ExtensionMethods";
+import { XmlElementNames } from "../../Core/XmlElementNames";
 
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {DomainSettingName} from "../../Enumerations/DomainSettingName";
-
-import {EwsLogging} from "../../Core/EwsLogging";
-import {StringHelper} from "../../ExtensionMethods";
-
-
-import {DomainSettingError} from "../DomainSettingError";
-import {AutodiscoverResponse} from "./AutodiscoverResponse";
+import { AutodiscoverResponse } from "./AutodiscoverResponse";
+/**
+ * Represents the response to a GetDomainSettings call for an individual domain.
+ * @sealed
+ */
 export class GetDomainSettingsResponse extends AutodiscoverResponse {
-    Domain: string;
-    RedirectTarget: string;
-    Settings: { [index: number]: any }; //System.Collections.Generic.IDictionary<DomainSettingName, any>;
-    DomainSettingErrors: DomainSettingError[]; //System.Collections.ObjectModel.Collection<DomainSettingError>;
-    /**@internal */
-    LoadDomainSettingErrorsFromXml(reader: EwsXmlReader): void {
-        if (!reader.IsEmptyElement) {
-            do {
-                reader.Read();
+  private domain: string = null;
+  private redirectTarget: string = null;
+  private settings: Dictionary<DomainSettingName, any> = null;
+  private domainSettingErrors: DomainSettingError[] = null;
 
-                if ((reader.NodeType == Node.ELEMENT_NODE) && (reader.LocalName == XmlElementNames.DomainSettingError)) {
-                    var error = new DomainSettingError();
-                    error.LoadFromXml(reader);
-                    this.DomainSettingErrors.push(error);
-                }
-            }
-            while (reader.HasRecursiveParent(XmlElementNames.UserSettingErrors));
-            reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
-        }
-    }
-    /**@internal */
-    LoadDomainSettingsFromXml(reader: EwsXmlReader): void {
-        var parent: Node = reader.CurrentNode;
-        if (!reader.IsEmptyElement) {
-            do {
-                reader.Read();
+  /**
+   * Gets the domain this response applies to.
+   */
+  get Domain(): string {
+    return this.domain;
+  }
+  /** @internal */
+  set Domain(value: string) {
+    this.domain = value;
+  }
 
-                if (reader.Eof || !reader.HasRecursiveParentNode(parent, XmlElementNames.DomainSettings))
-                    break;
+  /**
+   * Gets the redirectionTarget (URL or email address)
+   */
+  get RedirectTarget(): string {
+    return this.redirectTarget;
+  }
 
-                if ((reader.NodeType == Node.ELEMENT_NODE /*System.Xml.XmlNodeType.Element*/) && (reader.LocalName == XmlElementNames.DomainSetting)) {
-                    var settingClass: string = reader.ReadAttributeValue(XmlNamespace.XmlSchemaInstance, XmlAttributeNames.Type);
+  /**
+   * Gets the requested settings for the domain.
+   */
+  get Settings(): Dictionary<DomainSettingName, any> {
+    return this.settings;
+  }
 
-                    switch (settingClass) {
-                        case XmlElementNames.DomainStringSetting:
-                            this.ReadSettingFromXml(reader);
-                            break;
+  /**
+   * Gets error information for settings that could not be returned.
+   */
+  get DomainSettingErrors(): DomainSettingError[] {
+    return this.domainSettingErrors;
+  }
 
-                        default:
-                            EwsLogging.Assert(
-                                false,
-                                "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                                StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
-                            break;
-                    }
-                }
-            }
-            while (true);// (reader.HasRecursiveParent(XmlElementNames.UserSettings));
-            //while (!reader.IsEndElement(XmlNamespace.Autodiscover, XmlElementNames.UserSettings));
-           
-        }
-    }
-    /**@internal */
-    LoadFromXml(reader: EwsXmlReader, parentElementName: string): void {
-        do {
-            reader.Read();
+  /**
+   * Initializes a new instance of the **GetDomainSettingsResponse** class.
+   */
+  constructor() {
+    super();
+    this.domain = StringHelper.Empty;
+    this.settings = new Dictionary<DomainSettingName, any>((value) => value.toString());
+    this.domainSettingErrors = [];
+  }
 
-            if (reader.NodeType == Node.ELEMENT_NODE) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.RedirectTarget:
-                        this.RedirectTarget = reader.ReadElementValue();
-                        break;
-                    case XmlElementNames.DomainSettingErrors:
-                        this.LoadDomainSettingErrorsFromXml(reader);
-                        break;
-                    case XmlElementNames.DomainSettings:
-                        this.LoadDomainSettingsFromXml(reader);
-                        break;
-                    default:
-                        super.LoadFromXml(reader, parentElementName);
-                        break;
-                }
-            }
-        }
-        while (reader.HasRecursiveParent(parentElementName));
-        //while (!reader.IsEndElement(XmlNamespace.Autodiscover, endElementName));
-    }
-    /**@internal */
-    ReadSettingFromXml(reader: EwsXmlReader): void {
-        var name: string = null;
-        var value: any = null;
-        var parent: Node = reader.CurrentNode;
-        do {
-            reader.Read();
+  /**
+   * Loads the domain setting errors.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  private LoadDomainSettingErrorsFromXmlJsObject(jsObject: any): void {
+    var errors: any = undefined;
 
-            if (reader.Eof || !reader.HasRecursiveParentNode(parent, XmlElementNames.UserSetting))
-                break;
+    if (isNullOrUndefined(jsObject) || isNullOrUndefined(jsObject[XmlElementNames.DomainSettingError])) return;
 
-            if (reader.NodeType == Node.ELEMENT_NODE) {
-                switch (reader.LocalName) {
-                    case XmlElementNames.Name:
-                        name = reader.ReadElementValue();
-                        break;
-                    case XmlElementNames.Value:
-                        value = reader.ReadElementValue();
-                        break;
-                }
-            }
-        }
-        while (true);
-        reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
+    if (Array.isArray(jsObject[XmlElementNames.DomainSettingError]))
+      errors = jsObject[XmlElementNames.DomainSettingError];
+    else
+      errors = [jsObject[XmlElementNames.DomainSettingError]];
 
-
-        // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
-        var domainSettingName: DomainSettingName = DomainSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
-        if (domainSettingName !== undefined)
-            this.Settings[domainSettingName] = value;
-        else
-            EwsLogging.Assert(false,
-                "GetUserSettingsResponse.ReadSettingFromXml",
-                "Unexpected or empty name element in user setting");
+    for (var i = 0; i < errors.length; i++) {
+      var error = new DomainSettingError();
+      error.LoadFromXmlJsObject(errors[i]);
+      this.DomainSettingErrors.push(error);
     }
 
-    LoadDomainSettingErrorsFromJson(obj: any): void {
-        var errors:any = undefined;
+  }
 
-        if (typeof (obj[XmlElementNames.DomainSettingError]) === 'undefined') return;
+  /**
+   * @internal Loads setting from XML jsObject.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  LoadDomainSettingsFromXmlJsObject(obj: any): void {
+    var settings: any = undefined;
 
-        if (Object.prototype.toString.call(obj[XmlElementNames.DomainSettingError]) === "[object Array]")
-            errors = obj[XmlElementNames.DomainSettingError];
-        else
-            errors = [obj[XmlElementNames.DomainSettingError]];
+    if (typeof (obj[XmlElementNames.DomainSetting]) === 'undefined') return;
 
-        for (var i = 0; i < errors.length; i++) {
-            var error = new DomainSettingError();
-            error.LoadFromObject(errors[0]);
-            this.DomainSettingErrors.push(error);
-        }
+    if (Object.prototype.toString.call(obj[XmlElementNames.DomainSetting]) === "[object Array]")
+      settings = obj[XmlElementNames.DomainSetting];
+    else
+      settings = [obj[XmlElementNames.DomainSetting]];
 
+    for (var i = 0; i < settings.length; i++) {
+      var setting = settings[i];
+      var settingClass = setting["type"];
+      switch (settingClass) {
+        case XmlElementNames.DomainStringSetting:
+          this.ReadSettingFromXmlJsObject(setting);
+          break;
+
+        default:
+          EwsLogging.Assert(
+            false,
+            "GetUserSettingsResponse.LoadUserSettingsFromXml",
+            StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
+          break;
+      }
     }
-    LoadDomainSettingsFromJson(obj: any): void {
-        var settings:any = undefined;
+  }
 
-        if (typeof (obj[XmlElementNames.DomainSetting]) === 'undefined') return;
+  /**
+   * @internal Load from XML jsObject.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  LoadFromXmlJsObject(jsObject: any): void {
+    super.LoadFromXmlJsObject(jsObject);
+    var settingscol = jsObject[XmlElementNames.DomainSettings];
+    this.LoadDomainSettingsFromXmlJsObject(settingscol);
+    this.redirectTarget = jsObject[XmlElementNames.RedirectTarget] || null;
+    this.LoadDomainSettingErrorsFromXmlJsObject(jsObject[XmlElementNames.DomainSettingErrors]);
+  }
 
-        if (Object.prototype.toString.call(obj[XmlElementNames.DomainSetting]) === "[object Array]")
-            settings = obj[XmlElementNames.DomainSetting];
-        else
-            settings = [obj[XmlElementNames.DomainSetting]];
+  /**
+   * Reads domain setting from XML jsObject.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   */
+  private ReadSettingFromXmlJsObject(obj: any): void {
+    var name: string = obj[XmlElementNames.Name];
+    var value: any = obj[XmlElementNames.Value];
 
-        for (var i = 0; i < settings.length; i++) {
-            var setting = settings[i];
-            var settingClass = setting["type"];
-            switch (settingClass) {
-                case XmlElementNames.DomainStringSetting:
-                    this.ReadSettingFromJson(setting);
-                    break;
-
-                default:
-                    EwsLogging.Assert(
-                        false,
-                        "GetUserSettingsResponse.LoadUserSettingsFromXml",
-                        StringHelper.Format("Invalid setting class '{0}' returned", settingClass));
-                    break;
-            }
-        }
-    }
-    LoadFromJson(obj: any): void {
-        super.LoadFromJson(obj);
-        var settingscol = obj[XmlElementNames.DomainSettings];
-        this.LoadDomainSettingsFromJson(settingscol);
-        this.RedirectTarget = obj[XmlElementNames.RedirectTarget];
-        this.LoadDomainSettingErrorsFromJson(obj[XmlElementNames.DomainSettingErrors]);
-    }
-    ReadSettingFromJson(obj: any): void {
-        var name: string = obj[XmlElementNames.Name];
-        var value: any = obj[XmlElementNames.Value];
-
-        // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
-        var domainSettingName: DomainSettingName = DomainSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
-        if (domainSettingName !== undefined)
-            this.Settings[domainSettingName] = value;
-        else
-            EwsLogging.Assert(false,
-                "GetUserSettingsResponse.ReadSettingFromObject",
-                "Unexpected or empty name element in user setting");
-    }
+    // EWS Managed API is broken with AutoDSvc endpoint in RedirectUrl scenario
+    var domainSettingName: DomainSettingName = DomainSettingName[name];// EwsUtilities.Parse<UserSettingName>(name);
+    if (domainSettingName !== undefined)
+      this.Settings.Add(domainSettingName, value);
+    else
+      EwsLogging.Assert(false,
+        "GetUserSettingsResponse.ReadSettingFromObject",
+        "Unexpected or empty name element in user setting");
+  }
 
 }

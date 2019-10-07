@@ -1,5 +1,6 @@
 ﻿ import  {IEwsHttpWebResponse} from "./IEwsHttpWebResponse";
-			
+
+ /** @internal */
  export interface IEwsHttpWebRequest {
 	Accept: string;
 	AllowAutoRedirect: boolean;

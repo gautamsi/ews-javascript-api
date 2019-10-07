@@ -1,45 +1,49 @@
-﻿import {WebClientUrl} from "./WebClientUrl";
-import {EwsXmlReader} from "../Core/EwsXmlReader";
-import {XmlElementNames} from "../Core/XmlElementNames";
+﻿import { WebClientUrl } from "./WebClientUrl";
+import { XmlElementNames } from "../Core/XmlElementNames";
 
+/**
+ * Represents a user setting that is a collection of Exchange web client URLs.
+ * @sealed
+ */
 export class WebClientUrlCollection {
-    Urls: WebClientUrl[] = [];// new Array<WebClientUrl>();// System.Collections.Generic.List<WebClientUrl>;
-    //private urls: WebClientUrl[];// System.Collections.Generic.List<WebClientUrl>;
-    static LoadFromJson(obj: any): WebClientUrlCollection {
-        var instance = new WebClientUrlCollection();
 
-        var element = XmlElementNames.WebClientUrl;
-        var responses = undefined;
-        if (Object.prototype.toString.call(obj[element]) === "[object Array]")
-            responses = obj[element];
-        else
-            responses = [obj[element]];
+  private urls: WebClientUrl[] = null;
 
-        for (var i = 0; i < responses.length; i++) {
-            instance.Urls.push(responses[i]);
-            //var response: = this.CreateResponseInstance();
-            //response.LoadFromObject(responses[i], this.GetResponseInstanceXmlElementName());
-            //instance.Urls.push(responses);
-        }
+  /**
+   * Gets the URLs.
+   */
+  get Urls(): WebClientUrl[] {
+    return this.urls;
+  }
 
-        return instance;
+  /**
+   * @internal Initializes a new instance of the **WebClientUrlCollection** class.
+   */
+  constructor() {
+    this.urls = [];
+  }
+
+  /**
+   * @internal Loads instance of WebClientUrlCollection.
+   *
+   * @param   {any} jsObject  Json Object converted from XML.
+   * @returns {WebClientUrlCollection}
+   */
+  static LoadFromXmlJsObject(jsObject: any): WebClientUrlCollection {
+    const instance = new WebClientUrlCollection();
+
+    const element = XmlElementNames.WebClientUrl;
+    let responses = undefined;
+    if (Array.isArray(jsObject[element]))
+      responses = jsObject[element];
+    else
+      responses = [jsObject[element]];
+
+    for (let i = 0; i < responses.length; i++) {
+
+      instance.Urls.push(WebClientUrl.LoadFromXmlJsObject(responses[i]));
     }
-    /**@internal */
-    static LoadFromXml(reader: EwsXmlReader): WebClientUrlCollection {
-        var instance = new WebClientUrlCollection();
-        var parent = reader.CurrentNode;
-        do {
-            reader.Read();
 
-            if ((reader.NodeType == 1/*Node.ELEMENT_NODE*/) && (reader.LocalName == XmlElementNames.WebClientUrl)) {
-                instance.Urls.push(WebClientUrl.LoadFromXml(reader));
-            }
-        }
-        while (reader.HasRecursiveParentNode(parent, parent.localName));
-        reader.SeekLast();// fix xml treewalker to go back last node, next do..while loop will come back to current node.
-
-        return instance;
-    }
+    return instance;
+  }
 }
-
-

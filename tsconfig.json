@@ -15,7 +15,7 @@
         "emitDecoratorMetadata": true,
         "allowUnreachableCode": true,
         "pretty": false,
-        "inlineSourceMap": false,
+        "sourceMap": true,
         "stripInternal": true,
         "lib": [
             "es2015",

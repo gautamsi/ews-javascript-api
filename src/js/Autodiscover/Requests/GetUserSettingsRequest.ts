@@ -1,160 +1,274 @@
-﻿import {Strings} from "../../Strings";
-
-import {EwsXmlReader} from "../../Core/EwsXmlReader";
-import {EwsServiceXmlWriter} from "../../Core/EwsServiceXmlWriter";
-import {XmlElementNames} from "../../Core/XmlElementNames";
-import {EwsUtilities} from "../../Core/EwsUtilities";
-import {Uri} from "../../Uri";
-
-import {XmlNamespace} from "../../Enumerations/XmlNamespace";
-import {UserSettingName} from "../../Enumerations/UserSettingName";
-
-import {ServiceValidationException} from "../../Exceptions/ServiceValidationException";
-
+﻿import { AutodiscoverErrorCode } from "../../Enumerations/AutodiscoverErrorCode";
+import { AutodiscoverResponse } from "../Responses/AutodiscoverResponse";
+import { AutodiscoverService } from "../AutodiscoverService";
+import { EwsLogging } from "../../Core/EwsLogging";
+import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
+import { EwsUtilities } from "../../Core/EwsUtilities";
+import { GetUserSettingsResponseCollection } from "../Responses/GetUserSettingsResponseCollection";
 import { Promise } from "../../Promise";
+import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
+import { StringHelper } from "../../ExtensionMethods";
+import { Strings } from "../../Strings";
+import { Uri } from "../../Uri";
+import { UserSettingName } from "../../Enumerations/UserSettingName";
+import { XmlElementNames } from "../../Core/XmlElementNames";
+import { XmlNamespace } from "../../Enumerations/XmlNamespace";
 
-import {AutodiscoverService} from "../AutodiscoverService";
-import {AutodiscoverResponse} from "../Responses/AutodiscoverResponse";
-import {GetUserSettingsResponseCollection} from "../Responses/GetUserSettingsResponseCollection";
-
-import {AutodiscoverRequest} from "./AutodiscoverRequest";
+import { AutodiscoverRequest } from "./AutodiscoverRequest";
+/**
+ * @internal Represents a GetUserSettings request.
+ */
 export class GetUserSettingsRequest extends AutodiscoverRequest {
-    static GetUserSettingsActionUri: string = EwsUtilities.AutodiscoverSoapNamespace + "/Autodiscover/GetUserSettings";
+  /**
+   * Action Uri of Autodiscover.GetUserSettings method.
+   */
+  static GetUserSettingsActionUri: string = `${EwsUtilities.AutodiscoverSoapNamespace}/Autodiscover/GetUserSettings`;
 
-    SmtpAddresses: string[];//System.Collections.Generic.List<string>;
-    Settings: UserSettingName[];//System.Collections.Generic.List<UserSettingName>;
-    PartnerToken: string;
-    PartnerTokenReference: string;
-    private expectPartnerToken: boolean;
+  private expectPartnerToken: boolean = false;
 
-    constructor(service: AutodiscoverService, url: Uri) {
-        super(service, url);
-        this.expectPartnerToken = false;
+  private smtpAddresses: string[];
+  private settings: UserSettingName[];
+  private partnerToken: string;
+  private partnerTokenReference: string;
+
+  /** @internal Gets or sets the SMTP addresses. */
+  get SmtpAddresses(): string[] {
+    return this.smtpAddresses;
+  }
+  set SmtpAddresses(value) {
+    this.smtpAddresses = value;
+  }
+
+  /** @internal Gets or sets the settings. */
+  get Settings(): UserSettingName[] {
+    return this.settings;
+  }
+  set Settings(value) {
+    this.settings = value;
+  }
+
+  /**
+   * @internal Gets the partner token.
+   */
+  get PartnerToken(): string {
+    return this.partnerToken;
+  }
+  /** @private set */
+  set PartnerToken(value) {
+    this.partnerToken = value;
+  }
+
+  /**
+   * @internal Gets the partner token reference.
+   */
+  get PartnerTokenReference(): string {
+    return this.partnerTokenReference;
+  }
+  /** @private set */
+  set PartnerTokenReference(value) {
+    this.partnerTokenReference = value;
+  }
+
+  /**
+   * @internal Initializes a new instance of the **GetUserSettingsRequest** class.
+   *
+   * @param   {AutodiscoverService}   service   Autodiscover service associated with this request.
+   * @param   {Uri}                   url       URL of Autodiscover service.
+   */
+  constructor(service: AutodiscoverService, url: Uri);
+  /**
+   * @internal Initializes a new instance of the GetUserSettingsRequest class.
+   *
+   * @param   {AutodiscoverService}   service   Autodiscover service associated with this request.
+   * @param   {Uri}                   url       URL of Autodiscover service.
+   * @param   {boolean}               expectPartnerToken   [description]
+   */
+  constructor(service: AutodiscoverService, url: Uri, expectPartnerToken: boolean);
+  constructor(service: AutodiscoverService, url: Uri, expectPartnerToken: boolean = false) {
+    super(service, url);
+    this.expectPartnerToken = expectPartnerToken;
+
+    // make an explicit https check.
+    if (expectPartnerToken && !(url.Scheme.toLowerCase() === "https")) {
+      throw new ServiceValidationException(Strings.HttpsIsRequired);
     }
-    CreateServiceResponse(): AutodiscoverResponse {
-        return new GetUserSettingsResponseCollection();
+  }
+
+  /**
+   * @internal Creates the service response.
+   *
+   * @return  {AutodiscoverResponse}      AutodiscoverResponse
+   */
+  CreateServiceResponse(): AutodiscoverResponse {
+    return new GetUserSettingsResponseCollection();
+  }
+
+  /**
+   * @internal Executes this instance.
+   *
+   * @return  {Promise<GetUserSettingsResponseCollection>}      [description]
+   */
+  async Execute(): Promise<GetUserSettingsResponseCollection> {
+    const responses: GetUserSettingsResponseCollection = await this.InternalExecute() as GetUserSettingsResponseCollection;
+    if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
+      this.PostProcessResponses(responses);
     }
-    Execute(): Promise<GetUserSettingsResponseCollection> {
-        return this.InternalExecute().then((adr: GetUserSettingsResponseCollection) => {
-            this.PostProcessResponses(adr)
-            return adr;
-        });
-        //<Promise<>> v
-        //if (!responses) return;
-        //if (responses.ErrorCode == AutodiscoverErrorCode.NoError) {
-        //    this.PostProcessResponses(responses);
-        //}
-        //return responses;
+    return responses;
+  }
+
+  /**
+   * Gets the name of the request XML element.
+   *
+   * @return  {string}      [description]
+   */
+  GetRequestXmlElementName(): string {
+    return XmlElementNames.GetUserSettingsRequestMessage;
+  }
+
+  /**
+   * @internal Gets the name of the response XML element.
+   *
+   * @return  {string}      [description]
+   */
+  GetResponseXmlElementName(): string {
+    return XmlElementNames.GetUserSettingsResponseMessage;
+  }
+
+  /**
+   * @internal Gets the WS-Addressing action name.
+   *
+   * @return  {string}      [description]
+   */
+  GetWsAddressingActionName(): string {
+    return GetUserSettingsRequest.GetUserSettingsActionUri;// GetUserSettingsActionUri;
+  }
+
+  /**
+   * Post-process responses to GetUserSettings.
+   *
+   * @param   {GetUserSettingsResponseCollection}   responses   The GetUserSettings responses.
+   */
+  private PostProcessResponses(responses: GetUserSettingsResponseCollection): void {
+    // Note:The response collection may not include all of the requested users if the request has been throttled.
+    for (let index = 0; index < responses.Count; index++) {
+      responses.Responses[index].SmtpAddress = this.SmtpAddresses[index];
     }
-    GetRequestXmlElementName(): string {
-        return XmlElementNames.GetUserSettingsRequestMessage;
+  }
+
+  /**
+   * @internal Read SOAP headers.
+   *
+   * @param   {object}   reader   EwsXmlReader
+   */
+  ReadSoapHeader(jsobject: object): void {
+    super.ReadSoapHeader(jsobject);
+    return;
+    if (this.expectPartnerToken) {
+      EwsLogging.Assert(false, "GetUserSettingsRequest.ReadSoapHeader", "Partner tokens not implemented")
+      // if (reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.PartnerToken)) {
+      //   this.PartnerToken = reader.ReadInnerXml();
+      // }
+
+      // if (reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.PartnerTokenReference)) {
+      //   this.PartnerTokenReference = reader.ReadInnerXml();
+      // }
     }
-    GetResponseXmlElementName(): string {
-        return XmlElementNames.GetUserSettingsResponseMessage;
+  }
+
+  /**
+   * @internal Validates the request.
+   */
+  Validate(): void {
+    super.Validate();
+
+    EwsUtilities.ValidateParam(this.SmtpAddresses, "smtpAddresses");
+    EwsUtilities.ValidateParam(this.Settings, "settings");
+
+    if (this.Settings.length == 0) {
+      throw new ServiceValidationException(
+        Strings.InvalidAutodiscoverSettingsCount
+      );
     }
-    GetWsAddressingActionName(): string {
-        return GetUserSettingsRequest.GetUserSettingsActionUri;// GetUserSettingsActionUri;
+
+    if (this.SmtpAddresses.length == 0) {
+      throw new ServiceValidationException(
+        Strings.InvalidAutodiscoverSmtpAddressesCount
+      );
     }
-    PostProcessResponses(responses: GetUserSettingsResponseCollection): void {
-        // Note:The response collection may not include all of the requested users if the request has been throttled.
-        for (var index = 0; index < responses.Count; index++) {
-            responses.__thisIndexer(index).SmtpAddress = this.SmtpAddresses[index];
-        }
+
+    for (let smtpAddress of this.SmtpAddresses) {
+      if (StringHelper.IsNullOrEmpty(smtpAddress)) {
+        throw new ServiceValidationException(Strings.InvalidAutodiscoverSmtpAddress);
+      }
     }
-    /**@internal */
-    ReadSoapHeader(reader: EwsXmlReader): void {
-        super.ReadSoapHeader(reader);
-        return;
-        if (this.expectPartnerToken) {
-            if (reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.PartnerToken)) {
-                this.PartnerToken = reader.ReadInnerXml();
-            }
+  }
 
-            if (reader.IsElement(XmlNamespace.Autodiscover, XmlElementNames.PartnerTokenReference)) {
-                this.PartnerTokenReference = reader.ReadInnerXml();
-            }
-        }
+  /**
+   * @internal Writes attributes to request XML.
+   *
+   * @param   {EwsServiceXmlWriter}   writer   The writer.
+   */
+  WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
+    writer.WriteAttributeValue(
+      "xmlns",
+      EwsUtilities.AutodiscoverSoapNamespacePrefix,
+      EwsUtilities.AutodiscoverSoapNamespace);
+  }
+
+  /**
+   * @internal Writes elements to request XML.
+   *
+   * @param   {EwsServiceXmlWriter}   writer   The writer.
+   */
+  WriteElementsToXml(writer: EwsServiceXmlWriter): any {
+    writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Request);
+
+    writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Users);
+
+    for (var s in this.SmtpAddresses) {
+      var smtpAddress = this.SmtpAddresses[s];
+      writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.User);
+
+      if (!StringHelper.IsNullOrEmpty(smtpAddress)) {
+        writer.WriteElementValue(
+          XmlNamespace.Autodiscover,
+          XmlElementNames.Mailbox,
+          smtpAddress);
+      }
+      writer.WriteEndElement(); // User
     }
-    Validate(): void {
-        super.Validate();
+    writer.WriteEndElement(); // Users
 
-        EwsUtilities.ValidateParam(this.SmtpAddresses, "smtpAddresses");
-        EwsUtilities.ValidateParam(this.Settings, "settings");
+    writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.RequestedSettings);
+    for (var s in this.Settings) {
+      var setting = this.Settings[s];
 
-        if (this.Settings.length == 0) {
-            throw new ServiceValidationException(
-                Strings.InvalidAutodiscoverSettingsCount
-                );
-        }
-
-        if (this.SmtpAddresses.length == 0) {
-            throw new ServiceValidationException(
-                Strings.InvalidAutodiscoverSmtpAddressesCount
-                );
-        }
-
-        for (var s in this.SmtpAddresses) {
-            var smtpAddress = this.SmtpAddresses[s];
-            //if (string.IsNullOrEmpty(smtpAddress)) {
-            if (smtpAddress != undefined && smtpAddress !== "") {
-                throw new ServiceValidationException(
-                    Strings.InvalidAutodiscoverSmtpAddress
-                    );
-            }
-        }
+      writer.WriteElementValue(
+        XmlNamespace.Autodiscover,
+        XmlElementNames.Setting,
+        UserSettingName[setting]);
     }
-    /**@internal */
-    WriteAttributesToXml(writer: EwsServiceXmlWriter): void {
-        writer.WriteAttributeValue(
-            "xmlns",
-            EwsUtilities.AutodiscoverSoapNamespacePrefix,
-            EwsUtilities.AutodiscoverSoapNamespace);
+
+    writer.WriteEndElement(); // RequestedSettings
+
+    writer.WriteEndElement(); // Request
+  }
+
+  /**
+   * @internal Write extra headers.
+   *
+   * @param   {EwsServiceXmlWriter}   writer   The writer
+   */
+  WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void {
+
+    if (this.expectPartnerToken) {
+      EwsLogging.Assert(false, "GetUserSettingsRequest.WriteExtraCustomSoapHeadersToXml", "Partner tokens not implemented")
+      debugger;
+      // writer.WriteElementValue(
+      //    XmlNamespace.Autodiscover,
+      //    XmlElementNames.BinarySecret,
+      //    btoa(ExchangeServiceBase.SessionKey));
+      //    //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
     }
-    /**@internal */
-    WriteElementsToXml(writer: EwsServiceXmlWriter): any {
-        writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Request);
-
-        writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Users);
-
-        for (var s in this.SmtpAddresses) {
-            var smtpAddress = this.SmtpAddresses[s];
-            writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.User);
-
-            //if (!string.IsNullOrEmpty(smtpAddress)) {
-            if (smtpAddress != undefined && smtpAddress !== "") {
-                writer.WriteElementValue(
-                    XmlNamespace.Autodiscover,
-                    XmlElementNames.Mailbox,
-                    smtpAddress);
-            }
-            writer.WriteEndElement(); // User
-        }
-        writer.WriteEndElement(); // Users
-
-        writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.RequestedSettings);
-        for (var s in this.Settings) {
-            var setting = this.Settings[s];
-
-            writer.WriteElementValue(
-                XmlNamespace.Autodiscover,
-                XmlElementNames.Setting,
-                UserSettingName[setting]);
-        }
-
-        writer.WriteEndElement(); // RequestedSettings
-
-        writer.WriteEndElement(); // Request
-    }
-    /**@internal */
-    WriteExtraCustomSoapHeadersToXml(writer: EwsServiceXmlWriter): void {
-
-        if (this.expectPartnerToken) {
-            debugger;
-            // writer.WriteElementValue(
-            //    XmlNamespace.Autodiscover,
-            //    XmlElementNames.BinarySecret,
-            //    btoa(ExchangeServiceBase.SessionKey));
-            //    //System.Convert.ToBase64String(ExchangeServiceBase.SessionKey));
-        }
-    }
+  }
 }
