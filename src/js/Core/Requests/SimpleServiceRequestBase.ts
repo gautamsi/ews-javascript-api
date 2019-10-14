@@ -50,7 +50,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
 
                         var ewsXmlReader: EwsServiceXmlReader = new EwsServiceXmlReader(xhrResponse.responseText || xhrResponse.response, this.Service);
                         //EwsLogging.DebugLog(ewsXmlReader.JsObject, true);
-                        var serviceResponse = this.ReadResponsePrivate(ewsXmlReader.JsObject);
+                        var serviceResponse = this.ReadResponsePrivate(xhrResponse, ewsXmlReader.JsObject);
 
                         if (successDelegate)
                             successDelegate(serviceResponse || xhrResponse.responseText || xhrResponse.response);
@@ -73,7 +73,7 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
         });
 
     }
-    private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/): any {
+    private ReadResponsePrivate(response: any /*IEwsHttpWebResponse*/, jsObject: any): any {
         var serviceResponse: any;
 
         try {
@@ -107,10 +107,10 @@ export class SimpleServiceRequestBase extends ServiceRequestBase {
 
 
                 if (this.Service.RenderingMethod == RenderingMode.Xml) {
-                    serviceResponse = this.ReadResponseXmlJsObject(response);
+                    serviceResponse = this.ReadResponseXmlJsObject(jsObject);
                 }
                 else if (this.Service.RenderingMethod == RenderingMode.JSON) {
-                    serviceResponse = this.ReadResponseJson(response);
+                    serviceResponse = this.ReadResponseJson(jsObject);
                 }
                 else {
                     throw new Error/*InvalidOperationException*/("Unknown RenderingMethod.");

@@ -72,7 +72,7 @@ export abstract class ExchangeServiceBase {
   private clientRequestId: string = null;
   private returnClientRequestId: boolean = false;
   // private cookieContainer: CookieContainer = new CookieContainer();
-  protected timeZone: TimeZoneInfo = null;
+  protected timeZone: TimeZoneInfo = TimeZoneInfo.Local;
   private timeZoneDefinition: TimeZoneDefinition = null;
   private serverInfo: ExchangeServerInfo = null;
   // private webProxy: IWebProxy = null;
@@ -445,9 +445,12 @@ export abstract class ExchangeServiceBase {
       }
     }
 
-
-
     this.requestedServerVersion = requestedServerVersion;
+
+    if (hasValue(timeZone)) {
+      this.timeZone = timeZone;
+      //this.useDefaultCredentials = true; //ref: no default credential in node.js
+    }
 
     if (hasValue(service)) {
       // this.useDefaultCredentials = service.useDefaultCredentials;
@@ -466,11 +469,6 @@ export abstract class ExchangeServiceBase {
       this.httpHeaders = service.httpHeaders;
       // this.ewsHttpWebRequestFactory = service.ewsHttpWebRequestFactory;
       this.xhrApi = service.xhrApi;
-    }
-
-    if (timeZone !== null && typeof timeZone !== 'undefined') {
-      this.timeZone = timeZone;
-      //this.useDefaultCredentials = true; //ref: no default credential in node.js
     }
   }
   //#endregion
@@ -713,18 +711,18 @@ export abstract class ExchangeServiceBase {
     }
 
     // REF: no default credential in NodeJs
-    //request.UseDefaultCredentials = this.UseDefaultCredentials;
+    // request.UseDefaultCredentials = this.UseDefaultCredentials;
     // if (!this.UseDefaultCredentials) {
-    //   var serviceCredentials = this.Credentials;
-    //   if (serviceCredentials === null) {
-    //     throw new ServiceLocalException(Strings.CredentialsRequired);
-    //   }
+    var serviceCredentials = this.Credentials;
+    if (serviceCredentials === null) {
+      throw new ServiceLocalException(Strings.CredentialsRequired);
+    }
 
-    //   // Make sure that credentials have been authenticated if required
-    //   //serviceCredentials.PreAuthenticate(); //todo: fix preauthenticate if possible
+    // Make sure that credentials have been authenticated if required
+    //serviceCredentials.PreAuthenticate(); //todo: fix preauthenticate if possible
 
-    //   // Apply credentials to the request
-    //   serviceCredentials.PrepareWebRequest(request);
+    // Apply credentials to the request
+    serviceCredentials.PrepareWebRequest(request);
     // }
     // else
     //     debugger;
@@ -749,8 +747,7 @@ export abstract class ExchangeServiceBase {
    * @param   {XMLHttpRequest}   response    The response.
    */
   ProcessHttpResponseHeaders(traceType: TraceFlags, response: XMLHttpRequest): void {
-    return;
-    //todo: implement tracing
+    //TODO: implement tracing properly
     this.TraceHttpResponseHeaders(traceType, response);
 
     this.SaveHttpResponseHeaders(response);

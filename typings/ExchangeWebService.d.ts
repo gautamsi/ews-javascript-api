@@ -21712,7 +21712,7 @@ export interface CustomXmlSerializationDelegate {
     (writer: any): any;
 }
 export interface ResponseHeadersCapturedHandler {
-    (responseHeaders: any): void;
+    (responseHeaders: Dictionary<string, string>): void;
 }
 export interface ServiceObjectChangedDelegate {
     (serviceObject: ServiceObject): void;
