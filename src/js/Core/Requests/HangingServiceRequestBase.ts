@@ -368,7 +368,7 @@ export class HangingServiceRequestBase extends ServiceRequestBase {
         //var startTime = Date.now();// DateTime.UtcNow;
         //var response = XHR(request);
         EwsLogging.DebugLog("sending ews request");
-        EwsLogging.DebugLog(request, true);
+        EwsLogging.DebugLog({ ...request, ...{ headers: { ...request.headers, Authorization: "REDACTED" } }}, true);
 
         return this.Service.XHRApi.xhrStream(request, progressDelegate);
         // return new Promise((successDelegate, errorDelegate) => {
