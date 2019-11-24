@@ -1,3 +1,4 @@
+import { AccountIsLockedException } from "../Exceptions/AccountIsLockedException";
 import { AddDelegateRequest } from "./Requests/AddDelegateRequest";
 import { AffectedTaskOccurrence } from "../Enumerations/AffectedTaskOccurrence";
 import { AlternateIdBase } from "../Misc/IdConversion/AlternateIdBase";
@@ -6,7 +7,7 @@ import { Appointment } from "./ServiceObjects/Items/Appointment";
 import { ArchiveItemRequest } from "./Requests/ArchiveItemRequest";
 import { ArchiveItemResponse } from "./Responses/ArchiveItemResponse";
 import { ArgumentException, ArgumentOutOfRangeException, ArgumentNullException } from "../Exceptions/ArgumentException";
-import { ArrayHelper, StringHelper, UriHelper } from "../ExtensionMethods";
+import { ArrayHelper, StringHelper, UriHelper, hasValue } from "../ExtensionMethods";
 import { Attachment } from "../ComplexProperties/Attachment";
 import { AttendeeInfo } from "../Misc/Availability/AttendeeInfo";
 import { AutodiscoverErrorCode } from "../Enumerations/AutodiscoverErrorCode";
@@ -38,6 +39,7 @@ import { CreateAttachmentResponse } from "./Responses/CreateAttachmentResponse";
 import { CreateFolderRequest } from "./Requests/CreateFolderRequest";
 import { CreateItemRequest } from "./Requests/CreateItemRequest";
 import { CreateResponseObjectRequest } from "./Requests/CreateResponseObjectRequest";
+import { CreateResponseObjectResponse } from "./Responses/CreateResponseObjectResponse";
 import { CreateUserConfigurationRequest } from "./Requests/CreateUserConfigurationRequest";
 import { DateTime } from "../DateTime";
 import { DateTimePrecision } from "../Enumerations/DateTimePrecision";
@@ -61,6 +63,7 @@ import { EwsLogging } from "./EwsLogging";
 import { EwsUtilities } from "./EwsUtilities";
 import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { ExpandGroupRequest } from "./Requests/ExpandGroupRequest";
+import { ExpandGroupResponse } from "./Responses/ExpandGroupResponse";
 import { ExpandGroupResults } from "../Misc/ExpandGroupResults";
 import { FindConversationRequest } from "./Requests/FindConversationRequest";
 import { FindConversationResponse } from "./Responses/FindConversationResponse";
@@ -95,6 +98,7 @@ import { GetDiscoverySearchConfigurationRequest } from "./Requests/GetDiscoveryS
 import { GetDiscoverySearchConfigurationResponse } from "./Responses/GetDiscoverySearchConfigurationResponse";
 import { GetEncryptionConfigurationResponse } from "./Responses/GetEncryptionConfigurationResponse";
 import { GetEventsRequest } from "./Requests/GetEventsRequest";
+import { GetEventsResponse } from "./Responses/GetEventsResponse";
 import { GetEventsResults } from "../Notifications/GetEventsResults";
 import { GetFolderRequest } from "./Requests/GetFolderRequest";
 import { GetFolderRequestForLoad } from "./Requests/GetFolderRequestForLoad";
@@ -112,8 +116,11 @@ import { GetNonIndexableItemDetailsResponse } from "./Responses/GetNonIndexableI
 import { GetNonIndexableItemStatisticsRequest } from "./Requests/GetNonIndexableItemStatisticsRequest";
 import { GetNonIndexableItemStatisticsResponse } from "./Responses/GetNonIndexableItemStatisticsResponse";
 import { GetPasswordExpirationDateRequest } from "./Requests/GetPasswordExpirationDateRequest";
+import { GetPasswordExpirationDateResponse } from "./Responses/GetPasswordExpirationDateResponse";
 import { GetRoomListsRequest } from "./Requests/GetRoomListsRequest";
+import { GetRoomListsResponse } from "./Responses/GetRoomListsResponse";
 import { GetRoomsRequest } from "./Requests/GetRoomsRequest";
+import { GetRoomsResponse } from "./Responses/GetRoomsResponse";
 import { GetSearchableMailboxesRequest } from "./Requests/GetSearchableMailboxesRequest";
 import { GetSearchableMailboxesResponse } from "./Responses/GetSearchableMailboxesResponse";
 import { GetServerTimeZonesRequest } from "./Requests/GetServerTimeZonesRequest";
@@ -123,6 +130,7 @@ import { GetUserAvailabilityResults } from "../Misc/Availability/GetUserAvailabi
 import { GetUserConfigurationRequest } from "./Requests/GetUserConfigurationRequest";
 import { GetUserConfigurationResponse } from "./Responses/GetUserConfigurationResponse";
 import { GetUserOofSettingsRequest } from "./Requests/GetUserOofSettingsRequest";
+import { GetUserOofSettingsResponse } from "./Responses/GetUserOofSettingsResponse";
 import { GetUserRetentionPolicyTagsRequest } from "./Requests/GetUserRetentionPolicyTagsRequest";
 import { GetUserRetentionPolicyTagsResponse } from "./Responses/GetUserRetentionPolicyTagsResponse";
 import { GetUserSettingsResponse } from "../Autodiscover/Responses/GetUserSettingsResponse";
@@ -130,14 +138,14 @@ import { GroupedFindItemsResults } from "../Search/GroupedFindItemsResults";
 import { Grouping } from "../Search/Grouping";
 import { Guid } from "../Guid";
 import { HoldAction } from "../Enumerations/HoldAction";
-import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
-import { IXHROptions } from "../Interfaces";
 import { IdFormat } from "../Enumerations/IdFormat";
+import { IFileAttachmentContentHandler } from "../Interfaces/IFileAttachmentContentHandler";
 import { ImpersonatedUserId } from "../Misc/ImpersonatedUserId";
 import { InstallAppRequest } from "./Requests/InstallAppRequest";
 import { Item } from "./ServiceObjects/Items/Item";
 import { ItemChange } from "../Sync/ItemChange";
 import { ItemId } from "../ComplexProperties/ItemId";
+import { IXHROptions } from "../Interfaces";
 import { KeyValuePair } from "../AltDictionary";
 import { Mailbox } from "../ComplexProperties/Mailbox";
 import { MailboxQuery } from "../MailboxSearch/MailboxQuery";
@@ -195,6 +203,7 @@ import { SortDirection } from "../Enumerations/SortDirection";
 import { StreamingSubscription } from "../Notifications/StreamingSubscription";
 import { StringList } from "../ComplexProperties/StringList";
 import { Strings } from "../Strings";
+import { SubscribeResponse } from "./Responses/SubscribeResponse";
 import { SubscribeToPullNotificationsRequest } from "./Requests/SubscribeToPullNotificationsRequest";
 import { SubscribeToPushNotificationsRequest } from "./Requests/SubscribeToPushNotificationsRequest";
 import { SubscribeToStreamingNotificationsRequest } from "./Requests/SubscribeToStreamingNotificationsRequest";
@@ -222,7 +231,6 @@ import { UserId } from "../ComplexProperties/UserId";
 import { UserSettingName } from "../Enumerations/UserSettingName";
 import { ViewBase } from "../Search/ViewBase";
 import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
-import { XHRFactory } from "../XHRFactory";
 
 import { ExchangeServiceBase } from "./ExchangeServiceBase";
 /**
@@ -406,14 +414,13 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {MessageDisposition}     messageDisposition   The message disposition.
    * @return  {Promise<Item[]>}        The list of items created or modified as a result of the "creation" of the response object :Promise.
    */
-  InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<Item[]> {
-    var request: CreateResponseObjectRequest = new CreateResponseObjectRequest(this, ServiceErrorHandling.ThrowOnError);
+  async InternalCreateResponseObject(responseObject: ServiceObject, parentFolderId: FolderId, messageDisposition: MessageDisposition): Promise<Item[]> {
+    const request: CreateResponseObjectRequest = new CreateResponseObjectRequest(this, ServiceErrorHandling.ThrowOnError);
     request.ParentFolderId = parentFolderId;
     request.Items = [responseObject];
     request.MessageDisposition = messageDisposition;
-    return request.Execute().then((responses) => {
-      return responses.__thisIndexer(0).Items;
-    });
+    const responses: ServiceResponseCollection<CreateResponseObjectResponse> = await request.Execute()
+    return responses.__thisIndexer(0).Items;
   }
   //#endregion
 
@@ -437,29 +444,27 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<TFolder>}   Folder object :Promise.
    */
   BindToFolder<TFolder extends Folder>(folderId: FolderId, propertySet: PropertySet,/** pass Folder or subclass itself, not an instance */ folderType: any): Promise<TFolder>;
-  BindToFolder(folderId: FolderId, propertySet: PropertySet, /** pass Folder or subclass itself, not an instance */ folderType: any = null): Promise<Folder> {
+  async BindToFolder(folderId: FolderId, propertySet: PropertySet, /** pass Folder or subclass itself, not an instance */ folderType: any = null): Promise<Folder> {
     EwsUtilities.ValidateParam(folderId, "folderId");
     EwsUtilities.ValidateParam(propertySet, "propertySet");
 
-    var request: GetFolderRequest = new GetFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: GetFolderRequest = new GetFolderRequest(this, ServiceErrorHandling.ThrowOnError);
 
     request.FolderIds.Add(folderId);
     request.PropertySet = propertySet;
 
-    return request.Execute().then((responses) => {
-      var result = responses.__thisIndexer(0).Folder;
-      if (folderType != null && !(result instanceof folderType)) { //todo: validate folderType to be not a constructor
-        throw new ServiceLocalException(
-          StringHelper.Format(
-            Strings.FolderTypeNotCompatible,
-            "Type detection not implemented - ExchangeService.ts - BindToFolder<TFolder>",
-            "Type detection not implemented"));
-      }
-      return result;
-    });
-
-
+    const responses: ServiceResponseCollection<GetFolderResponse> = await request.Execute()
+    const result = responses.__thisIndexer(0).Folder;
+    if (folderType != null && !(result instanceof folderType)) { //todo: validate folderType to be not a constructor
+      throw new ServiceLocalException(
+        StringHelper.Format(
+          Strings.FolderTypeNotCompatible,
+          "Type detection not implemented - ExchangeService.ts - BindToFolder<TFolder>",
+          "Type detection not implemented"));
+    }
+    return result;
   }
+
   /**
    * @internal Copies a folder. Calling this method results in a call to EWS.
    *
@@ -467,16 +472,16 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}           destinationFolderId   The destination folder id.
    * @return  {Promise<Folder>}    Copy of folder :Promise.
    */
-  CopyFolder(folderId: FolderId, destinationFolderId: FolderId): Promise<Folder> {
-    var request: CopyFolderRequest = new CopyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+  async CopyFolder(folderId: FolderId, destinationFolderId: FolderId): Promise<Folder> {
+    const request: CopyFolderRequest = new CopyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
 
     request.DestinationFolderId = destinationFolderId;
     request.FolderIds.Add(folderId);
 
-    return request.Execute().then((responses) => {
-      return responses.__thisIndexer(0).Folder;
-    });
+    const responses: ServiceResponseCollection<MoveCopyFolderResponse> = await request.Execute()
+    return responses.__thisIndexer(0).Folder;
   }
+
   /**
    * @internal Creates a folder. Calling this method results in a call to EWS.
    *
@@ -484,7 +489,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}   parentFolderId   The parent folder id.
    */
   CreateFolder(folder: Folder, parentFolderId: FolderId): Promise<void> {
-    var request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: CreateFolderRequest = new CreateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
     request.Folders = [folder];
     request.ParentFolderId = parentFolderId;
     return <any>request.Execute();
@@ -498,7 +503,7 @@ export class ExchangeService extends ExchangeServiceBase {
    */
   DeleteFolder(folderId: FolderId, deleteMode: DeleteMode): Promise<void> {
     EwsUtilities.ValidateParam(folderId, "folderId");
-    var request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: DeleteFolderRequest = new DeleteFolderRequest(this, ServiceErrorHandling.ThrowOnError);
     request.FolderIds.Add(folderId);
     request.DeleteMode = deleteMode;
     return <any>request.Execute();
@@ -512,7 +517,7 @@ export class ExchangeService extends ExchangeServiceBase {
    */
   EmptyFolder(folderId: FolderId, deleteMode: DeleteMode, deleteSubFolders: boolean): Promise<void> {
     EwsUtilities.ValidateParam(folderId, "folderId");
-    var request: EmptyFolderRequest = new EmptyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: EmptyFolderRequest = new EmptyFolderRequest(this, ServiceErrorHandling.ThrowOnError);
     request.FolderIds.Add(folderId);
     request.DeleteMode = deleteMode;
     request.DeleteSubFolders = deleteSubFolders;
@@ -562,13 +567,13 @@ export class ExchangeService extends ExchangeServiceBase {
     //EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
     //EwsUtilities.ValidateParam(view, "view");
     //EwsUtilities.ValidateParamAllowNull(searchFilter, "searchFilter");
-    var argsLength = arguments.length;
+    const argsLength = arguments.length;
     if (argsLength < 2 && argsLength > 3) {
       throw new Error("ExchangeService.ts - FindFolders - invalid number of arguments, check documentation and try again.");
     }
 
     //position 1 - parentFolderIdOrName
-    var parentFolderIds: FolderId[] = []
+    const parentFolderIds: FolderId[] = []
     if (typeof parentFolderIdOrName === 'number') {
       parentFolderIds.push(new FolderId(parentFolderIdOrName));
     }
@@ -579,8 +584,8 @@ export class ExchangeService extends ExchangeServiceBase {
       throw new Error("ExchangeService.ts - FindFolders - incorrect use of parameters, 1st argument must be Folder ID or WellKnownFolderName");
     }
 
-    var searchFilter: SearchFilter = null;
-    var view: FolderView = null;
+    let searchFilter: SearchFilter = null;
+    let view: FolderView = null;
 
     //position 2 - viewOrSearchFilter
     if (viewOrSearchFilter instanceof SearchFilter) {
@@ -620,7 +625,7 @@ export class ExchangeService extends ExchangeServiceBase {
    */
   private InternalFindFolders(parentFolderIds: FolderId[], searchFilter: SearchFilter, view: FolderView, errorHandlingMode: ServiceErrorHandling): Promise<ServiceResponseCollection<FindFolderResponse>> {
 
-    var request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
+    const request: FindFolderRequest = new FindFolderRequest(this, errorHandlingMode);
 
     request.ParentFolderIds.AddRange(parentFolderIds);
     request.SearchFilter = searchFilter;
@@ -638,7 +643,7 @@ export class ExchangeService extends ExchangeServiceBase {
     EwsUtilities.ValidateParam(folder, "folder");
     EwsUtilities.ValidateParam(propertySet, "propertySet");
 
-    var request: GetFolderRequestForLoad = new GetFolderRequestForLoad(this, ServiceErrorHandling.ThrowOnError);
+    const request: GetFolderRequestForLoad = new GetFolderRequestForLoad(this, ServiceErrorHandling.ThrowOnError);
 
     request.FolderIds.Add(folder);
     request.PropertySet = propertySet;
@@ -655,7 +660,7 @@ export class ExchangeService extends ExchangeServiceBase {
   MarkAllItemsAsRead(folderId: FolderId, readFlag: boolean, suppressReadReceipts: boolean): Promise<void> {
     EwsUtilities.ValidateParam(folderId, "folderId");
     EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "MarkAllItemsAsRead");
-    var request: MarkAllItemsAsReadRequest = new MarkAllItemsAsReadRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: MarkAllItemsAsReadRequest = new MarkAllItemsAsReadRequest(this, ServiceErrorHandling.ThrowOnError);
     request.FolderIds.Add(folderId);
     request.ReadFlag = readFlag;
     request.SuppressReadReceipts = suppressReadReceipts;
@@ -668,25 +673,23 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}           destinationFolderId   The destination folder id.
    * @return  {Promise<Folder>}    Moved folder :Promise.
    */
-  MoveFolder(folderId: FolderId, destinationFolderId: FolderId): Promise<Folder> {
-    var request: MoveFolderRequest = new MoveFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+  async MoveFolder(folderId: FolderId, destinationFolderId: FolderId): Promise<Folder> {
+    const request: MoveFolderRequest = new MoveFolderRequest(this, ServiceErrorHandling.ThrowOnError);
     request.DestinationFolderId = destinationFolderId;
     request.FolderIds.Add(folderId);
-    return request.Execute().then((responses) => {
-      return responses.__thisIndexer(0).Folder;
-    });
+    const responses: ServiceResponseCollection<MoveCopyFolderResponse> = await request.Execute()
+    return responses.__thisIndexer(0).Folder;
   }
   /**
    * @internal Updates a folder.
    *
    * @param   {Folder}   folder   The folder.
    */
-  UpdateFolder(folder: Folder): Promise<void> {
-    var request: UpdateFolderRequest = new UpdateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
+  async UpdateFolder(folder: Folder): Promise<void> {
+    const request: UpdateFolderRequest = new UpdateFolderRequest(this, ServiceErrorHandling.ThrowOnError);
     request.Folders.push(folder);
-    return request.Execute().then((value) => {
-      return null;
-    });
+    await request.Execute();
+    return;
   }
   //#endregion
 
@@ -701,7 +704,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<ArchiveItemResponse>>}                     A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
    */
   ArchiveItems<TResponse extends ServiceResponse>(itemIds: ItemId[], sourceFolderId: FolderId): Promise<ServiceResponseCollection<ArchiveItemResponse>> {
-    var request: ArchiveItemRequest = new ArchiveItemRequest(this, ServiceErrorHandling.ReturnErrors);
+    const request: ArchiveItemRequest = new ArchiveItemRequest(this, ServiceErrorHandling.ReturnErrors);
     request.Ids.AddRange(itemIds);
     request.SourceFolderId = sourceFolderId;
     return request.Execute();
@@ -743,27 +746,27 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<Item>}     Item :Promise.
    */
   BindToItem<TItem extends Item>(itemId: ItemId, propertySet: PropertySet, itemType: typeof Item /* pass Item or subclass itself, not instance */): Promise<TItem>;
-  BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: typeof Item = null): Promise<Item> {
+  async BindToItem(itemId: ItemId, propertySet: PropertySet,/** pass Item or subclass itself, not an instance */ itemType: typeof Item = null): Promise<Item> {
 
     EwsUtilities.ValidateParam(itemId, "itemId");
     EwsUtilities.ValidateParam(propertySet, "propertySet");
 
-    return this.InternalBindToItems(
+    const response: ServiceResponseCollection<GetItemResponse> = await this.InternalBindToItems(
       [itemId],
       propertySet,
       null, /* anchorMailbox */
-      ServiceErrorHandling.ThrowOnError).then((response) => {
-        var result = response.__thisIndexer(0).Item;
-        if (itemType != null && !(result instanceof itemType)) { //todo: validate itemType to be not a constructor
-          throw new ServiceLocalException(
-            StringHelper.Format(
-              Strings.ItemTypeNotCompatible,
-              "Type detection not implemented - ExchangeService.ts - BindToItem<TItem>",
-              "Type detection not implemented"));
-        }
+      ServiceErrorHandling.ThrowOnError);
 
-        return result;
-      });
+    const result = response.__thisIndexer(0).Item;
+    if (itemType != null && !(result instanceof itemType)) { //todo: validate itemType to be not a constructor
+      throw new ServiceLocalException(
+        StringHelper.Format(
+          Strings.ItemTypeNotCompatible,
+          "Type detection not implemented - ExchangeService.ts - BindToItem<TItem>",
+          "Type detection not implemented"));
+    }
+
+    return result;
   }
   /**
    * Binds to multiple items in a single call to EWS.
@@ -789,15 +792,15 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}      destinationFolderId   The Id of the folder to copy the item to.
    * @return  {Promise<Item>}     The copy of the item :Promise.
    */
-  CopyItem(itemId: ItemId, destinationFolderId: FolderId): Promise<Item> {
-    return this.InternalCopyItems(
+  async CopyItem(itemId: ItemId, destinationFolderId: FolderId): Promise<Item> {
+    const response: ServiceResponseCollection<MoveCopyItemResponse> = await this.InternalCopyItems(
       [itemId],
       destinationFolderId,
       null,
-      ServiceErrorHandling.ThrowOnError).then((response) => {
-        return response.__thisIndexer(0).Item;
-      });
+      ServiceErrorHandling.ThrowOnError)
+    return response.__thisIndexer(0).Item;
   }
+
   /**
    * Copies multiple items in a single call to EWS.
    *
@@ -947,20 +950,19 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<FindItemsResults<Appointment>>}                     A collection of appointments representing the contents of the specified folder :Promise.
    */
   FindAppointments(parentFolderId: FolderId, calendarView: CalendarView): Promise<FindItemsResults<Appointment>>;
-  FindAppointments(parentFolderIdOrName: FolderId | WellKnownFolderName, calendarView: CalendarView): Promise<FindItemsResults<Appointment>> {
-    var parentFolderId: FolderId = <FolderId>parentFolderIdOrName;
+  async FindAppointments(parentFolderIdOrName: FolderId | WellKnownFolderName, calendarView: CalendarView): Promise<FindItemsResults<Appointment>> {
+    let parentFolderId: FolderId = <FolderId>parentFolderIdOrName;
     if (typeof parentFolderIdOrName === 'number') {
       parentFolderId = new FolderId(parentFolderIdOrName);
     }
-    return this.FindItems<Appointment>(
+    const response: ServiceResponseCollection<FindItemResponse<Appointment>> = await this.FindItems<Appointment>(
       [parentFolderId],
       null, /* searchFilter */
       null, /* queryString */
       calendarView,
       null, /* groupBy */
-      ServiceErrorHandling.ThrowOnError).then((response) => {
-        return response.__thisIndexer(0).Results;
-      });
+      ServiceErrorHandling.ThrowOnError);
+    return response.__thisIndexer(0).Results;
   }
 
   /**
@@ -1121,13 +1123,13 @@ export class ExchangeService extends ExchangeServiceBase {
     //EwsUtilities.ValidateParamAllowNull(returnHighlightTerms, "returnHighlightTerms");
     //EwsUtilities.ValidateMethodVersion(this, ExchangeVersion.Exchange2013, "FindItems");
 
-    var argsLength = arguments.length;
+    const argsLength = arguments.length;
     if (argsLength < 2 && argsLength > 6) {
       throw new Error("ExchangeService.ts - FindItems - invalid number of arguments, check documentation and try again.");
     }
 
     //position 1 - nameIdOrIds
-    var parentIds: FolderId[] = []
+    let parentIds: FolderId[] = []
     if (typeof nameIdOrIds === 'number') {
       parentIds.push(new FolderId(nameIdOrIds));
     }
@@ -1138,9 +1140,9 @@ export class ExchangeService extends ExchangeServiceBase {
       parentIds = <FolderId[]>nameIdOrIds;
     }
 
-    var queryString: string = null;
-    var searchFilter: SearchFilter = null;
-    var view: ViewBase = null;
+    let queryString: string = null;
+    let searchFilter: SearchFilter = null;
+    let view: ViewBase = null;
 
     //position 2 - viewQueryStringOrSearchFilter
     if (argsLength >= 2)
@@ -1157,9 +1159,9 @@ export class ExchangeService extends ExchangeServiceBase {
         throw new Error("ExchangeService.ts - FindItems - incorrect uses of parameters at 2nd position, must be string, ViewBase or SearchFilter");
       }
 
-    var groupResultBy: Grouping = null;
-    var returnHighlightTerms: boolean = false;
-    var isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
+    let groupResultBy: Grouping = null;
+    let returnHighlightTerms: boolean = false;
+    let isGroupped: boolean = false; // to resturn GroupedFindItemsResults<Item>
 
     //position 3 - groupByViewRHTOrQueryString
     if (argsLength >= 3) {
@@ -1210,13 +1212,13 @@ export class ExchangeService extends ExchangeServiceBase {
       groupResultBy = groupBy;
       isGroupped = true;
     }
-    var isRaw: boolean = false; // to return ServiceResponseCollection<FindItemResponse<TItem>>
+    let isRaw: boolean = false; // to return ServiceResponseCollection<FindItemResponse<TItem>>
     //position 6 - errorHandlingMode
     if (argsLength === 6) {
       isRaw = true;
     }
 
-    var request: FindItemRequest<TItem> = new FindItemRequest<TItem>(this, errorHandlingMode | ServiceErrorHandling.ThrowOnError);
+    const request: FindItemRequest<TItem> = new FindItemRequest<TItem>(this, errorHandlingMode | ServiceErrorHandling.ThrowOnError);
 
     request.ParentFolderIds.AddRange(parentIds);
 
@@ -1237,8 +1239,8 @@ export class ExchangeService extends ExchangeServiceBase {
       }
       return responses.__thisIndexer(0).Results;
     });
-
   }
+
   /**
    * Binds to multiple items in a single call to EWS.
    *
@@ -1249,7 +1251,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<GetItemResponse>>}       A ServiceResponseCollection providing results for each of the specified item Ids :Promise.
    */
   private InternalBindToItems(itemIds: ItemId[], propertySet: PropertySet, anchorMailbox: string, errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<GetItemResponse>> {
-    var request: GetItemRequest = new GetItemRequest(this, errorHandling);
+    const request: GetItemRequest = new GetItemRequest(this, errorHandling);
 
     request.ItemIds.AddRange(itemIds);
     request.PropertySet = propertySet;
@@ -1267,7 +1269,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
    */
   private InternalCopyItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<MoveCopyItemResponse>> {
-    var request: CopyItemRequest = new CopyItemRequest(this, errorHandling);
+    const request: CopyItemRequest = new CopyItemRequest(this, errorHandling);
     request.ItemIds.AddRange(itemIds);
     request.DestinationFolderId = destinationFolderId;
     request.ReturnNewItemIds = returnNewItemIds;
@@ -1285,7 +1287,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing creation results for each of the specified items :Promise.
    */
   private InternalCreateItems(items: Item[], parentFolderId: FolderId, messageDisposition: MessageDisposition, sendInvitationsMode: SendInvitationsMode, errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<ServiceResponse>> {
-    var request: CreateItemRequest = new CreateItemRequest(this, errorHandling);
+    const request: CreateItemRequest = new CreateItemRequest(this, errorHandling);
 
     request.ParentFolderId = parentFolderId;
     request.Items = items;
@@ -1306,7 +1308,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing deletion results for each of the specified item Ids :Promise.
    */
   private InternalDeleteItems(itemIds: ItemId[], deleteMode: DeleteMode, sendCancellationsMode: SendCancellationsMode, affectedTaskOccurrences: AffectedTaskOccurrence, errorHandling: ServiceErrorHandling, suppressReadReceipts: boolean): Promise<ServiceResponseCollection<ServiceResponse>> {
-    var request: DeleteItemRequest = new DeleteItemRequest(this, errorHandling);
+    const request: DeleteItemRequest = new DeleteItemRequest(this, errorHandling);
 
     request.ItemIds.AddRange(itemIds);
     request.DeleteMode = deleteMode;
@@ -1325,7 +1327,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<ServiceResponse>>}       A ServiceResponseCollection providing results for each of the specified items :Promise.
    */
   InternalLoadPropertiesForItems(items: Item[], propertySet: PropertySet, errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<ServiceResponse>> {
-    var request: GetItemRequestForLoad = new GetItemRequestForLoad(this, errorHandling);
+    const request: GetItemRequestForLoad = new GetItemRequestForLoad(this, errorHandling);
     request.ItemIds.AddRange(items);
     request.PropertySet = propertySet;
 
@@ -1341,7 +1343,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<MoveCopyItemResponse>>}      A ServiceResponseCollection providing copy results for each of the specified item Ids :Promise.
    */
   private InternalMoveItems(itemIds: ItemId[], destinationFolderId: FolderId, returnNewItemIds: boolean, errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<MoveCopyItemResponse>> {
-    var request: MoveItemRequest = new MoveItemRequest(this, errorHandling);
+    const request: MoveItemRequest = new MoveItemRequest(this, errorHandling);
 
     request.ItemIds.AddRange(itemIds);
     request.DestinationFolderId = destinationFolderId;
@@ -1362,7 +1364,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<UpdateItemResponse>>}                     A ServiceResponseCollection providing update results for each of the specified items :Promise.
    */
   private InternalUpdateItems(items: Item[], savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, errorHandling: ServiceErrorHandling, suppressReadReceipt: boolean): Promise<ServiceResponseCollection<UpdateItemResponse>> {
-    var request: UpdateItemRequest = new UpdateItemRequest(this, errorHandling);
+    const request: UpdateItemRequest = new UpdateItemRequest(this, errorHandling);
 
 
     //request.Items.AddRange(items);
@@ -1400,7 +1402,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<MarkAsJunkResponse>>}        A ServiceResponseCollection providing itemIds for each of the moved items :Promise.
    */
   MarkAsJunk(itemIds: ItemId[], isJunk: boolean, moveItem: boolean): Promise<ServiceResponseCollection<MarkAsJunkResponse>> {
-    var request: MarkAsJunkRequest = new MarkAsJunkRequest(this, ServiceErrorHandling.ReturnErrors);
+    const request: MarkAsJunkRequest = new MarkAsJunkRequest(this, ServiceErrorHandling.ReturnErrors);
     request.ItemIds.AddRange(itemIds);
     request.IsJunk = isJunk;
     request.MoveItem = moveItem;
@@ -1413,15 +1415,15 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}  destinationFolderId   The Id of the folder to move the item to.
    * @return  {Promise<Item>}                   The moved item :Promise.
    */
-  MoveItem(itemId: ItemId, destinationFolderId: FolderId): Promise<Item> {
-    return this.InternalMoveItems(
+  async MoveItem(itemId: ItemId, destinationFolderId: FolderId): Promise<Item> {
+    const responses: ServiceResponseCollection<MoveCopyItemResponse> = await this.InternalMoveItems(
       [itemId],
       destinationFolderId,
       null,
-      ServiceErrorHandling.ThrowOnError).then((responses) => {
-        return responses.__thisIndexer(0).Item;
-      });
+      ServiceErrorHandling.ThrowOnError)
+    return responses.__thisIndexer(0).Item;
   }
+
   /**
    * Moves multiple items in a single call to EWS.
    *
@@ -1458,7 +1460,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {FolderId}  savedCopyDestinationFolderId   The saved copy destination folder id.
    */
   SendItem(item: Item, savedCopyDestinationFolderId: FolderId): Promise<void> {
-    var request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
+    const request: SendItemRequest = new SendItemRequest(this, ServiceErrorHandling.ThrowOnError);
     request.Items = [item];
     request.SavedCopyDestinationFolderId = savedCopyDestinationFolderId;
     return <any>request.Execute();
@@ -1486,19 +1488,16 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<Item>}                                                              Updated item : Promise.
    */
   UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean): Promise<Item>;
-  UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): Promise<Item> {
-    return this.InternalUpdateItems(
+  async UpdateItem(item: Item, savedItemsDestinationFolderId: FolderId, conflictResolution: ConflictResolutionMode, messageDisposition: MessageDisposition, sendInvitationsOrCancellationsMode: SendInvitationsOrCancellationsMode, suppressReadReceipts: boolean = false): Promise<Item> {
+    const responses: ServiceResponseCollection<UpdateItemResponse> = await this.InternalUpdateItems(
       [item],
       savedItemsDestinationFolderId,
       conflictResolution,
       messageDisposition,
       sendInvitationsOrCancellationsMode,
       ServiceErrorHandling.ThrowOnError,
-      suppressReadReceipts).then((responses) => {
-
-        return responses.__thisIndexer(0).ReturnedItem;
-
-      });
+      suppressReadReceipts);
+    return responses.__thisIndexer(0).ReturnedItem;
   }
   /**
    * Updates multiple items in a single EWS call. UpdateItems does not support items that have unsaved attachments.
@@ -1611,9 +1610,9 @@ export class ExchangeService extends ExchangeServiceBase {
    */
   GetAttachments(attachmentIds: string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): Promise<ServiceResponseCollection<GetAttachmentResponse>>;
   GetAttachments(attachmentsOrIds: Attachment[] | string[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[]): Promise<ServiceResponseCollection<GetAttachmentResponse>> {
-    var ids = ArrayHelper.OfType<string, any[]>(<any[]>attachmentsOrIds, (attachment: any) => { return typeof attachment === 'string'; });
+    const ids = ArrayHelper.OfType<string, any[]>(<any[]>attachmentsOrIds, (attachment: any) => { return typeof attachment === 'string'; });
     if (ids && ids.length > 0) {
-      var request: GetAttachmentRequest = new GetAttachmentRequest(this, ServiceErrorHandling.ReturnErrors);
+      const request: GetAttachmentRequest = new GetAttachmentRequest(this, ServiceErrorHandling.ReturnErrors);
       ArrayHelper.AddRange(request.AttachmentIds, <string[]>attachmentsOrIds);
       request.BodyType = bodyType;
 
@@ -1641,7 +1640,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ServiceResponseCollection<GetAttachmentResponse>>}         Service response collection :Promise.
    */
   private InternalGetAttachments(attachments: Attachment[], bodyType: BodyType, additionalProperties: PropertyDefinitionBase[], errorHandling: ServiceErrorHandling): Promise<ServiceResponseCollection<GetAttachmentResponse>> {
-    var request: GetAttachmentRequest = new GetAttachmentRequest(this, errorHandling);
+    const request: GetAttachmentRequest = new GetAttachmentRequest(this, errorHandling);
     ArrayHelper.AddRange(request.Attachments, attachments);
     request.BodyType = bodyType;
 
@@ -1686,11 +1685,11 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ExpandGroupResults>}       An ExpandGroupResults containing the members of the group :Promise.
    */
   ExpandGroup(address: string, routingType: string): Promise<ExpandGroupResults>;
-  ExpandGroup(emailAddressOrsmtpAddressOrGroupId: EmailAddress | string | ItemId, routingType?: string): Promise<ExpandGroupResults> {
+  async ExpandGroup(emailAddressOrsmtpAddressOrGroupId: EmailAddress | string | ItemId, routingType?: string): Promise<ExpandGroupResults> {
     // EwsUtilities.ValidateParam(emailAddressOrsmtpAddressOrGroupId, "address");
     // EwsUtilities.ValidateParam(routingType, "routingType");
     //EwsUtilities.ValidateParam(emailAddress, "emailAddress");
-    var emailAddress: EmailAddress = new EmailAddress();
+    let emailAddress: EmailAddress = new EmailAddress();
 
     if (emailAddressOrsmtpAddressOrGroupId instanceof EmailAddress) {
       emailAddress = emailAddressOrsmtpAddressOrGroupId;
@@ -1706,28 +1705,26 @@ export class ExchangeService extends ExchangeServiceBase {
       emailAddress.RoutingType = routingType;
     }
 
-    var request: ExpandGroupRequest = new ExpandGroupRequest(this);
+    const request: ExpandGroupRequest = new ExpandGroupRequest(this);
 
     request.EmailAddress = emailAddress;
 
-    return request.Execute().then((response) => {
-      return response.__thisIndexer(0).Members;
-    });
-
+    const response: ServiceResponseCollection<ExpandGroupResponse> = await request.Execute();
+    return response.__thisIndexer(0).Members;
   }
+
   /**
    * Get the password expiration date
    *
    * @param   {string}   mailboxSmtpAddress   The e-mail address of the user.
    * @return  {Promise<DateTime>}             The password expiration date :Promise.
    */
-  GetPasswordExpirationDate(mailboxSmtpAddress: string): Promise<DateTime> {
-    var request: GetPasswordExpirationDateRequest = new GetPasswordExpirationDateRequest(this);
+  async GetPasswordExpirationDate(mailboxSmtpAddress: string): Promise<DateTime> {
+    const request: GetPasswordExpirationDateRequest = new GetPasswordExpirationDateRequest(this);
     request.MailboxSmtpAddress = mailboxSmtpAddress;
 
-    return request.Execute().then((response) => {
-      return response.PasswordExpirationDate;
-    });
+    const response: GetPasswordExpirationDateResponse = await request.Execute();
+    return response.PasswordExpirationDate;
   }
 
   /**
@@ -1787,15 +1784,15 @@ export class ExchangeService extends ExchangeServiceBase {
   ): Promise<NameResolutionCollection> {
 
 
-    var argsLength = arguments.length;
+    const argsLength = arguments.length;
     if (argsLength < 1 && argsLength > 5) {
       throw new Error("ExchangeService.ts - ResolveName - invalid number of arguments, check documentation and try again.");
     }
 
     //position 1 - nameToResolve - no change, same for all overload
 
-    var searchScope: ResolveNameSearchLocation = null;
-    var parentFolderIds: FolderId[] = null;
+    let searchScope: ResolveNameSearchLocation = null;
+    let parentFolderIds: FolderId[] = null;
 
     //position 2 - parentFolderIdsOrSearchScope
     if (argsLength >= 2) {
@@ -1811,7 +1808,7 @@ export class ExchangeService extends ExchangeServiceBase {
       // }
     }
 
-    var returnContactDetails: boolean = false;
+    let returnContactDetails: boolean = false;
 
     //position 3 - searchScopeOrReturnContactDetails
     if (argsLength >= 3) {
@@ -1858,7 +1855,7 @@ export class ExchangeService extends ExchangeServiceBase {
       }
     }
 
-    var request: ResolveNamesRequest = new ResolveNamesRequest(this);
+    const request: ResolveNamesRequest = new ResolveNamesRequest(this);
 
     request.NameToResolve = nameToResolve;
     request.ReturnFullContactData = returnContactDetails;
@@ -2019,10 +2016,9 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {string}   watermark        The watermark representing the point in time where to start receiving events.
    * @return  {Promise<GetEventsResults>}     A GetEventsResults containing a list of events associated with the subscription.
    */
-  GetEvents(subscriptionId: string, watermark: string): Promise<GetEventsResults> {
-    return this.BuildGetEventsRequest(subscriptionId, watermark).Execute().then((response) => {
-      return response.__thisIndexer(0).Results;
-    });
+  async GetEvents(subscriptionId: string, watermark: string): Promise<GetEventsResults> {
+    const response: ServiceResponseCollection<GetEventsResponse> = await this.BuildGetEventsRequest(subscriptionId, watermark).Execute();
+    return response.__thisIndexer(0).Results;
   }
 
   /**
@@ -2057,16 +2053,15 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
    * @return  {Promise<PullSubscription>}      A PullSubscription representing the new subscription.
    */
-  SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription> {
+  async SubscribeToPullNotifications(folderIds: FolderId[], timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription> {
     EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
 
-    return this.BuildSubscribeToPullNotificationsRequest(
+    const response: ServiceResponseCollection<SubscribeResponse<PullSubscription>> = await this.BuildSubscribeToPullNotificationsRequest(
       folderIds,
       timeout,
       watermark,
-      eventTypes).Execute().then((response) => {
-        return response.__thisIndexer(0).Subscription;
-      });
+      eventTypes).Execute();
+    return response.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2078,19 +2073,18 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {...EventType[]}    eventTypes   The event types to subscribe to.
    * @return  {Promise<PullSubscription>}      A PullSubscription representing the new subscription.
    */
-  SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription> {
+  async SubscribeToPullNotificationsOnAllFolders(timeout: number, watermark: string, ...eventTypes: EventType[]): Promise<PullSubscription> {
     EwsUtilities.ValidateMethodVersion(
       this,
       ExchangeVersion.Exchange2010,
       "SubscribeToPullNotificationsOnAllFolders");
 
-    return this.BuildSubscribeToPullNotificationsRequest(
+    const response: ServiceResponseCollection<SubscribeResponse<PullSubscription>> = await this.BuildSubscribeToPullNotificationsRequest(
       null,
       timeout,
       watermark,
-      eventTypes).Execute().then((response) => {
-        return response.__thisIndexer(0).Subscription;
-      });
+      eventTypes).Execute();
+    return response.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2116,7 +2110,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription  :Promise.
    */
   SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
-  SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): Promise<PushSubscription> {
+  async SubscribeToPushNotifications(folderIds: FolderId[], url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): Promise<PushSubscription> {
 
     EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
 
@@ -2129,15 +2123,14 @@ export class ExchangeService extends ExchangeServiceBase {
       eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
     }
 
-    return this.BuildSubscribeToPushNotificationsRequest(
+    const response: ServiceResponseCollection<SubscribeResponse<PushSubscription>> = await this.BuildSubscribeToPushNotificationsRequest(
       folderIds,
       url,
       frequency,
       watermark,
       callerData,
-      eventTypes).Execute().then((response) => {
-        return response.__thisIndexer(0).Subscription;
-      });
+      eventTypes).Execute();
+    return response.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2161,7 +2154,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<PushSubscription>}      A PushSubscription representing the new subscription    :Promise.
    */
   SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerData: string, ...eventTypes: EventType[]): Promise<PushSubscription>;
-  SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): Promise<PushSubscription> {
+  async SubscribeToPushNotificationsOnAllFolders(url: Uri, frequency: number, watermark: string, callerDataOrEventTypes: string | EventType, ...eventTypes: EventType[]): Promise<PushSubscription> {
     EwsUtilities.ValidateMethodVersion(
       this,
       ExchangeVersion.Exchange2010,
@@ -2176,15 +2169,14 @@ export class ExchangeService extends ExchangeServiceBase {
       eventTypes.push(callerDataOrEventTypes); //info: ref: typescript generates eventTypes from arguments.length, need to push to it.
     }
 
-    return this.BuildSubscribeToPushNotificationsRequest(
+    const response: ServiceResponseCollection<SubscribeResponse<PushSubscription>> = await this.BuildSubscribeToPushNotificationsRequest(
       null,
       url,
       frequency,
       watermark,
       callerData,
-      eventTypes).Execute().then((response) => {
-        return response.__thisIndexer(0).Subscription;
-      });
+      eventTypes).Execute();
+    return response.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2194,7 +2186,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {EventType[]}   eventTypes   The event types to subscribe to.
    * @return  {Promise<StreamingSubscription>}        A StreamingSubscription representing the new subscription   :Promise.
    */
-  SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): Promise<StreamingSubscription> {
+  async SubscribeToStreamingNotifications(folderIds: FolderId[], ...eventTypes: EventType[]): Promise<StreamingSubscription> {
     EwsUtilities.ValidateMethodVersion(
       this,
       ExchangeVersion.Exchange2010_SP1,
@@ -2202,10 +2194,8 @@ export class ExchangeService extends ExchangeServiceBase {
 
     EwsUtilities.ValidateParamCollection(folderIds, "folderIds");
 
-    return this.BuildSubscribeToStreamingNotificationsRequest(folderIds, eventTypes).Execute().then((responses) => {
-      return responses.__thisIndexer(0).Subscription;
-    });
-
+    const responses: ServiceResponseCollection<SubscribeResponse<StreamingSubscription>> = await this.BuildSubscribeToStreamingNotificationsRequest(folderIds, eventTypes).Execute();
+    return responses.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2214,15 +2204,14 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {EventType[]}   eventTypes   The event types to subscribe to.
    * @return  {Promise<StreamingSubscription>}        A StreamingSubscription representing the new subscription   :Promise.
    */
-  SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): Promise<StreamingSubscription> {
+  async SubscribeToStreamingNotificationsOnAllFolders(...eventTypes: EventType[]): Promise<StreamingSubscription> {
     EwsUtilities.ValidateMethodVersion(
       this,
       ExchangeVersion.Exchange2010_SP1,
       "SubscribeToStreamingNotificationsOnAllFolders");
 
-    return this.BuildSubscribeToStreamingNotificationsRequest(null, eventTypes).Execute().then((responses) => {
-      return responses.__thisIndexer(0).Subscription;
-    });
+    const responses: ServiceResponseCollection<SubscribeResponse<StreamingSubscription>> = await this.BuildSubscribeToStreamingNotificationsRequest(null, eventTypes).Execute();
+    return responses.__thisIndexer(0).Subscription;
   }
 
   /**
@@ -2427,12 +2416,11 @@ export class ExchangeService extends ExchangeServiceBase {
    *
    * @return  {Promise<EmailAddressCollection[]>}     A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
    */
-  GetRoomLists(): Promise<EmailAddressCollection> {
+  async GetRoomLists(): Promise<EmailAddressCollection> {
     let request: GetRoomListsRequest = new GetRoomListsRequest(this);
 
-    return request.Execute().then((response) => {
-      return response.RoomLists;
-    });
+    const response: GetRoomListsResponse = await request.Execute();
+    return response.RoomLists;
   }
 
   /**
@@ -2441,16 +2429,15 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {EmailAddress}   emailAddress   The e-mail address of the room list.
    * @return  {Promise<EmailAddress[]>}       A collection of EmailAddress objects representing all the rooms within the specifed room list   :Promise.
    */
-  GetRooms(emailAddress: EmailAddress): Promise<EmailAddress[]> {
+  async GetRooms(emailAddress: EmailAddress): Promise<EmailAddress[]> {
     EwsUtilities.ValidateParam(emailAddress, "emailAddress");
 
     let request: GetRoomsRequest = new GetRoomsRequest(this);
 
     request.RoomList = emailAddress;
 
-    return request.Execute().then((response) => {
-      return response.Rooms;
-    });
+    const response: GetRoomsResponse = await request.Execute();
+    return response.Rooms;
   }
 
   /**
@@ -2472,20 +2459,18 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<GetUserAvailabilityResults>}       The availability information for each user appears in a unique FreeBusyResponse object. The order of users in the request determines the order of availability data for each user in the response :Promise.
    */
   GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions): Promise<GetUserAvailabilityResults>;
-  GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): Promise<GetUserAvailabilityResults> {
+  async GetUserAvailability(attendees: AttendeeInfo[], timeWindow: TimeWindow, requestedData: AvailabilityData, options: AvailabilityOptions = new AvailabilityOptions()): Promise<GetUserAvailabilityResults> {
     EwsUtilities.ValidateParamCollection(attendees, "attendees");
     EwsUtilities.ValidateParam(timeWindow, "timeWindow");
     EwsUtilities.ValidateParam(options, "options");
-    var request = new GetUserAvailabilityRequest(this);
+    const request = new GetUserAvailabilityRequest(this);
 
     request.Attendees = attendees;
     request.TimeWindow = timeWindow;
     request.RequestedData = requestedData;
     request.Options = options;
 
-    return request.Execute().then((responses) => {
-      return responses;
-    });
+    return request.Execute()
 
   }
 
@@ -2495,16 +2480,15 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {string}   smtpAddress   The SMTP address of the user for which to retrieve OOF settings.
    * @return  {Promise<OofSettings>}   An OofSettings instance containing OOF information for the specified user.
    */
-  GetUserOofSettings(smtpAddress: string): Promise<OofSettings> {
+  async GetUserOofSettings(smtpAddress: string): Promise<OofSettings> {
     EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
 
-    var request: GetUserOofSettingsRequest = new GetUserOofSettingsRequest(this);
+    const request: GetUserOofSettingsRequest = new GetUserOofSettingsRequest(this);
 
     request.SmtpAddress = smtpAddress;
 
-    return request.Execute().then((response) => {
-      return response.OofSettings;
-    });
+    const response: GetUserOofSettingsResponse = await request.Execute();
+    return response.OofSettings;
   }
 
   /**
@@ -2518,7 +2502,7 @@ export class ExchangeService extends ExchangeServiceBase {
     EwsUtilities.ValidateParam(smtpAddress, "smtpAddress");
     EwsUtilities.ValidateParam(oofSettings, "oofSettings");
 
-    var request: SetUserOofSettingsRequest = new SetUserOofSettingsRequest(this);
+    const request: SetUserOofSettingsRequest = new SetUserOofSettingsRequest(this);
 
     request.SmtpAddress = smtpAddress;
     request.OofSettings = oofSettings;
@@ -2848,7 +2832,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {string}    anchorMailbox   The anchorMailbox Smtp address to route the request directly to group mailbox.
    * @return  {Promise<Conversation[]>}   Collection of conversations :Promise.
    */
-  FindGroupConversation(view: ViewBase, folderId: FolderId, anchorMailbox: string): Promise<Conversation[]> {
+  async FindGroupConversation(view: ViewBase, folderId: FolderId, anchorMailbox: string): Promise<Conversation[]> {
 
     EwsUtilities.ValidateParam(view, "view");
     EwsUtilities.ValidateParam(folderId, "folderId");
@@ -2864,9 +2848,8 @@ export class ExchangeService extends ExchangeServiceBase {
     request.FolderId = new FolderIdWrapper(folderId);
     request.AnchorMailbox = anchorMailbox;
 
-    return request.Execute().then((responses: FindConversationResponse) => {
-      return responses.Conversations;
-    });
+    const responses: FindConversationResponse = await request.Execute();
+    return responses.Conversations;
   }
 
   /**
@@ -2901,7 +2884,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ConversationResponse>}               GetConversationItems response    :Promise.
    */
   GetConversationItems(conversationId: ConversationId, propertySet: PropertySet, syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */): Promise<ConversationResponse>;
-  GetConversationItems(
+  async GetConversationItems(
     conversationsOrConversationId: ConversationRequest[] | ConversationId,
     propertySet: PropertySet,
     foldersToIgnoreOrSyncState: FolderId[] | string,
@@ -2929,18 +2912,16 @@ export class ExchangeService extends ExchangeServiceBase {
 
     }
 
-    return this.InternalGetConversationItems(
+    const responses: ServiceResponseCollection<GetConversationItemsResponse> = await this.InternalGetConversationItems(
       conversations,
       propertySet,
       foldersToIgnore,
-      sortOrder, //todo: check why official repo has passed sortOrder as nulll when requested with ConversationRequest[] varient
-      mailboxScope,           /* mailboxScope */
-      null,           /* maxItemsToReturn */
-      null, /* anchorMailbox */
-      ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<GetConversationItemsResponse>) => {
-        return returnConversationResponse ? responses.__thisIndexer(0).Conversation : responses;
-      });
-
+      sortOrder,    //todo: check why official repo has passed sortOrder as null when requested with ConversationRequest[] variant
+      mailboxScope, /* mailboxScope */
+      null,         /* maxItemsToReturn */
+      null,         /* anchorMailbox */
+      ServiceErrorHandling.ThrowOnError);
+    return returnConversationResponse ? responses.__thisIndexer(0).Conversation : responses;
   }
 
   /**
@@ -2955,24 +2936,23 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {string}                    anchorMailbox     The smtp address of the mailbox hosting the conversations
    * @return  {Promise<ConversationResponse>}               ConversationResponseType response :Promise.
    */
-  GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet,
+  async GetGroupConversationItems(conversationId: ConversationId, propertySet: PropertySet,
     syncState: string, foldersToIgnore: FolderId[], sortOrder: ConversationSortOrder /* Nullable */, anchorMailbox: string): Promise<ConversationResponse> {
     EwsUtilities.ValidateParam(anchorMailbox, "anchorMailbox");
 
     let conversations: ConversationRequest[] = [];
     conversations.push(new ConversationRequest(conversationId, syncState));
 
-    return this.InternalGetConversationItems(
+    const responses: ServiceResponseCollection<GetConversationItemsResponse> = await this.InternalGetConversationItems(
       conversations,
       propertySet,
       foldersToIgnore,
       sortOrder,
       null,           /* mailboxScope */
       null,           /* maxItemsToReturn */
-      anchorMailbox, /* anchorMailbox */
-      ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<GetConversationItemsResponse>) => {
-        return responses.__thisIndexer(0).Conversation;
-      });
+      anchorMailbox,  /* anchorMailbox */
+      ServiceErrorHandling.ThrowOnError);
+    return responses.__thisIndexer(0).Conversation;
   }
 
   /**
@@ -3198,16 +3178,14 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {IdFormat}          destinationFormat   The destination format.
    * @return  {Promise<AlternateIdBase>}     The converted Id :Promise.
    */
-  ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): Promise<AlternateIdBase> {
+  async ConvertId(id: AlternateIdBase, destinationFormat: IdFormat): Promise<AlternateIdBase> {
     EwsUtilities.ValidateParam(id, "id");
 
-    return this.InternalConvertIds(
+    const responses: ServiceResponseCollection<ConvertIdResponse> = await this.InternalConvertIds(
       [id],
       destinationFormat,
-      ServiceErrorHandling.ThrowOnError).then((responses: ServiceResponseCollection<ConvertIdResponse>) => {
-        return responses.__thisIndexer(0).ConvertedId;
-      })
-
+      ServiceErrorHandling.ThrowOnError);
+    return responses.__thisIndexer(0).ConvertedId;
   }
 
   /**
@@ -3266,7 +3244,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
    */
   AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
-  AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]> {
+  async AddDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]> {
 
     if (delegateUser) { //info: rest parameters are optional for typescript
       if (ArrayHelper.isArray(delegateUser)) {
@@ -3286,10 +3264,8 @@ export class ExchangeService extends ExchangeServiceBase {
     request.MeetingRequestsDeliveryScope = meetingRequestsDeliveryScope;
 
 
-    return request.Execute().then((response: DelegateManagementResponse) => {
-      return response.DelegateUserResponses;
-    })
-
+    const response: DelegateManagementResponse = await request.Execute();
+    return response.DelegateUserResponses;
   }
 
 
@@ -3311,7 +3287,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<DelegateInformation>}      A GetDelegateResponse providing the results of the operation    :Promise.
    */
   GetDelegates(mailbox: Mailbox, includePermissions: boolean, userIds: UserId[]): Promise<DelegateInformation>;
-  GetDelegates(mailbox: Mailbox, includePermissions: boolean, userId: UserId | UserId[], ...userIds: UserId[]): Promise<DelegateInformation> {
+  async GetDelegates(mailbox: Mailbox, includePermissions: boolean, userId: UserId | UserId[], ...userIds: UserId[]): Promise<DelegateInformation> {
 
     if (userId) { //info: rest parameters are optional for typescript
       if (ArrayHelper.isArray(userId)) {
@@ -3330,13 +3306,12 @@ export class ExchangeService extends ExchangeServiceBase {
     ArrayHelper.AddRange(request.UserIds, userIds); //request.UserIds.AddRange(userIds);
     request.IncludePermissions = includePermissions;
 
-    return request.Execute().then((response: GetDelegateResponse) => {
-      let delegateInformation: DelegateInformation = new DelegateInformation(
-        response.DelegateUserResponses,
-        response.MeetingRequestsDeliveryScope);
+    const response: GetDelegateResponse = await request.Execute();
+    const delegateInformation: DelegateInformation = new DelegateInformation(
+      response.DelegateUserResponses,
+      response.MeetingRequestsDeliveryScope);
 
-      return delegateInformation;
-    });
+    return delegateInformation;
   }
 
   /**
@@ -3355,7 +3330,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
    */
   RemoveDelegates(mailbox: Mailbox, userIds: UserId[]): Promise<DelegateUserResponse[]>;
-  RemoveDelegates(mailbox: Mailbox, userId: UserId | UserId[], ...userIds: UserId[]): Promise<DelegateUserResponse[]> {
+  async RemoveDelegates(mailbox: Mailbox, userId: UserId | UserId[], ...userIds: UserId[]): Promise<DelegateUserResponse[]> {
 
     if (userId) { //info: rest parameters are optional for typescript
       if (ArrayHelper.isArray(userId)) {
@@ -3373,9 +3348,8 @@ export class ExchangeService extends ExchangeServiceBase {
     request.Mailbox = mailbox;
     ArrayHelper.AddRange(request.UserIds, userIds); //request.UserIds.AddRange(userIds);
 
-    return request.Execute().then((response: DelegateManagementResponse) => {
-      return response.DelegateUserResponses;
-    })
+    const response: DelegateManagementResponse = await request.Execute();
+    return response.DelegateUserResponses;
   }
 
   /**
@@ -3396,7 +3370,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<DelegateUserResponse[]>}       A collection of DelegateUserResponse objects providing the results of the operation :Promise.
    */
   UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]>;
-  UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]> {
+  async UpdateDelegates(mailbox: Mailbox, meetingRequestsDeliveryScope: MeetingRequestsDeliveryScope, delegateUser: DelegateUser[] | DelegateUser, ...delegateUsers: DelegateUser[]): Promise<DelegateUserResponse[]> {
 
     if (delegateUser) { //info: rest parameters are optional for typescript
       if (ArrayHelper.isArray(delegateUser)) {
@@ -3415,9 +3389,8 @@ export class ExchangeService extends ExchangeServiceBase {
     ArrayHelper.AddRange(request.DelegateUsers, delegateUsers); //request.DelegateUsers.AddRange(delegateUsers);
     request.MeetingRequestsDeliveryScope = meetingRequestsDeliveryScope;
 
-    return request.Execute().then((response: DelegateManagementResponse) => {
-      return response.DelegateUserResponses;
-    })
+    const response: DelegateManagementResponse = await request.Execute();
+    return response.DelegateUserResponses;
   }
   //#endregion
 
@@ -3467,7 +3440,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {UserConfigurationProperties}   properties       Properties to retrieve.
    * @return  {Promise<UserConfiguration>}    A UserConfiguration.
    */
-  GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): Promise<UserConfiguration> {
+  async GetUserConfiguration(name: string, parentFolderId: FolderId, properties: UserConfigurationProperties): Promise<UserConfiguration> {
     EwsUtilities.ValidateParam(name, "name");
     EwsUtilities.ValidateParam(parentFolderId, "parentFolderId");
 
@@ -3477,9 +3450,8 @@ export class ExchangeService extends ExchangeServiceBase {
     request.ParentFolderId = parentFolderId;
     request.Properties = properties;
 
-    return request.Execute().then((response: ServiceResponseCollection<GetUserConfigurationResponse>) => {
-      return response.__thisIndexer(0).UserConfiguration;
-    })
+    const response: ServiceResponseCollection<GetUserConfigurationResponse> = await request.Execute();
+    return response.__thisIndexer(0).UserConfiguration;
   }
 
   /**
@@ -3950,59 +3922,51 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {AutodiscoverRedirectionUrlValidationCallback}      validateRedirectionUrlCallback   The callback used to validate redirection URL.
    */
   AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback): Promise<void>;
-  AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): Promise<void> {
+  async AutodiscoverUrl(emailAddress: string, validateRedirectionUrlCallback: AutodiscoverRedirectionUrlValidationCallback = this.DefaultAutodiscoverRedirectionUrlValidationCallback): Promise<void> {
     //validateRedirectionUrlCallback = validateRedirectionUrlCallback || this.DefaultAutodiscoverRedirectionUrlValidationCallback;
 
     let exchangeServiceUrl: Uri = null;
 
     if (this.RequestedServerVersion > ExchangeVersion.Exchange2007_SP1) {
+      try {
+        const exchangeServiceUrl = await this.GetAutodiscoverUrl(
+          emailAddress,
+          this.RequestedServerVersion,
+          validateRedirectionUrlCallback);
 
-      return this.GetAutodiscoverUrl(
-        emailAddress,
-        this.RequestedServerVersion,
-        validateRedirectionUrlCallback).then((url) => {
-          exchangeServiceUrl = url;
-          this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
-          //return;
-        }, (err) => {
-          //catch (AutodiscoverLocalException ex)
-          this.TraceMessage(
-            TraceFlags.AutodiscoverResponse,
-            StringHelper.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", err));
-          //catch (ServiceRemoteException ex)
-
-          // Special case: if the caller's account is locked we want to return this exception, not continue.
-          //        if (ex is AccountIsLockedException)
-          //{
-          //    throw;
-          //}
-
-          //this.TraceMessage(
-          //    TraceFlags.AutodiscoverResponse,
-          //    string.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", ex.Message));
+        this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
+        return;
 
 
-          // Try legacy Autodiscover provider
-          return this.GetAutodiscoverUrl(
-            emailAddress,
-            ExchangeVersion.Exchange2007_SP1,
-            validateRedirectionUrlCallback).then(url => {
-              this.Url = this.AdjustServiceUriFromCredentials(url);
-            }, error => {
-              throw error;
-            });
-        });
+      } catch (err) {
+        //catch (AutodiscoverLocalException ex)
+        if (err instanceof AccountIsLockedException) {
+          throw err;
+        }
+        this.TraceMessage(
+          TraceFlags.AutodiscoverResponse,
+          StringHelper.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", err.message || err));
+        //catch (ServiceRemoteException ex)
+
+        // Special case: if the caller's account is locked we want to return this exception, not continue.
+        //        if (ex is AccountIsLockedException)
+        //{
+        //    throw;
+        //}
+
+        //this.TraceMessage(
+        //    TraceFlags.AutodiscoverResponse,
+        //    string.Format("Autodiscover service call failed with error '{0}'. Will try legacy service", ex.Message));
+      }
     }
 
     // Try legacy Autodiscover provider
-    return this.GetAutodiscoverUrl(
+    exchangeServiceUrl = await this.GetAutodiscoverUrl(
       emailAddress,
       ExchangeVersion.Exchange2007_SP1,
-      validateRedirectionUrlCallback).then(url => {
-        this.Url = this.AdjustServiceUriFromCredentials(url);
-      }, error => {
-        throw error;
-      });
+      validateRedirectionUrlCallback);
+
+    this.Url = this.AdjustServiceUriFromCredentials(exchangeServiceUrl);
   }
 
   /**
@@ -4065,7 +4029,7 @@ export class ExchangeService extends ExchangeServiceBase {
    */
   private GetEwsUrlFromResponse(response: GetUserSettingsResponse, isExternal: boolean): Uri {
 
-    var uriString = response.GetSettingValue<string>(UserSettingName.ExternalEwsUrl)
+    let uriString = response.GetSettingValue<string>(UserSettingName.ExternalEwsUrl)
 
     // Figure out which URL to use: Internal or External.
     // AutoDiscover may not return an external protocol. First try external, then internal.
@@ -4144,25 +4108,23 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<ClientApp[]>}              Collection of manifests :Promise.
    */
   GetAppManifests(apiVersionSupported: string, schemaVersionSupported: string): Promise<ClientApp[]>;
-  GetAppManifests(apiVersionSupported: string = null, schemaVersionSupported: string = null): Promise<ClientApp[] | string[]> {
-    let argsLength = arguments.length;
+  async GetAppManifests(apiVersionSupported: string = null, schemaVersionSupported: string = null): Promise<ClientApp[] | string[]> {
     let request: GetAppManifestsRequest = new GetAppManifestsRequest(this);
 
-    if (argsLength !== 0) {
+    let hasArguments = false;
+    if (hasValue(apiVersionSupported) && hasValue(schemaVersionSupported)) {
+      hasArguments = true;
       request.ApiVersionSupported = apiVersionSupported;
       request.SchemaVersionSupported = schemaVersionSupported;
     }
 
-    return request.Execute().then((response: GetAppManifestsResponse) => {
-      if (argsLength !== 0) {
-        return response.Apps;
-      }
-      else {
-        return response.Manifests;
-      }
-    });
-
-
+    const response: GetAppManifestsResponse = await request.Execute();
+    if (hasArguments) {
+      return response.Apps;
+    }
+    else {
+      return response.Manifests;
+    }
   }
 
   /**
@@ -4181,16 +4143,14 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {Promise<string>}                   marketplace url as string :Promise.
    */
   GetAppMarketplaceUrl(apiVersionSupported: string, schemaVersionSupported: string): Promise<string>;
-  GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): Promise<string> {
+  async GetAppMarketplaceUrl(apiVersionSupported: string = null, schemaVersionSupported: string = null): Promise<string> {
 
     let request: GetAppMarketplaceUrlRequest = new GetAppMarketplaceUrlRequest(this);
     request.ApiVersionSupported = apiVersionSupported;
     request.SchemaVersionSupported = schemaVersionSupported;
 
-    return request.Execute().then((response: GetAppMarketplaceUrlResponse) => {
-
-      return response.AppMarketplaceUrl;
-    });
+    const response: GetAppMarketplaceUrlResponse = await request.Execute();
+    return response.AppMarketplaceUrl;
   }
 
   /**
@@ -4257,15 +4217,15 @@ export class ExchangeService extends ExchangeServiceBase {
   //#region Validation
 
   static IsMajorMinor(versionPart: string): boolean {
-    var MajorMinorSeparator: string = '.';//char
+    const MajorMinorSeparator: string = '.';//char
 
-    var parts: string[] = versionPart.split(MajorMinorSeparator);
+    const parts: string[] = versionPart.split(MajorMinorSeparator);
     if (parts.length != 2) {
       return false;
     }
 
-    for (var s of parts) {
-      for (var c of s.split('')) {
+    for (let s of parts) {
+      for (let c of s.split('')) {
         if (isNaN(<any>c)) {
           return false;
         }
@@ -4297,26 +4257,26 @@ export class ExchangeService extends ExchangeServiceBase {
    * @param   {string}   version   the version string
    */
   static ValidateTargetVersion(version: string): void {
-    var ParameterSeparator: string = ';'; //char
-    var LegacyVersionPrefix: string = "Exchange20";
-    var ParameterValueSeparator: string = '='; //char
-    var ParameterName: string = "minimum";
+    const ParameterSeparator: string = ';'; //char
+    const LegacyVersionPrefix: string = "Exchange20";
+    const ParameterValueSeparator: string = '='; //char
+    const ParameterName: string = "minimum";
 
     if (StringHelper.IsNullOrEmpty(version)) {
       throw new ArgumentException("Target version must not be empty.");
     }
 
-    var parts: string[] = version.trim().split(ParameterSeparator);
+    const parts: string[] = version.trim().split(ParameterSeparator);
 
     if (parts.length > 2) {
       throw new ArgumentException("Target version should have the form.");
     }
 
-    var skipPart1: boolean = true;
+    let skipPart1: boolean = true;
     if (parts.length === 2) {
       // Validate the optional minimum version parameter, "minimum=X.Y"
-      var part2: string = parts[1].trim();
-      var minParts: string[] = part2.split(ParameterValueSeparator);
+      const part2: string = parts[1].trim();
+      const minParts: string[] = part2.split(ParameterValueSeparator);
       if (minParts.length == 2 &&
         minParts[0].trim().toUpperCase() === ParameterName.toUpperCase() &&
         ExchangeService.IsMajorMinor(minParts[1].trim())) {
@@ -4329,7 +4289,7 @@ export class ExchangeService extends ExchangeServiceBase {
 
     if (parts.length >= 0 && !skipPart1) {
       // Validate the header value. We allow X.Y or Exchange20XX.
-      var part1: string = parts[0].trim();
+      const part1: string = parts[0].trim();
       if (parts[0].indexOf(LegacyVersionPrefix) === 0) {
         // Close enough; misses corner cases like "Exchange2001". Server will do complete validation.
       }
@@ -4353,7 +4313,7 @@ export class ExchangeService extends ExchangeServiceBase {
    * @return  {IXHROptions}           An instance of IXHROptions to call web service with.
    */
   PrepareHttpWebRequest(methodName: string): IXHROptions {
-    var endpoint = this.Url;
+    let endpoint = this.Url;
     //this.RegisterCustomBasicAuthModule();
 
     if (this.RenderingMethod === RenderingMode.JSON) {
@@ -4365,7 +4325,7 @@ export class ExchangeService extends ExchangeServiceBase {
       endpoint = this.AdjustServiceUriFromCredentials(endpoint);
     }
 
-    var request = this.PrepareHttpWebRequestForUrl(
+    const request = this.PrepareHttpWebRequestForUrl(
       endpoint,
       this.AcceptGzipEncoding,
       true);
@@ -4418,13 +4378,11 @@ export class ExchangeService extends ExchangeServiceBase {
    * 
    * @returns {Promise<TimeZoneInfo[]>} 
    */
-  GetServerTimeZones(): Promise<TimeZoneInfo[]> {
-    let argsLength = arguments.length;
-    let request: GetServerTimeZonesRequest = new GetServerTimeZonesRequest(this);
+  async GetServerTimeZones(): Promise<TimeZoneInfo[]> {
+    const request: GetServerTimeZonesRequest = new GetServerTimeZonesRequest(this);
 
-    return request.Execute().then((response: ServiceResponseCollection<GetServerTimeZonesResponse>) => {
-      return response.Responses[0].TimeZones;
-    });
+    const response: ServiceResponseCollection<GetServerTimeZonesResponse> = await request.Execute();
+    return response.Responses[0].TimeZones;
   }
 
   //#endregion
