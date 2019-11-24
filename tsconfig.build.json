@@ -4,6 +4,7 @@
         "declaration": true,
         "noEmit": false,
         "rootDir": "src/",
+        "importHelpers": true,
     },
     "exclude": [
         "node_modules",
