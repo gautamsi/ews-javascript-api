@@ -16,8 +16,10 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 * Almost all methods in ExchangeService class is comple with respect to c# counterpart ([based on commit#31951f4 ](https://github.com/OfficeDev/ews-managed-api/commit/31951f456519786e41232fa9ff6a3ab20b56cac3)
     * some method skipped as they are not for client side code or are diaognostic methods. 
 * Roadmap to 1.0 Beta:
-    * ~ReWrite XHR/Request and Promise see #94~ done
-    * ~Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isnt taking any advantage of.~
+    * ~~ReWrite XHR/Request and Promise see #94~~ done
+    * ~~Rewrite Autodiscover code with fresh Promise approach, this code was my work in very beginning and poorly written, strategy and TypeScript features improved over time which this code isn't taking any advantage of.~~ done
+    * use `async/await` and move to `@ewsjs/*` namespace
+    * chain `@ewsjs/xhr` to wrap all exports from `@ewsjs/ews`
     * Add jsdoc comment to remaining exported class
 * Roadmap to 1.0
     * fix bugs from Beta
@@ -38,8 +40,15 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 
 ===========================================================================================
 
-# Whats new v0.10.0 (in progress)
+# Whats new v0.10.0
 * new/fix: #324 Autodiscover is back again, improved and supports DNS fallback using Autodiscover SRV records
+* new: #320 Allow access to `HttpResponseHeaders`, you can use `<ExchangeService Instance>.HttpResponseHeaders` to get fresh header from last call to ews service.
+  *  you can also add a delegate (callback) for `<ExchangeService Instance>.OnResponseHeadersCaptured` which is called after each call to service and when headers are returned.
+
+* **Breaking Changes**:  `<ExchangeService>.HttpHeaders` is now Disctionary instance, compatible with c# disctionary. you can no longer do `service.HttpHeaders[<header>] = value`. do this instead `service.HttpHeaders.Add("header", "value"); `
+
+* fix: #322 you can now delete tasks properly
+
 
 [See older change in CHANGELOG.md](./CHANGELOG.md)
 
