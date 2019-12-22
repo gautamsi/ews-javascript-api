@@ -1,9 +1,10 @@
-﻿import {ItemAttachment} from "../ComplexProperties/ItemAttachment";
-import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
-import {PropertyDefinition} from "../PropertyDefinitions/PropertyDefinition";
-import {ComplexProperty} from "../ComplexProperties/ComplexProperty";
-import {ExchangeService} from "../Core/ExchangeService";
-import {ServiceObject} from "../Core/ServiceObjects/ServiceObject";
+﻿import { ItemAttachment } from "../ComplexProperties/ItemAttachment";
+import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
+import { PropertyDefinition } from "../PropertyDefinitions/PropertyDefinition";
+import { ComplexProperty } from "../ComplexProperties/ComplexProperty";
+import { ExchangeService } from "../Core/ExchangeService";
+import { ServiceObject } from "../Core/ServiceObjects/ServiceObject";
+import { Dictionary } from "../AltDictionary";
 
 
 //no change needed
@@ -25,7 +26,7 @@ export interface CustomXmlSerializationDelegate {
 //}
 
 export interface ResponseHeadersCapturedHandler {
-    (responseHeaders: any /*System.Net.WebHeaderCollection*/): void;
+    (responseHeaders: Dictionary<string, string>): void;
 }
 //class ResponseHeadersCapturedHandler extends System.MulticastDelegate {
 //    //BeginInvoke(responseHeaders: System.Net.WebHeaderCollection, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
@@ -66,17 +67,17 @@ export interface GetPropertyDefinitionCallback {
 export interface CreateComplexPropertyDelegate<TComplexProperty extends ComplexProperty> {
     (): TComplexProperty;
 }
-    //class GetPropertyDefinitionCallback extends System.MulticastDelegate {
-    //    //BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
-    //    //EndInvoke(result: System.IAsyncResult): PropertyDefinition{ throw new Error("DelegateTypes.ts - EndInvoke : Not implemented.");}
-    //    //Invoke(version: ExchangeVersion): PropertyDefinition{ throw new Error("DelegateTypes.ts - Invoke : Not implemented.");}
-    //}
+//class GetPropertyDefinitionCallback extends System.MulticastDelegate {
+//    //BeginInvoke(version: ExchangeVersion, callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
+//    //EndInvoke(result: System.IAsyncResult): PropertyDefinition{ throw new Error("DelegateTypes.ts - EndInvoke : Not implemented.");}
+//    //Invoke(version: ExchangeVersion): PropertyDefinition{ throw new Error("DelegateTypes.ts - Invoke : Not implemented.");}
+//}
 
-    //class CreateComplexPropertyDelegate<TComplexProperty> extends System.MulticastDelegate {
-    //    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
-    //    //EndInvoke(result: System.IAsyncResult): TComplexProperty{ throw new Error("DelegateTypes.ts - EndInvoke : Not implemented.");}
-    //    //Invoke(): TComplexProperty{ throw new Error("DelegateTypes.ts - Invoke : Not implemented.");}
-    //}
+//class CreateComplexPropertyDelegate<TComplexProperty> extends System.MulticastDelegate {
+//    //BeginInvoke(callback: System.AsyncCallback, object: any): System.IAsyncResult{ throw new Error("DelegateTypes.ts - BeginInvoke : Not implemented.");}
+//    //EndInvoke(result: System.IAsyncResult): TComplexProperty{ throw new Error("DelegateTypes.ts - EndInvoke : Not implemented.");}
+//    //Invoke(): TComplexProperty{ throw new Error("DelegateTypes.ts - Invoke : Not implemented.");}
+//}
 
 
 export interface CreateServiceObjectWithServiceParam {

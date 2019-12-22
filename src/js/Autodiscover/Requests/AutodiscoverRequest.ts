@@ -155,7 +155,7 @@ export abstract class AutodiscoverRequest {
       }
 
       EwsLogging.DebugLog("sending ews request");
-      EwsLogging.DebugLog(xhrOptions, true);
+      EwsLogging.DebugLog({ ...xhrOptions, ...{ headers: { ...xhrOptions.headers, Authorization: "REDACTED" } }}, true);
       const xhrResponse = await this.service.XHRApi.xhr(xhrOptions)
       const ewsXmlReader = new EwsXmlReader(xhrResponse.responseText || xhrResponse.response);
       const responseObject = ewsXmlReader.JsObject;

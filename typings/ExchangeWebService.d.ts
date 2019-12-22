@@ -5339,6 +5339,30 @@ export interface EnumVersionDelegate {
      */
     readonly HttpResponseHeaders: Dictionary<string, string>;
     XHRApi: IXHRApi;
+    /**
+     * Initializes a new instance of the **ExchangeServiceBase** class.
+     *
+     */
+    constructor();
+    /**
+     * Initializes a new instance of the **ExchangeServiceBase** class.
+     *
+     * @param   {TimeZoneInfo}   timeZone   The time zone to which the service is scoped.
+     */
+    constructor(timeZone: TimeZoneInfo);
+    /**
+     * Initializes a new instance of the **ExchangeServiceBase** class.
+     *
+     * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
+     */
+    constructor(requestedServerVersion: ExchangeVersion);
+    /**
+     * Initializes a new instance of the **ExchangeServiceBase** class.
+     *
+     * @param   {ExchangeVersion}   requestedServerVersion   The requested server version.
+     * @param   {TimeZoneInfo}      timeZone                 The time zone to which the service is scoped.
+     */
+    constructor(requestedServerVersion: ExchangeVersion, timeZone: TimeZoneInfo);
 }
 /**
  * JSON names not shared with the XmlElementNames or XmlAttributeNames classes.
@@ -21688,7 +21712,7 @@ export interface CustomXmlSerializationDelegate {
     (writer: any): any;
 }
 export interface ResponseHeadersCapturedHandler {
-    (responseHeaders: any): void;
+    (responseHeaders: Dictionary<string, string>): void;
 }
 export interface ServiceObjectChangedDelegate {
     (serviceObject: ServiceObject): void;
