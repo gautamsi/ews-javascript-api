@@ -2564,9 +2564,9 @@ export class ExchangeService extends ExchangeServiceBase {
       "ApplyConversationAction");
 
     let request: ApplyConversationActionRequest = new ApplyConversationActionRequest(this, errorHandlingMode);
-    let action: ConversationAction = new ConversationAction();
-
+    
     for (let conversationId of conversationIds) {
+      const action: ConversationAction = new ConversationAction();
       action.Action = actionType;
       action.ConversationId = conversationId;
       action.ProcessRightAway = processRightAway;
