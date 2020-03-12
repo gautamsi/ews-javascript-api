@@ -98,10 +98,14 @@ function copyFiles() {
 function copyPackageJson() {
   return new Promise(async resolve => {
     const file = 'package.json'
-    const obj = await readFile(file).catch(error => console.error(error));
-    delete obj.devDependencies;
-    delete obj.scripts;
-    await writeFile(`${outputDir}/package.json`, obj, { spaces: 4, EOL: os.EOL }).catch(error => console.error(error));
-    resolve();
+    try {
+      const obj = await readFile(file);
+      delete obj.devDependencies;
+      delete obj.scripts;
+      await writeFile(`${outputDir}/package.json`, obj, { spaces: 4, EOL: os.EOL });
+      resolve();
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
