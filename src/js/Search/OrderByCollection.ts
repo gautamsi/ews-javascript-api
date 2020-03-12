@@ -141,7 +141,7 @@ export class OrderByCollection implements IEnumerable<PropertyDefinitionSortDire
             for (var keyValuePair of this.propDefSortOrderPairList) {
                 writer.WriteStartElement(XmlNamespace.Types, XmlElementNames.FieldOrder);
 
-                writer.WriteAttributeValue(XmlAttributeNames.Order, keyValuePair.value);
+                writer.WriteAttributeValue(XmlAttributeNames.Order,  SortDirection[keyValuePair.value]);
                 keyValuePair.key.WriteToXml(writer);
 
                 writer.WriteEndElement(); // FieldOrder
