@@ -63,8 +63,7 @@ export class ExtendedProperty extends ComplexProperty {
                         "PropertyDefintion is missing");
 
                     var stringList: StringList = new StringList(XmlElementNames.Value);
-                    var jsonCollection = EwsServiceJsonReader.ReadAsArray(jsonProperty, key);
-                    stringList.CreateFromXmlJsObjectCollection(jsonCollection, service);
+                    stringList.CreateFromXmlJsObjectCollection(jsonProperty[key], service);
                     this.value = MapiTypeConverter.ConvertToValue(this.PropertyDefinition.MapiType, stringList.GetEnumerator());
                     break;
                 default:
