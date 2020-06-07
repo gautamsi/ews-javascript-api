@@ -69,6 +69,10 @@ Works with **Office 365/Exchange Online** and on-premises Exchange (2007 - 2016)
 > use SSL for basic authentication  
 NTLM and Cookies Authentication works with nodejs only
 
+> **NTLM** issue with `invalid tagName` gibrish character is due to gzip encoding, see #334. 
+> 
+> **Solution** use `gzip: true` in `XhrApi({ gzip: true })` constructor options of `@ewsjs/xhr`.
+
 ## Modules
 * commonjs module for NodeJs
 * AMD module for other scenarios* (not documented yet)
