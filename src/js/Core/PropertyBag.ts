@@ -93,7 +93,7 @@ export class PropertyBag {
             return propertyValue;
         }
         else {
-            throw serviceException.exception;
+            throw serviceException.outValue;
         }
     }
     /**
