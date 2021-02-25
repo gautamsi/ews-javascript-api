@@ -290,8 +290,13 @@ export class TimeZoneDefinition extends ComplexProperty {
         this.Validate();
 
         if (!parse) {
-            //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
-            return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+            try {
+                //ref: skipped creation based on server data, directly creating using TimeZone Mapping data. complex to translate Windows TimeZoneInfo subclasses to javascript.
+                return TimeZoneInfo.FindSystemTimeZoneById(this.Id);
+            }
+            catch {
+                EwsLogging.DebugLog(`Could not resolve a system timezone with Id "${this.Id}"`);
+            }
         }
         let result: TimeZoneInfo;
 
