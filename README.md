@@ -6,6 +6,8 @@ ews-javascript-api
 Contact @gautamsi for support. Use [![Gitter](https://badges.gitter.im/gautamsi/ews-javascript-api.svg)](https://gitter.im/gautamsi/ews-javascript-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) for 1:1 support and paid support. Also looking for sponsors to fund remaining development on this. 
 
 ===========================================================================================    
+## Office 365 OAuth Support is built in
+see demo repo https://github.com/ewsjs/oauth-demo which has working example - https://github.com/ewsjs/oauth-demo/blob/main/examples/msal-node-samples/auth-code/index.js to find out how to use oAuth Token from msal.
 
 ## July 2019 Update:  
 You can now use this in Ionic, Cordova, Browser based process (where CORS is disabled), Outlook Add-in or Mail apps. see [`ews-js-api-browser`](https://github.com/gautamsi/ews-js-api-browser) for more detail
