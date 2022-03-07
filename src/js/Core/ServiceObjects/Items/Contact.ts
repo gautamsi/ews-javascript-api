@@ -17,7 +17,6 @@ import { ItemId } from "../../../ComplexProperties/ItemId";
 import { PhoneNumberDictionary } from "../../../ComplexProperties/PhoneNumberDictionary";
 import { PhysicalAddressDictionary } from "../../../ComplexProperties/PhysicalAddressDictionary";
 import { PhysicalAddressIndex } from "../../../Enumerations/PhysicalAddressIndex";
-import { Promise } from "../../../Promise";
 import { PropertyException } from "../../../Exceptions/PropertyException";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";

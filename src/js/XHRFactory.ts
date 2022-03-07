@@ -1,5 +1,4 @@
-﻿import { Promise } from "./Promise";
-import { IXHROptions, IXHRApi } from "./Interfaces";
+﻿import { IXHROptions, IXHRApi } from "./Interfaces";
 import { XHRDefault } from "./XHRDefault"
 
 export class XHRFactory {

@@ -27,7 +27,6 @@ import { MessageBody } from "../../../ComplexProperties/MessageBody";
 import { OccurrenceInfo } from "../../../ComplexProperties/OccurrenceInfo";
 import { OccurrenceInfoCollection } from "../../../ComplexProperties/OccurrenceInfoCollection";
 import { OnlineMeetingSettings } from "../../../ComplexProperties/OnlineMeetingSettings";
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { RecurringAppointmentMasterId } from "../../../ComplexProperties/RecurringAppointmentMasterId";

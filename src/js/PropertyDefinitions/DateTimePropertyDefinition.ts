@@ -28,6 +28,7 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
     /**
      * Gets the property type.
      */
+    // @ts-ignore
     Type: any;//System.Type;
 
     /**
@@ -72,6 +73,7 @@ export class DateTimePropertyDefinition extends PropertyDefinition {
             default:
                 break;
         }
+        // @ts-ignore
         this.isNullable = isNullable || false;
     }
 

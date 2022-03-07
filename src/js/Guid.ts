@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { EwsLogging } from "./Core/EwsLogging";
 import { StringHelper } from "./ExtensionMethods";
 
@@ -27,7 +27,7 @@ export class Guid {
 				this.guid = str;
 			} else {
 				if (!Guid.ParseStrict && regxRelax.test(str)) {
-					EwsLogging.DebugLog("info: Guid.ctor - guid is in generic format. if you want to error on non uuid v4 format, set `Guid.ParseStrict = true`")
+					EwsLogging.DebugLog("info: Guid.ctor - guid is in generic format. if you want to error on non uuid v4 format, set `Guid.ParseStrict = true`");
 					this.guid = str;
 				}
 				else {
@@ -44,13 +44,13 @@ export class Guid {
 	}
 
 	static NewGuid(): Guid {
-		return new Guid(uuid.v4());
+		return new Guid(uuidv4());
 	}
 	static Parse(str: string): Guid {
 		return new Guid(str);
 	}
 
-	static TryParse(str, _parsed_output: { guid: Guid } = { guid: null }) {
+	static TryParse(str, _parsed_output: { guid: Guid; } = { guid: null }) {
 		try {
 			_parsed_output.guid = new Guid(str);
 			return true;

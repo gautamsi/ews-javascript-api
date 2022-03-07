@@ -66,11 +66,13 @@ export class ExtendedPropertyDefinition extends PropertyDefinitionBase {
      *
      * @value {ExchangeVersion} The version.     
      */
+    // @ts-ignore
     get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
 
     /**
      * Gets the property type.
      */
+    // @ts-ignore
     Type: any;// System.Type;
 
     /**

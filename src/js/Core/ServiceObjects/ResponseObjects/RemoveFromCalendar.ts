@@ -7,7 +7,6 @@ import { Item } from "../Items/Item";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
 import { NotSupportedException } from "../../../Exceptions/NotSupportedException"
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";
 import { SendCancellationsMode } from "../../../Enumerations/SendCancellationsMode";

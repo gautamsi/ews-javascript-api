@@ -1,4 +1,3 @@
-import { Promise } from "./Promise";
 
 export interface IXHROptions {
 	type?: string;

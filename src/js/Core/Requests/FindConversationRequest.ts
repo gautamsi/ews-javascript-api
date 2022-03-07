@@ -4,7 +4,6 @@ import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { FindConversationResponse } from "../Responses/FindConversationResponse";
 import { FolderIdWrapper } from "../../Misc/FolderIdWrapper";
 import { MailboxSearchLocation } from "../../Enumerations/MailboxSearchLocation";
-import { Promise } from "../../Promise";
 import { SeekToConditionItemView } from "../../Search/SeekToConditionItemView";
 import { ServiceObjectType } from "../../Enumerations/ServiceObjectType";
 import { ServiceVersionException } from "../../Exceptions/ServiceVersionException";

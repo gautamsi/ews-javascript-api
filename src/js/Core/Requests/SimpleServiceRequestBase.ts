@@ -3,7 +3,6 @@ import { RenderingMode } from "../../Enumerations/RenderingMode";
 import { ServiceRequestException } from "../../Exceptions/ServiceRequestException";
 import { Strings } from "../../Strings";
 import { EwsServiceXmlReader } from "../EwsServiceXmlReader";
-import { Promise } from "../../Promise";
 import { EwsLogging } from "../EwsLogging";
 import { StringHelper, DOMParser, xml2JsObject } from "../../ExtensionMethods";
 import { ServiceRequestBase } from "./ServiceRequestBase";

@@ -6,7 +6,6 @@ import {ServiceError} from "../../Enumerations/ServiceError";
 import {AvailabilityOptions} from "../../Misc/Availability/AvailabilityOptions";
 import {LegacyAvailabilityTimeZone} from "../../Misc/Availability/LegacyAvailabilityTimeZone";
 import {GetUserAvailabilityResults} from "../../Misc/Availability/GetUserAvailabilityResults";
-import { Promise } from "../../Promise";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {ExchangeService} from "../ExchangeService";
 import {XmlElementNames} from "../XmlElementNames";

@@ -1,5 +1,4 @@
 ﻿import {ExchangeService} from "../Core/ExchangeService";
-import { Promise } from "../Promise";
 
 import {SubscriptionBase} from "./SubscriptionBase";
 /**

@@ -19,7 +19,6 @@ import { Item } from "../Items/Item";
 import { ItemView } from "../../../Search/ItemView";
 import { ManagedFolderInformation } from "../../../ComplexProperties/ManagedFolderInformation";
 import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
-import { Promise } from "../../../Promise";
 import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";

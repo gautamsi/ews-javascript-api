@@ -4,7 +4,6 @@ import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";
 import { ServiceObjectSchema } from "../Schemas/ServiceObjectSchema";

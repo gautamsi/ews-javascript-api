@@ -5,7 +5,6 @@ import { EwsLogging } from "../../Core/EwsLogging";
 import { EwsServiceXmlWriter } from "../../Core/EwsServiceXmlWriter";
 import { EwsUtilities } from "../../Core/EwsUtilities";
 import { GetUserSettingsResponseCollection } from "../Responses/GetUserSettingsResponseCollection";
-import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";

@@ -7,7 +7,6 @@ import { ExchangeVersion } from '../../../Enumerations/ExchangeVersion';
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from '../../../ComplexProperties/ItemId';
 import { MessageDisposition } from '../../../Enumerations/MessageDisposition';
-import { Promise } from './../../../Promise';
 import { PropertySet } from '../../PropertySet';
 import { Recurrence } from '../../../ComplexProperties/Recurrence/Patterns/Recurrence';
 import { Schemas } from "../Schemas/Schemas";

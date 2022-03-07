@@ -10,7 +10,6 @@ import { ExtendedPropertyDefinition } from "../../PropertyDefinitions/ExtendedPr
 import { InvalidOperationException } from "../../Exceptions/InvalidOperationException";
 import { IOutParam } from "../../Interfaces/IOutParam";
 import { NotSupportedException } from "../../Exceptions/NotSupportedException";
-import { Promise } from "../../Promise";
 import { PropertyBag } from "../PropertyBag";
 import { PropertyDefinition } from "../../PropertyDefinitions/PropertyDefinition";
 import { PropertyDefinitionBase } from "../../PropertyDefinitions/PropertyDefinitionBase";

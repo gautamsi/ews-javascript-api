@@ -1,7 +1,6 @@
 import { CalendarActionResults } from "../../../Misc/CalendarActionResults";
 import { EmailMessage } from "../Items/EmailMessage";
 import { FolderId } from "../../../ComplexProperties/FolderId";
-import { Promise } from "../../../Promise";
 import { Item } from "../Items/Item";
 import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
 import { WellKnownFolderName } from "../../../Enumerations/WellKnownFolderName";
