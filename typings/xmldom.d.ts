@@ -1,6 +1,6 @@
 ﻿declare module xmldom {
     function DOMParser():Function;
 }
-declare module 'xmldom' {
+declare module '@xmldom/xmldom' {
     export = xmldom;
 }

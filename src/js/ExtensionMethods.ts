@@ -287,9 +287,9 @@ export class TypeSystem {
     }
 }
 
-//use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
+//use this class to to work with node - https://github.com/xmldom/xmldom - tested working with commit c4ac0056284aa60d0c13d6912cc4695644ee8d4e. 
 //This library creates DOMParser object like functionality in node.For browsers, skip xmldom library and use inbuilt browser object
-//var DOMParser = require('xmldom').DOMParser;
+//var DOMParser = require('@xmldom/xmldom').DOMParser;
 //var dom = new DOMParser().parseFromString("xml data", 'text/xml');
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 export class xml2JsObject {
@@ -498,7 +498,7 @@ declare var require: any;
 
 if (isNode) {
 
-    var dr: any = require('xmldom');
+    var dr: any = require('@xmldom/xmldom');
     dp = dr.DOMParser;
 } else {
     dp = window.DOMParser;
