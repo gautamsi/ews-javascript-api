@@ -2,7 +2,6 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetHoldOnMailboxesResponse } from "../Responses/GetHoldOnMailboxesResponse";
-import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";

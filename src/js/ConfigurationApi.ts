@@ -1,5 +1,5 @@
 import { XHRFactory } from "./XHRFactory";
-import { Promise, PromiseConstructor, ConfigurePromise } from "./Promise";
+import { PromiseConstructor, ConfigurePromise } from "./Promise";
 import { IXHROptions, IXHRApi } from "./Interfaces";
 import { FetchOptions } from 'fetch';
 import { XHRDefault } from './XHRDefault';

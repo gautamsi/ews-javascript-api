@@ -1,5 +1,3 @@
-/// <reference path="../../typings/base64-js.d.ts" />
-
 import * as b64 from 'base64-js';
 
 export module StringHelper {
@@ -79,7 +77,7 @@ module object {
         var chain: any[] = [];
         var proto = ctor.prototype;
         while (proto) {
-            chain.push(proto.constructor)
+            chain.push(proto.constructor);
             proto = Object.getPrototypeOf(proto);
         }
         return chain;
@@ -106,9 +104,9 @@ export function hasValue(obj: any): boolean {
 export module ArrayHelper {
     export function AddRange<T>(array: Array<T>, items: Array<T>, uniqueOnly: boolean = false): void {
         if (Object.prototype.toString.call(array) !== "[object Array]")
-            throw new Error("input obj is not an array")
+            throw new Error("input obj is not an array");
         if (Object.prototype.toString.call(items) !== "[object Array]")
-            throw new Error("input range is not an array")
+            throw new Error("input range is not an array");
         for (var item of items) {
             if (!(uniqueOnly && array.indexOf(item) >= 0)) {
                 array.push(item);
@@ -128,7 +126,7 @@ export module ArrayHelper {
             return lastLength - array.length === 1;
         }
         else {
-            return false
+            return false;
         }
     }
 
@@ -200,7 +198,7 @@ export class TypeSystem {
             }
         }
 
-        return methods
+        return methods;
     }
 
     static GetObjectStaticPropertiesByClassName(className: string): string[] {
@@ -287,9 +285,9 @@ export class TypeSystem {
     }
 }
 
-//use this class to to work with node - https://github.com/jindw/xmldom - tested working with commit f053be7ceb. 
+//use this class to to work with node - https://github.com/xmldom/xmldom - tested working with commit c4ac0056284aa60d0c13d6912cc4695644ee8d4e. 
 //This library creates DOMParser object like functionality in node.For browsers, skip xmldom library and use inbuilt browser object
-//var DOMParser = require('xmldom').DOMParser;
+//var DOMParser = require('@xmldom/xmldom').DOMParser;
 //var dom = new DOMParser().parseFromString("xml data", 'text/xml');
 //ewslogging.log(JSON.stringify(xmlToJson(dom.documentElement)));
 export class xml2JsObject {
@@ -491,14 +489,14 @@ export class UriHelper {
 }
 
 declare var window: any;
-var isNode = (typeof window === 'undefined')
+var isNode = (typeof window === 'undefined');
 var dp: any = undefined;
 declare var Buffer: any;
 declare var require: any;
 
 if (isNode) {
 
-    var dr: any = require('xmldom');
+    var dr = require('@xmldom/xmldom');
     dp = dr.DOMParser;
 } else {
     dp = window.DOMParser;
@@ -522,14 +520,14 @@ export class Convert {
     static toNumber(value: any): number {
         return Number(value);
     }
-    static toBool(value: any, truefalseString = true, throwIfNotBool = false) {
+    static toBool(value: any, trueFalseString = true, throwIfNotBool = false) {
         if (typeof value === 'boolean') return value;
         var num = Number(value);
         if (!isNaN(num)) {
             return num !== 0;
         }
-        if (truefalseString) {
-            return (<string>value).toLowerCase() === 'true'
+        if (trueFalseString) {
+            return (<string>value).toLowerCase() === 'true';
         }
 
         if (throwIfNotBool) throw new Error("not a boolean");

@@ -30,6 +30,7 @@ import { TypedPropertyDefinition } from "./TypedPropertyDefinition";
  */
 export class GenericPropertyDefinition<TPropertyValue> extends TypedPropertyDefinition {
 
+    // @ts-ignore
     Type: any;//System.Type;
     /** ews-javascript-api specific - need to capture Enum type based on constructor */
     enumType: GenericEnumType;

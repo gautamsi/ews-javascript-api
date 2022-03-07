@@ -3,7 +3,6 @@ import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import { Promise } from "../../Promise";
 import {RuleOperation} from "../../ComplexProperties/RuleOperation";
 import {ServiceResult} from "../../Enumerations/ServiceResult";
 import {StringHelper} from "../../ExtensionMethods";

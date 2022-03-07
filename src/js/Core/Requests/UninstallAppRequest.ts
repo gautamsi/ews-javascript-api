@@ -1,7 +1,6 @@
 ﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import { Promise } from "../../Promise";
 import {UninstallAppResponse} from "../Responses/UninstallAppResponse";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";

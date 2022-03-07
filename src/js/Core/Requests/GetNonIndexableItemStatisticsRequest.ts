@@ -1,7 +1,6 @@
 ﻿import { GetNonIndexableItemStatisticsResponse } from "../Responses/GetNonIndexableItemStatisticsResponse";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { EwsServiceXmlWriter } from "../EwsServiceXmlWriter";
-import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper } from "../../ExtensionMethods";
 import { Strings } from "../../Strings";

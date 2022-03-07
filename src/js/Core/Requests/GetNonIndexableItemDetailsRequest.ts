@@ -2,7 +2,6 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetNonIndexableItemDetailsResponse } from "../Responses/GetNonIndexableItemDetailsResponse";
-import { Promise } from "../../Promise";
 import { SearchPageDirection } from "../../Enumerations/SearchPageDirection";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { StringHelper, hasValue } from "../../ExtensionMethods";

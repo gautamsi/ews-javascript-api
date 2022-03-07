@@ -61,6 +61,7 @@ export abstract class TypedPropertyDefinition extends PropertyDefinition {
             default:
                 break;
         }
+        // @ts-ignore
         this.isNullable = isNullable || false;
     }
 

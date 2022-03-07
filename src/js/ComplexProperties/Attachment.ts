@@ -7,7 +7,6 @@ import { ExchangeService } from "../Core/ExchangeService";
 import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { IRefParam } from "../Interfaces/IRefParam";
 import { Item } from "../Core/ServiceObjects/Items/Item";
-import { Promise } from "../Promise";
 import { PropertyDefinitionBase } from '../PropertyDefinitions/PropertyDefinitionBase';
 import { Strings } from '../Strings';
 import { TypeContainer } from "../TypeContainer";

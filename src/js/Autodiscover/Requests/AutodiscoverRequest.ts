@@ -9,7 +9,6 @@ import { EwsXmlReader } from "../../Core/EwsXmlReader";
 import { ExchangeServerInfo } from "../../Core/ExchangeServerInfo";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { IXHROptions } from "../../Interfaces";
-import { Promise } from "../../Promise";
 import { ServiceResponse } from "../../Core/Responses/ServiceResponse";
 import { ServiceResponseException } from "../../Exceptions/ServiceResponseException";
 import { SoapFaultDetails } from "../../Misc/SoapFaultDetails";

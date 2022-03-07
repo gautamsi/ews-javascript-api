@@ -2,7 +2,6 @@
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetDiscoverySearchConfigurationResponse } from "../Responses/GetDiscoverySearchConfigurationResponse";
-import { Promise } from "../../Promise";
 import { StringHelper } from "../../ExtensionMethods";
 import { XmlElementNames } from "../XmlElementNames";
 import { XmlNamespace } from "../../Enumerations/XmlNamespace";

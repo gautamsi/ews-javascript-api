@@ -17,6 +17,7 @@ export class MeetingTimeZonePropertyDefinition extends PropertyDefinition {
     /**
      * Gets the property type.
      */
+    // @ts-ignore
     Type: any;//System.Type;
 
     /**

@@ -2,7 +2,6 @@
 import {ExchangeService} from "../../ExchangeService";
 import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import { Promise } from "../../../Promise";
 import {PropertySet} from "../../PropertySet";
 import {Schemas} from "../Schemas/Schemas";
 import {SearchFolderParameters} from "../../../ComplexProperties/SearchFolderParameters";

@@ -7,7 +7,6 @@ import { EwsUtilities } from "../../Core/EwsUtilities";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { GetDomainSettingsResponseCollection } from "../Responses/GetDomainSettingsResponseCollection";
 import { hasValue, StringHelper } from "../../ExtensionMethods";
-import { Promise } from "../../Promise";
 import { ServiceValidationException } from "../../Exceptions/ServiceValidationException";
 import { Strings } from "../../Strings";
 import { Uri } from "../../Uri";

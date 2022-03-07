@@ -2,7 +2,6 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetUserRetentionPolicyTagsResponse} from "../Responses/GetUserRetentionPolicyTagsResponse";
-import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";

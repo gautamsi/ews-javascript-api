@@ -3,6 +3,9 @@ ews-javascript-api
 ==================
 # CHANGELOG
 
+# Whats new v0.11.0
+* **BREAKING** dependencies upgraded to latest version of commonjs module (still avoiding pure esm modules). The code is now compiled to es6 target, please use node> 10
+
 # Whats new v0.10.0
 * new/fix: #324 Autodiscover is back again, improved and supports DNS fallback using Autodiscover SRV records
 

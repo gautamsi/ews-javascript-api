@@ -2,7 +2,6 @@
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 import {XmlElementNames} from "../XmlElementNames";
-import { Promise } from "../../Promise";
 import {ExchangeService} from "../ExchangeService";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";

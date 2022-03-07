@@ -3,7 +3,6 @@ import {EmailAddress} from "../../ComplexProperties/EmailAddress";
 import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
-import { Promise } from "../../Promise";
 import {ServiceResponse} from "../Responses/ServiceResponse";
 import {TeamMailboxLifecycleState} from "../../Enumerations/TeamMailboxLifecycleState";
 import {Uri} from "../../Uri";

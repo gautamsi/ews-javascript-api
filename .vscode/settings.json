@@ -5,7 +5,7 @@
     "files.exclude": {
         "**/.git": true,
         "**/.DS_Store": true,
-        "build": true,
+        "build": false,
         "node_modules": true,
     }
 }

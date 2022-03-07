@@ -6,7 +6,6 @@ import { ExchangeService } from "../ExchangeService";
 import { HangingRequestDisconnectEventArgs } from "./HangingRequestDisconnectEventArgs";
 import { HangingRequestDisconnectReason } from "../../Enumerations/HangingRequestDisconnectReason";
 import { IXHROptions, IXHRApi, IXHRProgress } from "../../Interfaces";
-import { Promise } from "../../Promise";
 
 import { ServiceRequestBase } from "./ServiceRequestBase";
 /**

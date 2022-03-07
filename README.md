@@ -180,10 +180,10 @@ exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndS
 # Use with React Native
 
 there is some issues with how react native exposes native browser methods, here are changes needs to be done to us `ews-js-api-browser` with react native. 
-    Add following lines to some place before requiring `ews-js-api-browser`. you need to use `xmldom` and `base-64` packages.
+    Add following lines to some place before requiring `ews-js-api-browser`. you need to use `@xmldom/xmldom` and `base-64` packages.
 ```js
 if (!global.DOMParser) {
-    global.DOMParser = require('xmldom').DOMParser;
+    global.DOMParser = require('@xmldom/xmldom').DOMParser;
 }
 if (!global.atob || !global.btoa) {
     global.atob = require('base-64').decode;

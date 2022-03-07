@@ -14,7 +14,6 @@ import {ServiceResponseException} from "../../Exceptions/ServiceResponseExceptio
 import {ServiceXmlDeserializationException} from "../../Exceptions/ServiceXmlDeserializationException";
 import {RenderingMode} from "../../Enumerations/RenderingMode";
 import {StringHelper} from "../../ExtensionMethods";
-import { Promise } from "../../Promise";
 
 import {SimpleServiceRequestBase} from "./SimpleServiceRequestBase";
 /** @internal */

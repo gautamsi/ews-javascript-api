@@ -1,37 +1,32 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        //"moduleResolution": "node",
-        "declaration": false,
-        "noEmit": true,
-        "outDir": "build/output/node",
-        "noImplicitAny": false,
-        "removeComments": false,
-        "noLib": false,
-        "strict": false,
-        "skipLibCheck": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "allowUnreachableCode": true,
-        "pretty": false,
-        "sourceMap": true,
-        "stripInternal": true,
-        "lib": [
-            "es2015",
-            "dom"
-        ],
-        "typeRoots": [
-            "typings"
-        ]
-    },
-    "compileOnSave": false,
-    "exclude": [
-        "node_modules",
-        "projects",
-        "build",
-        "src/js/System.d.ts",
-        "typings/ExchangeWebService.d.ts",
-        "src/js/Microsoft.Exchange.WebServices.d__.ts"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "CommonJS",
+    // "moduleResolution": "node",
+    "declaration": false,
+    "noEmit": true,
+    "outDir": "build/output/node",
+    "noImplicitAny": false,
+    "removeComments": false,
+    "noLib": false,
+    "strict": false,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowUnreachableCode": true,
+    "pretty": false,
+    "sourceMap": true,
+    "stripInternal": true,
+    "lib": ["es2015", "es2016", "dom"],
+    "typeRoots": ["typings", "node_modules/@types"]
+  },
+  "compileOnSave": false,
+  "exclude": [
+      "node_modules",
+    "projects",
+    "build",
+    "src/js/System.d.ts",
+    "typings/ExchangeWebService.d.ts",
+    "src/js/Microsoft.Exchange.WebServices.d__.ts"
+  ]
 }

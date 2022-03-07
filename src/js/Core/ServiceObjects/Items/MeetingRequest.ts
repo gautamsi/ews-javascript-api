@@ -20,7 +20,6 @@ import { MeetingRequestType } from "../../../Enumerations/MeetingRequestType";
 import { MeetingResponseType } from "../../../Enumerations/MeetingResponseType";
 import { OccurrenceInfo } from "../../../ComplexProperties/OccurrenceInfo";
 import { OccurrenceInfoCollection } from "../../../ComplexProperties/OccurrenceInfoCollection";
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { Schemas } from "../Schemas/Schemas";

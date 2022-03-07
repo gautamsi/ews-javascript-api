@@ -8,7 +8,6 @@ import { ExchangeServerInfo } from "../ExchangeServerInfo";
 import { ExchangeService } from "../ExchangeService";
 import { ExchangeVersion } from "../../Enumerations/ExchangeVersion";
 import { IXHROptions } from "../../Interfaces";
-import { Promise } from "../../Promise"
 import { RenderingMode } from "../../Enumerations/RenderingMode";
 import { ServiceResponse } from "../Responses/ServiceResponse";
 import { ServiceVersionException } from "../../Exceptions/ServiceVersionException";

@@ -1,6 +1,5 @@
 ﻿
 import {ExchangeService} from "../Core/ExchangeService";
-import { Promise } from "../Promise";
 import {GetEventsResults} from "./GetEventsResults";
 
 import {SubscriptionBase} from "./SubscriptionBase";

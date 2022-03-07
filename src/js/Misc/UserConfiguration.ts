@@ -7,7 +7,6 @@ import { ExchangeVersion } from "../Enumerations/ExchangeVersion";
 import { FolderId } from "../ComplexProperties/FolderId";
 import { InvalidOperationException } from '../Exceptions/InvalidOperationException';
 import { ItemId } from "../ComplexProperties/ItemId";
-import { Promise } from "../Promise";
 import { PropertyException } from '../Exceptions/PropertyException';
 import { ServiceVersionException } from '../Exceptions/ServiceVersionException';
 import { Strings } from '../Strings';

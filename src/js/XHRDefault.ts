@@ -1,5 +1,4 @@
 ﻿import { FetchStream, fetchUrl, FetchOptions } from 'fetch';
-import { Promise } from "./Promise";
 import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 
 /** 
@@ -82,7 +81,7 @@ export class XHRDefault implements IXHRApi {
 
 			this.stream.on("end", () => {
 				progressDelegate({ type: "end" });
-				resolve();
+				resolve(void 0);
 			});
 
 			this.stream.on('error', (error) => {

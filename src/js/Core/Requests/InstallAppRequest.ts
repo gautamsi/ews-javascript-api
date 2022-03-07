@@ -2,7 +2,6 @@
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {InstallAppResponse} from "../Responses/InstallAppResponse";
-import { Promise } from "../../Promise";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
 

@@ -3,7 +3,6 @@ import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetAppManifestsResponse} from "../Responses/GetAppManifestsResponse";
-import { Promise } from "../../Promise";
 import {StringHelper} from "../../ExtensionMethods";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";

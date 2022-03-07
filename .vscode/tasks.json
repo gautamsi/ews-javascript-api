@@ -7,17 +7,25 @@
 // ${cwd}: the current working directory of the spawned process
 
 {
-    "version": "0.1.0",
+    "version": "2.0.0",
     "command": "npm",
-    "isShellCommand": true,
     "args": [
         "run"
     ],
     "tasks": [
         {
-            "taskName": "build",
-            "args": [],
-            "isBuildCommand": true
+            "label": "build",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "build"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         }
     ]
 }

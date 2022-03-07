@@ -16,7 +16,6 @@ import { ItemFlagStatus } from "../../../Enumerations/ItemFlagStatus";
 import { ItemIdCollection } from "../../../ComplexProperties/ItemIdCollection";
 import { KeyValuePair } from "../../../AltDictionary";
 import { NotSupportedException } from "../../../Exceptions/NotSupportedException";
-import { Promise } from "../../../Promise";
 import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
 import { PropertySet } from "../../PropertySet";
 import { RetentionType } from "../../../Enumerations/RetentionType";
