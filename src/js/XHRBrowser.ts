@@ -1,5 +1,4 @@
-﻿import { Promise } from "./Promise";
-import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
+﻿import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 
 let schemeRegex = /^(\w+)\:\/\//;
 

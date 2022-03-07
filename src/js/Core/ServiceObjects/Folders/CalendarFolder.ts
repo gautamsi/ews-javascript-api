@@ -7,7 +7,6 @@ import {ExchangeVersion} from "../../../Enumerations/ExchangeVersion";
 import {FindItemResponse} from "../../Responses/FindItemResponse";
 import {FindItemsResults} from "../../../Search/FindItemsResults";
 import {FolderId} from "../../../ComplexProperties/FolderId";
-import { Promise } from "../../../Promise";
 import {Item} from "../Items/Item";
 import {PropertySet} from "../../PropertySet";
 import {SearchFilter} from "../../../Search/Filters/SearchFilter";

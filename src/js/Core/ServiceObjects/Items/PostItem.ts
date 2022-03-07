@@ -7,7 +7,6 @@ import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
 import { MessageBody } from "../../../ComplexProperties/MessageBody";
 import { PostReply } from '../ResponseObjects/PostReply';
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { ResponseMessage } from "../ResponseObjects/ResponseMessage";
 import { ResponseMessageType } from "../../../Enumerations/ResponseMessageType";

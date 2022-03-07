@@ -155,7 +155,6 @@ import { MoveItemRequest } from "./Requests/MoveItemRequest";
 import { NameResolutionCollection } from "../Misc/NameResolutionCollection";
 import { OofSettings } from "../ComplexProperties/Availability/OofSettings";
 import { PrivilegedUserId } from "../Misc/PrivilegedUserId";
-import { Promise } from "../Promise";
 import { PropertyDefinitionBase } from "../PropertyDefinitions/PropertyDefinitionBase";
 import { PropertySet } from "./PropertySet";
 import { PullSubscription } from "../Notifications/PullSubscription";

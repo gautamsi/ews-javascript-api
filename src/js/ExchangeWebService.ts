@@ -34,9 +34,6 @@ if (typeof Object.assign != 'function') {
     });
 }
 
-/** Promise type setup */
-export { Promise } from "./Promise";
-
 /** XHR setup */
 export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
 export { ConfigurationApi } from "./ConfigurationApi";

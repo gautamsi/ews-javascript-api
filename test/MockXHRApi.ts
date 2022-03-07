@@ -1,4 +1,3 @@
-import { Promise } from "../src/js/Promise"
 import { IXHROptions, IXHRApi } from "../src/js/Interfaces";
 export class MockXHRApi implements IXHRApi {
 	public xhrData = {};

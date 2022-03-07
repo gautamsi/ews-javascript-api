@@ -9,7 +9,6 @@ import { GetStreamingEventsRequest } from "../Core/Requests/GetStreamingEventsRe
 import { GetStreamingEventsResponse } from "../Core/Responses/GetStreamingEventsResponse";
 import { HangingRequestDisconnectEventArgs } from "../Core/Requests/HangingRequestDisconnectEventArgs";
 import { NotificationEventArgs } from "./NotificationEventArgs";
-import { Promise } from "../Promise";
 import { ServiceError } from "../Enumerations/ServiceError";
 import { ServiceLocalException } from "../Exceptions/ServiceLocalException";
 import { ServiceResponseException } from "../Exceptions/ServiceResponseException";

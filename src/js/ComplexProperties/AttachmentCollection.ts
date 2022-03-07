@@ -15,7 +15,6 @@ import { Item } from "../Core/ServiceObjects/Items/Item";
 import { ItemAttachment } from "./ItemAttachment";
 import { ItemAttachmentOf } from "./ItemAttachmentOf";
 import { ItemInfo } from "../Core/ServiceObjects/Items/ItemInfo";
-import { Promise } from "../Promise";
 import { ServiceObject } from "../Core/ServiceObjects/ServiceObject";
 import { ServiceResponseCollection } from '../Core/Responses/ServiceResponseCollection';
 import { ServiceResult } from '../Enumerations/ServiceResult';
@@ -92,7 +91,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
         if (argsLength === 2) {
             throw new Error("AttachmentCollection.ts - Can only use this method with base64 content");
             let fileAttachment: FileAttachment = new FileAttachment(this.owner);
-            fileAttachment.Name = name;
+            fileAttachment.Name = 'name';
             fileAttachment.FileName = fileNameOrContent;
             this.InternalAdd(fileAttachment);
             return fileAttachment;
@@ -100,7 +99,7 @@ export class AttachmentCollection extends ComplexPropertyCollection<Attachment> 
         if (argsLength == 3) {
             if (isContent === true) {
                 let fileAttachment: FileAttachment = new FileAttachment(this.owner);
-                fileAttachment.Name = name;
+                fileAttachment.Name = 'name';
                 fileAttachment.Base64Content = fileNameOrContent;
                 this.InternalAdd(fileAttachment);
                 return fileAttachment;

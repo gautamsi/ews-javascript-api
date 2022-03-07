@@ -9,7 +9,6 @@ import {Strings} from "../Strings";
 import {ServiceValidationException} from "../Exceptions/ServiceValidationException";
 import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
-import { Promise } from "../Promise";
 
 import {Attachment} from "./Attachment";
 /**

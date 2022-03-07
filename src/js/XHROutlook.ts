@@ -1,5 +1,4 @@
-﻿import { Promise } from "./Promise";
-import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
+﻿import { IXHROptions, IXHRApi, IXHRProgress } from "./Interfaces";
 import { ConfigurationApi } from "./ConfigurationApi";
 declare var Office: { context: { mailbox: { makeEwsRequestAsync: (data: string, callback: (asyncResult: { value: string, asyncContext?: any, status?: string, error?: Error }) => void) => void } } };
 

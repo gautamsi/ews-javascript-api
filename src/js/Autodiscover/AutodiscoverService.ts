@@ -20,7 +20,6 @@ import { IRefParam } from "../Interfaces/IRefParam";
 import { IXHROptions } from "../Interfaces";
 import { OAuthCredentials } from "../Credentials/OAuthCredentials";
 import { PartnerTokenCredentials } from "../Credentials/PartnerTokenCredentials";
-import { Promise } from "../Promise";
 import { ServiceValidationException } from "../Exceptions/ServiceValidationException";
 import { ServiceVersionException } from "../Exceptions/ServiceVersionException";
 import { StringHelper, EnumHelper, UriHelper, hasValue, isNullOrUndefined } from "../ExtensionMethods";

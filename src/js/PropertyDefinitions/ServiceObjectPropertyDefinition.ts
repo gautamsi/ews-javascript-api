@@ -19,6 +19,7 @@ export abstract class ServiceObjectPropertyDefinition extends PropertyDefinition
      *
      * @value {ExchangeVersion} The version.
      */
+    // @ts-ignore
     get Version(): ExchangeVersion { return ExchangeVersion.Exchange2007_SP1; }
 
     /**

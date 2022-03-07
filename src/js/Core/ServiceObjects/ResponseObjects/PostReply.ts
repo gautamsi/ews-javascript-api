@@ -5,7 +5,6 @@ import { EwsUtilities } from '../../EwsUtilities';
 import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { FolderId } from "../../../ComplexProperties/FolderId";
 import { InvalidOperationException } from '../../../Exceptions/InvalidOperationException';
-import { Promise } from "../../../Promise";
 import { Item } from "../Items/Item";
 import { ItemId } from './../../../ComplexProperties/ItemId';
 import { MessageBody } from "../../../ComplexProperties/MessageBody";

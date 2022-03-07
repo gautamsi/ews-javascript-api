@@ -27,7 +27,6 @@ import { MessageDisposition } from "../../../Enumerations/MessageDisposition";
 import { MimeContent } from "../../../ComplexProperties/MimeContent";
 import { NormalizedBody } from "../../../ComplexProperties/NormalizedBody";
 import { PolicyTag } from "../../../ComplexProperties/PolicyTag";
-import { Promise } from "../../../Promise";
 import { PropertyDefinition } from "../../../PropertyDefinitions/PropertyDefinition";
 import { PropertySet } from "../../PropertySet";
 import { ResponseActions } from "../../../Enumerations/ResponseActions";

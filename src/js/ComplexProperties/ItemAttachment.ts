@@ -11,7 +11,6 @@ import {ExchangeVersion} from "../Enumerations/ExchangeVersion";
 import {BodyType} from "../Enumerations/BodyType";
 import {XmlNamespace} from "../Enumerations/XmlNamespace";
 import {PropertyDefinitionBase} from "../PropertyDefinitions/PropertyDefinitionBase";
-import { Promise } from "../Promise";
 
 import {Attachment} from "./Attachment";
 /**

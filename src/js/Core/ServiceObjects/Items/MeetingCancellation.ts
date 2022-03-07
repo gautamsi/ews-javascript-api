@@ -6,7 +6,6 @@ import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { Item } from "../Items/Item";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Recurrence } from "../../../ComplexProperties/Recurrence/Patterns/Recurrence";
 import { RemoveFromCalendar } from "../ResponseObjects/RemoveFromCalendar";

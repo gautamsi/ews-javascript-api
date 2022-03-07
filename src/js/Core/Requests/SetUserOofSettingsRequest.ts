@@ -3,7 +3,6 @@ import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
 import {ExchangeVersion} from "../../Enumerations/ExchangeVersion";
 import {GetUserOofSettingsResponse} from "../Responses/GetUserOofSettingsResponse";
-import { Promise } from "../../Promise";
 import {OofExternalAudience} from "../../Enumerations/OofExternalAudience";
 import {OofSettings} from "../../ComplexProperties/Availability/OofSettings";
 import {ServiceError} from "../../Enumerations/ServiceError";

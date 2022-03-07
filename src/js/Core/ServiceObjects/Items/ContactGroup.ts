@@ -3,7 +3,6 @@ import { ExchangeVersion } from "../../../Enumerations/ExchangeVersion";
 import { GroupMemberCollection } from "../../../ComplexProperties/GroupMemberCollection";
 import { ItemAttachment } from "../../../ComplexProperties/ItemAttachment";
 import { ItemId } from "../../../ComplexProperties/ItemId";
-import { Promise } from "../../../Promise";
 import { PropertySet } from "../../PropertySet";
 import { Schemas } from "../Schemas/Schemas";
 import { ServiceObjectPropertyException } from "../../../Exceptions/ServiceObjectPropertyException"

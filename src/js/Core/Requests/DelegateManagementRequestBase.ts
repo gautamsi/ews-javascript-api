@@ -1,7 +1,6 @@
 ﻿import {EwsServiceXmlWriter} from "../EwsServiceXmlWriter";
 import {EwsUtilities} from "../EwsUtilities";
 import {ExchangeService} from "../ExchangeService";
-import { Promise } from "../../Promise";
 import {Mailbox} from "../../ComplexProperties/Mailbox";
 import {XmlElementNames} from "../XmlElementNames";
 import {XmlNamespace} from "../../Enumerations/XmlNamespace";
