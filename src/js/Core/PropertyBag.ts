@@ -456,50 +456,48 @@ export class PropertyBag {
         this.requestedPropertySet = requestedPropertySet;
         this.onlySummaryPropertiesRequested = onlySummaryPropertiesRequested;
 
-        try {
 
-            for (let key in jsObject) {
-                if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
-                    continue;
+        for (let key in jsObject) {
+            if (key.indexOf("__") === 0) //skip xmljsobject conversion entries like __type and __prefix
+                continue;
 
-                if (jsObject.hasOwnProperty(key)) {
-                    let element = jsObject[key];
+            if (jsObject.hasOwnProperty(key)) {
+                let element = jsObject[key];
 
-                    let propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
+                let propertyDefinition: IOutParam<PropertyDefinition> = { outValue: null };
 
-                    if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
+                if (this.owner.Schema.TryGetPropertyDefinition(key, propertyDefinition)) {
+                    try {
                         EwsLogging.Assert(false, EwsUtilities.GetPrintableTypeName(propertyDefinition.outValue), "\t\tLoading property :\t\t" + key);
                         propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(element, service, this);
                         this.loadedProperties.push(propertyDefinition.outValue);
                         EwsLogging.DebugLog(this._getItem(propertyDefinition.outValue), true);//todo:remove this after testing
+                    } catch (exception) {
+                        EwsLogging.Log(exception);
                     }
                 }
             }
+        }
 
 
-            //            let objTypeName: string = jsObject["__type"];
-            //            if (StringHelper.IsNullOrEmpty(objTypeName)) {
-            //                objTypeName = TypeSystem.GetJsObjectTypeName(jsObject);
-            //                jsObject = jsObject[objTypeName];
-            //            }
-            //            if (StringHelper.IsNullOrEmpty(objTypeName))
-            //                throw new Error("error determining typename");
-            //
-            //            let propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
-            //
-            //            if (this.Owner.Schema.TryGetPropertyDefinition(objTypeName, propertyDefinition)) {
-            //                propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(jsObject, this);
-            //
-            //                this.loadedProperties.push(propertyDefinition.outValue);
-            //            }
-            this.ClearChangeLog();
-        }
-        catch (exception) {
-            EwsLogging.Log(exception);
-        }
-        finally {
-            this.loading = false;
-        }
+        //            let objTypeName: string = jsObject["__type"];
+        //            if (StringHelper.IsNullOrEmpty(objTypeName)) {
+        //                objTypeName = TypeSystem.GetJsObjectTypeName(jsObject);
+        //                jsObject = jsObject[objTypeName];
+        //            }
+        //            if (StringHelper.IsNullOrEmpty(objTypeName))
+        //                throw new Error("error determining typename");
+        //
+        //            let propertyDefinition: IOutParam<PropertyDefinition> = { value: null };
+        //
+        //            if (this.Owner.Schema.TryGetPropertyDefinition(objTypeName, propertyDefinition)) {
+        //                propertyDefinition.outValue.LoadPropertyValueFromXmlJsObject(jsObject, this);
+        //
+        //                this.loadedProperties.push(propertyDefinition.outValue);
+        //            }
+        this.ClearChangeLog();
+
+        this.loading = false;
     }
 
     /**
