@@ -3006,17 +3006,17 @@ export interface AutodiscoverRedirectionUrlValidationCallback {
     NeverEnds(): void;
 }
  module Recurrence {
-    var DailyPattern: new () => DailyPattern;
-    var DailyRegenerationPattern: new () => DailyRegenerationPattern;
+    var DailyPattern: new (startDate: DateTime, interval: number) => DailyPattern;
+    var DailyRegenerationPattern: new (startDate: DateTime, interval: number) => DailyRegenerationPattern;
     var IntervalPattern: new () => IntervalPattern;
-    var MonthlyPattern: new () => MonthlyPattern;
-    var MonthlyRegenerationPattern: new () => MonthlyRegenerationPattern;
-    var RelativeMonthlyPattern: new () => RelativeMonthlyPattern;
-    var RelativeYearlyPattern: new () => RelativeYearlyPattern;
-    var WeeklyPattern: new () => WeeklyPattern;
-    var WeeklyRegenerationPattern: new () => WeeklyRegenerationPattern;
-    var YearlyPattern: new () => YearlyPattern;
-    var YearlyRegenerationPattern: new () => YearlyRegenerationPattern;
+    var MonthlyPattern: new (startDate: DateTime, interval: number, dayOfMonth: number) => MonthlyPattern;
+    var MonthlyRegenerationPattern: new (startDate: DateTime, interval: number) => MonthlyRegenerationPattern;
+    var RelativeMonthlyPattern: new (startDate: DateTime, interval: number, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex) => RelativeMonthlyPattern;
+    var RelativeYearlyPattern: new (startDate: DateTime, month: Month, dayOfTheWeek: DayOfTheWeek, dayOfTheWeekIndex: DayOfTheWeekIndex) => RelativeYearlyPattern;
+    var WeeklyPattern: new (startDate: DateTime, interval: number, daysOfTheWeek: DayOfTheWeek[]) => WeeklyPattern;
+    var WeeklyRegenerationPattern: new (startDate: DateTime, interval: number) => WeeklyRegenerationPattern;
+    var YearlyPattern: new (startDate: DateTime, month: Month, dayOfMonth: number) => YearlyPattern;
+    var YearlyRegenerationPattern: new (startDate: DateTime, interval: number) => YearlyRegenerationPattern;
 }
 /**
  * Represents a recurrence pattern where each occurrence happens a specific number of days after the previous one.
