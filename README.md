@@ -9,6 +9,9 @@ Contact @gautamsi for support. Use [![Gitter](https://badges.gitter.im/gautamsi/
 ## Office 365 OAuth Support is built in
 see demo repo https://github.com/ewsjs/oauth-demo which has working example - https://github.com/ewsjs/oauth-demo/blob/main/examples/msal-node-samples/auth-code/index.js to find out how to use oAuth Token from msal.
 
+## March 2023 Update:
+fixes and typing cleanups, see 0.12.0 below
+
 ## July 2019 Update:  
 You can now use this in Ionic, Cordova, Browser based process (where CORS is disabled), Outlook Add-in or Mail apps. see [`ews-js-api-browser`](https://github.com/gautamsi/ews-js-api-browser) for more detail
 
@@ -41,6 +44,17 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
     * trimmed version for Outlook Mail APP supported EWS calls  
 
 ===========================================================================================
+
+# Whats new v0.12.0
+* fixed `WellKnownFolderNames` to be `StringPropertyDefinition` type instead of `Generic` which microsoft has changed long back. Part of this was fixed by #414 (thanks @klinki)
+* fixes #416 and also cleans up other typing issues
+* Security update: updated all dependency to latest version.
+
+
+# Whats new v0.11.0
+* **BREAKING** dependencies upgraded to latest version of commonjs module (still avoiding pure esm modules). The code is now compiled to es6 target, must use nodejs version >= 10
+* Security update: updated all dependency to latest version.
+
 
 # Whats new v0.10.0
 * new/fix: #324 Autodiscover is back again, improved and supports DNS fallback using Autodiscover SRV records

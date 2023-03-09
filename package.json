@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
   "scripts": {
@@ -28,8 +28,8 @@
   "dependencies": {
     "@xmldom/xmldom": "^0.8.1",
     "base64-js": "^1.5.1",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.34",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.41",
     "uuid": "^8.3.2"
   },
   "optionalDependencies": {
