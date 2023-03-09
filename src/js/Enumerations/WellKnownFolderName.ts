@@ -242,4 +242,21 @@ export module WellKnownFolderName {
 
         return ExchangeVersion.Exchange_Version_Not_Updated;
     }
+
+    const cachedValues = Object.keys(WellKnownFolderName)
+        .filter(key => typeof WellKnownFolderName[key] == 'number')
+        .map(item => item.toLowerCase())
+        .reduce((prev, item, index) => ({...prev, [item]: index, [index]: item }), {});
+
+    /**EwsEnumAttribute */
+    export function FromEwsEnumString(value: string): any {
+        const result = cachedValues[value];
+        return result;
+    }
+
+    /**EwsEnumAttribute */
+    export function ToEwsEnumString(value: any) {
+        return WellKnownFolderName[value].toLowerCase();
+    }
+
 }
