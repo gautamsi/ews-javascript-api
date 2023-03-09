@@ -39,7 +39,48 @@ export enum ExchangeVersion {
      * Functionality starting 10/05/2015
      */
     V2015_10_05 = 8,
-    
+
+    /**
+     * Updated from latest Types.xsd in 03/2023
+     */
+
+    /**
+     * Functionality starting 01/06/2016
+     */
+    V2016_01_06 = 9,
+    /**
+     * Functionality starting 04/13/2016
+     */
+    V2016_04_13 = 10,
+    /**
+     * Functionality starting 07/13/2016
+     */
+    V2016_07_13 = 11,
+    /**
+     * Functionality starting 10/10/2016
+     */
+    V2016_10_10 = 12,
+    /**
+     * Functionality starting 01/07/2017
+     */
+    V2017_01_07 = 13,
+    /**
+     * Functionality starting 04/14/2017
+     */
+    V2017_04_14 = 14,
+    /**
+     * Functionality starting 07/11/2017
+     */
+    V2017_07_11 = 15,
+    /**
+     * Functionality starting 10/09/2017
+     */
+    V2017_10_09 = 16,
+    /**
+     * Functionality starting 01/08/2018
+     */
+    V2018_01_08 = 17,
+
     /** internal tracking of any version not updated in **ews-javascript-api** */
     Exchange_Version_Not_Updated = 15000,
 }

@@ -16,8 +16,7 @@ export class EffectiveRightsPropertyDefinition extends PropertyDefinition {
     /**
      * Gets the property type.
      */
-    // @ts-ignore
-    Type: any;//System.Type;
+    // Type: any;//System.Type;
 
     /**
      * @internal Initializes a new instance of the **EffectiveRightsPropertyDefinition** class.

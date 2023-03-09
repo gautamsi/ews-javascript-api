@@ -31,6 +31,9 @@ export class MailboxSearchScope {
     get SearchScopeType(): MailboxSearchScopeType {
         return this.scopeType;
     }
+    /**
+     * @internal Search scope type
+     */
     set SearchScopeType(value: MailboxSearchScopeType) {
         this.scopeType = value;
     }

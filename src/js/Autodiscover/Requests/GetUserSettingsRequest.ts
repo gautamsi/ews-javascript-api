@@ -224,8 +224,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
 
     writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.Users);
 
-    for (var s in this.SmtpAddresses) {
-      var smtpAddress = this.SmtpAddresses[s];
+    for (var smtpAddress of this.SmtpAddresses) {
       writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.User);
 
       if (!StringHelper.IsNullOrEmpty(smtpAddress)) {
@@ -239,8 +238,7 @@ export class GetUserSettingsRequest extends AutodiscoverRequest {
     writer.WriteEndElement(); // Users
 
     writer.WriteStartElement(XmlNamespace.Autodiscover, XmlElementNames.RequestedSettings);
-    for (var s in this.Settings) {
-      var setting = this.Settings[s];
+    for (var setting of this.Settings) {
 
       writer.WriteElementValue(
         XmlNamespace.Autodiscover,

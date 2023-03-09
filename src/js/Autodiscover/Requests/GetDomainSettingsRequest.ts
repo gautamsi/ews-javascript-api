@@ -198,7 +198,7 @@ export class GetDomainSettingsRequest extends AutodiscoverRequest {
     if (hasValue(this.requestedVersion)) {
       writer.WriteElementValue(XmlNamespace.Autodiscover,
         XmlElementNames.RequestedVersion,
-        this.requestedVersion);
+        ExchangeVersion[this.Service.RequestedServerVersion]);
     }
 
     writer.WriteEndElement(); //Request

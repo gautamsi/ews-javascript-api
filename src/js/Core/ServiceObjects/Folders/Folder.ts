@@ -122,14 +122,14 @@ export class Folder extends ServiceObject {
      * **value** - The well known name of this folder as a string, or null if this folder isn't a well known folder.
      * 
      */
-    get WellKnownFolderNameAsString(): string { return WellKnownFolderName[<WellKnownFolderName>this.PropertyBag._getItem(Schemas.FolderSchema.WellKnownFolderName)]; }
+    get WellKnownFolderNameAsString(): string { return this.PropertyBag._getItem(Schemas.FolderSchema.WellKnownFolderName); }
 
     /**
      * Gets the well known name of this folder, if any.
      * **value** - The well known name of this folder, or null if this folder isn't a well known folder.
      * 
      */
-    get WellKnownFolderName(): WellKnownFolderName { return WellKnownFolderName[this.WellKnownFolderNameAsString] || null; }
+    get WellKnownFolderName(): WellKnownFolderName { return WellKnownFolderName.FromEwsEnumString(this.WellKnownFolderNameAsString) || null; }
 
     /**
      * _FolderTYpe -> type of folder, use to avoid folder type detection using instanceof. some cases it has circular loop in nodejs/requirejs

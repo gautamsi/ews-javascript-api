@@ -4178,7 +4178,6 @@ export interface EnumVersionDelegate {
      */
     get ImpersonatedUserId(): ImpersonatedUserId;
     set ImpersonatedUserId(value: ImpersonatedUserId);
-    set PrivilegedUserId(value: PrivilegedUserId);
     /**
      * [summary]
      */
@@ -15354,6 +15353,45 @@ export interface TaskSchemaStatic extends TaskSchema {
      * Functionality starting 10/05/2015
      */
     V2015_10_05 = 8,
+    /**
+     * Updated from latest Types.xsd in 03/2023
+     */
+    /**
+     * Functionality starting 01/06/2016
+     */
+    V2016_01_06 = 9,
+    /**
+     * Functionality starting 04/13/2016
+     */
+    V2016_04_13 = 10,
+    /**
+     * Functionality starting 07/13/2016
+     */
+    V2016_07_13 = 11,
+    /**
+     * Functionality starting 10/10/2016
+     */
+    V2016_10_10 = 12,
+    /**
+     * Functionality starting 01/07/2017
+     */
+    V2017_01_07 = 13,
+    /**
+     * Functionality starting 04/14/2017
+     */
+    V2017_04_14 = 14,
+    /**
+     * Functionality starting 07/11/2017
+     */
+    V2017_07_11 = 15,
+    /**
+     * Functionality starting 10/09/2017
+     */
+    V2017_10_09 = 16,
+    /**
+     * Functionality starting 01/08/2018
+     */
+    V2018_01_08 = 17,
     /** internal tracking of any version not updated in **ews-javascript-api** */
     Exchange_Version_Not_Updated = 15000
 }
@@ -20442,11 +20480,45 @@ export interface TaskSchemaStatic extends TaskSchema {
     /**
      * Favorites folder
      */
-    Favorites = 43
+    Favorites = 43,
+    /**
+     * Updated from latest Types.xsd in 03/2023
+     */
+    MeContact = 44,
+    PersonMetaData = 45,
+    TeamSpaceActivity = 46,
+    TeamSpaceMessaging = 47,
+    TeamSpaceWorkItems = 48,
+    Scheduled = 49,
+    OrionNotes = 50,
+    TagItems = 51,
+    AllTaggedItems = 52,
+    AllCategorizedItems = 53,
+    ExternalContacts = 54,
+    TeamChat = 55,
+    TeamChatHistory = 56,
+    YammerData = 57,
+    YammerRoot = 58,
+    YammerInbound = 59,
+    YammerOutbound = 60,
+    YammerFeeds = 61,
+    KaizalaData = 62,
+    MessageIngestion = 63,
+    OneDriveRoot = 64,
+    OneDriveRecyleBin = 65,
+    OneDriveSystem = 66,
+    OneDriveVolume = 67,
+    Important = 68,
+    Starred = 69,
+    Archive = 70
 }
  module WellKnownFolderName {
     /**RequiredServerVersionAttribute */
     function RequiredServerVersion(value: WellKnownFolderName): ExchangeVersion;
+    /**EwsEnumAttribute */
+    function FromEwsEnumString(value: string): any;
+    /**EwsEnumAttribute */
+    function ToEwsEnumString(value: any): string;
 }/**
  * Represents an error that occurs when the account that is being accessed is locked and requires user interaction to be unlocked.
  */
@@ -21183,7 +21255,6 @@ export interface HasRequiredServerVersionAttribute {
      */
     get SearchScope(): MailboxSearchLocation;
     set SearchScope(value: MailboxSearchLocation);
-    set SearchScopeType(value: MailboxSearchScopeType);
     /**
      * Gets the extended data.
      *
@@ -23004,10 +23075,6 @@ export interface PromiseConstructor {
      */
     get Version(): ExchangeVersion;
     /**
-     * Gets the property type.
-     */
-    Type: any;
-    /**
      * Initializes a new instance of the **ExtendedPropertyDefinition** class.
      *
      * @param   {number}            tag        The tag of the extended property.
@@ -23126,7 +23193,7 @@ export interface IIndexedPropertyDefinition {
      *
      * @value {ExchangeVersion} The version.
      */
-    Version: ExchangeVersion;
+    abstract Version: ExchangeVersion;
     /**
      * Gets the type of the property.
      */
@@ -23136,7 +23203,6 @@ export interface IIndexedPropertyDefinition {
     /**
      * Gets the property type.
      */
-    Type: any;
 }/**
  * Represents a property definition for a service object.
  */

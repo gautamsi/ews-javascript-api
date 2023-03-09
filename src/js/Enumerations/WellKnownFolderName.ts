@@ -224,6 +224,37 @@ export enum WellKnownFolderName {
      * Favorites folder
      */
     Favorites,
+
+    /**
+     * Updated from latest Types.xsd in 03/2023
+     */
+    MeContact,
+    PersonMetaData,
+    TeamSpaceActivity,
+    TeamSpaceMessaging,
+    TeamSpaceWorkItems,
+    Scheduled,
+    OrionNotes,
+    TagItems,
+    AllTaggedItems,
+    AllCategorizedItems,
+    ExternalContacts,
+    TeamChat,
+    TeamChatHistory,
+    YammerData,
+    YammerRoot,
+    YammerInbound,
+    YammerOutbound,
+    YammerFeeds,
+    KaizalaData,
+    MessageIngestion,
+    OneDriveRoot,
+    OneDriveRecyleBin,
+    OneDriveSystem,
+    OneDriveVolume,
+    Important,
+    Starred,
+    Archive,
 }
 
 import { ExchangeVersion } from "./ExchangeVersion"
@@ -246,12 +277,11 @@ export module WellKnownFolderName {
     const cachedValues = Object.keys(WellKnownFolderName)
         .filter(key => typeof WellKnownFolderName[key] == 'number')
         .map(item => item.toLowerCase())
-        .reduce((prev, item, index) => ({...prev, [item]: index, [index]: item }), {});
+        .reduce((prev, item, index) => ({ ...prev, [item]: index, [index]: item }), {});
 
     /**EwsEnumAttribute */
     export function FromEwsEnumString(value: string): any {
-        const result = cachedValues[value];
-        return result;
+        return cachedValues[value];
     }
 
     /**EwsEnumAttribute */

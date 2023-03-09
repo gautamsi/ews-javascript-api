@@ -280,6 +280,9 @@ export class ExchangeService extends ExchangeServiceBase {
   get PrivilegedUserId(): PrivilegedUserId {
     return this.privilegedUserId;
   }
+  /**
+   * @internal Gets or sets the Id of the user that EWS should open his/her mailbox with privileged logon type.
+   */
   set PrivilegedUserId(value: PrivilegedUserId) {
     this.privilegedUserId = value;
   }

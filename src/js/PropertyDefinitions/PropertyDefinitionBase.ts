@@ -20,7 +20,7 @@ export abstract class PropertyDefinitionBase {
      *
      * @value {ExchangeVersion} The version.
      */
-    Version: ExchangeVersion;
+    abstract Version: ExchangeVersion;
 
     /**
      * Gets the type of the property.

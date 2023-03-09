@@ -16,8 +16,7 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
     /**
      * Gets the property type.
      */
-    // @ts-ignore
-    Type: any;//System.Type;
+    // Type: any;//System.Type;
 
     /**
      * @internal Initializes a new instance of the **TimeZonePropertyDefinition** class.
@@ -58,7 +57,7 @@ export class TimeZonePropertyDefinition extends PropertyDefinition {
      * @param   {boolean}               isUpdateOperation   Indicates whether the context is an update operation.
      */
     WritePropertyValueToXml(writer: EwsServiceXmlWriter, propertyBag: PropertyBag, isUpdateOperation: boolean): void {
-        EwsLogging.DebugLog("[TimeZonePropertyDefinition.WritePropertyValueToXml]: TimeZone info has been updated, Please report any bugs to github");        
+        EwsLogging.DebugLog("[TimeZonePropertyDefinition.WritePropertyValueToXml]: TimeZone info has been updated, Please report any bugs to github");
         let value = <TimeZoneInfo>propertyBag._getItem(this);
 
         if (value != null) {

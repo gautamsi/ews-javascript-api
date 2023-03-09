@@ -156,13 +156,12 @@ export class FolderSchema extends ServiceObjectSchema {
     /**
      * Defines the **WellKnownFolderName** property.
      */
-    public static WellKnownFolderName: PropertyDefinition = new GenericPropertyDefinition<WellKnownFolderName>(
+    public static WellKnownFolderName: PropertyDefinition = new StringPropertyDefinition(
         "WellKnownFolderName",
         XmlElementNames.DistinguishedFolderId,
         FieldUris.DistinguishedFolderId,
-        PropertyDefinitionFlags.CanFind,
-        ExchangeVersion.Exchange2013,
-        WellKnownFolderName
+        PropertyDefinitionFlags.CanSet | PropertyDefinitionFlags.CanFind,
+        ExchangeVersion.Exchange2013
     );
 
     /**

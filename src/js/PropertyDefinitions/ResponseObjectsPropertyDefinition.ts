@@ -15,8 +15,7 @@ export class ResponseObjectsPropertyDefinition extends PropertyDefinition {
     /**
      * Gets the property type.
      */
-    // @ts-ignore
-    Type: any;//System.Type;
+    // Type: any;//System.Type;
 
     /**
      * Gets the response action.

@@ -16,7 +16,7 @@ import { ComplexPropertyDefinitionBase } from "./ComplexPropertyDefinitionBase";
 export class ComplexPropertyDefinition<TComplexProperty extends ComplexProperty> extends ComplexPropertyDefinitionBase {
     
     // @ts-ignore
-    Type: any;// System.Type; //todo: implement Type using typeof type
+    // Type: any;// System.Type; //todo: implement Type using typeof type
     
     private propertyCreationDelegate: CreateComplexPropertyDelegate<TComplexProperty>;
 
