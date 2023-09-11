@@ -22,11 +22,12 @@
   },
   "compileOnSave": false,
   "exclude": [
-      "node_modules",
+    "node_modules",
     "projects",
     "build",
     "src/js/System.d.ts",
     "typings/ExchangeWebService.d.ts",
-    "src/js/Microsoft.Exchange.WebServices.d__.ts"
+    "src/js/Microsoft.Exchange.WebServices.d__.ts",
+    "test/"
   ]
 }

@@ -45,6 +45,13 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 
 ===========================================================================================
 
+# Whats new v0.13.0 **BREAKING CHANGES**
+* Security update: removed fetch and bluebird dependency
+* removed `XHRDefault` and `ConfigurationApi.ConfigurePromise` exported methods
+* Exported XHRApi from `@ewsjs/xhr` to make it easier to use
+* Using default implementation of `XhrApi` from `@ewsjs/xhr` instead of using `fetch`
+
+
 # Whats new v0.12.0
 * fixed `WellKnownFolderNames` to be `StringPropertyDefinition` type instead of `Generic` which microsoft has changed long back. Part of this was fixed by #414 (thanks @klinki)
 * fixes #416 and also cleans up other typing issues
@@ -93,7 +100,7 @@ NTLM and Cookies Authentication works with nodejs only
 * commonjs module for NodeJs
 * AMD module for other scenarios* (not documented yet)
 
-All http call is wrapped in promise using default BlueBird promise.  You can also interchange compatible promise api.  
+~~All http call is wrapped in promise using default BlueBird promise.  You can also interchange compatible promise api.~~
 Code sample from [EWS Managed API 2.1.](https://msdn.microsoft.com/en-us/library/office/jj536567.aspx) should work with little modificaion to Promise format   
 
 ## async/await latest nodejs

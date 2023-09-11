@@ -38,7 +38,6 @@ if (typeof Object.assign != 'function') {
 export { IXHRApi, IXHROptions, IXHRProgress, } from "./Interfaces";
 export { ConfigurationApi } from "./ConfigurationApi";
 export { XHRFactory } from "./XHRFactory";
-export { XHRDefault } from "./XHRDefault";
 
 /**Schema Bootstrapping */
 import { Schemas } from "./Core/ServiceObjects/Schemas/Schemas";
@@ -942,3 +941,5 @@ export { XmlAttributeNames } from "./Core/XmlAttributeNames";
 //export {XmlDtdException} from "./Security/XmlDtdException";
 export { XmlElementNames } from "./Core/XmlElementNames";
 export { XmlNamespace } from "./Enumerations/XmlNamespace";
+
+export { XhrApi, NtlmProvider, CookieProvider } from "@ewsjs/xhr";

@@ -221,7 +221,6 @@ import { UserId } from "../ComplexProperties/UserId";
 import { UserSettingName } from "../Enumerations/UserSettingName";
 import { ViewBase } from "../Search/ViewBase";
 import { WellKnownFolderName } from "../Enumerations/WellKnownFolderName";
-import { XHRFactory } from "../XHRFactory";
 
 import { ExchangeServiceBase } from "./ExchangeServiceBase";
 /**

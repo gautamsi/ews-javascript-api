@@ -292,7 +292,7 @@ export class MapiTypeConverter {
     static IsArrayType(mapiType: MapiPropertyType): boolean { return MapiTypeConverter.MapiTypeConverterMap.get(mapiType).IsArray; }
     static ParseMapiIntegerValue(s: string): any {
         var num = Convert.toNumber(s);
-        if (num === NaN) {
+        if (Number.isNaN(num)) {
             return s;
         }
         return num;
