@@ -1,5 +1,6 @@
-declare module "ews-javascript-api" {
+export * from "@ewsjs/xhr";
 import * as moment from 'moment-timezone';
+declare module "ews-javascript-api" {
 
 export interface IndexerWithStringKey<TValue> {
     [index: string]: TValue;
