@@ -102,6 +102,7 @@ function copyPackageJson() {
       const obj = await readFile(file);
       delete obj.devDependencies;
       delete obj.scripts;
+      delete obj.private;
       await writeFile(`${outputDir}/package.json`, obj, { spaces: 4, EOL: os.EOL });
       resolve();
     } catch (error) {
