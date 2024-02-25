@@ -45,6 +45,12 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 
 ===========================================================================================
 
+# Whats new v0.14.0
+* Updated implementation of `@ewsjs/ntlm-client` to continue support ntlm with node 18+ (dependency of `@ewsjs/xhr`)
+* This fixes latest support for ntlm with node 18/20+
+* This also fixes security warning of `new Buffer(...)` in the underlying library
+
+
 # Whats new v0.13.0 **BREAKING CHANGES**
 * Security update: removed fetch and bluebird dependency
 * removed `XHRDefault` and `ConfigurationApi.ConfigurePromise` exported methods

@@ -1,6 +1,6 @@
 {
   "name": "ews-javascript-api",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "private": true,
   "description": "EWS Managed api in JavaScript",
   "main": "js/ExchangeWebService.js",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/gautamsi/ews-javascript-api",
   "dependencies": {
-    "@ewsjs/xhr": "^2.0.2",
+    "@ewsjs/xhr": "^3.0.0",
     "@xmldom/xmldom": "^0.8.1",
     "base64-js": "^1.5.1",
     "moment": "^2.29.4",
