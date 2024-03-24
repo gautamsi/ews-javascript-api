@@ -1,4 +1,4 @@
-import * as moment from 'moment-timezone';
+import * as moment from "moment-timezone";
 import { TimeZoneMappingData } from "./tzmapping";
 import { CustomTimeZoneMappingData } from "./tzmappingex";
 

@@ -1,4 +1,4 @@
-import * as moment from 'moment-timezone';
+import * as moment from "moment-timezone";
 
 import { ArgumentOutOfRangeException, ArgumentException } from "./Exceptions/ArgumentException";
 import { DayOfWeek } from "./Enumerations/DayOfWeek";

@@ -1,7 +1,7 @@
-const { cat, rm, cp, exec, mkdir } = require("shelljs")
-const replace = require('replace-in-file');
-const ora = require('ora');
-const { readFile, writeFile } = require('jsonfile')
+const { cat, rm, cp, exec, mkdir } = require("shelljs");
+const replace = require("replace-in-file");
+const ora = require("ora");
+const { readFile, writeFile } = require("jsonfile");
 const os = require("os");
 
 const typingSource = "build/output/node/js/**/*.d.ts";
@@ -21,15 +21,19 @@ const spinner = ora({ spinner: "arc", color: "yellow" });
     await compile();
     spinner.succeed();
 
-    spinner.start("Combining TypeScript definitions")
-    mergeDef();
-    cleanDef();
-    fixDef();
-    cleanupDef();
+    spinner.start("Combining TypeScript definitions");
+    // mergeDef();
+    // cleanDef();
+    // fixDef();
+    // cleanupDef();
     spinner.succeed();
-    spinner.start("Copying npm files")
+    spinner.start("Copying npm files");
     copyFiles();
-    copyPackageJson();
+    await copyPackageJson();
+    spinner.start("generating fresh package lock file");
+    await generatePackageLock();
+    spinner.start("running npm audit");
+    await runNPMAudit();
     spinner.succeed();
   } catch (error) {
     console.error(error);
@@ -40,18 +44,21 @@ const spinner = ora({ spinner: "arc", color: "yellow" });
   }
 })();
 
-
 function preClean() {
-  rm('-rf', outputDir);
+  rm("-rf", outputDir);
   try {
     mkdir("-p", outputDir);
-  } catch (error) { }
+  } catch (error) {}
 }
 
 function compile() {
-  return new Promise(resolve => {
-    exec("tsc -p tsconfig.build.json", { shell: true, stdio: 'inherit' }, resolve);
-  })
+  return new Promise((resolve) => {
+    exec(
+      "tsc -p tsconfig.build.json",
+      { shell: true, stdio: "inherit" },
+      resolve
+    );
+  });
 }
 
 function mergeDef() {
@@ -63,7 +70,7 @@ function cleanDef() {
     files: typingFile,
     from: [
       /\r?\n?^.*import.*\{.*\}.*from.*\;/gm,
-      /\r?\nimport \* as moment from 'moment-timezone';/g,
+      /\r?\nimport \* as moment from "moment-timezone";/g,
       /^.*export.*\{.*\}.*from.*\;/gm,
       /^.*export.*\{.*\};$/gm,
       /^.*\/\/\/\s*\<reference.*\>/gm,
@@ -73,40 +80,64 @@ function cleanDef() {
       /\n\n/g,
       /export declare/g,
     ],
-    to: '',
+    to: "\n",
   };
   replace.sync(options);
+  // run again to cleanup the multiple new lines added in above
+  replace.sync({ ...options, from: /\n{2,}/g, to: "\n" });
 }
 
 function fixDef() {
-  cat(typePrefixFile, typingFile, typeSuffixFile).to(typingFile)
+  cat(typePrefixFile, typingFile, typeSuffixFile).to(typingFile);
 }
 
 function cleanupDef() {
   rm(typingSource);
 }
 function copyFiles() {
-  cp([
-    "./README.md",
-    "./LICENSE",
-    "./COPYRIGHT",
-  ], outputDir);
-  mkdir("build/output/node/typings");
-  cp("./typings/ExchangeWebService.d.ts", "build/output/node/typings/ExchangeWebService.d.ts");
+  cp(["./README.md", "./LICENSE", "./COPYRIGHT"], outputDir);
+  // mkdir("build/output/node/typings");
+  // cp(
+  //   "./typings/ExchangeWebService.d.ts",
+  //   "build/output/node/typings/ExchangeWebService.d.ts"
+  // );
 }
 
 function copyPackageJson() {
-  return new Promise(async resolve => {
-    const file = 'package.json'
+  return new Promise(async (resolve) => {
+    const file = "package.json";
     try {
       const obj = await readFile(file);
       delete obj.devDependencies;
       delete obj.scripts;
       delete obj.private;
-      await writeFile(`${outputDir}/package.json`, obj, { spaces: 4, EOL: os.EOL });
+      await writeFile(`${outputDir}/package.json`, obj, {
+        spaces: 4,
+        EOL: os.EOL,
+      });
       resolve();
     } catch (error) {
       console.error(error);
     }
+  });
+}
+
+async function generatePackageLock() {
+  return new Promise((resolve) => {
+    exec(
+      "npm i --package-lock-only --no-fund --no-audit --silent",
+      { shell: true, stdio: "inherit", cwd: outputDir },
+      resolve
+    );
+  });
+}
+
+async function runNPMAudit() {
+  return new Promise((resolve) => {
+    exec(
+      "npm audit --silent",
+      { shell: true, stdio: "inherit", cwd: outputDir },
+      resolve
+    );
   });
 }

@@ -45,6 +45,24 @@ You can now use this in Ionic, Cordova, Browser based process (where CORS is dis
 
 ===========================================================================================
 
+# Whats new v0.15.0
+* Added helper class for Exchange Online/Office 365 OAuth with Exchange RBAC with Apps Support (This is latest Microsoft Guideline)
+    - This RBAC method is APP only which uses Client Credential Flow and not user specific token
+    - You can still get user specific access token by delegation and pass token to `OAuthCredentials`
+* updated `@ewsjs/xhr` version to `3.1.0` (dependency audit update)
+
+```ts
+import { ExchangeService, OAuthCredentials, ExchangeVersion } from "ews-javascript-api";
+import { EwsOAuthHelper } from "ews-javascript-api/lib/EwsOAuthHelper";
+
+const oAuthHelper = new EwsOAuthHelper({ clientId: '', clientSecret: '', tenantId: '' });
+const token = await oAuthHelper.getAppAccessToken();
+const ews = new ExchangeService(ExchangeVersion.);
+ews.Credentials =new OAuthCredentials(token.accessToken);
+await ews.<method>();
+```
+> you will still need to update expired access token by calling `oAuthHelper.getAppAccessToken()`, you can safely run this when you want to use ews as this can return cached token which is not expired
+
 # Whats new v0.14.0
 * Updated implementation of `@ewsjs/ntlm-client` to continue support ntlm with node 18+ (dependency of `@ewsjs/xhr`)
 * This fixes latest support for ntlm with node 18/20+
