@@ -354,7 +354,8 @@ export abstract class ServiceRequestBase {
                 }
             }
             else {
-                soapFaultDetails = new SoapFaultDetails(webException && (<any>webException).message ? (<any>webException).message : '');
+                const msDiagMessage = webException.getResponseHeader?.('x-ms-diagnostics') || '';
+                soapFaultDetails = new SoapFaultDetails(webException && (<any>webException).message ? (<any>webException).message : msDiagMessage);
                 soapFaultDetails.HttpStatusCode = webException.status;
                 if ((<any>webException).stack)
                     soapFaultDetails.stack = (<any>webException).stack;
