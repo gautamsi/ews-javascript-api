@@ -3,6 +3,7 @@
     "compilerOptions": {
         "declaration": true,
         "noEmit": false,
+        "stripInternal": false,
         "rootDir": "src/",
     },
     "exclude": [
