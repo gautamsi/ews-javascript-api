@@ -66,7 +66,7 @@ export class MapiTypeConverter {
         var clsidConverter = new MapiTypeConverterMapEntry(
             MapiTypeConverterTypeSystem.guid,
             (s) => new Guid(s),             //Parse
-            (o) => (<Guid>o).ToString()     //ConvertToString
+            (o) => (<Guid>o).toString()     //ConvertToString
             );
 
         map.Add(
@@ -76,7 +76,7 @@ export class MapiTypeConverter {
         var clsidArrayConverter = new MapiTypeConverterMapEntry(
             MapiTypeConverterTypeSystem.guid,
             (s) => new Guid(s),             //Parse
-            (o) => (<Guid>o).ToString(),    //ConvertToString
+            (o) => (<Guid>o).toString(),    //ConvertToString
             true                            //IsArray
             );
 
