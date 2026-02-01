@@ -6,6 +6,8 @@
   "main": "js/ExchangeWebService.js",
   "scripts": {
     "build": "node scripts/build",
+    "build:browser": "tsx generateBrowserBuild.ts",
+    "build:browser:report": "tsx generateBrowserBuild.ts --report-only",
     "test": "echo \"Error: no test specified\" && exit 1",
     "npmprep": "npm run build && npm version"
   },
