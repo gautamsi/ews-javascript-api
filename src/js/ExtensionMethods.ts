@@ -540,10 +540,10 @@ export class Convert {
     //     return base64Helper.btoa(str);
     // }
     static FromBase64String(encodedStr: string): number[] {
-        return b64.toByteArray(encodedStr);
+        return b64.toByteArray(encodedStr) as any;
     }
     static ToBase64String(byteArray: number[]): string {
-        return b64.fromByteArray(byteArray);
+        return b64.fromByteArray(byteArray as any);
     }
 }
 

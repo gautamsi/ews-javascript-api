@@ -58,7 +58,7 @@ export class UpdateInboxRulesException extends ServiceRemoteException {
      * @param   {RuleOperation[]}           ruleOperations    The original operations.
      */
     constructor(serviceResponse: UpdateInboxRulesResponse, ruleOperations: RuleOperation[]) {
-        super(serviceResponse && serviceResponse.ErrorMessage ? serviceResponse.ErrorMessage : "" || "");
+        super(serviceResponse && serviceResponse.ErrorMessage ? serviceResponse.ErrorMessage || "" : "");
         this.serviceResponse = serviceResponse;
         this.errors = serviceResponse.Errors;
         for (let error of this.errors.Items) {

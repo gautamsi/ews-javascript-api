@@ -3,7 +3,7 @@ import { EwsLogging } from "../Core/EwsLogging";
 import { StringHelper } from "../ExtensionMethods";
 import { TraceFlags } from "../Enumerations/TraceFlags";
 
-interface DnsSrvRecord {
+interface ADnsSrvRecord {
   priority: number;
   weight: number;
   port: number;
@@ -62,7 +62,7 @@ export class AutodiscoverDnsClient {
   async FindAutodiscoverHostFromSrv(domain: string): Promise<string> {
     const domainToMatch: string = AutodiscoverDnsClient.AutoDiscoverSrvPrefix + domain;
 
-    const dnsSrvRecord: DnsSrvRecord = await this.FindBestMatchingSrvRecord(domainToMatch);
+    const dnsSrvRecord: ADnsSrvRecord = await this.FindBestMatchingSrvRecord(domainToMatch);
 
     if ((dnsSrvRecord == null) || StringHelper.IsNullOrEmpty(dnsSrvRecord.name)) {
       this.service.TraceMessage(
@@ -83,12 +83,12 @@ export class AutodiscoverDnsClient {
    * Finds the best matching SRV record.
    *
    * @param   {string}   domain   The domain.
-   * @return  {Promise<DnsSrvRecord>}      DnsSrvRecord(will be null if lookup failed).
+   * @return  {Promise<ADnsSrvRecord>}      DnsSrvRecord(will be null if lookup failed).
    */
-  private async FindBestMatchingSrvRecord(domain: string): Promise<DnsSrvRecord> {
+  private async FindBestMatchingSrvRecord(domain: string): Promise<ADnsSrvRecord> {
     return new Promise((resolve, reject) => {
 
-      let dnsSrvRecordList: DnsSrvRecord[];
+      let dnsSrvRecordList: ADnsSrvRecord[];
       let dns = null;
       try {
         // try to get the dns client, only works on nodejs, not valid in browser\
@@ -151,7 +151,7 @@ export class AutodiscoverDnsClient {
 
         // If we have multiple records with the same priority and weight, randomly pick one.
         const recordIndex = bestDnsSrvRecordList.length > 1 ? Math.floor(Math.random() * Math.floor(bestDnsSrvRecordList.length)) : 0;
-        const bestDnsSrvRecord: DnsSrvRecord = bestDnsSrvRecordList[recordIndex];
+        const bestDnsSrvRecord: ADnsSrvRecord = bestDnsSrvRecordList[recordIndex];
         const traceMessage = StringHelper.Format(
           "Returning SRV record {0} of {1} records. Target: {2}, Priority: {3}, Weight: {4}",
           recordIndex,
